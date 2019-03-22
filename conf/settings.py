@@ -9,12 +9,27 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
+import json
 import os
+import sys
+
+from environ import Env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+ENV_FILE = os.path.join(BASE_DIR, '.env')
+if os.path.exists(ENV_FILE):
+    Env.read_env(ENV_FILE)
+
+env = Env(
+    DEBUG=(bool, True),
+    ALLOWED_HOSTS=(str, ''),
+    LITE_API_URL=(str, 'http://127.0.0.1:8000'),
+    DATABASE_URL=(str, 'postgres://postgres:password@localhost:5432/postgres')
+)
+
+env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -37,6 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sass_processor',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -74,12 +91,12 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -118,4 +135,48 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
+
+DATA_DIR = os.path.dirname(BASE_DIR)
+
+STATIC_URL = '/assets/'
+STATIC_ROOT = os.path.join(DATA_DIR, 'assets')
+SASS_ROOT = os.path.join(BASE_DIR, 'assets')
+SASS_PROCESSOR_ROOT = SASS_ROOT
+
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'assets'),
+)
+
+SASS_PROCESSOR_INCLUDE_DIRS = (
+    os.path.join(BASE_DIR, 'assets'),
+    SASS_ROOT
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+)
+
+SASS_PROCESSOR_ENABLED = True
+
+# Database
+# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'mydatabase'
+        }
+    }
+else:
+    DATABASES = {
+        'default': env.db()
+    }
+
