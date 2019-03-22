@@ -13,10 +13,10 @@ def hub(request):
         'title': 'Department of International Trade Hub',
         'sections': [
             Section("", "", [
-                Tile("Apply for a licence", "placeholder", "/placeholder"),
+                Tile("Show Registered Companies ", "placeholder", "/placeholder"),
             ]),
             Section("placeholder", "placeholder", [
-                Tile("My Profile", "placeholder", "/placeholder"),
+                Tile("Show Registered Users", "placeholder", "/placeholder"),
                 Tile("Settings", "placeholder", "/placeholder"),
                 Tile("Placeholder", "placeholder", "/placeholder"),
             ]),
