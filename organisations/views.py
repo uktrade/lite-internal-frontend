@@ -1,4 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+import requests
+from form import forms
+import libraries.jsondate as json
+from conf.settings import env
+from django.urls import reverse_lazy
 
 
 def show_orgs(request):
@@ -7,3 +12,6 @@ def show_orgs(request):
     }
     return render(request, 'organisations/index.html', context)
 
+
+def form(request):
+    return render(request, 'organisations/form.html')
