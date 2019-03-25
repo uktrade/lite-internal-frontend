@@ -14,6 +14,7 @@ def hub(request):
         'sections': [
             Section("", "", [
                 Tile("Show Registered Organisations ", "Show Organisations", "/show_orgs"),
+                Tile("Register a business ", "", "/register"),
             ]),
             Section("placeholder", "placeholder", [
                 Tile("Show Registered Users", "placeholder", "/placeholder"),

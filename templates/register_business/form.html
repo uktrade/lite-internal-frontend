@@ -28,23 +28,23 @@
 				<!-- Select component based on input_type -->
 				<div class="govuk-form-group">
 					{% if question.input_type.name == "INPUT" %}
-                    	{% include "organisations/components/input.html" with name=question.name value=data %}
+                    	{% include "register_business/components/input.html" with name=question.name value=data %}
 					{% elif question.input_type.name == "TEXTAREA" %}
-                    	{% include "organisations/components/textarea.html" with name=question.name value=question.name %}
+                    	{% include "register_business/components/textarea.html" with name=question.name value=question.name %}
 					{% elif question.input_type.name == "NUMBER" %}
-                    	{% include "organisations/components/number.html" with name=question.name value=question.name %}
+                    	{% include "register_business/components/number.html" with name=question.name value=question.name %}
 					{% elif question.input_type.name == "RADIOBUTTONS" %}
-                    	{% include "organisations/components/radiobuttons.html" with name=question.name value=question.name data=question.data %}
+                    	{% include "register_business/components/radiobuttons.html" with name=question.name value=question.name data=question.data %}
 					{% elif question.input_type.name == "CHECKBOXES" %}
-                    	{% include "organisations/components/checkboxes.html" with name=question.name value=question.name data=question.data %}
+                    	{% include "register_business/components/checkboxes.html" with name=question.name value=question.name data=question.data %}
 					{% elif question.input_type.name == "SELECT" %}
-                    	{% include "organisations/components/select.html" with name=question.name value=question.name data=question.data %}
+                    	{% include "register_business/components/select.html" with name=question.name value=question.name data=question.data %}
 					{% elif question.input_type.name == "AUTOCOMPLETE" %}
-                    	{% include "organisations/components/autocomplete.html" with name=question.name value=question.name data=question.data %}
+                    	{% include "register_business/components/autocomplete.html" with name=question.name value=question.name data=question.data %}
 					{% elif question.input_type.name == "FILE_UPLOAD" %}
-                    	{% include "organisations/components/file_upload.html" with name=question.name value=question.name %}
+                    	{% include "register_business/components/file_upload.html" with name=question.name value=question.name %}
 					{% elif question.input_type.name == "MULTI_FILE_UPLOAD" %}
-                    	{% include "organisations/components/multi_file_upload.html" with name=question.name value=question.name %}
+                    	{% include "register_business/components/multi_file_upload.html" with name=question.name value=question.name %}
 					{% endif %}
 				</div>
 			</div>
