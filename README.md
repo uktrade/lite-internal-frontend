@@ -17,6 +17,7 @@ Application for handling internal information in LITE.
   * `source bin/activate`
   * `cd ..`
 * Run `pip install -r requirements.txt`
+* Run `npm install`
 * Run the application: `./manage.py migrate && ./manage.py runserver 9000`
 * Go to the index page (e.g. `http://localhost:9000`)
 
