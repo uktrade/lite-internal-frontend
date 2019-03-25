@@ -10,7 +10,7 @@ from conf.settings import env
 def show_orgs(request):
     response = requests.get(env("LITE_API_URL") + '/organisations')
 
-    # print(response.text)
+    print(response.text)
 
     context = {
         'data': jsondate.loads(response.text),
