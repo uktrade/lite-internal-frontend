@@ -1,4 +1,4 @@
-from form.models import Section, Form, Question, InputType, ArrayQuestion, Option
+from form.helpers import Section, Form, Question, InputType, ArrayQuestion, Option
 
 section1 = Section("Register a Business", "", [
     Form("Form Title", "Form Description", [
