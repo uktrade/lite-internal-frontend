@@ -42,7 +42,10 @@
 		{% csrf_token %}
 
 		{% for question in page.questions %}
-			<div class="govuk-form-group">
+			<div class="govuk-form-group
+						{% if errors|keyvalue:question.name %}
+								govuk-form-group--error
+						{% endif %}">
 				<label class="govuk-label" for="{{ question.name }}">
 					{{ question.title }}
 				</label>
@@ -65,11 +68,11 @@
 				<!-- Select component based on input_type -->
 				<div class="govuk-form-group">
 					{% if question.input_type.name == "INPUT" %}
-						{% include "register_business/components/input.html" with name=question.name value=data.data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
+					            {% include "register_business/components/input.html" with name=question.name value=data.data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
 					{% elif question.input_type.name == "TEXTAREA" %}
-                    	{% include "register_business/components/textarea.html" with name=question.name value=question.name %}
+                    	{% include "register_business/components/textarea.html" with name=question.name value=data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
 					{% elif question.input_type.name == "NUMBER" %}
-                    	{% include "register_business/components/number.html" with name=question.name value=question.name %}
+                    	{% include "register_business/components/number.html" with name=question.name value=data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
 					{% elif question.input_type.name == "RADIOBUTTONS" %}
                     	{% include "register_business/components/radiobuttons.html" with name=question.name value=question.name data=question.data %}
 					{% elif question.input_type.name == "CHECKBOXES" %}
