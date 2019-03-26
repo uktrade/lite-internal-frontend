@@ -93,7 +93,8 @@
 		<!-- Buttons -->
 		<div class="govuk-form-group">
 			<div class="buttons-row">
-				<button type="submit" class="govuk-button govuk-button--start" name="button" action="submit">Register</button>
+				<button type="submit" class="govuk-button" name="button" action="submit">Submit</button>
+				<a href="{% url 'organisations:show_orgs' %}" role="button" draggable="false" class="govuk-button govuk-button--secondary">Cancel</a>
 			</div>
 		</div>
 	</form>
