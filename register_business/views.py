@@ -28,6 +28,7 @@ def register(request):
                 'title': forms.section1.forms[0].title,
                 'page': forms.section1.forms[0],
                 'errors': data['errors'],
+                'data': data
             }
             return render(request, 'register_business/form.html', context)
 

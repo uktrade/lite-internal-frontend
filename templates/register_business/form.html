@@ -65,7 +65,7 @@
 				<!-- Select component based on input_type -->
 				<div class="govuk-form-group">
 					{% if question.input_type.name == "INPUT" %}
-                    	{% include "register_business/components/input.html" with name=question.name value=data %}
+						{% include "register_business/components/input.html" with name=question.name value=data.data|keyvalue:question.name|default:'' error=errors|keyvalue:question.name %}
 					{% elif question.input_type.name == "TEXTAREA" %}
                     	{% include "register_business/components/textarea.html" with name=question.name value=question.name %}
 					{% elif question.input_type.name == "NUMBER" %}
