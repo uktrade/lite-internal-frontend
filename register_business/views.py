@@ -20,14 +20,15 @@ def register(request):
         response = requests.post(env("LITE_API_URL") + '/organisations/',
                                  json=data)
 
-        data = json.loads(response.text)
+        response_data = json.loads(response.text)
 
         # If there are errors returned from LITE API, return and show them
-        if 'errors' in data:
+        if 'errors' in response_data:
             context = {
                 'title': forms.section1.forms[0].title,
                 'page': forms.section1.forms[0],
-                'errors': data['errors'],
+                'errors': response_data['errors'],
+                'data': data
             }
             return render(request, 'register_business/form.html', context)
 
