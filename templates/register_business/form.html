@@ -1,4 +1,4 @@
-{% extends 'layouts/full_width.html' %}
+{% extends 'layouts/two_pane.html' %}
 
 {% load humanize %}
 
@@ -53,12 +53,7 @@
 		<!-- Buttons -->
 		<div class="govuk-form-group">
 			<div class="buttons-row">
-				<button type="submit" class="govuk-button" name="button" action="submit">Save and continue</button>
-				{% if draft_id %}
-					<a role="button" draggable="false" class="govuk-button govuk-button--secondary" href="{% url 'new_application:overview' %}?id={{ draft_id }}">
-						Go to Overview
-					</a>
-				{% endif %}
+				<button type="submit" class="govuk-button govuk-button--start" name="button" action="submit">Register</button>
 			</div>
 		</div>
 	</form>

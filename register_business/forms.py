@@ -25,6 +25,6 @@ section1 = Section("Register a Business", "", [
         Question(title='The email of the admin user',
                  description='',
                  input_type=InputType.INPUT,
-                 name='name'),
+                 name='admin_user_email'),
     ]),
 ])
