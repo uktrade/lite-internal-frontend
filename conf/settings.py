@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sass_processor',
     'django.contrib.humanize',
+    'register_business',
 ]
 
 MIDDLEWARE = [
