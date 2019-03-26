@@ -90,12 +90,8 @@
 		<!-- Buttons -->
 		<div class="govuk-form-group">
 			<div class="buttons-row">
+				<a href="{% url 'organisations:show_orgs' %}" role="button" draggable="false" class="govuk-button govuk-button--secondary">Cancel</a>
 				<button type="submit" class="govuk-button" name="button" action="submit">Save and continue</button>
-				{% if draft_id %}
-					<a role="button" draggable="false" class="govuk-button govuk-button--secondary" href="{% url 'new_application:overview' %}?id={{ draft_id }}">
-						Go to Overview
-					</a>
-				{% endif %}
 			</div>
 		</div>
 	</form>
