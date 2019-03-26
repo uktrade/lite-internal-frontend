@@ -27,7 +27,7 @@ def register(request):
             context = {
                 'title': forms.section1.forms[0].title,
                 'page': forms.section1.forms[0],
-                'errors': response_data['errors'],
+                'errors': data['errors'],
                 'data': data
             }
             return render(request, 'register_business/form.html', context)
