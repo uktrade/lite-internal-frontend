@@ -1,7 +1,7 @@
-from form.helpers import Section, Form, Question, InputType, ArrayQuestion, Option
+from form.helpers import Section, Form, Question, InputType
 
 section1 = Section("Register a Business", "", [
-    Form("Form Title", "Form Description", [
+    Form("Register a Business", "Lorem Ipsum", [
         Question(title='What\'s the business name?',
                  description='',
                  input_type=InputType.INPUT,
@@ -9,19 +9,19 @@ section1 = Section("Register a Business", "", [
         Question(title='EORI number',
                  description='',
                  input_type=InputType.INPUT,
-                 name='name'),
+                 name='eori_number'),
         Question(title='SIC number',
                  description='',
                  input_type=InputType.INPUT,
-                 name='name'),
+                 name='sic_number'),
         Question(title='VAT number',
                  description='',
                  input_type=InputType.INPUT,
-                 name='name'),
+                 name='vat_number'),
         Question(title='Address',
                  description='',
                  input_type=InputType.INPUT,
-                 name='name'),
+                 name='address'),
         Question(title='The email of the admin user',
                  description='',
                  input_type=InputType.INPUT,
