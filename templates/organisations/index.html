@@ -35,7 +35,7 @@
 				</tr>
 			</thead>
 			<tbody class="lite-table__body">
-				{% for organisation in data %}
+				{% for organisation in data.organisations %}
 					<tr class="lite-table__row">
 						<td class="lite-table__cell">
 							<a class="govuk-link" href="/organisation/{{ organisation.id }}">{{ organisation.id|default:"Untitled" }}</a>
