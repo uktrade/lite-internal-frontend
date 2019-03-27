@@ -38,10 +38,14 @@
 				{% for organisation in data.organisations %}
 					<tr class="lite-table__row">
 						<td class="lite-table__cell">
-							<a class="govuk-link" href="/organisation/{{ organisation.id }}">{{ organisation.id|default:"Untitled" }}</a>
+							<!--<a class="govuk-link" href="/organisation/{{ organisation.id }}">-->
+								{{ organisation.id|default:"Untitled" }}
+							<!--</a>-->
 						</td>
 						<td class="lite-table__cell">
-							<a class="govuk-link" href="/organisation/{{ organisation.id }}">{{ organisation.name|default:"Untitled" }}</a>
+							<!--<a class="govuk-link" href="/organisation/{{ organisation.id }}">-->
+								{{ organisation.name|default:"Untitled" }}
+							<!--</a>-->
 						</td>
 						<td class="lite-table__cell">
 							<a class="hoverable-link tooltip">
