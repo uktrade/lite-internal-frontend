@@ -12,24 +12,28 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import json
 import os
 import sys
-
-from environ import Env
+import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-ENV_FILE = os.path.join(BASE_DIR, '.env')
-if os.path.exists(ENV_FILE):
-    Env.read_env(ENV_FILE)
+# Configuring environment
+root = environ.Path(__file__)
+env = environ.Env(DEBUG=(bool, False),)                             # set default values and casting
+environ.Env.read_env()                                              # reading .env file
 
-env = Env(
-    DEBUG=(bool, True),
-    ALLOWED_HOSTS=(str, ''),
-    LITE_API_URL=(str, 'http://127.0.0.1:8000'),
-    DATABASE_URL=(str, 'postgres://postgres:password@localhost:5432/postgres')
-)
+# ENV_FILE = os.path.join(BASE_DIR, '.env')
+# if os.path.exists(ENV_FILE):
+#     Env.read_env(ENV_FILE)
 
-env.read_env()
+# env = Env(
+#     DEBUG=(bool, True),
+#     ALLOWED_HOSTS=(str, ''),
+#     LITE_API_URL=(str, 'http://127.0.0.1:8000'),
+#     DATABASE_URL=(str, 'postgres://postgres:password@localhost:5432/postgres')
+# )
+
+# env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -40,7 +44,7 @@ SECRET_KEY = '=(kaa@ypr5v!x(s=9^f8)o!k#84f_1v@iz31+cq_)8--@kws4b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = json.loads(env('ALLOWED_HOSTS')) if env('ALLOWED_HOSTS') else []
+# ALLOWED_HOSTS = json.loads(env('ALLOWED_HOSTS')) if env('ALLOWED_HOSTS') else []
 
 # Application definition
 
