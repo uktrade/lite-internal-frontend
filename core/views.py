@@ -13,7 +13,7 @@ def hub(request):
         'title': 'Department of International Trade Hub',
         'sections': [
             Section("", "", [
-                Tile("Manage Organisations", "Manage Organisations ", "/show_orgs"),
+                Tile("Manage Organisations", "Manage Organisations ", "/organisations"),
             ]),
         ],
     }
