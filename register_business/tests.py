@@ -6,7 +6,6 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
 
-
 class register_business(unittest.TestCase):
     @classmethod
     def setUp(inst):
