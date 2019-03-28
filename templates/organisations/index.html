@@ -22,11 +22,6 @@
 		<table class="lite-table">
 			<thead class="lite-table__head">
 				<tr class="lite-table__row">
-					<th class="lite-table__header" scope="col">
-						<a class="lite-table__chevron">
-							Reference
-						</a>
-					</th>
 					<th class="lite-table__header" scope="col">Name</th>
 					<th class="lite-table__header" scope="col">EORI Number</th>
 					<th class="lite-table__header" scope="col">SIC Number</th>
@@ -37,11 +32,6 @@
 			<tbody class="lite-table__body">
 				{% for organisation in data.organisations %}
 					<tr class="lite-table__row">
-						<td class="lite-table__cell">
-							<!--<a class="govuk-link" href="/organisation/{{ organisation.id }}">-->
-								{{ organisation.id|default:"Untitled" }}
-							<!--</a>-->
-						</td>
 						<td class="lite-table__cell">
 							<!--<a class="govuk-link" href="/organisation/{{ organisation.id }}">-->
 								{{ organisation.name|default:"Untitled" }}
