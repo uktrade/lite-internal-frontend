@@ -31,7 +31,7 @@ def register(request):
                 'data': data
             }
             return render(request, 'register_business/form.html', context)
-        context = {'id': response_data['organisation']['id']}
+        context = {'name': response_data['organisation']['name']}
         return render(request, 'register_business/registration_success.html', context)
 
     elif request.method == 'GET':
