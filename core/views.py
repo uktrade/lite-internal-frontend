@@ -13,16 +13,7 @@ def hub(request):
         'title': 'Department of International Trade Hub',
         'sections': [
             Section("", "", [
-                Tile("Show Registered Organisations ", "Show Organisations", "/show_orgs"),
-                Tile("Register a business ", "", "/register"),
-            ]),
-            Section("placeholder", "placeholder", [
-                Tile("Show Registered Users", "placeholder", "/placeholder"),
-                Tile("Settings", "placeholder", "/placeholder"),
-                Tile("Placeholder", "placeholder", "/placeholder"),
-            ]),
-            Section("placeholder", "placeholder", [
-                Tile("Help", "Get help with all things LITE", "/placeholder"),
+                Tile("Manage Organisations", "Manage Organisations ", "/show_orgs"),
             ]),
         ],
     }
