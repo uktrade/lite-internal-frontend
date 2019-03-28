@@ -53,7 +53,7 @@ class register_business(unittest.TestCase):
         driver.get("http://localhost:7000/")
 
         # verify application is in organisations list
-        show_registered_organisations = driver.find_element_by_css_selector("a[href*='/show_orgs']")
+        show_registered_organisations = driver.find_element_by_css_selector("a[href*='/organisations']")
         show_registered_organisations.click()
 
         self.assertTrue(self.is_element_present(By.XPATH,".//td/a[contains(@href,'" + business_id + "')]"))
@@ -64,7 +64,7 @@ class register_business(unittest.TestCase):
         register_a_businessBtn = driver.find_element_by_css_selector("a[href*='/register']")
         register_a_businessBtn.click()
 
-        cancel_btn = driver.find_element_by_css_selector("a[href*='/show_orgs']")
+        cancel_btn = driver.find_element_by_css_selector("a[href*='/organisations']")
         cancel_btn.click()
 
         assert "Organisations" in driver.title
