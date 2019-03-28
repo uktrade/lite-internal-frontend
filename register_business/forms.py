@@ -1,7 +1,7 @@
 from form.helpers import Section, Form, Question, InputType
 
 section1 = Section("Register a Business", "", [
-    Form("Register a Business", "Lorem Ipsum", [
+    Form("Register a Business", "", [
         Question(title='What\'s the business name?',
                  description='',
                  input_type=InputType.INPUT,
