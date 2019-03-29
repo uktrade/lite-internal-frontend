@@ -17,6 +17,8 @@ class RegisterBusinessTest(unittest.TestCase):
         cls.driver = webdriver.Chrome(chrome_options=chrome_options)
         cls.driver.implicitly_wait(10)
 
+        cls.driver.get("https://lite-internal-frontend-uat.london.cloudapps.digital/")
+
     def test_register_a_business(self):
         driver = self.driver
 
