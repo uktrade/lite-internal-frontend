@@ -10,16 +10,12 @@ import datetime
 class RegisterBusinessTest(unittest.TestCase):
     @classmethod
     def setUp(cls):
-
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')
         cls.driver = webdriver.Chrome(chrome_options=chrome_options)
         cls.driver.implicitly_wait(10)
-
-        # navigate to the application home page
-        cls.driver.get("https://lite-internal-frontend-staging.london.cloudapps.digital/")
 
     def test_register_a_business(self):
         driver = self.driver
@@ -56,11 +52,10 @@ class RegisterBusinessTest(unittest.TestCase):
         submit.click()
 
         registration_complete_message = driver.find_element_by_tag_name("h1").text
-        business_id = nowId
         assert "Registration complete" == registration_complete_message
         print("Submitted")
 
-        driver.get("https://lite-internal-frontend-staging.london.cloudapps.digital/")
+        driver.get("https://lite-internal-frontend-uat.london.cloudapps.digital/")
 
         # verify application is in organisations list
         show_registered_organisations = driver.find_element_by_css_selector("a[href*='/organisations']")
@@ -84,6 +79,27 @@ class RegisterBusinessTest(unittest.TestCase):
 
         title = driver.title
         assert "Organisations" in title
+
+        print("Cancelled")
+
+    def test_cannot_submit_without_required_fields(self):
+        driver = self.driver
+        manage_organisations_btn = driver.find_element_by_css_selector("a[href*='/organisations']")
+        manage_organisations_btn.click()
+
+        # New Organisation
+        print("Registering a new business")
+        new_organisation_btn = driver.find_element_by_css_selector("a[href*='/register']")
+        new_organisation_btn.click()
+
+        print("clicked submit")
+        submit = driver.find_element_by_xpath("//*[@action='submit']")
+        submit.click()
+
+        driver.find_element_by_id("error-summary-title").is_displayed()
+
+        title = driver.title
+        assert "Overview" not in title
 
         print("Cancelled")
 
