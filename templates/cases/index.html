@@ -4,9 +4,14 @@
 
 {% block body %}
 
-	<div class="app-bar">
-		<h1 class="govuk-heading-l">New Cases</h1>
-	</div>
+	<form action="" method="get">
+		<select class="govuk-select" name="queue">
+			{% for queue in queues.queues %}
+				<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}</option>
+			{% endfor %}
+		</select>
+		<button type="submit" class="govuk-button">Go to queue</button>
+	</form>
 
 	<div class="lite-tabs--fade">
 		<div class="lite-tabs">
@@ -25,21 +30,21 @@
 				</tr>
 			</thead>
 			<tbody class="lite-table__body">
-				{% for organisation in data.queue.cases %}
+				{% for case in data.queue.cases %}
 					<tr class="lite-table__row">
 						<td class="lite-table__cell">
-							<!--<a class="govuk-link" href="/organisation/{{ organisation.id }}">-->
-								{{ organisation.name|default:"Untitled" }}
-							<!--</a>-->
-						</td>
-						<td class="lite-table__cell">
-							<a class="hoverable-link tooltip">
-								{{ organisation.eori_number|default:"Untitled" }}
+							<a class="govuk-link" href="/cases/{{ case.id }}">
+								{{ case.application.name|default:"Untitled" }}
 							</a>
 						</td>
 						<td class="lite-table__cell">
 							<a class="hoverable-link tooltip">
-								{{ organisation.address|default:"Untitled" }}
+								{{ case.application.user_id|default:"Untitled" }}
+							</a>
+						</td>
+						<td class="lite-table__cell">
+							<a class="hoverable-link tooltip">
+								{{ case.application.status|default:"Untitled" }}
 							</a>
 						</td>
 					</tr>
@@ -47,7 +52,7 @@
 			</tbody>
 		</table>
 	{% else %}
-		<p class="govuk-caption-l">There aren't any cases at the moment.</p>
+		<p class="govuk-caption-l">There aren't any cases in this queue at the moment.</p>
 	{% endif %}
 
 {% endblock %}
