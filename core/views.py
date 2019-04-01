@@ -1,10 +1,5 @@
 from django.shortcuts import render
 
-from django.urls import reverse_lazy
-
-from django.shortcuts import render
-from django.urls import reverse_lazy
-
 from core.helpers import Section, Tile
 
 
@@ -13,6 +8,7 @@ def hub(request):
         'title': 'Department of International Trade Hub',
         'sections': [
             Section("", "", [
+                Tile("Manage Cases", "Manage Cases ", "/cases"),
                 Tile("Manage Organisations", "Manage Organisations ", "/organisations"),
             ]),
         ],
