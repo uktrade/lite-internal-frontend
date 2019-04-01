@@ -7,7 +7,7 @@ import libraries.jsondate as jsondate
 from conf.settings import env
 
 
-def cases(request):
+def index(request):
     queue_id = request.GET.get('queue')
 
     if not queue_id:
@@ -23,3 +23,14 @@ def cases(request):
         'title': 'Cases',
     }
     return render(request, 'cases/index.html', context)
+
+
+def case(request, pk):
+    response = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/')
+    data = jsondate.loads(response.text)
+
+    context = {
+        'data': data,
+        'title': data.get("case").get("application").get("name"),
+    }
+    return render(request, 'cases/case.html', context)
