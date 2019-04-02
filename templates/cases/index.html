@@ -4,7 +4,7 @@
 
 {% block body %}
 
-	<form action="" method="get">
+	<form action="" method="get" class="lite-dropdown-select">
 		<select class="govuk-select" name="queue">
 			{% for queue in queues.queues %}
 				<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}</option>
@@ -13,9 +13,19 @@
 		<button type="submit" class="govuk-button">Go to queue</button>
 	</form>
 
+	<h2 id="queue-title" class="govuk-heading-l lite-heading-dropdown" onclick="toggleDropdown()">{{ title }}</h2>
+
+	<div class="lite-dropdown--container" id="queues">
+		<div class="lite-dropdown">
+			{% for queue in queues.queues %}
+				<a href="/cases/?queue={{ queue.id }}" class="lite-dropdown--item {% if queue.id == queue_id %}lite-dropdown--item--selected{% endif %}">{{ queue.name }}</a>
+			{% endfor %}
+		</div>
+	</div>
+
 	<div class="lite-tabs--fade">
 		<div class="lite-tabs">
-			<a class="lite-tabs__tab selected">Applications</a>
+			<a class="lite-tabs__tab selected">Cases</a>
 			<a class="lite-tabs__tab">Queries</a>
 		</div>
 	</div>
@@ -38,14 +48,10 @@
 							</a>
 						</td>
 						<td class="lite-table__cell">
-							<a class="hoverable-link tooltip">
-								{{ case.application.user_id|default:"Untitled" }}
-							</a>
+							{{ case.application.user_id|default:"Untitled" }}
 						</td>
 						<td class="lite-table__cell">
-							<a class="hoverable-link tooltip">
-								{{ case.application.status|default:"Untitled" }}
-							</a>
+							{{ case.application.status|default:"Untitled" }}
 						</td>
 					</tr>
 				{% endfor %}
@@ -54,5 +60,12 @@
 	{% else %}
 		<p class="govuk-caption-l">There aren't any cases in this queue at the moment.</p>
 	{% endif %}
+
+	<script>
+		function toggleDropdown() {
+			$("#queues").toggle();
+			$("#queue-title").toggleClass("lite-heading-dropdown--flipped")
+		}
+	</script>
 
 {% endblock %}

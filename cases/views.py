@@ -20,7 +20,7 @@ def index(request):
         'queues': jsondate.loads(queues.text),
         'queue_id': queue_id,
         'data': jsondate.loads(response.text),
-        'title': 'Cases',
+        'title': jsondate.loads(response.text)['queue']['name'],
     }
     return render(request, 'cases/index.html', context)
 
