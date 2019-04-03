@@ -41,7 +41,7 @@ class ManageCasesTest(unittest.TestCase):
         self.driver.find_element_by_css_selector("a[href*='/new-application/']").click()
         self.driver.find_element_by_css_selector("a[href*='/start']").click()
         appTimeId = str(datetime.datetime.now())
-        self.driver.find_element_by_id("name").send_keys("" + appTimeId)
+        self.driver.find_element_by_id("name").send_keys("Test App" + appTimeId)
         exporterHub.click_save_and_continue()
         self.driver.find_element_by_id("control_code").send_keys("code123")
         exporterHub.click_save_and_continue()
