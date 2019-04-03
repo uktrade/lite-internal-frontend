@@ -2,8 +2,6 @@ import requests
 
 from django.shortcuts import render
 
-import libraries.jsondate as jsondate
-
 from conf.settings import env
 
 
@@ -17,17 +15,17 @@ def index(request):
     response = requests.get(env("LITE_API_URL") + '/queues/' + queue_id + '/')
 
     context = {
-        'queues': jsondate.loads(queues.text),
+        'queues': queues.json(),
         'queue_id': queue_id,
-        'data': jsondate.loads(response.text),
-        'title': jsondate.loads(response.text)['queue']['name'],
+        'data': response.json(),
+        'title': response.json()['queue']['name'],
     }
     return render(request, 'cases/index.html', context)
 
 
 def case(request, pk):
     response = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/')
-    data = jsondate.loads(response.text)
+    data = response.json()
 
     context = {
         'data': data,
