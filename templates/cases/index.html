@@ -2,7 +2,13 @@
 
 {% load humanize %}
 
+{% block back-button %}{% endblock %}
+
 {% block body %}
+
+	<div class="govuk-form-group">
+		<a href="/organisations" class="govuk-link">Manage Organisations</a>
+	</div>
 
 	<form action="" method="get">
 		<select class="govuk-select" name="queue">
