@@ -6,14 +6,14 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 import datetime
 from automation_ui_tests.pages.department_of_international_trade_hub_page import DepartmentOfInternationalTradeHub
-
+import logging
 
 class RegisterBusinessTest(unittest.TestCase):
     @classmethod
     def setUp(cls):
         project_root = os.path.dirname(os.path.abspath(__file__))
         base_dir = os.path.dirname(project_root)
-        print("dir:" + base_dir)
+        logging.info("dir:" + base_dir)
 
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--no-sandbox')
@@ -34,11 +34,11 @@ class RegisterBusinessTest(unittest.TestCase):
         manage_organisations_btn.click()
 
         # New Organisation
-        print("Registering a new business")
+        logging.info("Registering a new business")
         new_organisation_btn = driver.find_element_by_css_selector("a[href*='/register']")
         new_organisation_btn.click()
 
-        print("Entering details")
+        logging.info("Entering details")
         business_name_input = driver.find_element_by_id("name")
 
         eori_number_input = driver.find_element_by_id("eori_number")
@@ -57,13 +57,13 @@ class RegisterBusinessTest(unittest.TestCase):
         address_input.send_keys("123 Cobalt Street")
         admin_user_email_input.send_keys("joe@bloss.com")
 
-        print("Submitting...")
+        logging.info("Submitting...")
         submit = driver.find_element_by_xpath("//*[@action='submit']")
         submit.click()
 
         registration_complete_message = driver.find_element_by_tag_name("h1").text
         assert "Registration complete" == registration_complete_message
-        print("Submitted")
+        logging.info("Submitted")
 
         dit_hub_page.go_to()
 
@@ -79,18 +79,18 @@ class RegisterBusinessTest(unittest.TestCase):
         manage_organisations_btn.click()
 
         # New Organisation
-        print("Registering a new business")
+        logging.info("Registering a new business")
         new_organisation_btn = driver.find_element_by_css_selector("a[href*='/register']")
         new_organisation_btn.click()
 
-        print("Cancelling...")
+        logging.info("Cancelling...")
         cancel_btn = driver.find_element_by_css_selector("a[href*='/organisations']")
         cancel_btn.click()
 
         title = driver.title
         assert "Organisations" in title
 
-        print("Cancelled")
+        logging.info("Cancelled")
 
     def test_cannot_submit_without_required_fields(self):
         driver = self.driver
@@ -98,11 +98,11 @@ class RegisterBusinessTest(unittest.TestCase):
         manage_organisations_btn.click()
 
         # New Organisation
-        print("Registering a new business")
+        logging.info("Registering a new business")
         new_organisation_btn = driver.find_element_by_css_selector("a[href*='/register']")
         new_organisation_btn.click()
 
-        print("clicked submit")
+        logging.info("clicked submit")
         submit = driver.find_element_by_xpath("//*[@action='submit']")
         submit.click()
 
@@ -111,7 +111,7 @@ class RegisterBusinessTest(unittest.TestCase):
         title = driver.title
         assert "Overview" not in title
 
-        print("Cancelled")
+        logging.info("Cancelled")
 
     @classmethod
     def tearDown(inst):

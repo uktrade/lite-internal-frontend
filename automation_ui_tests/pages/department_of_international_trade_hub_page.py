@@ -4,7 +4,7 @@ class DepartmentOfInternationalTradeHub():
     def __init__(self, driver):
         self.driver = driver
 
-        self.url = "http://localhost:7000/"
+        self.url = "https://lite-internal-frontend-dev.london.cloudapps.digital/"
         self.manage_cases_btn = "a[href*='/cases']"
         self.manage_organisations_btn = "a[href*='/organisations']"
 

@@ -4,7 +4,7 @@ class ExporterHub():
     def __init__(self, driver):
         self.driver = driver
 
-        self.url = "http://localhost:9000/"
+        self.url = "https://lite-exporter-frontend-dev.london.cloudapps.digital/"
 
     def go_to(self):
         self.driver.get(self.url)

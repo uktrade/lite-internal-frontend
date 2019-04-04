@@ -6,6 +6,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from automation_ui_tests.pages.department_of_international_trade_hub_page import DepartmentOfInternationalTradeHub
 from automation_ui_tests.pages.exporter_hub import ExporterHub
+import logging
 
 import datetime
 
@@ -16,7 +17,6 @@ class ManageCasesTest(unittest.TestCase):
 
         project_root = os.path.dirname(os.path.abspath(__file__))
         base_dir = os.path.dirname(project_root)
-        print("dir:" + base_dir)
 
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--no-sandbox')
@@ -33,10 +33,10 @@ class ManageCasesTest(unittest.TestCase):
         exporterHub = ExporterHub(driver)
         dit_hub_page = DepartmentOfInternationalTradeHub(driver)
 
-        print("Test Started")
+        logging.info("Test Started")
 
         # Submit application
-        print("submitting application on Exporter Hub")
+        logging.info("submitting application on Exporter Hub")
         exporterHub.go_to()
         self.driver.find_element_by_css_selector("a[href*='/new-application/']").click()
         self.driver.find_element_by_css_selector("a[href*='/start']").click()
@@ -52,22 +52,22 @@ class ManageCasesTest(unittest.TestCase):
         self.driver.find_element_by_id("activity").send_keys("test activity")
         exporterHub.click_save_and_continue()
         self.driver.find_element_by_css_selector("button[type*='submit']").click()
-        print("Application submitted")
+        logging.info("Application submitted")
 
         # navigate to DIT Hub page
         dit_hub_page.go_to()
-        print("Navigated to Department Of International Trade Hub")
+        logging.info("Navigated to Department Of International Trade Hub")
 
         dit_hub_page.click_manage_cases_btn()
-        print("Clicked onto Manage Cases")
+        logging.info("Clicked onto Manage Cases")
 
         # Verify Case is in the New Cases Work Queue
-        print("Verifying Case is in the New Cases Work Queue")
+        logging.info("Verifying Case is in the New Cases Work Queue")
         cases_table = self.driver.find_element_by_class_name("lite-table")
         self.assertTrue(self.is_element_present(By.XPATH,"//*[text()[contains(.,'" + appTimeId + "')]]"))
-        print("Application found in work queue")
+        logging.info("Application found in work queue")
 
-        print("Test Complete")
+        logging.info("Test Complete")
 
 
 
