@@ -1,19 +1,8 @@
-from django.shortcuts import render
-
-from core.helpers import Section, Tile
+from django.shortcuts import render, redirect
 
 
 def hub(request):
-    context = {
-        'title': 'Department of International Trade Hub',
-        'sections': [
-            Section("", "", [
-                Tile("Manage Cases", "Manage Cases ", "/cases"),
-                Tile("Manage Organisations", "Manage Organisations ", "/organisations"),
-            ]),
-        ],
-    }
-    return render(request, 'core/hub.html', context)
+    return redirect('/cases/')
 
 
 def signin(request):

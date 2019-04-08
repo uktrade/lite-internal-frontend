@@ -2,9 +2,15 @@
 
 {% load humanize %}
 
+{% block back-button %}{% endblock %}
+
 {% block body %}
 
-	<form action="" method="get" class="lite-dropdown-select">
+	<div class="govuk-form-group">
+		<a href="/organisations" class="govuk-link">Manage Organisations</a>
+	</div>
+
+	<form action="" method="get">
 		<select class="govuk-select" name="queue">
 			{% for queue in queues.queues %}
 				<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}</option>
@@ -52,6 +58,14 @@
 						</td>
 						<td class="lite-table__cell">
 							{{ case.application.status|default:"Untitled" }}
+							<a class="hoverable-link tooltip">
+								{{ case.application.name|default:"Untitled" }}
+							</a>
+						</td>
+						<td class="lite-table__cell">
+							<a class="hoverable-link tooltip">
+								{{ case.application.status|default:"Untitled" }}
+							</a>
 						</td>
 					</tr>
 				{% endfor %}

@@ -10,7 +10,7 @@ def index(request):
 
     # If a queue id is not provided, use the default queue
     if not queue_id:
-        queue_id = '00000000-0000-0000-0000-000000000000'
+        queue_id = '00000000-0000-0000-0000-000000000001'
 
     queues = requests.get(env("LITE_API_URL") + '/queues/').json()
     response = requests.get(env("LITE_API_URL") + '/queues/' + queue_id + '/').json()
