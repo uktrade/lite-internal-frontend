@@ -21,7 +21,7 @@
 				<p class="govuk-label">
 					<a class="hoverable-link tooltip">
 						<span class="tooltip-content" style="min-width: 150px;">
-							{{ data.case.application.last_modified_at }}
+							{{ data.case.application.last_modified_at|str_date }}
 						</span>
 						{{ data.case.application.last_modified_at|str_date|naturaltime }}
 					</a>
