@@ -15,7 +15,6 @@ config = TestConfiguration
 class ManageCasesTest(unittest.TestCase):
     @classmethod
     def setUp(cls):
-
         project_root = os.path.dirname(os.path.abspath(__file__))
         base_dir = os.path.dirname(project_root)
 
@@ -59,8 +58,8 @@ class ManageCasesTest(unittest.TestCase):
         dit_hub_page.go_to()
         logging.info("Navigated to Department Of International Trade Hub")
 
-        dit_hub_page.click_manage_cases_btn()
-        logging.info("Clicked onto Manage Cases")
+        # dit_hub_page.click_manage_cases_btn()
+        # logging.info("Clicked onto Manage Cases")
 
         # Verify Case is in the New Cases Work Queue
         logging.info("Verifying Case is in the New Cases Work Queue")
