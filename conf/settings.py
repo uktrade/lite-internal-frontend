@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'django.contrib.humanize',
     'register_business',
+    'core.apps.CoreConfig'
 ]
 
 MIDDLEWARE = [
