@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+
+{% load humanize %}
+
+{% block body %}
+
+<h1 class="govuk-heading-l">{{ title }}</h1>
+
+<form method="post" class="govuk-form-group">
+  <select id="status" class="govuk-select">
+    <option {% if data.case.application.status == "Submitted" %}selected{% endif %}>Submitted</option>
+    <option {% if data.case.application.status == "More information required" %}selected{% endif %}>More information required</option>
+    <option {% if data.case.application.status == "Under review" %}selected{% endif %}>Under review</option>
+    <option {% if data.case.application.status == "Resubmitted" %}selected{% endif %}>Resubmitted</option>
+    <option {% if data.case.application.status == "Withdrawn" %}selected{% endif %}>Withdrawn</option>
+  </select>
+
+  <button class="govuk-button">Save</button>
+</form>
+{% endblock %}

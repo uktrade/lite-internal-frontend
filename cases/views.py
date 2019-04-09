@@ -1,8 +1,8 @@
 import requests
 
-from django.shortcuts import render
-
 from conf.settings import env
+from django.shortcuts import render
+from django.views.generic import TemplateView
 
 
 def index(request):
@@ -32,3 +32,13 @@ def case(request, pk):
         'title': response.get('case').get('application').get('name'),
     }
     return render(request, 'cases/case.html', context)
+
+
+class ManageCase(TemplateView):
+    def get(self, request, pk):
+        response = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/').json()
+        context = {
+          'data': response,
+          'title': response.get('case').get('application').get('name'),
+        }
+        return render(request, 'cases/manage.html', context)

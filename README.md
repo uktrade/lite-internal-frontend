@@ -12,13 +12,9 @@ Application for handling internal information in LITE.
 * Set up your local config file in folder 'conf':
   * `cp conf/sample.env conf/.env`
   * If your local Postgres is not running with default options, edit the `DATABASE_URL` sections of `.env` file
-* Create and activate your Python virtual environment:
-  * `python -m venv venv`
-  * `cd venv`
-  * `source bin/activate`
-  * `cd ..`
-* Run `pip install -r requirements.txt`
-* Run the application: `./manage.py migrate && ./manage.py runserver 9000`
+* Make sure your Python environment is up-to-date
+  * `pipenv update`
+* Run the application: `pipenv run ./manage.py migrate && pipenv run ./manage.py runserver 9000`
 * Go to the index page (e.g. `http://localhost:9000`)
 
 ## LITE Repositories
