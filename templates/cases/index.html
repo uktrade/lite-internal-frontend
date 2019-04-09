@@ -7,7 +7,7 @@
 {% block body %}
 
 	<div class="govuk-form-group">
-		<a href="/organisations" class="govuk-link">Manage Organisations</a>
+		<a href="/organisations" class="govuk-link">{% get_string 'cases.manage_organisations' %}</a>
 	</div>
 
 	<form action="" method="get" class="lite-dropdown-select">
@@ -16,7 +16,7 @@
 				<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}</option>
 			{% endfor %}
 		</select>
-		<button type="submit" class="govuk-button">Go to queue</button>
+		<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
 	</form>
 
 	<h2 id="queue-title" class="govuk-heading-l lite-heading-dropdown" onclick="toggleDropdown()">{{ title }}</h2>
@@ -64,7 +64,7 @@
 			</tbody>
 		</table>
 	{% else %}
-		<p class="govuk-caption-l">There aren't any cases in this queue at the moment.</p>
+		<p class="govuk-caption-l">{% get_string 'cases.no_cases' %}</p>
 	{% endif %}
 
 	<script>

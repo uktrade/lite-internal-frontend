@@ -5,7 +5,7 @@ import os
 
 class TestConfiguration:
     global env
-    env = "dev"
+    env = "staging"
 
     def get_driver(self):
         if platform == "linux" or platform == "linux2":
@@ -19,11 +19,10 @@ class TestConfiguration:
 
     @staticmethod
     def get_url():
-        base_url = "https://lite-internal-frontend-"+env+".london.cloudapps.digital/"
+        base_url = 'https://lite-internal-frontend-' + env + '.london.cloudapps.digital/'
         return base_url
 
     @staticmethod
     def get_exporter_url():
-        ex_url = "https://lite-internal-frontend-"+env+".london.cloudapps.digital/"
+        ex_url = 'https://lite-exporter-frontend-' + env + '.london.cloudapps.digital/'
         return ex_url
-

@@ -1,5 +1,7 @@
 import requests
 
+from django.shortcuts import render
+
 from conf.settings import env
 from django.shortcuts import render
 from django.views.generic import TemplateView
