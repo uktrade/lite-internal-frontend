@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'django.contrib.humanize',
     'register_business',
+    'core.apps.CoreConfig'
 ]
 
 MIDDLEWARE = [
@@ -75,6 +76,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'builtins': ['core.builtins.custom_tags'],
         },
     },
 ]
@@ -150,6 +152,8 @@ SASS_PROCESSOR_INCLUDE_DIRS = (
     os.path.join(BASE_DIR, 'assets'),
     SASS_ROOT
 )
+
+SASS_OUTPUT_STYLE = 'compressed'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
