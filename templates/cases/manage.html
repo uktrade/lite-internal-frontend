@@ -2,7 +2,15 @@
 
 {% load humanize %}
 
-{% block twoThirds %}
+{% block back-button %}
+	<a href="{% url 'cases:case' data.case.id %}" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block body %}
+
+	<!--<div class="information information-animated">
+		{% get_string 'cases.manage.case_update_successful' %}
+	</div>-->
 
 	<h1 class="govuk-heading-l">{{ title }}</h1>
 
@@ -10,10 +18,10 @@
 		{% csrf_token %}
 
 		<div class="govuk-form-group">
-			<label class="govuk-label" for="sort">
+			<label class="govuk-label" for="status">
 				Case Status
 			</label>
-			<select id="status" class="govuk-select">
+			<select id="status" class="govuk-select" name="status" id="status">
 				<option {% if data.case.application.status == "Submitted" %}selected{% endif %}>Submitted</option>
 				<option {% if data.case.application.status == "More information required" %}selected{% endif %}>More information required</option>
 				<option {% if data.case.application.status == "Under review" %}selected{% endif %}>Under review</option>
@@ -23,7 +31,7 @@
 		</div>
 
 		<div class="govuk-form-group">
-			<button class="govuk-button">Save</button>
+			<button type="submit" class="govuk-button">Save</button>
 		</div>
 	</form>
 
