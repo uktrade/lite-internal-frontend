@@ -56,4 +56,4 @@ class ManageCase(TemplateView):
         if 'errors' in response:
             return redirect('/cases/' + case_id + '/manage')
 
-        return redirect('/cases/' + case_id + '/manage')
+        return redirect('/cases/' + case_id)
