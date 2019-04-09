@@ -41,6 +41,6 @@ class ManageCase(TemplateView):
         response = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/').json()
         context = {
           'data': response,
-          'title': response.get('case').get('application').get('name'),
+          'title': 'Manage ' + response.get('case').get('application').get('name'),
         }
         return render(request, 'cases/manage.html', context)
