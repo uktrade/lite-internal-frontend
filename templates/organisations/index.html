@@ -2,6 +2,8 @@
 
 {% load humanize %}
 
+{% block back-button %}{% endblock %}
+
 {% block body %}
 
 	<div class="app-bar">
@@ -18,7 +20,7 @@
 	</div>
 
 
-	{% if data|length %}
+	{% if data.organisations|length %}
 		<table class="lite-table">
 			<thead class="lite-table__head">
 				<tr class="lite-table__row">

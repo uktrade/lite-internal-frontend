@@ -26,17 +26,6 @@
 	{% block head %}{% endblock %}
 </head>
 
-<style>
-	/*#user-menu {
-		grid-template-columns: auto auto auto auto auto;
-	}*/
-	#lite-menu {
-		width: 26px;
-		height: 26px;
-		background-image: url('/assets/images/menu.svg');
-	}
-</style>
-
 <body class="govuk-template__body ">
 
 	<script>
@@ -71,10 +60,26 @@
 			{% if user %}
 			<div id="user-menu">
 				<a>Log out</a>
-				<!--<div class="divider"></div>
-				<a id="lite-menu">
+				<div class="divider"></div>
+				<div id="lite-menu-wrapper">
+					<a id="lite-menu-button" onclick="toggleLITEMenu()"></a>
+					<div id="lite-menu">
+						<a href="/cases/" class="lite-menu-item--selected">
+							<div class="icon">
 
-				</a>-->
+							</div>
+							My Cases
+						</a>
+						{% for i in i|rjust:8 %}
+							<a href="/organisations/">
+								<div class="icon">
+
+								</div>
+								Item
+							</a>
+						{% endfor %}
+					</div>
+				</div>
 				<div class="divider"></div>
 				<a class="user-menu-profile">
 					<p>John</p>
@@ -93,6 +98,8 @@
 		</div>
 	</header>
 	{% endblock %}
+
+	<div id="lite-menu-background" onclick="toggleLITEMenu()"></div>
 
 	<div class="govuk-width-container">
 		<div class="govuk-phase-banner">
@@ -131,6 +138,13 @@
 
 	<script>
 		window.GOVUKFrontend.initAll()
+	</script>
+
+	<script type="text/javascript">
+		function toggleLITEMenu() {
+			$('#lite-menu-background').toggle();
+			$('#lite-menu').toggleClass('lite-menu--visible');
+		}
 	</script>
 
 </body>
