@@ -66,13 +66,19 @@
 		line-height: normal;
 		padding: 10px 0;
 		.icon {
-			width: 40px;
+			width: 50px;
 			height: 40px;
 			border-radius: 100px;
 			color: inherit;
-			background-color: currentColor;
+			background-color: transparent;
 			margin-bottom: 10px;
 			margin-top: 5px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			img {
+				max-height: 40px;
+			}
 		}
 		&:hover {
 			background-color: govuk-colour("grey-4");
@@ -86,6 +92,12 @@
 	.lite-menu-item--selected {
 		background-color: $govuk-brand-colour;
 		color: govuk-colour("white");
+
+		.icon {
+			img {
+				filter: drop-shadow(0 5px 10px darken($govuk-brand-colour, 2%))
+			}
+		}
 
 		&:hover {
 			background-color: darken($govuk-brand-colour, 5%);

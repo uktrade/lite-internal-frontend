@@ -66,12 +66,18 @@
 					<div id="lite-menu">
 						<a href="/cases/" class="lite-menu-item--selected">
 							<div class="icon">
-
+								<img src="/assets/images/menu/cases.svg" alt="">
 							</div>
-							My Cases
+							Cases
 						</a>
-						{% for i in i|rjust:8 %}
-							<a href="/organisations/">
+						<a href="/organisations/" class="lite-menu-item">
+							<div class="icon">
+								<img src="/assets/images/menu/businesses.svg" alt="">
+							</div>
+							Businesses
+						</a>
+						{% for i in i|rjust:7 %}
+							<a href="#">
 								<div class="icon">
 
 								</div>
