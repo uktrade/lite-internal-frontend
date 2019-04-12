@@ -14,4 +14,5 @@ rcssmin==1.0.6
 requests==2.21.0
 rjsmin==1.1.0
 six==1.12.0
+stringcase==1.2.0
 urllib3==1.24.1
