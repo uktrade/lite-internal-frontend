@@ -67,7 +67,7 @@ class DecideCase(TemplateView):
           'data': response,
           'title': 'Manage ' + response.get('case').get('application').get('name'),
         }
-        return render(request, 'cases/manage.html', context)
+        return render(request, 'cases/decide.html', context)
 
     def post(self, request, pk):
         applicant_case = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/').json()
