@@ -10,7 +10,7 @@ import datetime
 import logging
 from automation_ui_tests.pages.dit_hub_page import DepartmentOfInternationalTradeHub
 
-env = "uat"
+env = "staging"
 base_url = 'https://lite-internal-frontend-' + env + '.london.cloudapps.digital/'
 
 
