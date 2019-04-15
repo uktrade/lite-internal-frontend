@@ -25,18 +25,19 @@ class ManageCasesTest(unittest.TestCase):
         project_root = os.path.dirname(os.path.abspath(__file__))
         base_dir = os.path.dirname(project_root)
 
-        chrome_driver_path = base_dir + "/drivers/chromedriver"
-        # create a new Chrome session
-        cls.driver = webdriver.Chrome(chrome_driver_path)
-        cls.driver.implicitly_wait(30)
-        cls.driver.maximize_window()
-
-        # chrome_options = webdriver.ChromeOptions()
-        # chrome_options.add_argument('--no-sandbox')
-        # chrome_options.add_argument('--headless')
-        # chrome_options.add_argument('--disable-gpu')
-        # cls.driver = webdriver.Chrome(options=chrome_options)
-        # cls.driver.implicitly_wait(10)
+        if env != "":
+            chrome_driver_path = base_dir + "/drivers/chromedriver"
+            # create a new Chrome session
+            cls.driver = webdriver.Chrome(chrome_driver_path)
+            cls.driver.implicitly_wait(30)
+            cls.driver.maximize_window()
+        else:
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--disable-gpu')
+            cls.driver = webdriver.Chrome(options=chrome_options)
+            cls.driver.implicitly_wait(10)
 
         cls.driver.get(base_url)
 
