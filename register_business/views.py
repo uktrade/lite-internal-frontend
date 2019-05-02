@@ -6,7 +6,13 @@ from register_business import forms
 
 
 def register(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
+        context = {
+            'page': forms.register_business_forms.forms[0],
+            'title': forms.register_business_forms.forms[0].title,
+        }
+        return render(request, 'form.html', context)
+    elif request.method == 'POST':
         data = {}
 
         # Add body fields to data
@@ -26,15 +32,8 @@ def register(request):
                 'title': forms.register_business_forms.forms[0].title,
                 'page': forms.register_business_forms.forms[0],
                 'errors': response_data['errors'],
-                'data': data
+                'data': data,
             }
-            return render(request, 'register_business/form.html', context)
+            return render(request, 'form.html', context)
         context = {'name': response_data['organisation']['name']}
         return render(request, 'register_business/registration_success.html', context)
-
-    elif request.method == 'GET':
-        context = {
-            'page': forms.register_business_forms.forms[0],
-            'title': forms.register_business_forms.forms[0].title,
-        }
-        return render(request, 'register_business/form.html', context)
