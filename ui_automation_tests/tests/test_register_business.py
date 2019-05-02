@@ -32,14 +32,14 @@ def test_register_a_business(driver, open_internal_hub, internal_url):
     logging.info("Registering a new business")
     organisations_page.click_new_organisation_btn()
 
-    time_id = datetime.datetime.now().strftime("%m%d%H%M%S")
+    time_id = datetime.datetime.now().strftime("%m%d%H%M")
     register_page.enter_business_name("Test Business " + time_id)
     register_page.enter_eori_number("GB987654312000")
     register_page.enter_sic_number("73200")
     register_page.enter_vat_number("123456789")
     register_page.enter_company_registration_number("000000011")
     register_page.enter_address("123 Cobalt Street")
-    register_page.enter_admin_user_email("joe@bloss.com")
+    register_page.enter_admin_user_email(time_id+"@mail.com")
 
     logging.info("Submitting...")
     register_page.click_submit()
