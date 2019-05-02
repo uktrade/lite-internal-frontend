@@ -23,8 +23,8 @@ def register(request):
         # If there are errors returned from LITE API, return and show them
         if 'errors' in response_data:
             context = {
-                'title': forms.section1.forms[0].title,
-                'page': forms.section1.forms[0],
+                'title': forms.register_business_forms.forms[0].title,
+                'page': forms.register_business_forms.forms[0],
                 'errors': response_data['errors'],
                 'data': data
             }
@@ -34,7 +34,7 @@ def register(request):
 
     elif request.method == 'GET':
         context = {
-            'page': forms.section1.forms[0],
-            'title': forms.section1.forms[0].title,
+            'page': forms.register_business_forms.forms[0],
+            'title': forms.register_business_forms.forms[0].title,
         }
         return render(request, 'register_business/form.html', context)
