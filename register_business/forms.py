@@ -1,4 +1,5 @@
-from libraries.forms.components import Section, Form, Question, InputType, Button, HiddenField, HeadingStyle, Heading
+from libraries.forms.components import Section, Form, Question, InputType, Button, HiddenField, HeadingStyle, Heading, \
+    HelpSection
 
 register_business_forms = Section('', '', [
     Form('Register a Business', 'Part 1 of 3', [
@@ -16,7 +17,7 @@ register_business_forms = Section('', '', [
                  name='sic_number'),
         Question(title='UK VAT number',
                  description='9 digits long, with the first two letters indicating the'
-                             ' country code of the registered business',
+                             ' country code of the registered business.',
                  input_type=InputType.INPUT,
                  name='vat_number'),
         Question(title='Company registration number (CRN)',
@@ -83,5 +84,7 @@ register_business_forms = Section('', '', [
                  name='reenter_password'),
     ], buttons=[
         Button('Submit', '')
+    ], helpers=[
+        HelpSection('Help', 'This will be the default user for this organisation.')
     ]),
 ])
