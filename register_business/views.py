@@ -1,7 +1,6 @@
-import requests
 from django.shortcuts import render
 
-from conf.settings import env
+from libraries.forms.helpers import get_next_form_after_pk
 from register_business import forms
 
 
@@ -12,28 +11,14 @@ def register(request):
             'title': forms.register_business_forms.forms[0].title,
         }
         return render(request, 'form.html', context)
+
     elif request.method == 'POST':
-        data = {}
+        data = request.POST
 
-        # Add body fields to data
-        for key, value in request.POST.items():
-            if key != "button":
-                data[key] = value
+        form = get_next_form_after_pk(data.get('form_pk'), forms.register_business_forms)
 
-        # Post it to API
-        response = requests.post(env("LITE_API_URL") + '/organisations/',
-                                 json=data)
-
-        response_data = response.json()
-
-        # If there are errors returned from LITE API, return and show them
-        if 'errors' in response_data:
-            context = {
-                'title': forms.register_business_forms.forms[0].title,
-                'page': forms.register_business_forms.forms[0],
-                'errors': response_data['errors'],
-                'data': data,
-            }
-            return render(request, 'form.html', context)
-        context = {'name': response_data['organisation']['name']}
-        return render(request, 'register_business/registration_success.html', context)
+        context = {
+            'page': form,
+            'title': form.title,
+        }
+        return render(request, 'form.html', context)
