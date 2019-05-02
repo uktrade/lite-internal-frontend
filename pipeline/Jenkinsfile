@@ -11,16 +11,19 @@ pipeline
                 choice(name: 'DRIVER', description: 'Choose browser', choices: 'chrome\nfirefox\nheadless')
 
                 // Define test path to run
-                string(name: 'TESTS_TO_RUN', defaultValue: 'tests/test_sample.py', description: 'choose test to run')                // Define test path to run
+                string(name: 'TESTS_TO_RUN', defaultValue: 'tests/test_draft_and_submit.py', description: 'choose test to run, leave blank to run all tests')
 
                 // Define environment to run tests on
-                choice(name: 'ENVIRONMENT', description: 'choose what environment to run in', choices: 'dev\nstaging\nuat')
+                choice(name: 'ENVIRONMENT', description: 'choose what environment to run in', choices: 'staging\ndev\nuat')
+
+                //Define branch to run
+                string(name: 'BRANCH', defaultValue: 'master', description: 'choose branch to run against')
             }
 
             options
             {
                 // keep last 100 builds
-                buildDiscarder(logRotator(numToKeepStr: '100'))
+                buildDiscarder(logRotator(numToKeepStr: '10'))
 
                 // add timestamp
                 timestamps()
@@ -35,14 +38,14 @@ pipeline
                     {
                         // checking out repository
                         checkout([
-                                $class: 'GitSCM', branches: [[name: 'e2e']],
+                                $class: 'GitSCM', branches: [[name: "${params.BRANCH}"]],
                                 userRemoteConfigs: [[url: 'https://github.com/uktrade/lite-internal-frontend.git']]
                         ])
 
                         // Create Allure report folders and grant relevant permissions
-                        sh "mkdir -p ./automation_ui_tests/allure-results"
-                        // sh "rm -rf ./automation_ui_tests/allure-results/*"
-                        // sh "chown jenkins:jenkins ./automation_ui_tests/allure-results"
+                        sh "mkdir -p ./ui_automation_tests/allure-results"
+                        // sh "rm -rf ./ui_automation_tests/allure-results/*"
+                        // sh "chown jenkins:jenkins ./ui_automation_tests/allure-results"
                     }
                 }
                 stage('Docker build')
@@ -53,12 +56,12 @@ pipeline
                         {
                             sh "sudo find . -name '*.pyc' -delete"
                             // copying and building selenium base
-                            sh "cp selenium-base-image/Dockerfile ."
-                            docker.build("exporter/selenium_base")
+                            sh "cp ui_automation_tests/selenium-base-image/Dockerfile ."
+                            docker.build("internal/selenium_base")
 
                             // copying and building selenium image
-                            sh "cp selenium-automation-run/Dockerfile ."
-                            docker.build("exporter/selenium_image")
+                            sh "cp ui_automation_tests/selenium-automation-run/Dockerfile ."
+                            docker.build("internal/selenium_image")
                         }
                     }
                 }
@@ -76,14 +79,16 @@ pipeline
 
                                 // running selenium tests using pytest via docker
                                 sh "docker run " +
-                                        "--privileged " +                           // The --privileged flag gives all capabilities to the container,
-                                        "--shm-size=1g " +                          // shared memory size is set to 1G to prevent chromedriver memory leak
-                                        "--rm " +                                   // remove container at the end of the session
-                                        "-e PYTHONPATH=/code/ " +                   // environment variable support
-                                        "-w=/code " +                               // setting working directory
-                                        "-v `pwd`/automation_ui_tests:/code " +                 // mount git repository to the container
-                                        "exporter/selenium_image:latest " +         // the specific image that being used (latest image by default)
-                                        "-v " +                                     // verbose (for debugging purpose)
+                                        "--privileged " +                               // The --privileged flag gives all capabilities to the container,
+                                        "--shm-size=1g " +                              // shared memory size is set to 1G to prevent chromedriver memory leak
+                                        "--rm " +                                       // remove container at the end of the session
+                                        "-e PYTHONPATH=/code/ui_automation_tests/ " +   // environment variable support
+                                        "-e ENVIRONMENT=${params.ENVIRONMENT} " +
+                                        "-w=/code " +                                   // setting working directory
+                                        "-v `pwd`/ui_automation_tests:/code " +         // mount git repository to the container
+                                        "internal/selenium_image:latest " +             // the specific image that being used (latest image by default)
+                                        "-v " +                                         // verbose (for debugging purpose)
+                                        "-s " +
                                         "${params.TESTS_TO_RUN}"
                             }
                             catch (error)
@@ -115,7 +120,7 @@ def generateAllureReport()
                     jdk              : '',
                     properties       : [[key: 'allure.tests.management.pattern', value: 'http://tms.company.com/%s']],
                     reportBuildPolicy: 'ALWAYS',
-                    results          : [[path: 'automation_ui_tests/allure-results']]
+                    results          : [[path: 'ui_automation_tests/allure-results']]
             ])
         }
         catch (error)

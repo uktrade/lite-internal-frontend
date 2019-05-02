@@ -1,7 +1,6 @@
 FROM python:3.7-stretch
 
 RUN apt-get update && apt-get install -yq \
-    firefox-esr=60.5.0esr-1~deb9u1 \
     chromium=70.0.3538.110-1~deb9u1 \
     git-core=1:2.11.0-3+deb9u4 \
     xvfb=2:1.19.2-1+deb9u5 \
@@ -26,7 +25,7 @@ RUN wget -q "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux
     && rm /tmp/chromedriver.zip
 
 # xvfb - X server display
-ADD selenium-base-image/xvfb-chromium /usr/bin/xvfb-chromium
+ADD ui_automation_tests/selenium-base-image/xvfb-chromium /usr/bin/xvfb-chromium
 RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome \
     && chmod 777 /usr/bin/xvfb-chromium
 

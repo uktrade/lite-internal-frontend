@@ -5,7 +5,7 @@ class DepartmentOfInternationalTradeHub():
         self.driver = driver
 
         self.manage_cases_btn = "a[href*='/cases']"
-        self.manage_organisations_btn = "a[href*='/organisations']"
+        self.manage_organisations_link = "a[href*='/organisations']"
 
     def go_to(self, url):
         self.driver.get(url)
@@ -13,6 +13,6 @@ class DepartmentOfInternationalTradeHub():
     def click_manage_cases_btn(self):
         self.driver.find_element_by_css_selector(self.manage_cases_btn).click()
 
-    def click_manage_organisations_btn(self):
-        self.driver.find_element_by_css_selector(self.manage_organisations_btn).click()
+    def click_manage_organisations_link(self):
+        self.driver.find_element_by_css_selector(self.manage_organisations_link).click()
 
