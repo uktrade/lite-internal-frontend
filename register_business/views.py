@@ -1,5 +1,6 @@
 import json
 
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
@@ -22,7 +23,7 @@ class RegisterBusiness(TemplateView):
 
         # Get the next form based off form_pk
         current_form = get_form_by_pk(data.get('form_pk'), forms.register_business_forms)
-        form = get_next_form_after_pk(data.get('form_pk'), forms.register_business_forms)
+        next_form = get_next_form_after_pk(data.get('form_pk'), forms.register_business_forms)
 
         # Remove form_pk and CSRF from POST data as the new form will replace them
         del data['form_pk']
@@ -30,9 +31,9 @@ class RegisterBusiness(TemplateView):
 
         # Post the data to the validator and check for errors
         nested_data = nest_data(data)
-
         validated_data = post(request, '/organisations/validate/', nested_data).json()
 
+        # If there are errors in the validated data, take the user back
         if 'errors' in validated_data:
             context = {
                 'page': current_form,
@@ -43,28 +44,23 @@ class RegisterBusiness(TemplateView):
             return render(request, 'form.html', context)
 
         # If there aren't any forms left to go through, submit all the data
-        if form is None:
+        if next_form is None:
             validated_data = post(request, '/organisations/', nested_data).json()
 
             if 'errors' in validated_data:
-                context = {
-                    'page': current_form,
-                    'title': current_form.title,
-                    'errors': validated_data['errors'].get(current_form.prefix),
-                    'data': data,
-                }
-                return render(request, 'form.html', context)
+                return HttpResponse(status=500)
 
             return redirect('/organisations/')
 
         # Add existing post data to new form as hidden fields
         for key, value in data.items():
-            form.questions.append(
+            next_form.questions.append(
                 HiddenField(key, value)
             )
 
+        # Go to the next page
         context = {
-            'page': form,
-            'title': form.title,
+            'page': next_form,
+            'title': next_form.title,
         }
         return render(request, 'form.html', context)
