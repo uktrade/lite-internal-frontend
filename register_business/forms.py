@@ -1,32 +1,31 @@
 from libraries.forms.components import Section, Form, Question, InputType, Button, HeadingStyle, Heading, \
-    HelpSection
+    HelpSection, HiddenField
 
 register_business_forms = Section('', '', [
-
     Form(title='Register a Business',
          description='Part 1 of 3',
          questions=[
              Question(title='What\'s the business name?',
                       description='',
                       input_type=InputType.INPUT,
-                      name='organisation.name'),
+                      name='name'),
              Question(title='European Union registration and identification number (EORI)',
                       description='',
                       input_type=InputType.INPUT,
-                      name='organisation.eori_number'),
+                      name='eori_number'),
              Question(title='Standard Industrial Classification Number (SIC)',
                       description='Classifies industries by a four-digit code.',
                       input_type=InputType.INPUT,
-                      name='organisation.sic_number'),
+                      name='sic_number'),
              Question(title='UK VAT number',
                       description='9 digits long, with the first two letters indicating the'
                                   ' country code of the registered business.',
                       input_type=InputType.INPUT,
-                      name='organisation.vat_number'),
+                      name='vat_number'),
              Question(title='Company registration number (CRN)',
                       description='8 numbers, or 2 letters followed by 6 numbers.',
                       input_type=InputType.INPUT,
-                      name='organisation.registration_number'),
+                      name='registration_number'),
          ],
          buttons=[
              Button('Save and continue', '')
@@ -45,28 +44,28 @@ register_business_forms = Section('', '', [
              Question(title='Address Line 1',
                       description='',
                       input_type=InputType.INPUT,
-                      name='site.address_line_1'),
+                      name='site.address.address_line_1'),
              Question(title='Address Line 2',
                       description='',
                       input_type=InputType.INPUT,
-                      name='site.address_line_2',
+                      name='site.address.address_line_2',
                       optional=True),
              Question(title='Zip code',
                       description='',
                       input_type=InputType.INPUT,
-                      name='site.zip_code'),
+                      name='site.address.zip_code'),
              Question(title='City',
                       description='',
                       input_type=InputType.INPUT,
-                      name='site.city'),
+                      name='site.address.city'),
              Question(title='State',
                       description='',
                       input_type=InputType.INPUT,
-                      name='site.state'),
+                      name='site.address.state'),
              Question(title='Country',
                       description='',
                       input_type=InputType.INPUT,
-                      name='site.country'),
+                      name='site.address.country'),
          ], buttons=[
             Button('Save and continue', '')
         ],
@@ -89,10 +88,6 @@ register_business_forms = Section('', '', [
                  description='',
                  input_type=InputType.PASSWORD,
                  name='user.password'),
-        Question(title='Reenter Password',
-                 description='',
-                 input_type=InputType.PASSWORD,
-                 name='user.reenter_password'),
     ], buttons=[
         Button('Submit', '')
     ], helpers=[

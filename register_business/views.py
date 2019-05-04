@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from conf.client import post
 from libraries.forms.components import HiddenField
 from libraries.forms.helpers import get_next_form_after_pk, nest_data, get_form_by_pk
+from organisations.services import post_organisations
 from register_business import forms
 
 
@@ -31,25 +32,27 @@ class RegisterBusiness(TemplateView):
 
         # Post the data to the validator and check for errors
         nested_data = nest_data(data)
-        validated_data = post(request, '/organisations/validate/', nested_data).json()
+        validated_data, status_code = post_organisations(request, nested_data)
 
-        # If there are errors in the validated data, take the user back
+        print(json.dumps(nested_data))
+
         if 'errors' in validated_data:
-            context = {
-                'page': current_form,
-                'title': current_form.title,
-                'errors': validated_data['errors'].get(current_form.prefix),
-                'data': data,
-            }
-            return render(request, 'form.html', context)
+            for key, value in validated_data.get('errors').copy().items():
+                if value == ['This field is required.']:
+                    del validated_data.get('errors')[key]
+
+            # If there are errors in the validated data, take the user back
+            if len(validated_data['errors']) is not 0:
+                context = {
+                    'page': current_form,
+                    'title': current_form.title,
+                    'errors': validated_data['errors'],
+                    'data': data,
+                }
+                return render(request, 'form.html', context)
 
         # If there aren't any forms left to go through, submit all the data
         if next_form is None:
-            validated_data = post(request, '/organisations/', nested_data).json()
-
-            if 'errors' in validated_data:
-                return HttpResponse(status=500)
-
             return redirect('/organisations/')
 
         # Add existing post data to new form as hidden fields
