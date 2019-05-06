@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'register_business',
     'core.apps.CoreConfig',
-    'libraries.forms'
+    'libraries.forms',
 ]
 
 MIDDLEWARE = [
