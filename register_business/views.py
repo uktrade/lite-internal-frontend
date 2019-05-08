@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 
 from conf.client import post
 from libraries.forms.components import HiddenField
-from libraries.forms.helpers import get_next_form_after_pk, nest_data, get_form_by_pk
+from libraries.forms.helpers import get_next_form_after_pk, nest_data, get_form_by_pk, flatten_data
 from organisations.services import post_organisations
 from register_business import forms
 
@@ -46,7 +46,7 @@ class RegisterBusiness(TemplateView):
                 context = {
                     'page': current_form,
                     'title': current_form.title,
-                    'errors': validated_data['errors'],
+                    'errors': flatten_data(validated_data['errors']),
                     'data': data,
                 }
                 return render(request, 'form.html', context)
