@@ -1,12 +1,9 @@
-import json
-
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.urls import reverse
 from django.views.generic import TemplateView
 
-from conf.client import post
 from libraries.forms.components import HiddenField
-from libraries.forms.helpers import get_next_form_after_pk, nest_data, get_form_by_pk, flatten_data
+from libraries.forms.helpers import get_next_form_after_pk, nest_data, get_form_by_pk, flatten_data, success_page
 from organisations.services import post_organisations
 from register_business import forms
 
@@ -34,8 +31,6 @@ class RegisterBusiness(TemplateView):
         nested_data = nest_data(data)
         validated_data, status_code = post_organisations(request, nested_data)
 
-        print(json.dumps(nested_data))
-
         if 'errors' in validated_data:
             for key, value in validated_data.get('errors').copy().items():
                 if value == ['This field is required.']:
@@ -51,9 +46,16 @@ class RegisterBusiness(TemplateView):
                 }
                 return render(request, 'form.html', context)
 
-        # If there aren't any forms left to go through, submit all the data
+        # If there aren't any forms left to go through, submit all the data and go to a success page
         if next_form is None:
-            return redirect('/organisations/')
+            return success_page(request,
+                                title='Organisation Registered',
+                                secondary_title=nested_data.get('name') + ' registered successfully',
+                                description='',
+                                what_happens_next=[],
+                                links={
+                                    'Go to organisations': reverse('organisations:organisations')
+                                })
 
         # Add existing post data to new form as hidden fields
         for key, value in data.items():
