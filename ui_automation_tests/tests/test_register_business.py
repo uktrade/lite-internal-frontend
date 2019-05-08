@@ -62,7 +62,7 @@ def test_register_a_business(driver, open_internal_hub, internal_url):
     register_a_business_page.click_submit()
 
     registration_complete_message = driver.find_element_by_tag_name("h1").text
-    assert registration_complete_message == "Registration Complete"
+    assert registration_complete_message == "Organisation Registered"
     logging.info("Application Submitted")
 
     # verify application is in organisations list
@@ -96,7 +96,7 @@ def test_cancel_register_a_business(driver, open_internal_hub):
 
 def test_cannot_submit_without_required_fields(driver, open_internal_hub):
     dit_hub_page = DepartmentOfInternationalTradeHub(driver)
-    register_page = RegisterABusinessPage(driver)
+    register_a_business_page = RegisterABusinessPage(driver)
     organisations_page = OrganisationsPage(driver)
 
     dit_hub_page.click_manage_organisations_link()
@@ -106,8 +106,46 @@ def test_cannot_submit_without_required_fields(driver, open_internal_hub):
     organisations_page.click_new_organisation_btn()
 
     logging.info("clicked submit")
-    register_page.click_submit()
+    register_a_business_page.click_save_and_continue()
 
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Name:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Eori_Number:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Sic_Number:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Vat_Number:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Registration_Number:')]]").is_displayed()
+
+    time_id = datetime.datetime.now().strftime("%m%d%H%M")
+    register_a_business_page.enter_business_name("Test Business " + time_id)
+    register_a_business_page.enter_eori_number("GB987654312000")
+    register_a_business_page.enter_sic_number("73200")
+    register_a_business_page.enter_vat_number("123456789")
+    register_a_business_page.enter_company_registration_number("000000011")
+
+    register_a_business_page.click_save_and_continue()
+    register_a_business_page.click_save_and_continue()
+
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Name:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Address_Line_1:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Zip_Code:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.City:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.State:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Country:')]]").is_displayed()
+
+    register_a_business_page.enter_site_name("Site 1")
+    register_a_business_page.enter_address_line_1("123 Cobalt Street")
+    register_a_business_page.enter_address_line_2("123 Cobalt Street")
+    register_a_business_page.enter_zip_code("N23 6YL")
+    register_a_business_page.enter_city("London")
+    register_a_business_page.enter_state("London")
+    register_a_business_page.enter_country("United Kingdom")
+
+    register_a_business_page.click_save_and_continue()
+    register_a_business_page.click_submit()
+
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'User.Email:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'User.First_Name:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'User.Last_Name:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'User.Password:')]]").is_displayed()
     driver.find_element_by_id("error-summary-title").is_displayed()
 
     title = driver.title
