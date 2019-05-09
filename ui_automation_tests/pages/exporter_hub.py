@@ -15,3 +15,20 @@ class ExporterHub():
 
     def click_applications_btn(self):
         self.driver.find_element_by_css_selector("a[href*='/applications/']").click()
+
+    def enter_email(self, email):
+        email_tb = self.driver.find_element_by_id("email")
+        email_tb.clear()
+        email_tb.send_keys(email)
+
+    def enter_password(self, password):
+        password_tb = self.driver.find_element_by_id("password")
+        password_tb.send_keys(password)
+
+    def login(self, email, password):
+        self.enter_email(email)
+        self.enter_password(password)
+        self.click_submit()
+
+    def click_submit(self):
+        self.driver.find_element_by_css_selector(".govuk-button").click()

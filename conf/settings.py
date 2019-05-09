@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'sass_processor',
     'django.contrib.humanize',
     'register_business',
-    'core.apps.CoreConfig'
+    'core.apps.CoreConfig',
+    'libraries.forms',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,8 @@ ROOT_URLCONF = 'conf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'libraries')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
