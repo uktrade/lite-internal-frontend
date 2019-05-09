@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'register_business',
     'core.apps.CoreConfig',
     'libraries.forms',
+	'svg',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'conf.context_processors.export_vars',
+                'conf.context_processors.lite_menu',
             ],
             'builtins': ['core.builtins.custom_tags'],
         },
@@ -117,6 +119,10 @@ USE_TZ = True
 # STATIC_URL = '/static/'
 
 DATA_DIR = os.path.dirname(BASE_DIR)
+
+SVG_DIRS=[
+    os.path.join(BASE_DIR, 'assets/images')
+]
 
 STATIC_URL = '/assets/'
 STATIC_ROOT = os.path.join(DATA_DIR, 'assets')

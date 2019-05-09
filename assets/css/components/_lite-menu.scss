@@ -29,13 +29,12 @@
 #lite-menu {
 	visibility: hidden;
 	position: absolute;
-	left: -137px;
+	left: -157.5px;
 	top: 38px;
-	width: 300px;
+	width: 335px;
 	background-color: white;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-gap: 10px;
+	grid-template-columns: repeat(3, 1fr);
 	box-shadow: 0 20px 20px rgba(0,0,0,0.15), 0 5px 5px rgba(0,0,0,0.15), 0 0 2px rgba(0,0,0,0.15);
 	box-sizing: border-box;
 	padding: 15px;
@@ -52,19 +51,25 @@
 		content: "";
 		position: absolute;
 		top: -6px;
-		left: 143px;
+		left: 163px;
 		width: 14px;
 		height: 6px;
 		background-image: url('/assets/images/lite_menu_chevron.svg');
 	}
+	* {
+		color: currentColor;
+		fill: currentColor;
+	}
 	a {
-		color: rgba(black, 0.45);
+		color: govuk-colour("grey-1");
+		width: 105px;
+		box-sizing: border-box;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
 		line-height: normal;
-		padding: 10px 0;
+		padding: 10px;
 		.icon {
 			width: 50px;
 			height: 40px;
