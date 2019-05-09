@@ -2,10 +2,10 @@ from libraries.forms.components import Section, Form, Question, InputType, Butto
     HelpSection
 
 register_business_forms = Section('', '', [
-    Form(title='Register a Business',
+    Form(title='Register an organisation',
          description='Part 1 of 3',
          questions=[
-             Question(title='What\'s the business name?',
+             Question(title='What\'s the organisation\'s name?',
                       description='',
                       input_type=InputType.INPUT,
                       name='name'),
@@ -50,7 +50,7 @@ register_business_forms = Section('', '', [
                       input_type=InputType.INPUT,
                       name='site.address.address_line_2',
                       optional=True),
-             Question(title='Zip code',
+             Question(title='Postal Code',
                       description='',
                       input_type=InputType.INPUT,
                       name='site.address.zip_code'),
@@ -58,7 +58,7 @@ register_business_forms = Section('', '', [
                       description='',
                       input_type=InputType.INPUT,
                       name='site.address.city'),
-             Question(title='State',
+             Question(title='County/State',
                       description='',
                       input_type=InputType.INPUT,
                       name='site.address.state'),
