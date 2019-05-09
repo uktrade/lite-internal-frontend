@@ -1,5 +1,5 @@
 from libraries.forms.components import Section, Form, Question, InputType, Button, HeadingStyle, Heading, \
-    HelpSection, HiddenField
+    HelpSection
 
 register_business_forms = Section('', '', [
     Form(title='Register a Business',
