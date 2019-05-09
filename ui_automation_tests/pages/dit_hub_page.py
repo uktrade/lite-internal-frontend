@@ -14,4 +14,5 @@ class DepartmentOfInternationalTradeHub():
         self.driver.find_element_by_css_selector(self.manage_cases_btn).click()
 
     def click_manage_organisations_link(self):
+        self.driver.find_element_by_id("lite-menu-button").click()
         self.driver.find_element_by_css_selector(self.manage_organisations_link).click()

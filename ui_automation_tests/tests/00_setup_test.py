@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 import helpers.helpers as utils
 from pages.register_a_business_page import RegisterABusinessPage
+from pages.dit_hub_page import DepartmentOfInternationalTradeHub
 import pytest
 import logging
 
@@ -18,9 +19,9 @@ def open_internal_hub(driver, internal_url):
 def test_new_organisation_setup(driver, open_internal_hub):
     log.info("Setting up new organisation")
     register_a_business_page = RegisterABusinessPage(driver)
+    internal_hub_page = DepartmentOfInternationalTradeHub(driver)
 
-    manage_organisations_btn = driver.find_element_by_css_selector("a[href*='/organisations']")
-    manage_organisations_btn.click()
+    internal_hub_page.click_manage_organisations_link()
 
     exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
     if not exists:
