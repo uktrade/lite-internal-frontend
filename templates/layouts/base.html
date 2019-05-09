@@ -32,17 +32,6 @@
 	{% block head %}{% endblock %}
 </head>
 
-<style>
-	/*#user-menu {
-		grid-template-columns: auto auto auto auto auto;
-	}*/
-	#lite-menu {
-		width: 26px;
-		height: 26px;
-		background-image: url('/assets/images/menu.svg');
-	}
-</style>
-
 <body class="govuk-template__body ">
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ ENVIRONMENT_VARIABLES.GOOGLE_ANALYTICS_KEY }}"
 	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -79,10 +68,32 @@
 			{% if user %}
 			<div id="user-menu">
 				<a>Log out</a>
-				<!--<div class="divider"></div>
-				<a id="lite-menu">
+				<div class="divider"></div>
+				<div id="lite-menu-wrapper">
+					<a id="lite-menu-button" onclick="toggleLITEMenu()"></a>
+					<div id="lite-menu">
+						<a href="/cases/" class="lite-menu-item--selected">
+							<div class="icon">
+								<img src="/assets/images/menu/cases.svg" alt="">
+							</div>
+							Cases
+						</a>
+						<a href="/organisations/" class="lite-menu-item">
+							<div class="icon">
+								<img src="/assets/images/menu/businesses.svg" alt="">
+							</div>
+							Businesses
+						</a>
+						{% for i in i|rjust:7 %}
+							<a href="#">
+								<div class="icon">
 
-				</a>-->
+								</div>
+								Item
+							</a>
+						{% endfor %}
+					</div>
+				</div>
 				<div class="divider"></div>
 				<a class="user-menu-profile">
 					<p>John</p>
@@ -101,6 +112,8 @@
 		</div>
 	</header>
 	{% endblock %}
+
+	<div id="lite-menu-background" onclick="toggleLITEMenu()"></div>
 
 	<div class="govuk-width-container">
 		<div class="govuk-phase-banner">
@@ -139,6 +152,13 @@
 
 	<script>
 		window.GOVUKFrontend.initAll()
+	</script>
+
+	<script type="text/javascript">
+		function toggleLITEMenu() {
+			$('#lite-menu-background').toggle();
+			$('#lite-menu').toggleClass('lite-menu--visible');
+		}
 	</script>
 
 </body>
