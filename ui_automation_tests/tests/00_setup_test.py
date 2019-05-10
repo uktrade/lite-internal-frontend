@@ -43,9 +43,9 @@ def test_new_organisation_setup(driver, open_internal_hub):
         register_a_business_page.enter_site_name("Site 1")
         register_a_business_page.enter_address_line_1("123 Cobalt Street")
         register_a_business_page.enter_address_line_2("123 Cobalt Street")
-        register_a_business_page.enter_zip_code("N23 6YL")
+        register_a_business_page.enter_postcode("N23 6YL")
         register_a_business_page.enter_city("London")
-        register_a_business_page.enter_state("London")
+        register_a_business_page.enter_region("London")
         register_a_business_page.enter_country("United Kingdom")
 
         register_a_business_page.click_save_and_continue()
