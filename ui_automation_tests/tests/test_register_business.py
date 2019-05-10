@@ -47,9 +47,9 @@ def test_register_a_business(driver, open_internal_hub, internal_url):
     register_a_business_page.enter_site_name("Site 1")
     register_a_business_page.enter_address_line_1("123 Cobalt Street")
     register_a_business_page.enter_address_line_2("123 Cobalt Street")
-    register_a_business_page.enter_zip_code("N23 6YL")
+    register_a_business_page.enter_postcode("N23 6YL")
     register_a_business_page.enter_city("London")
-    register_a_business_page.enter_state("London")
+    register_a_business_page.enter_region("London")
     register_a_business_page.enter_country("United Kingdom")
 
     register_a_business_page.click_save_and_continue()
@@ -126,17 +126,17 @@ def test_cannot_submit_without_required_fields(driver, open_internal_hub):
 
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Name:')]]").is_displayed()
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Address_Line_1:')]]").is_displayed()
-    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Zip_Code:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.postcode:')]]").is_displayed()
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.City:')]]").is_displayed()
-    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.State:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.region:')]]").is_displayed()
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Country:')]]").is_displayed()
 
     register_a_business_page.enter_site_name("Site 1")
     register_a_business_page.enter_address_line_1("123 Cobalt Street")
     register_a_business_page.enter_address_line_2("123 Cobalt Street")
-    register_a_business_page.enter_zip_code("N23 6YL")
+    register_a_business_page.enter_postcode("N23 6YL")
     register_a_business_page.enter_city("London")
-    register_a_business_page.enter_state("London")
+    register_a_business_page.enter_region("London")
     register_a_business_page.enter_country("United Kingdom")
 
     register_a_business_page.click_save_and_continue()
