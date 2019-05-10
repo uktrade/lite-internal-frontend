@@ -126,9 +126,9 @@ def test_cannot_submit_without_required_fields(driver, open_internal_hub):
 
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Name:')]]").is_displayed()
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Address_Line_1:')]]").is_displayed()
-    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.postcode:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Postcode:')]]").is_displayed()
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.City:')]]").is_displayed()
-    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.region:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Region:')]]").is_displayed()
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Country:')]]").is_displayed()
 
     register_a_business_page.enter_site_name("Site 1")
