@@ -8,7 +8,7 @@
 		left: 10px;
 		bottom: 7px;
 		width: 16px;
-		background-image: url("/assets/images/icons/post.svg");
+		background-image: url("/assets/images/post.svg");
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: contain;
@@ -167,14 +167,14 @@
 }
 
 .share:before {
-	background-image: url("/assets/images/icons/share.svg");
+	background-image: url("/assets/images/share.svg");
 }
 
 .reply {
 	padding-left: 38px!important;
 
 	&:before {
-		background-image: url("/assets/images/icons/reply.svg");
+		background-image: url("/assets/images/reply.svg");
 	}
 }
 
