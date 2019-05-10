@@ -85,10 +85,11 @@ def test_cancel_register_a_business(driver, open_internal_hub):
     organisations_page.click_new_organisation_btn()
 
     logging.info("Cancelling...")
-    register_page.click_cancel()
+    register_page.click_gov()
+    # register_page.click_cancel()
 
     title = driver.title
-    assert "Organisations" in title
+    assert "Cases" in title
 
     logging.info("Application Cancelled")
     logging.info("Test Complete")

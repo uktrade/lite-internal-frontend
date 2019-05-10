@@ -57,6 +57,10 @@ class RegisterABusinessPage():
         cancel_btn = self.driver.find_element_by_css_selector("a[href*='/organisations']")
         cancel_btn.click()
 
+    def click_gov(self):
+        gov_btn = self.driver.find_element_by_css_selector(".govuk-header__logotype-text")
+        gov_btn.click()
+
     def enter_site_name(self, site_name):
         self.driver.find_element_by_id("site.name").send_keys(site_name)
 
