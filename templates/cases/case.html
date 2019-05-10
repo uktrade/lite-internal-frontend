@@ -70,20 +70,44 @@
 	</div>
 </div>
 
-<div class="lite-new-case-note">
-	<textarea name="name" cols="80" class="govuk-textarea" placeholder="Add case note"></textarea>
-	<div class="lite-new-case-note-buttons">
-		<button class="govuk-button govuk-button--secondary" type="button" name="button">
-			Cancel
-		</button>
-		<button class="govuk-button lite-button--post" type="button" name="button">
-			Post note
-		</button>
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-one-quarter">
+		<p>govuk-grid-column-one-quarter</p>
 	</div>
-</div>
-
-<div class="case-notes">
-	<app-case-note *ngFor="let caseNote of caseNotes" name="{{caseNote.name}}" type="{{caseNote.type}}" text="{{caseNote.text}}" [replies]="caseNote.replies"></app-case-note>
+	<div class="govuk-grid-column-one-half">
+		<div class="lite-new-case-note">
+			<textarea name="name" cols="80" class="govuk-textarea" placeholder="Add case note"></textarea>
+			<div class="lite-new-case-note-buttons">
+				<button class="govuk-button govuk-button--secondary" type="button" name="button">
+					Cancel
+				</button>
+				<button class="govuk-button lite-button--post" type="button" name="button">
+					Post note
+				</button>
+			</div>
+		</div>
+		<div class="lite-case-notes">
+			<div class="lite-case-note" id="{{ id }}">
+				<div class="lite-case-note-header">
+					<div class="lite-case-note-header-info">
+						<p class="lite-case-note-user">John Smith</p>
+						<p>-</p>
+						<p>GOV USER</p>
+						<p>-</p>
+						<p>10 Minutes Ago</p>
+					</div>
+					<div class="lite-case-note-header-controls">
+						<a href="#{{ id }}" class="govuk-link govuk-link--no-visited-state share">Link</a>
+						<a href="#" class="govuk-link govuk-link--no-visited-state reply">Reply</a>
+					</div>
+				</div>
+				<p class="govuk-body">This is an example comment.</p>
+			</div>
+		</div>
+	</div>
+	<div class="govuk-grid-column-one-quarter">
+		<p>govuk-grid-column-one-quarter</p>
+	</div>
 </div>
 
 {% endblock %}
