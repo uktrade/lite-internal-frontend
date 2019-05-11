@@ -85,10 +85,11 @@ def test_cancel_register_a_business(driver, open_internal_hub):
     organisations_page.click_new_organisation_btn()
 
     logging.info("Cancelling...")
-    register_page.click_cancel()
+    register_page.click_gov()
+    # register_page.click_cancel()
 
     title = driver.title
-    assert "Organisations" in title
+    assert "Cases" in title
 
     logging.info("Application Cancelled")
     logging.info("Test Complete")
@@ -126,9 +127,9 @@ def test_cannot_submit_without_required_fields(driver, open_internal_hub):
 
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Name:')]]").is_displayed()
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Address_Line_1:')]]").is_displayed()
-    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.postcode:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Postcode:')]]").is_displayed()
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.City:')]]").is_displayed()
-    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.region:')]]").is_displayed()
+    assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Region:')]]").is_displayed()
     assert driver.find_element_by_xpath("//a[text()[contains(.,'Site.Address.Country:')]]").is_displayed()
 
     register_a_business_page.enter_site_name("Site 1")
