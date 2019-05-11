@@ -42,7 +42,7 @@ class ViewCase(TemplateView):
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         response, status_code = post_case_notes(request, case_id, request.POST)
-        return redirect('/cases/' + case_id)
+        return redirect('/cases/' + case_id + '#case_notes')
 
 
 class ManageCase(TemplateView):

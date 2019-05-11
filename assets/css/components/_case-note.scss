@@ -1,22 +1,3 @@
-$transition-speed: 0.2s;
-
-.lite-button--post {
-	padding-left: 35px;
-
-	&:after {
-		content: "";
-		position: absolute;
-		top: 7px;
-		left: 10px;
-		bottom: 7px;
-		width: 16px;
-		background-image: url("/assets/images/post.svg");
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: contain;
-	}
-}
-
 .case-notes {
 	width: 100%;
 }
@@ -34,6 +15,24 @@ $transition-speed: 0.2s;
 	}
 }
 
+.lite-case-note--new {
+	animation-name: new-case-note;
+	animation-duration: .5s;
+	animation-timing-function: cubic-bezier(0.075, 0.820, 0.5, 1.2);
+	animation-fill-mode: both;
+	transform-origin: 50% 0;
+}
+
+@keyframes new-case-note {
+	0% {
+		transform: scale(0.7);
+	}
+
+	100% {
+		transform: scaleY(1);
+	}
+}
+
 .lite-case-note-header {
 	display: grid;
 	grid-template-columns: auto 1fr;
@@ -42,7 +41,7 @@ $transition-speed: 0.2s;
 
 	* {
 		@include govuk-font($size: 16);
-		transition: opacity $transition-speed ease;
+		transition: opacity $lite-transition-speed ease;
 		margin: 0;
 		line-height: 15px!important;
 	}
