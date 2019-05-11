@@ -1,0 +1,46 @@
+{% load humanize %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-one-quarter">
+		<p></p>
+	</div>
+	<div class="govuk-grid-column-one-half">
+		<form method="post">
+			{% csrf_token %}
+			<div class="lite-new-case-note">
+				<textarea name="text" cols="80" class="govuk-textarea" placeholder="Add case note"></textarea>
+				<div class="lite-new-case-note-buttons">
+					<button class="govuk-button govuk-button--secondary" type="button">
+						Cancel
+					</button>
+					<button class="govuk-button lite-button--post" type="submit">
+						Post note
+					</button>
+				</div>
+			</div>
+		</form>
+		<div class="lite-case-notes">
+			{% for case_note in case_notes %}
+				<div class="lite-case-note" id="{{ case_note.id }}">
+					<div class="lite-case-note-header">
+						<div class="lite-case-note-header-info">
+							<p class="lite-case-note-user">John Smith</p>
+							<p>-</p>
+							<p>GOV USER</p>
+							<p>-</p>
+							<p>{{ case_note.created_at|str_date|naturaltime }}</p>
+						</div>
+						<div class="lite-case-note-header-controls">
+							<a href="#{{ case_note.id }}" class="govuk-link govuk-link--no-visited-state share">Link</a>
+							<!--<a href="#" class="govuk-link govuk-link--no-visited-state reply">Reply</a>-->
+						</div>
+					</div>
+					<p class="govuk-body">{{ case_note.text }}</p>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="govuk-grid-column-one-quarter">
+
+	</div>
+</div>
