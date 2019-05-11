@@ -13,6 +13,11 @@ $("#case_note").on('input propertychange paste', function() {
 		$("#case_note-warning").text("You can enter up to 2000 characters");
 	}
 
+	if ($(this).val().length <= 1) {
+		$("#button-post-note").addClass("govuk-button--disabled");
+		$("#button-post-note").attr("disabled", true);
+	}
+
 	if ($(this).val().length > 2000) {
 		$("#case_note-warning").removeClass("govuk-hint");
 		$("#case_note-warning").addClass("govuk-error-message");
@@ -23,8 +28,10 @@ $("#case_note").on('input propertychange paste', function() {
 	} else {
 		$("#case_note-warning").removeClass("govuk-error-message");
 		$("#case_note-warning").addClass("govuk-hint");
-		$("#button-post-note").removeClass("govuk-button--disabled");
-		$("#button-post-note").attr("disabled", false);
 		$(".lite-expandable-textarea").removeClass("lite-expandable-textarea--warning");
+		if ($(this).val().length > 1) {
+			$("#button-post-note").removeClass("govuk-button--disabled");
+			$("#button-post-note").attr("disabled", false);
+		}
 	}
 });

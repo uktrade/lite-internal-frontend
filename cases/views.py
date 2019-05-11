@@ -6,6 +6,8 @@ from conf.settings import env
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
+from libraries.forms.helpers import error_page
+
 
 def index(request):
     queue_id = request.GET.get('queue')
@@ -42,6 +44,13 @@ class ViewCase(TemplateView):
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         response, status_code = post_case_notes(request, case_id, request.POST)
+
+        if status_code != 201:
+            error = response.get('errors').get('text')[0]
+            error = error.replace('This field', 'Case note')
+            error = error.replace('this field', 'the case note')
+            return error_page(request, error)
+
         return redirect('/cases/' + case_id + '#case_notes')
 
 
