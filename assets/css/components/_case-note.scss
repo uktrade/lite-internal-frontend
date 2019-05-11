@@ -1,3 +1,5 @@
+$transition-speed: 0.2s;
+
 .lite-button--post {
 	padding-left: 35px;
 
@@ -12,86 +14,6 @@
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: contain;
-	}
-}
-
-.lite-new-case-note {
-	position: relative;
-	display: block;
-	margin-bottom: govuk-spacing(6);
-	border: $govuk-border-width-form-element solid govuk-colour('grey-3');
-	transition: height 0.2s ease;
-	height: 100px;
-
-	&:hover {
-		border: $govuk-border-width-form-element solid govuk-colour('grey-2');
-	}
-
-	.govuk-textarea {
-		padding: govuk-spacing(4);
-		margin-bottom: 0;
-		border: none;
-		height: 100px;
-		transition: height 0.2s ease;
-		resize: none;
-
-		&:focus {
-			outline: none;
-		}
-		z-index: 1;
-	}
-
-	.lite-new-case-note-buttons {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-gap: govuk-spacing(3);
-		padding: govuk-spacing(3);
-		background-color: govuk-colour("grey-4");
-		border-top: 2px solid govuk-colour("grey-3");
-		opacity: 0;
-		transition: 0.2s ease;
-		visibility: collapse;
-
-		& > * {
-			margin: 0 0 2px;
-		}
-		@include govuk-media-query($from: tablet) {
-			display: flex;
-			justify-content: flex-end;
-
-			& > * {
-				margin-left: govuk-spacing(3);
-			}
-		}
-	}
-
-	&:focus-within {
-		outline: 3px solid $govuk-focus-colour;
-	}
-}
-
-.lite-new-case-note:focus-within {
-	border: $govuk-border-width-form-element solid $govuk-input-border-colour;
-	height: 272px;
-
-	.govuk-textarea {
-		padding: govuk-spacing(4);
-		margin-bottom: 0;
-		border: none;
-		height: calc(100% - 72px);
-
-		&:focus {
-			outline: none;
-		}
-		z-index: 1;
-	}
-
-	.lite-new-case-note-buttons {
-		visibility: visible;
-		opacity: 1;
-		@include govuk-media-query($from: tablet) {
-			display: flex;
-		}
 	}
 }
 
@@ -120,7 +42,7 @@
 
 	* {
 		@include govuk-font($size: 16);
-		transition: opacity 0.2s ease;
+		transition: opacity $transition-speed ease;
 		margin: 0;
 		line-height: 15px!important;
 	}
