@@ -1,9 +1,6 @@
 {% load humanize %}
 
 <div class="govuk-grid-row">
-	<div class="govuk-grid-column-one-quarter">
-		<p></p>
-	</div>
 	<div class="govuk-grid-column-one-half">
 		<form method="post">
 			{% csrf_token %}
@@ -20,20 +17,24 @@
 			</div>
 		</form>
 		<div class="lite-case-notes">
-			{% for case_note in case_notes %}
-			<div class="lite-case-note {% if case_note.created_at|str_date|naturaltime == 'now' %}lite-case-note--new{% endif%}" id="{{ case_note.id }}">
-				<div class="lite-case-note-header">
-					<div class="lite-case-note-header-info">
-						<p class="lite-case-note-user">John Smith</p>
-						<p>-</p>
-						<p>GOV USER</p>
-						<p>-</p>
-						<p>{{ case_note.created_at|str_date|naturaltime }}</p>
+			{% if case_notes|length %}
+				{% for case_note in case_notes %}
+					<div class="lite-case-note {% if case_note.created_at|str_date|naturaltime == 'now' %}lite-case-note--new{% endif%}" id="{{ case_note.id }}">
+						<div class="lite-case-note-header">
+							<div class="lite-case-note-header-info">
+								<p class="lite-case-note-user">John Smith</p>
+								<p>-</p>
+								<p>GOV USER</p>
+								<p>-</p>
+								<p>{{ case_note.created_at|str_date|naturaltime }}</p>
+							</div>
+						</div>
+						<p class="govuk-body">{{ case_note.text }}</p>
 					</div>
-				</div>
-				<p class="govuk-body">{{ case_note.text }}</p>
-			</div>
-			{% endfor %}
+				{% endfor %}
+			{% else %}
+				<p class="govuk-caption-l">This case doesn't have any notes.</p>
+			{% endif %}
 		</div>
 	</div>
 	<div class="govuk-grid-column-one-quarter">
@@ -42,4 +43,5 @@
 </div>
 
 {% load static %}
+<script src="{% static 'javascripts/pluralize.js' %}"></script>
 <script src="{% static 'javascripts/specific/case_notes.js' %}"></script>

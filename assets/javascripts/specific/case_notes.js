@@ -1,5 +1,6 @@
 $(".lite-expandable-textarea-controls").addClass("lite-expandable-textarea-controls--hidden");
 $(".case_note-warning").addClass("govuk-hint--hidden");
+
 $("#case_note").on('input propertychange paste', function() {
 	if ($(this).val() != '') {
 		$(".lite-expandable-textarea-controls").removeClass("lite-expandable-textarea-controls--hidden");
@@ -8,7 +9,7 @@ $("#case_note").on('input propertychange paste', function() {
 	}
 
 	if ($(this).val().length > 1000) {
-		$("#case_note-warning").text("You have " + (2000 - $(this).val().length) + " characters remaining");
+		$("#case_note-warning").text("You have " + (2000 - $(this).val().length) + " character" + pluralize(2000 - $(this).val().length) + " remaining");
 	} else {
 		$("#case_note-warning").text("You can enter up to 2000 characters");
 	}
@@ -21,7 +22,7 @@ $("#case_note").on('input propertychange paste', function() {
 	if ($(this).val().length > 2000) {
 		$("#case_note-warning").removeClass("govuk-hint");
 		$("#case_note-warning").addClass("govuk-error-message");
-		$("#case_note-warning").text("You have " + ($(this).val().length - 2000) + " characters too many");
+		$("#case_note-warning").text("You have " + ($(this).val().length - 2000) + " character" + pluralize($(this).val().length - 2000) + " too many");
 		$("#button-post-note").addClass("govuk-button--disabled");
 		$("#button-post-note").attr("disabled", true);
 		$(".lite-expandable-textarea").addClass("lite-expandable-textarea--warning");
