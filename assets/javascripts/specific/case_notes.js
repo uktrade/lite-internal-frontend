@@ -9,9 +9,9 @@ $("#case_note").on('input propertychange paste', function() {
 	}
 
 	if ($(this).val().length > 1000) {
-		$("#case_note-warning").text("You have " + (2000 - $(this).val().length) + " character" + pluralize(2000 - $(this).val().length) + " remaining");
+		$("#case_note-warning").text("You have " + (2200 - $(this).val().length) + " character" + pluralize(2200 - $(this).val().length) + " remaining");
 	} else {
-		$("#case_note-warning").text("You can enter up to 2000 characters");
+		$("#case_note-warning").text("You can enter up to 2200 characters");
 	}
 
 	if ($(this).val().length <= 1) {
@@ -19,10 +19,10 @@ $("#case_note").on('input propertychange paste', function() {
 		$("#button-post-note").attr("disabled", true);
 	}
 
-	if ($(this).val().length > 2000) {
+	if ($(this).val().length > 2200) {
 		$("#case_note-warning").removeClass("govuk-hint");
 		$("#case_note-warning").addClass("govuk-error-message");
-		$("#case_note-warning").text("You have " + ($(this).val().length - 2000) + " character" + pluralize($(this).val().length - 2000) + " too many");
+		$("#case_note-warning").text("You have " + ($(this).val().length - 2200) + " character" + pluralize($(this).val().length - 2200) + " too many");
 		$("#button-post-note").addClass("govuk-button--disabled");
 		$("#button-post-note").attr("disabled", true);
 		$(".lite-expandable-textarea").addClass("lite-expandable-textarea--warning");
