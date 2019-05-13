@@ -36,6 +36,7 @@ def case(request, pk):
 
 
 class ManageCase(TemplateView):
+
     def get(self, request, pk):
         response = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/').json()
         context = {
