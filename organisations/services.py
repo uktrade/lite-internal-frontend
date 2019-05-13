@@ -1,5 +1,5 @@
 from conf.client import get, post
-from conf.constants import ORGANISATIONS_URL
+from conf.constants import ORGANISATIONS_URL, SITES_URL
 
 
 def get_organisations(request):
@@ -9,4 +9,9 @@ def get_organisations(request):
 
 def post_organisations(request, json):
     data = post(request, ORGANISATIONS_URL, json)
+    return data.json(), data.status_code
+
+
+def get_organisations_sites(request, pk):
+    data = get(request, ORGANISATIONS_URL + pk + SITES_URL)
     return data.json(), data.status_code

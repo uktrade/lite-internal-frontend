@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from conf.settings import env
-from organisations.services import get_organisations
+from organisations.services import get_organisations, get_organisations_sites
 
 
 class OrganisationList(TemplateView):
@@ -21,9 +21,11 @@ class OrganisationList(TemplateView):
 class OrganisationDetail(TemplateView):
 
     def get(self, request, **kwargs):
-        response = requests.get(env("LITE_API_URL") + '/organisations/' + kwargs['pk'] + '/').json()
+        organisation = requests.get(env("LITE_API_URL") + '/organisations/' + str(kwargs['pk']) + '/').json()
+        sites, status_code = get_organisations_sites(request, str(kwargs['pk']))
         context = {
-            'data': response,
-            'title': response['organisation']['name'],
+            'organisation': organisation['organisation'],
+            'title': organisation['organisation']['name'],
+            'sites': sites['sites'],
         }
         return render(request, 'organisations/organisation.html', context)
