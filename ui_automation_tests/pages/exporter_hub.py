@@ -32,3 +32,9 @@ class ExporterHub():
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(".govuk-button").click()
+
+    def click_sites(self):
+        self.driver.find_element_by_css_selector("a[href='/sites/']").click()
+
+    def click_new_site(self):
+        self.driver.find_element_by_css_selector("a[href*='/sites/new/']").click()
