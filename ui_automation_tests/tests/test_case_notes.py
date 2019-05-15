@@ -85,9 +85,14 @@ def test_case_notes_empty_note_space_char_max(driver, internal_url, exporter_url
 
     max_characters = utils.repeat_to_length(" ", 2200)
     case_view_page.enter_case_note(max_characters)
+    case_view_page.click_post_note_btn()
 
-    post_disabled = driver.find_element_by_id("button-post-note").get_attribute("disabled") == "true"
-    assert post_disabled, "should not be able to post an empty case note with space characters"
+    error_message = driver.find_element_by_css_selector("h1").text
+    error_body = driver.find_elements_by_css_selector(".govuk-body")
+
+    assert error_message == "An error occurred", "should not be able to post an empty case note with space characters"
+    assert error_body[0].text == "Case note may not be blank.", "should not be able to post an empty case note with space characters"
+    assert error_body[1].text == "You can go back by clicking the back button at the top of the page.", "should not be able to post an empty case note with space characters"
 
 
 def test_case_notes_too_many_chars(driver, internal_url, exporter_url):
@@ -124,7 +129,6 @@ def test_case_notes_too_many_chars(driver, internal_url, exporter_url):
 
     case_note_warning = case_view_page.get_case_note_warning()
     assert case_note_warning == "You have 1 character too many"
-
     post_disabled = driver.find_element_by_id("button-post-note").get_attribute("disabled") == "true"
     assert post_disabled
 
