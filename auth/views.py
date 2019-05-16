@@ -67,6 +67,7 @@ class AuthCallbackView(View):
 
 class AuthLogoutView(TemplateView):
     def get(self, request, **kwargs):
+        logout(request)
         return redirect(env("AUTHBROKER_URL") + '/logout/')
 
 
