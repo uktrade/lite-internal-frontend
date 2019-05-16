@@ -9,7 +9,7 @@ class ProtectAllViewsMiddleware:
     def __call__(self, request):
 
         if resolve(request.path).app_name != 'authbroker_client' and not request.user.is_authenticated:
-            return redirect('authbroker:login')
+            return redirect('authbroker_client:login')
 
         response = self.get_response(request)
 

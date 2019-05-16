@@ -82,9 +82,9 @@ TEMPLATES = [
 ]
 
 # Authbroker config
-AUTHBROKER_URL = 'speak-to-webops-team-for-access'
-AUTHBROKER_CLIENT_ID = 'speak-to-webops-team-for-access'
-AUTHBROKER_CLIENT_SECRET = 'speak-to-webops-team-for-access'
+AUTHBROKER_URL = env('AUTHBROKER_URL')
+AUTHBROKER_CLIENT_ID = env('AUTHBROKER_CLIENT_ID')
+AUTHBROKER_CLIENT_SECRET = env('AUTHBROKER_CLIENT_SECRET')
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -93,9 +93,9 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_URL = reverse_lazy('authbroker_client:login')
 
-LOGIN_REDIRECT_URL = reverse_lazy('home_page')
+LOGIN_REDIRECT_URL = '/'
 
-AUTH_USER_MODEL = 'auth.models.User'
+AUTH_USER_MODEL = 'auth.User'
 
 WSGI_APPLICATION = 'conf.wsgi.application'
 

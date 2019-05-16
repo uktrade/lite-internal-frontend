@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login
 
 from raven.contrib.django.raven_compat.models import client
-from conf.utils import get_client, AUTHORISATION_URL, TOKEN_URL, \
+from auth.utils import get_client, AUTHORISATION_URL, TOKEN_URL, \
     TOKEN_SESSION_KEY
 
 
