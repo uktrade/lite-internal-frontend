@@ -19,6 +19,8 @@ python-json-logger = "==0.1.11"
 requests = "==2.21.0"
 stringcase = "==1.2.0"
 django-inline-svg = "*"
+django-staff-sso-client = "*"
+requests-oauthlib = "*"
 
 [requires]
 python_version = "3.7"

@@ -22,4 +22,5 @@ urlpatterns = [
     path('cases/', include('cases.urls')),
     path('organisations/', include('organisations.urls')),
     path('organisations/register/', include('register_business.urls')),
+    path('auth/', include('authbroker_client.urls', namespace='authbroker')),
 ]
