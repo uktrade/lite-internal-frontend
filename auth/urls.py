@@ -1,10 +1,11 @@
 from django.urls import path
 
-from auth.views import AuthView, AuthCallbackView
+from auth import views
 
 app_name = 'authbroker_client'
 
 urlpatterns = [
-    path('login/', AuthView.as_view(), name='login'),
-    path('callback/', AuthCallbackView.as_view(), name='callback'),
+    path('login/', views.AuthView.as_view(), name='login'),
+    path('callback/', views.AuthCallbackView.as_view(), name='callback'),
+    path('logout/', views.AuthLogoutView.as_view(), name='logout'),
 ]

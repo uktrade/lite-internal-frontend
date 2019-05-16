@@ -1,12 +1,16 @@
-from django.views.generic.base import RedirectView, View
-from django.shortcuts import redirect
+import requests
+from django.views.generic.base import RedirectView, View, TemplateView
+from django.shortcuts import redirect, render
 from django.http import HttpResponseBadRequest, HttpResponseServerError
 from django.conf import settings
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from raven.contrib.django.raven_compat.models import client
 from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_URL, \
     TOKEN_SESSION_KEY
+
+from conf.client import get
+from conf.settings import env
 
 
 class AuthView(RedirectView):
@@ -59,3 +63,10 @@ class AuthCallbackView(View):
             login(request, user)
 
         return redirect(getattr(settings, 'LOGIN_REDIRECT_URL', '/'))
+
+
+class AuthLogoutView(TemplateView):
+    def get(self, request, **kwargs):
+        return redirect(env("AUTHBROKER_URL") + '/logout/')
+
+

@@ -67,7 +67,7 @@
 
 			{% if user %}
 				<div id="user-menu">
-					<a>Log out</a>
+					<a href="{% url 'authbroker:logout' %}">Log out</a>
 					<div class="divider"></div>
 					<div id="lite-menu-wrapper">
 						<a id="lite-menu-button" onclick="toggleLITEMenu();return false;" href="/menu/" title="Open Menu" accesskey="m"></a>
