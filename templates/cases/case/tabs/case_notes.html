@@ -4,10 +4,10 @@
 	<div class="govuk-grid-column-two-thirds">
 		<form method="post">
 			{% csrf_token %}
-			<div class="lite-expandable-textarea">
+			<div class="lite-expandable-textarea lite-case-note-no-transition">
 				<textarea id="case_note" name="text" cols="80" class="govuk-textarea" placeholder="Add case note"></textarea>
 				<div class="lite-expandable-textarea-controls">
-					<a href="{% url 'cases:case' data.case.id %}" class="govuk-button govuk-button--secondary" type="button" draggable="false">
+					<a id="case-note-cancel-button" href="{% url 'cases:case' data.case.id %}" class="govuk-button govuk-button--secondary" type="button" draggable="false">
 						Cancel
 					</a>
 					<p id="case_note-warning" class="govuk-hint govuk-character-count__message" aria-live="polite">
@@ -29,7 +29,7 @@
 								<p>-</p>
 								<p>GOV USER</p>
 								<p>-</p>
-								<p>{{ case_note.created_at|str_date|naturaltime }}</p>
+								<p>{{ case_note.created_at|str_date }}</p>
 							</div>
 						</div>
 						<p class="govuk-body">{{ case_note.text }}</p>

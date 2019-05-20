@@ -1,6 +1,11 @@
 $(".lite-expandable-textarea-controls").addClass("lite-expandable-textarea-controls--hidden");
 $(".case_note-warning").addClass("govuk-hint--hidden");
 
+setTimeout(
+	function() {
+		$(".lite-expandable-textarea").removeClass("lite-case-note-no-transition");
+	}, 400);
+
 $("#case_note").on('input propertychange paste', function() {
 	if ($(this).val() != '') {
 		$(".lite-expandable-textarea-controls").removeClass("lite-expandable-textarea-controls--hidden");
@@ -35,4 +40,10 @@ $("#case_note").on('input propertychange paste', function() {
 			$("#button-post-note").attr("disabled", false);
 		}
 	}
+});
+
+$("#case-note-cancel-button").on("click", function() {
+	$("#case_note").val("");
+	$("#case_note").trigger("input");
+	return false;
 });

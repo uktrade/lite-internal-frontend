@@ -18,12 +18,11 @@
 
 .lite-case-note--new {
 	animation-name: new-case-note;
-	animation-duration: .5s;
+	animation-duration: 0.5s;
 	animation-timing-function: cubic-bezier(0.075, 0.820, 0.5, 1.2);
 	animation-fill-mode: both;
 	transform-origin: 50% 0;
 }
-
 @keyframes new-case-note {
 	0% {
 		transform: scale(0.7);
@@ -119,4 +118,11 @@
 		width: 2px;
 		background: darken(govuk-colour("grey-4"), 4%);
 	}
+}
+
+.lite-case-note-no-transition * {
+	-webkit-transition: none !important;
+	-moz-transition: none !important;
+	-o-transition: none !important;
+	transition: none !important;
 }
