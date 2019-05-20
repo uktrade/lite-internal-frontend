@@ -8,7 +8,7 @@ $("#case_note").on('input propertychange paste', function() {
 		$(".lite-expandable-textarea-controls").addClass("lite-expandable-textarea-controls--hidden");
 	}
 
-	if ($(this).val().length > 1000) {
+	if ($(this).val().length > 1200) {
 		$("#case_note-warning").text("You have " + (2200 - $(this).val().length) + " character" + pluralize(2200 - $(this).val().length) + " remaining");
 	} else {
 		$("#case_note-warning").text("You can enter up to 2200 characters");
