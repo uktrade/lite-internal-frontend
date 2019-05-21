@@ -36,6 +36,9 @@ class ManageCasesPage():
     def click_post_note_btn(self):
         self.driver.find_element_by_id("button-post-note").click()
 
+    def click_cancel_btn(self):
+        self.driver.find_element_by_id("case-note-cancel-button").click()
+
     def get_case_note_warning(self):
         time.sleep(1)
         return self.driver.find_element_by_id("case_note-warning").text
