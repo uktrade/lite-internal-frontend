@@ -15,12 +15,13 @@ def pytest_exception_interact(node, report):
 def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
     if env == 'None':
-        env = "dev"
+        env = "uat"
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
     parser.addoption("--exporter_url", action="store", default="https://lite-exporter-frontend-" + env + ".london.cloudapps.digital/", help="url")
     parser.addoption("--internal_url", action="store", default="https://lite-internal-frontend-" + env + ".london.cloudapps.digital/", help="url")
-
+    # parser.addoption("--exporter_url", action="store", default="http://localhost:9000/", help="url")
+    # parser.addoption("--internal_url", action="store", default="http://localhost:7000/", help="url")
 
 # Create driver fixture that initiates chrome
 @pytest.fixture(scope="module", autouse=True)

@@ -1,6 +1,6 @@
 class ExporterHub():
 
-    # called e time you create an object for this class
+    # called every time you create an object for this class
     def __init__(self, driver):
         self.driver = driver
 
@@ -32,6 +32,7 @@ class ExporterHub():
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(".govuk-button").click()
+
 
     def click_apply_for_a_licence(self):
         self.driver.find_element_by_css_selector("a[href*='/new-application/']").click()
@@ -69,5 +70,8 @@ class ExporterHub():
         self.click_submit_application()
 
 
+    def click_sites(self):
+        self.driver.find_element_by_css_selector("a[href='/sites/']").click()
 
-
+    def click_new_site(self):
+        self.driver.find_element_by_css_selector("a[href*='/sites/new/']").click()

@@ -34,7 +34,7 @@ def test_register_a_business(driver, open_internal_hub, internal_url):
 
     time_id = datetime.datetime.now().strftime("%m%d%H%M%S")
 
-    register_a_business_page.enter_business_name("Test Business " + time_id)
+    register_a_business_page.enter_business_name("Test Business T" + time_id)
     register_a_business_page.enter_eori_number("GB987654312000")
     register_a_business_page.enter_sic_number("73200")
     register_a_business_page.enter_vat_number("123456789")
