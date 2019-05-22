@@ -28,8 +28,11 @@
 				<p class="lite-heading-s">Address</p>
 				<p class="govuk-label">
 					{{ organisation.primary_site.address.address_line_1 }}<br/>
-					{{ organisation.primary_site.address.postcode }}<br/>
+					{% if organisation.site.address.address_line_2 %}
+						{{ organisation.site.address.address_line_2 }}<br/>
+					{% endif %}
 					{{ organisation.primary_site.address.city }}<br/>
+					{{ organisation.primary_site.address.postcode }}<br/>
 					{{ organisation.primary_site.address.country }}
 				</p>
 			</div>
@@ -62,8 +65,11 @@
 						</td>
 						<td class="govuk-table__cell">
 							{{ site.address.address_line_1 }}<br/>
-							{{ site.address.postcode }}<br/>
+							{% if site.address.address_line_2 %}
+								{{ site.address.address_line_2 }}<br/>
+							{% endif %}
 							{{ site.address.city }}<br/>
+							{{ site.address.postcode }}<br/>
 							{{ site.address.country }}
 						</td>
 					</tr>
