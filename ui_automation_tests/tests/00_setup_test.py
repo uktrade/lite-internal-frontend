@@ -4,18 +4,13 @@ from pages.register_a_business_page import RegisterABusinessPage
 from pages.dit_hub_page import DepartmentOfInternationalTradeHub
 from pages.organisations_page import OrganisationsPage
 import pytest
+import requests
+
 import logging
 
 log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
-
-@pytest.fixture(scope="function")
-def open_internal_hub(driver, internal_url):
-    driver.get(internal_url)
-    # driver.maximize_window()
-    log.info(driver.current_url)
-
 
 def test_new_organisation_setup(driver, open_internal_hub):
     log.info("Setting up new organisation")
