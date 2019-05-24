@@ -14,7 +14,7 @@ def pytest_exception_interact(node, report):
 def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
     if env == 'None':
-        env = "dev"
+        env = "uat"
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
     parser.addoption("--exporter_url", action="store", default="https://lite-exporter-frontend-" + env + ".london.cloudapps.digital/", help="url")
