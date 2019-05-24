@@ -67,7 +67,7 @@
 
 			{% if user %}
 				<div id="lite-user-menu">
-					<a href="/logout/" class="lite-user-menu-button">
+					<a href="{% url 'authbroker:logout' %}" class="lite-user-menu-button">
 						Log out
 					</a>
 
@@ -92,7 +92,7 @@
 					<div class="lite-user-menu-divider"></div>
 
 					<a class="lite-user-menu-button" href="#">
-						Matt
+						{{ user.first_name }}
 						<div class="lite-user-menu-button--user">
 							{% svg 'user' %}
 						</div>
