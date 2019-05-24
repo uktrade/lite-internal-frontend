@@ -14,13 +14,6 @@ console = logging.StreamHandler()
 log.addHandler(console)
 
 
-@pytest.fixture(scope="function")
-def open_internal_hub(driver, internal_url):
-    driver.get(internal_url)
-    # driver.maximize_window()
-    log.info(driver.current_url)
-
-
 def test_register_a_business(driver, open_internal_hub, internal_url):
     dit_hub_page = DepartmentOfInternationalTradeHub(driver)
     register_a_business_page = RegisterABusinessPage(driver)

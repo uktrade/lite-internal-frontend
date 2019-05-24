@@ -17,14 +17,7 @@ log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
 
-@pytest.fixture(scope="function")
-def open_internal_hub(driver, internal_url):
-    driver.get(internal_url)
-    # driver.maximize_window()
-    log.info(driver.current_url)
-
-
-def test_change_status(driver, internal_url, exporter_url):
+def test_change_status(driver, open_internal_hub, internal_url, exporter_url):
     log.info("Test Started")
     exporter_hub = ExporterHub(driver)
     dit_hub_page = DepartmentOfInternationalTradeHub(driver)
@@ -87,7 +80,7 @@ def test_change_status(driver, internal_url, exporter_url):
     print("Test Complete")
 
 
-def test_view_submitted_cases_in_work_queue(driver, exporter_url, internal_url):
+def test_view_submitted_cases_in_work_queue(driver, open_internal_hub, exporter_url, internal_url):
     exporter_hub = ExporterHub(driver)
     dit_hub_page = DepartmentOfInternationalTradeHub(driver)
 
@@ -149,7 +142,7 @@ def test_view_submitted_cases_in_work_queue(driver, exporter_url, internal_url):
     log.info("Test Complete")
 
 
-def test_record_decision(driver, exporter_url, internal_url):
+def test_record_decision(driver, open_internal_hub, exporter_url, internal_url):
     exporter_hub = ExporterHub(driver)
     dit_hub_page = DepartmentOfInternationalTradeHub(driver)
 
