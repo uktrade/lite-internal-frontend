@@ -95,7 +95,7 @@ LOGIN_URL = reverse_lazy('authbroker_client:login')
 
 LOGIN_REDIRECT_URL = '/'
 
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'core.User'
 
 WSGI_APPLICATION = 'conf.wsgi.application'
 
