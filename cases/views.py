@@ -109,9 +109,12 @@ class DenyCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
 
-        form = Form('Deny case', '', questions=[
-            ArrayQuestion('Select a reason', '', InputType.CHECKBOXES, 'reasons', get_denial_reasons(None)),
-            Question('Explain in more detail why', '', InputType.TEXTAREA, 'reasoning')
-        ])
+        form = Form('Why do you want to deny this case?', 'Select all that apply.', get_denial_reasons(None))
+
+        form.questions.append(Question('Add any additional information to support your denial',
+                                       '',
+                                       InputType.TEXTAREA,
+                                       'reasoning',
+                                       optional=True))
 
         return form_page(request, form)
