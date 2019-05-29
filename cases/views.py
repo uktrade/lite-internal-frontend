@@ -109,7 +109,8 @@ class DenyCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
 
-        form = Form('Why do you want to deny this case?', 'Select all that apply.', get_denial_reasons(None))
+        form = Form('Why do you want to deny this case?', 'Select all that apply.', get_denial_reasons(None),
+                    default_button_name='Submit denial')
 
         form.questions.append(Question('Add any additional information to support your denial',
                                        '',
