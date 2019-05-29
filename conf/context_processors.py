@@ -21,7 +21,7 @@ def lite_menu(request):
 			{
 				'title': 'Departments',
 				'url': '/departments/',
-				'icon': 'menu/businesses'
+				'icon': 'menu/departments'
 			}
 		]
 	}
