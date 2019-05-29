@@ -6,7 +6,9 @@ from conf.settings import env
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
-from libraries.forms.helpers import error_page
+from core.services import get_denial_reasons
+from libraries.forms.components import Form, Question, InputType, ArrayQuestion, HelpSection
+from libraries.forms.generators import error_page, form_page
 
 
 def index(request):
@@ -101,3 +103,15 @@ class DecideCase(TemplateView):
             return redirect('/cases/' + case_id + '/manage')
 
         return redirect('/cases/' + case_id)
+
+
+class DenyCase(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+
+        form = Form('Deny case', '', questions=[
+            ArrayQuestion('Select a reason', '', InputType.CHECKBOXES, 'reasons', get_denial_reasons(None)),
+            Question('Explain in more detail why', '', InputType.TEXTAREA, 'reasoning')
+        ])
+
+        return form_page(request, form)
