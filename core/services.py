@@ -1,6 +1,6 @@
 from conf.client import get
 from conf.constants import DENIAL_REASONS_URL
-from libraries.forms.components import Option, ArrayQuestion, InputType, Heading, HeadingStyle
+from libraries.forms.components import Option, ArrayQuestion, InputType
 
 
 def get_denial_reasons(request):
@@ -25,7 +25,5 @@ def get_denial_reasons(request):
         questions.append(
             ArrayQuestion('', '', InputType.CHECKBOXES, 'reasons', options, same_row=True)
         )
-
-    print(questions)
 
     return questions
