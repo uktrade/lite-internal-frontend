@@ -61,13 +61,13 @@
 {% if data.case.application.application_denial_reason %}
 	<h3 class="govuk-heading-m">Denial Reasons</h3>
 	{% for reason in data.case.application.application_denial_reason %}
-		<p class="govuk-heading-s">This case was denied because:</p>
+		<p class="govuk-heading-s">This case was denied because</p>
 		{% for reason_id in reason.reasons %}
 			<p class="govuk-label">{{ reason_id.id }}</p>
 		{% endfor %}
 		{% if reason.reasoning %}
 			<br/>
-			<p class="govuk-heading-s">Further information:</p>
+			<p class="govuk-heading-s">Further information</p>
 			<p class="govuk-label">{{ reason.reasoning }}</p>
 		{% endif %}
 	{% endfor %}
