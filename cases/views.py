@@ -116,7 +116,7 @@ class DenyCase(TemplateView):
 
         data = {
             'reasons': request.POST.getlist('reasons'),
-            'reasoning': request.POST['reasoning'],
+            'reason_details': request.POST['reason_details'],
             'status': 'under_final_review',
         }
 

@@ -65,10 +65,10 @@
 		{% for reason_id in reason.reasons %}
 			<p class="govuk-label">{{ reason_id.id }}</p>
 		{% endfor %}
-		{% if reason.reasoning %}
+		{% if reason.reason_details %}
 			<br/>
 			<p class="govuk-heading-s">Further information</p>
-			<p class="govuk-label">{{ reason.reasoning }}</p>
+			<p class="govuk-label">{{ reason.reason_details }}</p>
 		{% endif %}
 	{% endfor %}
 	<br/><br/>

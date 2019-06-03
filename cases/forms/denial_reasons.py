@@ -9,7 +9,7 @@ def denial_reasons_form():
     form.questions.append(Question('Add any additional information to support your denial',
                                    '',
                                    InputType.TEXTAREA,
-                                   'reasoning',
+                                   'reason_details',
                                    optional=True))
 
     return form
