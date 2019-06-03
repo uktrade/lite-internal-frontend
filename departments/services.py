@@ -18,5 +18,5 @@ def get_department(request, pk):
 
 
 def update_department(request, pk, json):
-	data = put(request, DEPARTMENTS_URL + pk + "/", json)
-	return data.json(), data.status_code
+    data = put(request, DEPARTMENTS_URL + pk + "/", json)
+    return data.json(), data.status_code
