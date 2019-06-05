@@ -29,6 +29,7 @@ jobs:
       - run:
           name: repository vulnerability check
           command: |
+            echo "lite-cicircle:${CICIRCLE_PERSONAL_ACCESS_TOKEN}"
             echo `curl -s -u "lite-cicircle:${CICIRCLE_PERSONAL_ACCESS_TOKEN}" \
               -X POST -H "Content-Type: application/json" \
               -H "Accept: application/vnd.github.vixen-preview+json" \
