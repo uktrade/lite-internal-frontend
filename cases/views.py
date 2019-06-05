@@ -94,6 +94,9 @@ class DecideCase(TemplateView):
         case_id = applicant_case.get('case').get('id')
         application_id = applicant_case.get('case').get('application').get('id')
 
+        if request.POST['status'] == 'declined':
+            return redirect(reverse('cases:deny', kwargs={'pk': str(pk)}))
+
         # PUT form data
         response = requests.put(env("LITE_API_URL") + '/applications/' + application_id + '/',
                                 json=request.POST).json()
