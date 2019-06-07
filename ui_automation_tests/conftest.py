@@ -15,7 +15,7 @@ def pytest_exception_interact(node, report):
 def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
     if env == 'None':
-        env = "uat"
+        env = "dev"
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
     parser.addoption("--exporter_url", action="store", default="https://lite-exporter-frontend-" + env + ".london.cloudapps.digital/", help="url")
@@ -49,13 +49,17 @@ def exporter_url(request):
 def internal_url(request):
     return request.config.getoption("--internal_url")
 
-@pytest.fixture(scope="module")
-def sign_in_url(request):
-    return request.config.getoption("--sso_sign_in_url")
+# @pytest.fixture(scope="module")
+# def sign_in_url(request):
+#     return request.config.getoption("--sso_sign_in_url")
 
 @pytest.fixture(scope="module")
 def invalid_username():
     return "invalid@mail.com"
+
+@pytest.fixture(scope="module")
+def internal_login_url():
+    return "https://sso.trade.uat.uktrade.io/login/"
 
 @pytest.fixture(scope="function")
 def open_internal_hub(driver, internal_url, sign_in_url):
@@ -68,6 +72,45 @@ def open_internal_hub(driver, internal_url, sign_in_url):
 
 # applying for licence
 # there might be some redundant code below
+
+
+@given('I go to internal homepage')
+def go_to_internal_homepage(driver, internal_url, internal_login_url):
+    driver.get(internal_login_url)
+    driver.find_element_by_name("username").send_keys("test-uat-user@digital.trade.gov.uk")
+    driver.find_element_by_name("password").send_keys("5cCIlffSrqszgOuw23VEOECnM")
+    driver.find_element_by_css_selector("[type='submit']").click()
+    driver.get(internal_url)
+
+
+@given('I go to exporter homepage')
+def go_to_exporter(driver, exporter_url):
+    driver.get(exporter_url)
+
+
+@when('I go to exporter homepage')
+def go_to_exporter_when(driver, exporter_url):
+    driver.get(exporter_url)
+
+
+@when(parsers.parse('I login to exporter homepage with username "{username}" and "{password}"'))
+def login_to_exporter(driver, username, password):
+    exporter_hub = ExporterHubPage(driver)
+    if "login" in driver.current_url:
+        exporter_hub.login(username, password)
+
+
+@when(parsers.parse('I login to exporter homepage with context after edit'))
+def login_to_exporter(driver, password):
+    exporter_hub = ExporterHubPage(driver)
+    if "login" in driver.current_url:
+        exporter_hub.login(context.edited_email, password)
+
+
+# utils
+@then(parsers.parse('driver title equals "{expected_text}"'))
+def assert_title_text(driver, expected_text):
+    assert driver.title == expected_text
 
 
 @when('I click on apply for a license button')
