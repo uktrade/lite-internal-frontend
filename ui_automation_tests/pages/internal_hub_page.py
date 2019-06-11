@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import Select
 import time
 
+
 class InternalHubPage():
 
     # called e time you create an object for this class

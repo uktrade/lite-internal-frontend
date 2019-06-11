@@ -6,6 +6,7 @@ log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
 
+
 class ApplyForALicencePage():
 
     def __init__(self, driver):
