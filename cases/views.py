@@ -50,14 +50,13 @@ class ViewCase(TemplateView):
         if status_code != 201:
             error = response.get('errors').get('text')[0]
             error = error.replace('This field', 'Case note')
-            error = error.replace('this field', 'the case note')
+            error = error.replace('this field', 'the case note') # TODO: Move to API
             return error_page(request, error)
 
         return redirect('/cases/' + case_id + '#case_notes')
 
 
 class ManageCase(TemplateView):
-
     def get(self, request, pk):
         response = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/').json()
         context = {
@@ -72,10 +71,9 @@ class ManageCase(TemplateView):
         application_id = applicant_case.get('case').get('application').get('id')
 
         # PUT form data
-        response = requests.put(env("LITE_API_URL") + '/applications/' + application_id + '/',
-                                json=request.POST).json()
+        data, status_code = put_applications(request, application_id, request.POST)
 
-        if 'errors' in response:
+        if 'errors' in data:
             return redirect('/cases/' + case_id + '/manage')
 
         return redirect('/cases/' + case_id)

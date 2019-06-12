@@ -35,7 +35,7 @@
 					<div class="lite-activity-item">
 						<p class="govuk-body" style="margin-bottom: 0;">
 							{% for key, value in item.data.items %}
-								{% if forloop.first %}<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span> set{% endif %} the <span class="highlight">{{ key }}</span> to <span class="highlight">{{ value|sentence_case }}</span>{% if not forloop.last %}{% ifequal forloop.revcounter 2 %} and {% else %}, {% endifequal %}{% else %}.{% endif %}
+								{% if forloop.first %}<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span> set{% endif %} the <span class="highlight">{{ key }}</span> to <span class="highlight">{{ value|sentence_case|lower }}</span>{% if not forloop.last %}{% ifequal forloop.revcounter 2 %} and {% else %}, {% endifequal %}{% else %}.{% endif %}
 							{% endfor %}
 						</p>
 						<p class="govuk-hint govuk-!-font-size-16" style="margin-top: 10px;">{{ item.date|str_date }}</p>
