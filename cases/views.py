@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from cases.forms.denial_reasons import denial_reasons_form
-from cases.services import get_case, get_case_notes, post_case_notes, put_applications
+from cases.services import get_case, get_case_notes, post_case_notes, put_applications, get_activity
 from conf.settings import env
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
@@ -33,12 +33,12 @@ class ViewCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
-        case_notes, status_code = get_case_notes(request, case_id)
+        activity, status_code = get_activity(request, case_id)
 
         context = {
             'data': case,
             'title': case.get('case').get('application').get('name'),
-            'case_notes': case_notes.get('case_notes'),
+            'activity': activity.get('activity'),
         }
         return render(request, 'cases/case/index.html', context)
 
