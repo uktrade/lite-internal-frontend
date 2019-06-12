@@ -1,5 +1,16 @@
+import datetime
+from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+from pages.apply_for_a_licence_page import ApplyForALicencePage
+from pages.application_overview_page import ApplicationOverviewPage
+from pages.application_goods_list import ApplicationGoodsList
+import helpers.helpers as utils
+from pages.exporter_hub_page import ExporterHubPage
+from pages.hub_page import Hub
+from pages.shared import Shared
+from conftest import context
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
+
+scenarios('../features/submit_application.feature', strict_gherkin=False)
 
 import logging
 log = logging.getLogger()
@@ -7,161 +18,147 @@ console = logging.StreamHandler()
 log.addHandler(console)
 
 
-class ApplyForALicencePage():
+@when('I click on apply for a license button')
+def click_apply_licence(driver):
+    exporter = ExporterHubPage(driver)
+    exporter.click_apply_for_a_licence()
 
-    def __init__(self, driver):
-        self.driver = driver
 
-        self.apply_for_a_licence_btn = "a[href*='/apply_for_a_licence/']"
-        self.drafts_btn = "a[href*='/drafts/']"
-        self.name_or_reference_input_id = "name"
-        self.control_code_input_id = "control_code"
-        self.destination_input_id = "destination"
-        self.usage_input_id = "usage"
-        self.activity_input_id = "activity"
-        self.standard_licence_button = "input#licence_type-standard_licence"
-        self.open_licence_button = "input#licence_type-open_licence"
-        self.submit_button = "button[type*='submit']"
-        self.export_button = "export_type-"
-        self.export_licence_yes_or_no = "have_you_been_informed-"
-        self.reference_number = "reference_number_on_information_form"
-        self.licence_application_headers = ".govuk-table__header"
-        self.success_message = ".govuk-panel__title"
-        self.licence_application_values = ".govuk-table__cell"
-        self.start_now_btn = "a[href*='/start']"
-        self.application_is_submitted = '.govuk-panel__title'
-        self.delete_application_button = '.cancel-link' #css
+@then('I see the application overview')
+def i_see_the_application_overview(driver):
+    time_date_submitted = datetime.datetime.now().strftime("%I:%M%p").lstrip("0").replace(" 0", " ").lower() + datetime.datetime.now().strftime(" %d %B %Y")
+    apply = ApplyForALicencePage(driver)
+    assert apply.get_text_of_application_headers(0) == "Name"
+    assert apply.get_text_of_application_headers(1) == "Licence Type"
+    assert apply.get_text_of_application_headers(2) == "Export Type"
+    assert apply.get_text_of_application_headers(3) == "Reference Number"
+    assert apply.get_text_of_application_headers(4) == "Created at"
+    assert apply.get_text_of_application_results(1) == context.type+"_licence"
+    assert apply.get_text_of_application_results(2) == context.perm_or_temp
+    assert apply.get_text_of_application_results(3) == context.ref
+    # assert apply_for_licence.get_text_of_application_results(3) == datetime.datetime.now().strftime("%b %d %Y, %H:%M%p")
+    assert time_date_submitted in apply.get_text_of_application_results(4), "Created date is incorrect on draft overview"
+    app_id = driver.current_url[-36:]
+    context.app_id = app_id
 
-    def enter_name_or_reference_for_application(self, name):
-        self.driver.find_element_by_id(self.name_or_reference_input_id).clear()
-        self.driver.find_element_by_id(self.name_or_reference_input_id).send_keys(name)
 
-    def enter_control_code(self, controlCode):
-        self.driver.find_element_by_id(self.control_code_input_id).clear()
-        self.driver.find_element_by_id(self.control_code_input_id).send_keys(controlCode)
+@when('I click drafts')
+def i_click_drafts(driver):
+    hub_page = Hub(driver)
+    hub_page.click_drafts()
 
-    def enter_destination(self, destination):
-        self.driver.find_element_by_id(self.destination_input_id).clear()
-        self.driver.find_element_by_id(self.destination_input_id).send_keys(destination)
 
-    def enter_usage(self, usage):
-        self.driver.find_element_by_id(self.usage_input_id).clear()
-        self.driver.find_element_by_id(self.usage_input_id).send_keys(usage)
+@when('I click applications')
+def i_click_applications(driver):
+    hub_page = Hub(driver)
+    hub_page.click_applications()
 
-    def enter_activity(self, activity):
-        self.driver.find_element_by_id(self.activity_input_id).clear()
-        self.driver.find_element_by_id(self.activity_input_id).send_keys(activity)
 
-    def click_start_now_btn(self):
-        self.driver.find_element_by_css_selector(self.start_now_btn).click()
+@when('I delete the application')
+def i_delete_the_application(driver):
+    apply = ApplyForALicencePage(driver)
+    apply.click_delete_application()
+    assert 'Exporter Hub - LITE' in driver.title, "failed to go to Exporter Hub page after deleting application from application overview page"
 
-    def click_save_and_continue(self):
-        self.driver.find_element_by_css_selector(self.submit_button).click()
 
-    def click_submit_application(self):
-        self.driver.find_element_by_css_selector(self.submit_button).click()
+@when('I click the application')
+def i_click_the_application(driver):
+    drafts_table = driver.find_element_by_class_name("govuk-table")
+    drafts_table.find_element_by_xpath(".//td/a[contains(@href,'" + context.app_id + "')]").click()
+    assert "Overview" in driver.title
+    appName = driver.find_element_by_css_selector(".lite-persistent-notice .govuk-link").text
+    assert "Test Application" in appName
 
-    def click_continue(self):
-        self.click_save_and_continue()
 
-    def click_go_to_overview(self):
-        self.driver.find_element_by_xpath("//a[text()[contains(.,'Overview')]]").click()
+@when('I submit the application')
+def submit_the_application(driver):
+    apply = ApplyForALicencePage(driver)
+    apply.click_submit_application()
+    assert apply.get_text_of_success_message() == "Application submitted"
 
-    def click_delete_application(self):
-        self.driver.find_element_by_css_selector(self.delete_application_button).click()
-        self.driver.implicitly_wait(10)
-        self.driver.find_element_by_css_selector(".govuk-button--warning").click()
 
-    def click_submit_application(self):
-        self.driver.find_element_by_css_selector("button[type*='submit']").click()
+@then('I see no sites or external sites attached error message')
+def i_see_no_sites_attached_error(driver):
+    shared = Shared(driver)
+    assert "Cannot create an application with no goods attached" in shared.get_text_of_error_message()
+    assert "Cannot create an application with no sites or external sites attached" in shared.get_text_of_error_message_at_position_2()
 
-    def click_goods_link(self):
-        self.driver.find_element_by_xpath("//a[text()='Goods']").click()
 
-    def click_add_from_organisations_goods(self):
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'Add from organisations goods')]]").click()
+@when(parsers.parse('I click add to application for the good at position "{no}"'))
+def click_add_to_application_button(driver, no):
 
-    def add_good_to_application(self, des):
-        good = self.driver.find_element_by_xpath("//div[@class='lite-card']/h4[text()='" + des + "']")
-        # goods = self.driver.find_elements_by_xpath("//div[@class='lite-card']")
-        # for good in goods:
-        #     if good.find_element(By.TAG_NAME, "h4").text == des:
-        good.find_element(By.XPATH, "./following::div[1]/a[text()='Add to application']").click()
+    context.goods_name = driver.find_elements_by_css_selector('.lite-card .govuk-heading-s')[int(no)].text
+    context.part_number = driver.find_elements_by_css_selector('.lite-card .govuk-label')[int(no)].text
+    driver.find_elements_by_css_selector('a.govuk-button')[int(no)].click()
 
-    def enter_quantity(self, qty):
-        self.driver.find_element_by_id("quantity").clear()
-        self.driver.find_element_by_id("quantity").send_keys(qty)
 
-    def enter_value(self, value):
-        self.driver.find_element_by_id("value").clear()
-        self.driver.find_element_by_id("value").send_keys(value)
+@then('I see enter valid quantity and valid value error message')
+def valid_quantity_value_error_message(driver):
+    shared = Shared(driver)
+    assert "Error:\nEnter a valid value" in shared.get_text_of_error_message()
+    assert "Error:\nEnter a valid quantity" in shared.get_text_of_error_message_at_position_2()
 
-    def select_unit_of_measurement(self, unit):
-        select = Select(self.driver.find_element_by_id('unit'))
-        select.select_by_visible_text(unit)
 
-    def enter_description(self, description):
-        self.driver.find_element_by_id("description").clear()
-        self.driver.find_element_by_id("description").send_keys(description)
+@when('I click on the goods link from overview')
+def click_goods_link_overview(driver):
+    overview_page = ApplicationOverviewPage(driver)
+    driver.execute_script("document.getElementById('goods').scrollIntoView(true);")
+    overview_page.click_goods_link()
 
-    def enter_part_number(self, part_number):
-        self.driver.find_element_by_id("part_number").clear()
-        self.driver.find_element_by_id("part_number").send_keys(part_number)
 
-    def click_filter_btn(self):
-        self.driver.find_element_by_xpath("//button[text()[contains(.,'Filter')]]").click()
+@when(parsers.parse('I add values to my good of "{value}" quantity "{quantity}" and unit of measurement "{unit}"'))
+def enter_values_for_good(driver, value, quantity, unit):
+    context.quantity = quantity
+    context.value = value
+    context.unit = unit
+    application_goods_list = ApplicationGoodsList(driver)
+    application_goods_list.add_values_to_good(str(value), str(quantity), unit)
 
-    def click_export_licence(self, type):
-        logging.info(type)
-        if (type == "standard"):
-            return self.driver.find_element_by_css_selector(self.standard_licence_button).click()
-        elif (type == "open"):
-            return self.driver.find_element_by_css_selector(self.open_licence_button).click()
 
-    def click_permanent_or_temporary_button(self, string):
-        self.driver.find_element_by_id(self.export_button + string).click()
+@then('good is added to application')
+def good_is_added(driver):
+    unit = str(context.unit)
+    unit = unit.lower()
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='" + str(context.goods_name) + "']")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='" + str(context.quantity) + ".0 " + unit + "']")
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()='£" + str(context.value) + ".00']")
 
-    def click_export_licence_yes_or_no(self, string):
-        self.driver.find_element_by_id(self.export_licence_yes_or_no + string).click()
 
-    def get_text_of_application_headers(self, no):
-        return self.driver.find_elements_by_css_selector(self.licence_application_headers)[no].text
+@when('I click overview')
+def click_overview(driver):
+    application_goods_list = ApplicationGoodsList(driver)
+    application_goods_list.click_on_overview()
 
-    def get_text_of_application_results(self, no):
-        return self.driver.find_elements_by_css_selector(self.licence_application_values)[no].text
-    def click_export_licence(self, string):
-        if (string == "standard"):
-            self.driver.find_element_by_css_selector(self.standard_licence_button).click()
-        elif (string == "open"):
-            self.driver.find_element_by_css_selector(self.open_license_button).click()
 
-    def click_permanent_or_temporary_button(self, string):
-        self.driver.find_element_by_id(self.export_button + string).click()
+@then('application is submitted')
+def application_is_submitted(driver):
+    apply = ApplyForALicencePage(driver)
+    assert "Application submitted" in apply.application_submitted_text()
 
-    def click_export_licence_yes_or_no(self, string):
-        self.driver.find_element_by_id(self.export_licence_yes_or_no + string).click()
 
-    def get_text_of_application_headers(self, no):
-        return self.driver.find_elements_by_css_selector(self.licence_application_headers)[no].text
+@then('I see submitted application')
+def application_is_submitted(driver):
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + context.app_time_id + "')]]")
+    log.info("application found in submitted applications list")
 
-    def get_text_of_application_results(self, no):
-        return self.driver.find_elements_by_css_selector(self.licence_application_values)[no].text
+    # Check application status is Submitted
+    log.info("verifying application status is Submitted")
+    status = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()]")
+    last_updated = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()-1]")
+    goods = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()-2]")
+    assert status.is_displayed()
+    assert last_updated.is_displayed()
+    assert goods.is_displayed()
+    assert status.text == "Submitted", "Expected Status of application is to be 'Submitted' but is not"
+    assert "Good" in goods.text
+    assert driver.find_element_by_xpath("// th[text()[contains(., 'Status')]]").is_displayed()
+    assert driver.find_element_by_xpath("// th[text()[contains(., 'Last Updated')]]").is_displayed()
+    assert driver.find_element_by_xpath("// th[text()[contains(., 'Goods')]]").is_displayed()
+    assert driver.find_element_by_xpath("// th[text()[contains(., 'Reference')]]").is_displayed()
 
-    def get_text_of_success_message(self):
-        return self.driver.find_element_by_css_selector(self.success_message).text
+    logging.info("Test Complete")
 
-    def type_into_reference_number(self, string):
-        self.driver.find_element_by_id(self.reference_number).send_keys(string)
 
-    def enter_application_details_new(self, name, licence_type, temp_or_perm, need_licence, ref_number):
-        self.enter_name_or_reference_for_application(name)
-        self.click_save_and_continue()
-        self.click_export_licence(licence_type)
-        self.click_continue()
-        self.click_permanent_or_temporary_button(temp_or_perm)
-        self.click_continue()
-        self.click_export_licence_yes_or_no(need_licence)
-        self.type_into_reference_number(ref_number)
-
-    def application_submitted_text(self):
-        return self.driver.find_element_by_css_selector(self.application_is_submitted).text
+@then('I see the homepage')
+def i_see_the_homepage(driver):
+    assert 'Exporter Hub - LITE' in driver.title, "Delete Application link on overview page failed to go to Exporter Hub page"
