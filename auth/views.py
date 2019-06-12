@@ -1,16 +1,16 @@
-import requests
-from django.views.generic.base import RedirectView, View, TemplateView
-from django.shortcuts import redirect, render
-from django.http import HttpResponseBadRequest, HttpResponseServerError
+from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_URL, \
+    TOKEN_SESSION_KEY, get_profile
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
-
+from django.http import HttpResponseBadRequest, HttpResponseServerError
+from django.shortcuts import redirect
+from django.views.generic.base import RedirectView, View, TemplateView
 from raven.contrib.django.raven_compat.models import client
-from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_URL, \
-    TOKEN_SESSION_KEY
 
-from conf.client import get
+from auth.services import authenticate_gov_user
 from conf.settings import env
+from core.builtins.custom_tags import get_string
+from libraries.forms.generators import error_page
 
 
 class AuthView(RedirectView):
@@ -44,6 +44,9 @@ class AuthCallbackView(View):
                 client_secret=settings.AUTHBROKER_CLIENT_SECRET,
                 code=auth_code)
 
+            print('BANANA')
+            print(token)
+
             self.request.session[TOKEN_SESSION_KEY] = dict(token)
 
             del self.request.session[TOKEN_SESSION_KEY + '_oauth_state']
@@ -55,6 +58,15 @@ class AuthCallbackView(View):
         # would raise in this instance.
         except BaseException:
             client.captureException()
+
+        profile = get_profile(get_client(self.request))
+
+        response, status_code = authenticate_gov_user(profile)
+        if status_code != 200:
+            return error_page(None,
+                              title=get_string('authentication.user_does_not_exist.title'),
+                              description=get_string('authentication.user_does_not_exist.description'),
+                              show_back_link=False)
 
         # create the user
         user = authenticate(request)
