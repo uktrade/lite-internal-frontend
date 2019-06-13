@@ -7,9 +7,11 @@ APPLICATIONS_URL = '/applications/'
 CASE_NOTES_URL = '/case_notes/'
 CASE_DENIAL_REASONS_URL = '/denial_reasons/'
 SITES_URL = '/sites/'
+TEAMS_URL = '/teams/'
+QUEUES_URL = '/queues/'
 
 # Static URLs
 STATIC_URL = '/static/'
 DENIAL_REASONS_URL = STATIC_URL + 'denial-reasons/'
-TEAMS_URL = '/teams/'
+
 

@@ -1,22 +1,22 @@
 from conf.client import get, post, put
-from conf.constants import TEAMS_URL
+from conf.constants import QUEUES_URL
 
 
-def get_teams(request):
-    data = get(request, TEAMS_URL)
+def get_queues(request):
+    data = get(request, QUEUES_URL)
     return data.json(), data.status_code
 
 
-def post_teams(request, json):
-    data = post(request, TEAMS_URL, json)
+def post_queues(request, json):
+    data = post(request, QUEUES_URL, json)
     return data.json(), data.status_code
 
 
-def get_team(request, pk):
-    data = get(request, TEAMS_URL + pk)
+def get_queue(request, pk):
+    data = get(request, QUEUES_URL + pk)
     return data.json(), data.status_code
 
 
-def update_team(request, pk, json):
-    data = put(request, TEAMS_URL + pk + "/", json)
+def update_queue(request, pk, json):
+    data = put(request, QUEUES_URL + pk + "/", json)
     return data.json(), data.status_code
