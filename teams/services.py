@@ -20,3 +20,8 @@ def get_team(request, pk):
 def update_team(request, pk, json):
     data = put(request, TEAMS_URL + pk + "/", json)
     return data.json(), data.status_code
+
+
+def get_users_by_team(request, pk):
+    data = get(request, TEAMS_URL + pk + "/users")
+    return data.json(), data.status_code
