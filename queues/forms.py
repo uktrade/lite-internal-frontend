@@ -5,6 +5,10 @@ form = Form(title='Add Queue', description='', caption='', questions=[
              description='',
              input_type=InputType.INPUT,
              name='name'),
+    Question(title='Team',
+             description='',
+             input_type=InputType.INPUT,
+             name='team'),
 ])
 
 edit_form = Form(title='Edit Queue', description='', caption='', questions=[
