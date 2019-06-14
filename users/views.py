@@ -3,7 +3,10 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from libraries.forms.generators import form_page
+from teams.services import get_teams
 from users import forms
+from users.forms import add_user_form, edit_user_form
 from users.services import get_users, post_users, update_user, get_user
 
 
@@ -20,23 +23,14 @@ class UsersList(TemplateView):
 
 class AddUser(TemplateView):
     def get(self, request, **kwargs):
-        context = {
-            'title': 'Add User',
-            'page': forms.form,
-        }
-        return render(request, 'form.html', context)
+        teams = get_teams(request, True)
+        return form_page(request, add_user_form(teams))
 
     def post(self, request, **kwargs):
-        data, status_code = post_users(request, request.POST)
-
-        if status_code == 400:
-            context = {
-                'title': 'Add User',
-                'page': forms.form,
-                'data': request.POST,
-                'errors': data.get('errors')
-            }
-            return render(request, 'form.html', context)
+        response, status_code = post_users(request, request.POST)
+        teams = get_teams(request, True)
+        if status_code != 201:
+            return form_page(request, add_user_form(teams), data=request.POST, errors=response.get('errors'))
 
         return redirect(reverse_lazy('users:users'))
 
@@ -62,23 +56,14 @@ class ViewProfile(TemplateView):
 class EditUser(TemplateView):
     def get(self, request, **kwargs):
         data, status_code = get_user(request, str(kwargs['pk']))
-        context = {
-            'data': data.get('user'),
-            'title': 'Edit User',
-            'page': forms.edit_form,
-        }
-        return render(request, 'form.html', context)
+        teams = get_teams(request, True)
+        return form_page(request, edit_user_form(teams), data=data)
 
     def post(self, request, **kwargs):
-        data, status_code = update_user(request, str(kwargs['pk']), request.POST)
-        if status_code == 400:
-            context = {
-                'title': 'Add User',
-                'page': forms.form,
-                'data': request.POST,
-                'errors': data.get('errors')
-            }
-            return render(request, 'form.html', context)
+        response, status_code = update_user(request, str(kwargs['pk']), request.POST)
+        teams = get_teams(request, True)
+        if status_code != 200:
+            return form_page(request, edit_user_form(teams), data=request.POST, errors=response.get('errors'))
 
         return redirect(reverse_lazy('users:user', kwargs={'pk': str(kwargs['pk'])}))
 

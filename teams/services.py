@@ -1,9 +1,21 @@
 from conf.client import get, post, put
 from conf.constants import TEAMS_URL
+from libraries.forms.components import Option
 
 
-def get_teams(request):
+def get_teams(request, converted_to_options=False):
     data = get(request, TEAMS_URL)
+
+    if converted_to_options:
+        converted_units = []
+
+        for team in data.json().get('teams'):
+            converted_units.append(
+                Option(team.get('id'), team.get('name'))
+            )
+
+        return converted_units
+
     return data.json(), data.status_code
 
 
