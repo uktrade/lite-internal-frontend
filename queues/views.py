@@ -63,3 +63,5 @@ class EditQueue(TemplateView):
             return render(request, 'form.html', context)
 
         return redirect(reverse_lazy('queues:queues'))
+
+
