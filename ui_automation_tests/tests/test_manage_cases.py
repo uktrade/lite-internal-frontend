@@ -18,62 +18,7 @@ console = logging.StreamHandler()
 log.addHandler(console)
 
 def test_change_status(driver, open_internal_hub, internal_url, exporter_url):
-    log.info("Test Started")
-    exporter_hub = ExporterHub(driver)
-    dit_hub_page = DepartmentOfInternationalTradeHub(driver)
-    manage_cases_page = ManageCasesPage(driver)
 
-    # Submit application
-    log.info("submitting application on Exporter Hub")
-    exporter_hub.go_to(exporter_url)
-    exporter_hub.login("test@mail.com", "password")
-    time_id = datetime.datetime.now().strftime("%m%d%H%M%S")
-    app_name = "Test Application " + time_id
-    exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
-    app_id = driver.current_url[-36:]
-    log.info("Application submitted")
-
-    # navigate to DIT Hub page
-    dit_hub_page.go_to(internal_url)
-    log.info("Navigated to Department Of International Trade Hub")
-
-    # Verify Case is in the New Cases Work Queue
-    log.info("Verifying Case is in the New Cases Work Queue")
-    cases_table = driver.find_element_by_class_name("lite-table")
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + app_id + "')]]")
-    log.info("Application found in work queue")
-
-    # check details page
-    logging.info("Verifying the details of a specific case in a work queue...")
-
-    driver.find_element_by_xpath("//*[text()[contains(.,'" + app_id + "')]]").click()
-
-    # Progress application
-    manage_cases_page.click_progress_application()
-
-    manage_cases_page.select_status(status="Under review")
-
-    manage_cases_page.click_save()
-
-    details = driver.find_elements_by_css_selector(".lite-heading-s")
-    for header in details:
-        if header.text == "STATUS":
-            status_detail = header.find_element_by_xpath("./following-sibling::p").text
-            assert status_detail == "Under review"
-
-    dit_hub_page.go_to(internal_url)
-
-    # Check application status is changed
-    status = driver.find_element_by_xpath("//*[text()[contains(.,'" + app_id + "')]]/../following-sibling::td[last()]")
-    assert status.is_displayed()
-    assert status.text == "Under review"
-
-    exporter_hub.go_to(exporter_url)
-    if "login" in driver.current_url:
-        log.info("logging in as test@mail.com")
-        exporter_hub.login("test@mail.com", "password")
-
-    exporter_hub.click_applications_btn()
     status = driver.find_element_by_xpath("//*[text()[contains(.,'" + time_id + "')]]/following-sibling::td[last()]")
     assert status.is_displayed()
     assert status.text == "Under review"
