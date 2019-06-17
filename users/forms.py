@@ -9,7 +9,7 @@ def add_user_form(teams):
                      name='email'),
             ArrayQuestion(title='Team',
                           description='',
-                          input_type=InputType.AUTOCOMPLETE,
+                          input_type=InputType.SELECT,
                           name='team',
                           data=teams),
         ])
@@ -23,7 +23,7 @@ def edit_user_form(teams):
                      name='email'),
             ArrayQuestion(title='Team',
                           description='',
-                          input_type=InputType.AUTOCOMPLETE,
+                          input_type=InputType.SELECT,
                           name='team',
                           data=teams),
         ])
