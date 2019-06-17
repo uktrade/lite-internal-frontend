@@ -45,9 +45,6 @@ class AuthCallbackView(View):
                 client_secret=settings.AUTHBROKER_CLIENT_SECRET,
                 code=auth_code)
 
-            print('BANANA')
-            print(token)
-
             self.request.session[TOKEN_SESSION_KEY] = dict(token)
 
             del self.request.session[TOKEN_SESSION_KEY + '_oauth_state']
