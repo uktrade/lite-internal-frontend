@@ -57,18 +57,19 @@ class ViewCase(TemplateView):
 
 
 class ManageCase(TemplateView):
-    def get(self, request, pk):
-        response = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/').json()
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
         context = {
-          'data': response,
-          'title': 'Manage ' + response.get('case').get('application').get('name'),
+          'data': case,
+          'title': 'Manage ' + case.get('case').get('application').get('name'),
         }
         return render(request, 'cases/manage.html', context)
 
-    def post(self, request, pk):
-        applicant_case = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/').json()
-        case_id = applicant_case.get('case').get('id')
-        application_id = applicant_case.get('case').get('application').get('id')
+    def post(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+        application_id = case.get('case').get('application').get('id')
 
         # PUT form data
         data, status_code = put_applications(request, application_id, request.POST)
