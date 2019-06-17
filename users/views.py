@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from core.builtins.custom_tags import get_string
 from libraries.forms.generators import form_page
 from teams.services import get_teams
 from users import forms
@@ -77,12 +78,10 @@ class ChangeUserStatus(TemplateView):
             raise Http404
 
         if status == 'deactivate':
-            description = 'This user will no longer be able to log in or perform tasks on LITE ' \
-                          'on behalf of your organisation.'
+            description = get_string('update_user.status.deactivate_warning')
 
         if status == 'reactivate':
-            description = 'This user will be able to log in to and perform tasks on LITE on behalf ' \
-                          'of your organisation.'
+            description = get_string('update_user.status.reactivate_warning')
 
         context = {
             'title': 'Are you sure you want to {} this user?'.format(status),
