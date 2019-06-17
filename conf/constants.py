@@ -10,6 +10,7 @@ CASE_DENIAL_REASONS_URL = '/denial_reasons/'
 SITES_URL = '/sites/'
 TEAMS_URL = '/teams/'
 AUTHENTICATION_URL = '/gov-users/authenticate/'
+USERS_URL = '/gov-users/'
 
 # Static URLs
 STATIC_URL = '/static/'

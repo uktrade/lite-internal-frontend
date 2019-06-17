@@ -10,6 +10,7 @@ from raven.contrib.django.raven_compat.models import client
 from auth.services import authenticate_gov_user
 from conf.settings import env
 from core.builtins.custom_tags import get_string
+from core.models import User
 from libraries.forms.generators import error_page
 
 
@@ -70,7 +71,8 @@ class AuthCallbackView(View):
 
         # create the user
         user = authenticate(request)
-
+        user.user_token = response['token']
+        user.save()
         if user is not None:
             login(request, user)
 
@@ -79,6 +81,7 @@ class AuthCallbackView(View):
 
 class AuthLogoutView(TemplateView):
     def get(self, request, **kwargs):
+        User.objects.get(id=request.user.id).delete()
         logout(request)
         return redirect(env("AUTHBROKER_URL") + '/logout/')
 
