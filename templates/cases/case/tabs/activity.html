@@ -24,7 +24,7 @@
 				{% if item.type == 'case_note' %}
 					<div class="lite-activity-item">
 						<p class="govuk-body" style="margin-bottom: 0;">
-							<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span> added a case note:
+							<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span>{% get_string 'activity.added_a_case_note' %}
 						</p>
 						<div class="lite-case-note">
 							{{ item.data }}
