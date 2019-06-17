@@ -41,3 +41,10 @@ def status_has_been_changed_in_header(driver):
 def i_click_applications(driver):
     exporter = ExporterHub(driver)
     exporter.click_applications()
+
+
+@then('the status has been changed in exporter')
+def i_click_applications(driver):
+    status = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()]")
+    assert status.is_displayed()
+    assert status.text == context.status

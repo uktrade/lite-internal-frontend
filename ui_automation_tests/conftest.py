@@ -2,6 +2,7 @@ import pytest
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from selenium import webdriver
 import os
+from pages.exporter_hub import ExporterHub
 
 # Screenshot in case of any test failure
 def pytest_exception_interact(node, report):
@@ -42,6 +43,9 @@ def driver(request):
         return browser
     else:
         print('only chrome is supported at the moment')
+    def fin():
+        driver.quit()
+        request.addfinalizer(fin)
 
 @pytest.fixture
 def context():
@@ -59,6 +63,11 @@ def exporter_url(request):
 @pytest.fixture(scope="module")
 def internal_url(request):
     return request.config.getoption("--internal_url")
+
+@pytest.fixture
+def test_teardown(driver):
+    driver.quit()
+
 
 # @pytest.fixture(scope="module")
 # def sign_in_url(request):
@@ -92,6 +101,19 @@ def go_to_internal_homepage(driver, internal_url, internal_login_url):
     driver.get(internal_url)
 
 
+@when('I go to exporter homepage')
+def go_to_exporter_when(driver, exporter_url):
+    driver.get(exporter_url)
+
+
+@when(parsers.parse('I login to exporter homepage with username "{username}" and "{password}"'))
+def login_to_exporter(driver, username, password):
+    exporter_hub = ExporterHub(driver)
+    if "login" in driver.current_url:
+        exporter_hub.login(username, password)
+
+
 @when('I click on application previously created')
 def click_on_created_application(driver):
     driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
+

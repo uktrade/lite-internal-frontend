@@ -11,7 +11,7 @@ class ApplicationPage():
         self.case_note_header = ".lite-case-note-header-info" #css
         self.case_note_character_warning = "case_note-warning" #id
         self.case_note_character_warning = "case_note-warning" #id
-        self.progress_app_btn = self.driver.find_element_by_xpath("//*[text()[contains(.,'Progress')]]")
+        self.progress_app_btn = '.govuk-button[href*="manage"]'
         self.headers = self.driver.find_elements_by_css_selector(".lite-heading-s")
 
     def enter_case_note(self, text):
@@ -40,7 +40,7 @@ class ApplicationPage():
         return self.driver.find_element_by_id(self.post_note_btn).get_attribute("disabled")
 
     def click_progress_application(self):
-        self.progress_app_btn.click()
+        self.driver.find_element_by_css_selector(self.progress_app_btn).click()
 
     def select_status(self, status):
         case_status_dropdown = Select(self.driver.find_element_by_id('status'))

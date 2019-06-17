@@ -17,13 +17,6 @@ log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
 
-def test_change_status(driver, open_internal_hub, internal_url, exporter_url):
-
-    status = driver.find_element_by_xpath("//*[text()[contains(.,'" + time_id + "')]]/following-sibling::td[last()]")
-    assert status.is_displayed()
-    assert status.text == "Under review"
-    print("Test Complete")
-
 
 def test_view_submitted_cases_in_work_queue(driver, open_internal_hub, exporter_url, internal_url):
     exporter_hub = ExporterHub(driver)

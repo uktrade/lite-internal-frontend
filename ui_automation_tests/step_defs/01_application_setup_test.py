@@ -57,21 +57,9 @@ def click_overview(driver):
     exporter_hub.click_on_overview()
 
 
-@when('I go to exporter homepage')
-def go_to_exporter_when(driver, exporter_url):
-    driver.get(exporter_url)
-
-
 @given('I go to exporter homepage')
 def go_to_exporter_when(driver, exporter_url):
     driver.get(exporter_url)
-
-
-@when(parsers.parse('I login to exporter homepage with username "{username}" and "{password}"'))
-def login_to_exporter(driver, username, password):
-    exporter_hub = ExporterHub(driver)
-    if "login" in driver.current_url:
-        exporter_hub.login(username, password)
 
 
 @when('I click on start button')
