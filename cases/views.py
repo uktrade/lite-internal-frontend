@@ -4,9 +4,10 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from cases.forms.denial_reasons import denial_reasons_form
-from cases.services import get_case, get_case_notes, post_case_notes, put_applications, get_activity
-from conf import client
+from cases.forms.move_case import move_case_form
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case
 from conf.settings import env
+from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
 
@@ -18,14 +19,14 @@ def index(request):
     if not queue_id:
         queue_id = '00000000-0000-0000-0000-000000000001'
 
-    queues = client.get(request, '/queues/').json()
-    response = client.get(request, '/queues/' + queue_id).json()
+    queues, status_code = get_queues(request)
+    queue, status_code = get_queue(request, queue_id)
 
     context = {
         'queues': queues,
         'queue_id': queue_id,
-        'data': response,
-        'title': response.get('queue').get('name'),
+        'data': queue,
+        'title': queue.get('queue').get('name'),
     }
     return render(request, 'cases/index.html', context)
 
@@ -127,6 +128,33 @@ class DenyCase(TemplateView):
                                             denial_reasons_form(),
                                             put_applications,
                                             pk=application_id,
+                                            override_data=data)
+
+        if response:
+            return response
+
+        # If there is no response (no forms left to go through), go to the case page
+        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+
+
+class MoveCase(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+
+        return form_page(request, move_case_form(request), data=case['queues'])
+
+    def post(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+
+        data = {
+            'queues': request.POST.getlist('queues'),
+        }
+
+        response, data = submit_single_form(request,
+                                            move_case_form(request),
+                                            put_case,
+                                            pk=case_id,
                                             override_data=data)
 
         if response:
