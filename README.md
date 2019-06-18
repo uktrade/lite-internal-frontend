@@ -7,7 +7,7 @@ Application for handling internal information in LITE.
 * Download the repository:
   * `git clone https://github.com/uktrade/lite-internal-frontend.git`
   * `cd lite-internal-frontend`
-* Start a local Postgres: `docker run --name lite-internal-frontend -e POSTGRES_PASSWORD=password -p 5432:5431 -d postgres`
+* Start a local Postgres: `docker run --name lite-internal-frontend -e POSTGRES_PASSWORD=password -p 5431:5432 -d postgres`
 * Set up your local config file:
   * `cp local.env .env`
 * Initialise submodules:
