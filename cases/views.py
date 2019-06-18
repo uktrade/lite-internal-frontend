@@ -82,25 +82,28 @@ class ManageCase(TemplateView):
 
 
 class DecideCase(TemplateView):
-    def get(self, request, pk):
-        response = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/').json()
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+
         context = {
-          'data': response,
-          'title': 'Manage ' + response.get('case').get('application').get('name'),
+          'data': case,
+          'title': 'Manage ' + case.get('case').get('application').get('name'),
         }
         return render(request, 'cases/decide.html', context)
 
-    def post(self, request, pk):
-        applicant_case = requests.get(env("LITE_API_URL") + '/cases/' + str(pk) + '/').json()
-        case_id = applicant_case.get('case').get('id')
-        application_id = applicant_case.get('case').get('application').get('id')
+    def post(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+
+        case_id = case.get('case').get('id')
+        application_id = case.get('case').get('application').get('id')
 
         if request.POST['status'] == 'declined':
-            return redirect(reverse('cases:deny', kwargs={'pk': str(pk)}))
+            return redirect(reverse('cases:deny', kwargs={'pk': case_id}))
 
         # PUT form data
-        response = requests.put(env("LITE_API_URL") + '/applications/' + application_id + '/',
-                                json=request.POST).json()
+        response = put_applications(request, application_id, request.POST)
 
         if 'errors' in response:
             return redirect('/cases/' + case_id + '/manage')
