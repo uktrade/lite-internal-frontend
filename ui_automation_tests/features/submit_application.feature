@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @exporter @all @setup
 Feature: Licence
   As a...

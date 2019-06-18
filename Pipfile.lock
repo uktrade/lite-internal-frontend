@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0923513372cc8d61932c947a2744faec9862a6a3e8148c3f94313a9854bb5523"
+            "sha256": "6356cd8f298692661ab68b41bdbdd1aeae059b69d074cb6f6a5e60639922ce83"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -325,9 +325,9 @@
         },
         "glob2": {
             "hashes": [
-                "sha256:85c3dbd07c8aa26d63d7aacee34fa86e9a91a3873bc30bf62ec46e531f92ab8c"
+                "sha256:f5b0a686ff21f820c4d3f0c4edd216704cea59d79d00fa337e244a2f2ff83ed6"
             ],
-            "version": "==0.7"
+            "version": "==0.6"
         },
         "importlib-metadata": {
             "hashes": [
@@ -439,6 +439,13 @@
             ],
             "index": "pypi",
             "version": "==4.6.3"
+        },
+        "pytest-bdd": {
+            "hashes": [
+                "sha256:17dfc2b65c275641a4e76fa1f913ab737604815c275dc2afe7133956c6ab6743"
+            ],
+            "index": "pypi",
+            "version": "==3.1.0"
         },
         "pytest-bdd": {
             "hashes": [

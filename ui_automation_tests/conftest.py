@@ -73,7 +73,6 @@ def test_teardown(driver):
 # def sign_in_url(request):
 #     return request.config.getoption("--sso_sign_in_url")
 
-
 @pytest.fixture(scope="module")
 def invalid_username():
     return "invalid@mail.com"
