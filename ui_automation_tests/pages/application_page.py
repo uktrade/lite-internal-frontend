@@ -1,5 +1,6 @@
 from selenium.webdriver.support.ui import Select
 import time
+
 class ApplicationPage():
 
     def __init__(self, driver):
@@ -7,12 +8,13 @@ class ApplicationPage():
         self.case_note_field = "case_note" #id
         self.post_note_btn = "button-post-note" #id
         self.cancel_note_btn = "case-note-cancel-button" #id
-        self.case_notes_text = ".lite-case-note .govuk-body" #css
-        self.case_note_header = ".lite-case-note-header-info" #css
+        self.case_notes_text = ".lite-case-note" #css
+        self.case_note_date_time = ".lite-activity-item .govuk-hint" #css
         self.case_note_character_warning = "case_note-warning" #id
         self.case_note_character_warning = "case_note-warning" #id
         self.progress_app_btn = '.govuk-button[href*="manage"]'
         self.headers = self.driver.find_elements_by_css_selector(".lite-heading-s")
+        self.case_note_subject = self. driver.find_elements_by_css_selector(".lite-activity-item .govuk-body")
 
     def enter_case_note(self, text):
         self.driver.find_element_by_id(self.case_note_field).send_keys(text)
@@ -29,8 +31,8 @@ class ApplicationPage():
     def get_text_of_case_note(self, no):
         return self.driver.find_elements_by_css_selector(self.case_notes_text)[no].text
 
-    def get_text_of_case_note_header(self, no):
-        return self.driver.find_elements_by_css_selector(self.case_note_header)[no].text
+    def get_text_of_case_note_date_time(self, no):
+        return self.driver.find_elements_by_css_selector(self.case_note_date_time)[no].text
 
     def get_text_of_case_note_warning(self):
         time.sleep(1)
@@ -47,5 +49,8 @@ class ApplicationPage():
         time.sleep(1)
         case_status_dropdown.select_by_visible_text(status)
 
-    def get_text_of_headers(self):
+    def get_text_of_application_headings(self):
         return self.headers
+
+    def get_text_of_case_note_subject(self, no):
+        return self.case_note_subject[no].text

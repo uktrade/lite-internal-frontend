@@ -1,14 +1,14 @@
 import datetime
-import random
+import logging
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+import random
+from selenium.webdriver.common.by import By
+from conftest import context
 import helpers.helpers as utils
 from pages.exporter_hub import ExporterHub
-from conftest import context
-from selenium.webdriver.common.by import By
 
 scenarios('../features/submit_application.feature', strict_gherkin=False)
 
-import logging
 log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)

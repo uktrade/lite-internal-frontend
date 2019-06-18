@@ -7,7 +7,7 @@ Feature: Manage cases
     When I click on application previously created
     When I click progress application
     When I select status "Under review" and save
-    Then the status has been changed in the header
+    Then the status has been changed in the application
     #TODO remove dependency here
     When I go to exporter homepage
     When I login to exporter homepage with username "test@mail.com" and "password"

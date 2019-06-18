@@ -1,9 +1,7 @@
-import datetime
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+from conftest import context
 from pages.application_page import ApplicationPage
 from pages.exporter_hub import ExporterHub
-from conftest import context
-import helpers.helpers as utils
 
 scenarios('../features/manage_cases.feature', strict_gherkin=False)
 
@@ -27,13 +25,14 @@ def select_status_save(driver, status):
     driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]").click()
 
 
-@then('the status has been changed in the header')
+@then('the status has been changed in the application')
 def status_has_been_changed_in_header(driver):
     application_page = ApplicationPage(driver)
-    for header in application_page.get_text_of_headers():
+    for header in application_page.get_text_of_application_headings():
         if header.text == "STATUS":
             status_detail = header.find_element_by_xpath("./following-sibling::p").text
             assert status_detail == context.status
+    assert context.status.lower() in application_page.get_text_of_case_note_subject(0)
 
 
 #TODO dependency

@@ -2,7 +2,7 @@ from pytest_bdd import scenarios, given, when, then, parsers
 from selenium.webdriver.common.by import By
 from pages.internal_hub_page import InternalHubPage
 import helpers.helpers as utils
-scenarios('../features/organisation_setup.feature')
+#scenarios('../features/organisation_setup.feature')
 
 
 @when('I register a new organisation')
@@ -29,7 +29,7 @@ def register_organisation(driver):
         internal_hub.enter_zip_code("N23 6YL")
         internal_hub.enter_city("London")
         internal_hub.enter_state("London")
-        internal_hub.enter_country("United Kingdom")
+        internal_hub.enter_country("Ukraine")
 
         internal_hub.click_save_and_continue()
 

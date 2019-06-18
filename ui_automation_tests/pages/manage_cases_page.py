@@ -17,10 +17,6 @@ class ManageCasesPage():
     def click_go_to_queue_button(self):
         self.driver.find_element_by_css_selector(self.go_to_queue_btn).click()
 
-    def click_go_to_queue_button(self):
-        self.driver.find_element_by_css_selector(self.go_to_queue_btn).click()
-
-
     def click_save(self):
         save_btn = self.driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]")
         save_btn.click()

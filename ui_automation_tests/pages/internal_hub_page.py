@@ -1,5 +1,7 @@
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
 import time
+
 
 
 class InternalHubPage():
@@ -77,7 +79,10 @@ class InternalHubPage():
         self.driver.find_element_by_id("site.address.region").send_keys(state)
 
     def enter_country(self, country):
-        self.driver.find_element_by_id("site.address.country").send_keys(country)
+        country_tb = self.driver.find_element_by_id("site.address.country")
+        country_tb.clear()
+        country_tb.send_keys(country)
+        self.driver.find_element_by_id("site.address.country").send_keys(Keys.RETURN)
 
     def enter_email(self, email):
         self.driver.find_element_by_id("user.email").send_keys(email)

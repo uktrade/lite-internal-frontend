@@ -4,7 +4,7 @@ from pages.application_page import ApplicationPage
 from conftest import context
 import helpers.helpers as utils
 
-scenarios('../features/case_notes.feature', strict_gherkin=False)
+#scenarios('../features/case_notes.feature', strict_gherkin=False)
 
 import logging
 log = logging.getLogger()
@@ -34,7 +34,7 @@ def click_post_note(driver):
 def note_is_displayed(driver):
     application_page = ApplicationPage(driver)
     assert context.text in application_page.get_text_of_case_note(0)
-    assert context.date_time_of_post in application_page.get_text_of_case_note_header(0), "incorrect time of post on case note"
+    assert context.date_time_of_post in application_page.get_text_of_case_note_date_time(0), "incorrect time of post on case note"
 
 
 @when('I click cancel button')
