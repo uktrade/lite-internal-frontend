@@ -6,7 +6,7 @@ def export_vars(request):
 
 
 def lite_menu(request):
-    return {
+	return {
 		'LITE_MENU': [
 			{
 				'title': 'Cases',
