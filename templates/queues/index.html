@@ -20,6 +20,7 @@
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="col">Name</th>
+					<th class="govuk-table__header" scope="col">Team</th>
 					<th class="govuk-table__header" scope="col"></th>
 				</tr>
 			</thead>
@@ -28,6 +29,9 @@
 					<tr class="govuk-table__row" style="vertical-align: top;">
 						<td class="govuk-table__cell">
 							{{ queue.name|default:"Untitled" }}
+						</td>
+						<td class="govuk-table__cell">
+							{{ queue.team_name|default:"Untitled" }}
 						</td>
 						<td class="govuk-table__cell">
 							<a href="{% url 'queues:edit' queue.id %}" style="margin: 0;" class="govuk-link">Edit</a>
