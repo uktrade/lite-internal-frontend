@@ -10,4 +10,5 @@ urlpatterns = [
     path('organisations/register/', include('register_business.urls')),
     path('teams/', include('teams.urls')),
     path('queues/', include('queues.urls')),
+    path('users/', include('users.urls')),
 ]
