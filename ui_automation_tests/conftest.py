@@ -47,6 +47,7 @@ def driver(request):
         driver.quit()
         request.addfinalizer(fin)
 
+
 @pytest.fixture
 def context():
     class Context(object):
@@ -60,40 +61,45 @@ def context():
 def exporter_url(request):
     return request.config.getoption("--exporter_url")
 
+
 @pytest.fixture(scope="module")
 def internal_url(request):
     return request.config.getoption("--internal_url")
+
 
 @pytest.fixture
 def test_teardown(driver):
     driver.quit()
 
 
-# @pytest.fixture(scope="module")
-# def sign_in_url(request):
-#     return request.config.getoption("--sso_sign_in_url")
+@pytest.fixture(scope="module")
+def sso_sign_in_url(request):
+     return request.config.getoption("--sso_sign_in_url")
+
 
 @pytest.fixture(scope="module")
 def invalid_username():
     return "invalid@mail.com"
 
 
-@pytest.fixture(scope="module")
-def internal_login_url():
-    return "https://sso.trade.uat.uktrade.io/login/"
 
 @pytest.fixture(scope="function")
-def open_internal_hub(driver, internal_url, sign_in_url):
-    driver.get(sign_in_url)
+def open_internal_hub(driver, internal_url, sso_sign_in_url):
+    driver.get(sso_sign_in_url)
     driver.find_element_by_name("username").send_keys("test-uat-user@digital.trade.gov.uk")
     driver.find_element_by_name("password").send_keys("5cCIlffSrqszgOuw23VEOECnM")
     driver.find_element_by_css_selector("[type='submit']").click()
     driver.get(internal_url)
 
 
+@when('I go to the internal homepage')
+def when_go_to_internal_homepage(driver, internal_url):
+    driver.get(internal_url)
+
+
 @given('I go to internal homepage')
-def go_to_internal_homepage(driver, internal_url, internal_login_url):
-    driver.get(internal_login_url)
+def go_to_internal_homepage(driver, internal_url, sso_sign_in_url):
+    driver.get(sso_sign_in_url)
     driver.find_element_by_name("username").send_keys("test-uat-user@digital.trade.gov.uk")
     driver.find_element_by_name("password").send_keys("5cCIlffSrqszgOuw23VEOECnM")
     driver.find_element_by_css_selector("[type='submit']").click()

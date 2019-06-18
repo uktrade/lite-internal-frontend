@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import Select
 import time
 
+
 class ApplicationPage():
 
     def __init__(self, driver):

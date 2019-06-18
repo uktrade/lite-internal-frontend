@@ -29,8 +29,9 @@ def select_status_save(driver, status):
     application_page = ApplicationPage(driver)
     application_page.select_status(status)
     context.status = status
-    driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]").click()
     context.date_time_of_update = utils.get_formatted_date_time_h_m_pm_d_m_y()
+    driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]").click()
+
 
 
 @then('the status has been changed in the application')

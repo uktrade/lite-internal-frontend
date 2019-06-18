@@ -19,8 +19,8 @@ log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
 
-def test_invalid_user(driver, sign_in_url, internal_url, invalid_username):
-    driver.get(sign_in_url)
+def test_invalid_user(driver, sso_sign_in_url, internal_url, invalid_username):
+    driver.get(sso_sign_in_url)
     login_page = LoginPage(driver)
     login_page.type_into_login_field(invalid_username+str(random.randint(1, 1001)))
     login_page.type_into_password_field("password")
@@ -28,8 +28,8 @@ def test_invalid_user(driver, sign_in_url, internal_url, invalid_username):
     driver.get(internal_url)
     assert "You need to sign in" in login_page.get_text_of_gov_login_message()
 
-def test_empty_user(driver, sign_in_url, internal_url):
-    driver.get(sign_in_url)
+def test_empty_user(driver, sso_sign_in_url, internal_url):
+    driver.get(sso_sign_in_url)
     login_page = LoginPage(driver)
     login_page.click_on_submit_button()
     driver.get(internal_url)

@@ -1,4 +1,3 @@
-import datetime
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from pages.application_page import ApplicationPage
 from conftest import context
