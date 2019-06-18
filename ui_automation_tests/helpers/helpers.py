@@ -80,5 +80,6 @@ def get_formatted_date_time_h_m_pm_d_m_y():
     return datetime.datetime.now().strftime("%I:%M%p %d %B %Y").lstrip("0").replace(" 0", " ").replace("PM", "pm").replace(
         "AM", "am")
 
+
 def get_unformatted_date_time():
     return datetime.datetime.now()

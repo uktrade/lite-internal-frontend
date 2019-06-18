@@ -1,14 +1,12 @@
-from pytest_bdd import scenarios, given, when, then, parsers
-from selenium.webdriver.common.by import By
-from pages.register_a_business_page import RegisterABusinessPage
+from datetime import datetime
+
 import helpers.helpers as utils
-
-from pages.manage_cases_page import ManageCasesPage
 from pages.header_page import HeaderPage
-
-from pages.organisations_page import OrganisationsPage
-
 from pages.organisations_form_page import OrganisationsFormPage
+from pages.organisations_page import OrganisationsPage
+from pages.register_a_business_page import RegisterABusinessPage
+from pytest_bdd import scenarios, when, then, parsers
+from selenium.webdriver.common.by import By
 
 scenarios('../features/organisation_setup.feature')
 
@@ -51,7 +49,7 @@ def register_organisation(driver):
 
 @then('organisation is registered')
 def verify_registered_organisation(driver):
-    exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
+    exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Unicorns Ltd')]]")
     assert exists
 
 
@@ -78,12 +76,24 @@ def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, reg
     organisations_form_page.enter_registration_number(registration)
     organisations_form_page.click_submit()
 
-@when(parsers.parse('I setup an intial site with name: "{name}", addres line 1: "{addres_line_1}", town or city: "{city}", County: "{county}", post code: "{post_code}", country: "{country}"'))
-def fill_out_site_details(driver, name, address_line_1, city, county, post_code, country):
+
+@when(parsers.parse('I setup an intial site with name: "{name}", addres line 1: "{address_line_1}", town or city: "{city}", County: "{region}", post code: "{post_code}", country: "{country}"'))
+def fill_out_site_details(driver, name, address_line_1, city, region, post_code, country):
     organisations_form_page = OrganisationsFormPage(driver)
     organisations_form_page.enter_site_name(name)
     organisations_form_page.enter_address_line_1(address_line_1)
-    organisations_form_page.enter_region(county)
+    organisations_form_page.enter_region(region)
     organisations_form_page.enter_post_code(post_code)
     organisations_form_page.enter_city(city)
+    organisations_form_page.enter_country(country)
+    organisations_form_page.click_submit()
+
+
+@when(parsers.parse('I setup the admin user with email: "{email}", first name: "{first_name}", last name: "{last_name}", password: "{password}"'))
+def fill_out_admin_user_details(driver, email, first_name, last_name, password):
+    organisations_form_page = OrganisationsFormPage(driver)
+    organisations_form_page.enter_email(datetime.now().strftime("%m%d%H%M") + email)
+    organisations_form_page.enter_first_name(first_name)
+    organisations_form_page.enter_last_name(last_name)
+    organisations_form_page.enter_password(password)
     organisations_form_page.click_submit()
