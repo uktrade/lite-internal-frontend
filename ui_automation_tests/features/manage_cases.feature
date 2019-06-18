@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Feature: Manage cases
   As a..
 
