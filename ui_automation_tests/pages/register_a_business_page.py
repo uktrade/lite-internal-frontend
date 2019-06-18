@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.support.ui import Select
 
 
@@ -93,3 +95,17 @@ class RegisterABusinessPage():
 
     def enter_password(self, password):
         self.driver.find_element_by_id("user.password").send_keys(password)
+
+    def enter_zip_code(self, zip_code):
+        self.driver.find_element_by_id("site.address.postcode").send_keys(zip_code)
+
+    def enter_state(self, state):
+        self.driver.find_element_by_id("site.address.region").send_keys(state)
+
+    def click_manage_organisations_link(self):
+        self.driver.find_element_by_id("lite-user-menu-button").click()
+        time.sleep(0.5)
+        self.driver.find_element_by_css_selector("a[href*='/organisations/']").click()
+
+    def click_new_organisation(self):
+        self.driver.find_element_by_css_selector("a[href*='/register']").click()
