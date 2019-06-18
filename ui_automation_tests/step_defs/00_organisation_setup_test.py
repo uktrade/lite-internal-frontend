@@ -1,14 +1,20 @@
 from pytest_bdd import scenarios, given, when, then, parsers
 from selenium.webdriver.common.by import By
-from pages.internal_hub_page import InternalHubPage
+from pages.register_a_business_page import RegisterABusinessPage
 import helpers.helpers as utils
+
+from pages.manage_cases_page import ManageCasesPage
+
+from pages.organisations_page import OrganisationsPage
+
+from pages.organisations_form_page import OrganisationsFormPage
 
 scenarios('../features/organisation_setup.feature')
 
 
 @when('I register a new organisation')
 def register_organisation(driver):
-    internal_hub = InternalHubPage(driver)
+    internal_hub = RegisterABusinessPage(driver)
 
     internal_hub.click_manage_organisations_link()
 
@@ -46,3 +52,23 @@ def register_organisation(driver):
 def verify_registered_organisation(driver):
     exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
     assert exists
+
+@when('I go to organisations')
+def i_go_to_organisations(driver):
+    cases_page = ManageCasesPage(driver)
+    cases_page.click_lite_menu()
+    cases_page.click_organisations()
+
+@when('I choose to add a new organisation')
+def i_choose_to_add_a_new_organisation(driver):
+    organisations_page = OrganisationsPage(driver)
+    organisations_page.click_new_organisation_btn()
+
+@when('I provide company registration details of name: "{Unicorns Ltd}", EORI: "{1234567890AAA}", SIC: "{2345}", VAT: "{GB1234567}", CRN: "{09876543}"')
+def fill_out_company_details_page_and_continue(driver):
+    organisations_form_page = OrganisationsFormPage(driver)
+    organisations_form_page.enter_name(name)
+    organisations_form_page.enter_eori_number()
+    organisations_form_page.enter_sic_number()
+    organisations_form_page.enter_vat_number()
+    organisations_form_page.enter_registration_number()
