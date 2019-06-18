@@ -60,9 +60,8 @@ def get_queues(request, convert_to_options=False):
         converted = []
 
         for queue in data.json().get('queues'):
-            print(queue)
             converted.append(
-                Option(queue.get('id'), queue.get('name'), description=queue.get('team'))
+                Option(queue.get('id'), queue.get('name'), description='Team name')
             )
 
         return converted

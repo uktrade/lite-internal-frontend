@@ -142,7 +142,7 @@ class MoveCase(TemplateView):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
 
-        return form_page(request, move_case_form(request), data=case['queues'])
+        return form_page(request, move_case_form(request), data=case['case'])
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
