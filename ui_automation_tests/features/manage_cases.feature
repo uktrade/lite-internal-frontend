@@ -14,4 +14,7 @@ Feature: Manage cases
     When I click applications
     Then the status has been changed in exporter
 
-
+  Scenario: Record decision
+    Given I go to internal homepage
+    When I click on application previously created
+    When I click record decision

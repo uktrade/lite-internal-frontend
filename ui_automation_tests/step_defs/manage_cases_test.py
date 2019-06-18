@@ -18,6 +18,12 @@ def click_post_note(driver):
     application_page.click_progress_application()
 
 
+@when('I click record decision')
+def click_post_note(driver):
+    application_page = ApplicationPage(driver)
+    application_page.click_record_decision()
+
+
 @when(parsers.parse('I select status "{status}" and save'))
 def select_status_save(driver, status):
     application_page = ApplicationPage(driver)
@@ -37,7 +43,7 @@ def status_has_been_changed_in_header(driver):
     assert context.status.lower() in application_page.get_text_of_case_note_subject(0)
 
 
-#TODO dependency
+#TODO exporter dependency
 @when('I click applications')
 def i_click_applications(driver):
     exporter = ExporterHub(driver)
