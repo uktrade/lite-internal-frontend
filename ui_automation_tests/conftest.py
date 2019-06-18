@@ -1,7 +1,7 @@
+import os
 import pytest
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from selenium import webdriver
-import os
 from pages.exporter_hub import ExporterHub
 
 # Screenshot in case of any test failure
@@ -80,7 +80,6 @@ def sso_sign_in_url(request):
 @pytest.fixture(scope="module")
 def invalid_username():
     return "invalid@mail.com"
-
 
 
 @pytest.fixture(scope="function")
