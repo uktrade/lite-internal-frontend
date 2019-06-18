@@ -2,7 +2,8 @@ from pytest_bdd import scenarios, given, when, then, parsers
 from selenium.webdriver.common.by import By
 from pages.internal_hub_page import InternalHubPage
 import helpers.helpers as utils
-#scenarios('../features/organisation_setup.feature')
+
+scenarios('../features/organisation_setup.feature')
 
 
 @when('I register a new organisation')

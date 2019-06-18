@@ -4,7 +4,7 @@ from pages.application_page import ApplicationPage
 from conftest import context
 import helpers.helpers as utils
 
-#scenarios('../features/case_notes.feature', strict_gherkin=False)
+scenarios('../features/case_notes.feature', strict_gherkin=False)
 
 import logging
 log = logging.getLogger()
