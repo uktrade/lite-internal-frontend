@@ -47,3 +47,7 @@ def i_click_applications(driver):
     status = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_time_id + "')]]/following-sibling::td[last()]")
     assert status.is_displayed()
     assert status.text == context.status
+
+
+@then('the application headers and information are correct')
+def application_headers_and_info_are_correct(driver):
