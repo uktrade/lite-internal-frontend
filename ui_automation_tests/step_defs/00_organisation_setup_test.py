@@ -64,11 +64,14 @@ def i_choose_to_add_a_new_organisation(driver):
     organisations_page = OrganisationsPage(driver)
     organisations_page.click_new_organisation_btn()
 
-@when('I provide company registration details of name: "{Unicorns Ltd}", EORI: "{1234567890AAA}", SIC: "{2345}", VAT: "{GB1234567}", CRN: "{09876543}"')
-def fill_out_company_details_page_and_continue(driver):
+@when(parsers.parse('I provide company registration details of name: "{name}", EORI: "{eori}", SIC: "{sic}", VAT: "{vat}", CRN: "{registration}"'))
+def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, registration):
     organisations_form_page = OrganisationsFormPage(driver)
     organisations_form_page.enter_name(name)
-    organisations_form_page.enter_eori_number()
-    organisations_form_page.enter_sic_number()
-    organisations_form_page.enter_vat_number()
-    organisations_form_page.enter_registration_number()
+    organisations_form_page.enter_eori_number(eori)
+    organisations_form_page.enter_sic_number(sic)
+    organisations_form_page.enter_vat_number(vat)
+    organisations_form_page.enter_registration_number(registration)
+    organisations_form_page.click_submit()
+
+@when(parsers.parse('I setup an intial site with name: "{name}", addres line 1: "{addres_line_1}", town or city: "{London}", County: "{Islington}", post code: "{AB1 2CD}", country: "{Ukraine}"'))

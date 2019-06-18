@@ -23,3 +23,7 @@ class OrganisationsFormPage():
     def enter_registration_number(self, text):
         self.driver.find_element_by_id("registration_number").send_keys(text)
 
+    def click_submit(self):
+        submit = self.driver.find_element_by_xpath("//*[@action='submit']")
+        submit.click()
+
