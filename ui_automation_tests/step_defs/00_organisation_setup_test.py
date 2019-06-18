@@ -78,4 +78,12 @@ def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, reg
     organisations_form_page.enter_registration_number(registration)
     organisations_form_page.click_submit()
 
-@when(parsers.parse('I setup an intial site with name: "{name}", addres line 1: "{addres_line_1}", town or city: "{London}", County: "{Islington}", post code: "{AB1 2CD}", country: "{Ukraine}"'))
+@when(parsers.parse('I setup an intial site with name: "{name}", addres line 1: "{addres_line_1}", town or city: "{city}", County: "{county}", post code: "{post_code}", country: "{country}"'))
+def fill_out_site_details(driver, name, address_line_1, city, county, post_code, country):
+    organisations_form_page = OrganisationsFormPage(driver)
+    organisations_form_page.enter_name(name)
+    organisations_form_page.enter_eori_number(eori)
+    organisations_form_page.enter_sic_number(sic)
+    organisations_form_page.enter_vat_number(vat)
+    organisations_form_page.enter_registration_number(registration)
+    organisations_form_page.click_submit()

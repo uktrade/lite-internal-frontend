@@ -23,6 +23,27 @@ class OrganisationsFormPage():
     def enter_registration_number(self, text):
         self.driver.find_element_by_id("registration_number").send_keys(text)
 
+    def enter_site_name(self, text):
+        self.driver.find_element_by_id("site.name").send_keys(text)
+
+    def enter_address_line_1(self, text):
+        self.driver.find_element_by_id("site.address.address_line_1").send_keys(text)
+
+    def enter_address_line_2(self, text):
+        self.driver.find_element_by_id("site.address.address_line_2").send_keys(text)
+
+    def enter_postcode(self, text):
+        self.driver.find_element_by_id("site.address.postcode").send_keys(text)
+
+    def enter_city(self, text):
+        self.driver.find_element_by_id("site.address.city").send_keys(text)
+
+    def enter_region(self, text):
+        self.driver.find_element_by_id("site.address.region").send_keys(text)
+
+    def enter_country(self, text):
+        self.driver.find_element_by_id("site.address.country").send_keys(text)
+
     def click_submit(self):
         submit = self.driver.find_element_by_xpath("//*[@action='submit']")
         submit.click()
