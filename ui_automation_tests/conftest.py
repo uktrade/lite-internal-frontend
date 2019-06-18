@@ -3,6 +3,7 @@ import pytest
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from selenium import webdriver
 from pages.exporter_hub import ExporterHub
+from pages.shared import Shared
 
 # Screenshot in case of any test failure
 def pytest_exception_interact(node, report):
@@ -121,3 +122,8 @@ def login_to_exporter(driver, username, password):
 def click_on_created_application(driver):
     driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
 
+
+@when('I click submit button')
+def click_on_submit_button(driver):
+    shared = Shared(driver)
+    shared.click_submit()
