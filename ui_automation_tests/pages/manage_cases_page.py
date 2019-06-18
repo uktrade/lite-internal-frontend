@@ -21,8 +21,3 @@ class ManageCasesPage():
         save_btn = self.driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]")
         save_btn.click()
 
-    def click_lite_menu(self):
-        self.driver.find_element_by_id("lite-user-menu-button").click()
-
-    def click_organisations(self):
-        self.driver.find_element_by_css_selector("a[href*='/organisations/']").click()

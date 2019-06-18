@@ -4,6 +4,7 @@ from pages.register_a_business_page import RegisterABusinessPage
 import helpers.helpers as utils
 
 from pages.manage_cases_page import ManageCasesPage
+from pages.header_page import HeaderPage
 
 from pages.organisations_page import OrganisationsPage
 
@@ -53,16 +54,19 @@ def verify_registered_organisation(driver):
     exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
     assert exists
 
+
 @when('I go to organisations')
 def i_go_to_organisations(driver):
-    cases_page = ManageCasesPage(driver)
-    cases_page.click_lite_menu()
-    cases_page.click_organisations()
+    header = HeaderPage(driver)
+    header.click_lite_menu()
+    header.click_organisations()
+
 
 @when('I choose to add a new organisation')
 def i_choose_to_add_a_new_organisation(driver):
     organisations_page = OrganisationsPage(driver)
     organisations_page.click_new_organisation_btn()
+
 
 @when('I provide company registration details of name: "{Unicorns Ltd}", EORI: "{1234567890AAA}", SIC: "{2345}", VAT: "{GB1234567}", CRN: "{09876543}"')
 def fill_out_company_details_page_and_continue(driver):
