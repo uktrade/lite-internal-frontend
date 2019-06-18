@@ -20,7 +20,7 @@ Application for handling internal information in LITE.
 
 ## Running selenium tests
 
-* Setup chromedriver
+* Setup ChromeDriver:
   * `` CHROME_DRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` ``
   * `CHROME_DRIVER_FILENAME='chromedriver_mac64.zip'`
   * `curl -o ~/$CHROME_DRIVER_FILENAME http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/$CHROME_DRIVER_FILENAME`
@@ -28,7 +28,7 @@ Application for handling internal information in LITE.
   * `sudo mv -f ~/chromedriver /usr/local/bin/chromedriver`
   * `sudo chown root:admin /usr/local/bin/chromedriver`
   * `sudo chmod 0755 /usr/local/bin/chromedriver`
-* Setup dev pipenv environment:
+* Setup developer Pipenv environment:
   * `pipenv sync -d`
 * Run `pipenv run python -m pytest`
 
