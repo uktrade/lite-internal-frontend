@@ -18,67 +18,6 @@ console = logging.StreamHandler()
 log.addHandler(console)
 
 
-def test_view_submitted_cases_in_work_queue(driver, open_internal_hub, exporter_url, internal_url):
-    exporter_hub = ExporterHub(driver)
-    dit_hub_page = DepartmentOfInternationalTradeHub(driver)
-
-    log.info("Test Started")
-    exporter_hub.go_to(exporter_url)
-    if "login" in driver.current_url:
-        log.info("logging in as test@mail.com")
-        exporter_hub.login("test@mail.com", "password")
-
-    # Submit application
-    log.info("submitting application on Exporter Hub")
-    time_id = datetime.datetime.now().strftime("%m%d%H%M")
-    app_name = "Test Application " + time_id
-    exporter_hub.create_application(name=str(app_name), destination="Cuba", usage="Test usage", activity="Testing")
-    app_id = driver.current_url[-36:]
-    log.info("Application submitted")
-
-    # navigate to DIT Hub page
-    dit_hub_page.go_to(internal_url)
-    log.info("Navigated to Department Of International Trade Hub")
-
-    # Verify Case is in the New Cases Work Queue
-    log.info("Verifying Case is in the New Cases Work Queue")
-    cases_table = driver.find_element_by_class_name("lite-table")
-    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + app_id + "')]]")
-    log.info("Application found in work queue")
-
-    # check details page
-    log.info("Verifying the details of a specific case in a work queue...")
-
-    driver.find_element_by_xpath("//*[text()[contains(.,'" + app_id + "')]]").click()
-
-    details = driver.find_elements_by_css_selector(".lite-heading-s")
-    try:
-        for header in details:
-            if header.text == "CREATED BY":
-                created_by_detail = header.find_element_by_xpath("./following-sibling::p").text
-                assert created_by_detail == "John Smith"
-                logging.info("created by: " + created_by_detail)
-            if header.text == "ACTIVITY":
-                activity_detail = header.find_element_by_xpath("./following-sibling::p").text
-                assert activity_detail == "Testing"
-                logging.info("activity: " + activity_detail)
-            # if header.text == "CONTROL CODE":
-            #     control_code_detail = header.find_element_by_xpath("./following-sibling::p").text
-            #     assert control_code_detail == "code123"
-            #     logging.info("control code: "+ control_code_detail)
-            if header.text == "DESTINATION":
-                destination_details = header.find_element_by_xpath("./following-sibling::p").text
-                assert destination_details == "Cuba"
-                logging.info("destination: " + destination_details)
-            if header.text == "USAGE":
-                usage_detail = header.find_element_by_xpath("./following-sibling::p").text
-                assert usage_detail == "Test usage"
-                logging.info("usage: " + usage_detail)
-    except NoSuchElementException:
-            logging.error("Applications details not found")
-
-    log.info("Test Complete")
-
 
 def test_record_decision(driver, open_internal_hub, exporter_url, internal_url):
     exporter_hub = ExporterHub(driver)

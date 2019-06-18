@@ -27,7 +27,7 @@ def enter_case_note_text(driver, text):
 def click_post_note(driver):
     application_page = ApplicationPage(driver)
     application_page.click_post_note_btn()
-    context.date_time_of_post = datetime.datetime.now().strftime("%I:%M%p %d %B %Y").lstrip("0").replace(" 0", " ").replace("PM", "pm").replace("AM", "am")
+    context.date_time_of_post = utils.get_formatted_date_time_h_m_pm_d_m_y()
 
 
 @then('note is displayed')

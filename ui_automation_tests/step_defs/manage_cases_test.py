@@ -2,6 +2,7 @@ from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from conftest import context
 from pages.application_page import ApplicationPage
 from pages.exporter_hub import ExporterHub
+import helpers.helpers as utils
 
 scenarios('../features/manage_cases.feature', strict_gherkin=False)
 
@@ -23,6 +24,7 @@ def select_status_save(driver, status):
     application_page.select_status(status)
     context.status = status
     driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]").click()
+    context.date_time_of_update = utils.get_formatted_date_time_h_m_pm_d_m_y()
 
 
 @then('the status has been changed in the application')
@@ -51,3 +53,15 @@ def i_click_applications(driver):
 
 @then('the application headers and information are correct')
 def application_headers_and_info_are_correct(driver):
+    assert driver.find_elements_by_css_selector(".lite-information-board .lite-heading-s")[0].text == "APPLICANT"
+    assert driver.find_elements_by_css_selector(".lite-information-board .lite-heading-s")[1].text == "ACTIVITY"
+    assert driver.find_elements_by_css_selector(".lite-information-board .lite-heading-s")[2].text == "LAST UPDATED"
+    assert driver.find_elements_by_css_selector(".lite-information-board .lite-heading-s")[3].text == "STATUS"
+    assert driver.find_elements_by_css_selector(".lite-information-board .lite-heading-s")[4].text == "USAGE"
+    #  this is hard coded from the organisation that is created as part of setup
+    assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[0].text == "Test Org"
+    assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[1].text == "Trading" or driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[1].text == "Brokering"
+    assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[2].text == context.date_time_of_update
+    assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[3].text == context.status
+    assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[4].text == "None"
+
