@@ -44,6 +44,14 @@ class ExporterHub():
         self.type_choices = "type-"
         self.location_link = "location"
         self.end_user_link = "end_users"
+        self.new_sites_link = ".govuk-button[href*='new']"
+        self.name = "name"
+        self.address_line_1 = "address.address_line_1"
+        self.postcode = "address.postcode"
+        self.city = "address.city"
+        self.region = "address.region"
+        self.country = "address.country"
+
 
     def go_to(self, url):
         self.driver.get(url)
@@ -79,7 +87,6 @@ class ExporterHub():
 
     def click_my_goods(self):
         self.driver.find_element_by_css_selector(self.my_goods_btn).click()
-
 
     def click_save_and_continue(self):
         self.driver.find_element_by_css_selector("button[type*='submit']").click()
@@ -348,7 +355,7 @@ class ExporterHub():
         self.driver.find_element_by_id(self.type_choices + string).click()
 
     def click_application_locations_link(self):
-        self.driver.execute_script("document.getElementById('"+ self.location_link+"').scrollIntoView(true);")
+        self.driver.execute_script("document.getElementById('" + self.location_link + "').scrollIntoView(true);")
         self.driver.find_element_by_id(self.location_link).click()
 
     def click_sites_checkbox(self, no):
@@ -360,3 +367,14 @@ class ExporterHub():
 
     def click_applications_link(self):
         self.driver.find_element_by_css_selector('a[href*="applications"]').click()
+
+    def click_new_sites_link(self):
+        self.driver.find_element_by_css_selector(self.new_sites_link).click()
+
+    def enter_info_for_new_site(self, name, address, postcode, city, region, country):
+        self.driver.find_element_by_id(self.name).send_keys(name)
+        self.driver.find_element_by_id(self.address_line_1).send_keys(address)
+        self.driver.find_element_by_id(self.postcode).send_keys(postcode)
+        self.driver.find_element_by_id(self.city).send_keys(city)
+        self.driver.find_element_by_id(self.region).send_keys(region)
+        self.driver.find_element_by_id(self.country).send_keys(country)

@@ -58,7 +58,7 @@ def click_overview(driver):
 
 
 @given('I go to exporter homepage')
-def go_to_exporter_when(driver, exporter_url):
+def go_to_exporter_given(driver, exporter_url):
     driver.get(exporter_url)
 
 
@@ -119,17 +119,6 @@ def choose_location_type(driver, organisation_or_external):
     exporter = ExporterHub(driver)
     exporter.click_on_organisation_or_external_radio_button(organisation_or_external)
     exporter.click_continue()
-
-
-@when('I click sites link')
-def i_click_sites_link(driver):
-    exporter = ExporterHub(driver)
-    exporter.click_sites_link()
-
-
-@when('I click continue')
-def i_click_continue(driver):
-    driver.find_element_by_css_selector("button[type*='submit']").click()
 
 
 @when(parsers.parse('I select the site at position "{no}"'))

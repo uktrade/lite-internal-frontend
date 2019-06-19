@@ -1,9 +1,9 @@
 from datetime import datetime
-
 import helpers.helpers as utils
 from pages.header_page import HeaderPage
 from pages.organisations_form_page import OrganisationsFormPage
 from pages.organisations_page import OrganisationsPage
+from pages.exporter_hub import ExporterHub
 from pytest_bdd import scenarios, when, then, parsers
 from selenium.webdriver.common.by import By
 from conftest import context
@@ -29,6 +29,11 @@ def i_go_to_organisations(driver):
     context.org_registered_status = False
 
 
+@when('I click on my registered organisation')
+def click_my_organisation(driver):
+    driver.find_element_by_xpath("//*[text()[contains(.,'" + context.org_name + "')]]").click()
+
+
 @when('I choose to add a new organisation for setup')
 def i_choose_to_add_a_new_organisation_setup(driver):
     organisations_page = OrganisationsPage(driver)
@@ -40,9 +45,14 @@ def i_choose_to_add_a_new_organisation_setup(driver):
 
 
 @when('I choose to add a new organisation')
-def i_choose_to_add_a_new_organisation_setup(driver):
+def i_choose_to_add_a_new_organisation(driver):
     organisations_page = OrganisationsPage(driver)
     organisations_page.click_new_organisation_btn()
+
+
+@then('my new site is displayed')
+def new_site_is_displayed(driver):
+    assert driver.find_element_by_xpath("//*[text()[contains(.,'" + context.new_site_name + "')]]").is_displayed()
 
 
 @when(parsers.parse('I provide company registration details of name: "{name}", EORI: "{eori}", SIC: "{sic}", VAT: "{vat}", CRN: "{registration}"'))
@@ -67,6 +77,7 @@ def fill_out_site_details(driver, name, address_line_1, city, region, post_code,
     if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
         organisations_form_page.enter_site_name(name)
+        context.site_name = name
         organisations_form_page.enter_address_line_1(address_line_1)
         organisations_form_page.enter_region(region)
         organisations_form_page.enter_post_code(post_code)
@@ -81,6 +92,7 @@ def fill_out_admin_user_details(driver, email, first_name, last_name, password):
         organisations_form_page = OrganisationsFormPage(driver)
         if email == "trinity@unicorns.com" or email == " ":
             organisations_form_page.enter_email(email)
+            context.email = email
         else:
             context.email = email+utils.get_formatted_date_time_m_d_h_s()
             organisations_form_page.enter_email(context.email)
@@ -88,3 +100,13 @@ def fill_out_admin_user_details(driver, email, first_name, last_name, password):
         organisations_form_page.enter_last_name(last_name)
         organisations_form_page.enter_password(password)
         organisations_form_page.click_submit()
+
+
+@when(parsers.parse('I enter in text for new site "{edited}" {address}" "{postcode}" "{city}" "{region}" and "{country}"'))
+def new_sites_info(driver, edited, address, postcode, city, region, country):
+    exporter = ExporterHub(driver)
+    time_id = datetime.now().strftime("%m%d%H%M")
+    new_site_name = "New Site " + edited + time_id
+    context.new_site_name = new_site_name
+    exporter.enter_info_for_new_site(new_site_name, address, postcode, city, region, country)
+

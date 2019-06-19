@@ -18,9 +18,18 @@ As a...
     When I choose to add a new organisation
     When I provide company registration details of name: "Test Business T", EORI: "GB987654312000", SIC: "73200", VAT: "123456789", CRN: "000000011"
     When I setup an initial site with name: "Site 1", addres line 1: "123 Cobalt Street", town or city: "London", County: "Islington", post code: "AB1 2CD", country: "Ukraine"
-    When I setup the admin user with email: "TestBusinessT@mail.com", first name: "Trinity", last name: "Fishburne", password: "12345678900"
+    When I setup the admin user with email: "TestBusinessForSites@mail.com", first name: "Trinity", last name: "Fishburne", password: "12345678900"
     Then organisation is registered
-
+    When I go to exporter homepage
+    When I login to exporter homepage with username "TestBusinessForSites@mail.com" and "12345678900"
+    When I click sites link
+    When I click new site
+    When I enter in text for new site "Site 2" "address" "postcode" "city" "region" and "country"
+    When I click continue
+    When I go to the internal homepage
+    When I go to organisations
+    When I click on my registered organisation
+    Then my new site is displayed
 
   Scenario: Organisation registration validation
     Given I go to internal homepage

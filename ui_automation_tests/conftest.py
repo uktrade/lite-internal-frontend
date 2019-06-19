@@ -113,6 +113,8 @@ def go_to_exporter_when(driver, exporter_url):
 
 @when(parsers.parse('I login to exporter homepage with username "{username}" and "{password}"'))
 def login_to_exporter(driver, username, password):
+    if username == "TestBusinessForSites@mail.com":
+        username = context.email
     exporter_hub = ExporterHub(driver)
     if "login" in driver.current_url:
         exporter_hub.login(username, password)
@@ -133,3 +135,21 @@ def click_on_submit_button(driver):
 def error_message_shared(driver, expected_error):
     shared = Shared(driver)
     assert expected_error in shared.get_text_of_error_message()
+
+
+@when('I click sites link')
+def i_click_sites_link(driver):
+    exporter = ExporterHub(driver)
+    exporter.click_sites_link()
+
+
+@when('I click new site')
+def click_new_site(driver):
+    exporter = ExporterHub(driver)
+    exporter.click_new_sites_link()
+
+
+@when('I click continue')
+def i_click_continue(driver):
+    driver.find_element_by_css_selector("button[type*='submit']").click()
+
