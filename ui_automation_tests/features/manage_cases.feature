@@ -18,3 +18,12 @@ Feature: Manage cases
     Given I go to internal homepage
     When I click on application previously created
     When I click record decision
+    When I "grant" application
+    When I click continue
+    Then I see application "granted"
+    When I click record decision
+    When I "deny" application
+    When I click continue
+    When I select decision "2b" with optional text "Decision 2b is made"
+    When I click continue
+    Then I see application "denied"

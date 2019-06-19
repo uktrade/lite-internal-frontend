@@ -1,6 +1,7 @@
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from conftest import context
 from pages.application_page import ApplicationPage
+from pages.record_decision_page import RecordDecision
 from pages.exporter_hub import ExporterHub
 import helpers.helpers as utils
 
@@ -22,6 +23,42 @@ def click_post_note(driver):
 def click_post_note(driver):
     application_page = ApplicationPage(driver)
     application_page.click_record_decision()
+
+
+@when(parsers.parse('I "{grant_or_deny}" application'))
+def grant_or_deny_decision(driver, grant_or_deny):
+    record = RecordDecision(driver)
+    if grant_or_deny == "grant":
+        record.click_on_grant_licence()
+    elif grant_or_deny == "deny":
+        record.click_on_deny_licence()
+
+
+@when(parsers.parse('I select decision "{number}" with optional text "{optional_text}"'))
+def select_decision(driver, number, optional_text):
+    record = RecordDecision(driver)
+    record.click_on_decision_number(number)
+    context.decision_number = number
+    record.enter_optional_text(optional_text)
+    context.optional_text = optional_text
+
+
+@then(parsers.parse('I see application "{grant_or_deny}"'))
+def see_application_granted_or_denied(driver, grant_or_deny):
+    record = RecordDecision(driver)
+    details = driver.find_elements_by_css_selector(".lite-heading-s")
+    for header in details:
+        if header.text == "STATUS":
+            status_detail = header.find_element_by_xpath("./following-sibling::p").text
+            if grant_or_deny == "granted":
+                assert status_detail == "Approved"
+            elif grant_or_deny == "denied":
+                assert status_detail == "Under final review"
+                assert record.get_text_of_denial_reasons_headers(0) == "This case was denied because"
+                assert record.get_text_of_denial_reasons_headers(1) == "Further information"
+                #todo ask dev to put a selector in here
+                assert record.get_text_of_denial_reasons_listed(5) == context.decision_number
+                assert record.get_text_of_denial_reasons_listed(6) == context.optional_text
 
 
 @when(parsers.parse('I select status "{status}" and save'))
