@@ -17,6 +17,6 @@ def get_organisations_sites(request, pk):
     return data.json(), data.status_code
 
 
-def get_organisation_detail(request, pk):
+def get_organisation(request, pk):
     data = get(request, ORGANISATIONS_URL + pk)
     return data.json(), data.status_code
