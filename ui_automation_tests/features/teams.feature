@@ -6,5 +6,5 @@ Feature: I want to add teams
   Scenario: Add a team
     Given I go to internal homepage
     When I go to teams
-    When I add a team called "DIT"
+    And I add a team called "DIT"
     Then I see the team in the team list

@@ -6,13 +6,13 @@ Feature: I want to add and manage users
   Scenario: Add a user
     Given I go to internal homepage
     When I go to users
-    When I choose to add a user
-    When I add a user with email: "test@mail.com" and team in position 1
+    And I choose to add a user
+    And I add a user with email: "test@mail.com" and team in position 1
     Then I see the newly added user
 
   Scenario: Fail to add a user
     Given I go to internal homepage
     When I go to users
-    When I choose to add a user
-    When I add a duplicate user
+    And I choose to add a user
+    And I add a duplicate user
     Then I see user validation errors

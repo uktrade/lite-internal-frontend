@@ -5,6 +5,7 @@ from selenium import webdriver
 from pages.exporter_hub import ExporterHub
 from pages.shared import Shared
 
+
 # Screenshot in case of any test failure
 def pytest_exception_interact(node, report):
     if node and report.failed:
@@ -20,12 +21,10 @@ def pytest_addoption(parser):
         env = "dev"
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store",
-                     default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
-    parser.addoption("--internal_url", action="store",
-                     default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
     #parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
     #parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
+    parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
+    parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
 
 # Create driver fixture that initiates chrome
@@ -80,12 +79,15 @@ def sso_sign_in_url(request):
 def invalid_username():
     return "invalid@mail.com"
 
+sso_email="test-uat-user@digital.trade.gov.uk"
+sso_password="5cCIlffSrqszgOuw23VEOECnM"
+
 
 @pytest.fixture(scope="function")
 def open_internal_hub(driver, internal_url, sso_sign_in_url):
     driver.get(sso_sign_in_url)
-    driver.find_element_by_name("username").send_keys("test-uat-user@digital.trade.gov.uk")
-    driver.find_element_by_name("password").send_keys("5cCIlffSrqszgOuw23VEOECnM")
+    driver.find_element_by_name("username").send_keys(sso_email)
+    driver.find_element_by_name("password").send_keys(sso_password)
     driver.find_element_by_css_selector("[type='submit']").click()
     driver.get(internal_url)
 
@@ -98,8 +100,8 @@ def when_go_to_internal_homepage(driver, internal_url):
 @given('I go to internal homepage')
 def go_to_internal_homepage(driver, internal_url, sso_sign_in_url):
     driver.get(sso_sign_in_url)
-    driver.find_element_by_name("username").send_keys("test-uat-user@digital.trade.gov.uk")
-    driver.find_element_by_name("password").send_keys("5cCIlffSrqszgOuw23VEOECnM")
+    driver.find_element_by_name("username").send_keys(sso_email)
+    driver.find_element_by_name("password").send_keys(sso_password)
     driver.find_element_by_css_selector("[type='submit']").click()
     driver.get(internal_url)
 

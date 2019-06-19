@@ -5,29 +5,29 @@ Feature: Case notes
   Scenario: Add a new valid case note
     Given I go to internal homepage
     When I click on application previously created
-    When I enter "text" for case note
-    When I click post note
+    And I enter "text" for case note
+    And I click post note
     Then note is displayed
 
   Scenario: Add a case note filled to max with space characters
     Given I go to internal homepage
     When I click on application previously created
-    When I enter "the maximum limit with spaces" for case note
-    When I click post note
+    And I enter "the maximum limit with spaces" for case note
+    And I click post note
     Then maximum case error is displayed
 
   Scenario: Add a case note with too many characters
     Given I go to internal homepage
     When I click on application previously created
-    When I enter "the maximum limit" for case note
+    And I enter "the maximum limit" for case note
     Then case note warning is "You have 0 characters remaining"
     When I enter "T" for case note
     Then case note warning is "You have 1 character too many"
-    Then post note is disabled
+    And post note is disabled
 
   Scenario: Case note cancel button
     Given I go to internal homepage
     When I click on application previously created
-    When I enter "Case note to cancel" for case note
-    When I click cancel button
+    And I enter "Case note to cancel" for case note
+    And I click cancel button
     Then entered text is no longer in case note field
