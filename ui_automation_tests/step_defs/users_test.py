@@ -5,6 +5,8 @@ from pages.teams_pages import TeamsPages
 import helpers.helpers as utils
 from conftest import context
 
+from pages.users_index_page import UsersIndexPage
+
 scenarios('../features/users.feature', strict_gherkin=False)
 
 import logging
