@@ -65,7 +65,7 @@ def application_headers_and_info_are_correct(driver):
     assert driver.find_elements_by_css_selector(".lite-information-board .lite-heading-s")[3].text == "STATUS"
     assert driver.find_elements_by_css_selector(".lite-information-board .lite-heading-s")[4].text == "USAGE"
     #  this is hard coded from the organisation that is created as part of setup
-    assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[0].text == "Test Org"
+    assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[0].text == "Unicorns Ltd"
     assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[1].text == "Trading" or driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[1].text == "Brokering"
     #TODO commented out below line due to bug LT-1281
     #assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[2].text == context.date_time_of_update

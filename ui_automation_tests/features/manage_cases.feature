@@ -10,7 +10,7 @@ Feature: Manage cases
     Then the application headers and information are correct
     #TODO remove dependency here
     When I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage with username "trinity@unicorns.com" and "12345678900"
     When I click applications
     Then the status has been changed in exporter
 

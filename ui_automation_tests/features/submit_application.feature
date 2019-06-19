@@ -4,7 +4,7 @@ Feature: Licence
 
   Scenario: Submit application
     Given I go to exporter homepage
-    When I login to exporter homepage with username "test@mail.com" and "password"
+    When I login to exporter homepage with username "trinity@unicorns.com" and "12345678900"
     When I click on goods tile
     When I add a good with description "Good T1" controlled "Yes" control code "1234" incorporated "Yes" and part number "321"
     When I go to exporter homepage

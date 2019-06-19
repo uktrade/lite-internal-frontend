@@ -30,9 +30,9 @@ def submit_the_application(driver):
 @when(parsers.parse('I click add to application for the good at position "{no}"'))
 def click_add_to_application_button(driver, no):
 
-    context.goods_name = driver.find_elements_by_css_selector('.lite-card .govuk-heading-s')[int(no)].text
-    context.part_number = driver.find_elements_by_css_selector('.lite-card .govuk-label')[int(no)].text
-    driver.find_elements_by_css_selector('a.govuk-button')[int(no)].click()
+    context.goods_name = driver.find_elements_by_css_selector('.lite-card .govuk-heading-s')[int(no)-1].text
+    context.part_number = driver.find_elements_by_css_selector('.lite-card .govuk-label')[int(no)-1].text
+    driver.find_elements_by_css_selector('a.govuk-button')[int(no)-1].click()
 
 
 @when('I click on the goods link from overview')
@@ -48,7 +48,7 @@ def enter_values_for_good(driver, value, quantity, unit):
     context.value = value
     context.unit = unit
     exporter_hub = ExporterHub(driver)
-    exporter_hub.add_values_to_ood(str(value), str(quantity), unit)
+    exporter_hub.add_values_to_good(str(value), str(quantity), unit)
 
 
 @when('I click overview')
