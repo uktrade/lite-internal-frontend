@@ -1,12 +1,11 @@
-import requests
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
+from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case
-from conf.settings import env
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
@@ -83,14 +82,7 @@ class ManageCase(TemplateView):
 
 class DecideCase(TemplateView):
     def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-
-        context = {
-          'data': case,
-          'title': 'Manage ' + case.get('case').get('application').get('name'),
-        }
-        return render(request, 'cases/decide.html', context)
+        return form_page(request, record_decision_form())
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
@@ -99,14 +91,16 @@ class DecideCase(TemplateView):
         case_id = case.get('case').get('id')
         application_id = case.get('case').get('application').get('id')
 
-        if request.POST['status'] == 'declined':
+        if not request.POST.get('status'):
+            return form_page(request, record_decision_form(), errors={
+                'status': ['Select an option']
+            })
+
+        if request.POST.get('status') == 'declined':
             return redirect(reverse('cases:deny', kwargs={'pk': case_id}))
 
         # PUT form data
-        response = put_applications(request, application_id, request.POST)
-
-        if 'errors' in response:
-            return redirect('/cases/' + case_id + '/manage')
+        put_applications(request, application_id, request.POST)
 
         return redirect('/cases/' + case_id)
 
