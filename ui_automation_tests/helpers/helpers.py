@@ -83,3 +83,7 @@ def get_formatted_date_time_h_m_pm_d_m_y():
 
 def get_unformatted_date_time():
     return datetime.datetime.now()
+
+
+def get_formatted_date_time_m_d_h_s():
+    return datetime.datetime.now().strftime("%m%d%H%M%S")

@@ -127,3 +127,9 @@ def click_on_created_application(driver):
 def click_on_submit_button(driver):
     shared = Shared(driver)
     shared.click_submit()
+
+
+@then(parsers.parse('I see error message "{expected_error}"'))
+def error_message_shared(driver, expected_error):
+    shared = Shared(driver)
+    assert expected_error in shared.get_text_of_error_message()
