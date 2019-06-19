@@ -13,3 +13,5 @@ class HeaderPage():
     def click_teams(self):
         self.driver.find_element_by_css_selector("a[href*='/teams/']").click()
 
+    def click_users(self):
+        self.driver.find_element_by_css_selector("a[href*='/users/']").click()
