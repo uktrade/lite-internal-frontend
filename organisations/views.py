@@ -21,7 +21,7 @@ class OrganisationList(TemplateView):
 class OrganisationDetail(TemplateView):
 
     def get(self, request, **kwargs):
-        organisation, status_code = get_organisation_detail(request, str(kwargs['pk']))
+        organisation, status_code = get_organisation(request, str(kwargs['pk']))
         sites, status_code = get_organisations_sites(request, str(kwargs['pk']))
         context = {
             'organisation': organisation['organisation'],
