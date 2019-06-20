@@ -18,6 +18,7 @@ class ApplicationPage():
         self.headers = self.driver.find_elements_by_css_selector(".lite-heading-s") #css
         self.activity_case_note_subject = self.driver.find_elements_by_css_selector(".lite-activity-item .govuk-body")
         self.activity_dates = ".lite-activity-item .govuk-hint"
+        self.activity_user = ".user"
 
     def enter_case_note(self, text):
         self.driver.find_element_by_id(self.case_note_field).send_keys(text)
@@ -63,3 +64,6 @@ class ApplicationPage():
 
     def get_text_of_activity_dates(self, no):
         return self.driver.find_elements_by_css_selector(self.activity_dates)[no].text
+
+    def get_text_of_activity_users(self, no):
+        return self.driver.find_elements_by_css_selector(self.activity_user)[no].text

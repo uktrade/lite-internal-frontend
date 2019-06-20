@@ -82,12 +82,13 @@ def status_has_been_changed_in_header(driver):
     for header in application_page.get_text_of_application_headings():
         if header.text == "STATUS":
             status_detail = header.find_element_by_xpath("./following-sibling::p").text
-            assert status_detail == context.status
+            assert status_detail == context.status, "status has not been updated"
     # this also tests that the activities are in reverse chronological order as it is expecting the status change to be first.
     assert context.status.lower() in application_page.get_text_of_case_note_subject(0)
-    x = re.search("^[0-9]{2}):([0-9]{2})(am|pm) ([0-9][0-9]) (January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{4,})$", application_page.get_text_of_activity_dates(0))
+    is_date_in_format = re.search("([0-9]{1,2}):([0-9]{2})(am|pm) ([0-9][0-9]) (January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{4,})", application_page.get_text_of_activity_dates(0))
+    assert is_date_in_format, "date is not displayed after status change"
+    assert application_page.get_text_of_activity_users(0) == "first-name last-name", "user who has made the status change has not been displayed correctly"
 
-    assert x
 
 #TODO exporter dependency
 @when('I click applications')
