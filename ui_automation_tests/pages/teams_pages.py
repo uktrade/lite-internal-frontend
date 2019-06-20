@@ -6,6 +6,7 @@ class TeamsPages():
         self.add_team_button = ".govuk-button[href*='teams/add']" #css
 
     def enter_team_name(self, text):
+        self.driver.find_element_by_id(self.add_team_text_field).clear()
         return self.driver.find_element_by_id(self.add_team_text_field).send_keys(text)
 
     def click_add_a_team_button(self):
