@@ -24,6 +24,37 @@ Feature: Manage cases
     When I click record decision
     And I "deny" application
     And I click continue
-    And I select decision "2b" with optional text "Decision 2b is made"
+    And I select decision "2b"
+    And I type optional text "Reason denied due to bad information"
+    And I click continue
+    Then I see application "denied"
+
+  Scenario: Record decision without optional text
+    Given I go to internal homepage
+    When I click on application previously created
+    And I click record decision
+    And I "grant" application
+    And I click continue
+    Then I see application "granted"
+    When I click record decision
+    And I "deny" application
+    And I click continue
+    And I select decision "2b"
+    And I click continue
+    Then I see application "denied"
+
+  Scenario: Record decision with multiple decision
+    Given I go to internal homepage
+    When I click on application previously created
+    And I click record decision
+    And I "grant" application
+    And I click continue
+    Then I see application "granted"
+    When I click record decision
+    And I "deny" application
+    And I click continue
+    And I select decision "1a"
+    And I select decision "2b"
+    And I select decision "6c"
     And I click continue
     Then I see application "denied"
