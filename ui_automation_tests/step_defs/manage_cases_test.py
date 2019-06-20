@@ -1,3 +1,4 @@
+import re
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from conftest import context
 from pages.application_page import ApplicationPage
@@ -61,6 +62,11 @@ def see_application_granted_or_denied(driver, grant_or_deny):
                 assert record.get_text_of_denial_reasons_listed(6) == context.optional_text
 
 
+@when('dates are in chronological order')
+def select_status_save(driver):
+    application_page = ApplicationPage(driver)
+
+
 @when(parsers.parse('I select status "{status}" and save'))
 def select_status_save(driver, status):
     application_page = ApplicationPage(driver)
@@ -77,8 +83,11 @@ def status_has_been_changed_in_header(driver):
         if header.text == "STATUS":
             status_detail = header.find_element_by_xpath("./following-sibling::p").text
             assert status_detail == context.status
+    # this also tests that the activities are in reverse chronological order as it is expecting the status change to be first.
     assert context.status.lower() in application_page.get_text_of_case_note_subject(0)
+    x = re.search("^[0-9]{2}):([0-9]{2})(am|pm) ([0-9][0-9]) (January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{4,})$", application_page.get_text_of_activity_dates(0))
 
+    assert x
 
 #TODO exporter dependency
 @when('I click applications')

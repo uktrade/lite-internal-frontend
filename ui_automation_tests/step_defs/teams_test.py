@@ -5,7 +5,7 @@ from pages.teams_pages import TeamsPages
 import helpers.helpers as utils
 from conftest import context
 
-scenarios('../features/teams.feature', strict_gherkin=False)
+#scenarios('../features/teams.feature', strict_gherkin=False)
 
 import logging
 log = logging.getLogger()
