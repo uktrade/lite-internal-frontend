@@ -1,6 +1,8 @@
 import time
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+
 
 class ExporterHub():
 
@@ -59,9 +61,6 @@ class ExporterHub():
     def click_apply_for_a_licence(self):
         self.driver.find_element_by_css_selector(self.apply_for_a_licence_btn).click()
 
-    def click_drafts(self):
-        self.driver.find_element_by_css_selector(self.drafts_btn).click()
-
     def click_applications(self):
         self.driver.find_element_by_css_selector(self.applications_btn).click()
 
@@ -91,12 +90,6 @@ class ExporterHub():
     def click_save_and_continue(self):
         self.driver.find_element_by_css_selector("button[type*='submit']").click()
 
-    def verify_good_is_in_goods_list(self, description, part_number, control_code):
-        goods_row = self.driver.find_element_by_xpath("//*[text()[contains(.,'" + description + "')]]")
-        assert goods_row.is_displayed()
-        assert goods_row.find_element_by_xpath(".//following-sibling::td").text == part_number
-        assert goods_row.find_element_by_xpath(".//following-sibling::td[2]").text == control_code
-
     def click_users(self):
         self.driver.find_element_by_css_selector(self.users_btn).click()
 
@@ -117,25 +110,6 @@ class ExporterHub():
         actions.move_to_element(element).perform()
         time.sleep(1)
         element.click()
-
-    def click_user_name_link(self, user_name):
-        element = self.driver.find_element_by_xpath("//*[text()[contains(.,'" + user_name + "')]]")
-        actions = ActionChains(self.driver)
-        actions.move_to_element(element).perform()
-        time.sleep(1)
-        element.click()
-
-    def click_deactivate_btn(self):
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'Deactivate')]]").click()
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'Deactivate User')]]").click()
-
-    def click_reactivate_btn(self):
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'Reactivate')]]").click()
-        self.driver.find_element_by_xpath("//*[text()[contains(.,'Reactivate User')]]").click()
-
-    def logout(self):
-        self.driver.find_element_by_css_selector("a[href*='/logout']").click()
-        assert "logout" in self.driver.current_url
 
     def click_user_profile(self):
         self.driver.find_element_by_css_selector("a[href*='/users/profile/']").click()
@@ -364,9 +338,6 @@ class ExporterHub():
     def click_end_user_link(self):
         element = self.driver.find_element_by_id(self.end_user_link)
         self.driver.execute_script("arguments[0].click();", element)
-
-    def click_applications_link(self):
-        self.driver.find_element_by_css_selector('a[href*="applications"]').click()
 
     def click_new_sites_link(self):
         self.driver.find_element_by_css_selector(self.new_sites_link).click()
