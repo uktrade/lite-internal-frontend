@@ -1,5 +1,5 @@
 from queues.services import get_queue, get_queues, \
-    post_queues, update_queue
+    post_queues, put_queue
 from queues import forms
 
 from django.shortcuts import render, redirect
@@ -61,7 +61,7 @@ class EditQueue(TemplateView):
         return render(request, 'form.html', context)
 
     def post(self, request, **kwargs):
-        data, status_code = update_queue(request, str(kwargs['pk']), request.POST)
+        data, status_code = put_queue(request, str(kwargs['pk']), request.POST)
         if status_code == 400:
             context = {
                 'title': 'Add Queue',

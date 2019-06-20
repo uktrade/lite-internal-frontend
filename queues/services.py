@@ -17,6 +17,6 @@ def get_queue(request, pk):
     return data.json(), data.status_code
 
 
-def update_queue(request, pk, json):
+def put_queue(request, pk, json):
     data = put(request, QUEUES_URL + pk + "/", json)
     return data.json(), data.status_code
