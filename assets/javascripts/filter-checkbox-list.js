@@ -4,10 +4,11 @@ $("#filter-box").on('input', function() {
 	var value = $(this).val().toLowerCase();
 
 	$(".govuk-checkboxes__item").each(function(i, obj) {
-		var checkboxText = $(obj).find(".govuk-checkboxes__label").text();
+		var checkboxText = $(obj).find(".govuk-checkboxes__label").text().toLowerCase();
+		var checkboxDescription = $(obj).find(".govuk-checkboxes__hint").text().toLowerCase();
 
 		// Show checkbox if it's in the filter
-	    if (checkboxText.toLowerCase().includes(value)) {
+	    if (checkboxText.includes(value) || checkboxDescription.includes(value)) {
 			$(obj).show();
 		} else {
 			$(obj).hide();
