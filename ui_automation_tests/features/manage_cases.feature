@@ -21,7 +21,7 @@ Feature: Manage cases
     And I "grant" application
     And I click continue
     Then I see application "granted"
-    And I click record decision
+    When I click record decision
     And I click continue
     Then I see application "granted"
     When I click record decision
