@@ -1,12 +1,15 @@
+import json
 import os
 import pytest
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from selenium import webdriver
 from pages.exporter_hub import ExporterHub
 from pages.shared import Shared
-
+from conf.settings import env
 
 # Screenshot in case of any test failure
+
+
 def pytest_exception_interact(node, report):
     if node and report.failed:
         class_name = node._nodeid.replace(".py::", "_class_")
@@ -25,8 +28,8 @@ def pytest_addoption(parser):
                      default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
     parser.addoption("--internal_url", action="store",
                      default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
-    #parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
-    #parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
+    # parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
+    # parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
 
 # Create driver fixture that initiates chrome
@@ -82,8 +85,8 @@ def invalid_username():
     return "invalid@mail.com"
 
 
-sso_email="test-uat-user@digital.trade.gov.uk"
-sso_password="5cCIlffSrqszgOuw23VEOECnM"
+sso_email=env('TEST_SSO_EMAIL')
+sso_password=env('TEST_SSO_PASSWORD')
 
 
 @pytest.fixture(scope="function")
