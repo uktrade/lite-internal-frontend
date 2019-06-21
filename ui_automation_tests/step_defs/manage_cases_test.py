@@ -67,6 +67,8 @@ class ManageCases():
                         assert record.get_text_of_denial_reasons_listed(6) == context.optional_text
                     except AttributeError:
                         pass
+                    except IndexError:
+                        pass
                     assert record.get_text_of_denial_reasons_headers(0) == "This case was denied because"
                     # TODO ask dev to put a selector in here
                     i = 5
@@ -74,11 +76,9 @@ class ManageCases():
                         assert record.get_text_of_denial_reasons_listed(i) == denial_reason_code
                         i += 1
 
-
     @when('dates are in chronological order')
     def select_status_save(driver):
         application_page = ApplicationPage(driver)
-
 
     @when(parsers.parse('I select status "{status}" and save'))
     def select_status_save(driver, status):
@@ -87,7 +87,6 @@ class ManageCases():
         context.status = status
         context.date_time_of_update = utils.get_formatted_date_time_h_m_pm_d_m_y()
         driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]").click()
-
 
     @then('the status has been changed in the application')
     def status_has_been_changed_in_header(driver):
