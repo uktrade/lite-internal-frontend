@@ -22,7 +22,16 @@ Feature: Manage cases
     And I click continue
     Then I see application "granted"
     When I click record decision
+    And I click continue
+    Then I see application "granted"
+    When I click record decision
     And I "deny" application
+    And I click continue
+    And I select decision "2b"
+    And I type optional text "Reason denied due to bad information"
+    And I click continue
+    Then I see application "denied"
+    When I click record decision
     And I click continue
     And I select decision "2b"
     And I type optional text "Reason denied due to bad information"
