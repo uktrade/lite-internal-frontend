@@ -21,7 +21,7 @@ Feature: Licence
     And I click on the goods link from overview
     And I click the add from organisations goods button
     And I click add to application for the good at position "1"
-    And I add values to my good of "1.23" quantity "123" and unit of measurement "Metres"
+    And I add values to my good of "1" quantity "123" and unit of measurement "Metres"
     And I click continue
     Then good is added to application
     When I click overview
