@@ -34,7 +34,6 @@ Feature: Manage cases
     When I click record decision
     And I click continue
     And I select decision "2b"
-    And I type optional text "Reason denied due to bad information"
     And I click continue
     Then I see application "denied"
 

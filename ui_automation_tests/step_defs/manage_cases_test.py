@@ -26,6 +26,7 @@ class ManageCases():
     def click_post_note(driver):
         application_page = ApplicationPage(driver)
         application_page.click_record_decision()
+        context.decision_array = []
 
 
     @when(parsers.parse('I "{grant_or_deny}" application'))
@@ -35,7 +36,6 @@ class ManageCases():
             record.click_on_grant_licence()
         elif grant_or_deny == "deny":
             record.click_on_deny_licence()
-            context.decision_array = []
 
     @when(parsers.parse('I type optional text "{optional_text}"'))
     def type_optional_text(driver, optional_text):
