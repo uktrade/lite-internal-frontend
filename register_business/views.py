@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from libraries.forms.components import HiddenField
-from libraries.forms.generators import success_page
+from libraries.forms.generators import success_page, form_page
 from libraries.forms.helpers import get_next_form_after_pk, nest_data, get_form_by_pk, flatten_data
 from organisations.services import post_organisations
 from register_business import forms
@@ -11,12 +11,7 @@ from register_business import forms
 
 class RegisterBusiness(TemplateView):
     def get(self, request, **kwargs):
-        register_business_forms = forms.register_business_forms()
-        context = {
-            'page': register_business_forms.forms[0],
-            'title': register_business_forms.forms[0].title,
-        }
-        return render(request, 'form.html', context)
+        return form_page(request, forms.register_business_forms().forms[0])
 
     def post(self, request, **kwargs):
         data = request.POST.copy()
