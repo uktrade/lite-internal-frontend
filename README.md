@@ -2,7 +2,7 @@
 
 Application for handling internal information in LITE.
 
-##Download and setup the project:
+## Download and setup the project:
   * `git clone https://github.com/uktrade/lite-internal-frontend.git`
   * `cd lite-internal-frontend`
   * `git submodule init`
@@ -16,20 +16,20 @@ that installed on the local host (dev machine). Recreating this environment in d
 deterministic and reliable.
 
 
-###Initial setup
+### Initial setup
 Here the migrations need to be run before the service is used for the fist time and every time the service is torn down
   * `docker-compose build` : Build the docker image, this may take a little while the very first time. 
  After that it will be much faster as the container layers are cached locally.
   * `./bin/migrate.sh` : Run migrations to setup the database.
 
     
-###Managing the service
+### Managing the service
 * `docker-compose up` : Starting the service 
 * `docker-compose stop` : Stopping the service 
 * `docker-compose down` : Tearing down the service, this clears the database. 
 Note the migrations will need to be run again the next time the service is to be used 
 
-###Using the service
+### Using the service
 * Ensure that the [lite-api](https://github.com/uktrade/lite-api) service is running
 * Ensure this service is initialised and running
 * Go to the index page (e.g. `http://localhost:8200`)
