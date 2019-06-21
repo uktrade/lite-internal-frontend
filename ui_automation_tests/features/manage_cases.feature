@@ -33,10 +33,6 @@ Feature: Manage cases
     Given I go to internal homepage
     When I click on application previously created
     And I click record decision
-    And I "grant" application
-    And I click continue
-    Then I see application "granted"
-    When I click record decision
     And I "deny" application
     And I click continue
     And I select decision "2b"
@@ -47,10 +43,6 @@ Feature: Manage cases
     Given I go to internal homepage
     When I click on application previously created
     And I click record decision
-    And I "grant" application
-    And I click continue
-    Then I see application "granted"
-    When I click record decision
     And I "deny" application
     And I click continue
     And I select decision "1a"
@@ -58,3 +50,12 @@ Feature: Manage cases
     And I select decision "6c"
     And I click continue
     Then I see application "denied"
+
+    Scenario: Record decision validation
+    Given I go to internal homepage
+    When I click on application previously created
+    And I click record decision
+    And I "deny" application
+    And I click continue
+    And I click continue
+    Then I see error message "Select at least one denial reason"
