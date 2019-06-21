@@ -2,7 +2,7 @@ import random
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from pages.login_page import LoginPage
 
-#scenarios('../features/login.feature', strict_gherkin=False)
+scenarios('../features/login.feature', strict_gherkin=False)
 
 import logging
 log = logging.getLogger()
