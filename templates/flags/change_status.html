@@ -11,7 +11,7 @@
 			{% else %}
 				<button type="submit" name="status" value="Deactivated" class="govuk-button govuk-button--warning">Deactivate Flag</button>
 			{% endif %}
-			<a href="{% url 'users:users' %}" role="button" draggable="false" class="govuk-button govuk-button--secondary">Cancel</a>
+			<a href="{% url 'flags:flags' %}" role="button" draggable="false" class="govuk-button govuk-button--secondary">Cancel</a>
 		</div>
 	</form>
 {% endblock %}

@@ -67,7 +67,7 @@ class EditFlag(TemplateView):
         if status_code != 200:
             return form_page(request, edit_flag_form(), data=request.POST, errors=response.get('errors'))
 
-        return redirect(reverse_lazy('users:users'))
+        return redirect(reverse_lazy('flags:flags'))
 
 
 class ViewFlag(TemplateView):
@@ -90,10 +90,10 @@ class ChangeFlagStatus(TemplateView):
             raise Http404
 
         if status == 'deactivate':
-            description = get_string('update_user.status.deactivate_warning')
+            description = get_string('flags.update_flag.status.deactivate_warning')
 
         if status == 'reactivate':
-            description = get_string('update_user.status.reactivate_warning')
+            description = get_string('flags.update_flag.status.reactivate_warning')
 
         context = {
             'title': 'Are you sure you want to {} this flag?'.format(status),

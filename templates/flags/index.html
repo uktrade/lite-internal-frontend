@@ -11,7 +11,7 @@
 		<div class="lite-app-bar--right">
 			{% if status == 'active' %}
 				<a href="{% url 'flags:flags' 'all' %}" class="govuk-button" draggable="false" role="button">
-					View deactivated
+					Include deactivated
 				</a>
 			{% elif status == 'all' %}
 				<a href="{% url 'flags:flags' 'active' %}" class="govuk-button" draggable="false" role="button">
@@ -54,7 +54,12 @@
                         </td>
 						<td class="govuk-table__cell">
 							{% if user_data.user.team == flag.team %}
-								<a href="{% url 'flags:edit' flag.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">Edit</a>
+								{% if flag.status == 'Active' %}
+									<a href="{% url 'flags:change_status' flag.id 'deactivate' %}" role="button" draggable="false" class="govuk-link govuk-!-margin-right-2">Deactivate</a>
+								{% elif flag.status == 'Deactivated' %}
+									<a href="{% url 'flags:change_status' flag.id 'reactivate' %}" role="button" draggable="false" class="govuk-link govuk-!-margin-right-2">Reactivate</a>
+								{% endif %}
+								<a href="{% url 'flags:edit' flag.id %}" style="margin: 10;" class="govuk-link">Edit</a>
 							{% else %}
                                 None
                             {% endif %}
