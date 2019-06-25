@@ -20,58 +20,86 @@
 	</div>
 </div>
 
-<div class="lite-information-board">
+<div class="lite-information-board lite-information-board--new">
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-one-third">
-			<p class="lite-heading-s">Applicant</p>
-			<p class="govuk-label">
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' data.case.application.organisation.id %}">
+			<div class="lite-block" style="height: auto;">
+				<h4 class="lite-heading-s">Applicant</h4>
+				<a class="govuk-label govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' data.case.application.organisation.id %}">
 					{{ data.case.application.organisation.name }}
 				</a>
-			</p>
+			</div>
 		</div>
 		<div class="govuk-grid-column-one-third">
-			<p class="lite-heading-s">Activity</p>
-			<p class="govuk-label">{{ data.case.application.activity }}</p>
+			<div class="lite-block" style="height: auto;">
+				<h4 class="lite-heading-s">Activity</h4>
+				<p class="govuk-label">
+					{{ data.case.application.activity }}
+				</p>
+			</div>
 		</div>
 		<div class="govuk-grid-column-one-third">
-			<p class="lite-heading-s">Last Updated</p>
-			<p class="govuk-label">
-				{{ data.case.application.last_modified_at|str_date }}
-			</p>
+			<div class="lite-block" style="height: auto;">
+				<h4 class="lite-heading-s">Last Updated</h4>
+				<p class="govuk-label">
+					{{ data.case.application.last_modified_at|str_date }}
+				</p>
+			</div>
 		</div>
 	</div>
-	<div class="govuk-grid-row">
+	<div style="height: 15px;">
 
+	</div>
+	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-one-third">
-			<p class="lite-heading-s">
-				Status
-			</p>
-			<p class="govuk-label">{{ data.case.application.status|sentence_case }}</p>
+			<div class="lite-block lite-block--expandable">
+				<h4 class="lite-heading-s">{{ data.case.application.goods|length }} Goods</h4>
+				{% for good in data.case.application.goods %}
+				<p class="govuk-label">
+					{{ good.good.description }}
+				</p>
+				{% endfor %}
+			</div>
 		</div>
 		<div class="govuk-grid-column-one-third">
-			<p class="lite-heading-s">
-				Usage
-			</p>
-			<p class="govuk-label">{{ data.case.application.usage }}</p>
+			<div class="lite-block lite-block--expandable">
+				<h4 class="lite-heading-s">Goods location</h4>
+				{% for country in data.case.application.countries %}
+				<p class="govuk-label">
+					{{ country.name }}
+				</p>
+				{% endfor %}
+			</div>
 		</div>
+		{% if data.case.application.licence_type == 'open_licence' %}
+		<div class="govuk-grid-column-one-third">
+			<div class="lite-block lite-block--expandable">
+				<h4 class="lite-heading-s">{{ data.case.application.countries|length }} Destinations</h4>
+				{% for country in data.case.application.countries %}
+				<p class="govuk-label">
+					{{ country.name }}
+				</p>
+				{% endfor %}
+			</div>
+		</div>
+		{% endif %}
 	</div>
 </div>
 
 {% if data.case.application.application_denial_reason %}
-	<h3 class="govuk-heading-m">Denial Reasons</h3>
-	{% for reason in data.case.application.application_denial_reason %}
-		<p class="govuk-heading-s">This case was denied because</p>
-		{% for reason_id in reason.reasons %}
-			<p class="govuk-label">{{ reason_id.id }}</p>
-		{% endfor %}
-		{% if reason.reason_details %}
-			<br/>
-			<p class="govuk-heading-s">Further information</p>
-			<p class="govuk-label">{{ reason.reason_details }}</p>
-		{% endif %}
-	{% endfor %}
-	<br/><br/>
+<h3 class="govuk-heading-m">Denial Reasons</h3>
+{% for reason in data.case.application.application_denial_reason %}
+<p class="govuk-heading-s">This case was denied because</p>
+{% for reason_id in reason.reasons %}
+<p class="govuk-label">{{ reason_id.id }}</p>
+{% endfor %}
+{% if reason.reason_details %}
+<br />
+<p class="govuk-heading-s">Further information</p>
+<p class="govuk-label">{{ reason.reason_details }}</p>
+{% endif %}
+{% endfor %}
+<br /><br />
 {% endif %}
 
 <div class="lite-tabs--fade">
