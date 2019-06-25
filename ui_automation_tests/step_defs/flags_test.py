@@ -65,7 +65,6 @@ def edit_existing_flag(driver):
         no += 1
 
     elements[element_number + 4].click()
-    #flags_pages.click_add_a_flag_button()
     flags_pages = FlagsPages(driver)
     context.flag_name = str(context.flag_name)[:12] + "edited"
     flags_pages.enter_flag_name(context.flag_name)
