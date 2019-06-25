@@ -60,7 +60,7 @@ class AddFlag(TemplateView):
 class EditFlag(TemplateView):
     def get(self, request, **kwargs):
         data, status_code = get_flag(request, str(kwargs['pk']))
-        return form_page(request, edit_flag_form(), data=data)
+        return form_page(request, edit_flag_form(), data=data['flag'])
 
     def post(self, request, **kwargs):
         response, status_code = update_flag(request, str(kwargs['pk']), request.POST)
