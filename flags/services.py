@@ -17,6 +17,6 @@ def get_flag(request, pk):
     return data.json(), data.status_code
 
 
-def update_flag(request, pk, json):
+def put_flag(request, pk, json):
     data = put(request, FLAGS_URL + pk + "/", json)
     return data.json(), data.status_code

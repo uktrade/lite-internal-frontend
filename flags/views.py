@@ -2,7 +2,7 @@ from django.http import Http404
 
 from core.builtins.custom_tags import get_string
 from flags.forms import add_flag_form, edit_flag_form
-from flags.services import get_flags, post_flags, get_flag, update_flag
+from flags.services import get_flags, post_flags, get_flag, put_flag
 from libraries.forms.generators import form_page
 from queues.services import get_queue, get_queues, \
     post_queues, put_queue
@@ -63,7 +63,7 @@ class EditFlag(TemplateView):
         return form_page(request, edit_flag_form(), data=data['flag'])
 
     def post(self, request, **kwargs):
-        response, status_code = update_flag(request, str(kwargs['pk']), request.POST)
+        response, status_code = put_flag(request, str(kwargs['pk']), request.POST)
         if status_code != 200:
             return form_page(request, edit_flag_form(), data=request.POST, errors=response.get('errors'))
 
@@ -109,7 +109,7 @@ class ChangeFlagStatus(TemplateView):
         if status != 'deactivate' and status != 'reactivate':
             raise Http404
 
-        update_flag(request, str(kwargs['pk']), json={'status': request.POST['status']})
+        put_flag(request, str(kwargs['pk']), json={'status': request.POST['status']})
 
-        return redirect('/flags/')
+        return redirect(reverse_lazy('flags:flags'))
 
