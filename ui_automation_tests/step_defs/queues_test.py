@@ -61,11 +61,9 @@ def see_queue_in_queue_list(driver):
 def new_queue_shown_in_dropdown(driver):
     driver.find_element_by_id('queue-title').click()
     elements = driver.find_elements_by_css_selector('.lite-dropdown .lite-dropdown--item')
-    no = 0
-    while no < len(elements):
-        if elements[no].text == context.queue_name:
-            driver.execute_script("document.getElementsByClassName('lite-dropdown--item')[" + str(no) + "].scrollIntoView(true);")
-            elements[no].click()
-            break
-        no += 1
+    for idx, element in enumerate(elements):
+        if element.text == context.queue_name:
+            driver.execute_script("document.getElementsByClassName('lite-dropdown--item')[" + str(idx) + "].scrollIntoView(true);")
+            element.click()
+        break
 
