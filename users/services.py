@@ -16,8 +16,21 @@ def get_gov_users(request, params=None, convert_to_options=False):
         converted = []
 
         for user in data.json().get('gov_users'):
+            first_name = user.get('first_name')
+            last_name = user.get('last_name')
+            email = user.get('email')
+
+            if first_name:
+                value = first_name + ' ' + last_name
+                description = email
+            else:
+                value = email
+                description = None
+
             converted.append(
-                Option(user.get('id'), user.get('first_name') + ' ' + user.get('last_name'))
+                Option(key=user.get('id'),
+                       value=value,
+                       description=description)
             )
 
         return converted

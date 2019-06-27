@@ -183,19 +183,21 @@ class AssignUsers(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
+
         user_data, status_code = get_gov_user(request, str(request.user.user_token))
 
         return form_page(request, assign_users_form(request, user_data['user']['team']), data=case['case'])
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
+        user_data, status_code = get_gov_user(request, str(request.user.user_token))
 
         data = {
-            'queues': request.POST.getlist('queues'),
+            'users': request.POST.getlist('users'),
         }
 
         response, data = submit_single_form(request,
-                                            assign_users_form(request),
+                                            assign_users_form(request, user_data['user']['team']),
                                             put_case,
                                             pk=case_id,
                                             override_data=data)
