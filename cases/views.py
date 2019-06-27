@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 
+from cases.forms.assign_users import assign_users_form
 from cases.forms.attach_documents import attach_documents_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
@@ -10,6 +11,7 @@ from cases.services import get_case, post_case_notes, put_applications, get_acti
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
+from users.services import get_gov_user
 
 
 class Index(TemplateView):
@@ -166,6 +168,34 @@ class MoveCase(TemplateView):
 
         response, data = submit_single_form(request,
                                             move_case_form(request),
+                                            put_case,
+                                            pk=case_id,
+                                            override_data=data)
+
+        if response:
+            return response
+
+        # If there is no response (no forms left to go through), go to the case page
+        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+
+
+class AssignUsers(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+        user_data, status_code = get_gov_user(request, str(request.user.user_token))
+
+        return form_page(request, assign_users_form(request, user_data['user']['team']), data=case['case'])
+
+    def post(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+
+        data = {
+            'queues': request.POST.getlist('queues'),
+        }
+
+        response, data = submit_single_form(request,
+                                            assign_users_form(request),
                                             put_case,
                                             pk=case_id,
                                             override_data=data)

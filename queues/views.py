@@ -6,14 +6,14 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from users.services import get_user
+from users.services import get_gov_user
 
 
 class QueuesList(TemplateView):
 
     def get(self, request, **kwargs):
         data, status_code = get_queues(request)
-        user_data, status_code = get_user(request, str(request.user.user_token))
+        user_data, status_code = get_gov_user(request, str(request.user.user_token))
 
         context = {
             'data': data,
@@ -33,7 +33,7 @@ class AddQueue(TemplateView):
 
     def post(self, request, **kwargs):
         # including the user's team details in the post request
-        user_data, status_code = get_user(request, str(request.user.user_token))
+        user_data, status_code = get_gov_user(request, str(request.user.user_token))
         post_data = request.POST.copy()
         post_data['team'] = user_data['user']['team']
         data, status_code = post_queues(request, post_data)
