@@ -33,6 +33,9 @@ class Index(TemplateView):
         }
         return render(request, 'cases/index.html', context)
 
+    def post(self, request, **kwargs):
+        return redirect(reverse('cases:assign_users') + '?cases=' + ','.join(request.POST.getlist('cases')))
+
 
 class ViewCase(TemplateView):
     def get(self, request, **kwargs):
@@ -54,7 +57,7 @@ class ViewCase(TemplateView):
         if status_code != 201:
             error = response.get('errors').get('text')[0]
             error = error.replace('This field', 'Case note')
-            error = error.replace('this field', 'the case note') # TODO: Move to API
+            error = error.replace('this field', 'the case note')  # TODO: Move to API
             return error_page(request, error)
 
         return redirect('/cases/' + case_id + '#case_notes')
@@ -65,8 +68,8 @@ class ManageCase(TemplateView):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
         context = {
-          'data': case,
-          'title': 'Manage ' + case.get('case').get('application').get('name'),
+            'data': case,
+            'title': 'Manage ' + case.get('case').get('application').get('name'),
         }
         return render(request, 'cases/manage.html', context)
 
@@ -181,29 +184,40 @@ class MoveCase(TemplateView):
 
 class AssignUsers(TemplateView):
     def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-
+        case_ids = request.GET.get('cases').split(',')
         user_data, status_code = get_gov_user(request, str(request.user.user_token))
 
-        return form_page(request, assign_users_form(request, user_data['user']['team']), data=case['case'])
+        if not request.GET.get('cases'):
+            return error_page(request, 'Invalid case selection')
+
+        for case_id in case_ids:
+            case, status_code = get_case(request, case_id)
+
+        return form_page(request, assign_users_form(request,
+                                                    user_data['user']['team'],
+                                                    len(case_ids) > 1),
+                         data=case['case'])
 
     def post(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
+        case_ids = request.GET.get('cases').split(',')
         user_data, status_code = get_gov_user(request, str(request.user.user_token))
 
         data = {
             'users': request.POST.getlist('users'),
         }
 
-        response, data = submit_single_form(request,
-                                            assign_users_form(request, user_data['user']['team']),
-                                            put_case,
-                                            pk=case_id,
-                                            override_data=data)
+        for case_id in case_ids:
+            response, status_code = put_case(request, case_id, data)
 
-        if response:
-            return response
+            if 'errors' in response:
+                return form_page(request, assign_users_form(request,
+                                                            user_data['user']['team'],
+                                                            len(case_ids) > 1),
+                                 data=request.POST,
+                                 errors=response['errors'])
 
         # If there is no response (no forms left to go through), go to the case page
-        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+        if len(case_ids) > 1:
+            return redirect(reverse('cases:cases'))
+        else:
+            return redirect(reverse('cases:case', kwargs={'pk': case_ids[0]}))
