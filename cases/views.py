@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 
+from cases.forms.attach_documents import attach_documents_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
@@ -11,23 +12,24 @@ from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
 
 
-def index(request):
-    queue_id = request.GET.get('queue')
+class Index(TemplateView):
+    def get(self, request, **kwargs):
+        queue_id = request.GET.get('queue')
 
-    # If a queue id is not provided, use the default queue
-    if not queue_id:
-        queue_id = '00000000-0000-0000-0000-000000000001'
+        # If a queue id is not provided, use the default queue
+        if not queue_id:
+            queue_id = '00000000-0000-0000-0000-000000000001'
 
-    queues, status_code = get_queues(request)
-    queue, status_code = get_queue(request, queue_id)
+        queues, status_code = get_queues(request)
+        queue, status_code = get_queue(request, queue_id)
 
-    context = {
-        'queues': queues,
-        'queue_id': queue_id,
-        'data': queue,
-        'title': queue.get('queue').get('name'),
-    }
-    return render(request, 'cases/index.html', context)
+        context = {
+            'queues': queues,
+            'queue_id': queue_id,
+            'data': queue,
+            'title': queue.get('queue').get('name'),
+        }
+        return render(request, 'cases/index.html', context)
 
 
 class ViewCase(TemplateView):

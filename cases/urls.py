@@ -5,7 +5,7 @@ from cases import views
 app_name = 'cases'
 urlpatterns = [
     # ex: /
-    path('', views.index, name='cases'),
+    path('', views.Index.as_view(), name='cases'),
     # ex: /<uuid:pk>/
     path('<uuid:pk>/', views.ViewCase.as_view(), name='case'),
     # ex: /<uuid:pk>/manage
