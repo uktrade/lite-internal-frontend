@@ -1,4 +1,4 @@
-@internal @manage_cases
+@internal @manage_cases @setup
 Feature: I want to record the final decision overall on an application case
   As a Licensing Unit Case Officer
   I want to record the final decision overall on an application case

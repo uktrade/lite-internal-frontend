@@ -27,7 +27,7 @@ Feature:  I want to create and deactivate case flags
     And I add a flag called "aaaaaaaaaaaaaaaaaaaaa" at level "Case"
     Then I see error message "Ensure this field has no more than 20 characters."
 
-  @LT-950_edit
+  @LT-950_edit @setup
   Scenario: Edit a flag
     Given I go to internal homepage
     When I go to flags
