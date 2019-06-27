@@ -15,15 +15,6 @@
 	<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
 </form>
 
-<div class="lite-dropdown-background" onclick="toggleDropdown()"></div>
-
-<!-- <div class="lite-tabs--fade">
-		<div class="lite-tabs">
-			<a class="lite-tabs__tab selected">Cases</a>
-			<!--<a class="lite-tabs__tab">Queries</a>
-		</div>
-	</div> -->
-
 <form method="post">
 
 	{% csrf_token %}
@@ -31,17 +22,17 @@
 	<div class="lite-app-bar">
 		<div class="">
 			<a id="queue-title" href="#" class="govuk-heading-l lite-heading-dropdown" onclick="toggleDropdown()">{{ title }}</a>
-
-			<div class="lite-dropdown--container" id="queues">
-				<div class="lite-dropdown">
-					{% for queue in queues.queues %}
-					<a href="/cases/?queue={{ queue.id }}" class="lite-dropdown--item {% if queue.id == queue_id %}lite-dropdown--item--selected{% endif %}">{{ queue.name }}</a>
-					{% endfor %}
-				</div>
-			</div>
 		</div>
 		<div class="lite-app-bar--right">
-			<button type="submit" class="govuk-button govuk-button--secondary">Assign users</button>
+			<button id="assign-users-button" type="submit" class="govuk-button govuk-button--secondary">Assign users</button>
+		</div>
+	</div>
+	<div class="lite-dropdown-background" onclick="toggleDropdown()"></div>
+	<div class="lite-dropdown--container" id="queues">
+		<div class="lite-dropdown">
+			{% for queue in queues.queues %}
+			<a href="/cases/?queue={{ queue.id }}" class="lite-dropdown--item {% if queue.id == queue_id %}lite-dropdown--item--selected{% endif %}">{{ queue.name }}</a>
+			{% endfor %}
 		</div>
 	</div>
 
@@ -110,6 +101,21 @@
 		$("#queues").toggleClass('lite-dropdown--visible');
 		$("#queue-title").toggleClass("lite-heading-dropdown--flipped");
 	}
+
+	function setAssignUsersAbility() {
+		// Disable the assign users button unless a checkbox is selected
+		if ($("input[type='checkbox']:checked").length == 0) {
+			$("#assign-users-button").prop('disabled', true).addClass("govuk-button--disabled");
+		} else {
+			$("#assign-users-button").prop('disabled', false).removeClass("govuk-button--disabled");
+		}
+	}
+
+	setAssignUsersAbility();
+
+	$("input[type='checkbox']").change(function() {
+		setAssignUsersAbility();
+	});
 </script>
 
 {% endblock %}
