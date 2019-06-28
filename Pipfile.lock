@@ -324,7 +324,7 @@
                 "sha256:c3e4748ba1aad8dba30a4886b0b1a2004f9a863837b8654e7059eebf727afa5a"
             ],
             "markers": "python_version > '2.7'",
-            "version": "==7.1.0"
+            "version": "==7.0.0"
         },
         "parse": {
             "hashes": [
