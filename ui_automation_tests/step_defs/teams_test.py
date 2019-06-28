@@ -1,3 +1,4 @@
+import logging
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from selenium.webdriver.support.ui import Select
 from conf.settings import env
@@ -6,16 +7,15 @@ import helpers.helpers as utils
 from pages.header_page import HeaderPage
 from pages.shared import Shared
 from pages.teams_pages import TeamsPages
-sso_email = env('TEST_SSO_EMAIL')
-sso_name = env('TEST_SSO_NAME')
-
-scenarios('../features/teams.feature', strict_gherkin=False)
-
-import logging
 
 log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
+
+sso_email = env('TEST_SSO_EMAIL')
+sso_name = env('TEST_SSO_NAME')
+
+scenarios('../features/teams.feature', strict_gherkin=False)
 
 
 @when('I go to teams')
