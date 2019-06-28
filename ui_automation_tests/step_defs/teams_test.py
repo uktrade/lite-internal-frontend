@@ -105,10 +105,11 @@ def see_team_in_list(driver):
 @then(parsers.parse('I see my teams user list with user "{added_not_added}"'))
 def see_team_user_added(driver, added_not_added):
     assert driver.find_element_by_tag_name("h1").text == context.team_name , "User is not on teams user list"
-    assert driver.find_element_by_css_selector(".lite-tabs__tab.selected").text == "USERS" , "Users tab isn't shown"
+    assert Shared(driver).get_text_of_selected_tab() == "USERS" , "Users tab isn't shown"
+    table = Shared(driver).get_text_of_table_body()
     if added_not_added == "added":
-        assert sso_name in driver.find_element_by_css_selector(".govuk-table__body").text, "User is not displayed in team list"
-        assert sso_email in driver.find_element_by_css_selector(".govuk-table__body").text, "User is not displayed in team list"
-        assert "Active" in driver.find_element_by_css_selector(".govuk-table__body").text, "User is not displayed in team list"
+        assert sso_name in table, "User is not displayed in team list"
+        assert sso_email in table, "User is not displayed in team list"
+        assert "Active" in table, "User is not displayed in team list"
     elif added_not_added == "not added":
-        assert driver.find_element_by_css_selector(".govuk-caption-l").text == "You don't have any users at the moment." , "Users are potentially displayed for a just created Team List"
+        assert Shared(driver).get_text_of_caption() == "You don't have any users at the moment." , "Users are potentially displayed for a just created Team List"
