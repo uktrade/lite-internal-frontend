@@ -1,6 +1,5 @@
 import logging
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
-from selenium.webdriver.support.ui import Select
 from conf.settings import env
 from conftest import context
 import helpers.helpers as utils
@@ -39,15 +38,13 @@ def click_on_my_team(driver):
 
 @when('I select my newly created team')
 def select_team(driver):
-    select = Select(driver.find_element_by_id('team'))
-    select.select_by_visible_text(context.team_name)
+    TeamsPages(driver).select_team_from_dropdown(context.team_name)
     Shared(driver).click_submit()
 
 
 @when('I select Admin team')
 def select_team(driver):
-    select = Select(driver.find_element_by_id('team'))
-    select.select_by_visible_text("Admin")
+    TeamsPages(driver).select_team_from_dropdown("Admin")
     Shared(driver).click_submit()
 
 

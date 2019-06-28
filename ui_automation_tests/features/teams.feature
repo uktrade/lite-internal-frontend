@@ -13,7 +13,7 @@ Feature: I want to add departments
     When I add an existing team name
     Then I see error message "Enter a name which is not already in use by another team"
 
-    @LT-930_click
+  @LT-930_click
   Scenario: Add a team and click on team name and add user to team and rollback
     Given I go to internal homepage
     When I go to teams
