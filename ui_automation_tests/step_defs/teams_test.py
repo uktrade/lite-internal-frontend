@@ -103,8 +103,8 @@ def see_team_in_list(driver):
 def see_team_user_added(driver, added_not_added):
     assert driver.find_element_by_tag_name("h1").text == context.team_name , "User is not on teams user list"
     assert Shared(driver).get_text_of_selected_tab() == "USERS" , "Users tab isn't shown"
-    table = Shared(driver).get_text_of_table_body()
     if added_not_added == "added":
+        table = Shared(driver).get_text_of_table_body()
         assert sso_name in table, "User is not displayed in team list"
         assert sso_email in table, "User is not displayed in team list"
         assert "Active" in table, "User is not displayed in team list"
