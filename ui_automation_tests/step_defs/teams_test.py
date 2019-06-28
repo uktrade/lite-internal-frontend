@@ -1,10 +1,13 @@
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from selenium.webdriver.support.ui import Select
+from conf.settings import env
 from conftest import context
 import helpers.helpers as utils
 from pages.header_page import HeaderPage
 from pages.shared import Shared
 from pages.teams_pages import TeamsPages
+sso_email = env('TEST_SSO_EMAIL')
+sso_name = env('TEST_SSO_NAME')
 
 scenarios('../features/teams.feature', strict_gherkin=False)
 
@@ -50,7 +53,7 @@ def select_team(driver):
 
 @when('I click edit for my user')
 def click_edit_for_my_user(driver):
-    driver.find_element_by_xpath("//td[text()='test-uat-user@digital.trade.gov.uk']/following-sibling::td[last()]/a").click()
+    driver.find_element_by_xpath("//td[text()='" + sso_email + "']/following-sibling::td[last()]/a").click()
 
 
 @when(parsers.parse('I add a team called "{team_name}"'))
@@ -104,8 +107,8 @@ def see_team_user_added(driver, added_not_added):
     assert driver.find_element_by_tag_name("h1").text == context.team_name , "User is not on teams user list"
     assert driver.find_element_by_css_selector(".lite-tabs__tab.selected").text == "USERS" , "Users tab isn't shown"
     if added_not_added == "added":
-        assert "first-name last-name"	in driver.find_element_by_css_selector(".govuk-table__body").text, "User is not displayed in team list"
-        assert "test-uat-user@digital.trade.gov.uk"	in driver.find_element_by_css_selector(".govuk-table__body").text, "User is not displayed in team list"
-        assert "Active"	in driver.find_element_by_css_selector(".govuk-table__body").text, "User is not displayed in team list"
+        assert sso_name in driver.find_element_by_css_selector(".govuk-table__body").text, "User is not displayed in team list"
+        assert sso_email in driver.find_element_by_css_selector(".govuk-table__body").text, "User is not displayed in team list"
+        assert "Active" in driver.find_element_by_css_selector(".govuk-table__body").text, "User is not displayed in team list"
     elif added_not_added == "not added":
         assert driver.find_element_by_css_selector(".govuk-caption-l").text == "You don't have any users at the moment." , "Users are potentially displayed for a just created Team List"

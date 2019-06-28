@@ -13,6 +13,7 @@ Feature: I want to add departments
     When I add an existing team name
     Then I see error message "Enter a name which is not already in use by another team"
 
+    @LT-930_click
   Scenario: Add a team and click on team name and add user to team and rollback
     Given I go to internal homepage
     When I go to teams
@@ -27,7 +28,6 @@ Feature: I want to add departments
     When I click edit for my user
     And I select Admin team
 
-  Scenario: Add a team with empty field
   @LT-930_empty
   Scenario: Add a department with empty field
     Given I go to internal homepage
