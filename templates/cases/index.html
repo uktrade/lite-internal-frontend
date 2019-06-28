@@ -6,10 +6,10 @@
 
 {% block body %}
 
-<form action="" method="get" class="lite-dropdown-select">
+<form method="get" class="lite-dropdown-select">
 	<select class="govuk-select" name="queue">
 		{% for queue in queues.queues %}
-		<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}</option>
+			<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}</option>
 		{% endfor %}
 	</select>
 	<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
@@ -20,7 +20,7 @@
 	{% csrf_token %}
 
 	<div class="lite-app-bar">
-		<div class="">
+		<div>
 			<a id="queue-title" href="#" class="govuk-heading-l lite-heading-dropdown" onclick="toggleDropdown()">{{ title }}</a>
 		</div>
 		<div class="lite-app-bar--right">
@@ -31,20 +31,19 @@
 	<div class="lite-dropdown--container" id="queues">
 		<div class="lite-dropdown">
 			{% for queue in queues.queues %}
-			<a href="/cases/?queue={{ queue.id }}" class="lite-dropdown--item {% if queue.id == queue_id %}lite-dropdown--item--selected{% endif %}">{{ queue.name }}</a>
+				<a href="/cases/?queue={{ queue.id }}" class="lite-dropdown--item {% if queue.id == queue_id %}lite-dropdown--item--selected{% endif %}">{{ queue.name }}</a>
 			{% endfor %}
 		</div>
 	</div>
 
 	{% if data.queue.cases|length %}
-
 		<div class="lite-cases-table">
 			<div class="lite-cases-table-header">
 				<h4>
-					<div class="govuk-checkboxes govuk-checkboxes--small" style="display: none;">
+					<div class="govuk-checkboxes govuk-checkboxes--small">
 						<div class="govuk-checkboxes__item">
-							<input class="govuk-checkboxes__input" type="checkbox">
-							<label class="govuk-label govuk-checkboxes__label" for="organisation-1"></label>
+							<input id="select-all-checkbox" class="govuk-checkboxes__input" type="checkbox">
+							<label class="govuk-label govuk-checkboxes__label"></label>
 						</div>
 					</div>
 				</h4>
@@ -104,7 +103,7 @@
 
 	function setAssignUsersAbility() {
 		// Disable the assign users button unless a checkbox is selected
-		if ($("input[type='checkbox']:checked").length == 0) {
+		if ($("input[name='cases']:checked").length == 0) {
 			$("#assign-users-button").prop('disabled', true).addClass("govuk-button--disabled");
 		} else {
 			$("#assign-users-button").prop('disabled', false).removeClass("govuk-button--disabled");
@@ -113,8 +112,20 @@
 
 	setAssignUsersAbility();
 
-	$("input[type='checkbox']").change(function() {
+	$("#select-all-checkbox").click(function() {
+		if ($("input[name='cases']:checked").length == $("input[name='cases']").length) {
+			$("input[name='cases']").prop('checked', false);
+	   } else {
+		   $("input[name='cases']").prop('checked', true);
+	   }
+
 		setAssignUsersAbility();
+	});
+
+	$("input[name='cases']").change(function() {
+		setAssignUsersAbility();
+		$("#select-all-checkbox").prop('checked', $("input[name='cases']:checked").length == $("input[name='cases']").length);
+		$("#select-all-checkbox").prop("indeterminate", $("input[name='cases']:checked").length > 0 && $("input[name='cases']:checked").length < $("input[name='cases']").length);
 	});
 </script>
 
