@@ -37,7 +37,7 @@ def get_countries(request, convert_to_options=False):
 
         for country in data.json().get('countries'):
             converted_units.append(
-                Option(country.get('name'), country.get('name'))
+                Option(country.get('id'), country.get('name'))
             )
 
         return converted_units
