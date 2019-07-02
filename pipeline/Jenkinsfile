@@ -81,6 +81,7 @@ pipeline
                     }
                 }
             }
+            }
             post
             {
                 always
@@ -89,7 +90,7 @@ pipeline
                     generateAllureReport()
                 }
             }
-        }
+
 }
 // Generate Allure report function
 def generateAllureReport()
