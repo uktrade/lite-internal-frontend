@@ -90,7 +90,7 @@ pipeline
                 }
             }
         }
-
+}
 // Generate Allure report function
 def generateAllureReport()
     {
@@ -110,4 +110,3 @@ def generateAllureReport()
             error.message
         }
     }
-}
