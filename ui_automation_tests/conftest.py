@@ -5,20 +5,7 @@ from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from selenium import webdriver
 from pages.exporter_hub import ExporterHub
 from pages.shared import Shared
-from environ import Env
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-ENV_FILE = os.path.join(BASE_DIR, "ui_automation_tests/", '.env')
-if os.path.exists(ENV_FILE):
-    Env.read_env(ENV_FILE)
-
-env = Env(
-    ALLOWED_HOSTS=(str, ''),
-    DEBUG=(bool, False),
-    LOG_LEVEL=(str, 'INFO'),
-)
+from conf.settings import env
 
 # Screenshot in case of any test failure
 
