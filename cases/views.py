@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from cases.forms.assign_users import assign_users_form
-from cases.forms.attach_documents import attach_documents_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
@@ -14,8 +13,11 @@ from libraries.forms.submitters import submit_single_form
 from users.services import get_gov_user
 
 
-class Index(TemplateView):
+class Cases(TemplateView):
     def get(self, request, **kwargs):
+        """
+        Show a list of cases
+        """
         queue_id = request.GET.get('queue')
 
         # If a queue id is not provided, use the default queue
@@ -34,6 +36,9 @@ class Index(TemplateView):
         return render(request, 'cases/index.html', context)
 
     def post(self, request, **kwargs):
+        """
+        Assign users depending on what cases were selected
+        """
         return redirect(reverse('cases:assign_users') + '?cases=' + ','.join(request.POST.getlist('cases')))
 
 
