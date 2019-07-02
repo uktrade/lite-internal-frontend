@@ -8,7 +8,6 @@ def move_case_form(request):
                 get_string('cases.manage.move_case.description'),
                 [
                     Filter(),
-                    Checkboxes('queues', get_queues(request, True))
+                    Checkboxes('queues', get_queues(request, True)),
                 ],
-                default_button_name='Submit',
                 javascript_imports=['/assets/javascripts/filter-checkbox-list.js'])

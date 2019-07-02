@@ -1,6 +1,6 @@
 from conf.client import get
 from conf.constants import DENIAL_REASONS_URL, COUNTRIES_URL, QUEUES_URL
-from libraries.forms.components import Option, ArrayQuestion, InputType
+from libraries.forms.components import Option, Checkboxes
 
 
 def get_denial_reasons(request):
@@ -23,7 +23,7 @@ def get_denial_reasons(request):
             options.append(Option(item, item))
 
         questions.append(
-            ArrayQuestion('', '', InputType.CHECKBOXES, 'reasons', options, same_row=True)
+            Checkboxes('reasons', options)
         )
 
     return questions
