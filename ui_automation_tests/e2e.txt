@@ -3,3 +3,4 @@ allure-python-commons==2.6.1
 pytest==4.4.0
 pytest-bdd==3.1.0
 selenium==3.141.0
+django-environ==0.4.5
