@@ -1,5 +1,4 @@
-from queues.services import get_queue, get_queues, \
-    post_queues, put_queue
+from queues.services import get_queue, get_queues, post_queues, put_queue
 from queues import forms
 
 from django.shortcuts import render, redirect
@@ -72,5 +71,3 @@ class EditQueue(TemplateView):
             return render(request, 'form.html', context)
 
         return redirect(reverse_lazy('queues:queues'))
-
-

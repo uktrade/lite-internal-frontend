@@ -40,6 +40,7 @@
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="col">Reference Number</th>
 					<th class="govuk-table__header" scope="col">Applicant</th>
+					<th class="govuk-table__header" scope="col">Case type</th>
 					<th class="govuk-table__header" scope="col">Status</th>
 				</tr>
 			</thead>
@@ -47,17 +48,36 @@
 				{% for case in data.queue.cases %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
-							<a class="govuk-link" href="{% url 'cases:case' case.id %}">
-								{{ case.application.id|default:"Untitled" }}
-							</a>
+                            {% if case.is_clc %}
+                                <a class="govuk-link" href="{% url 'cases:case' case.id %}">
+                                    {{ case.id }}
+                                </a>
+                            {% else %}
+                                <a class="govuk-link" href="{% url 'cases:case' case.id %}">
+                                    {{ case.application.id|default:"Untitled" }}
+                                </a>
+                            {% endif %}
 						</td>
 						<td class="govuk-table__cell">
-							<a class="govuk-link" href="{% url 'organisations:organisation' case.application.organisation.id %}">
-								{{ case.application.organisation.name }}
-							</a>
+                            {% if case.is_clc  %}
+    							<a class="govuk-link" href="{% url 'organisations:organisation' case.clc_query.good.organisation.id %}">
+    								{{ case.clc_query.good.organisation.name }}
+    							</a>
+                            {%  else %}
+                                <a class="govuk-link" href="{% url 'organisations:organisation' case.application.organisation.id %}">
+    								{{ case.application.organisation.name }}
+    							</a>
+                            {% endif %}
+						</td>
+                        <td class="govuk-table__cell">
+                            {{ case.case_type.name }}
 						</td>
 						<td class="govuk-table__cell">
-							{{ case.application.status|default:"Untitled"|sentence_case }}
+                            {% if case.is_clc %}
+						    	{{ case.clc_query.status|sentence_case }}
+                            {% else %}
+                                {{ case.application.status|sentence_case }}
+                            {% endif %}
 						</td>
 					</tr>
 				{% endfor %}
