@@ -5,6 +5,9 @@
 {% block body %}
 
 <h1 class="govuk-heading-l">{{ title }}</h1>
+<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:attach_documents' data.case.id %}">
+	{% get_string 'cases.manage.attach_documents.button' %}
+</a>
 <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' data.case.id %}">
 	{% get_string 'cases.manage.move_case.button' %}
 </a>

@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
@@ -192,3 +193,14 @@ class MoveCase(TemplateView):
 
         # If there is no response (no forms left to go through), go to the case page
         return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+
+
+class AttachDocuments(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+
+        return form_page(request, attach_documents_form())
+
+    def post(self, request, **kwargs):
+        return HttpResponse('yeet')

@@ -17,4 +17,6 @@ urlpatterns = [
     path('<uuid:pk>/deny/', views.DenyCase.as_view(), name='deny'),
     # ex: /<uuid:pk>/move/
     path('<uuid:pk>/move/', views.MoveCase.as_view(), name='move'),
+    # ex: /<uuid:pk>/attach-documents/
+    path('<uuid:pk>/attach-documents/', views.AttachDocuments.as_view(), name='attach_documents'),
 ]
