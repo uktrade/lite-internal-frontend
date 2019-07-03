@@ -50,6 +50,9 @@
 				<h4>
 					Case
 				</h4>
+				<h4>
+					Assignments
+				</h4>
 				<!-- <h4>
 					Goods
 				</h4>
@@ -76,11 +79,29 @@
 					</div>
 					<div>
 						<a href="{% url 'cases:case' case.id %}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="#" style="text-decoration: none; margin-bottom: 5px!important; display: block;">
-							{{ case.application.id|default:"Untitled" }}
+							{{ case.id|default:"Untitled" }}
 						</a>
-						<p class="govuk-body govuk-!-font-size-16" style="opacity: .7; margin: 0;">
+						<p class="govuk-body" style="opacity: .7; margin: 0;">
 							{{ case.application.organisation.name }}
 						</p>
+					</div>
+					<div>
+						{% for item in case_assignments %}
+							{% if item.case == case.id %}
+								{% for user in item.users %}
+									<p class="govuk-body user" style="margin-bottom: 6px;">
+										{% if user.first_name %}
+											{{ user.first_name }} {{ user.last_name }}
+										{% else %}
+											{{ user.email }}
+										{% endif %}
+									</p>
+								{% endfor %}
+								{% if item.users|length == 0 %}
+									<p class="govuk-body" style="margin-bottom: 0; opacity: .7;">No users assigned</p>
+								{% endif %}
+							{% endif %}
+						{% endfor %}
 					</div>
 					<p class="govuk-body">
 						{{ case.application.status|default:"Untitled"|sentence_case }}

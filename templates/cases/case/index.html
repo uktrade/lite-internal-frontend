@@ -5,9 +5,8 @@
 {% block body %}
 
 <h1 class="govuk-heading-l">{{ title }}</h1>
-
-<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:assign_users' %}?cases={{ data.case.id }}">
-	Assign Users
+<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' data.case.id %}">
+	{% get_string 'cases.manage.move_case.button' %}
 </a>
 <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' data.case.id %}">
 	Progress Application

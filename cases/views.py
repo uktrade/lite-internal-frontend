@@ -9,6 +9,7 @@ from cases.services import get_case, post_case_notes, put_applications, get_acti
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
+from queues.services import get_queue_case_assignments
 
 
 class Cases(TemplateView):
@@ -24,12 +25,14 @@ class Cases(TemplateView):
 
         queues, status_code = get_queues(request)
         queue, status_code = get_queue(request, queue_id)
+        case_assignments, status_code = get_queue_case_assignments(request, queue_id)
 
         context = {
             'queues': queues,
             'queue_id': queue_id,
             'data': queue,
             'title': queue.get('queue').get('name'),
+            'case_assignments': case_assignments['case_assignments'],
         }
         return render(request, 'cases/index.html', context)
 
