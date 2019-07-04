@@ -13,8 +13,9 @@ from libraries.forms.submitters import submit_single_form
 
 def index(request):
     queue_id = request.GET.get('queue')
-
+    # organisation = get_organisation_by_pk(organisation.id)
     # If a queue id is not provided, use the default queue
+
     if not queue_id:
         queue_id = '00000000-0000-0000-0000-000000000001'
 
@@ -27,6 +28,7 @@ def index(request):
         'data': queue,
         'title': queue.get('queue').get('name'),
     }
+    print(context)
     return render(request, 'cases/index.html', context)
 
 

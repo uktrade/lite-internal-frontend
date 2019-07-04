@@ -59,10 +59,11 @@
                             {% endif %}
 						</td>
 						<td class="govuk-table__cell">
+                        {{ case }}
                             {% if case.is_clc  %}
-    							<a class="govuk-link" href="{% url 'organisations:organisation' case.clc_query.good.organisation.id %}">
-    								{{ case.clc_query.good.organisation.name }}
-    							</a>
+{#    							<a class="govuk-link" href="{% url 'organisations:organisation' case.clc_query.good.organisation.id %}">#}
+{#    								{{ case.clc_query.good.organisation.name }}#}
+{#    							</a>#}
                             {%  else %}
                                 <a class="govuk-link" href="{% url 'organisations:organisation' case.application.organisation.id %}">
     								{{ case.application.organisation.name }}
