@@ -205,7 +205,7 @@ class AttachDocuments(TemplateView):
         return form_page(request, attach_documents_form())
 
     def post(self, request, **kwargs):
-        self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
+        # self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
         case_id = str(kwargs['pk'])
 
