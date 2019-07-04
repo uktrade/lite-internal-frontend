@@ -208,7 +208,7 @@ class AttachDocuments(TemplateView):
         s3 = boto3.resource('s3')
         my_bucket = s3.Bucket(AWS_STORAGE_BUCKET_NAME)
         for my_bucket_object in my_bucket.objects.all():
-            form.title += my_bucket_object.name
+            form.title += my_bucket_object.key
 
         return form_page(request, form)
 
