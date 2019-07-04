@@ -1,5 +1,5 @@
 from conf.client import post, get, put
-from conf.constants import CASE_URL, CASE_NOTES_URL, APPLICATIONS_URL, ACTIVITY_URL
+from conf.constants import CASE_URL, CASE_NOTES_URL, APPLICATIONS_URL, ACTIVITY_URL, DOCUMENTS_URL
 
 
 def get_case(request, pk):
@@ -38,4 +38,17 @@ def post_case_notes(request, pk, json):
 
 def get_activity(request, pk):
     data = get(request, CASE_URL + pk + ACTIVITY_URL + '?fields=status')
+    return data.json(), data.status_code
+
+
+# Case Documents
+
+
+def get_case_documents(request, pk):
+    data = get(request, CASE_URL + pk + DOCUMENTS_URL)
+    return data.json(), data.status_code
+
+
+def post_case_documents(request, pk, json):
+    data = post(request, CASE_URL + pk + DOCUMENTS_URL, json)
     return data.json(), data.status_code

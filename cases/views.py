@@ -2,12 +2,13 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
+from s3chunkuploader.file_handler import S3FileUploadHandler
 
 from cases.forms.attach_documents import attach_documents_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, post_case_documents
 from conf.settings import env
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
@@ -199,13 +200,21 @@ class MoveCase(TemplateView):
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-
-        print(env('AWS_ACCESS_KEY_ID'))
-        print(env('AWS_SECRET_ACCESS_KEY'))
-        print(env('AWS_STORAGE_BUCKET_NAME'))
+        get_case(request, case_id)
 
         return form_page(request, attach_documents_form())
 
     def post(self, request, **kwargs):
+        self.request.upload_handlers.insert(S3FileUploadHandler(request))
+
+        case_id = str(kwargs['pk'])
+
+        data = {
+            'name': request.FILES[0].file_name
+        }
+
+        case_document, status_code = post_case_documents(request, case_id, data)
+
+        print(case_document)
+
         return HttpResponse('yeet')
