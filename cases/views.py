@@ -8,6 +8,7 @@ from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case
+from conf.settings import env
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
@@ -199,6 +200,10 @@ class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
+
+        print(env('AWS_ACCESS_KEY_ID'))
+        print(env('AWS_SECRET_ACCESS_KEY'))
+        print(env('AWS_STORAGE_BUCKET_NAME'))
 
         return form_page(request, attach_documents_form())
 
