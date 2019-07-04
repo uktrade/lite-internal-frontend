@@ -170,6 +170,18 @@ STATICFILES_FINDERS = (
 
 SASS_PROCESSOR_ENABLED = True
 
+# File Upload
+# https://github.com/uktrade/s3chunkuploader
+FILE_UPLOAD_HANDLERS = ('s3chunkuploader.file_handler.S3FileUploadHandler',)
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+# S3_DOCUMENT_ROOT_DIRECTORY
+# S3_APPEND_DATETIME_ON_UPLOAD
+# S3_PREFIX_QUERY_PARAM_NAME
+# S3_MIN_PART_SIZE
+
+
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
