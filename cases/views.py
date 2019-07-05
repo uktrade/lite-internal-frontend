@@ -13,7 +13,8 @@ from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, post_case_documents, \
     get_case_documents
-from conf.settings import env, AWS_STORAGE_BUCKET_NAME
+from conf import settings
+from conf.settings import env, AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
@@ -212,6 +213,13 @@ class Documents(TemplateView):
 
         print(case)
 
+        # client = boto3.client(
+        #     's3',
+        #     aws_access_key_id=AWS_ACCESS_KEY_ID,
+        #     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+        #     region_name=AWS_REGION
+        # )
+
         documents = {
             'documents': [
                 {
@@ -265,13 +273,13 @@ class AttachDocuments(TemplateView):
 
         form = attach_documents_form(reverse('cases:case', kwargs={'pk': case_id}))
 
-        try:
-            s3 = boto3.resource('s3')
-            my_bucket = s3.Bucket(AWS_STORAGE_BUCKET_NAME)
-            for my_bucket_object in my_bucket.objects.all():
-                form.title += my_bucket_object.key
-        except:
-            print('no s3!')
+        # try:
+        #     s3 = boto3.resource('s3')
+        #     my_bucket = s3.Bucket(AWS_STORAGE_BUCKET_NAME)
+        #     for my_bucket_object in my_bucket.objects.all():
+        #         form.title += my_bucket_object.key
+        # except:
+        #     print('no s3!')
 
         return form_page(request, form, extra_data={'case_id': case_id})
 
