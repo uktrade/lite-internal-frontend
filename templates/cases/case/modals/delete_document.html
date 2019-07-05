@@ -1,8 +1,8 @@
 <p class="govuk-caption-m">You won't be able to recover it if you delete it.</p>
 <div class="buttons-row">
-    <form method="post" style="display: inline;" action="{% url 'apply_for_a_licence:delete' draft.id %}">
+    <form method="post" style="display: inline;" action="{% url 'cases:delete_document' case.id document.s3_key %}">
         {% csrf_token %}
-        <button type="submit" class="govuk-button govuk-button--warning govuk-!-margin-right-2">Delete Application</button>
+        <button type="submit" class="govuk-button govuk-button--warning govuk-!-margin-right-2">Delete Document</button>
     </form>
-    <a href="{% url 'apply_for_a_licence:overview' draft.id %}" onclick="return LITECommon.Modal.closeAllModals()" role="button" draggable="false" class="govuk-button govuk-button--secondary">Cancel</a>
+    <a href="{% url 'cases:documents' case.id %}" onclick="return LITECommon.Modal.closeAllModals()" role="button" draggable="false" class="govuk-button govuk-button--secondary">Cancel</a>
 </div>

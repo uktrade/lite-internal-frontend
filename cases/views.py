@@ -58,7 +58,8 @@ class Cases(TemplateView):
         if not queue_id:
             queue_id = '00000000-0000-0000-0000-000000000001'
 
-        return redirect(reverse('queues:case_assignments', kwargs={'pk': queue_id}) + '?cases=' + ','.join(request.POST.getlist('cases')))
+        return redirect(reverse('queues:case_assignments', kwargs={'pk': queue_id}) + '?cases=' + ','.join(
+            request.POST.getlist('cases')))
 
 
 class ViewCase(TemplateView):
@@ -276,3 +277,22 @@ class Document(TemplateView):
         response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
         response['Content-Disposition'] = f'attachment; filename="{original_file_name}"'
         return response
+
+
+class DeleteDocument(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        file_pk = str(kwargs['file_pk'])
+
+        case, status_code = get_case(request, case_id)
+        document, status_code = get_case_document(request, case_id, file_pk)
+        original_file_name = document['document']['name']
+
+        context = {
+            'title': 'Are you sure you want to delete this file?',
+            'description': original_file_name,
+            'case': case['case'],
+            'document': document['document'],
+            'page': 'cases/case/modals/delete_document.html',
+        }
+        return render(request, 'core/static.html', context)

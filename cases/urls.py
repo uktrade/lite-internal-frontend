@@ -23,4 +23,6 @@ urlpatterns = [
     path('<uuid:pk>/attach/', views.AttachDocuments.as_view(), name='attach_documents'),
     # ex: /<uuid:pk>/documents/<str:file_id>/
     path('<uuid:pk>/documents/<str:file_pk>/', views.Document.as_view(), name='document'),
+    # ex: /<uuid:pk>/documents/<str:file_id>/
+    path('<uuid:pk>/documents/delete/<str:file_pk>/', views.DeleteDocument.as_view(), name='delete_document'),
 ]

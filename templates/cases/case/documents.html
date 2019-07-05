@@ -27,7 +27,7 @@
 				<p class="govuk-caption-m" style="margin: 0;">Uploaded by {{ document.user.first_name }} {{ document.user.last_name }} at {{ document.created_at|str_date }}</p>
 			</div>
 			<div class="lite-vertical-align">
-				<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.s3_key %}" style="margin-right: 30px;">
+				<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:delete_document' case.id document.s3_key %}" style="color: red; margin-right: 30px;">
 					<span class="govuk-visually-hidden">Delete document</span>
 					{% svg 'close' %}
 				</a>
