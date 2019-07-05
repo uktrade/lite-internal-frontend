@@ -61,11 +61,14 @@
           <td class="lite-table__cell">{{ data.case.clc_query.good.control_code|default:'None' }}</td>
           <td class="lite-table__cell">{{ data.case.clc_query.good.part_number|default:'None' }}</td>
         </tr>
-        <tr class="lite-table__row">
-          <td class="lite-table__cell"><strong>Enquiry: </strong>{{ data.case.clc_query.details }}</td>
-        </tr>
     </tbody>
 </table>
-
-
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <p class="lite-heading-s">CLC query text</p>
+        <p class="govuk-label">
+            {{ data.case.clc_query.details }}
+        </p>
+    </div>
+</div>
 {% endblock %}
