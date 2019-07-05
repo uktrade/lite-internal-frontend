@@ -14,7 +14,7 @@ from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, post_case_documents, \
-    get_case_documents
+    get_case_documents, get_case_document
 from conf import settings
 from conf.settings import env, AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, \
     S3_DOWNLOAD_LINK_EXPIRY_SECONDS
@@ -258,6 +258,11 @@ class Document(TemplateView):
         case_id = str(kwargs['pk'])
         file_pk = str(kwargs['file_pk'])
         get_case(request, case_id)
+        document, status_code = get_case_document(request, case_id, file_pk)
+
+        print(document)
+
+        original_file_name = document['document']['name']
 
         # Stream file
         def generate_file(result):
@@ -272,5 +277,5 @@ class Document(TemplateView):
         if s3_response.get('ContentType'):
             _kwargs['content_type'] = s3_response['ContentType']
         response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
-        response['Content-Disposition'] = f'attachment; filename="{file_pk}"'
+        response['Content-Disposition'] = f'attachment; filename="{original_file_name}"'
         return response

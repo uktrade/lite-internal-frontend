@@ -44,6 +44,11 @@ def get_activity(request, pk):
 # Case Documents
 
 
+def get_case_document(request, pk, s3_key):
+    data = get(request, CASE_URL + pk + DOCUMENTS_URL + s3_key)
+    return data.json(), data.status_code
+
+
 def get_case_documents(request, pk):
     data = get(request, CASE_URL + pk + DOCUMENTS_URL)
     return data.json(), data.status_code
