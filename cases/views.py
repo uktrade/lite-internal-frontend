@@ -257,11 +257,9 @@ class Document(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         file_pk = str(kwargs['file_pk'])
+
         get_case(request, case_id)
         document, status_code = get_case_document(request, case_id, file_pk)
-
-        print(document)
-
         original_file_name = document['document']['name']
 
         # Stream file
@@ -271,8 +269,6 @@ class Document(TemplateView):
 
         s3 = s3_client()
         s3_response = s3.get_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=file_pk)
-        # if filename is None:
-        #     _, filename = os.path.split(s3_key)
         _kwargs = {}
         if s3_response.get('ContentType'):
             _kwargs['content_type'] = s3_response['ContentType']
