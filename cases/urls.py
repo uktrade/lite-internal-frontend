@@ -8,6 +8,8 @@ urlpatterns = [
     path('', views.index, name='cases'),
     # ex: /<uuid:pk>/
     path('<uuid:pk>/', views.ViewCase.as_view(), name='case'),
+    # ex: clc/<uuid:pk>/
+    path('clc-query/<uuid:pk>/', views.ViewCLCCase.as_view(), name='case-clc-query'),
     # ex: /<uuid:pk>/manage
     path('<uuid:pk>/manage/', views.ManageCase.as_view(), name='manage'),
     # ex: /<uuid:pk>/decide

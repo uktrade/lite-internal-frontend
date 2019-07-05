@@ -28,7 +28,7 @@ def index(request):
         'data': queue,
         'title': queue.get('queue').get('name'),
     }
-    print(context)
+
     return render(request, 'cases/index.html', context)
 
 
@@ -43,7 +43,7 @@ class ViewCase(TemplateView):
             'title': case.get('case').get('application').get('name'),
             'activity': activity.get('activity'),
         }
-        return render(request, 'cases/case/index.html', context)
+        return render(request, 'cases/case/application-case.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
@@ -56,6 +56,33 @@ class ViewCase(TemplateView):
             return error_page(request, error)
 
         return redirect('/cases/' + case_id + '#case_notes')
+
+
+class ViewCLCCase(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+        print(case)
+        # activity, status_code = get_activity(request, case_id)
+
+        context = {
+            'data': case,
+            # 'title': case.get('case').get('clc_query').get('name'),
+            # 'activity': activity.get('activity'),
+        }
+        return render(request, 'cases/case/clc-query-case.html', context)
+
+    # def post(self, request, **kwargs):
+    #     case_id = str(kwargs['pk'])
+    #     response, status_code = post_case_notes(request, case_id, request.POST)
+    #
+    #     if status_code != 201:
+    #         error = response.get('errors').get('text')[0]
+    #         error = error.replace('This field', 'Case note')
+    #         error = error.replace('this field', 'the case note') # TODO: Move to API
+    #         return error_page(request, error)
+    #
+    #     return redirect('/cases/' + case_id + '#case_notes')
 
 
 class ManageCase(TemplateView):

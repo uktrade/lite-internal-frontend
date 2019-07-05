@@ -49,7 +49,7 @@
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
                             {% if case.is_clc %}
-                                <a class="govuk-link" href="{% url 'cases:case' case.id %}">
+                                <a class="govuk-link" href="{% url 'cases:case-clc-query' case.id %}">
                                     {{ case.id }}
                                 </a>
                             {% else %}
@@ -59,11 +59,10 @@
                             {% endif %}
 						</td>
 						<td class="govuk-table__cell">
-                        {{ case }}
                             {% if case.is_clc  %}
-{#    							<a class="govuk-link" href="{% url 'organisations:organisation' case.clc_query.good.organisation.id %}">#}
-{#    								{{ case.clc_query.good.organisation.name }}#}
-{#    							</a>#}
+    							<a class="govuk-link" href="{% url 'organisations:organisation' case.clc_query.good.organisation %}">
+    								{{ case.clc_query.organisation_name }}
+    							</a>
                             {%  else %}
                                 <a class="govuk-link" href="{% url 'organisations:organisation' case.application.organisation.id %}">
     								{{ case.application.organisation.name }}
