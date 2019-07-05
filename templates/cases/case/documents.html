@@ -20,7 +20,7 @@
 
 {% if documents %}
 	{% for document in documents %}
-		<div class="lite-card lite-card--download" style="margin-bottom: 20px;">
+		<div class="lite-card lite-card--download">
 			<div>
 				<p class="govuk-body govuk-!-font-weight-bold" style="margin-bottom: 10px;">{{ document.name }}</p>
 				<p class="govuk-caption-m" style="margin: 0;">Uploaded by {{ document.user.first_name }} {{ document.user.last_name }} at {{ document.created_at|str_date }}</p>
