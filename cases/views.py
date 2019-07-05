@@ -221,8 +221,8 @@ class AttachDocuments(TemplateView):
             'name': 'test.pdf'
         }
 
-        case_document, status_code = post_case_documents(request, case_id, data)
+        # case_document, status_code = post_case_documents(request, case_id, data)
 
-        print(case_document)
+        # print(case_document)
 
-        return HttpResponse('yeet')
+        return HttpResponse(request.data)
