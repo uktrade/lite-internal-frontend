@@ -1,4 +1,4 @@
-from conf.client import post, get, put
+from conf.client import post, get, put, delete
 from conf.constants import CASE_URL, CASE_NOTES_URL, APPLICATIONS_URL, ACTIVITY_URL, DOCUMENTS_URL
 
 
@@ -56,4 +56,9 @@ def get_case_documents(request, pk):
 
 def post_case_documents(request, pk, json):
     data = post(request, CASE_URL + pk + DOCUMENTS_URL, json)
+    return data.json(), data.status_code
+
+
+def delete_case_document(request, pk, s3_key):
+    data = delete(request, CASE_URL + pk + DOCUMENTS_URL + s3_key)
     return data.json(), data.status_code

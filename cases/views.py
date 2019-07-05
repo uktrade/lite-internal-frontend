@@ -14,7 +14,7 @@ from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, post_case_documents, \
-    get_case_documents, get_case_document
+    get_case_documents, get_case_document, delete_case_document
 from conf import settings
 from conf.settings import env, AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, \
     S3_DOWNLOAD_LINK_EXPIRY_SECONDS
@@ -279,20 +279,41 @@ class Document(TemplateView):
         return response
 
 
-class DeleteDocument(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        file_pk = str(kwargs['file_pk'])
-
-        case, status_code = get_case(request, case_id)
-        document, status_code = get_case_document(request, case_id, file_pk)
-        original_file_name = document['document']['name']
-
-        context = {
-            'title': 'Are you sure you want to delete this file?',
-            'description': original_file_name,
-            'case': case['case'],
-            'document': document['document'],
-            'page': 'cases/case/modals/delete_document.html',
-        }
-        return render(request, 'core/static.html', context)
+# May be added to a future story, so don't delete :)
+# class DeleteDocument(TemplateView):
+#     def get(self, request, **kwargs):
+#         case_id = str(kwargs['pk'])
+#         file_pk = str(kwargs['file_pk'])
+#
+#         case, status_code = get_case(request, case_id)
+#         document, status_code = get_case_document(request, case_id, file_pk)
+#         original_file_name = document['document']['name']
+#
+#         context = {
+#             'title': 'Are you sure you want to delete this file?',
+#             'description': original_file_name,
+#             'case': case['case'],
+#             'document': document['document'],
+#             'page': 'cases/case/modals/delete_document.html',
+#         }
+#         return render(request, 'core/static.html', context)
+#
+#     def post(self, request, **kwargs):
+#         case_id = str(kwargs['pk'])
+#         file_pk = str(kwargs['file_pk'])
+#
+#         case, status_code = get_case(request, case_id)
+#
+#         # Delete the file on the API
+#         delete_case_document(request, case_id, file_pk)
+#
+#
+#
+#         context = {
+#             'title': 'Are you sure you want to delete this file?',
+#             'description': original_file_name,
+#             'case': case['case'],
+#             'document': document['document'],
+#             'page': 'cases/case/modals/delete_document.html',
+#         }
+#         return render(request, 'core/static.html', context)
