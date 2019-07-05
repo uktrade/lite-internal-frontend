@@ -20,5 +20,7 @@ urlpatterns = [
     # ex: /<uuid:pk>/documents/
     path('<uuid:pk>/documents/', views.Documents.as_view(), name='documents'),
     # ex: /<uuid:pk>/documents/attach/
-    path('<uuid:pk>/attach-documents/', views.AttachDocuments.as_view(), name='attach_documents'),
+    path('<uuid:pk>/attach/', views.AttachDocuments.as_view(), name='attach_documents'),
+    # ex: /<uuid:pk>/documents/<str:file_id>/
+    path('<uuid:pk>/documents/<str:file_pk>/', views.Document.as_view(), name='document'),
 ]

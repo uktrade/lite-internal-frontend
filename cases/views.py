@@ -1,11 +1,11 @@
 from unittest import case
 
 import boto3
-from django.http import HttpResponse
+from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
-from s3chunkuploader.file_handler import S3FileUploadHandler
+from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from cases.forms.attach_documents import attach_documents_form
 from cases.forms.denial_reasons import denial_reasons_form
@@ -14,7 +14,8 @@ from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, post_case_documents, \
     get_case_documents
 from conf import settings
-from conf.settings import env, AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION
+from conf.settings import env, AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, \
+    S3_DOWNLOAD_LINK_EXPIRY_SECONDS
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
@@ -243,3 +244,26 @@ class AttachDocuments(TemplateView):
         post_case_documents(request, case_id, data)
 
         return redirect(reverse('cases:documents', kwargs={'pk': case_id}))
+
+
+class Document(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        file_pk = str(kwargs['file_pk'])
+        get_case(request, case_id)
+
+        # Stream file
+        def generate_file(result):
+            for chunk in iter(lambda: result['Body'].read(settings.STREAMING_CHUNK_SIZE), b''):
+                yield chunk
+
+        s3 = s3_client()
+        s3_response = s3.get_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=file_pk)
+        # if filename is None:
+        #     _, filename = os.path.split(s3_key)
+        _kwargs = {}
+        if s3_response.get('ContentType'):
+            _kwargs['content_type'] = s3_response['ContentType']
+        response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
+        response['Content-Disposition'] = f'attachment; filename="{file_pk}"'
+        return response
