@@ -4,6 +4,8 @@ import boto3
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
@@ -220,6 +222,7 @@ class Documents(TemplateView):
         return render(request, 'cases/case/documents.html', context)
 
 
+@method_decorator(csrf_exempt, 'dispatch')
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
@@ -229,6 +232,7 @@ class AttachDocuments(TemplateView):
 
         return form_page(request, form, extra_data={'case_id': case_id})
 
+    @csrf_exempt
     def post(self, request, **kwargs):
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
@@ -238,7 +242,8 @@ class AttachDocuments(TemplateView):
         files = request.FILES.getlist("file")
         for file in files:
             data.append({
-                'name': file.name,
+                'name': file.original_name,
+                's3_key': file.name,
                 'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
             })
 
