@@ -18,6 +18,7 @@ from cases.services import get_case, post_case_notes, put_applications, get_acti
 from conf import settings
 from conf.settings import env, AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, \
     S3_DOWNLOAD_LINK_EXPIRY_SECONDS
+from core.builtins.custom_tags import get_string
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
@@ -215,7 +216,7 @@ class Documents(TemplateView):
         documents, status_code = get_case_documents(request, case_id)
 
         context = {
-            'title': 'Case Documents',
+            'title': get_string('cases.manage.documents.title'),
             'case': case['case'],
             'documents': documents['documents'],
         }
@@ -228,7 +229,7 @@ class AttachDocuments(TemplateView):
         case_id = str(kwargs['pk'])
         get_case(request, case_id)
 
-        form = attach_documents_form(reverse('cases:case', kwargs={'pk': case_id}))
+        form = attach_documents_form(reverse('cases:documents', kwargs={'pk': case_id}))
 
         return form_page(request, form, extra_data={'case_id': case_id})
 

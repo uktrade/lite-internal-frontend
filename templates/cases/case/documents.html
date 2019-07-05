@@ -13,12 +13,13 @@
 	<h1 class="govuk-heading-l">{{ title }}</h1>
 	<div class="lite-app-bar--right">
 		<a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:attach_documents' case.id %}">
-			{% get_string 'cases.manage.attach_documents.button' %}
+			{% get_string 'cases.manage.documents.attach_documents.button' %}
 		</a>
 	</div>
 </div>
 
 {% if documents %}
+	<p class="govuk-caption-m">{% get_string 'cases.manage.documents.description' %}</p>
 	{% for document in documents %}
 		<div class="lite-card lite-card--download">
 			<div>
@@ -26,6 +27,10 @@
 				<p class="govuk-caption-m" style="margin: 0;">Uploaded by {{ document.user.first_name }} {{ document.user.last_name }} at {{ document.created_at|str_date }}</p>
 			</div>
 			<div class="lite-vertical-align">
+				<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.s3_key %}" style="margin-right: 30px;">
+					<span class="govuk-visually-hidden">Delete document</span>
+					{% svg 'close' %}
+				</a>
 				<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.s3_key %}">
 					<span class="govuk-visually-hidden">Download document</span>
 					{% svg 'download' %}
