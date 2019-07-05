@@ -225,4 +225,9 @@ class AttachDocuments(TemplateView):
 
         # print(case_document)
 
-        return HttpResponse(request.FILES)
+        # data = []
+
+        files = request.FILES.getlist("file")  # list of tuples [(<file1>, "'MainDir/SubDir1/1.jpg'"), (<file2>, "'MainDir/SubDir2/2.jpg'")]
+        # for tmp_file, full_path in files:
+
+        return HttpResponse(files)
