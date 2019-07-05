@@ -1,0 +1,40 @@
+{% extends 'layouts/base.html' %}
+
+{% load svg %}
+
+{% block back-button %}
+	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">Back to Case</a>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="lite-app-bar">
+	<h1 class="govuk-heading-l">{{ title }}</h1>
+	<div class="lite-app-bar--right">
+		<a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:attach_documents' case.id %}">
+			{% get_string 'cases.manage.attach_documents.button' %}
+		</a>
+	</div>
+</div>
+
+{% if documents %}
+	{% for document in documents %}
+		<div class="lite-card lite-card--download">
+			<div>
+				<p class="govuk-body govuk-!-font-weight-bold" style="margin-bottom: 10px;">{{ document.name }}</p>
+				<p class="govuk-caption-m" style="margin: 0;">{{ document.user.first_name }} {{ document.user.last_name }} - Uploaded at {{ document.date_uploaded|str_date }}</p>
+			</div>
+			<div class="lite-vertical-align">
+				<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{{ document.download_url }}">
+					<span class="govuk-visually-hidden">Download document</span>
+					{% svg 'download' %}
+				</a>
+			</div>
+		</div>
+	{% endfor %}
+{% else %}
+	<p class="govuk-caption-l">This case has no documents</p>
+{% endif %}
+
+{% endblock %}

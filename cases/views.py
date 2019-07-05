@@ -1,3 +1,5 @@
+from unittest import case
+
 import boto3
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -9,7 +11,8 @@ from cases.forms.attach_documents import attach_documents_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, post_case_documents
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, post_case_documents, \
+    get_case_documents
 from conf.settings import env, AWS_STORAGE_BUCKET_NAME
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
@@ -198,19 +201,79 @@ class MoveCase(TemplateView):
         return redirect(reverse('cases:case', kwargs={'pk': case_id}))
 
 
+class Documents(TemplateView):
+    def get(self, request, **kwargs):
+        """
+        List all documents belonging to a case
+        """
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+        documents, status_code = get_case_documents(request, case_id)
+
+        print(case)
+
+        documents = {
+            'documents': [
+                {
+                    'id': '123',
+                    'name': 'sleep_well_beast.wav',
+                    'date_uploaded': '2019-07-02T15:49:45.856732Z',
+                    'download_url': '123',
+                    'user': {
+                        'id': '123',
+                        'first_name': 'John',
+                        'last_name': 'Smith'
+                    }
+                },
+                {
+                    'id': '123',
+                    'name': 'i_am_easy_to_find.mp3',
+                    'date_uploaded': '2019-07-02T15:49:45.856732Z',
+                    'download_url': '123',
+                    'user': {
+                        'id': '123',
+                        'first_name': 'John',
+                        'last_name': 'Smith'
+                    }
+                },
+                {
+                    'id': '123',
+                    'name': 'hairpin_turns.exe',
+                    'date_uploaded': '2019-07-02T15:49:45.856732Z',
+                    'download_url': '123',
+                    'user': {
+                        'id': '123',
+                        'first_name': 'John',
+                        'last_name': 'Smith'
+                    }
+                },
+            ],
+        }
+
+        context = {
+            'title': 'Case Documents',
+            'case': case['case'],
+            'documents': documents['documents'],
+        }
+        return render(request, 'cases/case/documents.html', context)
+
+
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         get_case(request, case_id)
 
-        form = attach_documents_form()
+        form = attach_documents_form(reverse('cases:case', kwargs={'pk': case_id}))
 
-        s3 = boto3.resource('s3')
-        my_bucket = s3.Bucket(AWS_STORAGE_BUCKET_NAME)
-        for my_bucket_object in my_bucket.objects.all():
-            form.title += my_bucket_object.key
+        try:
+            s3 = boto3.resource('s3')
+            my_bucket = s3.Bucket(AWS_STORAGE_BUCKET_NAME)
+            for my_bucket_object in my_bucket.objects.all():
+                form.title += my_bucket_object.key
+        except:
+            print('no s3!')
 
-        return form_page(request, form)
+        return form_page(request, form, extra_data={'case_id': case_id})
 
     def post(self, request, **kwargs):
         # self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
