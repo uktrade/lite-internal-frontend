@@ -211,53 +211,6 @@ class Documents(TemplateView):
         case, status_code = get_case(request, case_id)
         documents, status_code = get_case_documents(request, case_id)
 
-        print(case)
-
-        # client = boto3.client(
-        #     's3',
-        #     aws_access_key_id=AWS_ACCESS_KEY_ID,
-        #     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-        #     region_name=AWS_REGION
-        # )
-
-        documents = {
-            'documents': [
-                {
-                    'id': '123',
-                    'name': 'sleep_well_beast.wav',
-                    'date_uploaded': '2019-07-02T15:49:45.856732Z',
-                    'download_url': '123',
-                    'user': {
-                        'id': '123',
-                        'first_name': 'John',
-                        'last_name': 'Smith'
-                    }
-                },
-                {
-                    'id': '123',
-                    'name': 'i_am_easy_to_find.mp3',
-                    'date_uploaded': '2019-07-02T15:49:45.856732Z',
-                    'download_url': '123',
-                    'user': {
-                        'id': '123',
-                        'first_name': 'John',
-                        'last_name': 'Smith'
-                    }
-                },
-                {
-                    'id': '123',
-                    'name': 'hairpin_turns.exe',
-                    'date_uploaded': '2019-07-02T15:49:45.856732Z',
-                    'download_url': '123',
-                    'user': {
-                        'id': '123',
-                        'first_name': 'John',
-                        'last_name': 'Smith'
-                    }
-                },
-            ],
-        }
-
         context = {
             'title': 'Case Documents',
             'case': case['case'],
@@ -273,32 +226,20 @@ class AttachDocuments(TemplateView):
 
         form = attach_documents_form(reverse('cases:case', kwargs={'pk': case_id}))
 
-        # try:
-        #     s3 = boto3.resource('s3')
-        #     my_bucket = s3.Bucket(AWS_STORAGE_BUCKET_NAME)
-        #     for my_bucket_object in my_bucket.objects.all():
-        #         form.title += my_bucket_object.key
-        # except:
-        #     print('no s3!')
-
         return form_page(request, form, extra_data={'case_id': case_id})
 
     def post(self, request, **kwargs):
-        # self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
-
         case_id = str(kwargs['pk'])
+        data = []
 
-        data = {
-            'name': 'test.pdf'
-        }
+        files = request.FILES.getlist("file")
+        for file in files:
+            data.append({
+                'name': file.name,
+                'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
+            })
 
-        # case_document, status_code = post_case_documents(request, case_id, data)
+        # Send LITE API the file information
+        post_case_documents(request, case_id, data)
 
-        # print(case_document)
-
-        # data = []
-
-        files = request.FILES.getlist("file")  # list of tuples [(<file1>, "'MainDir/SubDir1/1.jpg'"), (<file2>, "'MainDir/SubDir2/2.jpg'")]
-        # for tmp_file, full_path in files:
-
-        return HttpResponse(files)
+        return redirect(reverse('cases:documents', kwargs={'pk': case_id}))
