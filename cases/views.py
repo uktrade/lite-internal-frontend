@@ -213,7 +213,7 @@ class AttachDocuments(TemplateView):
         return form_page(request, form)
 
     def post(self, request, **kwargs):
-        # self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
+        self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
         case_id = str(kwargs['pk'])
 
@@ -225,4 +225,4 @@ class AttachDocuments(TemplateView):
 
         # print(case_document)
 
-        return HttpResponse(request.data)
+        return HttpResponse(request.FILES)
