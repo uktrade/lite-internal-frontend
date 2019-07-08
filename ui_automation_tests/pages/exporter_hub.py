@@ -12,7 +12,7 @@ class ExporterHub():
         self.apply_for_a_licence_btn = "a[href*='/apply-for-a-licence/']"
         self.drafts_btn = "a[href*='/drafts/']"
         self.applications_btn = "a[href*='/applications/']"
-        self.my_goods_btn = "a[href*='/goods/']"
+        self.my_goods_btn = "a[href*='/goods/']"  # css
         self.add_a_good_btn = "a[href*='/goods/add/']"
         self.users_btn = "a[href='/users/']"
         self.sites_btn = "a[href='/sites/']"
@@ -33,8 +33,7 @@ class ExporterHub():
         self.licence_application_values = ".govuk-table__cell"
         self.start_now_btn = "a[href*='/start']"
         self.application_is_submitted = '.govuk-panel__title'
-        self.delete_application_button = '.cancel-link' #css
-        self.goods_link = "goods" #id
+        self.delete_application_button = '.cancel-link'  # css
         self.goods_tile = "a[href*='/goods/']"
         self.sites_link = "a[href*='sites']"
         self.quantity_field = 'quantity'  # id
@@ -84,7 +83,7 @@ class ExporterHub():
     def click_submit(self):
         self.driver.find_element_by_class_name("govuk-button").click()
 
-    def click_my_goods(self):
+    def click_goods_button(self):
         self.driver.find_element_by_css_selector(self.my_goods_btn).click()
 
     def click_save_and_continue(self):
@@ -251,10 +250,6 @@ class ExporterHub():
 
     def application_submitted_text(self):
         return self.driver.find_element_by_css_selector(self.application_is_submitted).text
-
-    def click_goods_link(self):
-        element = self.driver.find_element_by_id(self.goods_link)
-        self.driver.execute_script("arguments[0].click();", element)
 
     def click_add_a_good(self):
         self.driver.find_element_by_css_selector(self.add_a_good_btn).click()
