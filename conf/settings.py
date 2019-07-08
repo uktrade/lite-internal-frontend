@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'authbroker_client.middleware.ProtectAllViewsMiddleware',
+    'cases.middleware.UploadFailedMiddleware',
 ]
 
 ROOT_URLCONF = 'conf.urls'
@@ -172,7 +173,6 @@ SASS_PROCESSOR_ENABLED = True
 
 # File Upload
 # https://github.com/uktrade/s3chunkuploader
-# FILE_UPLOAD_HANDLERS = ('s3chunkuploader.file_handler.S3FileUploadHandler',)
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
@@ -182,7 +182,8 @@ S3_APPEND_DATETIME_ON_UPLOAD = True
 S3_PREFIX_QUERY_PARAM_NAME = ''
 S3_DOWNLOAD_LINK_EXPIRY_SECONDS = 180
 STREAMING_CHUNK_SIZE = 8192
-
+S3_MIN_PART_SIZE = 5*1024*1024
+MAX_UPLOAD_SIZE = 100*1024*1024
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases

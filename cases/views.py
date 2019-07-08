@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
+from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client, UploadFailed
 
 from cases.forms.attach_documents import attach_documents_form
 from cases.forms.denial_reasons import denial_reasons_form
@@ -250,7 +250,10 @@ class AttachDocuments(TemplateView):
             })
 
         # Send LITE API the file information
-        post_case_documents(request, case_id, data)
+        case_documents, status_code = post_case_documents(request, case_id, data)
+
+        if 'errors' in case_documents:
+            return error_page(None, 'We had an issue uploading your files. Try again later.')
 
         return redirect(reverse('cases:documents', kwargs={'pk': case_id}))
 
