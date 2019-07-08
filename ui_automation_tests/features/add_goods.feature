@@ -4,7 +4,7 @@ Feature: I want to add a clc-case good to the goods list
     I want to add a clc-case good to the goods list
     So that I can ensure the good is listed in my cases
 
-    @testing
+    @LT-1006_add_clc_query_good
     Scenario: Add "I don't know" good
         Given I go to exporter homepage
         When I login to exporter homepage with username "test@mail.com" and "password"
