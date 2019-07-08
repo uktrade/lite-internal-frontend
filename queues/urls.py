@@ -2,6 +2,7 @@ from django.urls import path
 
 from queues import views
 
+app_name = 'queues'
 urlpatterns = [
     # ex: /queues/
     path('', views.QueuesList.as_view(), name='queues'),

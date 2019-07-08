@@ -185,5 +185,4 @@ class MoveCase(TemplateView):
         if response:
             return response
 
-        # If there is no response (no forms left to go through), go to the case page
         return redirect(reverse('cases:case', kwargs={'pk': case_id}))
