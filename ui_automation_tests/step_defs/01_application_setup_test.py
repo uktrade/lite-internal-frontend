@@ -39,7 +39,7 @@ def click_add_to_application_button(driver, no):
 def click_goods_link_overview(driver):
     exporter = ExporterHub(driver)
     driver.execute_script("document.getElementById('goods').scrollIntoView(true);")
-    exporter.click_goods_button()
+    exporter.click_goods_link()
 
 
 @when(parsers.parse('I add values to my good of "{value}" quantity "{quantity}" and unit of measurement "{unit}"'))
@@ -130,7 +130,7 @@ def select_the_site_at_position(driver, no):
 @when('I click on goods link')
 def click_my_goods_link(driver):
     exporter_hub = ExporterHub(driver)
-    exporter_hub.click_goods_button()
+    exporter_hub.click_goods_link()
 
 
 @when('I click on goods tile')

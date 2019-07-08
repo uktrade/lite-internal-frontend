@@ -34,12 +34,13 @@ class ExporterHub():
         self.start_now_btn = "a[href*='/start']"
         self.application_is_submitted = '.govuk-panel__title'
         self.delete_application_button = '.cancel-link'  # css
+        self.goods_link = "goods"  # id
         self.goods_tile = "a[href*='/goods/']"
         self.sites_link = "a[href*='sites']"
         self.quantity_field = 'quantity'  # id
         self.unit_dropdown = 'unit'  # id
         self.value_field = 'value'  # id
-        self.overview_link = '.govuk-back-link' #css
+        self.overview_link = '.govuk-back-link' # css
         self.organisation_or_external_radio_button = "organisation_or_external-"
         self.sites_checkbox = ".govuk-checkboxes__input"
         self.type_choices = "type-"
@@ -250,6 +251,10 @@ class ExporterHub():
 
     def application_submitted_text(self):
         return self.driver.find_element_by_css_selector(self.application_is_submitted).text
+
+    def click_goods_link(self):
+        element = self.driver.find_element_by_id(self.goods_link)
+        self.driver.execute_script("arguments[0].click();", element)
 
     def click_add_a_good(self):
         self.driver.find_element_by_css_selector(self.add_a_good_btn).click()
