@@ -9,8 +9,8 @@
 {% block body %}
 
 	<h1 class="govuk-heading-l">{{ title }}</h1>
-	
-	<a href="#" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a>
+
+	<a href="{% url 'cases:assign_flags' data.case.id %}" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a>
 	<div class="lite-case-flags">
 		<div class="lite-flag">
 			Example flag

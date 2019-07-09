@@ -3,7 +3,7 @@ from libraries.forms.components import Question, Form, InputType, ArrayQuestion,
 
 
 def add_flag_form():
-    return Form(title='Add Flag', description='', questions=[
+    return Form(title=get_string('flags.create'), description='', questions=[
             Question(title='Name',
                      description='',
                      input_type=InputType.INPUT,

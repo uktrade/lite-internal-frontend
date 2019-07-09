@@ -41,7 +41,8 @@ class Cases(TemplateView):
         Assign users depending on what cases were selected
         """
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
-        return redirect(reverse('queues:case_assignments', kwargs={'pk': queue_id}) + '?cases=' + ','.join(request.POST.getlist('cases')))
+        return redirect(reverse('queues:case_assignments', kwargs={'pk': queue_id}) + '?cases=' + ','.join(
+            request.POST.getlist('cases')))
 
 
 class ViewCase(TemplateView):
@@ -188,3 +189,18 @@ class MoveCase(TemplateView):
             return response
 
         return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+
+
+class AssignFlags(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+
+        context = {
+            'title': 'Assign flags to this case',
+            'page': 'cases/case/flags.html',
+        }
+        return render(request, 'core/static.html', context)
+
+    def post(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        return redirect('cases:case', kwargs={'pk': case_id})
