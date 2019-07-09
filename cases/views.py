@@ -242,12 +242,13 @@ class AttachDocuments(TemplateView):
         data = []
 
         files = request.FILES.getlist("file")
-        for file in files:
-            data.append({
-                'name': file.original_name,
-                's3_key': file.name,
-                'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
-            })
+        #for file in files:
+        data.append({
+            'name': file.original_name,
+            's3_key': file.name,
+            'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
+            'description': request.POST['description'],
+        })
 
         # Send LITE API the file information
         case_documents, status_code = post_case_documents(request, case_id, data)
