@@ -1,0 +1,61 @@
+{% extends 'layouts/full_width.html' %}
+
+{% load svg %}
+
+{% block body %}
+
+	<div class="lite-app-bar">
+		<h1 class="govuk-heading-l">{{ title }}</h1>
+		<div class="lite-app-bar--right">
+			<a href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
+				Create a new role
+			</a>
+		</div>
+	</div>
+
+	<p class="govuk-caption-m" style="max-width: 600px;">
+		{% get_string 'roles.description' %}
+	</p>
+
+	<br>
+
+    <table class="lite-table">
+        <thead class="lite-table__head">
+            <tr class="lite-table__row">
+                <th class="lite-table__header" scope="col">Role</th>
+                <th class="lite-table__header" scope="col">Users with this role <span aria-hidden="true">can</span></th>
+            </tr>
+        </thead>
+        <tbody class="lite-table__body">
+            {% for role in roles %}
+                <tr class="lite-table__row">
+                    <td class="lite-table__cell">
+						{{ role.name }}
+                    </td>
+                    <td class="lite-table__cell">
+						<ul class="lite-tick-cross-list">
+							{% for permission in all_permissions %}
+								<li>
+									{% if permission.id in role.permissions %}
+										<span class="lite-tick-cross lite-tick-cross--tick">
+											{% svg 'tick' %}
+											<span class="govuk-visually-hidden">Can</span>
+											{{ permission.name }}
+										</span>
+									{% else %}
+										<span class="lite-tick-cross lite-tick-cross--cross">
+											{% svg 'cross' %}
+											<span class="govuk-visually-hidden">Cannot</span>
+											{{ permission.name }}
+										</span>
+									{% endif %}
+								</li>
+							{% endfor %}
+						</ul>
+					</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
