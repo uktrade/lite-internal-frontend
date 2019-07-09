@@ -1,5 +1,4 @@
 import allure
-import datetime
 import os
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -82,7 +81,7 @@ def repeat_to_length(string_to_expand, length):
 
 
 def get_formatted_date_time_h_m_pm_d_m_y():
-    time = datetime.datetime.now().strftime("%I:%M%p %d %B %Y").replace("PM", "pm").replace(
+    time = datetime.now().strftime("%I:%M%p %d %B %Y").replace("PM", "pm").replace(
         "AM", "am")
     if time[0] == "0":
         time = time[1:]
@@ -90,8 +89,8 @@ def get_formatted_date_time_h_m_pm_d_m_y():
 
 
 def get_unformatted_date_time():
-    return datetime.datetime.now()
+    return datetime.now()
 
 
 def get_formatted_date_time_m_d_h_s():
-    return datetime.datetime.now().strftime("%m%d%H%M%S")
+    return datetime.now().strftime("%m%d%H%M%S")
