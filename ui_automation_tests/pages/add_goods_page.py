@@ -8,6 +8,7 @@ class AddGoodPage:
         self.goods_delete_button = ".govuk-button--warning"
         self.description_xpath_prefix = "//*[text()[contains(.,'%s')]]"
         self.clc_query_case_id_xpath_prefix = "%s/../*[@data_good_clc_query_case_id]"
+        self.clc_query_case_id_attribute = "data_good_clc_query_case_id"
 
     def click_add_a_good(self):
         self.driver.find_element_by_css_selector(self.add_a_good_btn).click()
@@ -36,7 +37,8 @@ class AddGoodPage:
         clc_query_case_id_xpath = self.clc_query_case_id_xpath_prefix % description_xpath
 
         goods_row = self.driver.find_element_by_xpath(description_xpath)
-        clc_query_case_id = self.driver.find_element_by_xpath(clc_query_case_id_xpath).get_attribute("data_good_clc_query_case_id")
+        clc_query_case_id = self.driver.find_element_by_xpath(
+            clc_query_case_id_xpath).get_attribute(self.clc_query_case_id_attribute)
 
         assert goods_row.is_displayed()
 
