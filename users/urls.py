@@ -20,4 +20,6 @@ urlpatterns = [
 
     # /users/roles/
     path('roles/', roles.Roles.as_view(), name='roles'),
+    # /users/roles/add/
+    path('roles/add/', roles.AddRole.as_view(), name='add_role'),
 ]
