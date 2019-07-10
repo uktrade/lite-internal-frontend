@@ -19,33 +19,33 @@ from conf import settings
 from conf.settings import env, AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, \
     S3_DOWNLOAD_LINK_EXPIRY_SECONDS
 from core.builtins.custom_tags import get_string
+from conf.constants import DEFAULT_QUEUE_ID
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
+from queues.helpers import add_assigned_users_to_cases
 from queues.services import get_queue_case_assignments
 
 
 class Cases(TemplateView):
     def get(self, request, **kwargs):
         """
-        Show a list of cases
+        Show a list of cases pertaining to that queue
         """
-        queue_id = request.GET.get('queue')
-
-        # If a queue id is not provided, use the default queue
-        if not queue_id:
-            queue_id = '00000000-0000-0000-0000-000000000001'
-
+        queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         queues, status_code = get_queues(request)
         queue, status_code = get_queue(request, queue_id)
         case_assignments, status_code = get_queue_case_assignments(request, queue_id)
+
+        # Add assigned users to each case
+        queue['queue']['cases'] = add_assigned_users_to_cases(queue['queue']['cases'],
+                                                              case_assignments['case_assignments'])
 
         context = {
             'queues': queues,
             'queue_id': queue_id,
             'data': queue,
             'title': queue.get('queue').get('name'),
-            'case_assignments': case_assignments['case_assignments'],
         }
         return render(request, 'cases/index.html', context)
 
@@ -53,11 +53,7 @@ class Cases(TemplateView):
         """
         Assign users depending on what cases were selected
         """
-        queue_id = request.GET.get('queue')
-
-        if not queue_id:
-            queue_id = '00000000-0000-0000-0000-000000000001'
-
+        queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         return redirect(reverse('queues:case_assignments', kwargs={'pk': queue_id}) + '?cases=' + ','.join(
             request.POST.getlist('cases')))
 
@@ -185,7 +181,9 @@ class MoveCase(TemplateView):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
 
-        return form_page(request, move_case_form(request), data=case['case'])
+        return form_page(request,
+                         move_case_form(request, reverse('cases:case', kwargs={'pk': case_id})),
+                         data=case['case'])
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
@@ -195,7 +193,7 @@ class MoveCase(TemplateView):
         }
 
         response, data = submit_single_form(request,
-                                            move_case_form(request),
+                                            move_case_form(request, reverse('cases:case', kwargs={'pk': case_id})),
                                             put_case,
                                             pk=case_id,
                                             override_data=data)
@@ -203,7 +201,6 @@ class MoveCase(TemplateView):
         if response:
             return response
 
-        # If there is no response (no forms left to go through), go to the case page
         return redirect(reverse('cases:case', kwargs={'pk': case_id}))
 
 
