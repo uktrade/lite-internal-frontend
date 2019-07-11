@@ -1,5 +1,5 @@
 from conf.client import post, get, put
-from conf.constants import CASE_URL, CASE_NOTES_URL, APPLICATIONS_URL, ACTIVITY_URL
+from conf.constants import CASE_URL, CASE_NOTES_URL, APPLICATIONS_URL, ACTIVITY_URL, CASE_FLAGS_URL
 
 
 def get_case(request, pk):
@@ -30,6 +30,19 @@ def get_case_notes(request, pk):
 
 def post_case_notes(request, pk, json):
     data = post(request, CASE_URL + pk + CASE_NOTES_URL, json)
+    return data.json(), data.status_code
+
+
+# Case Flags
+
+
+def get_case_flags(request, pk):
+    data = get(request, CASE_URL + pk + CASE_FLAGS_URL)
+    return data.json(), data.status_code
+
+
+def get_case_flags_for_team(request, pk, team):
+    data = get(request, CASE_URL + pk + CASE_FLAGS_URL + team)
     return data.json(), data.status_code
 
 

@@ -1,3 +1,15 @@
+{% extends 'layouts/base.html' %}
+
+{% load static humanize %}
+
+{% block back-button %}
+	<a href="/cases/{{ caseId }}/" class="govuk-back-link">Back to Case</a>
+{% endblock %}
+
+{% block body %}
+
+<h2 class="govuk-heading-l">Assign flags to this case</h2>
+
 <form method="post">
 
 	{% csrf_token %}
@@ -35,3 +47,5 @@
 		Save
 	</button>
 </form>
+
+{% endblock %}

@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, get_case_flags_for_team, get_case_flags
 from conf.constants import DEFAULT_QUEUE_ID
 from core.services import get_queue, get_queues
 from libraries.forms.generators import error_page, form_page
@@ -50,11 +50,13 @@ class ViewCase(TemplateView):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
         activity, status_code = get_activity(request, case_id)
+        case_flags, status_code = get_case_flags(request, case_id)
 
         context = {
             'data': case,
             'title': case.get('case').get('application').get('name'),
             'activity': activity.get('activity'),
+            'case_flags': case_flags.get('case_flags')
         }
         return render(request, 'cases/case/index.html', context)
 
@@ -194,12 +196,13 @@ class MoveCase(TemplateView):
 class AssignFlags(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
+        flags = get_case_flags_for_team(case_id, str(request.user.user_token))
 
         context = {
-            'title': 'Assign flags to this case',
-            'page': 'cases/case/flags.html',
+            'caseId': case_id,
+            'flags': 'flags'
         }
-        return render(request, 'core/static.html', context)
+        return render(request, 'cases/case/flags.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
