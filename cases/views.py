@@ -1,6 +1,6 @@
 from unittest import case
 
-import boto3
+#import boto3
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -239,7 +239,9 @@ class AttachDocuments(TemplateView):
         data = []
 
         files = request.FILES.getlist("file")
-        #for file in files:
+        if len(files) is not 1:
+            return error_page(None, 'We had an issue uploading your files. Try again later.')
+        file = files[0]
         data.append({
             'name': file.original_name,
             's3_key': file.name,
