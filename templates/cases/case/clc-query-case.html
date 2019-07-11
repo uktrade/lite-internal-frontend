@@ -2,21 +2,20 @@
 
 {% load humanize %}
 
-{% block back-button %}{% endblock %}
+{% block back-button %}
+	<a href="{% url 'cases:cases' %}" class="govuk-back-link">Back to Cases</a>
+{% endblock %}
 
 {% block body %}
 
-<div class="lite-app-bar">
-	<h1 class="govuk-heading-l">{{ title }}</h1>
-	<div class="lite-app-bar--right">
-		<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' data.case.id %}">
-			{% get_string 'cases.manage.move_case.button' %}
-		</a>
-		<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' data.case.id %}">
-			Change Status
-		</a>
-	</div>
-</div>
+<h1 class="govuk-heading-l">CLC query</h1>
+<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' data.case.id %}">
+    {% get_string 'cases.manage.move_case.button' %}
+</a>
+<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' data.case.id %}">
+    Change Status
+</a>
+
 <div class="lite-information-board">
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-one-third">
