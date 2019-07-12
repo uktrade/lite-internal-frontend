@@ -62,10 +62,21 @@ class ViewCase(TemplateView):
         response, status_code = post_case_notes(request, case_id, request.POST)
 
         if status_code != 201:
-            error = response.get('errors').get('text')[0]
-            error = error.replace('This field', 'Case note')
-            error = error.replace('this field', 'the case note')  # TODO: Move to API
+
+            errors = response.get('errors')
+            if errors.get('text'):
+                error = errors.get('text')[0]
+                error = error.replace('This field', 'Case note')
+                error = error.replace('this field', 'the case note')  # TODO: Move to API
+
+            else:
+                error_list = []
+                for key in errors:
+                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
+                error = "\n".join(error_list)
             return error_page(request, error)
+
+
 
         return redirect('/cases/' + case_id + '#case_notes')
 

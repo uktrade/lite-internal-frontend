@@ -94,9 +94,15 @@
 					<a id="case-note-cancel-button" href="{% url 'cases:case' data.case.id %}" class="govuk-button govuk-button--secondary" type="button" draggable="false">
 						Cancel
 					</a>
-					<p id="case_note-warning" class="govuk-hint govuk-character-count__message" aria-live="polite">
-						You can enter up to 2200 characters
-					</p>
+{#					<p id="case_note-warning" class="govuk-hint govuk-character-count__message" aria-live="polite">#}
+{#						You can enter up to 2200 characters#}
+{#					</p>#}
+                    <div class="govuk-checkboxes govuk-checkboxes--small">
+						<div class="govuk-checkboxes__item">
+							<input class="govuk-checkboxes__input" type="checkbox" name="is_visible_for_exporter" value="true">
+							<label class="govuk-label govuk-checkboxes__label">Visible to exporter</label>
+						</div>
+					</div>
 					<button class="govuk-button" type="submit" id="button-post-note">
 						Post note
 					</button>
