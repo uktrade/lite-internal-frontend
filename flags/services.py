@@ -1,9 +1,14 @@
 from conf.client import get, post, put
-from conf.constants import FLAGS_URL
+from conf.constants import FLAGS_URL, FLAGS_CASE_FOR_TEAM
 
 
 def get_flags(request):
     data = get(request, FLAGS_URL)
+    return data.json(), data.status_code
+
+
+def get_flags_case_for_team(request):
+    data = get(request, FLAGS_CASE_FOR_TEAM)
     return data.json(), data.status_code
 
 

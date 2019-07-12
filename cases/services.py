@@ -43,11 +43,6 @@ def get_case_flags(request, pk):
     return data.json(), data.status_code
 
 
-def get_case_flags_for_team(request, pk, team):
-    data = get(request, CASE_URL + pk + CASE_FLAGS_URL + team)
-    return data.json(), data.status_code
-
-
 # Activity
 def get_activity(request, pk):
     data = get(request, CASE_URL + pk + ACTIVITY_URL + '?fields=status')

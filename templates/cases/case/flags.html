@@ -22,24 +22,14 @@
 
 	<div class="govuk-form-group">
 		<div class="govuk-checkboxes">
-			<div class="govuk-checkboxes__item">
-				<input class="govuk-checkboxes__input" id="waste-1" name="waste" type="checkbox" value="carcasses">
-				<label class="govuk-label govuk-checkboxes__label" for="waste-1">
-					Flag #1
-				</label>
-			</div>
-			<div class="govuk-checkboxes__item">
-				<input class="govuk-checkboxes__input" id="waste-2" name="waste" type="checkbox" value="mines">
-				<label class="govuk-label govuk-checkboxes__label" for="waste-2">
-					Flag #2
-				</label>
-			</div>
-			<div class="govuk-checkboxes__item">
-				<input class="govuk-checkboxes__input" id="waste-3" name="waste" type="checkbox" value="farm">
-				<label class="govuk-label govuk-checkboxes__label" for="waste-3">
-					Flag #3
-				</label>
-			</div>
+			{% for flag in flags %}
+				<div class="govuk-checkboxes__item">
+					<input class="govuk-checkboxes__input" id="waste-1" name="waste" type="checkbox" value="carcasses">
+					<label class="govuk-label govuk-checkboxes__label" for="waste-1">
+						{{ flag.name }}
+					</label>
+				</div>
+			{% endfor %}
 		</div>
 	</div>
 
