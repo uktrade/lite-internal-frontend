@@ -224,8 +224,16 @@ class MoveCase(TemplateView):
 class AssignFlags(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        data, status_code = get_flags_case_for_team(request)
-        flags = data.get('flags')
+        case_flags_data, status_code = get_case_flags(request, case_id)
+        flags_case_for_team_data, status_code = get_flags_case_for_team(request)
+        case_flags = case_flags_data.get('case_flags')
+        flags = flags_case_for_team_data.get('flags')
+
+        for flag in flags:
+            for case_flag in case_flags:
+                flag['selected'] = flag['id'] == case_flag['flag_id']
+                if flag['selected'] == True:
+                    break
 
         context = {
             'caseId': case_id,

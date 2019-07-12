@@ -24,8 +24,8 @@
 		<div class="govuk-checkboxes">
 			{% for flag in flags %}
 				<div class="govuk-checkboxes__item">
-					<input class="govuk-checkboxes__input" id="waste-1" name="waste" type="checkbox" value="carcasses">
-					<label class="govuk-label govuk-checkboxes__label" for="waste-1">
+					<input {% if flag.selected %} checked {% endif %} class="govuk-checkboxes__input" id="{{ flag.name }}" name="{{ flag.name }}" type="checkbox" value="{{ flag.id }}">
+					<label class="govuk-label govuk-checkboxes__label" for="{{ flag.name }}">
 						{{ flag.name }}
 					</label>
 				</div>
