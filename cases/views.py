@@ -14,7 +14,7 @@ from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, post_case_documents, \
-    get_case_documents, get_case_document, delete_case_document
+    post_case_documents, get_case_documents, get_case_document, delete_case_document
 from conf import settings
 from conf.settings import env, AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, \
     S3_DOWNLOAD_LINK_EXPIRY_SECONDS
@@ -69,7 +69,7 @@ class ViewCase(TemplateView):
             'title': case.get('case').get('application').get('name'),
             'activity': activity.get('activity'),
         }
-        return render(request, 'cases/case/index.html', context)
+        return render(request, 'cases/case/application-case.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
@@ -84,29 +84,54 @@ class ViewCase(TemplateView):
         return redirect('/cases/' + case_id + '#case_notes')
 
 
+class ViewCLCCase(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+
+        context = {
+            'data': case
+        }
+        return render(request, 'cases/case/clc-query-case.html', context)
+
+
 class ManageCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
-        context = {
-            'data': case,
-            'title': 'Manage ' + case.get('case').get('application').get('name'),
-        }
+        if not case['case']['is_clc']:
+            context = {
+                'data': case,
+                'title': 'Manage ' + case.get('case').get('application').get('name'),
+            }
+        else:
+            context = {
+                'data': case,
+                'title': 'Manage CLC query case',
+            }
+
         return render(request, 'cases/manage.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
-        application_id = case.get('case').get('application').get('id')
 
-        # PUT form data
-        data, status_code = put_applications(request, application_id, request.POST)
+        if not case['case']['is_clc']:
+            application_id = case.get('case').get('application').get('id')
+            data, status_code = put_applications(request, application_id, request.POST)
+
+        else:
+            clc_query_id = case['case']['clc_query']['id']
+            data, status_code = put_clc_queries(request, clc_query_id, request.POST)
+
 
         if 'errors' in data:
             return redirect('/cases/' + case_id + '/manage')
 
-        return redirect('/cases/' + case_id)
-
+        if not case['case']['is_clc']:
+            return redirect('/cases/' + case_id)
+        else:
+            return redirect('/cases/clc-query/' + case_id)
 
 class DecideCase(TemplateView):
     def get(self, request, **kwargs):
@@ -200,8 +225,10 @@ class MoveCase(TemplateView):
 
         if response:
             return response
-
-        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+        if data['case']['application']:
+            return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+        else:
+            return redirect('/cases/clc-query/' + case_id)
 
 
 class Documents(TemplateView):
