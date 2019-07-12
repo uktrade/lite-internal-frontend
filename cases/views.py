@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, get_case_flags
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, get_case_flags, post_case_flags
 from conf.constants import DEFAULT_QUEUE_ID
 from core.services import get_queue, get_queues
 from flags.services import get_flags_case_for_team
@@ -227,19 +227,24 @@ class AssignFlags(TemplateView):
         case_flags_data, status_code = get_case_flags(request, case_id)
         flags_case_for_team_data, status_code = get_flags_case_for_team(request)
         case_flags = case_flags_data.get('case_flags')
-        flags = flags_case_for_team_data.get('flags')
+        flags_case_for_team = flags_case_for_team_data.get('flags')
 
-        for flag in flags:
+        for flag in flags_case_for_team:
             for case_flag in case_flags:
                 flag['selected'] = flag['id'] == case_flag['flag_id']
-                if flag['selected'] == True:
+                if flag['selected']:
                     break
 
         context = {
             'caseId': case_id,
-            'flags': flags
+            'flags_case_for_team': flags_case_for_team
         }
         return render(request, 'cases/case/flags.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
+        flags = request.POST.getlist('flags[]')
+
+        response, status_code = post_case_flags(request, case_id, {'flags': flags})
+
+        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
