@@ -54,9 +54,8 @@ class ViewProfile(TemplateView):
 
 class EditUser(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_gov_user(request, str(kwargs['pk']))
-
-        return form_page(request, edit_user_form(request), data=data)
+        user, status_code = get_gov_user(request, str(kwargs['pk']))
+        return form_page(request, edit_user_form(request), data=user['user'])
 
     def post(self, request, **kwargs):
         response, status_code = put_gov_user(request, str(kwargs['pk']), request.POST)
