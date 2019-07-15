@@ -67,3 +67,6 @@ class UsersPage():
     def select_option_from_team_drop_down_by_value(self):
         select = Select(self.driver.find_element_by_id('team'))
         select.select_by_index(2)
+
+    def click_on_manage_roles(self):
+        self.driver.find_element_by_css_selector("a[href*='users/roles/']").click()
