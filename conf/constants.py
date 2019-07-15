@@ -16,6 +16,7 @@ GOV_USERS_URL = '/gov-users/'
 GOV_USERS_ROLES_URL = '/gov-users/roles/'
 GOV_USERS_PERMISSIONS_URL = '/gov-users/permissions/'
 FLAGS_URL = '/flags/'
+CLC_QUERIES_URL = '/clc_queries/'
 
 # Static URLs
 STATIC_URL = '/static/'
