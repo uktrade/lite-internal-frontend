@@ -231,7 +231,7 @@ class AssignFlags(TemplateView):
 
         for flag in flags_case_for_team:
             for case_flag in case_flags:
-                flag['selected'] = flag['id'] == case_flag['flag_id']
+                flag['selected'] = flag['id'] == case_flag['flag']
                 if flag['selected']:
                     break
 
