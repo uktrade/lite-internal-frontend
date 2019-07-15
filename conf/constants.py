@@ -21,5 +21,7 @@ CLC_QUERIES_URL = '/clc_queries/'
 # Static URLs
 STATIC_URL = '/static/'
 DENIAL_REASONS_URL = STATIC_URL + 'denial-reasons/'
-
 COUNTRIES_URL = STATIC_URL + 'countries/'
+
+# Permissions
+MAKE_FINAL_DECISIONS = 'MAKE_FINAL_DECISIONS'

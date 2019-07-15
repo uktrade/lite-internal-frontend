@@ -19,9 +19,11 @@
 		<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' data.case.id %}">
 			Change Status
 		</a>
-		<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' data.case.id %}">
-			Record Decision
-		</a>
+		{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
+			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' data.case.id %}">
+				Record Decision
+			</a>
+		{% endif %}
 	</div>
 </div>
 
