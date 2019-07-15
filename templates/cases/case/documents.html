@@ -24,13 +24,20 @@
 		<div class="lite-card lite-card--download">
 			<div>
 				<p class="govuk-body govuk-!-font-weight-bold" style="margin-bottom: 10px;">{{ document.name }}</p>
+				<p class="govuk-body" style="margin-bottom: 10px;">{{ document.description }}</p>
 				<p class="govuk-caption-m" style="margin: 0;">Uploaded by {{ document.user.first_name }} {{ document.user.last_name }} at {{ document.created_at|str_date }}</p>
 			</div>
 			<div class="lite-vertical-align">
-				<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.s3_key %}">
-					<span class="govuk-visually-hidden">Download document</span>
-					{% svg 'download' %}
+				{% if document.safe == True %}
+					<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.s3_key %}">
+						<span class="govuk-visually-hidden">Download document</span>
+						{% svg 'download' %}
 				</a>
+				{% elif document.safe == False %}
+					<p class="govuk-label" style="margin: 0;color:red;">Virus infected</p>
+				{% else %}
+					<p class="govuk-label" style="margin: 0;">Processing</p>
+				{% endif %}
 			</div>
 		</div>
 	{% endfor %}
