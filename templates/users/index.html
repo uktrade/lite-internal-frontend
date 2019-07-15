@@ -27,6 +27,7 @@
                 <th class="lite-table__header" scope="col">Name</th>
                 <th class="lite-table__header" scope="col">Email</th>
                 <th class="lite-table__header" scope="col">Team</th>
+                <th class="lite-table__header" scope="col">Role</th>
                 <th class="lite-table__header" scope="col">Status</th>
                 <th class="lite-table__header" scope="col"></th>
             </tr>
@@ -51,6 +52,7 @@
                             {{ user.team_name }}
                         </a>
                     </td>
+                    <td class="lite-table__cell">{{ user.role_name }}</td>
                     <td class="lite-table__cell">{{ user.status }}</td>
                     <td class="lite-table__cell">
                         <a href="{% url 'users:edit' user.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">Edit</a>
