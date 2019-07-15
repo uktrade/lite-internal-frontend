@@ -1,23 +1,25 @@
 {% extends 'layouts/full_width.html' %}
 
-{% block back-button %}{% endblock %}
+{% block back-link %}{% endblock %}
 
 {% block body %}
 
 	<div class="lite-app-bar">
-		<h1 class="govuk-heading-l">Users</h1>
-		<div class="lite-app-bar--right">
-			<a href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">{{ title }}</h1>
+			<p class="govuk-caption-m">
+				{% get_string 'users.description' %}
+			</p>
+		</div>
+		<div class="lite-app-bar__controls">
+			<a id="button_manage_roles" href="{% url 'users:roles' %}" class="govuk-button" draggable="false" role="button">
+				Manage roles
+			</a>
+			<a id="button_invite_user" href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
 				{% get_string 'users.invite' %}
 			</a>
 		</div>
 	</div>
-
-	<p class="govuk-caption-m" style="max-width: 600px;">
-		{% get_string 'users.description' %}
-	</p>
-
-	<br>
 
     <table class="lite-table">
         <thead class="lite-table__head">

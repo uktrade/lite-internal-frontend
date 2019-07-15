@@ -2,12 +2,12 @@
 
 {% load humanize %}
 
-{% block back-button %}{% endblock %}
+{% block back-link %}{% endblock %}
 
 {% block body %}
 
 	<div class="lite-app-bar">
-		<h1 class="govuk-heading-l">{% get_string 'flags.flag_list.page_heading' %}</h1>
+		<h1 class="govuk-heading-l">{{ title }}</h1>
 		<div class="lite-app-bar--right">
 			{% if status == 'active' %}
 				<a href="{% url 'flags:flags' 'all' %}" class="govuk-button" draggable="false" role="button">

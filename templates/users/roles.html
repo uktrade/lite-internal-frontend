@@ -2,12 +2,16 @@
 
 {% load svg %}
 
+{% block back-link %}
+	<a href="{% url 'users:users' %}" class="govuk-back-link">Back to Users</a>
+{% endblock %}
+
 {% block body %}
 
 	<div class="lite-app-bar">
 		<h1 class="govuk-heading-l">{{ title }}</h1>
 		<div class="lite-app-bar--right">
-			<a href="{% url 'users:add_role' %}" class="govuk-button" draggable="false" role="button">
+			<a id="button_add_role" href="{% url 'users:add_role' %}" class="govuk-button" draggable="false" role="button">
 				{% get_string 'roles.add.title' %}
 			</a>
 		</div>
