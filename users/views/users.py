@@ -23,14 +23,13 @@ class UsersList(TemplateView):
 
 class AddUser(TemplateView):
     def get(self, request, **kwargs):
-        teams = get_teams(request, True)
-        return form_page(request, add_user_form(teams))
+        return form_page(request, add_user_form(request))
 
     def post(self, request, **kwargs):
         response, status_code = post_gov_users(request, request.POST)
-        teams = get_teams(request, True)
+
         if status_code != 201:
-            return form_page(request, add_user_form(teams), data=request.POST, errors=response.get('errors'))
+            return form_page(request, add_user_form(request), data=request.POST, errors=response.get('errors'))
 
         return redirect(reverse_lazy('users:users'))
 
@@ -56,14 +55,14 @@ class ViewProfile(TemplateView):
 class EditUser(TemplateView):
     def get(self, request, **kwargs):
         data, status_code = get_gov_user(request, str(kwargs['pk']))
-        teams = get_teams(request, True)
-        return form_page(request, edit_user_form(teams), data=data)
+
+        return form_page(request, edit_user_form(request), data=data)
 
     def post(self, request, **kwargs):
         response, status_code = put_gov_user(request, str(kwargs['pk']), request.POST)
-        teams = get_teams(request, True)
+
         if status_code != 200:
-            return form_page(request, edit_user_form(teams), data=request.POST, errors=response.get('errors'))
+            return form_page(request, edit_user_form(request), data=request.POST, errors=response.get('errors'))
 
         return redirect(reverse_lazy('users:users'))
 
