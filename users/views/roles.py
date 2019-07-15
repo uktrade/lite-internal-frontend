@@ -6,7 +6,7 @@ from core.builtins.custom_tags import get_string
 from libraries.forms.generators import form_page
 from libraries.forms.submitters import submit_single_form
 from users.forms.roles import add_role, edit_role
-from users.services import get_roles, get_permissions, get_role, put_role
+from users.services import get_roles, get_permissions, get_role, put_role, post_role
 
 
 class Roles(TemplateView):
@@ -28,10 +28,20 @@ class AddRole(TemplateView):
         return form_page(request, form)
 
     def post(self, request, **kwargs):
-        role_id = kwargs['pk']
-        role, status_code = get_role(request, role_id)
+        data = {
+            'name': request.POST['name'],
+            'permissions': request.POST.getlist('permissions'),
+        }
 
-        return form_page(request, add_role(request), data=role['role'])
+        response, data = submit_single_form(request,
+                                            add_role(request),
+                                            post_role,
+                                            override_data=data)
+
+        if response:
+            return response
+
+        return redirect(reverse('users:roles'))
 
 
 class EditRole(TemplateView):

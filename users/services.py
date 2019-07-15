@@ -78,6 +78,11 @@ def get_role(request, pk):
     return data.json(), data.status_code
 
 
+def post_role(request, json):
+    data = post(request, GOV_USERS_ROLES_URL, json)
+    return data.json(), data.status_code
+
+
 def put_role(request, pk, json):
     data = put(request, GOV_USERS_ROLES_URL + pk + '/', json)
     return data.json(), data.status_code
