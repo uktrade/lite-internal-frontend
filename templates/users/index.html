@@ -48,11 +48,11 @@
                     </td>
                     <td class="lite-table__cell">{{ user.email }}</td>
                     <td class="lite-table__cell">
-                        <a href="{% url 'teams:team' user.team %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">
-                            {{ user.team_name }}
+                        <a href="{% url 'teams:team' user.team.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">
+                            {{ user.team.name }}
                         </a>
                     </td>
-                    <td class="lite-table__cell">{{ user.role_name }}</td>
+                    <td class="lite-table__cell">{{ user.role.name }}</td>
                     <td class="lite-table__cell">{{ user.status }}</td>
                     <td class="lite-table__cell">
                         <a href="{% url 'users:edit' user.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">Edit</a>
