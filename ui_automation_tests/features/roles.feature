@@ -38,6 +38,3 @@ Feature:  I want to create roles
     And I add a new role called "role-t" with permission to "Make final decisions"
     And I edit my role
     Then I see the role in the role list
-
-  @LT-1127_change_user_role
-  Scenario:
