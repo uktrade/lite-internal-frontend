@@ -75,4 +75,4 @@ class AddRole(TemplateView):
         # context = {
         #     'title': get_string('roles.add.title'),
         # }
-        return form_page(request, add_role())
+        return form_page(request, self.form)
