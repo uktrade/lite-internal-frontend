@@ -23,7 +23,7 @@ def get_denial_reasons(request):
             options.append(Option(item, item))
 
         questions.append(
-            Checkboxes('reasons', options)
+            Checkboxes('reasons', options, description='')
         )
 
     return questions
