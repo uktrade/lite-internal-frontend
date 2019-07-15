@@ -73,6 +73,16 @@ def get_roles(request, convert_to_options=False):
     return data.json(), data.status_code
 
 
+def get_role(request, pk):
+    data = get(request, GOV_USERS_ROLES_URL + pk)
+    return data.json(), data.status_code
+
+
+def put_role(request, pk, json):
+    data = put(request, GOV_USERS_ROLES_URL + pk + '/', json)
+    return data.json(), data.status_code
+
+
 def get_permissions(request, convert_to_options=False):
     data = get(request, GOV_USERS_PERMISSIONS_URL)
 

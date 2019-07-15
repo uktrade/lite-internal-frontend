@@ -58,7 +58,7 @@
 						</ul>
 					</td>
                     <td class="lite-table__cell">
-						<a href="#" class="govuk-link govuk-link--no-visited-state">Edit</a>
+						<a href="{% url 'users:edit_role' role.id %}" class="govuk-link govuk-link--no-visited-state">Edit</a>
                     </td>
                 </tr>
             {% endfor %}

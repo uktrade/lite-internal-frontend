@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import TemplateView
 
 from core.builtins.custom_tags import get_string
 from libraries.forms.generators import form_page
-from users.forms.roles import add_role
-from users.services import get_roles, get_permissions
+from libraries.forms.submitters import submit_single_form
+from users.forms.roles import add_role, edit_role
+from users.services import get_roles, get_permissions, get_role, put_role
 
 
 class Roles(TemplateView):
@@ -21,31 +23,39 @@ class Roles(TemplateView):
 
 
 class AddRole(TemplateView):
-
-    form = add_role()
-
     def get(self, request, **kwargs):
-        # roles, status_code = get_roles(request)
-        # permissions, status_code = get_permissions(request)
+        form = add_role(request)
+        return form_page(request, form)
 
-        # all_permissions = {
-        #     'permissions': [
-        #         {
-        #             'id': '123',
-        #             'name': 'Make final decisions'
-        #         },
-        #         {
-        #             'id': '1234',
-        #             'name': 'Ban users'
-        #         },
-        #         {
-        #             'id': '12345',
-        #             'name': 'Create queues'
-        #         }
-        #     ]
-        # }
+    def post(self, request, **kwargs):
+        role_id = kwargs['pk']
+        role, status_code = get_role(request, role_id)
 
-        # context = {
-        #     'title': get_string('roles.add.title'),
-        # }
-        return form_page(request, self.form)
+        return form_page(request, add_role(request), data=role['role'])
+
+
+class EditRole(TemplateView):
+    def get(self, request, **kwargs):
+        role_id = kwargs['pk']
+        role, status_code = get_role(request, role_id)
+
+        return form_page(request, edit_role(request), data=role['role'])
+
+    def post(self, request, **kwargs):
+        role_id = kwargs['pk']
+
+        data = {
+            'name': request.POST['name'],
+            'permissions': request.POST.getlist('permissions'),
+        }
+
+        response, data = submit_single_form(request,
+                                            edit_role(request),
+                                            put_role,
+                                            pk=role_id,
+                                            override_data=data)
+
+        if response:
+            return response
+
+        return redirect(reverse('users:roles'))
