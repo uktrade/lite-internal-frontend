@@ -52,6 +52,16 @@ class ViewCase(TemplateView):
         activity, status_code = get_activity(request, case_id)
         permissions = get_user_permissions(request)
 
+        if case['case']['is_clc']:
+            case_id = str(kwargs['pk'])
+            case, status_code = get_case(request, case_id)
+
+            context = {
+                'title': 'Case',
+                'data': case,
+            }
+            return render(request, 'cases/case/clc-query-case.html', context)
+
         context = {
             'data': case,
             'title': case.get('case').get('application').get('name'),
@@ -71,17 +81,6 @@ class ViewCase(TemplateView):
             return error_page(request, error)
 
         return redirect('/cases/' + case_id + '#case_notes')
-
-
-class ViewCLCCase(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-
-        context = {
-            'data': case
-        }
-        return render(request, 'cases/case/clc-query-case.html', context)
 
 
 class ManageCase(TemplateView):

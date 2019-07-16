@@ -82,7 +82,7 @@
 					</div>
 					<div>
                         {% if case.is_clc %}
-                                <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case-clc-query' case.id %}" style="text-decoration: none; margin-bottom: 5px!important; display: block;">
+                                <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}" style="text-decoration: none; margin-bottom: 5px!important; display: block;">
                                     {{ case.id }}
                                 </a>
                                 <p class="govuk-body" style="opacity: .7; margin: 0;">
