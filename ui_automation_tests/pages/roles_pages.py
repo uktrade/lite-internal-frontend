@@ -13,8 +13,17 @@ class RolesPages():
         self.driver.find_element_by_id(self.add_role_text_field).send_keys(text)
 
     def select_permissions(self, value):
-        select = Select(self.driver.find_element_by_id('permissions'))
-        select.select_by_visible_text(value)
+        self.driver.find_element_by_id(value).click()
 
     def click_add_a_role_button(self):
-        self.driver.find_element_by_css_selector(self.add_role_button).click()
+        self.driver.find_element_by_id("button_add_role").click()
+
+    def edit_default_role_to_have_permission(self, permission):
+        if not self.driver.find_element_by_id(permission).is_selected():
+            self.select_permissions(permission)
+
+    def remove_all_permissions_from_default_role(self):
+        elements = self.driver.find_elements_by_css_selector(".govuk-checkboxes__input")
+        for element in elements:
+            if element.is_selected():
+                element.click()

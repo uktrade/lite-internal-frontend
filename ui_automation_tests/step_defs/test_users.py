@@ -95,5 +95,6 @@ def test_invalid(driver, open_internal_hub):
     assert "Enter an email address in the correct format, like name@example.com" in driver.find_element_by_css_selector(".govuk-error-message").text
     assert "Select a team" in driver.find_elements_by_css_selector(".govuk-error-message")[1].text
 
+
 def test_teardown(driver):
     driver.quit()
