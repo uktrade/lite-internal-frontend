@@ -36,7 +36,7 @@ class AddQueue(TemplateView):
         # including the user's team details in the post request
         user_data, status_code = get_gov_user(request, str(request.user.user_token))
         post_data = request.POST.copy()
-        post_data['team'] = user_data['user']['team']
+        post_data['team'] = user_data['user']['team']['id']
         data, status_code = post_queues(request, post_data)
 
         if status_code == 400:
