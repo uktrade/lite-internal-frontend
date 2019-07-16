@@ -11,4 +11,7 @@ Scenario: Upload a new document that doesn't contain a virus
   And I click on the Documents button
   And I click on the Attach Document button
   And I upload a file
-  Then the file is listed on the Documents page
+  And I click on the Attach Document button
+  And I upload another file
+  Then the files are listed on the Documents page newest first
+
