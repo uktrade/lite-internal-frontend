@@ -3,6 +3,7 @@ from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from conftest import context
 from pages.application_page import ApplicationPage
 from pages.record_decision_page import RecordDecision
+from pages.shared import Shared
 from pages.exporter_hub import ExporterHub
 import helpers.helpers as utils
 
@@ -138,18 +139,23 @@ class ManageCases():
         roles_page = RolesPages(driver)
         user_page = UsersPage(driver)
         header = HeaderPage(driver)
+        shared = Shared(driver)
         header.open_users()
         user_page.click_on_manage_roles()
+        roles_page.click_edit_for_default_role()
         roles_page.edit_default_role_to_have_permission(permission)
+        shared.click_submit()
 
-
-    @when("I reset the permissions")
+    @then("I reset the permissions")
     def reset_permissions(driver):
         roles_page = RolesPages(driver)
         user_page = UsersPage(driver)
         header = HeaderPage(driver)
+        shared = Shared(driver)
         header.open_users()
         user_page.click_on_manage_roles()
+        roles_page.click_edit_for_default_role()
         roles_page.remove_all_permissions_from_default_role()
+        shared.click_submit()
 
 
