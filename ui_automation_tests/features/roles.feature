@@ -30,7 +30,7 @@ Feature: I want to create roles
     And I add a new role called "abcdefghijklmnopqrstuvwxyz12345" with permission to "Make final decisions"
     Then I see error message "Ensure this field has no more than 30 characters."
 
-  @LT-1127_edit @setup
+  @LT-1127_edit
   Scenario: Edit a role
     Given I go to internal homepage
     When I go to users

@@ -1,4 +1,7 @@
-from libraries.forms.components import Question, Form, InputType, Option, Select
+from django.urls import reverse_lazy
+
+from core.builtins.custom_tags import get_string
+from libraries.forms.components import Question, Form, InputType, Option, Select, BackLink
 
 _name = Question(title='Name',
                  description='',
@@ -12,16 +15,24 @@ _level = Select(name='level',
                          Option('Good', 'Good')],
                 title='Level')
 
+_back_link = BackLink('Back to Flags', reverse_lazy('flags:flags'))
+
 
 def add_flag_form():
-    return Form(title='Add Flag', description='', questions=[
-        _name,
-        _level,
-    ])
+    return Form(title=get_string('flags.create'),
+                description='',
+                questions=[
+                    _name,
+                    _level,
+                ],
+                back_link=_back_link)
 
 
 def edit_flag_form():
-    return Form(title='Edit Flag', description='', questions=[
-        _name,
-        _level,
-    ])
+    return Form(title='Edit Flag',
+                description='',
+                questions=[
+                    _name,
+                    _level,
+                ],
+                back_link=_back_link)
