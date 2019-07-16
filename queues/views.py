@@ -98,7 +98,7 @@ class CaseAssignments(TemplateView):
 
         return form_page(request,
                          assign_users_form(request,
-                                           user_data['user']['team'],
+                                           user_data['user']['team']['id'],
                                            queue['queue'],
                                            len(case_ids) > 1),
                          data={'users': assigned_users})
@@ -130,7 +130,7 @@ class CaseAssignments(TemplateView):
 
         if 'errors' in response:
             return form_page(request, assign_users_form(request,
-                                                        user_data['user']['team'],
+                                                        user_data['user']['team']['id'],
                                                         queue['queue'],
                                                         len(case_ids) > 1),
                              data=request.POST,
