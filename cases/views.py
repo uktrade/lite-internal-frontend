@@ -1,6 +1,3 @@
-from unittest import case
-
-#import boto3
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -13,14 +10,15 @@ from cases.forms.attach_documents import attach_documents_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, post_case_documents, \
-    post_case_documents, get_case_documents, get_case_document, delete_case_document
+from cases.services import post_case_documents, get_case_documents, get_case_document, delete_case_document
 from conf import settings
 from conf.settings import env, AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, \
     S3_DOWNLOAD_LINK_EXPIRY_SECONDS
 from core.builtins.custom_tags import get_string
-from conf.constants import DEFAULT_QUEUE_ID
-from core.services import get_queue, get_queues
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries
+from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
+from conf.decorators import has_permission
+from core.services import get_queue, get_queues, get_user_permissions
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
 from queues.helpers import add_assigned_users_to_cases
@@ -63,11 +61,23 @@ class ViewCase(TemplateView):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
         activity, status_code = get_activity(request, case_id)
+        permissions = get_user_permissions(request)
+
+        if case['case']['is_clc']:
+            case_id = str(kwargs['pk'])
+            case, status_code = get_case(request, case_id)
+
+            context = {
+                'title': 'Case',
+                'data': case,
+            }
+            return render(request, 'cases/case/clc-query-case.html', context)
 
         context = {
             'data': case,
             'title': case.get('case').get('application').get('name'),
             'activity': activity.get('activity'),
+            'permissions': permissions,
         }
         return render(request, 'cases/case/application-case.html', context)
 
@@ -82,17 +92,6 @@ class ViewCase(TemplateView):
             return error_page(request, error)
 
         return redirect('/cases/' + case_id + '#case_notes')
-
-
-class ViewCLCCase(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-
-        context = {
-            'data': case
-        }
-        return render(request, 'cases/case/clc-query-case.html', context)
 
 
 class ManageCase(TemplateView):
@@ -124,7 +123,6 @@ class ManageCase(TemplateView):
             clc_query_id = case['case']['clc_query']['id']
             data, status_code = put_clc_queries(request, clc_query_id, request.POST)
 
-
         if 'errors' in data:
             return redirect('/cases/' + case_id + '/manage')
 
@@ -133,7 +131,9 @@ class ManageCase(TemplateView):
         else:
             return redirect('/cases/clc-query/' + case_id)
 
+
 class DecideCase(TemplateView):
+    @has_permission(MAKE_FINAL_DECISIONS)
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
@@ -151,6 +151,7 @@ class DecideCase(TemplateView):
 
         return form_page(request, record_decision_form(), data=data)
 
+    @has_permission(MAKE_FINAL_DECISIONS)
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
@@ -173,9 +174,11 @@ class DecideCase(TemplateView):
 
 
 class DenyCase(TemplateView):
+    @has_permission(MAKE_FINAL_DECISIONS)
     def get(self, request, **kwargs):
         return form_page(request, denial_reasons_form())
 
+    @has_permission(MAKE_FINAL_DECISIONS)
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)

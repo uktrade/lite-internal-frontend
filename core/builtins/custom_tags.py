@@ -14,7 +14,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_string(value: str):
+def get_string(value):
     """
     Given a string, such as 'cases.manage.attach_documents' it will return the relevant value
     from the strings.json file
