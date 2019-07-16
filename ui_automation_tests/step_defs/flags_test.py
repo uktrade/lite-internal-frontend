@@ -58,8 +58,8 @@ def add_existing_flag(driver):
 @when('I edit my flag')
 def edit_existing_flag(driver):
     elements = driver.find_elements_by_css_selector(".govuk-table__cell a")
-    no =0
-    while no<len(elements):
+    no = 0
+    while no < len(elements):
         if elements[no].text == context.flag_name:
             element_number = no
         no += 1
