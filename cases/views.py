@@ -10,7 +10,7 @@ from cases.forms.attach_documents import attach_documents_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import post_case_documents, get_case_documents, get_case_document, delete_case_document
+from cases.services import post_case_documents, get_case_documents, get_case_document
 from conf import settings
 from conf.settings import env, AWS_STORAGE_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, \
     S3_DOWNLOAD_LINK_EXPIRY_SECONDS
