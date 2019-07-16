@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, get_case_flags, post_case_flags
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, get_case_flags, put_case_flags
 from conf.constants import DEFAULT_QUEUE_ID
 from core.services import get_queue, get_queues
 from flags.services import get_flags_case_for_team
@@ -249,7 +249,7 @@ class AssignFlags(TemplateView):
         case_type = request.POST.getlist('case_type')
         flags = request.POST.getlist('flags[]')
 
-        response, status_code = post_case_flags(request, case_id, {'flags': flags})
+        response, status_code = put_case_flags(request, case_id, {'flags': flags})
 
         if not case['case']['is_clc']:
             return redirect(reverse('cases:case', kwargs={'pk': case_id}))

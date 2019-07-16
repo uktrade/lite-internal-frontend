@@ -43,8 +43,8 @@ def get_case_flags(request, pk):
     return data.json(), data.status_code
 
 
-def post_case_flags(request, pk, flags):
-    data = post(request, CASE_URL + pk + CASE_FLAGS_URL, flags)
+def put_case_flags(request, pk, flags):
+    data = put(request, CASE_URL + pk + CASE_FLAGS_URL, flags)
     return data.json(), data.status_code
 
 
