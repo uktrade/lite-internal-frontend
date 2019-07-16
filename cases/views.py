@@ -6,8 +6,9 @@ from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, get_case_flags, put_case_flags
-from conf.constants import DEFAULT_QUEUE_ID
-from core.services import get_queue, get_queues
+from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
+from conf.decorators import has_permission
+from core.services import get_queue, get_queues, get_user_permissions
 from flags.services import get_flags_case_for_team
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
@@ -52,14 +53,27 @@ class ViewCase(TemplateView):
         case, status_code = get_case(request, case_id)
         activity, status_code = get_activity(request, case_id)
         case_flags, status_code = get_case_flags(request, case_id)
+        permissions = get_user_permissions(request)
 
-        context = {
-            'data': case,
-            'title': case.get('case').get('application').get('name'),
-            'activity': activity.get('activity'),
-            'case_flags': case_flags.get('case_flags')
-        }
-        return render(request, 'cases/case/application-case.html', context)
+        if case['case']['is_clc']:
+            case_id = str(kwargs['pk'])
+            case, status_code = get_case(request, case_id)
+
+            context = {
+                'title': 'Case',
+                'data': case,
+                'case_flags': case_flags.get('case_flags'),
+            }
+            return render(request, 'cases/case/clc-query-case.html', context)
+        else:
+            context = {
+                'data': case,
+                'title': case.get('case').get('application').get('name'),
+                'activity': activity.get('activity'),
+                'permissions': permissions,
+                'case_flags': case_flags.get('case_flags')
+            }
+            return render(request, 'cases/case/application-case.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
@@ -72,19 +86,6 @@ class ViewCase(TemplateView):
             return error_page(request, error)
 
         return redirect('/cases/' + case_id + '#case_notes')
-
-
-class ViewCLCCase(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-        case_flags, status_code = get_case_flags(request, case_id)
-
-        context = {
-            'data': case,
-            'case_flags': case_flags.get('case_flags')
-        }
-        return render(request, 'cases/case/clc-query-case.html', context)
 
 
 class ManageCase(TemplateView):
@@ -116,7 +117,6 @@ class ManageCase(TemplateView):
             clc_query_id = case['case']['clc_query']['id']
             data, status_code = put_clc_queries(request, clc_query_id, request.POST)
 
-
         if 'errors' in data:
             return redirect('/cases/' + case_id + '/manage')
 
@@ -125,7 +125,9 @@ class ManageCase(TemplateView):
         else:
             return redirect('/cases/clc-query/' + case_id)
 
+
 class DecideCase(TemplateView):
+    @has_permission(MAKE_FINAL_DECISIONS)
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
@@ -143,6 +145,7 @@ class DecideCase(TemplateView):
 
         return form_page(request, record_decision_form(), data=data)
 
+    @has_permission(MAKE_FINAL_DECISIONS)
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
@@ -165,9 +168,11 @@ class DecideCase(TemplateView):
 
 
 class DenyCase(TemplateView):
+    @has_permission(MAKE_FINAL_DECISIONS)
     def get(self, request, **kwargs):
         return form_page(request, denial_reasons_form())
 
+    @has_permission(MAKE_FINAL_DECISIONS)
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
@@ -254,4 +259,4 @@ class AssignFlags(TemplateView):
         if not case['case']['is_clc']:
             return redirect(reverse('cases:case', kwargs={'pk': case_id}))
         else:
-            return redirect(reverse('cases:case-clc-query', kwargs={'pk': case_id}))
+            return redirect(reverse('cases:case', kwargs={'pk': case_id}))

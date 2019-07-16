@@ -2,123 +2,129 @@
 
 {% load static humanize %}
 
-{% block back-button %}
+{% block back-link %}
 	<a href="{% url 'cases:cases' %}" class="govuk-back-link">Back to Cases</a>
 {% endblock %}
 
 {% block body %}
 
-	<h1 class="govuk-heading-l">{{ title }}</h1>
-
-
-	<!-- # TODO: Create modal for clients with JS enabled -->
-	<!-- <a href="{% url 'cases:assign_flags' data.case.id %}" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a> -->
-	<a href="{% url 'cases:assign_flags' data.case.id %}" class="govuk-link govuk-link--no-visited-state">Edit case flags</a>
-	<div class="lite-case-flags">
-		{% for case_flag in case_flags %}
-			<div class="lite-flag">
-				{{ case_flag.flag_name }}
-			</div>
-		{% endfor %}
+<div class="lite-app-bar">
+	<div class="lite-app-bar__content">
+		<h1 class="govuk-heading-l">{{ title }}</h1>
 	</div>
-
-	<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' data.case.id %}">
+	<div class="lite-app-bar__controls">
+		<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' data.case.id %}">
 			{% get_string 'cases.manage.move_case.button' %}
-	</a>
-	<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' data.case.id %}">
-		Change Status
-	</a>
-	<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' data.case.id %}">
-		Record Decision
-	</a>
-
-	<div id="flags-modal" style="display: none;">
-		{% include "cases/case/flags.html" %}
+		</a>
+		<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' data.case.id %}">
+			Change Status
+		</a>
+		{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
+			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' data.case.id %}">
+				Record Decision
+			</a>
+		{% endif %}
 	</div>
+</div>
 
-	<div class="lite-information-board">
-		<div class="govuk-grid-row">
-			<div class="govuk-grid-column-one-third">
-				<div style="height: auto;">
-					<h4 class="lite-heading-s">Applicant</h4>
-					<a class="govuk-label govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' data.case.application.organisation.id %}">
-						{{ data.case.application.organisation.name }}
-					</a>
-				</div>
-			</div>
-			<div class="govuk-grid-column-one-third">
-				<div style="height: auto;">
-					<h4 class="lite-heading-s">Activity</h4>
-					<p class="govuk-label">
-						{{ data.case.application.activity }}
-					</p>
-				</div>
-			</div>
-			<div class="govuk-grid-column-one-third">
-				<div style="height: auto;">
-					<h4 class="lite-heading-s">Created at</h4>
-					<p class="govuk-label">
-						{{ data.case.application.created_at|str_date }}
-					</p>
-				</div>
+<!-- # TODO: Create modal for clients with JS enabled -->
+<!-- <a href="{% url 'cases:assign_flags' data.case.id %}" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a> -->
+<a href="{% url 'cases:assign_flags' data.case.id %}" class="govuk-link govuk-link--no-visited-state">Edit case flags</a>
+<div class="lite-case-flags">
+	{% for case_flag in case_flags %}
+		<div class="lite-flag">
+			{{ case_flag.flag_name }}
+		</div>
+	{% endfor %}
+</div>
+
+<div id="flags-modal" style="display: none;">
+	{% include "cases/case/flags.html" %}
+</div>
+
+<div class="lite-information-board">
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-one-third">
+			<div style="height: auto;">
+				<h4 class="lite-heading-s">Applicant</h4>
+				<a class="govuk-label govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' data.case.application.organisation.id %}">
+					{{ data.case.application.organisation.name }}
+				</a>
 			</div>
 		</div>
-
-		<div class="govuk-grid-row">
-			<div class="govuk-grid-column-one-third">
-				<div style="height: auto;">
-					<h4 class="lite-heading-s">Reference Number</h4>
-					<p class="govuk-label">
-						{{ data.case.application.organisation.reference_number_on_information_form|default:'None' }}
-					</p>
-				</div>
+		<div class="govuk-grid-column-one-third">
+			<div style="height: auto;">
+				<h4 class="lite-heading-s">Activity</h4>
+				<p class="govuk-label">
+					{{ data.case.application.activity }}
+				</p>
 			</div>
-			<div class="govuk-grid-column-one-third">
-				<div style="height: auto;">
-					<h4 class="lite-heading-s">Licence Type</h4>
-					<p class="govuk-label">
-						{{ data.case.application.licence_type|sentence_case }}
-					</p>
-				</div>
-			</div>
-			<div class="govuk-grid-column-one-third">
-				<div style="height: auto;">
-					<h4 class="lite-heading-s">Last Updated</h4>
-					<p class="govuk-label">
-						{{ data.case.application.last_modified_at|str_date }}
-					</p>
-				</div>
+		</div>
+		<div class="govuk-grid-column-one-third">
+			<div style="height: auto;">
+				<h4 class="lite-heading-s">Created at</h4>
+				<p class="govuk-label">
+					{{ data.case.application.created_at|str_date }}
+				</p>
 			</div>
 		</div>
 	</div>
 
-	{% if data.case.application.application_denial_reason %}
-	<h3 class="govuk-heading-m">Denial Reasons</h3>
-	{% for reason in data.case.application.application_denial_reason %}
-	<p class="govuk-heading-s">This case was denied because</p>
-	{% for reason_id in reason.reasons %}
-	<p class="govuk-label">{{ reason_id.id }}</p>
-	{% endfor %}
-	{% if reason.reason_details %}
-	<br />
-	<p class="govuk-heading-s">Further information</p>
-	<p class="govuk-label">{{ reason.reason_details }}</p>
-	{% endif %}
-	{% endfor %}
-	<br /><br />
-	{% endif %}
-
-	<!-- <div class="lite-tabs--fade">
-		<div class="lite-tabs">
-			<a class="lite-tabs__tab">Goods</a>
-			<a class="lite-tabs__tab">Destinations</a>
-			<a class="lite-tabs__tab selected" id="activity">Activity</a>
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-one-third">
+			<div style="height: auto;">
+				<h4 class="lite-heading-s">Reference Number</h4>
+				<p class="govuk-label">
+					{{ data.case.application.organisation.reference_number_on_information_form|default:'None' }}
+				</p>
+			</div>
 		</div>
-	</div> -->
+		<div class="govuk-grid-column-one-third">
+			<div style="height: auto;">
+				<h4 class="lite-heading-s">Licence Type</h4>
+				<p class="govuk-label">
+					{{ data.case.application.licence_type|sentence_case }}
+				</p>
+			</div>
+		</div>
+		<div class="govuk-grid-column-one-third">
+			<div style="height: auto;">
+				<h4 class="lite-heading-s">Last Updated</h4>
+				<p class="govuk-label">
+					{{ data.case.application.last_modified_at|str_date }}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
 
-	{% include "cases/case/tabs/activity.html" %}
+{% if data.case.application.application_denial_reason %}
+<h3 class="govuk-heading-m">Denial Reasons</h3>
+{% for reason in data.case.application.application_denial_reason %}
+<p class="govuk-heading-s">This case was denied because</p>
+{% for reason_id in reason.reasons %}
+<p class="govuk-label">{{ reason_id.id }}</p>
+{% endfor %}
+{% if reason.reason_details %}
+<br />
+<p class="govuk-heading-s">Further information</p>
+<p class="govuk-label">{{ reason.reason_details }}</p>
+{% endif %}
+{% endfor %}
+<br /><br />
+{% endif %}
 
-	<script src="{% static 'javascripts/modal.js' %}"></script>
-	<script src="{% static 'javascripts/specific/case.js' %}"></script>
+<!-- <div class="lite-tabs--fade">
+	<div class="lite-tabs">
+		<a class="lite-tabs__tab">Goods</a>
+		<a class="lite-tabs__tab">Destinations</a>
+		<a class="lite-tabs__tab selected" id="activity">Activity</a>
+	</div>
+</div> -->
+
+{% include "cases/case/tabs/activity.html" %}
+
+<script src="{% static 'javascripts/modal.js' %}"></script>
+<script src="{% static 'javascripts/specific/case.js' %}"></script>
 
 {% endblock %}

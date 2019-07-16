@@ -2,25 +2,24 @@
 
 {% load humanize %}
 
-{% block back-button %}{% endblock %}
+{% block back-link %}{% endblock %}
 
 {% block body %}
 
 	<div class="lite-app-bar">
-		<h1 class="govuk-heading-l">{% get_string 'flags.title' %}</h1>
-		<div class="lite-app-bar--right">
+		<div class="lite-app-bar__content">
+			<h2 class="govuk-heading-l">{% get_string 'flags.title' %}</h2>
+			<p class="govuk-caption-m">
+				{% get_string 'flags.description' %}
+			</p>
+		</div>
+		<div class="lite-app-bar__controls">
 			<a href="{% url 'flags:add' %}" class="govuk-button" draggable="false" role="button">
 				{% get_string 'flags.create' %}
 			</a>
 		</div>
 	</div>
-
-	<p class="govuk-caption-m" style="max-width: 600px;">
-		{% get_string 'flags.description' %}
-	</p>
-
-	<br>
-
+	
 	{% if status == 'active' or status == 'all' %}
 		<div class="govuk-grid-row">
 			<div class="govuk-grid-column-one-third lite-filters">
@@ -67,7 +66,7 @@
 		                            {{ flag.status }}
 		                        </td>
 								<td class="lite-table__cell">
-									{% if user_data.user.team == flag.team %}
+									{% if user_data.user.team.id == flag.team %}
 										{% if flag.status == 'Active' %}
 											<a href="{% url 'flags:change_status' flag.id 'deactivate' %}" role="button" draggable="false" class="govuk-link govuk-!-margin-right-2">Deactivate</a>
 										{% elif flag.status == 'Deactivated' %}
