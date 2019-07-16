@@ -78,9 +78,11 @@ class ViewCLCCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
+        case_flags, status_code = get_case_flags(request, case_id)
 
         context = {
-            'data': case
+            'data': case,
+            'case_flags': case_flags.get('case_flags')
         }
         return render(request, 'cases/case/clc-query-case.html', context)
 
@@ -243,8 +245,13 @@ class AssignFlags(TemplateView):
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+        case_type = request.POST.getlist('case_type')
         flags = request.POST.getlist('flags[]')
 
         response, status_code = post_case_flags(request, case_id, {'flags': flags})
 
-        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+        if not case['case']['is_clc']:
+            return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+        else:
+            return redirect(reverse('cases:case-clc-query', kwargs={'pk': case_id}))

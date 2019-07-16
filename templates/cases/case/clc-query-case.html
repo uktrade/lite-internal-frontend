@@ -1,4 +1,4 @@
-{% extends 'layouts/full_width.html' %}
+{% extends 'layouts/base.html' %}
 
 {% load humanize %}
 
@@ -9,6 +9,18 @@
 {% block body %}
 
 <h1 class="govuk-heading-l">CLC query</h1>
+
+<!-- # TODO: Create modal for clients with JS enabled -->
+<!-- <a href="{% url 'cases:assign_flags' data.case.id %}" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a> -->
+<a href="{% url 'cases:assign_flags' data.case.id %}" class="govuk-link govuk-link--no-visited-state">Edit case flags</a>
+<div class="lite-case-flags">
+    {% for case_flag in case_flags %}
+        <div class="lite-flag">
+            {{ case_flag.flag_name }}
+        </div>
+    {% endfor %}
+</div>
+    
 <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' data.case.id %}">
     {% get_string 'cases.manage.move_case.button' %}
 </a>
