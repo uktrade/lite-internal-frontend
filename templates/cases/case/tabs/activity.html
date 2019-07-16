@@ -1,8 +1,5 @@
 {% load humanize %}
 
-<div class="govuk-grid-row">
-	<div class="govuk-grid-column-two-thirds">
-
 		<h3 class="govuk-heading-m">Goods</h3>
 		<table class="lite-table">
 			<thead class="lite-table__head">
@@ -84,25 +81,23 @@
 				</tbody>
 			</table>
 		{% endif %}
-	</div>
-	<div class="govuk-grid-column-one-third">
 		<form method="post">
 			{% csrf_token %}
 			<div class="lite-expandable-textarea lite-case-note-no-transition">
 				<textarea id="case_note" name="text" cols="80" class="govuk-textarea" placeholder="Add case note"></textarea>
 				<div class="lite-expandable-textarea-controls">
+					<div class="govuk-checkboxes govuk-checkboxes--small">
+						<div class="govuk-checkboxes__item">
+							<input class="govuk-checkboxes__input" type="checkbox" id="is_visible_for_exporter" name="is_visible_for_exporter" value="True">
+							<label class="govuk-label govuk-checkboxes__label" for="is_visible_for_exporter">Visible to exporter</label>
+						</div>
+					</div>
 					<a id="case-note-cancel-button" href="{% url 'cases:case' data.case.id %}" class="govuk-button govuk-button--secondary" type="button" draggable="false">
 						Cancel
 					</a>
-{#					<p id="case_note-warning" class="govuk-hint govuk-character-count__message" aria-live="polite">#}
+<!-- {#					<p id="case_note-warning" class="govuk-hint govuk-character-count__message" aria-live="polite">#}
 {#						You can enter up to 2200 characters#}
-{#					</p>#}
-                    <div class="govuk-checkboxes govuk-checkboxes--small">
-						<div class="govuk-checkboxes__item">
-							<input class="govuk-checkboxes__input" type="checkbox" name="is_visible_for_exporter" value="True">
-							<label class="govuk-label govuk-checkboxes__label">Visible to exporter</label>
-						</div>
-					</div>
+{#					</p>#} -->
 					<button class="govuk-button" type="submit" id="button-post-note">
 						Post note
 					</button>
@@ -133,8 +128,6 @@
 				{% endif %}
 			{% endfor %}
 		</div>
-	</div>
-</div>
 
 {% load static %}
 <script src="{% static 'javascripts/pluralize.js' %}"></script>
