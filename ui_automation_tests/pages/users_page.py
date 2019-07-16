@@ -57,6 +57,10 @@ class UsersPage:
         select = Select(self.driver.find_element_by_id('team'))
         select.select_by_visible_text(value)
 
+    def select_option_from_role_drop_down_by_visible_text(self, value):
+        select = Select(self.driver.find_element_by_id('role'))
+        select.select_by_visible_text(value)
+
     def select_option_from_team_drop_down_by_value(self):
         select = Select(self.driver.find_element_by_id('team'))
         select.select_by_index(2)
