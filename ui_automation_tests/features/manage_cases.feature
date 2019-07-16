@@ -25,8 +25,8 @@ Feature: I want to record the final decision overall on an application case
   Scenario: Record decision
     Given I go to internal homepage
     When I give myself the required permissions for "Make final decisions"
-    When I go to internal homepage
-    When I click on application previously created
+    And I go to internal homepage
+    And I click on application previously created
     And I click record decision
     And I "grant" application
     And I click continue
@@ -52,8 +52,8 @@ Feature: I want to record the final decision overall on an application case
   Scenario: Record decision without optional text
     Given I go to internal homepage
     When I give myself the required permissions for "Make final decisions"
-    When I go to internal homepage
-    When I click on application previously created
+    And I go to internal homepage
+    And I click on application previously created
     And I click record decision
     And I "deny" application
     And I click continue
@@ -66,8 +66,8 @@ Feature: I want to record the final decision overall on an application case
   Scenario: Record decision with multiple decision
     Given I go to internal homepage
     When I give myself the required permissions for "Make final decisions"
-    When I go to internal homepage
-    When I click on application previously created
+    And I go to internal homepage
+    And I click on application previously created
     And I click record decision
     And I "deny" application
     And I click continue
@@ -82,8 +82,8 @@ Feature: I want to record the final decision overall on an application case
   Scenario: Record decision validation
     Given I go to internal homepage
     When I give myself the required permissions for "Make final decisions"
-    When I go to internal homepage
-    When I click on application previously created
+    And I go to internal homepage
+    And I click on application previously created
     And I click record decision
     And I "deny" application
     And I click continue
