@@ -7,12 +7,12 @@ def attach_documents_form(case_url):
                 get_string('cases.manage.documents.attach_documents.description'),
                 [
                     MultiFileUpload('documents'),
-                    Question(title='Description of good',
-                             description='This can make it easier to find your good later',
+                    Question(title=get_string('cases.manage.documents.attach_documents.description_field_title'),
+                             description=get_string('cases.manage.documents.attach_documents.description_field_details'),
                              input_type=InputType.TEXTAREA,
                              name='description',
                              extras={
                                  'max_length': 280,
                              })
                 ],
-                back_link=BackLink('Back to Case Documents', case_url))
+                back_link=BackLink(get_string('cases.manage.documents.attach_documents.file_too_large'), case_url))

@@ -30,4 +30,4 @@ class UploadFailedMiddleware:
     def process_exception(self, request, exception):
         if not isinstance(exception, UploadFailed):
             return None
-        return error_page(request, 'The file you tried to upload was too large.')
+        return error_page(request, get_string('cases.manage.documents.attach_documents.back_to_case_documents'))
