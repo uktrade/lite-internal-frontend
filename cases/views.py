@@ -6,8 +6,9 @@ from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries
-from conf.constants import DEFAULT_QUEUE_ID
-from core.services import get_queue, get_queues
+from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
+from conf.decorators import has_permission
+from core.services import get_queue, get_queues, get_user_permissions
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
 from queues.helpers import add_assigned_users_to_cases
@@ -49,11 +50,23 @@ class ViewCase(TemplateView):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
         activity, status_code = get_activity(request, case_id)
+        permissions = get_user_permissions(request)
+
+        if case['case']['is_clc']:
+            case_id = str(kwargs['pk'])
+            case, status_code = get_case(request, case_id)
+
+            context = {
+                'title': 'Case',
+                'data': case,
+            }
+            return render(request, 'cases/case/clc-query-case.html', context)
 
         context = {
             'data': case,
             'title': case.get('case').get('application').get('name'),
             'activity': activity.get('activity'),
+            'permissions': permissions,
         }
         return render(request, 'cases/case/application-case.html', context)
 
@@ -77,41 +90,6 @@ class ViewCase(TemplateView):
             return error_page(request, error)
 
         return redirect('/cases/' + case_id + '#case_notes')
-
-
-class ViewCLCCase(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-        activity, status_code = get_activity(request, case_id)
-
-        context = {
-            'data': case,
-            'activity': activity.get('activity'),
-        }
-        return render(request, 'cases/case/clc-query-case.html', context)
-
-    def post(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        response, status_code = post_case_notes(request, case_id, request.POST)
-
-        if status_code != 201:
-
-            errors = response.get('errors')
-            if errors.get('text'):
-                error = errors.get('text')[0]
-                error = error.replace('This field', 'Case note')
-                error = error.replace('this field', 'the case note')  # TODO: Move to API
-
-            else:
-                error_list = []
-                for key in errors:
-                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-                error = "\n".join(error_list)
-            return error_page(request, error)
-
-        return redirect('/cases/clc-query/' + case_id + '#case_notes')
-
 
 class ManageCase(TemplateView):
     def get(self, request, **kwargs):
@@ -142,7 +120,6 @@ class ManageCase(TemplateView):
             clc_query_id = case['case']['clc_query']['id']
             data, status_code = put_clc_queries(request, clc_query_id, request.POST)
 
-
         if 'errors' in data:
             return redirect('/cases/' + case_id + '/manage')
 
@@ -151,7 +128,9 @@ class ManageCase(TemplateView):
         else:
             return redirect('/cases/clc-query/' + case_id)
 
+
 class DecideCase(TemplateView):
+    @has_permission(MAKE_FINAL_DECISIONS)
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
@@ -169,6 +148,7 @@ class DecideCase(TemplateView):
 
         return form_page(request, record_decision_form(), data=data)
 
+    @has_permission(MAKE_FINAL_DECISIONS)
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
@@ -191,9 +171,11 @@ class DecideCase(TemplateView):
 
 
 class DenyCase(TemplateView):
+    @has_permission(MAKE_FINAL_DECISIONS)
     def get(self, request, **kwargs):
         return form_page(request, denial_reasons_form())
 
+    @has_permission(MAKE_FINAL_DECISIONS)
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
