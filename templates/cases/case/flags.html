@@ -22,7 +22,7 @@
 
 	<div class="govuk-form-group">
 		<div class="govuk-checkboxes">
-			{% for flag in flags_case_level_for_team %}
+			{% for flag in case_level_team_flags %}
 				<div class="govuk-checkboxes__item">
 					<input {% if flag.selected %} checked {% endif %} class="govuk-checkboxes__input" id="{{ flag.name }}" name="flags[]" 
 						type="checkbox" value="{{ flag.id }}">

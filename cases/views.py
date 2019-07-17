@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, get_case_flags, put_case_flags
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, put_case_flags
 from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
 from conf.decorators import has_permission
 from core.services import get_queue, get_queues, get_user_permissions
@@ -52,17 +52,12 @@ class ViewCase(TemplateView):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
         activity, status_code = get_activity(request, case_id)
-        case_flags, status_code = get_case_flags(request, case_id)
         permissions = get_user_permissions(request)
 
         if case['case']['is_clc']:
-            case_id = str(kwargs['pk'])
-            case, status_code = get_case(request, case_id)
-
             context = {
                 'title': 'Case',
-                'data': case,
-                'flags': case_flags.get('case_flags').get('flags'),
+                'data': case
             }
             return render(request, 'cases/case/clc-query-case.html', context)
         else:
@@ -70,8 +65,7 @@ class ViewCase(TemplateView):
                 'data': case,
                 'title': case.get('case').get('application').get('name'),
                 'activity': activity.get('activity'),
-                'permissions': permissions,
-                'flags': case_flags.get('case_flags').get('flags')
+                'permissions': permissions
             }
             return render(request, 'cases/case/application-case.html', context)
 
@@ -231,20 +225,20 @@ class MoveCase(TemplateView):
 class AssignFlags(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case_level_case_flags_data, status_code = get_case_flags(request, case_id)
-        flags_case_level_for_team_data, status_code = get_flags_case_level_for_team(request)
-        case_level_case_flags = case_level_case_flags_data.get('case_flags').get('flags')
-        flags_case_level_for_team = flags_case_level_for_team_data.get('flags')
+        case_data, status_code = get_case(request, case_id)
+        case_level_team_flags_data, status_code = get_flags_case_level_for_team(request)
+        case_flags = case_data.get('case').get('flags')
+        case_level_team_flags = case_level_team_flags_data.get('flags')
 
-        for flag in flags_case_level_for_team:
-            for case_flag in case_level_case_flags:
+        for flag in case_level_team_flags:
+            for case_flag in case_flags:
                 flag['selected'] = flag['id'] == case_flag['id']
                 if flag['selected']:
                     break
 
         context = {
             'caseId': case_id,
-            'flags_case_level_for_team': flags_case_level_for_team
+            'case_level_team_flags': case_level_team_flags
         }
         return render(request, 'cases/case/flags.html', context)
 

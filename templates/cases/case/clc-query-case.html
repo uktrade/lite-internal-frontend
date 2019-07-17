@@ -26,7 +26,7 @@
 <!-- <a href="{% url 'cases:assign_flags' data.case.id %}" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a> -->
 <a href="{% url 'cases:assign_flags' data.case.id %}" class="govuk-link govuk-link--no-visited-state">Edit case flags</a>
 <div class="lite-case-flags">
-    {% for flag in flags %}
+    {% for flag in data.case.flags %}
         <div class="lite-flag">
             {{ flag.name }}
         </div>

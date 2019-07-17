@@ -38,11 +38,6 @@ def post_case_notes(request, pk, json):
 # Case Flags
 
 
-def get_case_flags(request, pk):
-    data = get(request, CASE_URL + pk + CASE_FLAGS_URL)
-    return data.json(), data.status_code
-
-
 def put_case_flags(request, pk, flags):
     data = put(request, CASE_URL + pk + CASE_FLAGS_URL, flags)
     return data.json(), data.status_code
