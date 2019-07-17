@@ -9,7 +9,7 @@ from cases.services import get_case, post_case_notes, put_applications, get_acti
 from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
 from conf.decorators import has_permission
 from core.services import get_queue, get_queues, get_user_permissions
-from flags.services import get_flags_case_for_team
+from flags.services import get_flags_case_level_for_team
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
 from queues.helpers import add_assigned_users_to_cases
@@ -62,7 +62,7 @@ class ViewCase(TemplateView):
             context = {
                 'title': 'Case',
                 'data': case,
-                'case_flags': case_flags.get('case_flags'),
+                'flags': case_flags.get('case_flags').get('flags'),
             }
             return render(request, 'cases/case/clc-query-case.html', context)
         else:
@@ -71,7 +71,7 @@ class ViewCase(TemplateView):
                 'title': case.get('case').get('application').get('name'),
                 'activity': activity.get('activity'),
                 'permissions': permissions,
-                'case_flags': case_flags.get('case_flags')
+                'flags': case_flags.get('case_flags').get('flags')
             }
             return render(request, 'cases/case/application-case.html', context)
 
@@ -231,20 +231,20 @@ class MoveCase(TemplateView):
 class AssignFlags(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case_flags_data, status_code = get_case_flags(request, case_id)
-        flags_case_for_team_data, status_code = get_flags_case_for_team(request)
-        case_flags = case_flags_data.get('case_flags')
-        flags_case_for_team = flags_case_for_team_data.get('flags')
+        case_level_case_flags_data, status_code = get_case_flags(request, case_id)
+        flags_case_level_for_team_data, status_code = get_flags_case_level_for_team(request)
+        case_level_case_flags = case_level_case_flags_data.get('case_flags').get('flags')
+        flags_case_level_for_team = flags_case_level_for_team_data.get('flags')
 
-        for flag in flags_case_for_team:
-            for case_flag in case_flags:
-                flag['selected'] = flag['id'] == case_flag['flag']
+        for flag in flags_case_level_for_team:
+            for case_flag in case_level_case_flags:
+                flag['selected'] = flag['id'] == case_flag['id']
                 if flag['selected']:
                     break
 
         context = {
             'caseId': case_id,
-            'flags_case_for_team': flags_case_for_team
+            'flags_case_level_for_team': flags_case_level_for_team
         }
         return render(request, 'cases/case/flags.html', context)
 
