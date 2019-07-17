@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.urls import resolve
 from s3chunkuploader.file_handler import UploadFailed
 
+from core.builtins.custom_tags import get_string
 from libraries.forms.generators import error_page
 
 
