@@ -5,6 +5,7 @@ from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from selenium import webdriver
 from pages.exporter_hub import ExporterHub
 from pages.shared import Shared
+from step_defs.organisation_test import OrganisationSteps
 from conf.settings import env
 
 # Screenshot in case of any test failure
@@ -24,11 +25,12 @@ def pytest_addoption(parser):
         env = "dev"
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store",
-                      default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
-    parser.addoption("--internal_url", action="store",
-    # parser.addoption("--exporter_url", action="store", default="http://localhost:8300", help="url")
-    # parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
+    # parser.addoption("--exporter_url", action="store",
+    #                  default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
+    # parser.addoption("--internal_url", action="store",
+    #                  default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
+    parser.addoption("--exporter_url", action="store", default="http://localhost:8300", help="url")
+    parser.addoption("--internal_url", action="store", default="http://localhost:8200", help="url")
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
 
 
@@ -89,6 +91,11 @@ def invalid_username():
 sso_email = env('TEST_SSO_EMAIL')
 sso_password = env('TEST_SSO_PASSWORD')
 
+
+#@pytest.fixture(scope="session")
+#def set_up_org_and_app(driver, internal_url, sso_sign_in_url):
+# go_to_internal_homepage(internal_url, sso_sign_in_url)
+#  OrganisationSteps(driver).i_go_to_organisations()
 
 @pytest.fixture(scope="function")
 def open_internal_hub(driver, internal_url, sso_sign_in_url):
@@ -168,3 +175,4 @@ def click_new_site(driver):
 @when('I click continue')
 def i_click_continue(driver):
     driver.find_element_by_css_selector("button[type*='submit']").click()
+
