@@ -59,6 +59,8 @@ class ViewCase(TemplateView):
             context = {
                 'title': 'Case',
                 'data': case,
+                'activity': activity.get('activity'),
+                'permissions': permissions,
             }
             return render(request, 'cases/case/clc-query-case.html', context)
 
