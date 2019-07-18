@@ -7,4 +7,9 @@
 	margin: 15px 0 20px 0;
 	word-break: break-all;
 	@extend %govuk-body-m;
+
+	&--exporter {
+		background-color: rgba(govuk-colour("blue"), 0.1);
+		border: 2px solid rgba(govuk-colour("blue"), 0.15);
+	}
 }
