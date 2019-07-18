@@ -51,6 +51,13 @@ def see_queue_in_queue_list(driver):
     assert context.queue_name in Shared(driver).get_text_of_body()
 
 
+@when(parsers.parse('I move case to "{queue_name}"'))
+def see_queue_in_queue_list(driver, queue_name):
+    driver.find_elements_by_css_selector('.govuk-button[href*="move"]').click()
+    driver.find_elements_by_id(queue_name).click()
+    Shared(driver).click_submit()
+
+
 @when('I click on new queue in dropdown')
 def new_queue_shown_in_dropdown(driver):
     driver.find_element_by_id('queue-title').click()
