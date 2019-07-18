@@ -5,7 +5,8 @@ from django.views.generic import TemplateView
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, put_case_flags
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
+    put_case_flags
 from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
 from conf.decorators import has_permission
 from core.services import get_queue, get_queues, get_user_permissions
@@ -240,7 +241,7 @@ class AssignFlags(TemplateView):
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        flags = put_case_flags('flags[]')
+        flags = request.POST.getlist('flags[]')
 
         response, status_code = put_case_flags(request, case_id, {'flags': flags})
 
