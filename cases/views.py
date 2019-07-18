@@ -89,8 +89,6 @@ class ViewCase(TemplateView):
                 error = "\n".join(error_list)
             return error_page(request, error)
 
-
-
         return redirect('/cases/' + case_id + '#case_notes')
 
 
