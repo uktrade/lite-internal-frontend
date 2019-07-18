@@ -45,5 +45,5 @@ def put_case_flags(request, pk, flags):
 
 # Activity
 def get_activity(request, pk):
-    data = get(request, CASE_URL + pk + ACTIVITY_URL + '?fields=status')
+    data = get(request, CASE_URL + pk + ACTIVITY_URL + '?fields=status,flags')
     return data.json(), data.status_code
