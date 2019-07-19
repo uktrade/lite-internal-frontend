@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'authbroker_client.middleware.ProtectAllViewsMiddleware',
-    'cases.middleware.UploadFailedMiddleware',
+    'conf.middleware.UploadFailedMiddleware',
 ]
 
 ROOT_URLCONF = 'conf.urls'
