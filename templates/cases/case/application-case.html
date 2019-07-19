@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% load static humanize %}
+{% load humanize %}
 
 {% block back-link %}
 	<a href="{% url 'cases:cases' %}" class="govuk-back-link">Back to Cases</a>
@@ -126,8 +126,5 @@
 </div> -->
 
 {% include "cases/case/tabs/activity.html" %}
-
-<script src="{% static 'javascripts/modal.js' %}"></script>
-<script src="{% static 'javascripts/specific/case.js' %}"></script>
 
 {% endblock %}
