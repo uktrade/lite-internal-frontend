@@ -3,7 +3,7 @@
 {% load humanize %}
 
 {% block back-link %}
-	<a href="{% url 'cases:cases' %}" class="govuk-back-link">Back to Cases</a>
+	<a href="{% url 'cases:cases' %}" class="govuk-back-link">{% get_string 'cases.case.back_to_cases_link' %}</a>
 {% endblock %}
 
 {% block body %}
@@ -107,7 +107,7 @@
 	</div>
 </div> -->
 
-<h3 class="govuk-heading-m">Goods</h3>
+<h3 class="govuk-heading-m">{% get_string 'cases.case.goods_heading' %}</h3>
 <table class="lite-table">
 	<thead class="lite-table__head">
 		<tr class="lite-table__row">
@@ -133,7 +133,7 @@
 
 <br><br><br><br>
 
-<h3 class="govuk-heading-m">Destinations</h3>
+<h3 class="govuk-heading-m">{% get_string 'cases.case.destination_heading' %}</h3>
 {% if data.case.application.destinations.type == 'end_user' %}
 	<p class="govuk-label">{{ data.case.application.destinations.data.name }}</p>
 	<p class="govuk-label">{{ data.case.application.destinations.data.type }}</p>
@@ -148,7 +148,7 @@
 
 <br><br><br><br>
 
-<h3 class="govuk-heading-m">Goods Location</h3>
+<h3 class="govuk-heading-m">{% get_string 'cases.case.goods_location_heading' %}</h3>
 {% if data.case.application.goods_locations.type == 'external_locations' %}
 	<table class="lite-table">
 		<thead class="lite-table__head">
