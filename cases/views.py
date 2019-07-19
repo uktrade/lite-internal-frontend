@@ -91,7 +91,7 @@ class ViewCase(TemplateView):
                 error = "\n".join(error_list)
             return error_page(request, error)
 
-        return redirect('/cases/' + case_id + '#case_notes')
+        return redirect(reverse('cases:case', kwargs={'pk': case_id}) + '#case_notes')
 
 
 class ViewCLCCase(TemplateView):
@@ -160,10 +160,7 @@ class ManageCase(TemplateView):
         if 'errors' in data:
             return redirect('/cases/' + case_id + '/manage')
 
-        if not case['case']['is_clc']:
-            return redirect('/cases/' + case_id)
-        else:
-            return redirect('/cases/clc-query/' + case_id)
+        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
 
 
 class DecideCase(TemplateView):
@@ -204,7 +201,7 @@ class DecideCase(TemplateView):
         # PUT form data
         put_applications(request, application_id, request.POST)
 
-        return redirect('/cases/' + case_id)
+        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
 
 
 class DenyCase(TemplateView):
@@ -262,7 +259,5 @@ class MoveCase(TemplateView):
 
         if response:
             return response
-        if data['case']['application']:
-            return redirect(reverse('cases:case', kwargs={'pk': case_id}))
-        else:
-            return redirect('/cases/clc-query/' + case_id)
+
+        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
