@@ -8,12 +8,6 @@ from ui_automation_tests.pages.documents_page import DocumentsPage
 
 scenarios('../features/document_upload.feature', strict_gherkin=False)
 
-import logging
-log = logging.getLogger()
-console = logging.StreamHandler()
-log.addHandler(console)
-
-
 @when('I click on the Documents button')
 def click_documents(driver):
     application_page = ApplicationPage(driver)
