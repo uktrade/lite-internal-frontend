@@ -1,6 +1,7 @@
 import os
 
-from pytest_bdd import when, then, scenarios
+from pytest_bdd import when, then, scenarios, parsers
+from conftest import context
 
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.attach_document_page import AttachDocumentPage
@@ -24,7 +25,7 @@ def click_attach_documents(driver):
     documents_page = DocumentsPage(driver)
     documents_page.click_attach_documents()
 
-@when('I upload file "{filename}" with description "{description}"')
+@when(parsers.parse('I upload file "{filename}" with description "{description}"'))
 def upload_a_file(driver, filename, description):
     attach_document_page = AttachDocumentPage(driver)
 
@@ -36,11 +37,8 @@ def upload_a_file(driver, filename, description):
     attach_document_page.enter_description(description)
     attach_document_page.click_submit_btn()
 
-@then('the files are listed on the Documents page newest first')
-def check_files_are_uploaded(driver):
+@then(parsers.parse('file "{filename}" with description "{description}" is on position "{position}"'))
+def check_file2_is_uploaded(driver, filename, description, position):
     documents_page = DocumentsPage(driver)
-    assert documents_page.get_latest_file_name() == file_to_upload_2
-    assert documents_page.get_second_latest_file_name() == file_to_upload_1
-    assert documents_page.get_latest_file_description() == description_2
-    assert documents_page.get_second_latest_file_description() == description_1
-
+    assert documents_page.get_document_filename_at_position(int(position)) == filename
+    assert documents_page.get_document_description_at_position(int(position)) == description
