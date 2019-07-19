@@ -131,16 +131,16 @@
 					<div class="lite-activity-item">
 						<p class="govuk-body" style="margin-bottom: 0;">
 							<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span>
-							{% if item.data.flags.removed_flags|length > 0 %}
+							{% if item.data.flags.removed|length > 0 %}
 								removed flags:
-								{% for flag in item.data.flags.removed_flags %}
+								{% for flag in item.data.flags.removed %}
 									<span class="highlight">{{ flag|sentence_case|lower }}</span>
-                                    {% if not forloop.last %}, {% else %}{% if item.data.flags.added_flags|length > 0 %} and {% else %}.{% endif %}{% endif %}
+                                    {% if not forloop.last %}, {% else %}{% if item.data.flags.added|length > 0 %} and {% else %}.{% endif %}{% endif %}
 								{% endfor %}
 							{% endif %}
-							{% if item.data.flags.added_flags|length > 0 %}
+							{% if item.data.flags.added|length > 0 %}
 								added flags:
-								{% for flag in item.data.flags.added_flags %}
+								{% for flag in item.data.flags.added %}
 									<span class="highlight">{{ flag|sentence_case|lower }}</span>{% if not forloop.last %}, {% else %}.{% endif %}
 								{% endfor %}
 							{% endif %}	
