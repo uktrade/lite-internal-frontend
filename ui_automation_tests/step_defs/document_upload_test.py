@@ -1,7 +1,6 @@
 import os
 
 from pytest_bdd import when, then, scenarios, parsers
-from conftest import context
 
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.attach_document_page import AttachDocumentPage
