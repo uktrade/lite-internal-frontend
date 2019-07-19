@@ -60,3 +60,12 @@
 
 <script src="{% static 'javascripts/pluralize.js' %}"></script>
 <script src="{% static 'javascripts/specific/case_notes.js' %}"></script>
+<script>
+    function confirmVisible(event) {
+        let is_visible_for_exporter = document.getElementById('is_visible_for_exporter')
+        if (is_visible_for_exporter.checked) {
+            return confirm("This message will be visible to the exporter, are you sure you wish to continue?")
+        }
+        return true;
+    }
+</script>
