@@ -81,7 +81,7 @@
 				</tbody>
 			</table>
 		{% endif %}
-		<form method="post">
+		<form method="post" onSubmit="return confirmVisible(event)">
 			{% csrf_token %}
 			<div class="lite-expandable-textarea lite-case-note-no-transition">
 				<textarea id="case_note" name="text" cols="80" class="govuk-textarea" placeholder="Add case note"></textarea>
@@ -132,3 +132,12 @@
 {% load static %}
 <script src="{% static 'javascripts/pluralize.js' %}"></script>
 <script src="{% static 'javascripts/specific/case_notes.js' %}"></script>
+<script>
+    function confirmVisible(event) {
+        let is_visible_for_exporter = document.getElementById('is_visible_for_exporter')
+        if (is_visible_for_exporter.checked) {
+            return confirm("This message will be visible to the exporter, are you sure you wish to continue?")
+        }
+        return true;
+    }
+</script>
