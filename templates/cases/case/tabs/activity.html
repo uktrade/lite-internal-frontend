@@ -31,7 +31,7 @@
 		<div class="lite-activity-item">
 			{% if item.type == 'case_note' %}
 				<p class="govuk-body" style="margin-bottom: 0;">
-					<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span> ({{ item.user.team.name }}{{ item.user.organisation.name }}) {% get_string 'activity.added_a_case_note' %}
+					<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span> <span style="opacity: 0.8;">{{ item.user.team.name }}{{ item.user.organisation.name }}</span> {% get_string 'activity.added_a_case_note' %}
 				</p>
 				<div class="lite-case-note {% if item.user.organisation %}lite-case-note--exporter{% endif %}">
 					{{ item.data }}
