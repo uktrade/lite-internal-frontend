@@ -13,12 +13,12 @@ log = logging.getLogger()
 console = logging.StreamHandler()
 log.addHandler(console)
 
-flags = [{'name': 'flag 1', 'level': 'Case'}, {'name': 'flag2', 'level': 'Case'}]
-
 
 # TODO: Replace with API fixture to create flags to remove test dependency
 @given('Case flags have been created')
 def case_flags_have_been_created(driver):
+    flags = [{'name': 'flag 1', 'level': 'Case'}, {'name': 'flag2', 'level': 'Case'}]
+
     header = HeaderPage(driver)
     header.click_lite_menu()
     header.click_flags()
@@ -36,37 +36,41 @@ def case_flags_have_been_created(driver):
         shared.click_submit()
 
 
-# TODO: Replace with API fixture to assign flags to remove test dependency
-@given('I click on application previously created with flags')
-def click_on_created_application(driver, context):
-    driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
-
-
 @when("I click edit flags link")
 def click_edit_flags_link(driver):
     application_page = ApplicationPage(driver)
     application_page.click_edit_case_flags()
 
 
+@when('I count the number of assigned flags')
+def count_active_flags(driver, context):
+    number_of_assigned_flags = len(driver.find_elements_by_class_name("lite-flag"))
+    context.number_of_assigned_flags = number_of_assigned_flags
+
+
 @when('I assign flags to the case')
-def assign_flags_to_case(driver):
+def assign_flags_to_case(driver, context):
     case_flags_pages = CaseFlagsPages(driver)
-    for flag in flags:
-        case_flags_pages.assign_flags(flag['name'])
+    case_flags_pages.assign_flags(context)
     shared = Shared(driver)
     shared.click_submit()
 
 
-@when('I remove flags from the case')
-def remove_flags_from_case(driver):
-    flags.remove({'name': 'flag 1', 'level': 'Case'})
+@when("I unassign flags from the case")
+def unassign_flags_from_case(driver, context):
     case_flags_pages = CaseFlagsPages(driver)
-    for flag in flags:
-        case_flags_pages.assign_flags(flag['name'])
+    case_flags_pages.assign_flags(context)
     shared = Shared(driver)
     shared.click_submit()
 
 
-@then('I can see the flags on the case')
-def flags_are_visible_on_case(driver):
-    raise NotImplementedError(u'STEP: Then I can see the flags on the case')
+@then("Number of assigned flags is original value")
+def assert_number_of_flags(driver, context):
+    number_of_assigned_flags = len(driver.find_elements_by_class_name("lite-flag"))
+    assert number_of_assigned_flags == context.number_of_assigned_flags
+
+
+@then("Number of assigned flags has increased")
+def assert_number_of_flags(driver, context):
+    number_of_assigned_flags = len(driver.find_elements_by_class_name("lite-flag"))
+    assert number_of_assigned_flags == context.number_of_assigned_flags + 1

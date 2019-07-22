@@ -7,16 +7,11 @@ Feature: I want to add case-level flags to a case and view them
   @LT-949_add
   Scenario: Add flag to case
     Given I go to internal homepage
-    And Case flags have been created
     When I click on application previously created
-    When I click edit flags link
+    And I count the number of assigned flags
+    And I click edit flags link
     And I assign flags to the case
-    Then I can see the flags on the case
-
-
-  @LT-949_remove
-  Scenario: Remove flag from case
-    Given I click on application previously created with flags
+    Then Number of assigned flags has increased
     When I click edit flags link
-    And I remove flags from the case
-    Then I can see the flags on the case
+    And I unassign flags from the case
+    Then Number of assigned flags is original value
