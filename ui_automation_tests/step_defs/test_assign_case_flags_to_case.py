@@ -41,7 +41,7 @@ def click_edit_flags_link(driver):
 
 @when('I count the number of assigned flags')
 def count_active_flags(driver):
-    number_of_assigned_flags = len(driver.find_elements_by_class_name("lite-flag"))
+    number_of_assigned_flags = FlagsPages(driver).get_size_of_number_of_assigned_flags()
     context.number_of_assigned_flags = number_of_assigned_flags
 
 
