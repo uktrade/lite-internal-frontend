@@ -5,17 +5,13 @@ from pages.shared import Shared
 from pytest_bdd import given, when, then, scenarios
 from pages.flags_pages import FlagsPages
 from pages.assign_flags_to_case import CaseFlagsPages
+from pages.flags_pages import FlagsPages
 from pages.application_page import ApplicationPage
 from pages.header_page import HeaderPage
 
 scenarios('../features/assign_case_flags_to_case.feature', strict_gherkin=False)
 
-log = logging.getLogger()
-console = logging.StreamHandler()
-log.addHandler(console)
 
-
-# TODO: Replace with API fixture to create flags to remove test dependency
 @given('Case flags have been created')
 def case_flags_have_been_created(driver):
     flags = [{'name': 'flag 1', 'level': 'Case'}, {'name': 'flag2', 'level': 'Case'}]
@@ -67,11 +63,11 @@ def unassign_flags_from_case(driver):
 
 @then("Number of assigned flags is original value")
 def assert_number_of_flags(driver):
-    number_of_assigned_flags = len(driver.find_elements_by_class_name("lite-flag"))
-    assert number_of_assigned_flags == context.number_of_assigned_flags
+    number_of_assigned_flags = FlagsPages(driver).get_size_of_number_of_assigned_flags()
+    assert number_of_assigned_flags == context.number_of_assigned_flags, "number of assigned flags has changed"
 
 
 @then("Number of assigned flags has increased")
-def assert_number_of_flags(driver):
-    number_of_assigned_flags = len(driver.find_elements_by_class_name("lite-flag"))
-    assert number_of_assigned_flags == context.number_of_assigned_flags + 1
+def assert_number_of_flags_has_increased(driver):
+    number_of_assigned_flags = FlagsPages(driver).get_size_of_number_of_assigned_flags()
+    assert number_of_assigned_flags == context.number_of_assigned_flags + 1, "number of assigned flags has not increased"
