@@ -2,14 +2,16 @@ import os
 import pytest
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from selenium import webdriver
-import helpers.helpers as utils
-from conf.settings import env
-from pages.exporter_hub import ExporterHub
-from pages.header_page import HeaderPage
 from pages.flags_pages import FlagsPages
 from pages.shared import Shared
-from step_defs.organisation_test import OrganisationSteps
 from conf.settings import env
+from pages.header_page import HeaderPage
+from pages.organisations_form_page import OrganisationsFormPage
+from pages.organisations_page import OrganisationsPage
+from pages.exporter_hub import ExporterHub
+from selenium.webdriver.common.by import By
+from conftest import context
+import helpers.helpers as utils
 
 # Screenshot in case of any test failure
 
@@ -95,10 +97,65 @@ sso_email = env('TEST_SSO_EMAIL')
 sso_password = env('TEST_SSO_PASSWORD')
 
 
-#@pytest.fixture(scope="session")
-#def set_up_org_and_app(driver, internal_url, sso_sign_in_url):
-# go_to_internal_homepage(internal_url, sso_sign_in_url)
-#  OrganisationSteps(driver).i_go_to_organisations()
+@pytest.fixture(scope="session")
+def set_up_org_and_app(driver, internal_url, sso_sign_in_url):
+    #login
+    # driver.get(sso_sign_in_url)
+    driver.find_element_by_name("username").send_keys(sso_email)
+    driver.find_element_by_name("password").send_keys(sso_password)
+    driver.find_element_by_css_selector("[type='submit']").click()
+    driver.get(internal_url)
+
+
+    header = HeaderPage(driver)
+    header.click_lite_menu()
+    header.click_organisations()
+    context.org_registered_status = False
+    organisations_page = OrganisationsPage(driver)
+    exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Unicorns Ltd')]]")
+    if exists:
+        context.org_registered_status = True
+    else:
+        organisations_page.click_new_organisation_btn()
+    if not context.org_registered_status:
+        organisations_form_page = OrganisationsFormPage(driver)
+        if name == "Unicorns Ltd" or name == " ":
+            organisations_form_page.enter_name(name)
+            context.org_name = name
+        else:
+            context.org_name = name + utils.get_formatted_date_time_m_d_h_s()
+            organisations_form_page.enter_name(context.org_name)
+        organisations_form_page.enter_eori_number(eori)
+        organisations_form_page.enter_sic_number(sic)
+        organisations_form_page.enter_vat_number(vat)
+        organisations_form_page.enter_registration_number(registration)
+        organisations_form_page.click_submit()
+    if not context.org_registered_status:
+        organisations_form_page = OrganisationsFormPage(driver)
+        organisations_form_page.enter_site_name(name)
+        context.site_name = name
+        organisations_form_page.enter_address_line_1(address_line_1)
+        organisations_form_page.enter_region(region)
+        organisations_form_page.enter_post_code(post_code)
+        organisations_form_page.enter_city(city)
+        organisations_form_page.enter_country(country)
+        organisations_form_page.click_submit()
+    if not context.org_registered_status:
+        organisations_form_page = OrganisationsFormPage(driver)
+        if email == "trinity@unicorns.com" or email == " ":
+            organisations_form_page.enter_email(email)
+            context.email = email
+        else:
+            context.email = email + utils.get_formatted_date_time_m_d_h_s()
+            organisations_form_page.enter_email(context.email)
+        organisations_form_page.enter_first_name(first_name)
+        organisations_form_page.enter_last_name(last_name)
+        organisations_form_page.enter_password(password)
+        organisations_form_page.click_submit()
+        And I provide company registration details of name: "Unicorns Ltd", EORI: "1234567890AAA", SIC: "2345", VAT: "GB1234567", CRN: "09876543"
+        And I setup an initial site with name: "Headquarters", addres line 1: "42 Question Road", town or city: "London", County: "Islington", post code: "AB1 2CD", country: "Ukraine"
+        And I setup the admin user with email: "trinity@unicorns.com", first name: "Trinity", last name: "Fishburne", password: "12345678900"
+
 
 @pytest.fixture(scope="function")
 def open_internal_hub(driver, internal_url, sso_sign_in_url):
