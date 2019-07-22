@@ -67,7 +67,8 @@ class ViewCase(TemplateView):
         if case['case']['is_clc']:
             context = {
                 'title': 'Case',
-                'data': case
+                'data': case,
+                'edit_case_flags': get_string('cases.case.edit_case_flags')
             }
             return render(request, 'cases/case/clc-query-case.html', context)
         else:
@@ -75,7 +76,8 @@ class ViewCase(TemplateView):
                 'data': case,
                 'title': case.get('case').get('application').get('name'),
                 'activity': activity.get('activity'),
-                'permissions': permissions
+                'permissions': permissions,
+                'edit_case_flags': get_string('cases.case.edit_case_flags')
             }
             return render(request, 'cases/case/application-case.html', context)
 
