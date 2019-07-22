@@ -7,7 +7,10 @@ Feature: I want to add case-level flags to a case and view them
   @LT-949_add
   Scenario: Add flag to case
     Given I go to internal homepage
-    When I click on application previously created
+    When I go to flags
+    And I add a flag called "Needs" at level "Case"
+    When I go to the internal homepage
+    When I click on an application previously created
     And I count the number of assigned flags
     And I click edit flags link
     And I assign flags to the case
