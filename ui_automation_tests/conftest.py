@@ -1,9 +1,12 @@
-import json
 import os
 import pytest
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from selenium import webdriver
+import helpers.helpers as utils
+from conf.settings import env
 from pages.exporter_hub import ExporterHub
+from pages.header_page import HeaderPage
+from pages.flags_pages import FlagsPages
 from pages.shared import Shared
 from step_defs.organisation_test import OrganisationSteps
 from conf.settings import env
@@ -148,6 +151,11 @@ def click_on_created_application(driver):
     driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
 
 
+@when('I click on an application previously created')
+def click_on_a_created_application(driver):
+    driver.find_element_by_css_selector(".lite-cases-table a[href*='/cases/']").click()
+
+
 @when('I click submit button')
 def click_on_submit_button(driver):
     shared = Shared(driver)
@@ -176,3 +184,26 @@ def click_new_site(driver):
 def i_click_continue(driver):
     driver.find_element_by_css_selector("button[type*='submit']").click()
 
+@when('I go to flags')
+def go_to_flags(driver):
+    header = HeaderPage(driver)
+
+    header.click_lite_menu()
+    header.click_flags()
+
+
+@when(parsers.parse('I add a flag called "{flag_name}" at level "{flag_level}"'))
+def add_a_flag(driver, flag_name, flag_level):
+    flags_page = FlagsPages(driver)
+    shared = Shared(driver)
+    utils.get_unformatted_date_time()
+    flags_page.click_add_a_flag_button()
+    if flag_name == " ":
+        context.flag_name = flag_name
+    else:
+        extra_string = str(utils.get_unformatted_date_time())
+        extra_string = extra_string[(len(extra_string))-7:]
+        context.flag_name = flag_name + extra_string
+    flags_page.enter_flag_name(context.flag_name)
+    flags_page.select_flag_level(flag_level)
+    shared.click_submit()
