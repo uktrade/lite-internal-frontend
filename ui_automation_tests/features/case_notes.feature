@@ -25,9 +25,9 @@ Scenario: Add a case note with too many characters
   Given I go to internal homepage
   When I click on application previously created
   And I enter "the maximum limit" for case note
-  Then case note warning is "You have 0 characters remaining"
+  Then case note warning is "None"
   When I enter "T" for case note
-  Then case note warning is "You have 1 character too many"
+  Then case note warning is "disabled"
   And post note is disabled
 
 @LT-911_cancel
