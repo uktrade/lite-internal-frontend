@@ -1,21 +1,10 @@
-@internal @setup @organisation
+@internal @organisation
 Feature: I want to add a company to LITE
 As a logged in government user
 I want to add a new company to LITE
 So that the new company can make applications
 
-  @LT-934_set_up
-  Scenario: Set up organisation
-    Given I go to internal homepage
-    When I go to organisations
-    And I choose to add a new organisation for setup
-    And I provide company registration details of name: "Unicorns Ltd", EORI: "1234567890AAA", SIC: "2345", VAT: "GB1234567", CRN: "09876543"
-    And I setup an initial site with name: "Headquarters", addres line 1: "42 Question Road", town or city: "London", County: "Islington", post code: "AB1 2CD", country: "Ukraine"
-    And I setup the admin user with email: "trinity@unicorns.com", first name: "Trinity", last name: "Fishburne", password: "12345678900"
-    Then organisation is registered
-
   @LT-934_test
-  #These are identical but the reason they are both still there is because the first one is a setup task, so only runs if the email doesnt already exist, the second is to test the functionality so it will always run.
   Scenario: Test organisation
     Given I go to internal homepage
     When I go to organisations

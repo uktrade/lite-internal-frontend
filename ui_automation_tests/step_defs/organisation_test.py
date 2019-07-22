@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 from conftest import context
 import helpers.helpers as utils
 
-scenarios('../features/organisation_setup.feature', strict_gherkin=False)
+scenarios('../features/organisation.feature', strict_gherkin=False)
 
 
 class OrganisationSteps():
