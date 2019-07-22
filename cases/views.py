@@ -224,8 +224,7 @@ class MoveCase(TemplateView):
         if response:
             return response
 
-        if data['case']['application']:
-            return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
 
 
 class AssignFlags(TemplateView):
