@@ -1,4 +1,4 @@
-@exporter @all @setup @document_upload  @case_flags
+@exporter @all @setup
 Feature: Set up application
 
   @submit_app

@@ -1,5 +1,6 @@
 import logging
 import helpers.helpers as utils
+from conftest import context
 from pages.shared import Shared
 from pytest_bdd import given, when, then, scenarios
 from pages.flags_pages import FlagsPages
@@ -43,13 +44,13 @@ def click_edit_flags_link(driver):
 
 
 @when('I count the number of assigned flags')
-def count_active_flags(driver, context):
+def count_active_flags(driver):
     number_of_assigned_flags = len(driver.find_elements_by_class_name("lite-flag"))
     context.number_of_assigned_flags = number_of_assigned_flags
 
 
 @when('I assign flags to the case')
-def assign_flags_to_case(driver, context):
+def assign_flags_to_case(driver):
     case_flags_pages = CaseFlagsPages(driver)
     case_flags_pages.assign_flags(context)
     shared = Shared(driver)
@@ -57,7 +58,7 @@ def assign_flags_to_case(driver, context):
 
 
 @when("I unassign flags from the case")
-def unassign_flags_from_case(driver, context):
+def unassign_flags_from_case(driver):
     case_flags_pages = CaseFlagsPages(driver)
     case_flags_pages.assign_flags(context)
     shared = Shared(driver)
@@ -65,12 +66,12 @@ def unassign_flags_from_case(driver, context):
 
 
 @then("Number of assigned flags is original value")
-def assert_number_of_flags(driver, context):
+def assert_number_of_flags(driver):
     number_of_assigned_flags = len(driver.find_elements_by_class_name("lite-flag"))
     assert number_of_assigned_flags == context.number_of_assigned_flags
 
 
 @then("Number of assigned flags has increased")
-def assert_number_of_flags(driver, context):
+def assert_number_of_flags(driver):
     number_of_assigned_flags = len(driver.find_elements_by_class_name("lite-flag"))
     assert number_of_assigned_flags == context.number_of_assigned_flags + 1
