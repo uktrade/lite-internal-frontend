@@ -7,12 +7,12 @@
 	<div class="lite-expandable-textarea lite-case-note-no-transition">
 		<textarea id="case_note" name="text" cols="80" class="govuk-textarea" placeholder="Add case note"></textarea>
 		<div class="lite-expandable-textarea-controls">
-			<div class="govuk-checkboxes govuk-checkboxes--small">
-				<div class="govuk-checkboxes__item">
-					<input class="govuk-checkboxes__input" type="checkbox" id="is_visible_to_exporter" name="is_visible_to_exporter" value="True">
-					<label class="govuk-label govuk-checkboxes__label" for="is_visible_to_exporter">{% get_string 'cases.case.tabs.activity.make_visible_to_exporter' %}</label>
-				</div>
-			</div>
+<!--			<div class="govuk-checkboxes govuk-checkboxes&#45;&#45;small">-->
+<!--				<div class="govuk-checkboxes__item">-->
+<!--					<input class="govuk-checkboxes__input" type="checkbox" id="is_visible_to_exporter" name="is_visible_to_exporter" value="True">-->
+<!--					<label class="govuk-label govuk-checkboxes__label" for="is_visible_to_exporter">{% get_string 'cases.case.tabs.activity.make_visible_to_exporter' %}</label>-->
+<!--				</div>-->
+<!--			</div>-->
 			<a id="case-note-cancel-button" href="{% url 'cases:case' data.case.id %}" class="govuk-button govuk-button--secondary" type="button" draggable="false">
 				Cancel
 			</a>
