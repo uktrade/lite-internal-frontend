@@ -81,15 +81,15 @@
 				</tbody>
 			</table>
 		{% endif %}
-		<form method="post" onSubmit="return confirmVisible(event)">
+		<form method="post" onSubmit="return confirmVisible()">
 			{% csrf_token %}
 			<div class="lite-expandable-textarea lite-case-note-no-transition">
 				<textarea id="case_note" name="text" cols="80" class="govuk-textarea" placeholder="Add case note"></textarea>
 				<div class="lite-expandable-textarea-controls">
 					<div class="govuk-checkboxes govuk-checkboxes--small">
 						<div class="govuk-checkboxes__item">
-							<input class="govuk-checkboxes__input" type="checkbox" id="is_visible_for_exporter" name="is_visible_for_exporter" value="True">
-							<label class="govuk-label govuk-checkboxes__label" for="is_visible_for_exporter">Make visible to exporter</label>
+							<input class="govuk-checkboxes__input" type="checkbox" id="is_visible_to_exporter" name="is_visible_to_exporter" value="True">
+							<label class="govuk-label govuk-checkboxes__label" for="is_visible_to_exporter">Make visible to exporter</label>
 						</div>
 					</div>
 					<a id="case-note-cancel-button" href="{% url 'cases:case' data.case.id %}" class="govuk-button govuk-button--secondary" type="button" draggable="false">
@@ -130,14 +130,15 @@
 		</div>
 
 {% load static %}
-<script src="{% static 'javascripts/pluralize.js' %}"></script>
-<script src="{% static 'javascripts/specific/case_notes.js' %}"></script>
 <script>
-    function confirmVisible(event) {
-        let is_visible_for_exporter = document.getElementById('is_visible_for_exporter')
+    function confirmVisible() {
+        let is_visible_for_exporter = document.getElementById('is_visible_to_exporter')
         if (is_visible_for_exporter.checked) {
             return confirm("This message will be visible to the exporter, are you sure you wish to continue?")
         }
         return true;
     }
 </script>
+<script src="{% static 'javascripts/pluralize.js' %}"></script>
+<script src="{% static 'javascripts/specific/case_notes.js' %}"></script>
+

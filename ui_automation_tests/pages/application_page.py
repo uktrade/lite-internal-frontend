@@ -18,6 +18,10 @@ class ApplicationPage():
         self.activity_case_note_subject = self.driver.find_elements_by_css_selector(".lite-activity-item .govuk-body")
         self.activity_dates = ".lite-activity-item .govuk-hint"
         self.activity_user = ".user"
+        self.is_visible_to_exporter_checkbox_id = 'is_visible_to_exporter'
+
+    def click_visible_to_exporter_checkbox(self):
+        self.driver.find_element_by_id(self.is_visible_to_exporter_checkbox_id).click()
 
     def enter_case_note(self, text):
         self.driver.find_element_by_id(self.case_note_field).send_keys(text)

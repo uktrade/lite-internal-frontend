@@ -69,3 +69,21 @@ def post_note_is_disabled(driver):
 def entered_text_no_longer_in_case_field(driver):
     application_page = ApplicationPage(driver)
     assert "Case note to cancel" not in application_page.get_text_of_case_note_field()
+
+
+@when('I click visible to exporters checkbox')
+def click_visible_to_exporters_checkbox(driver):
+    application_page = ApplicationPage(driver)
+    application_page.click_visible_to_exporter_checkbox()
+
+
+@when("I click confirm on confirmation box")
+def click_confirm_on_confirmation_box(driver):
+    alert = driver.switch_to_alert()
+    alert.accept()
+
+
+@when("I click visible to exporters checkbox")
+def click_visible_to_exporters_checkbox(driver):
+    application_page = ApplicationPage(driver)
+    application_page.click_visible_to_exporter_checkbox()
