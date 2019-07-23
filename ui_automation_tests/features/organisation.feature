@@ -14,7 +14,7 @@ So that the new company can make applications
     And I setup the admin user with email: "TestBusinessForSites@mail.com", first name: "Trinity", last name: "Fishburne", password: "12345678900"
     Then organisation is registered
     When I go to exporter homepage
-    And I login to exporter homepage with username "TestBusinessForSites@mail.com" and "12345678900"
+    And I login to exporter homepage with username context username and "12345678900"
     And I click sites link
     And I click new site
     And I enter in text for new site "London HQ" "address" "postcode" "city" "region" and "Ukraine"

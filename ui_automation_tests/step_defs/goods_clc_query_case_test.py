@@ -49,6 +49,6 @@ def assert_good_is_in_list(driver):
 
 
 @then('I see the clc-case previously created')
-def assert_case_is_present(driver):
+def assert_case_is_present(driver, set_up_org, set_up_i_dont_know_good_before_hook):
     case_list_page = CaseListPage(driver)
     assert case_list_page.assert_case_is_present(context.case_id)
