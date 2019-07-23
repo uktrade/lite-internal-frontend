@@ -1,3 +1,4 @@
+@internal @case_notes
 Feature: I want to add an internal note to a case and view notes
 As a logged in government user
 I want to add an internal note to a case and view existing notes
