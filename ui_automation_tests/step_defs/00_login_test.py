@@ -1,7 +1,7 @@
 import random
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
 from pages.login_page import LoginPage
-
+# This is first to ensure user is not logged in yet.
 scenarios('../features/login.feature', strict_gherkin=False)
 
 import logging

@@ -28,7 +28,7 @@ def pytest_exception_interact(node, report):
 def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
     if env == 'None':
-        env = "uat"
+        env = "staging"
     print("touched: " + env)
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
     parser.addoption("--exporter_url", action="store",
@@ -100,6 +100,7 @@ sso_password = env('TEST_SSO_PASSWORD')
 
 @pytest.fixture(scope="session")
 def set_up_org(driver, request):
+    context.org_name = "Unicorns Ltd"
     driver.get(request.config.getoption("--sso_sign_in_url"))
     driver.find_element_by_name("username").send_keys(sso_email)
     driver.find_element_by_name("password").send_keys(sso_password)
@@ -110,15 +111,14 @@ def set_up_org(driver, request):
     header.click_organisations()
     context.org_registered_status = False
     organisations_page = OrganisationsPage(driver)
-    exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Unicorns Ltd')]]")
+    exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + context.org_name + "')]]")
     if exists:
         context.org_registered_status = True
     else:
         organisations_page.click_new_organisation_btn()
     if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
-        organisations_form_page.enter_name("Unicorns Ltd")
-        context.org_name = "Unicorns Ltd"
+        organisations_form_page.enter_name(context.org_name)
         organisations_form_page.enter_eori_number("1234567890AAA")
         organisations_form_page.enter_sic_number("2345")
         organisations_form_page.enter_vat_number("GB1234567")
@@ -232,6 +232,7 @@ def app_set_up(driver, request):
     # /TODO find better way of getting ID./
     url = driver.current_url.replace('/overview/', '')
     context.app_id = url[-36:]
+    driver.get(request.config.getoption("--internal_url"))
 
 
 @pytest.fixture(scope="function")
@@ -241,6 +242,11 @@ def open_internal_hub(driver, internal_url, sso_sign_in_url):
     driver.find_element_by_name("password").send_keys(sso_password)
     driver.find_element_by_css_selector("[type='submit']").click()
     driver.get(internal_url)
+
+
+@given('I go to exporter homepage')
+def go_to_exporter_given(driver, exporter_url):
+    driver.get(exporter_url)
 
 
 @when('I go to the internal homepage')
@@ -272,7 +278,8 @@ def go_to_exporter_when(driver, exporter_url):
 
 
 @when(parsers.parse('I login to exporter homepage with username "{username}" and "{password}"'))
-def login_to_exporter(driver, username, password, set_up_org):
+def login_to_exporter(driver, exporter_url, username, password, set_up_org):
+    driver.get(exporter_url)
     if username == "TestBusinessForSites@mail.com":
         username = context.email
     exporter_hub = ExporterHub(driver)
@@ -289,8 +296,7 @@ def login_to_exporter_context(driver, password):
 
 
 @when('I click on application previously created')
-def click_on_created_application(driver, set_up_app_before_hook, internal_url):
-    driver.get(internal_url)
+def click_on_created_application(driver, set_up_app_before_hook):
     driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
 
 

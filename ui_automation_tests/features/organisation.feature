@@ -1,8 +1,8 @@
 @internal @organisation
 Feature: I want to add a company to LITE
-As a logged in government user
-I want to add a new company to LITE
-So that the new company can make applications
+  As a logged in government user
+  I want to add a new company to LITE
+  So that the new company can make applications
 
   @LT-934_test
   Scenario: Test organisation
@@ -15,6 +15,11 @@ So that the new company can make applications
     Then organisation is registered
     When I go to exporter homepage
     And I login to exporter homepage with username context username and "12345678900"
+
+  @LT-934sites
+  Scenario: Register site
+    Given I go to exporter homepage
+    When I login to exporter homepage with username "trinity@unicorns.com" and "12345678900"
     And I click sites link
     And I click new site
     And I enter in text for new site "London HQ" "address" "postcode" "city" "region" and "Ukraine"

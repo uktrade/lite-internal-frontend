@@ -8,11 +8,6 @@ import helpers.helpers as utils
 scenarios('../features/add_goods.feature', strict_gherkin=False)
 
 
-@given('I go to exporter homepage')
-def go_to_exporter_given(driver, exporter_url):
-    driver.get(exporter_url)
-
-
 @when('I click on goods link')
 def click_my_goods_link(driver):
     exporter_hub = ExporterHub(driver)
