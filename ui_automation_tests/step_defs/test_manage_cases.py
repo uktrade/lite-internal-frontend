@@ -114,7 +114,6 @@ class ManageCases():
     def i_click_applications(driver, context):
         elements = driver.find_elements_by_css_selector(".govuk-table__row")
         no = utils.get_element_index_by_text(elements, context.app_time_id)
-        assert elements[no].is_displayed()
         assert context.status in elements[no].text
 
 
