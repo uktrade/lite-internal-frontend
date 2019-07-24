@@ -34,8 +34,6 @@ def pytest_addoption(parser):
                      default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
     # parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
     # parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
-    # parser.addoption("--exporter_url", action="store", default="http://localhost:8300", help="url")
-    # parser.addoption("--internal_url", action="store", default="http://localhost:8200", help="url")
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
 
 
