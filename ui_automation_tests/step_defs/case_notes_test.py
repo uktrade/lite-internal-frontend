@@ -81,9 +81,3 @@ def click_visible_to_exporters_checkbox(driver):
 def click_confirm_on_confirmation_box(driver):
     alert = driver.switch_to_alert()
     alert.accept()
-
-
-@when("I click visible to exporters checkbox")
-def click_visible_to_exporters_checkbox(driver):
-    application_page = ApplicationPage(driver)
-    application_page.click_visible_to_exporter_checkbox()
