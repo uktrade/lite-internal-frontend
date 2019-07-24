@@ -1,5 +1,5 @@
 import logging
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+from pytest_bdd import when, then, parsers, scenarios
 from conf.settings import env
 import helpers.helpers as utils
 from pages.header_page import HeaderPage
@@ -79,14 +79,9 @@ def add_existing_team(driver, context):
 def edit_existing_team(driver, context):
     teams_pages = TeamsPages(driver)
     shared = Shared(driver)
-    elements = driver.find_elements_by_css_selector(".govuk-table__cell")
-    status = False
-    for element in elements:
-        if status:
-            element.click()
-        if element.text == context.team_name:
-            status = True
-    teams_pages.click_add_a_team_button()
+    elements = driver.find_elements_by_css_selector(".govuk-table__cell a")
+    no = utils.get_element_index_by_text(elements, context.team_name)
+    elements[no+1].click()
     context.team_name = context.team_name + "edited"
     teams_pages.enter_team_name(context.team_name)
     shared.click_submit()
