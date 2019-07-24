@@ -2,7 +2,6 @@ from pytest_bdd import scenarios, given, when, then, parsers
 from pages.exporter_hub import ExporterHub
 from pages.add_goods_page import AddGoodPage
 from pages.case_list_page import CaseListPage
-from conftest import context
 import helpers.helpers as utils
 
 scenarios('../features/add_goods.feature', strict_gherkin=False)
@@ -21,7 +20,7 @@ def click_add_from_organisation_button(driver):
 
 
 @when(parsers.parse('I add a good a clc-case good with description "{description}"'))
-def add_new_good(driver, description):
+def add_new_good(driver, description, context):
     exporter_hub = ExporterHub(driver)
     add_goods_page = AddGoodPage(driver)
     date_time = utils.get_current_date_time_string()
@@ -37,13 +36,13 @@ def add_new_good(driver, description):
 
 
 @when('I see clc-good in goods list')
-def assert_good_is_in_list(driver):
+def assert_good_is_in_list(driver, context):
     goods_list = AddGoodPage(driver)
     case_id = goods_list.assert_good_is_displayed_and_return_case_id(context.good_description)
     context.case_id = case_id
 
 
 @then('I see the clc-case previously created')
-def assert_case_is_present(driver, set_up_org, set_up_i_dont_know_good_before_hook):
+def assert_case_is_present(driver, set_up_org, set_up_i_dont_know_good_before_hook, context):
     case_list_page = CaseListPage(driver)
     assert case_list_page.assert_case_is_present(context.case_id)

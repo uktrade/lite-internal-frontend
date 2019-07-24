@@ -1,5 +1,4 @@
 from pytest_bdd import scenarios, given, when, then, parsers, scenarios
-from conftest import context
 from pages.case_list_page import CaseListPage
 from pages.shared import Shared
 
@@ -13,7 +12,7 @@ log.addHandler(console)
 
 
 @when('I select the checkbox for previously created case to be assigned')
-def click_checkbox_for_application(driver, internal_url, set_up_org, set_up_app_before_hook):
+def click_checkbox_for_application(driver, internal_url, set_up_org, set_up_app_before_hook, context):
     driver.get(internal_url)
     href = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").get_attribute('href')
     context.case_id_split_by_slash = href.split('/')[4]
@@ -22,14 +21,14 @@ def click_checkbox_for_application(driver, internal_url, set_up_org, set_up_app_
 
 
 @when(parsers.parse('I select user to assign "{name}"'))
-def assign_user_to_case(driver, name):
+def assign_user_to_case(driver, name, context):
     driver.find_element_by_id(name).click()
     context.user_name = name
     Shared(driver).click_submit()
 
 
 @then('user is assignee on case list')
-def user_is_on_case_list(driver):
+def user_is_on_case_list(driver, context):
     assert context.user_name in CaseListPage(driver).get_text_of_assignees(context.app_id)
 
 
@@ -41,7 +40,7 @@ def user_is_on_case_list(driver, name):
 
 
 @then('user is not assignee on case list')
-def user_is_not_on_case_list(driver):
+def user_is_not_on_case_list(driver, context):
     assert "No users assigned" in CaseListPage(driver).get_text_of_assignees(context.app_id)
 
 
