@@ -1,6 +1,5 @@
 from pytest import fixture
 import helpers.helpers as utils
-from fixtures.core import context
 from pages.header_page import HeaderPage
 from pages.organisations_page import OrganisationsPage
 from pages.organisations_form_page import OrganisationsFormPage
@@ -8,7 +7,7 @@ from selenium.webdriver.common.by import By
 
 
 @fixture(scope="session")
-def register_organisation(driver, request, sso_login_info):
+def register_organisation(driver, request, sso_login_info, context):
     context.org_name = "Unicorns Ltd"
     driver.get(request.config.getoption("--sso_sign_in_url"))
     driver.find_element_by_name("username").send_keys(sso_login_info['email'])
@@ -25,7 +24,6 @@ def register_organisation(driver, request, sso_login_info):
         context.org_registered_status = True
     else:
         organisations_page.click_new_organisation_btn()
-    if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
         organisations_form_page.enter_name(context.org_name)
         organisations_form_page.enter_eori_number("1234567890AAA")
@@ -33,7 +31,6 @@ def register_organisation(driver, request, sso_login_info):
         organisations_form_page.enter_vat_number("GB1234567")
         organisations_form_page.enter_registration_number("09876543")
         organisations_form_page.click_submit()
-    if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
         organisations_form_page.enter_site_name("Headquarters")
         context.site_name = "Headquarters"
@@ -43,7 +40,6 @@ def register_organisation(driver, request, sso_login_info):
         organisations_form_page.enter_city("London")
         organisations_form_page.enter_country("Ukraine")
         organisations_form_page.click_submit()
-    if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
         organisations_form_page.enter_email("trinity@unicorns.com")
         context.email = "trinity@unicorns.com"

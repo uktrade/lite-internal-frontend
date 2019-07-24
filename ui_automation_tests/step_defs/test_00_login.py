@@ -1,7 +1,7 @@
 import random
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+from pytest_bdd import given, when, then, scenarios
 from pages.login_page import LoginPage
-# This is first to ensure user is not logged in yet.
+
 scenarios('../features/login.feature', strict_gherkin=False)
 
 import logging
@@ -30,5 +30,6 @@ def login_button_click(driver):
 
 @then('I see you need to sign in error message')
 def login_error_message(driver):
+    log.info("asdsadsadas")
     assert "DIT system access" in driver.title
 

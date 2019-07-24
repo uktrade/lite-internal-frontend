@@ -4,27 +4,33 @@ from selenium import webdriver
 from pytest import fixture
 
 
+# Create driver fixture that initiates chrome
 @fixture(scope="session", autouse=True)
 def driver(request):
     browser = request.config.getoption("--driver")
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+
+
     if browser == 'chrome':
         if str(os.environ.get('ENVIRONMENT')) == 'None':
-            browser = webdriver.Chrome("chromedriver")
+            browser = webdriver.Chrome("chromedriver", chrome_options=chrome_options)
         else:
-            browser = webdriver.Chrome()
+            browser = webdriver.Chrome(chrome_options=chrome_options)
         browser.get("about:blank")
-        browser.implicitly_wait(3)
+        browser.implicitly_wait(10)
         return browser
     else:
-        print('only chrome is supported at the moment')
+        print('Only Chrome is supported at the moment')
 
     def fin():
         driver.quit()
-        request.addfinalizer(fin)
-
+    request.addfinalizer(fin)
 
 @fixture(scope="session")
-def context():
+def context(request):
     class Context(object):
         pass
 
@@ -32,8 +38,13 @@ def context():
 
 
 @fixture(scope="session")
-def sso_login_info():
+def sso_login_info(request):
     sso_email = env('TEST_SSO_EMAIL')
     sso_password = env('TEST_SSO_PASSWORD')
 
     return {'email': sso_email, 'password': sso_password}
+
+
+@fixture(scope="module")
+def invalid_username(request):
+    return "invalid@mail.com"

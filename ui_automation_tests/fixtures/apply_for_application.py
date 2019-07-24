@@ -3,11 +3,10 @@ import datetime
 from pages.add_goods_page import AddGoodPage
 from pages.exporter_hub import ExporterHub
 import helpers.helpers as utils
-from fixtures.core import context
 
 
 @fixture(scope="session")
-def apply_for_standard_application(driver, request):
+def apply_for_standard_application(driver, request, context):
     exporter_hub = ExporterHub(driver)
     driver.get(request.config.getoption("--exporter_url"))
     if "login" in driver.current_url:
@@ -68,7 +67,7 @@ def apply_for_standard_application(driver, request):
 
 
 @fixture(scope="session")
-def apply_for_clc_query(driver, request):
+def apply_for_clc_query(driver, request, context):
     exporter_hub = ExporterHub(driver)
     driver.get(request.config.getoption("--exporter_url"))
     if "login" in driver.current_url:

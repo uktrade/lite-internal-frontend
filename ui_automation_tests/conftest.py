@@ -1,15 +1,16 @@
 import os
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+from pytest_bdd import given, when, then, parsers
 
-from pages.flags_pages import FlagsPages
-from pages.shared import Shared
-from pages.header_page import HeaderPage
-from pages.exporter_hub import ExporterHub
-import helpers.helpers as utils
-from fixtures.core import context, driver, sso_login_info
+from fixtures.core import context, driver, sso_login_info, invalid_username
 from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
 from fixtures.register_organisation import register_organisation
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query
+
+import helpers.helpers as utils
+from pages.flags_pages import FlagsPages
+from pages.header_page import HeaderPage
+from pages.shared import Shared
+from pages.exporter_hub import ExporterHub
 
 # Screenshot in case of any test failure
 
@@ -71,7 +72,7 @@ def go_to_exporter_when(driver, exporter_url):
 
 
 @when(parsers.parse('I login to exporter homepage with username "{username}" and "{password}"'))
-def login_to_exporter(driver, exporter_url, username, password, set_up_org):
+def login_to_exporter(driver, exporter_url, username, password, register_organisation):
     driver.get(exporter_url)
     if username == "TestBusinessForSites@mail.com":
         username = context.email
@@ -81,7 +82,7 @@ def login_to_exporter(driver, exporter_url, username, password, set_up_org):
 
 
 @when(parsers.parse('I login to exporter homepage with username context username and "{password}"'))
-def login_to_exporter_context(driver, password):
+def login_to_exporter_context(driver, context, password):
     username = context.email
     exporter_hub = ExporterHub(driver)
     if "login" in driver.current_url:
@@ -89,13 +90,8 @@ def login_to_exporter_context(driver, password):
 
 
 @when('I click on application previously created')
-def click_on_created_application(driver, set_up_app_before_hook):
+def click_on_created_application(driver, context, apply_for_standard_application):
     driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
-
-
-@when('I click on an application previously created')
-def click_on_a_created_application(driver):
-    driver.find_element_by_css_selector(".lite-cases-table a[href*='/cases/']").click()
 
 
 @when('I click submit button')

@@ -1,8 +1,6 @@
-import logging
 import helpers.helpers as utils
 from pages.shared import Shared
 from pytest_bdd import given, when, then, scenarios
-from pages.flags_pages import FlagsPages
 from pages.assign_flags_to_case import CaseFlagsPages
 from pages.flags_pages import FlagsPages
 from pages.application_page import ApplicationPage
@@ -39,7 +37,7 @@ def click_edit_flags_link(driver):
 
 
 @when('I count the number of assigned flags')
-def count_active_flags(driver):
+def count_active_flags(driver, context):
     number_of_assigned_flags = FlagsPages(driver).get_size_of_number_of_assigned_flags()
     context.number_of_assigned_flags = number_of_assigned_flags
 

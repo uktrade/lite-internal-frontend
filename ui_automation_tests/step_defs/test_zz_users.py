@@ -17,11 +17,13 @@ sso_password=env('TEST_SSO_PASSWORD')
 
 @pytest.fixture(scope="function")
 def open_internal_hub(driver, internal_url, sso_sign_in_url):
-    driver.get(sso_sign_in_url)
-    driver.find_element_by_name("username").send_keys(sso_email)
-    driver.find_element_by_name("password").send_keys(sso_password)
-    driver.find_element_by_css_selector("[type='submit']").click()
     driver.get(internal_url)
+    if "login" in driver.current_url:
+        driver.get(sso_sign_in_url)
+        driver.find_element_by_name("username").send_keys(sso_email)
+        driver.find_element_by_name("password").send_keys(sso_password)
+        driver.find_element_by_css_selector("[type='submit']").click()
+        driver.get(internal_url)
 
 
 def test_manage_users(driver, open_internal_hub, context):
