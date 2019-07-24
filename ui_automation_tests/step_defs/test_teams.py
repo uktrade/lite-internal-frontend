@@ -24,12 +24,6 @@ def go_to_teams(driver):
     header.click_teams()
 
 
-@when('I go to users')
-def go_to_users(driver):
-    header = HeaderPage(driver)
-    header.open_users()
-
-
 @when('I click on my team')
 def click_on_my_team(driver, context):
     driver.find_element_by_link_text(context.team_name).click()

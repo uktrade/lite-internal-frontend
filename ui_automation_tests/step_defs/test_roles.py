@@ -17,12 +17,6 @@ console = logging.StreamHandler()
 log.addHandler(console)
 
 
-@when('I go to users')
-def go_to_flags(driver):
-    header = HeaderPage(driver)
-
-    header.open_users()
-
 
 @when('I go to manage roles')
 def go_to_manage_roles(driver):

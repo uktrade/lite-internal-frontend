@@ -148,3 +148,11 @@ def add_a_flag(driver, flag_name, flag_level, context):
     flags_page.enter_flag_name(context.flag_name)
     flags_page.select_flag_level(flag_level)
     shared.click_submit()
+
+
+@when('I go to users')
+def go_to_users(driver):
+    header = HeaderPage(driver)
+
+    header.open_users()
+

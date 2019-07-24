@@ -134,3 +134,9 @@ def get_element_index_by_text(elements, text: str):
         no += 1
 
     return element_number
+
+
+def wait_until_page_is_loaded(driver):
+    while True:
+        if driver.execute_script("return document.readyState") == "complete":
+            break
