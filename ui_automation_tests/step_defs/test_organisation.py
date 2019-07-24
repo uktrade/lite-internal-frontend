@@ -95,6 +95,7 @@ class OrganisationSteps():
                 context.email = email
             else:
                 context.email = email+utils.get_formatted_date_time_m_d_h_s()
+                context.password = password
                 organisations_form_page.enter_email(context.email)
             organisations_form_page.enter_first_name(first_name)
             organisations_form_page.enter_last_name(last_name)

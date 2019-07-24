@@ -27,7 +27,7 @@ Feature: I want to add a company to LITE
     And I setup the admin user with email: "TestBusinessForSites@mail.com", first name: "Trinity", last name: "Fishburne", password: "12345678900"
     Then organisation is registered
     When I go to exporter homepage
-    And I login to exporter homepage with username context username and "12345678900"
+    And I login to exporter homepage with previously created user
 
 
   @LT-934_error

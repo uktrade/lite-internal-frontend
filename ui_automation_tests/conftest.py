@@ -81,9 +81,11 @@ def login_to_exporter(driver, exporter_url, username, password, register_organis
         exporter_hub.login(username, password)
 
 
-@when(parsers.parse('I login to exporter homepage with username context username and "{password}"'))
+@when('I login to exporter homepage with previously created user')
 def login_to_exporter_context(driver, context, password):
     username = context.email
+    password = context.password
+
     exporter_hub = ExporterHub(driver)
     if "login" in driver.current_url:
         exporter_hub.login(username, password)

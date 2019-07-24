@@ -10,9 +10,9 @@ def driver(request):
     browser = request.config.getoption("--driver")
 
     chrome_options = webdriver.ChromeOptions()
+    # remove this line to see it running in browser.
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
-
 
     if browser == 'chrome':
         if str(os.environ.get('ENVIRONMENT')) == 'None':
@@ -28,6 +28,7 @@ def driver(request):
     def fin():
         driver.quit()
     request.addfinalizer(fin)
+
 
 @fixture(scope="session")
 def context(request):
