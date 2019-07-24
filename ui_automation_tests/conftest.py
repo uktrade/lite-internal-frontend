@@ -131,8 +131,8 @@ def go_to_exporter_when(driver, exporter_url):
     driver.get(exporter_url)
 
 
-@when(parsers.parse('I login to exporter homepage with username "{username}" and "{password}"'))
-def login_to_exporter(driver, username, password):
+@when(parsers.parse('I login to exporter homepage with username "{username}"'))
+def login_to_exporter(driver, username):
     if username == "TestBusinessForSites@mail.com":
         username = context.email
     exporter_hub = ExporterHub(driver)
