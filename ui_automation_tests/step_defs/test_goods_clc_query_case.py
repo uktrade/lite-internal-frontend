@@ -35,13 +35,6 @@ def add_new_good(driver, description, context):
     exporter_hub.click_save_and_continue()
 
 
-@when('I see clc-good in goods list')
-def assert_good_is_in_list(driver, context):
-    goods_list = AddGoodPage(driver)
-    case_id = goods_list.assert_good_is_displayed_and_return_case_id(context.good_description)
-    context.case_id = case_id
-
-
 @then('I see the clc-case previously created')
 def assert_case_is_present(driver, register_organisation, apply_for_clc_query, context):
     case_list_page = CaseListPage(driver)
