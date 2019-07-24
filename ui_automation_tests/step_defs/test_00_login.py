@@ -30,6 +30,5 @@ def login_button_click(driver):
 
 @then('I see you need to sign in error message')
 def login_error_message(driver):
-    log.info("asdsadsadas")
     assert "DIT system access" in driver.title
 
