@@ -109,6 +109,7 @@ def highlight(element):
     time.sleep(.7)
     apply_style(original_style)
 
+
 def get_element_by_text(elements, text: str):
     """
     Loops through the list of elements, checks if the text is equal to
@@ -126,7 +127,6 @@ def get_element_index_by_text(elements, text: str):
     """
     no = 0
     element_number = -1
-    elements = elements
     while no < len(elements):
         if elements[no].text == text:
             element_number = no

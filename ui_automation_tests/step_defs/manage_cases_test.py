@@ -113,9 +113,8 @@ class ManageCases():
 
     @then('the status has been changed in exporter')
     def i_click_applications(driver):
-        elements = driver.find_elements_by_css_selector(".govuk-table__row")
+        elements = driver.find_elements_by_css_selector('.govuk-table__row')
         no = utils.get_element_index_by_text(elements, context.app_time_id)
-        assert elements[no].is_displayed()
         assert context.status in elements[no].text
 
 
@@ -158,5 +157,3 @@ class ManageCases():
         roles_page.click_edit_for_default_role()
         roles_page.remove_all_permissions_from_default_role()
         shared.click_submit()
-
-
