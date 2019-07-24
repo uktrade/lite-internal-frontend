@@ -94,7 +94,7 @@ def login_to_exporter_context(driver, context, password):
 
 @when('I click on application previously created')
 def click_on_created_application(driver, context, apply_for_standard_application):
-    driver.find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
+    driver.find_elements_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
 
 
 @when('I click submit button')
