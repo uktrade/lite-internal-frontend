@@ -11,7 +11,7 @@ So that the new company can make applications
     And I choose to add a new organisation for setup
     And I provide company registration details of name: "Unicorns Ltd", EORI: "1234567890AAA", SIC: "2345", VAT: "GB1234567", CRN: "09876543"
     And I setup an initial site with name: "Headquarters", addres line 1: "42 Question Road", town or city: "London", County: "Islington", post code: "AB1 2CD", country: "Ukraine"
-    And I setup the admin user with email: "trinity@unicorns.com"
+    And I setup the admin user with email: "test.lite.exporter@gmail.com", first name: "Trinity", last name: "Fishburne"
     Then organisation is registered
 
   @LT-934_test
@@ -22,7 +22,7 @@ So that the new company can make applications
     And I choose to add a new organisation
     And I provide company registration details of name: "BlueOcean", EORI: "GB987654312000", SIC: "73200", VAT: "123456789", CRN: "000000011"
     And I setup an initial site with name: "HQ", addres line 1: "123 Cobalt Street", town or city: "London", County: "Islington", post code: "AB1 2CD", country: "Ukraine"
-    And I setup the admin user with email: "TestBusinessForSites@mail.com"
+    And I setup the admin user with email: "test.lite.exporter@gmail.com", first name: "Trinity", last name: "Fishburne"
     Then organisation is registered
     When I go to exporter homepage
     And I login to exporter homepage with username "TestBusinessForSites@mail.com" and "12345678900"
@@ -46,7 +46,7 @@ So that the new company can make applications
     And I setup an initial site with name: " ", addres line 1: " ", town or city: " ", County: " ", post code: " ", country: " "
     Then I see error message "This field may not be blank."
     When I setup an initial site with name: "HQ", addres line 1: "123 Cobalt Street", town or city: "London", County: "Islington", post code: "AB1 2CD", country: "Ukraine"
-    And I setup the admin user with email: " "
+    And I setup the admin user with email: " ", first name: " ", last name: " "
     Then I see error message "This field may not be blank."
-    When I setup the admin user with email: "TestBusinessABC@mail.com"
+    When I setup the admin user with email: "test.lite.exporter@gmail.com", first name: "Trinity", last name: "Fishburne"
     Then organisation is registered
