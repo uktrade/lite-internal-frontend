@@ -1,3 +1,5 @@
+import json
+
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -16,7 +18,7 @@ from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
     put_case_flags
-from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
+from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS, ALL_CASES_SYSTEM_QUEUE_ID
 from conf.decorators import has_permission
 from core.services import get_queue, get_queues, get_user_permissions
 from flags.services import get_flags_case_level_for_team
@@ -33,7 +35,23 @@ class Cases(TemplateView):
         """
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         queues, status_code = get_queues(request)
-        queue, status_code = get_queue(request, queue_id)
+        if ALL_CASES_SYSTEM_QUEUE_ID == queue_id:
+            queue = {
+                'queue': {
+                    'id': ALL_CASES_SYSTEM_QUEUE_ID,
+                    'name': 'All cases',
+                    'team': {
+                        'id': DEFAULT_QUEUE_ID,
+                        'name': 'Admin'
+                    },
+                'cases': []
+                }
+            }
+            for q in queues['queues']:
+                queue['queue']['cases'].extend(q['cases'])
+        else:
+            queue, status_code = get_queue(request, queue_id)
+
         case_assignments, status_code = get_queue_case_assignments(request, queue_id)
 
         # Add assigned users to each case
@@ -41,6 +59,7 @@ class Cases(TemplateView):
                                                               case_assignments['case_assignments'])
 
         context = {
+            'all_cases_system_queue_id': ALL_CASES_SYSTEM_QUEUE_ID,
             'queues': queues,
             'queue_id': queue_id,
             'data': queue,
