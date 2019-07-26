@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='user',
-            name='backend_id',
+            name='lite_api_user_id',
             field=models.TextField(blank=True, default=None, null=True),
         ),
     ]
