@@ -108,3 +108,44 @@ def highlight(element):
     apply_style("background: yellow; border: 2px solid red;")
     time.sleep(.7)
     apply_style(original_style)
+
+
+def get_element_by_text(elements, text: str):
+    """
+    Loops through the list of elements, checks if the text is equal to
+    text and returns the element if so
+    """
+    for element in elements:
+        if element == text:
+            return element
+
+
+def get_element_index_by_text(elements, text: str):
+    """
+    Loops through the list of elements, checks if the text is equal to
+    text and returns the index of it if so
+    """
+    no = 0
+    element_number = -1
+    while no < len(elements):
+        if elements[no].text == text:
+            element_number = no
+            break
+        no += 1
+
+    return element_number
+
+
+def wait_until_page_is_loaded(driver):
+    while True:
+        if driver.execute_script("return document.readyState") == "complete":
+            break
+
+
+def wait_until_menu_is_visible(driver):
+    while True:
+        try:
+            if driver.find_element_by_css_selector('.lite-menu--visible').is_displayed():
+                break
+        except Exception:
+            continue
