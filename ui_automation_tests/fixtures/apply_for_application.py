@@ -19,7 +19,7 @@ def apply_for_standard_application(driver, request, context):
     exporter_hub.enter_description_of_goods("MPG 2.")
     exporter_hub.select_is_your_good_controlled("Yes")
     exporter_hub.enter_control_code("1234")
-    exporter_hub.select_is_your_good_intended_to_be_incorporated_into_an_end_product("Yes")
+    exporter_hub.select_is_your_good_intended_to_be_incorporated_into_an_end_product("no")
     exporter_hub.enter_part_number("1234")
     exporter_hub.click_save_and_continue()
     driver.get(request.config.getoption("--exporter_url"))
