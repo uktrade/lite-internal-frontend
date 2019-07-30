@@ -52,6 +52,16 @@ Feature: I want to define new work queues and the teams they belong to
     And I click on new queue in dropdown
     Then I dont see previously created application
 
+
+  @LT-1125_move_cases
+  Scenario: move clc case to different queue
+    Given I go to internal homepage
+    And I click on application previously created
+
+
+
+
+
   @LT-1125_error
   Scenario: Move cases error message when not selecting any queues
     Given I go to internal homepage
