@@ -36,5 +36,35 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 }
 
 .lite-subnav {
-	
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	hr {
+		display: block;
+		height: 2px;
+		background-color: govuk-colour("grey-3");
+		border: none;
+	}
+}
+
+.lite-subnav__link {
+	position: relative;
+	display: block;
+	& > a {
+		line-height: 40px;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.lite-subnav__link--selected:after {
+	content: "";
+	position: absolute;
+	top: 6px;
+	left: -14px;
+	bottom: 6px;
+	width: 3px;
+	background-color: blue;
 }

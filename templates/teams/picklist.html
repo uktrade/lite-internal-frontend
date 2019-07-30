@@ -13,14 +13,30 @@
 
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-one-third">
-			<a href="#">All</a>
-			<hr>
-			<a href="#">Provisios</a>
-			<a href="#">ECJU Queries</a>
-			<a href="#">Letter Paragraphs</a>
-			<a href="#">Annual Report Summary</a>
-			<a href="#">Standard Advice</a>
-			<a href="#">Footnotes</a>
+			<ul class="lite-subnav">
+				<li class="lite-subnav__link lite-subnav__link--selected">
+					<a class="govuk-link govuk-link--no-visited-state" href="#">All</a>
+				</li>
+				<hr>
+				<li class="lite-subnav__link">
+					<a class="govuk-link govuk-link--no-visited-state" href="#">Provisios</a>
+				</li>
+				<li class="lite-subnav__link">
+					<a class="govuk-link govuk-link--no-visited-state" href="#">ECJU Queries</a>
+				</li>
+				<li class="lite-subnav__link">
+					<a class="govuk-link govuk-link--no-visited-state" href="#">Letter Paragraphs</a>
+				</li>
+				<li class="lite-subnav__link">
+					<a class="govuk-link govuk-link--no-visited-state" href="#">Annual Report Summary</a>
+				</li>
+				<li class="lite-subnav__link">
+					<a class="govuk-link govuk-link--no-visited-state" href="#">Standard Advice</a>
+				</li>
+				<li class="lite-subnav__link">
+					<a class="govuk-link govuk-link--no-visited-state" href="#">Footnotes</a>
+				</li>
+			</ul>
 		</div>
 		<div class="govuk-grid-row">
 			{% for item in picklist_items %}
