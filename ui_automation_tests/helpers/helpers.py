@@ -140,9 +140,9 @@ def wait_until_page_is_loaded(driver):
     time_no = 0
     while time_no < 60:
         if driver.execute_script("return document.readyState") == "complete":
-            time.sleep(1)
-            time_no += 1
             break
+        time.sleep(1)
+        time_no += 1
 
 
 def wait_until_menu_is_visible(driver):
