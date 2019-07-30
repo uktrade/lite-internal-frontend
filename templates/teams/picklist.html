@@ -1,0 +1,33 @@
+{% extends 'layouts/base.html' %}
+
+{% block body %}
+
+	<h2 class="govuk-heading-l">Team name!</h2>
+
+	<div class="lite-tabs--fade">
+		<div class="lite-tabs">
+			<a class="lite-tabs__tab">Users</a>
+			<a class="lite-tabs__tab selected">Picklists</a>
+		</div>
+	</div>
+
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-one-third">
+			<a href="#">All</a>
+			<hr>
+			<a href="#">Provisios</a>
+			<a href="#">ECJU Queries</a>
+			<a href="#">Letter Paragraphs</a>
+			<a href="#">Annual Report Summary</a>
+			<a href="#">Standard Advice</a>
+			<a href="#">Footnotes</a>
+		</div>
+		<div class="govuk-grid-row">
+			{% for item in picklist_items %}
+				{{ item.name }}
+				{{ item.text }}
+			{% endfor %}
+		</div>
+	</div>
+
+{% endblock %}

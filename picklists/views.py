@@ -1,25 +1,28 @@
-from django.http import Http404
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from core.builtins.custom_tags import get_string
-from flags.forms import add_flag_form, edit_flag_form
-from picklist_items.services import get_picklists, get_picklist_item, put_picklist_item
-from libraries.forms.generators import form_page
+from picklists.services import get_picklists
 from users.services import get_gov_user
 
 
-class PickList(TemplateView):
+class Picklist(TemplateView):
 
     def get(self, request, **kwargs):
-        data, status_code = get_picklists(request)
-        user_data, status_code = get_gov_user(request, str(request.user.lite_api_user_id))
+        # data, status_code = get_picklists(request)
+        # picklist_items, status_code = get_gov_user(request, str(request.user.lite_api_user_id))
 
         context = {
-            'data': data,
             'title': 'Pick List',
-            'user_data': user_data,
+            'picklist_items': [
+                    {
+                        'id': '123',
+                        'team': '123',
+                        'name': 'my pick list item!!',
+                        'text': '590000sdifjkn dskjfnskd,f jksdn jkfgndcjkaws vdf',
+                        'type': 'Provisio',
+                        'status': 'Activated'
+                    }
+                ],
         }
         return render(request, 'teams/picklist.html', context)
 
