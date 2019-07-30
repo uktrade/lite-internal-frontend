@@ -53,9 +53,6 @@ Feature: I want to add an internal note to a case and view notes
     And I click confirm on confirmation box
     Then note is displayed
 
-
-# TODO: clc query notes not appearing on clc query page
-# TODO: uncomment this test when this is fixed
   @LT-912_add_external_to_clc_query
   Scenario: Add a new exporter visible case note to clc query
     Given I create clc query or clc query has been previously created
@@ -65,4 +62,3 @@ Feature: I want to add an internal note to a case and view notes
     And I click visible to exporters checkbox
     And I click post note
     And I click confirm on confirmation box
-    Then I click on the clc-case previously created

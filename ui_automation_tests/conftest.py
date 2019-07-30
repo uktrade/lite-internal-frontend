@@ -86,7 +86,7 @@ def create_app(driver, register_organisation, apply_for_standard_application):
 
 
 @given('I create clc query or clc query has been previously created')
-def create_clc(driver, register_organisation, apply_for_clc_query,):
+def create_clc(driver, register_organisation, apply_for_clc_query):
     pass
 
 
@@ -154,3 +154,10 @@ def go_to_users(driver):
 def assert_case_is_present(driver, register_organisation, apply_for_clc_query, context):
     case_list_page = CaseListPage(driver)
     assert case_list_page.assert_case_is_present(context.case_id), "clc case ID is not present on page"
+
+
+@when('I click on the clc-case previously created')
+def click_on_clc_case_previously_created(driver, context):
+    case_list_page = CaseListPage(driver)
+    assert case_list_page.assert_case_is_present(context.case_id)
+    driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.case_id + "')]]").click()

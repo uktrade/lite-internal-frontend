@@ -1,10 +1,8 @@
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
-from selenium.webdriver.support.ui import Select
+from pytest_bdd import when, then, parsers, scenarios
 import helpers.helpers as utils
 from pages.header_page import HeaderPage
 from pages.queues_pages import QueuesPages
 from pages.shared import Shared
-from pages.case_list_page import CaseListPage
 
 scenarios('../features/queues.feature', strict_gherkin=False)
 
@@ -65,6 +63,7 @@ def dont_see_queue_in_queue_list(driver, context):
 def move_case_to_new_queue(driver, context):
     driver.find_element_by_css_selector('.govuk-button[href*="move"]').click()
     driver.find_element_by_id(context.queue_name).click()
+    driver.find_element_by_id("New Cases").click()
     Shared(driver).click_submit()
 
 
@@ -95,9 +94,3 @@ def new_queue_shown_in_dropdown(driver, context):
             element.click()
             break
 
-
-@when('I click on the clc-case previously created')
-def assert_case_is_present(driver, context):
-    case_list_page = CaseListPage(driver)
-    assert case_list_page.assert_case_is_present(context.case_id)
-    driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.case_id + "')]]").click()
