@@ -61,11 +61,6 @@ def dont_see_queue_in_queue_list(driver, context):
     assert 'There are no new cases to show.' in driver.find_element_by_css_selector('.govuk-caption-l').text
 
 
-@then('I dont see the clc-case previously created')
-def i_dont_see_the_clc_query_in_the_list(driver, context):
-    assert 'There are no new cases to show.' in driver.find_element_by_css_selector('.govuk-caption-l').text
-
-
 @when('I add case to new queue')
 def move_case_to_new_queue(driver, context):
     driver.find_element_by_css_selector('.govuk-button[href*="move"]').click()
@@ -101,9 +96,8 @@ def new_queue_shown_in_dropdown(driver, context):
             break
 
 
-@then('I click on the clc-case previously created')
 @when('I click on the clc-case previously created')
-def assert_case_is_present(driver, register_organisation, apply_for_clc_query, context):
+def assert_case_is_present(driver, context):
     case_list_page = CaseListPage(driver)
     assert case_list_page.assert_case_is_present(context.case_id)
     driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.case_id + "')]]").click()

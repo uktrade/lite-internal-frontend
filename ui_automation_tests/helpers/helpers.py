@@ -137,8 +137,11 @@ def get_element_index_by_text(elements, text: str):
 
 
 def wait_until_page_is_loaded(driver):
-    while True:
+    time_no = 0
+    while time_no < 60:
         if driver.execute_script("return document.readyState") == "complete":
+            time.sleep(1)
+            time_no += 1
             break
 
 

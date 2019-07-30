@@ -30,8 +30,8 @@ def pytest_addoption(parser):
     if env == 'None':
         env = "dev"
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default="http://localhost:8300", help="url")
-    parser.addoption("--internal_url", action="store", default="http://localhost:8200", help="url")
+    parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
+    parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
 
 
@@ -76,8 +76,18 @@ def login_to_exporter(driver, exporter_url, exporter_sso_login_info, register_or
 
 
 @when('I click on application previously created')
-def click_on_created_application(driver, apply_for_standard_application, context):
+def click_on_created_application(driver, context):
     driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
+
+
+@given('I create application or application has been previously created')
+def create_app(driver, register_organisation, apply_for_standard_application):
+    pass
+
+
+@given('I create clc query or clc query has been previously created')
+def create_clc(driver, register_organisation, apply_for_clc_query,):
+    pass
 
 
 @when('I click submit button')
@@ -89,7 +99,7 @@ def click_on_submit_button(driver):
 @then(parsers.parse('I see error message "{expected_error}"'))
 def error_message_shared(driver, expected_error):
     shared = Shared(driver)
-    assert expected_error in shared.get_text_of_error_message()
+    assert expected_error in shared.get_text_of_error_message(), "expected error message is not displayed"
 
 
 @when('I click sites link')
@@ -143,4 +153,4 @@ def go_to_users(driver):
 @then('I see the clc-case previously created')
 def assert_case_is_present(driver, register_organisation, apply_for_clc_query, context):
     case_list_page = CaseListPage(driver)
-    assert case_list_page.assert_case_is_present(context.case_id)
+    assert case_list_page.assert_case_is_present(context.case_id), "clc case ID is not present on page"
