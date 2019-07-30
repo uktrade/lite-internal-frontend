@@ -174,12 +174,14 @@
           <td class="lite-table__cell">{{ data.case.application.destinations.data.country }}</td>
         </tr>
         {% for ultimate_end_user in data.case.application.ultimate_end_users.data %}
-          <td class="lite-table__cell">{{ ultimate_end_user.name }}</td>
-          <td class="lite-table__cell">Ultimate End User</td>
-          <td class="lite-table__cell">{{ ultimate_end_user.type }}</td>
-          <td class="lite-table__cell">{{ ultimate_end_user.website|default:'None' }}</td>
-          <td class="lite-table__cell">{{ ultimate_end_user.address }}</td>
-          <td class="lite-table__cell">{{ ultimate_end_user.country }}</td>
+            <tr>
+              <td class="lite-table__cell">{{ ultimate_end_user.name }}</td>
+              <td class="lite-table__cell">Ultimate End User</td>
+              <td class="lite-table__cell">{{ ultimate_end_user.type }}</td>
+              <td class="lite-table__cell">{{ ultimate_end_user.website|default:'None' }}</td>
+              <td class="lite-table__cell">{{ ultimate_end_user.address }}</td>
+              <td class="lite-table__cell">{{ ultimate_end_user.country }}</td>
+            </tr>
         {% endfor %}
 	</tbody>
 </table>
