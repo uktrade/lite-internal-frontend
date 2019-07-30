@@ -42,7 +42,7 @@ Feature: I want to define new work queues and the teams they belong to
     And I enter in queue name "Queue to move case to"
     And I go to the internal homepage
     And I click on application previously created
-    And I move case to new queue
+    And I add case to new queue
     And I go to the internal homepage
     And I click on new queue in dropdown
     Then I see previously created application
@@ -56,10 +56,19 @@ Feature: I want to define new work queues and the teams they belong to
   @LT-1125_move_cases
   Scenario: move clc case to different queue
     Given I go to internal homepage
-    And I click on application previously created
-
-
-
+    When I go to queues
+    And I click on add a queue
+    And I enter in queue name "Queue to move case to"
+    And I go to the internal homepage
+    And I click on the clc-case previously created
+    And I add case to new queue
+    And I go to the internal homepage
+    And I click on new queue in dropdown
+    Then I click on the clc-case previously created
+    When I move case to new cases original queue and remove from new queue
+    And I go to the internal homepage
+    And I click on new queue in dropdown
+    Then I dont see the clc-case previously created
 
 
   @LT-1125_error

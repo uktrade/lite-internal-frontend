@@ -11,8 +11,10 @@ from pages.flags_pages import FlagsPages
 from pages.header_page import HeaderPage
 from pages.shared import Shared
 from pages.exporter_hub import ExporterHub
+from pages.case_list_page import CaseListPage
 
 # Screenshot in case of any test failure
+
 
 
 def pytest_exception_interact(node, report):
@@ -136,3 +138,9 @@ def go_to_users(driver):
     header = HeaderPage(driver)
 
     header.open_users()
+
+
+@then('I see the clc-case previously created')
+def assert_case_is_present(driver, register_organisation, apply_for_clc_query, context):
+    case_list_page = CaseListPage(driver)
+    assert case_list_page.assert_case_is_present(context.case_id)
