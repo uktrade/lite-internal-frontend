@@ -1,5 +1,9 @@
 {% extends 'layouts/base.html' %}
 
+{% block back-link %}
+	<a href="{% url 'picklists:picklists' %}?type=provisios" class="govuk-back-link">Back to Provisios</a>
+{% endblock %}
+
 {% block body %}
 
 <h2 class="govuk-heading-l">Team name!</h2>
@@ -20,33 +24,33 @@
 	<div class="govuk-grid-column-one-quarter" style="position: -webkit-sticky; position: sticky; top: 30px;">
 		<ul class="lite-subnav">
 			<li class="lite-subnav__link lite-subnav__link--selected">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">All</a>
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}">All</a>
 			</li>
 			<hr>
 			<li class="lite-subnav__link">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">Provisios</a>
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=provisios">Provisios</a>
 			</li>
 			<li class="lite-subnav__link">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">ECJU Queries</a>
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=ecju_queries">ECJU Queries</a>
 			</li>
 			<li class="lite-subnav__link">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">Letter Paragraphs</a>
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=letter_paragraphs">Letter Paragraphs</a>
 			</li>
 			<li class="lite-subnav__link">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">Annual Report Summary</a>
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=annual_report_summary">Annual Report Summary</a>
 			</li>
 			<li class="lite-subnav__link">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">Standard Advice</a>
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=standard_advice">Standard Advice</a>
 			</li>
 			<li class="lite-subnav__link">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">Footnotes</a>
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=footnotes">Footnotes</a>
 			</li>
 		</ul>
 	</div>
 	<div class="govuk-grid-column-three-quarters">
 		<div style="margin: auto; max-width: 700px;">
 			{% for item in picklist_items %}
-				<h4 class="govuk-heading-s"><a href="#" class="govuk-link govuk-link--no-visited-state">{{ item.name }}</a></h4>
+				<h4 class="govuk-heading-s"><a href="{% url 'picklists:picklist_item' item.id %}" class="govuk-link govuk-link--no-visited-state">{{ item.name }}</a></h4>
 				<div class="lite-picklist-item__text">
 					<p class="govuk-body">
 						{% lorem 10000 w %}
