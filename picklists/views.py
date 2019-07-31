@@ -1,10 +1,10 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView
+
 from flags.forms import edit_flag_form
 from libraries.forms.generators import form_page
 from picklists.forms import add_picklist_item_form
-from django.shortcuts import render, redirect
 from picklists.services import get_picklists, get_picklist_item, post_picklist_item
 
 
