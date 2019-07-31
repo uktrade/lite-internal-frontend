@@ -56,9 +56,6 @@ class ExporterHub():
         self.country = "address.country"
 
 
-    def go_to(self, url):
-        self.driver.get(url)
-
     def click_apply_for_a_licence(self):
         self.driver.find_element_by_css_selector(self.apply_for_a_licence_btn).click()
 
@@ -299,9 +296,6 @@ class ExporterHub():
 
     def click_sites_link(self):
         self.driver.find_element_by_css_selector(self.sites_link).click()
-
-    def get_checked_attribute_of_sites_checkbox(self, no):
-        return self.driver.find_elements_by_css_selector(self.sites_checkbox)[no].get_attribute("checked")
 
     def enter_end_user_name(self, name):
         name_tb = self.driver.find_element_by_id("name")
