@@ -80,3 +80,47 @@ Feature: I want to define new work queues and the teams they belong to
     When I click on application previously created
     And I deselect all queues
     Then I see error message "Select at least one queue"
+
+
+  @LT-1123-view_all_cases @thisonly
+  Scenario: Display all cases and all open cases
+    Given I create application or application has been previously created
+    And I go to internal homepage
+    When I go to queues
+    And I click on add a queue
+    And I enter in queue name "Additional queue"
+    And I go to the internal homepage
+    Then I see previously created application
+    When I click on new queue in dropdown
+    Then There are no cases shown
+#    When I click on All cases queue in dropdown
+#    Then I see previously created application
+#    When I click on Open cases queue in dropdown
+#    Then I see previously created application
+    When I go to the internal homepage
+    And I click on application previously created
+    And I add case to new queue
+    And I go to the internal homepage
+    Then I dont see previously created application
+    When I click on new queue in dropdown
+    Then I see previously created application
+#    When I click on All cases queue in dropdown
+#    Then I see previously created application
+#    When I click on Open cases queue in dropdown
+#    Then I see previously created application
+    When I give myself the required permissions for "Make final decisions"
+    And I go to the internal homepage
+    And I click on new queue in dropdown
+    And I click on application previously created
+    And I click record decision
+    And I "grant" application
+    And I click continue
+    Then I reset the permissions
+    When I go to the internal homepage
+    Then I dont see previously created application
+    When I click on new queue in dropdown
+    Then I see previously created application
+#    When I click on All cases queue in dropdown
+#    Then I see previously created application
+#    When I click on Open cases queue in dropdown
+#    Then I dont see previously created application

@@ -6,12 +6,17 @@ from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
 from fixtures.register_organisation import register_organisation
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query
 
+from ui_automation_tests.pages.roles_pages import RolesPages
+from ui_automation_tests.pages.users_page import UsersPage
+
 import helpers.helpers as utils
 from pages.flags_pages import FlagsPages
 from pages.header_page import HeaderPage
 from pages.shared import Shared
 from pages.exporter_hub import ExporterHub
 from pages.case_list_page import CaseListPage
+from pages.application_page import ApplicationPage
+from pages.record_decision_page import RecordDecision
 
 # Screenshot in case of any test failure
 
@@ -161,3 +166,44 @@ def click_on_clc_case_previously_created(driver, context):
     case_list_page = CaseListPage(driver)
     assert case_list_page.assert_case_is_present(context.case_id)
     driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.case_id + "')]]").click()
+
+
+@when('I click record decision')
+def click_post_note(driver, context):
+    application_page = ApplicationPage(driver)
+    application_page.click_record_decision()
+    context.decision_array = []
+
+
+@when(parsers.parse('I "{grant_or_deny}" application'))
+def grant_or_deny_decision(driver, grant_or_deny):
+    record = RecordDecision(driver)
+    if grant_or_deny == "grant":
+        record.click_on_grant_licence()
+    elif grant_or_deny == "deny":
+        record.click_on_deny_licence()
+
+
+@when(parsers.parse('I give myself the required permissions for "{permission}"'))
+def get_required_permissions(driver, permission):
+    roles_page = RolesPages(driver)
+    user_page = UsersPage(driver)
+    header = HeaderPage(driver)
+    shared = Shared(driver)
+    header.open_users()
+    user_page.click_on_manage_roles()
+    roles_page.click_edit_for_default_role()
+    roles_page.edit_default_role_to_have_permission(permission)
+    shared.click_submit()
+
+@then("I reset the permissions")
+def reset_permissions(driver):
+    roles_page = RolesPages(driver)
+    user_page = UsersPage(driver)
+    header = HeaderPage(driver)
+    shared = Shared(driver)
+    header.open_users()
+    user_page.click_on_manage_roles()
+    roles_page.click_edit_for_default_role()
+    roles_page.remove_all_permissions_from_default_role()
+    shared.click_submit()

@@ -54,9 +54,15 @@ def see_queue_in_queue_list(driver, context):
     assert driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").is_displayed()
 
 
-@then('I dont see previously created application')
+
+@then('There are no cases shown')
 def dont_see_queue_in_queue_list(driver, context):
     assert 'There are no new cases to show.' in driver.find_element_by_css_selector('.govuk-caption-l').text
+
+
+@then('I dont see previously created application')
+def see_queue_in_queue_list(driver, context):
+    assert not driver.find_element_by_css_selector('.lite-cases-table').find_elements_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]")
 
 
 @when('I add case to new queue')
