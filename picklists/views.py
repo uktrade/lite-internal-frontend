@@ -11,10 +11,13 @@ from picklists.services import get_picklists, get_picklist_item, post_picklist_i
 class Picklists(TemplateView):
 
     def get(self, request, **kwargs):
-        picklist_items, status_code = get_picklists(request)
-
-        if not request.GET.get('type'):
+        # Ensure that the page has a type
+        picklist_type = request.GET.get('type')
+        if not picklist_type:
             return redirect(reverse_lazy('picklists:picklists') + '?type=all')
+
+        # Get picklist items depending on the type given
+        picklist_items, status_code = get_picklists(request, picklist_type)
 
         context = {
             'title': 'Picklists',

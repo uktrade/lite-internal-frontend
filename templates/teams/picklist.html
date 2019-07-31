@@ -56,6 +56,8 @@
 						{% lorem 10000 w %}
 					</p>
 				</div>
+			{% empty %}
+				<p class="govuk-caption-l" style="margin-top: 10px;">There aren't any items in this picklist.</p>
 			{% endfor %}
 		</div>
 	</div>
