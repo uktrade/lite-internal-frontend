@@ -48,7 +48,7 @@ def apply_for_standard_application(driver, request, context):
     exporter_hub.click_goods_link()
     driver.find_element_by_css_selector('.govuk-button[href*="add-preexisting"]').click()
     driver.find_elements_by_css_selector('a.govuk-button')[int(1) - 1].click()
-    exporter_hub.add_values_to_good(str("1"), str("123"), "Metres")
+    exporter_hub.add_values_to_good(str("1"), str("123"), "Metre(s)")
     exporter_hub.click_continue()
     exporter_hub.click_on_overview()
     exporter_hub.click_end_user_link()
