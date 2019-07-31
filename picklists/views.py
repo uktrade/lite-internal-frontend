@@ -12,6 +12,10 @@ from users.services import get_gov_user
 class Picklists(TemplateView):
 
     def get(self, request, **kwargs):
+        """
+        Return a list of picklists and show all the relevant items
+        """
+
         # Ensure that the page has a type
         picklist_type = request.GET.get('type')
         if not picklist_type:
@@ -19,7 +23,6 @@ class Picklists(TemplateView):
 
         user, status_code = get_gov_user(request)
         team, status_code = get_team(request, user['user']['team']['id'])
-        # Get picklist items depending on the type given
         picklist_items, status_code = get_picklists(request, picklist_type)
 
         context = {
