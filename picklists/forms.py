@@ -39,11 +39,12 @@ def add_picklist_item_form():
                 back_link=_back_link)
 
 
-# def edit_picklist_item_form():
-#     return Form(title='Edit Pick List Item',
-#                 description='',
-#                 questions=[
-#                     _name,
-#                     _type,
-#                 ],
-#                 back_link=_back_link)
+def edit_picklist_item_form():
+    return Form(title='Edit Pick List Item',
+                description='',
+                questions=[
+                    _name,
+                    _picklist_type,
+                    _text,
+                ],
+                back_link=_back_link)

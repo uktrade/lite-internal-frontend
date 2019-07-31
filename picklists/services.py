@@ -22,6 +22,6 @@ def get_picklist_item(request, pk):
     return data.json(), data.status_code
 
 
-# def put_picklist_item(request, pk, json):
-#     data = put(request, PICKLIST_URL + pk + "/", json)
-#     return data.json(), data.status_code
+def put_picklist_item(request, pk, json):
+    data = put(request, PICKLIST_URL + pk + "/", json)
+    return data.json(), data.status_code

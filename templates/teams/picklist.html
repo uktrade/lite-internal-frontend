@@ -53,7 +53,7 @@
 				<h4 class="govuk-heading-s"><a href="{% url 'picklists:picklist_item' item.id %}" class="govuk-link govuk-link--no-visited-state">{{ item.name }}</a></h4>
 				<div class="lite-picklist-item__text">
 					<p class="govuk-body">
-						{% lorem 10000 w %}
+						{{ item.text }}
 					</p>
 				</div>
 			{% endfor %}
