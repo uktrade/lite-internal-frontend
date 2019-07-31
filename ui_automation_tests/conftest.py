@@ -4,7 +4,7 @@ from pytest_bdd import given, when, then, parsers
 from fixtures.core import context, driver, sso_login_info, invalid_username, exporter_sso_login_info
 from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
 from fixtures.register_organisation import register_organisation
-from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query
+from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_standard_application_with_ueu
 
 import helpers.helpers as utils
 from pages.flags_pages import FlagsPages
@@ -78,7 +78,6 @@ def login_to_exporter(driver, exporter_url, exporter_sso_login_info, register_or
 @when('I click on application previously created')
 def click_on_created_application(driver, context):
     driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
-
 
 
 @when('I click on application previously created with pre incorporated goods')
