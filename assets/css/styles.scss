@@ -42,7 +42,7 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 	hr {
 		display: block;
 		height: 2px;
-		background-color: govuk-colour("grey-3");
+		background-color: govuk-colour("mid-grey");
 		border: none;
 	}
 }
@@ -70,7 +70,7 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 	}
 
 	&:hover:after {
-		background-color: govuk-colour("grey-3");
+		background-color: govuk-colour("mid-grey");
 	}
 }
 
@@ -88,7 +88,7 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 	max-height: 200px;
 	padding-bottom: govuk-spacing(1);
 	margin-bottom: govuk-spacing(6);
-	border-bottom: 2px solid govuk-colour("grey-3");
+	border-bottom: 2px solid govuk-colour("mid-grey");
 	overflow: hidden;
 
 	& > p {
