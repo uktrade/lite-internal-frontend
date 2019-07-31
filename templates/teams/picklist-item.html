@@ -1,0 +1,20 @@
+{% extends 'layouts/two_pane.html' %}
+
+{% block two_thirds %}
+
+<div class="lite-app-bar">
+	<div class="lite-app-bar__content">
+		<h2 class="govuk-heading-l">This is a picklist item!</h2>
+	</div>
+	<div class="lite-app-bar__controls">
+		<a href="#" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+			Edit
+		</a>
+	</div>
+</div>
+
+<p class="govuk-body">
+	{% lorem 10000 w %}
+</p>
+
+{% endblock %}

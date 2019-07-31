@@ -39,6 +39,7 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+
 	hr {
 		display: block;
 		height: 2px;
@@ -50,21 +51,59 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 .lite-subnav__link {
 	position: relative;
 	display: block;
+
 	& > a {
-		line-height: 40px;
+		line-height: 45px;
 		text-decoration: none;
+
 		&:hover {
 			text-decoration: underline;
 		}
 	}
+
+	&:after {
+		content: "";
+		position: absolute;
+		top: 8px;
+		left: -16px;
+		bottom: 8px;
+		width: 4px;
+	}
+
+	&:hover:after {
+		background-color: govuk-colour("grey-3");
+	}
 }
 
-.lite-subnav__link--selected:after {
-	content: "";
-	position: absolute;
-	top: 6px;
-	left: -14px;
-	bottom: 6px;
-	width: 3px;
-	background-color: blue;
+.lite-subnav__link--selected {
+	font-weight: bold;
+
+	&:after {
+		background-color: $govuk-link-colour!important;
+	}
+}
+
+.lite-picklist-item__text {
+	position: relative;
+	display: block;
+	max-height: 200px;
+	padding-bottom: govuk-spacing(1);
+	margin-bottom: govuk-spacing(6);
+	border-bottom: 2px solid govuk-colour("grey-3");
+	overflow: hidden;
+
+	& > p {
+		display: block;
+		line-height: 1.66;
+	}
+
+	&:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: linear-gradient(rgba(govuk-colour("white"), 0) 10%, govuk-colour("white") 90%);
+	}
 }

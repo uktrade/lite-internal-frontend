@@ -2,48 +2,59 @@
 
 {% block body %}
 
-	<h2 class="govuk-heading-l">Team name!</h2>
+<h2 class="govuk-heading-l">Team name!</h2>
 
+<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
 	<div class="lite-tabs--fade">
 		<div class="lite-tabs">
 			<a class="lite-tabs__tab">Users</a>
 			<a class="lite-tabs__tab selected">Picklists</a>
 		</div>
 	</div>
+	<a href="{% url 'picklists:add' %}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+		Add an item
+	</a>
+</div>
 
-	<div class="govuk-grid-row">
-		<div class="govuk-grid-column-one-third">
-			<ul class="lite-subnav">
-				<li class="lite-subnav__link lite-subnav__link--selected">
-					<a class="govuk-link govuk-link--no-visited-state" href="#">All</a>
-				</li>
-				<hr>
-				<li class="lite-subnav__link">
-					<a class="govuk-link govuk-link--no-visited-state" href="#">Provisios</a>
-				</li>
-				<li class="lite-subnav__link">
-					<a class="govuk-link govuk-link--no-visited-state" href="#">ECJU Queries</a>
-				</li>
-				<li class="lite-subnav__link">
-					<a class="govuk-link govuk-link--no-visited-state" href="#">Letter Paragraphs</a>
-				</li>
-				<li class="lite-subnav__link">
-					<a class="govuk-link govuk-link--no-visited-state" href="#">Annual Report Summary</a>
-				</li>
-				<li class="lite-subnav__link">
-					<a class="govuk-link govuk-link--no-visited-state" href="#">Standard Advice</a>
-				</li>
-				<li class="lite-subnav__link">
-					<a class="govuk-link govuk-link--no-visited-state" href="#">Footnotes</a>
-				</li>
-			</ul>
-		</div>
-		<div class="govuk-grid-row">
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-one-quarter" style="position: -webkit-sticky; position: sticky; top: 30px;">
+		<ul class="lite-subnav">
+			<li class="lite-subnav__link lite-subnav__link--selected">
+				<a class="govuk-link govuk-link--no-visited-state" href="#">All</a>
+			</li>
+			<hr>
+			<li class="lite-subnav__link">
+				<a class="govuk-link govuk-link--no-visited-state" href="#">Provisios</a>
+			</li>
+			<li class="lite-subnav__link">
+				<a class="govuk-link govuk-link--no-visited-state" href="#">ECJU Queries</a>
+			</li>
+			<li class="lite-subnav__link">
+				<a class="govuk-link govuk-link--no-visited-state" href="#">Letter Paragraphs</a>
+			</li>
+			<li class="lite-subnav__link">
+				<a class="govuk-link govuk-link--no-visited-state" href="#">Annual Report Summary</a>
+			</li>
+			<li class="lite-subnav__link">
+				<a class="govuk-link govuk-link--no-visited-state" href="#">Standard Advice</a>
+			</li>
+			<li class="lite-subnav__link">
+				<a class="govuk-link govuk-link--no-visited-state" href="#">Footnotes</a>
+			</li>
+		</ul>
+	</div>
+	<div class="govuk-grid-column-three-quarters">
+		<div style="margin: auto; max-width: 700px;">
 			{% for item in picklist_items %}
-				{{ item.name }}
-				{{ item.text }}
+				<h4 class="govuk-heading-s"><a href="#" class="govuk-link govuk-link--no-visited-state">{{ item.name }}</a></h4>
+				<div class="lite-picklist-item__text">
+					<p class="govuk-body">
+						{% lorem 10000 w %}
+					</p>
+				</div>
 			{% endfor %}
 		</div>
 	</div>
+</div>
 
 {% endblock %}
