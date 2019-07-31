@@ -11,7 +11,7 @@
 			<a href="{% url 'picklists:picklists' %}" class="lite-tabs__tab selected">Picklists</a>
 		</div>
 	</div>
-	<a href="{% url 'picklists:add' %}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+	<a href="{% url 'picklists:add' %}?type={{ type }}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
 		Add an item
 	</a>
 </div>

@@ -29,13 +29,20 @@ class Picklists(TemplateView):
             'title': 'Picklists - ' + team['team']['name'],
             'team': team['team'],
             'picklist_items': picklist_items['picklist_items'],
+            'type': picklist_type,
         }
         return render(request, 'teams/picklist.html', context)
 
 
 class AddPicklistItem(TemplateView):
     def get(self, request, **kwargs):
-        return form_page(request, add_picklist_item_form())
+        picklist_type = request.GET.get('type')
+
+        data = {
+            'type': picklist_type
+        }
+
+        return form_page(request, add_picklist_item_form(), data=data)
 
     def post(self, request, **kwargs):
         response, status_code = post_picklist_item(request, request.POST)
@@ -43,7 +50,9 @@ class AddPicklistItem(TemplateView):
         if status_code != 201:
             return form_page(request, add_picklist_item_form(), data=request.POST, errors=response.get('errors'))
 
-        return redirect(reverse_lazy('picklists:picklists'))
+        picklist_type = request.POST['type']
+
+        return redirect(reverse_lazy('picklists:picklists') + '?type=' + picklist_type)
 
 
 class ViewPicklistItem(TemplateView):
@@ -64,7 +73,10 @@ class EditPicklistItem(TemplateView):
 
     def post(self, request, **kwargs):
         response, status_code = put_picklist_item(request, str(kwargs['pk']), request.POST)
+
         if status_code != 200:
             return form_page(request, edit_picklist_item_form(), data=request.POST, errors=response.get('errors'))
 
-        return redirect(reverse_lazy('picklists:picklists'))
+        picklist_type = request.POST['type']
+
+        return redirect(reverse_lazy('picklists:picklists') + '?type=' + picklist_type)
