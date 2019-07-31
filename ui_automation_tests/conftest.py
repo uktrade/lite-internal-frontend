@@ -28,8 +28,8 @@ def pytest_addoption(parser):
     if env == 'None':
         env = "dev"
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
-    parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
+    parser.addoption("--exporter_url", action="store", default="http://localhost:8300", help="url")
+    parser.addoption("--internal_url", action="store", default="http://localhost:8200", help="url")
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
 
 
@@ -75,6 +75,11 @@ def login_to_exporter(driver, exporter_url, exporter_sso_login_info, register_or
 
 @when('I click on application previously created')
 def click_on_created_application(driver, apply_for_standard_application, context):
+    driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
+
+
+@when('I click on application previously created with pre incorporated goods')
+def click_on_created_application_with_ueu(driver, apply_for_standard_application_with_ueu, context):
     driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
 
 

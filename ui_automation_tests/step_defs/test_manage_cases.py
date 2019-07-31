@@ -156,3 +156,7 @@ class ManageCases():
         roles_page.click_edit_for_default_role()
         roles_page.remove_all_permissions_from_default_role()
         shared.click_submit()
+
+    @then('I see an ultimate end user')
+    def i_see_ultimate_end_user_on_page(driver):
+        assert "Ultimate End User" in driver.find_elements_by_css_selector(".")

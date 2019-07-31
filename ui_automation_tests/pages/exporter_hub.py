@@ -46,6 +46,7 @@ class ExporterHub():
         self.type_choices = "type-"
         self.location_link = "location"
         self.end_user_link = "end_users"
+        self.ultimate_end_users_link = "ultimate_end_users"
         self.new_sites_link = ".govuk-button[href*='new']"
         self.name = "name"
         self.address_line_1 = "address.address_line_1"
@@ -335,6 +336,14 @@ class ExporterHub():
 
     def click_end_user_link(self):
         element = self.driver.find_element_by_id(self.end_user_link)
+        self.driver.execute_script("arguments[0].click();", element)
+
+    def click_ultimate_end_user_link(self):
+        element = self.driver.find_element_by_id(self.ultimate_end_users_link)
+        self.driver.execute_script("arguments[0].click();", element)
+
+    def click_add_ultimate_end_user(self):
+        element = self.driver.find_element_by_css_selector("a[href*='/add/']")
         self.driver.execute_script("arguments[0].click();", element)
 
     def click_new_sites_link(self):
