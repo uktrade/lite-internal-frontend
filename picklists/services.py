@@ -1,9 +1,13 @@
-from conf.client import get, post, put
+from conf.client import get, post
 from conf.constants import PICKLIST_URL
 
 
-def get_picklists(request):
-    data = get(request, PICKLIST_URL)
+def get_picklists(request, picklist_type):
+    if type == 'all':
+        data = get(request, PICKLIST_URL)
+    else:
+        data = get(request, PICKLIST_URL + '?type=' + picklist_type)
+
     return data.json(), data.status_code
 
 

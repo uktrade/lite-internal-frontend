@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView
+
 from flags.forms import edit_flag_form
 from libraries.forms.generators import form_page
 from picklists.forms import add_picklist_item_form, edit_picklist_item_form
@@ -11,8 +12,13 @@ from picklists.services import get_picklists, get_picklist_item, post_picklist_i
 class Picklists(TemplateView):
 
     def get(self, request, **kwargs):
-        picklist_items, status_code = get_picklists(request)
-        # picklist_items, status_code = get_gov_user(request, str(request.user.lite_api_user_id))
+        # Ensure that the page has a type
+        picklist_type = request.GET.get('type')
+        if not picklist_type:
+            return redirect(reverse_lazy('picklists:picklists') + '?type=all')
+
+        # Get picklist items depending on the type given
+        picklist_items, status_code = get_picklists(request, picklist_type)
 
         context = {
             'title': 'Picklists',
@@ -27,6 +33,7 @@ class AddPicklistItem(TemplateView):
 
     def post(self, request, **kwargs):
         response, status_code = post_picklist_item(request, request.POST)
+
         if status_code != 201:
             return form_page(request, add_picklist_item_form(), data=request.POST, errors=response.get('errors'))
 
