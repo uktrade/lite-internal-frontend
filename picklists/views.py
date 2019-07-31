@@ -14,6 +14,9 @@ class Picklists(TemplateView):
         picklist_items, status_code = get_picklists(request)
         # picklist_items, status_code = get_gov_user(request, str(request.user.lite_api_user_id))
 
+        if not request.GET.get('type'):
+            return redirect(reverse_lazy('picklists:picklists') + '?type=all')
+
         context = {
             'title': 'Picklists',
             'picklist_items': picklist_items['picklist_items'],
