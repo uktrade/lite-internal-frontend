@@ -1,5 +1,9 @@
 {% extends 'layouts/base.html' %}
 
+{% block back-link %}
+	<a href="{% url 'picklists:picklists' %}?type=provisios" class="govuk-back-link">Back to Provisios</a>
+{% endblock %}
+
 {% block body %}
 
 <h2 class="govuk-heading-l">Team name!</h2>

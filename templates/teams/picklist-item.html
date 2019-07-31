@@ -1,20 +1,31 @@
-{% extends 'layouts/two_pane.html' %}
+{% extends 'layouts/base.html' %}
 
-{% block two_thirds %}
+{% block back-link %}
+	<a href="{% url 'picklists:picklists' %}?type=provisios" class="govuk-back-link">Back to Provisios</a>
+{% endblock %}
+
+{% block body %}
 
 <div class="lite-app-bar">
 	<div class="lite-app-bar__content">
-		<h2 class="govuk-heading-l">This is a picklist item!</h2>
+		<h2 class="govuk-heading-l">{{ picklist_item.name }}</h2>
 	</div>
 	<div class="lite-app-bar__controls">
 		<a href="#" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
-			Edit
+			Edit item
 		</a>
 	</div>
 </div>
 
 <p class="govuk-body">
-	{% lorem 10000 w %}
+	<span class="govuk-caption-m" style="display: inline;">Created by</span>
+	<a class="govuk-link govuk-link--no-visited-state" href="{% url 'teams:team' picklist_item.team %}">{{ picklist_item.team }}</a>
+</p>
+
+<br>
+
+<p class="govuk-body" style="line-height: 1.8; max-width: 700px;">
+	{% lorem 100 w %}
 </p>
 
 {% endblock %}
