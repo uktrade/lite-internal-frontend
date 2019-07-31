@@ -72,7 +72,8 @@ def go_to_exporter_when(driver, exporter_url):
 def login_to_exporter(driver, exporter_url, exporter_sso_login_info, register_organisation):
     driver.get(exporter_url)
     exporter_hub = ExporterHub(driver)
-    exporter_hub.login(exporter_sso_login_info['email'], exporter_sso_login_info['password'])
+    if "login" in driver.current_url:
+        exporter_hub.login(exporter_sso_login_info['email'], exporter_sso_login_info['password'])
 
 
 @when('I click on application previously created')
