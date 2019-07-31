@@ -12,7 +12,6 @@ class Picklists(TemplateView):
 
     def get(self, request, **kwargs):
         picklist_items, status_code = get_picklists(request)
-        # picklist_items, status_code = get_gov_user(request, str(request.user.lite_api_user_id))
 
         if not request.GET.get('type'):
             return redirect(reverse_lazy('picklists:picklists') + '?type=all')
@@ -30,6 +29,7 @@ class AddPicklistItem(TemplateView):
 
     def post(self, request, **kwargs):
         response, status_code = post_picklist_item(request, request.POST)
+
         if status_code != 201:
             return form_page(request, add_picklist_item_form(), data=request.POST, errors=response.get('errors'))
 
