@@ -107,3 +107,7 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 		background: linear-gradient(rgba(govuk-colour("white"), 0) 10%, govuk-colour("white") 90%);
 	}
 }
+
+.lite-tabs__tab {
+	text-decoration: none;
+}

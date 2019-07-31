@@ -1,0 +1,64 @@
+{% extends 'layouts/base.html' %}
+
+{% load humanize %}
+
+{% block back-link %}
+	<a href="/" class="govuk-back-link">Back</a>
+{% endblock %}
+
+	{% if userDeactivated == "true" %}
+		<div class="information information-animated">
+		</div>
+	{% endif %}
+
+{% block body %}
+
+	<h2 class="govuk-heading-l">{{ team.name }}</h2>
+
+	<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
+		<div class="lite-tabs--fade">
+			<div class="lite-tabs">
+				<a href="{% url 'teams:team' %}" class="lite-tabs__tab selected">Users</a>
+				<a href="{% url 'picklists:picklists' %}" class="lite-tabs__tab">Picklists</a>
+			</div>
+		</div>
+	</div>
+
+	{% if users|length %}
+		<table class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="col">Name</th>
+					<th class="govuk-table__header" scope="col">Email</th>
+					<th class="govuk-table__header" scope="col">Status</th>
+                    <th class="govuk-table__header" scope="col"></th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body">
+				{% for user in users %}
+                <tr class="lite-table__row" {% if not user.first_name %}style="background-color: rgba(40, 161, 151, 0.025);"{% endif %}>
+                    <td class="lite-table__cell">
+						{% if user.first_name %}
+							<a href="{% url 'users:user' user.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">
+								{{ user.first_name }} {{ user.last_name }}
+							</a>
+						{% else %}
+							<strong class="govuk-tag govuk-phase-banner__content__tag ">
+								Pending
+							</strong>
+						{% endif %}
+                    </td>
+                    <td class="lite-table__cell">{{ user.email }}</td>
+                    <td class="lite-table__cell">{{ user.status }}</td>
+                    <td class="lite-table__cell">
+                        <a href="{% url 'users:edit' user.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p class="govuk-caption-l">You don't have any users at the moment.</p>
+	{% endif %}
+
+{% endblock %}
