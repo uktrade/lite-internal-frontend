@@ -8,17 +8,19 @@ _name = Question(title='Name',
                  input_type=InputType.INPUT,
                  name='name')
 
-_picklist_type = Select(name='picklist_type',
-                options=[Option('Provisos', 'Provisos'),
-                         Option('ECJU queries', 'ECJU queries'),
-                         Option('Annual Report Summary', 'Annual Report Summary'),
-                         Option('Standard Advice', 'Standard advice')],
+_picklist_type = Select(name='type',
+                options=[Option('proviso', 'Provisos'),
+                         Option('ecju_query', 'ECJU queries'),
+                         Option('letter_paragraph', 'Letter Paragraph'),
+                         Option('annual_report_summary', 'Annual Report Summary'),
+                         Option('standard_advice', 'Standard advice'),
+                         Option('footnotes', 'Footnotes')],
                 title='Type')
 
 _text = Question(title='Add text for picklist item',
                  description='',
                  input_type=InputType.TEXTAREA,
-                 name='description',
+                 name='text',
                  extras={
                      'max_length': 5000,
                  })

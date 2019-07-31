@@ -14,11 +14,13 @@ def get_picklists(request):
 
 def post_picklist_item(request, json):
     data = post(request, PICKLIST_URL, json)
+    print(json)
     return data.json(), data.status_code
 
 
 def get_picklist_item(request, pk):
     data = get(request, PICKLIST_URL + pk)
+    print(data)
     return data.json(), data.status_code
 
 
