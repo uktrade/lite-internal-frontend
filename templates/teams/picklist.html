@@ -23,26 +23,26 @@
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-one-quarter" style="position: -webkit-sticky; position: sticky; top: 30px;">
 		<ul class="lite-subnav">
-			<li class="lite-subnav__link lite-subnav__link--selected">
+			<li class="lite-subnav__link {{ 'all'|add_subnav_selected_class:request.get_full_path }}">
 				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}">All</a>
 			</li>
 			<hr>
-			<li class="lite-subnav__link">
+			<li class="lite-subnav__link {{ 'provisios'|add_subnav_selected_class:request.get_full_path }}">
 				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=provisios">Provisios</a>
 			</li>
-			<li class="lite-subnav__link">
+			<li class="lite-subnav__link {{ 'ecju_queries'|add_subnav_selected_class:request.get_full_path }}">
 				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=ecju_queries">ECJU Queries</a>
 			</li>
-			<li class="lite-subnav__link">
+			<li class="lite-subnav__link {{ 'letter_paragraphs'|add_subnav_selected_class:request.get_full_path }}">
 				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=letter_paragraphs">Letter Paragraphs</a>
 			</li>
-			<li class="lite-subnav__link">
+			<li class="lite-subnav__link {{ 'annual_report_summary'|add_subnav_selected_class:request.get_full_path }}">
 				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=annual_report_summary">Annual Report Summary</a>
 			</li>
-			<li class="lite-subnav__link">
+			<li class="lite-subnav__link {{ 'standard_advice'|add_subnav_selected_class:request.get_full_path }}">
 				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=standard_advice">Standard Advice</a>
 			</li>
-			<li class="lite-subnav__link">
+			<li class="lite-subnav__link {{ 'footnotes'|add_subnav_selected_class:request.get_full_path }}">
 				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=footnotes">Footnotes</a>
 			</li>
 		</ul>
