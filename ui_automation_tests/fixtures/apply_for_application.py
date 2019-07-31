@@ -128,16 +128,21 @@ def apply_for_standard_application_with_ueu(driver, request, context):
     exporter_hub.enter_end_user_address("London")
     exporter_hub.enter_end_user_country("Ukraine")
     exporter_hub.click_continue()
+    context.ueu_type = "government"
+    context.ueu_name = "Mr Smith"
+    context.ueu_website = "https://www.smith.com"
+    context.ueu_address = "London"
+    context.ueu_country = ["UA", "Ukraine"]
     exporter_hub.click_ultimate_end_user_link()
     exporter_hub.click_add_ultimate_end_user()
-    exporter_hub.select_end_user_type("government")
+    exporter_hub.select_end_user_type(context.ueu_type)
     exporter_hub.click_continue()
-    exporter_hub.enter_end_user_name("Mr Smith")
+    exporter_hub.enter_end_user_name(context.ueu_name)
     exporter_hub.click_continue()
-    exporter_hub.enter_end_user_website("https://www.smith.com")
+    exporter_hub.enter_end_user_website(context.ueu_website)
     exporter_hub.click_continue()
-    exporter_hub.enter_end_user_address("London")
-    exporter_hub.enter_end_user_country("Ukraine")
+    exporter_hub.enter_end_user_address(context.ueu_address)
+    exporter_hub.enter_end_user_country(context.ueu_country[1])
     exporter_hub.click_continue()
     exporter_hub.click_on_overview()
     exporter_hub.click_submit_application()

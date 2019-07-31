@@ -158,5 +158,17 @@ class ManageCases():
         shared.click_submit()
 
     @then('I see an ultimate end user')
-    def i_see_ultimate_end_user_on_page(driver):
-        assert "Ultimate End User" in driver.find_element_by_css_selector("body").text
+    def i_see_ultimate_end_user_on_page(driver, context):
+        destinations_table = driver.find_element_by_id("destinations").text
+        assert "Name" in destinations_table
+        assert "Destination Type" in destinations_table
+        assert "Type" in destinations_table
+        assert "Website" in destinations_table
+        assert "Address" in destinations_table
+        assert "Country" in destinations_table
+        assert context.ueu_type in destinations_table
+        assert context.ueu_name in destinations_table
+        assert context.ueu_website in destinations_table
+        assert context.ueu_address in destinations_table
+        assert context.ueu_country[0] in destinations_table
+        assert "Ultimate End User" in destinations_table
