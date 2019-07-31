@@ -79,7 +79,8 @@ def apply_for_standard_application_with_ueu(driver, request, context):
     exporter_hub = ExporterHub(driver)
     exporter_hub.click_goods_tile()
     exporter_hub.click_add_a_good()
-    exporter_hub.enter_description_of_goods("MPG 2.")
+    good_name = "Jelly"
+    exporter_hub.enter_description_of_goods(good_name)
     exporter_hub.select_is_your_good_controlled("Yes")
     exporter_hub.enter_control_code("1234")
     exporter_hub.select_is_your_good_intended_to_be_incorporated_into_an_end_product("Yes")
