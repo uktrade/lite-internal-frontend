@@ -4,10 +4,8 @@ from django.urls import reverse_lazy
 from flags.forms import edit_flag_form
 from libraries.forms.generators import form_page
 from picklists.forms import add_picklist_item_form
-from picklists.services import post_picklist_item
 from django.shortcuts import render, redirect
-from picklists.services import get_picklists
-from users.services import get_gov_user
+from picklists.services import get_picklists, get_picklist_item, post_picklist_item
 
 
 class Picklists(TemplateView):
@@ -35,22 +33,13 @@ class AddPicklistItem(TemplateView):
         return redirect(reverse_lazy('picklists:picklists'))
 
 
-class PicklistItem(TemplateView):
+class ViewPicklistItem(TemplateView):
     def get(self, request, **kwargs):
-        # data, status_code = get_flag(request, str(kwargs['pk']))
-
-        data = {
-                   'id': '84401e06-4e23-41b8-bd1b-cfab21a2d977',
-                   'team': '84401e06-4e23-41b8-bd1b-cfab21a2d977',
-                   'name': 'my pick list item!!',
-                   'text': '590000sdifjkn dskjfnskd,f jksdn jkfgndcjkaws vdf',
-                   'type': 'Provisio',
-                   'status': 'Activated'
-               }
+        picklist_item, status_code = get_picklist_item(request, str(kwargs['pk']))
 
         context = {
-            'title': 'Picklist item!',
-            'picklist_item': data,
+            'title': picklist_item['picklist_item']['name'],
+            'picklist_item': picklist_item['picklist_item'],
         }
         return render(request, 'teams/picklist-item.html', context)
 
