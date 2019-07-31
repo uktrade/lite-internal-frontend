@@ -32,7 +32,7 @@ class Cases(TemplateView):
         Show a list of cases pertaining to that queue
         """
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
-        queues, status_code = get_queues(request)
+        queues, status_code = get_queues(request, include_system_queues=True)
         queue, status_code = get_queue(request, queue_id)
         case_assignments, status_code = get_queue_case_assignments(request, queue_id)
 
