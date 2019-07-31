@@ -15,6 +15,14 @@ _picklist_type = Select(name='picklist_type',
                          Option('Standard Advice', 'Standard advice')],
                 title='Type')
 
+_text = Question(title='Add text for picklist item',
+                 description='',
+                 input_type=InputType.TEXTAREA,
+                 name='description',
+                 extras={
+                     'max_length': 5000,
+                 })
+
 _back_link = BackLink('Back to Pick Lists', reverse_lazy('picklist_items:picklist_items'))
 
 
@@ -24,6 +32,7 @@ def add_picklist_item_form():
                 questions=[
                     _name,
                     _picklist_type,
+                    _text,
                 ],
                 back_link=_back_link)
 
