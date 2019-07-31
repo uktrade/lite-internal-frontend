@@ -159,4 +159,4 @@ class ManageCases():
 
     @then('I see an ultimate end user')
     def i_see_ultimate_end_user_on_page(driver):
-        assert "Ultimate End User" in driver.find_elements_by_css_selector(".")
+        assert "Ultimate End User" in driver.find_element_by_css_selector("body").text
