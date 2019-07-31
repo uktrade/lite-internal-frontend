@@ -40,7 +40,7 @@ def add_picklist_item_form():
 
 
 def edit_picklist_item_form():
-    return Form(title='Edit Pick List Item',
+    return Form(title=get_string('picklist.edit'),
                 description='',
                 questions=[
                     _name,

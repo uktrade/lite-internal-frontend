@@ -11,7 +11,7 @@
 		<h2 class="govuk-heading-l">{{ picklist_item.name }}</h2>
 	</div>
 	<div class="lite-app-bar__controls">
-		<a href="#" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+		<a href="{% url 'picklists:edit' picklist_item.id %}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
 			Edit item
 		</a>
 	</div>

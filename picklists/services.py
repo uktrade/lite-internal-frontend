@@ -1,4 +1,4 @@
-from conf.client import get, post
+from conf.client import get, post, put
 from conf.constants import PICKLIST_URL
 
 
