@@ -343,7 +343,7 @@ class ExporterHub():
         self.driver.execute_script("arguments[0].click();", element)
 
     def click_add_ultimate_end_user(self):
-        element = self.driver.find_element_by_css_selector("a[href*='/add/']")
+        element = self.driver.find_element_by_css_selector("a[href*='add']")
         self.driver.execute_script("arguments[0].click();", element)
 
     def click_new_sites_link(self):
