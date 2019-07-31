@@ -59,6 +59,6 @@ class EditPicklistItem(TemplateView):
     def post(self, request, **kwargs):
         response, status_code = put_picklist_item(request, str(kwargs['pk']), request.POST)
         if status_code != 200:
-            return form_page(request, edit_flag_form(), data=request.POST, errors=response.get('errors'))
+            return form_page(request, edit_picklist_item_form(), data=request.POST, errors=response.get('errors'))
 
-        return redirect(reverse_lazy('flags:flags'))
+        return redirect(reverse_lazy('picklists:picklists'))
