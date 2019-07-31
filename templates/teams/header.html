@@ -1,0 +1,13 @@
+<h2 class="govuk-heading-l">{{ team.name }}</h2>
+
+<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
+	<div class="lite-tabs--fade">
+		<div class="lite-tabs">
+			<a class="lite-tabs__tab">Users</a>
+			<a class="lite-tabs__tab selected">Picklists</a>
+		</div>
+	</div>
+	<a href="{% url 'picklists:add' %}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+		Add an item
+	</a>
+</div>

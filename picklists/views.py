@@ -5,7 +5,6 @@ from django.views.generic import TemplateView
 from flags.forms import edit_flag_form
 from libraries.forms.generators import form_page
 from picklists.forms import add_picklist_item_form, edit_picklist_item_form
-from django.shortcuts import render, redirect
 from picklists.services import get_picklists, get_picklist_item, post_picklist_item, put_picklist_item
 
 
@@ -15,7 +14,7 @@ class Picklists(TemplateView):
         # Ensure that the page has a type
         picklist_type = request.GET.get('type')
         if not picklist_type:
-            return redirect(reverse_lazy('picklists:picklists') + '?type=all')
+            return redirect(reverse_lazy('picklists:picklists') + '?type=proviso')
 
         # Get picklist items depending on the type given
         picklist_items, status_code = get_picklists(request, picklist_type)

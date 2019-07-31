@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back-link %}
-	<a href="{% url 'picklists:picklists' %}?type=provisios" class="govuk-back-link">Back to Provisios</a>
+	<a href="{% url 'picklists:picklists' %}" class="govuk-back-link">Back to picklist</a>
 {% endblock %}
 
 {% block body %}
@@ -25,7 +25,7 @@
 <br>
 
 <p class="govuk-body" style="line-height: 1.8; max-width: 700px;">
-	{% lorem 100 w %}
+	{{ picklist_item.text }}
 </p>
 
 {% endblock %}

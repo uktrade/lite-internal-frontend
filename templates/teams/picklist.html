@@ -1,9 +1,5 @@
 {% extends 'layouts/base.html' %}
 
-{% block back-link %}
-	<a href="{% url 'picklists:picklists' %}?type=provisios" class="govuk-back-link">Back to Provisios</a>
-{% endblock %}
-
 {% block body %}
 
 <h2 class="govuk-heading-l">Team name!</h2>
@@ -11,8 +7,8 @@
 <div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
 	<div class="lite-tabs--fade">
 		<div class="lite-tabs">
-			<a class="lite-tabs__tab">Users</a>
-			<a class="lite-tabs__tab selected">Picklists</a>
+			<a href="{% url 'teams:users' %}" class="lite-tabs__tab">Users</a>
+			<a href="{% url 'teams:picklists' %}" class="lite-tabs__tab selected">Picklists</a>
 		</div>
 	</div>
 	<a href="{% url 'picklists:add' %}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
@@ -23,18 +19,14 @@
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-one-quarter" style="position: -webkit-sticky; position: sticky; top: 30px;">
 		<ul class="lite-subnav">
-			<li class="lite-subnav__link {{ 'all'|add_subnav_selected_class:request.get_full_path }}">
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}">All</a>
+			<li class="lite-subnav__link {{ 'proviso'|add_subnav_selected_class:request.get_full_path }}">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=proviso">Provisos</a>
 			</li>
-			<hr>
-			<li class="lite-subnav__link {{ 'provisios'|add_subnav_selected_class:request.get_full_path }}">
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=provisios">Provisios</a>
+			<li class="lite-subnav__link {{ 'ecju_query'|add_subnav_selected_class:request.get_full_path }}">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=ecju_query">ECJU Queries</a>
 			</li>
-			<li class="lite-subnav__link {{ 'ecju_queries'|add_subnav_selected_class:request.get_full_path }}">
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=ecju_queries">ECJU Queries</a>
-			</li>
-			<li class="lite-subnav__link {{ 'letter_paragraphs'|add_subnav_selected_class:request.get_full_path }}">
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=letter_paragraphs">Letter Paragraphs</a>
+			<li class="lite-subnav__link {{ 'letter_paragraph'|add_subnav_selected_class:request.get_full_path }}">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=letter_paragraph">Letter Paragraphs</a>
 			</li>
 			<li class="lite-subnav__link {{ 'annual_report_summary'|add_subnav_selected_class:request.get_full_path }}">
 				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=annual_report_summary">Annual Report Summary</a>
