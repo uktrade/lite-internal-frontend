@@ -93,10 +93,10 @@ Feature: I want to define new work queues and the teams they belong to
     Then I see previously created application
     When I click on new queue in dropdown
     Then There are no cases shown
-#    When I click on All cases queue in dropdown
-#    Then I see previously created application
-#    When I click on Open cases queue in dropdown
-#    Then I see previously created application
+    When I click on All cases queue in dropdown
+    Then I see previously created application
+    When I click on Open cases queue in dropdown
+    Then I see previously created application
     When I go to the internal homepage
     And I click on application previously created
     And I add case to new queue
@@ -104,10 +104,10 @@ Feature: I want to define new work queues and the teams they belong to
     Then I dont see previously created application
     When I click on new queue in dropdown
     Then I see previously created application
-#    When I click on All cases queue in dropdown
-#    Then I see previously created application
-#    When I click on Open cases queue in dropdown
-#    Then I see previously created application
+    When I click on All cases queue in dropdown
+    Then I see previously created application
+    When I click on Open cases queue in dropdown
+    Then I see previously created application
     When I give myself the required permissions for "Make final decisions"
     And I go to the internal homepage
     And I click on new queue in dropdown
@@ -120,7 +120,7 @@ Feature: I want to define new work queues and the teams they belong to
     Then I dont see previously created application
     When I click on new queue in dropdown
     Then I see previously created application
-#    When I click on All cases queue in dropdown
-#    Then I see previously created application
-#    When I click on Open cases queue in dropdown
-#    Then I dont see previously created application
+    When I click on All cases queue in dropdown
+    Then I see previously created application
+    When I click on Open cases queue in dropdown
+    Then I dont see previously created application
