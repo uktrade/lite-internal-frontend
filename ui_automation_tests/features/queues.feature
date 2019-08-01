@@ -82,7 +82,7 @@ Feature: I want to define new work queues and the teams they belong to
     Then I see error message "Select at least one queue"
 
 
-  @LT-1123-view_all_cases @thisonly
+  @LT-1123-view_all_cases
   Scenario: Display all cases and all open cases
     Given I create application or application has been previously created
     And I go to internal homepage
@@ -93,9 +93,9 @@ Feature: I want to define new work queues and the teams they belong to
     Then I see previously created application
     When I click on new queue in dropdown
     Then There are no cases shown
-    When I click on All cases queue in dropdown
+    When I click on the "All cases" queue in dropdown
     Then I see previously created application
-    When I click on Open cases queue in dropdown
+    When I click on the "Open cases" queue in dropdown
     Then I see previously created application
     When I go to the internal homepage
     And I click on application previously created
@@ -104,9 +104,9 @@ Feature: I want to define new work queues and the teams they belong to
     Then I dont see previously created application
     When I click on new queue in dropdown
     Then I see previously created application
-    When I click on All cases queue in dropdown
+    When I click on the "All cases" queue in dropdown
     Then I see previously created application
-    When I click on Open cases queue in dropdown
+    When I click on the "Open cases" queue in dropdown
     Then I see previously created application
     When I give myself the required permissions for "Make final decisions"
     And I go to the internal homepage
@@ -120,7 +120,7 @@ Feature: I want to define new work queues and the teams they belong to
     Then I dont see previously created application
     When I click on new queue in dropdown
     Then I see previously created application
-    When I click on All cases queue in dropdown
+    When I click on the "All cases" queue in dropdown
     Then I see previously created application
-    When I click on Open cases queue in dropdown
+    When I click on the "Open cases" queue in dropdown
     Then I dont see previously created application

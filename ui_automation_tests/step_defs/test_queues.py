@@ -54,7 +54,6 @@ def see_queue_in_queue_list(driver, context):
     assert driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").is_displayed()
 
 
-
 @then('There are no cases shown')
 def no_cases_shown(driver, context):
     assert 'There are no new cases to show.' in driver.find_element_by_css_selector('.govuk-caption-l').text
@@ -62,7 +61,10 @@ def no_cases_shown(driver, context):
 
 @then('I dont see previously created application')
 def dont_see_queue_in_queue_list(driver, context):
-    assert not driver.find_element_by_css_selector('.lite-cases-table').find_elements_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]")
+    if not driver.find_elements_by_css_selector('.lite-cases-table'):
+        no_cases_shown(driver, context)
+    else:
+        assert not driver.find_element_by_css_selector('.lite-cases-table').find_elements_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]")
 
 
 @when('I add case to new queue')
@@ -90,17 +92,8 @@ def move_case_to_original_queue(driver, context):
     Shared(driver).click_submit()
 
 
-@when(parsers.parse('I click on new queue in dropdown'))
+@when('I click on new queue in dropdown')
 def new_queue_shown_in_dropdown(driver, context):
-    # if queue == 'All cases':
-    #     print('1111ALL CASES')
-    #     queue_name = 'All cases'
-    # elif queue == 'Open cases':
-    #     print('1111OPEN CASES')
-    #     queue_name = 'Open cases'
-    # else:
-    #     print('11111ELSE')
-    #     queue_name = context.queue_name
     driver.find_element_by_id('queue-title').click()
     elements = driver.find_elements_by_css_selector('.lite-dropdown .lite-dropdown--item')
     for idx, element in enumerate(elements):
@@ -110,23 +103,12 @@ def new_queue_shown_in_dropdown(driver, context):
             break
 
 
-@when(parsers.parse('I click on All cases queue in dropdown'))
-def all_cases_queue_shown_in_dropdown(driver):
+@when(parsers.parse('I click on the "{queue_name}" queue in dropdown'))
+def system_queue_shown_in_dropdown(driver, queue_name):
     driver.find_element_by_id('queue-title').click()
     elements = driver.find_elements_by_css_selector('.lite-dropdown .lite-dropdown--item')
     for idx, element in enumerate(elements):
-        if element.text == 'All cases':
-            driver.execute_script("document.getElementsByClassName('lite-dropdown--item')[" + str(idx) + "].scrollIntoView(true);")
-            element.click()
-            break
-
-
-@when(parsers.parse('I click on Open cases queue in dropdown'))
-def open_cases_queue_shown_in_dropdown(driver):
-    driver.find_element_by_id('queue-title').click()
-    elements = driver.find_elements_by_css_selector('.lite-dropdown .lite-dropdown--item')
-    for idx, element in enumerate(elements):
-        if element.text == 'Open cases':
+        if element.text == queue_name:
             driver.execute_script("document.getElementsByClassName('lite-dropdown--item')[" + str(idx) + "].scrollIntoView(true);")
             element.click()
             break
