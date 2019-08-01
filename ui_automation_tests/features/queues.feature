@@ -72,7 +72,6 @@ Feature: I want to define new work queues and the teams they belong to
     And I click on new queue in dropdown
     Then There are no cases shown
 
-
   @LT-1125_error
   Scenario: Move cases error message when not selecting any queues
     Given I create application or application has been previously created
@@ -81,46 +80,27 @@ Feature: I want to define new work queues and the teams they belong to
     And I deselect all queues
     Then I see error message "Select at least one queue"
 
-
   @LT-1123-view_all_cases
-  Scenario: Display all cases and all open cases
+  Scenario: All cases appear on the all cases queue
     Given I create application or application has been previously created
     And I go to internal homepage
-    When I go to queues
-    And I click on add a queue
-    And I enter in queue name "Additional queue"
-    And I go to the internal homepage
-    Then I see previously created application
-    When I click on new queue in dropdown
-    Then There are no cases shown
     When I click on the "All cases" queue in dropdown
     Then I see previously created application
+
+  @LT-1123-view_all_cases
+  Scenario: Open cases appear on the open cases queue
+    Given I create application or application has been previously created
+    And I go to internal homepage
     When I click on the "Open cases" queue in dropdown
     Then I see previously created application
-    When I go to the internal homepage
-    And I click on application previously created
-    And I add case to new queue
+
+  @LT-1123-view_all_cases
+  Scenario: Closed cases dont appear on the open cases queue
+    Given I create application or application has been previously created
+    And I go to internal homepage
+    When I click on application previously created
+    And I click progress application
+    And I select status "Withdrawn" and save
     And I go to the internal homepage
-    Then I dont see previously created application
-    When I click on new queue in dropdown
-    Then I see previously created application
-    When I click on the "All cases" queue in dropdown
-    Then I see previously created application
-    When I click on the "Open cases" queue in dropdown
-    Then I see previously created application
-    When I give myself the required permissions for "Make final decisions"
-    And I go to the internal homepage
-    And I click on new queue in dropdown
-    And I click on application previously created
-    And I click record decision
-    And I "grant" application
-    And I click continue
-    Then I reset the permissions
-    When I go to the internal homepage
-    Then I dont see previously created application
-    When I click on new queue in dropdown
-    Then I see previously created application
-    When I click on the "All cases" queue in dropdown
-    Then I see previously created application
-    When I click on the "Open cases" queue in dropdown
+    And I click on the "Open cases" queue in dropdown
     Then I dont see previously created application
