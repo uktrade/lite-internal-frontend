@@ -52,6 +52,7 @@
 
 	&:hover {
 		border-bottom: 2px solid currentColor;
+
 		svg {
 			opacity: 1;
 		}
@@ -73,12 +74,32 @@
 	}
 
 	&--active {
+		color: $govuk-brand-colour;
+
+		&:hover {
+			color: darken($govuk-brand-colour, 10%);
+		}
+
+		&:active {
+			color: darken($govuk-brand-colour, 20%);
+		}
+
 		svg {
 			opacity: 1;
 		}
 	}
 
 	&--active-desc {
+		color: $govuk-brand-colour;
+
+		&:hover {
+			color: darken($govuk-brand-colour, 10%);
+		}
+
+		&:active {
+			color: darken($govuk-brand-colour, 20%);
+		}
+
 		svg {
 			opacity: 1;
 			transform: scaleY(-1);

@@ -34,7 +34,7 @@ class Cases(TemplateView):
         sort = request.GET.get('sort')
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         queues, status_code = get_queues(request)
-        queue, status_code = get_queue(request, queue_id)
+        queue, status_code = get_queue(request, queue_id, sort)
         case_assignments, status_code = get_queue_case_assignments(request, queue_id)
 
         # Add assigned users to each case

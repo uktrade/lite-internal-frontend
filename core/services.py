@@ -1,3 +1,5 @@
+import json
+
 from conf.client import get
 from conf.constants import DENIAL_REASONS_URL, COUNTRIES_URL, QUEUES_URL
 from libraries.forms.components import Option, Checkboxes
@@ -49,8 +51,18 @@ def get_countries(request, convert_to_options=False):
 # Queues
 
 
-def get_queue(request, pk):
-    data = get(request, QUEUES_URL + pk)
+def get_queue(request, pk, sort=None):
+    if sort:
+        sort_json = sort.split('-')
+        if len(sort_json) == 2:
+            sort = {sort_json[0]: 'desc'}
+        else:
+            sort = {sort_json[0]: 'asc'}
+
+        data = get(request, QUEUES_URL + pk + '?sort=' + json.dumps(sort))
+    else:
+        data = get(request, QUEUES_URL + pk)
+
     return data.json(), data.status_code
 
 
