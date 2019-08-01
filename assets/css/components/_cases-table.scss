@@ -1,4 +1,3 @@
-.lite-cases-table {}
 @mixin table-display {
 	display: grid;
 	grid-template-columns: 30px 1fr 200px 200px 200px;
@@ -15,7 +14,6 @@
 		color: govuk-colour("dark-grey");
 		letter-spacing: 1px;
 		text-transform: uppercase;
-		line-height: 44px!important;
 		margin: 0;
 		padding: 0;
 	}
@@ -26,17 +24,63 @@
 	transition: 0.3s ease;
 	padding: govuk-spacing(3) 0;
 	border-bottom: 1px solid $govuk-border-colour;
+
 	.govuk-checkboxes--small .govuk-checkboxes__label::before {
 		top: 0;
 	}
+
 	.govuk-checkboxes--small .govuk-checkboxes__label::after {
 		top: 7px;
 	}
+
 	* {
 		font-size: 18px;
 	}
+
 	.user {
 		white-space: normal;
 		word-wrap: break-word;
+	}
+}
+
+.lite-cases-table__heading {
+	display: inline-block!important;
+	text-decoration: none;
+	border-bottom: 2px solid transparent;
+	line-height: 30px!important;
+	margin-bottom: 8px;
+
+	&:hover {
+		border-bottom: 2px solid currentColor;
+		svg {
+			opacity: 1;
+		}
+	}
+
+	&:active {
+		color: govuk-colour("black");
+	}
+
+	svg {
+		color: inherit;
+		fill: currentColor;
+		max-width: 14px;
+		* {
+			fill: inherit;
+		}
+		opacity: 0;
+	}
+
+	&--active {
+		opacity: 1;
+		svg {
+			display: block;
+		}
+	}
+
+	&--active-desc {
+		svg {
+			transform: scaleY(-1);
+		}
 	}
 }

@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% load humanize %}
+{% load humanize svg %}
 
 {% block back-link %}{% endblock %}
 
@@ -36,7 +36,31 @@
 		</div>
 	</div>
 
-  {% if data.queue.cases|length %}
+	<div class="govuk-form-group">
+  		<label class="govuk-label" for="sort">
+	    	Filter by case
+	  	</label>
+	  	<select class="govuk-select" id="sort" name="sort">
+	    	<option value="published">Recently published</option>
+	    	<option value="updated" selected>Recently updated</option>
+	    	<option value="views">Most views</option>
+	    	<option value="comments">Most comments</option>
+	  	</select>
+	</div>
+
+	<div class="govuk-form-group">
+  		<label class="govuk-label" for="sort">
+	    	Filter by type
+	  	</label>
+	  	<select class="govuk-select" id="sort" name="sort">
+	    	<option value="published">Recently published</option>
+	    	<option value="updated" selected>Recently updated</option>
+	    	<option value="views">Most views</option>
+	    	<option value="comments">Most comments</option>
+	  	</select>
+	</div>
+
+  	{% if data.queue.cases|length %}
 		<div class="lite-cases-table">
 			<div class="lite-cases-table-header">
 				<h4>
@@ -47,30 +71,27 @@
 						</div>
 					</div>
 				</h4>
-				<h4>
-					Case
-				</h4>
-				<h4>
-					Assignees
-				</h4>
-                <h4>
-					Case type
-				</h4>
-				<!-- <h4>
-					Goods
-				</h4>
-				<h4>
-					Destinations
-				</h4>
-				<h4>
-					Queue
-				</h4>
-				<h4>
-					Flags
-				</h4> -->
-				<h4>
-					Status
-				</h4>
+				<div>
+					<p class="lite-cases-table__heading">
+						Case
+					</p>
+				</div>
+				<div>
+					<p class="lite-cases-table__heading">
+						Assignees
+					</p>
+				</div>
+				<div>
+					<p class="lite-cases-table__heading">
+						Type
+					</p>
+				</div>
+				<div>
+					<a href="?sort=status" class="lite-cases-table__heading">
+						Status
+						{% svg 'chevron' %}
+					</a>
+				</div>
 			</div>
 			{% for case in data.queue.cases %}
 				<div class="lite-cases-table-row">
@@ -123,7 +144,7 @@
 				</div>
 			{% endfor %}
     </div>
-    
+
 
 
 
