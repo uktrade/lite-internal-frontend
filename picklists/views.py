@@ -3,7 +3,8 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from libraries.forms.generators import form_page
-from picklists.forms import add_picklist_item_form, edit_picklist_item_form
+from picklists.forms import add_picklist_item_form, edit_picklist_item_form, deactivate_picklist_item, \
+    reactivate_picklist_item
 from picklists.services import get_picklists, get_picklist_item, post_picklist_item, put_picklist_item
 from teams.services import get_team
 from users.services import get_gov_user
@@ -88,3 +89,43 @@ class EditPicklistItem(TemplateView):
             return form_page(request, self.form, data=request.POST, errors=response.get('errors'))
 
         return redirect(reverse_lazy('picklists:picklist_item', kwargs={'pk': response['picklist_item']['id']}))
+
+
+class DeactivatePicklistItem(TemplateView):
+    picklist_item_id = None
+    picklist_item = None
+    form = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.picklist_item_id = str(kwargs['pk'])
+        self.picklist_item, status_code = get_picklist_item(request, self.picklist_item_id)
+        self.form = deactivate_picklist_item(self.picklist_item)
+
+        return super(DeactivatePicklistItem, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, **kwargs):
+        return form_page(request, self.form)
+
+    # def post(self, request, **kwargs):
+    #     response, status_code = put_picklist_item(request, self.picklist_item_id, request.POST)
+    #
+    #     if status_code != 200:
+    #         return form_page(request, self.form, data=request.POST, errors=response.get('errors'))
+    #
+    #     return redirect(reverse_lazy('picklists:picklist_item', kwargs={'pk': response['picklist_item']['id']}))
+
+
+class ReactivatePicklistItem(TemplateView):
+    picklist_item_id = None
+    picklist_item = None
+    form = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.picklist_item_id = str(kwargs['pk'])
+        self.picklist_item, status_code = get_picklist_item(request, self.picklist_item_id)
+        self.form = reactivate_picklist_item(self.picklist_item)
+
+        return super(ReactivatePicklistItem, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, **kwargs):
+        return form_page(request, self.form)

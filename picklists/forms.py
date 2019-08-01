@@ -43,13 +43,13 @@ def edit_picklist_item_form(picklist_item):
     deactivate_button = Button('Deactivate',
                                'deactivate',
                                ButtonStyle.WARNING,
-                               reverse_lazy('picklists:picklist_item',
+                               reverse_lazy('picklists:deactivate',
                                             kwargs={'pk': picklist_item['picklist_item']['id']}),
                                True)
     activate_button = Button('Activate',
                              'activate',
                              ButtonStyle.SECONDARY,
-                             reverse_lazy('picklists:picklist_item',
+                             reverse_lazy('picklists:deactivate',
                                           kwargs={'pk': picklist_item['picklist_item']['id']}),
                              True)
     if picklist_item['picklist_item']['status'] == 'deactivated':
@@ -75,7 +75,7 @@ def edit_picklist_item_form(picklist_item):
 
 def deactivate_picklist_item(picklist_item):
     return Form(title='Are you sure you want to deactivate ' + picklist_item['picklist_item']['name'] + '?',
-                description='',
+                description='You can always reactivate it later if need be.',
                 questions=[],
                 back_link=BackLink('Back',
                                    reverse_lazy('picklists:edit',
@@ -86,14 +86,13 @@ def deactivate_picklist_item(picklist_item):
                            'cancel',
                            ButtonStyle.SECONDARY,
                            reverse_lazy('picklists:edit',
-                                        kwargs={'pk': picklist_item['picklist_item']['id']}),
-                           True)
+                                        kwargs={'pk': picklist_item['picklist_item']['id']}))
                 ])
 
 
 def reactivate_picklist_item(picklist_item):
     return Form(title='Are you sure you want to reactivate ' + picklist_item['picklist_item']['name'] + '?',
-                description='',
+                description='You can always deactivate it later if need be.',
                 questions=[],
                 back_link=BackLink('Back',
                                    reverse_lazy('picklists:edit',
@@ -104,6 +103,5 @@ def reactivate_picklist_item(picklist_item):
                            'cancel',
                            ButtonStyle.SECONDARY,
                            reverse_lazy('picklists:edit',
-                                        kwargs={'pk': picklist_item['picklist_item']['id']}),
-                           True)
+                                        kwargs={'pk': picklist_item['picklist_item']['id']}))
                 ])
