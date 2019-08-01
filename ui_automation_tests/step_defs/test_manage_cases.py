@@ -112,3 +112,45 @@ class ManageCases():
         #assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[2].text == context.date_time_of_update
         assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[3].text == "None"
         assert driver.find_elements_by_css_selector(".lite-information-board .govuk-label")[4].text == "Standard licence"
+
+    @when(parsers.parse('I give myself the required permissions for "{permission}"'))
+    def get_required_permissions(driver, permission):
+        roles_page = RolesPages(driver)
+        user_page = UsersPage(driver)
+        header = HeaderPage(driver)
+        shared = Shared(driver)
+        header.open_users()
+        user_page.click_on_manage_roles()
+        roles_page.click_edit_for_default_role()
+        roles_page.edit_default_role_to_have_permission(permission)
+        shared.click_submit()
+
+    @then("I reset the permissions")
+    def reset_permissions(driver):
+        roles_page = RolesPages(driver)
+        user_page = UsersPage(driver)
+        header = HeaderPage(driver)
+        shared = Shared(driver)
+        header.open_users()
+        user_page.click_on_manage_roles()
+        roles_page.click_edit_for_default_role()
+        roles_page.remove_all_permissions_from_default_role()
+        shared.click_submit()
+
+    @then('I see an ultimate end user')
+    def i_see_ultimate_end_user_on_page(driver, context):
+        destinations_table = driver.find_element_by_id("destinations").text
+        destinations_table_lower = destinations_table.lower()
+        assert "name" in destinations_table_lower
+        assert "destination type" in destinations_table_lower
+        assert "type" in destinations_table_lower
+        assert "website" in destinations_table_lower
+        assert "address" in destinations_table_lower
+        assert "country" in destinations_table_lower
+        assert "Ultimate End User" in destinations_table
+        assert context.ueu_type in destinations_table
+        assert context.ueu_name in destinations_table
+        assert context.ueu_website in destinations_table
+        assert context.ueu_address in destinations_table
+        assert context.ueu_country[0] in destinations_table
+
