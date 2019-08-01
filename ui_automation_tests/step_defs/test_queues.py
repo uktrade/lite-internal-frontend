@@ -90,13 +90,18 @@ def move_case_to_original_queue(driver, context):
     Shared(driver).click_submit()
 
 
-@when('I click on new queue in dropdown')
-def new_queue_shown_in_dropdown(driver, context):
+@when(parsers.parse('I click on {queue} queue in dropdown'))
+def queue_shown_in_dropdown(driver, queue, context):
+    if queue == 'All cases':
+        queue_name = 'All cases'
+    elif queue == 'Open cases':
+        queue_name = 'Open cases'
+    else:
+        queue_name = context.queue_name
     driver.find_element_by_id('queue-title').click()
     elements = driver.find_elements_by_css_selector('.lite-dropdown .lite-dropdown--item')
     for idx, element in enumerate(elements):
-        if element.text == context.queue_name:
+        if element.text == queue_name:
             driver.execute_script("document.getElementsByClassName('lite-dropdown--item')[" + str(idx) + "].scrollIntoView(true);")
             element.click()
             break
-
