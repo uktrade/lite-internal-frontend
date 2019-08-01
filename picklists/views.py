@@ -105,14 +105,14 @@ class DeactivatePicklistItem(TemplateView):
         return super(DeactivatePicklistItem, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        if self.picklist_item['picklist_item']['status']['key'] == 'Deactivated':
+        if self.picklist_item['picklist_item']['status']['key'] == 'deactivated':
             raise Http404
 
         return form_page(request, self.form)
 
     def post(self, request, **kwargs):
         data = {
-            'status': 'Deactivated'
+            'status': 'deactivated'
         }
 
         put_picklist_item(request, self.picklist_item_id, data)
@@ -132,16 +132,15 @@ class ReactivatePicklistItem(TemplateView):
         return super(ReactivatePicklistItem, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        if self.picklist_item['picklist_item']['status']['key'] != 'Deactivated':
+        if self.picklist_item['picklist_item']['status']['key'] != 'deactivated':
             raise Http404
 
         return form_page(request, self.form)
 
     def post(self, request, **kwargs):
         data = {
-            'status': 'Active'
+            'status': 'active'
         }
 
         put_picklist_item(request, self.picklist_item_id, data)
         return redirect(reverse_lazy('picklists:picklist_item', kwargs={'pk': self.picklist_item['picklist_item']['id']}))
-
