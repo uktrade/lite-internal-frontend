@@ -46,6 +46,8 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 	& > p {
 		display: block;
 		line-height: 1.66;
+		white-space: normal;
+		word-wrap: break-word;
 	}
 
 	&:after {

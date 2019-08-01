@@ -67,16 +67,24 @@ class ViewPicklistItem(TemplateView):
 
 
 class EditPicklistItem(TemplateView):
+    picklist_item_id = None
+    picklist_item = None
+    form = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.picklist_item_id = str(kwargs['pk'])
+        self.picklist_item, status_code = get_picklist_item(request, self.picklist_item_id)
+        self.form = edit_picklist_item_form(self.picklist_item)
+
+        return super(EditPicklistItem, self).dispatch(request, *args, **kwargs)
+
     def get(self, request, **kwargs):
-        picklist_item, status_code = get_picklist_item(request, str(kwargs['pk']))
-        return form_page(request, edit_picklist_item_form(), data=picklist_item['picklist_item'])
+        return form_page(request, self.form, data=self.picklist_item['picklist_item'])
 
     def post(self, request, **kwargs):
-        response, status_code = put_picklist_item(request, str(kwargs['pk']), request.POST)
+        response, status_code = put_picklist_item(request, self.picklist_item_id, request.POST)
 
         if status_code != 200:
-            return form_page(request, edit_picklist_item_form(), data=request.POST, errors=response.get('errors'))
+            return form_page(request, self.form, data=request.POST, errors=response.get('errors'))
 
-        picklist_type = request.POST['type']
-
-        return redirect(reverse_lazy('picklists:picklists') + '?type=' + picklist_type)
+        return redirect(reverse_lazy('picklists:picklist_item', kwargs={'pk': response['picklist_item']['id']}))
