@@ -87,7 +87,7 @@
 					</p>
 				</div>
 				<div>
-					<a href="?sort=status" class="lite-cases-table__heading">
+					<a href="?sort={{ 'status'|table_sort_text:sort }}" class="lite-cases-table__heading {{ 'status'|table_sort:sort }}">
 						Status
 						{% svg 'chevron' %}
 					</a>

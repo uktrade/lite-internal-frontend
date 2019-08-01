@@ -54,3 +54,31 @@ def add_selected_class(key, url):
         return 'lite-menu-item--selected'
 
     return ''
+
+
+@register.filter()
+def table_sort(key, actual_sort):
+    if not actual_sort:
+        return ''
+
+    if key + '-desc' in actual_sort:
+        return 'lite-cases-table__heading--active-desc'
+
+    if key in actual_sort:
+        return 'lite-cases-table__heading--active'
+
+    return ''
+
+
+@register.filter()
+def table_sort_text(key, actual_sort):
+    if not actual_sort:
+        return key
+
+    if key + '-desc' in actual_sort:
+        return ''
+
+    if key in actual_sort:
+        return key + '-desc'
+
+    return key

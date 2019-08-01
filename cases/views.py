@@ -31,6 +31,7 @@ class Cases(TemplateView):
         """
         Show a list of cases pertaining to that queue
         """
+        sort = request.GET.get('sort')
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         queues, status_code = get_queues(request)
         queue, status_code = get_queue(request, queue_id)
@@ -45,6 +46,7 @@ class Cases(TemplateView):
             'queue_id': queue_id,
             'data': queue,
             'title': queue.get('queue').get('name'),
+            'sort': sort,
         }
         return render(request, 'cases/index.html', context)
 

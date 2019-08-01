@@ -65,21 +65,22 @@
 		color: inherit;
 		fill: currentColor;
 		max-width: 14px;
+		opacity: 0;
+
 		* {
 			fill: inherit;
 		}
-		opacity: 0;
 	}
 
 	&--active {
-		opacity: 1;
 		svg {
-			display: block;
+			opacity: 1;
 		}
 	}
 
 	&--active-desc {
 		svg {
+			opacity: 1;
 			transform: scaleY(-1);
 		}
 	}
