@@ -7,6 +7,8 @@ from pages.exporter_hub import ExporterHub
 import helpers.helpers as utils
 
 from pages.header_page import HeaderPage
+from ui_automation_tests.pages.roles_pages import RolesPages
+from ui_automation_tests.pages.users_page import UsersPage
 
 
 class ManageCases():
