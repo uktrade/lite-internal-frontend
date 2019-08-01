@@ -176,42 +176,16 @@ def click_on_clc_case_previously_created(driver, context):
     driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.case_id + "')]]").click()
 
 
-@when('I click record decision')
-def click_post_note(driver, context):
+@when('I click progress application')
+def click_post_note(driver):
     application_page = ApplicationPage(driver)
-    application_page.click_record_decision()
-    context.decision_array = []
+    application_page.click_progress_application()
 
 
-@when(parsers.parse('I "{grant_or_deny}" application'))
-def grant_or_deny_decision(driver, grant_or_deny):
-    record = RecordDecision(driver)
-    if grant_or_deny == "grant":
-        record.click_on_grant_licence()
-    elif grant_or_deny == "deny":
-        record.click_on_deny_licence()
-
-
-@when(parsers.parse('I give myself the required permissions for "{permission}"'))
-def get_required_permissions(driver, permission):
-    roles_page = RolesPages(driver)
-    user_page = UsersPage(driver)
-    header = HeaderPage(driver)
-    shared = Shared(driver)
-    header.open_users()
-    user_page.click_on_manage_roles()
-    roles_page.click_edit_for_default_role()
-    roles_page.edit_default_role_to_have_permission(permission)
-    shared.click_submit()
-
-@then("I reset the permissions")
-def reset_permissions(driver):
-    roles_page = RolesPages(driver)
-    user_page = UsersPage(driver)
-    header = HeaderPage(driver)
-    shared = Shared(driver)
-    header.open_users()
-    user_page.click_on_manage_roles()
-    roles_page.click_edit_for_default_role()
-    roles_page.remove_all_permissions_from_default_role()
-    shared.click_submit()
+@when(parsers.parse('I select status "{status}" and save'))
+def select_status_save(driver, status, context):
+    application_page = ApplicationPage(driver)
+    application_page.select_status(status)
+    context.status = status
+    context.date_time_of_update = utils.get_formatted_date_time_h_m_pm_d_m_y()
+    driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]").click()

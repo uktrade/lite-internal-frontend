@@ -19,12 +19,6 @@ class ManageCases():
     console = logging.StreamHandler()
     log.addHandler(console)
 
-
-    @when('I click progress application')
-    def click_post_note(driver):
-        application_page = ApplicationPage(driver)
-        application_page.click_progress_application()
-
     @when(parsers.parse('I type optional text "{optional_text}"'))
     def type_optional_text(driver, optional_text, context):
         record = RecordDecision(driver)
@@ -62,14 +56,6 @@ class ManageCases():
                     for denial_reason_code in context.decision_array:
                         assert record.get_text_of_denial_reasons_listed(i) == denial_reason_code
                         i += 1
-
-    @when(parsers.parse('I select status "{status}" and save'))
-    def select_status_save(driver, status, context):
-        application_page = ApplicationPage(driver)
-        application_page.select_status(status)
-        context.status = status
-        context.date_time_of_update = utils.get_formatted_date_time_h_m_pm_d_m_y()
-        driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]").click()
 
     @then('the status has been changed in the application')
     def status_has_been_changed_in_header(driver, context):
@@ -156,3 +142,28 @@ class ManageCases():
         assert context.ueu_address in destinations_table
         assert context.ueu_country[0] in destinations_table
 
+    @when('I click record decision')
+    def click_post_note(driver, context):
+        application_page = ApplicationPage(driver)
+        application_page.click_record_decision()
+        context.decision_array = []
+
+    @when(parsers.parse('I "{grant_or_deny}" application'))
+    def grant_or_deny_decision(driver, grant_or_deny):
+        record = RecordDecision(driver)
+        if grant_or_deny == "grant":
+            record.click_on_grant_licence()
+        elif grant_or_deny == "deny":
+            record.click_on_deny_licence()
+
+    @when(parsers.parse('I give myself the required permissions for "{permission}"'))
+    def get_required_permissions(driver, permission):
+        roles_page = RolesPages(driver)
+        user_page = UsersPage(driver)
+        header = HeaderPage(driver)
+        shared = Shared(driver)
+        header.open_users()
+        user_page.click_on_manage_roles()
+        roles_page.click_edit_for_default_role()
+        roles_page.edit_default_role_to_have_permission(permission)
+        shared.click_submit()

@@ -95,6 +95,17 @@ Feature: I want to define new work queues and the teams they belong to
     Then I see previously created application
 
   @LT-1123-view_all_cases
+  Scenario: Closed cases appear on the all cases queue
+    Given I create application or application has been previously created
+    And I go to internal homepage
+    When I click on application previously created
+    And I click progress application
+    And I select status "Withdrawn" and save
+    And I go to the internal homepage
+    And I click on the "All cases" queue in dropdown
+    Then I see previously created application
+
+  @LT-1123-view_all_cases
   Scenario: Closed cases dont appear on the open cases queue
     Given I create application or application has been previously created
     And I go to internal homepage

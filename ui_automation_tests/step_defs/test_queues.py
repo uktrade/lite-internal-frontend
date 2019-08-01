@@ -55,14 +55,14 @@ def see_queue_in_queue_list(driver, context):
 
 
 @then('There are no cases shown')
-def no_cases_shown(driver, context):
+def no_cases_shown(driver):
     assert 'There are no new cases to show.' in driver.find_element_by_css_selector('.govuk-caption-l').text
 
 
 @then('I dont see previously created application')
 def dont_see_queue_in_queue_list(driver, context):
     if not driver.find_elements_by_css_selector('.lite-cases-table'):
-        no_cases_shown(driver, context)
+        no_cases_shown(driver)
     else:
         assert not driver.find_element_by_css_selector('.lite-cases-table').find_elements_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]")
 
@@ -76,7 +76,7 @@ def move_case_to_new_queue(driver, context):
 
 
 @when('I deselect all queues')
-def deselect_all_queues(driver, context):
+def deselect_all_queues(driver):
     driver.find_element_by_css_selector('.govuk-button[href*="move"]').click()
     elements = driver.find_elements_by_css_selector('#checkbox-list .govuk-body')
     for element in elements:
