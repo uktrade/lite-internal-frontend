@@ -49,10 +49,11 @@ def edit_picklist_item_form(picklist_item):
     activate_button = Button('Activate',
                              'activate',
                              ButtonStyle.SECONDARY,
-                             reverse_lazy('picklists:deactivate',
+                             reverse_lazy('picklists:reactivate',
                                           kwargs={'pk': picklist_item['picklist_item']['id']}),
                              True)
-    if picklist_item['picklist_item']['status'] == 'deactivated':
+
+    if picklist_item['picklist_item']['status']['key'] == 'Deactivated':
         button = activate_button
     else:
         button = deactivate_button
@@ -98,7 +99,7 @@ def reactivate_picklist_item(picklist_item):
                                    reverse_lazy('picklists:edit',
                                                 kwargs={'pk': picklist_item['picklist_item']['id']})),
                 buttons=[
-                    Button('Reactivate', 'submit', ButtonStyle.WARNING),
+                    Button('Reactivate', 'submit', ButtonStyle.DEFAULT),
                     Button('Cancel',
                            'cancel',
                            ButtonStyle.SECONDARY,

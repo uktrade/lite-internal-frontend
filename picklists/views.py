@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -104,15 +105,18 @@ class DeactivatePicklistItem(TemplateView):
         return super(DeactivatePicklistItem, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
+        if self.picklist_item['picklist_item']['status']['key'] == 'Deactivated':
+            raise Http404
+
         return form_page(request, self.form)
 
-    # def post(self, request, **kwargs):
-    #     response, status_code = put_picklist_item(request, self.picklist_item_id, request.POST)
-    #
-    #     if status_code != 200:
-    #         return form_page(request, self.form, data=request.POST, errors=response.get('errors'))
-    #
-    #     return redirect(reverse_lazy('picklists:picklist_item', kwargs={'pk': response['picklist_item']['id']}))
+    def post(self, request, **kwargs):
+        data = {
+            'status': 'Deactivated'
+        }
+
+        put_picklist_item(request, self.picklist_item_id, data)
+        return redirect(reverse_lazy('picklists:picklist_item', kwargs={'pk': self.picklist_item['picklist_item']['id']}))
 
 
 class ReactivatePicklistItem(TemplateView):
@@ -128,4 +132,16 @@ class ReactivatePicklistItem(TemplateView):
         return super(ReactivatePicklistItem, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
+        if self.picklist_item['picklist_item']['status']['key'] != 'Deactivated':
+            raise Http404
+
         return form_page(request, self.form)
+
+    def post(self, request, **kwargs):
+        data = {
+            'status': 'Active'
+        }
+
+        put_picklist_item(request, self.picklist_item_id, data)
+        return redirect(reverse_lazy('picklists:picklist_item', kwargs={'pk': self.picklist_item['picklist_item']['id']}))
+
