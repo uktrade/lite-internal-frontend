@@ -66,8 +66,6 @@ def add_selected_class(key, url):
 
 @register.filter()
 def add_subnav_selected_class(key, url):
-    print(url)
-
     if key in url:
         return 'lite-subnav__link--selected'
 
