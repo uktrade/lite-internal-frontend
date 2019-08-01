@@ -43,6 +43,11 @@
 	}
 }
 
+.lite-cases-table__heading[href=""], .lite-cases-table__heading[href="#"] {
+	pointer-events: none;
+	border-color: transparent!important;
+}
+
 .lite-cases-table__heading {
 	display: inline-block!important;
 	text-decoration: none;
