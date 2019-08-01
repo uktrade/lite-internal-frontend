@@ -51,7 +51,7 @@ Feature: I want to define new work queues and the teams they belong to
     And I move case to new cases original queue and remove from new queue
     And I go to the internal homepage
     And I click on new queue in dropdown
-    Then I dont see previously created application
+    Then There are no cases shown
 
 
   @LT-1125_move_cases_clc_query
@@ -70,7 +70,7 @@ Feature: I want to define new work queues and the teams they belong to
     And I move case to new cases original queue and remove from new queue
     And I go to the internal homepage
     And I click on new queue in dropdown
-    Then I dont see previously created application
+    Then There are no cases shown
 
 
   @LT-1125_error
