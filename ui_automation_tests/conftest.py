@@ -17,12 +17,11 @@ from pages.application_page import ApplicationPage
 # Screenshot in case of any test failure
 
 
-
 def pytest_exception_interact(node, report):
     if node and report.failed:
         class_name = node._nodeid.replace(".py::", "_class_")
         name = "{0}_{1}".format(class_name, exporter_url)
-        #utils.save_screenshot(node.funcargs.get("driver"), name)
+        # utils.save_screenshot(node.funcargs.get("driver"), name)
 
 
 # Create driver and url command line adoption
