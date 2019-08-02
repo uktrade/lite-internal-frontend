@@ -425,7 +425,6 @@ class Document(TemplateView):
         response['Content-Disposition'] = f'attachment; filename="{original_file_name}"'
         return response
 
-
 # May be added to a future story, so don't delete :)
 # class DeleteDocument(TemplateView):
 #     def get(self, request, **kwargs):
