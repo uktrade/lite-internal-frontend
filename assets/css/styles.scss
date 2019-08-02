@@ -67,6 +67,7 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 
 .lite-filter-bar--horizontal {
 	background: govuk-colour("light-grey");
+	border: 2px solid darken(govuk-colour("light-grey"), 2%);
 	margin-bottom: govuk-spacing(6);
 	padding: govuk-spacing(5) govuk-spacing(2) (govuk-spacing(5) + 3px) govuk-spacing(2);
 	.govuk-select {
@@ -90,6 +91,11 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 .lite-show-filters-link {
 	display: inline-block;
 	margin-bottom: govuk-spacing(6);
+	text-decoration: none;
+	border-bottom: 1px solid transparent;
+	&:hover {
+		border-color: currentColor;
+	}
 }
 
 .lite-select-wrapper {
