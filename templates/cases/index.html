@@ -61,11 +61,9 @@
             <div class="lite-select-wrapper">
                 <select class="govuk-select" id="status" name="status">
                     <option {% if status == None %}selected{% endif %} value="">Select</option>
-                    <option {% if status == "submitted" %}selected{% endif %} value="submitted">Submitted</option>
-                    <option {% if status == "resubmitted" %}selected{% endif %} value="resubmitted">Resubmitted</option>
-                    <option {% if status == "more_information_required" %}selected{% endif %} value="more_information_required">More information required</option>
-                    <option {% if status == "under_review" %}selected{% endif %} value="under_review">Under review</option>
-                    <option {% if status == "withdrawn" %}selected{% endif %} value="withdrawn">Withdrawn</option>
+                    {% for case_status in statuses.statuses %}
+				        <option value="{{ case_status.status }}" {% if case_status.status == status %}selected{% endif %}>{{ case_status.status|default:"Untitled"|sentence_case }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>

@@ -11,14 +11,14 @@ from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
 from cases.services import post_case_documents, get_case_documents, get_case_document
-from conf import settings, constants
+from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
     put_case_flags
 from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS, OPEN_CASES_SYSTEM_QUEUE_ID, ALL_CASES_SYSTEM_QUEUE_ID
 from conf.decorators import has_permission
-from core.services import get_user_permissions
+from core.services import get_user_permissions, get_statuses
 from flags.services import get_flags_case_level_for_team
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
@@ -33,6 +33,7 @@ class Cases(TemplateView):
         """
         case_type = request.GET.get('case_type')
         status = request.GET.get('status')
+        statuses, status_code = get_statuses(request)
         sort = request.GET.get('sort')
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         queues, status_code = get_queues(request, include_system_queues=True)
@@ -55,6 +56,7 @@ class Cases(TemplateView):
             'sort': sort,
             'case_type': case_type,
             'status': status,
+            'statuses': statuses,
             'current_filter_url': '?' + '&'.join(current_filter_url) + '&' if len(current_filter_url) > 0 else '?',
             'is_system_queue': queue_id == ALL_CASES_SYSTEM_QUEUE_ID or queue_id == OPEN_CASES_SYSTEM_QUEUE_ID,
         }
@@ -151,54 +153,21 @@ class ViewCLCCase(TemplateView):
         return redirect('/cases/clc-query/' + case_id + '#case_notes')
 
 
-class ViewCLCCase(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-        activity, status_code = get_activity(request, case_id)
-
-        context = {
-            'data': case,
-            'activity': activity.get('activity'),
-        }
-        return render(request, 'cases/case/clc-query-case.html', context)
-
-    def post(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        response, status_code = post_case_notes(request, case_id, request.POST)
-
-        if status_code != 201:
-
-            errors = response.get('errors')
-            if errors.get('text'):
-                error = errors.get('text')[0]
-                error = error.replace('This field', 'Case note')
-                error = error.replace('this field', 'the case note')  # TODO: Move to API
-
-            else:
-                error_list = []
-                for key in errors:
-                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-                error = "\n".join(error_list)
-            return error_page(request, error)
-
-        return redirect('/cases/clc-query/' + case_id + '#case_notes')
-
-
 class ManageCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
+        statuses, status_code = get_statuses(request)
+
         if not case['case']['is_clc']:
-            context = {
-                'data': case,
-                'title': 'Manage ' + case.get('case').get('application').get('name'),
-            }
+            title = 'Manage ' + case.get('case').get('application').get('name')
         else:
-            context = {
-                'data': case,
-                'title': 'Manage CLC query case',
-            }
+            title = 'Manage CLC query case'
+        context = {
+            'data': case,
+            'title': title,
+            'statuses': statuses
+        }
 
         return render(request, 'cases/manage.html', context)
 
