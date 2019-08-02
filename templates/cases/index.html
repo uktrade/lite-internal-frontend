@@ -24,9 +24,9 @@
 			</label>
 			<div class="lite-select-wrapper">
 				<select class="govuk-select" id="case_type" name="case_type">
-					<option value="" selected disabled>Select</option>
-            <option value={{ "Licence application"|urlencode }}>Licence application</option>
-            <option value="{{ "CLC query"|urlencode }}">CLC query</option>
+					<option {% if case_type == None %}selected{% endif %} value="" disabled>Select</option>
+            		<option {% if case_type ==  "Licence application"|urlencode %}selected{% endif %} value={{ "Licence application"|urlencode }}>Licence application</option>
+            		<option {% if case_type == "CLC query"|urlencode %}selected{% endif %} value="{{ "CLC query"|urlencode }}">CLC query</option>
 				</select>
 			</div>
   		</div>
@@ -36,12 +36,12 @@
 			</label>
 			<div class="lite-select-wrapper">
 				<select class="govuk-select" id="status" name="status">
-					<option value="" selected disabled>Select</option>
-					<option value="submitted">Submitted</option>
-					<option value="resubmitted">Resubmitted</option>
-					<option value="more_information_required">More information required</option>
-					<option value="under_review">Under review</option>
-					<option value="withdrawn">Withdrawn</option>
+					<option {% if status == None %}selected{% endif %} selected disabled>Select</option>
+					<option {% if status == "submitted" %}selected{% endif %} value="submitted">Submitted</option>
+					<option {% if status == "resubmitted" %}selected{% endif %} value="resubmitted">Resubmitted</option>
+					<option {% if status == "more_information_required" %}selected{% endif %} value="more_information_required">More information required</option>
+					<option {% if status == "under_review" %}selected{% endif %} value="under_review">Under review</option>
+					<option {% if status == "withdrawn" %}selected{% endif %} value="withdrawn">Withdrawn</option>
 				</select>
 			</div>
 		</div>

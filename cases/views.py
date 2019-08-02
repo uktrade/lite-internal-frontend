@@ -49,6 +49,8 @@ class Cases(TemplateView):
             'data': queue,
             'title': queue.get('queue').get('name'),
             'sort': sort,
+			'case_type': case_type,
+			'status': status,
         }
         return render(request, 'cases/index.html', context)
 
