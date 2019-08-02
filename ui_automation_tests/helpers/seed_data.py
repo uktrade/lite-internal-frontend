@@ -5,7 +5,7 @@ from conf.settings import env
 
 class SeedData:
     base_url = 'http://localhost:8100'
-    gov_user_email = 'test-uat-user@digital.trade.gov.uk'
+    gov_user_email = env('TEST_SSO_EMAIL')
     exporter_user_email = env('TEST_EXPORTER_SSO_EMAIL')
 
     gov_user_request_data = {
@@ -19,7 +19,7 @@ class SeedData:
 
     request_data = {
         "organisation": {
-            "name": "ExporterOrg",
+            "name": "Test Org",
             "eori_number": "1234567890AAA",
             "sic_number": "2345",
             "vat_number": "GB1234567",
@@ -80,7 +80,8 @@ class SeedData:
 
     }
             
-    def __init__(self, logging=True):
+    def __init__(self, api_url, logging=True):
+        self.base_url = api_url
         self.auth_gov_user()
         self.setup_org()
         self.auth_export_user()

@@ -2,7 +2,7 @@ import os
 from pytest_bdd import given, when, then, parsers
 
 from fixtures.core import context, driver, sso_login_info, invalid_username, exporter_sso_login_info
-from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
+from fixtures.urls import exporter_url, internal_url, sso_sign_in_url, api_url
 from fixtures.register_organisation import register_organisation
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_standard_application_with_ueu
 
@@ -29,10 +29,18 @@ def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
     if env == 'None':
         env = "dev"
+
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
-    parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
+    
+    if env == 'local':
+        parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
+        parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
+        parser.addoption("--lite_api_url", action="store", default="http://localhost:8100", help="url")
+    else:
+        parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
+        parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
+        parser.addoption("--lite_api_url", action="store", default="https://lite-api-" + env + ".london.cloudapps.digital/", help="url")
 
 
 @given('I go to exporter homepage')

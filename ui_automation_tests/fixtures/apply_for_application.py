@@ -43,9 +43,9 @@ def apply_for_standard_application_api(driver, request, context):
 
 
 @fixture(scope="session")
-def apply_for_standard_application(driver, request, context):
+def apply_for_standard_application(driver, request, exporter_url, context):
     exporter_hub = ExporterHub(driver)
-    driver.get(request.config.getoption("--exporter_url"))
+    driver.get(exporter_url)
     if "login" in driver.current_url:
         exporter_hub.login(env('TEST_EXPORTER_SSO_EMAIL'),
                            env('TEST_EXPORTER_SSO_PASSWORD'))
