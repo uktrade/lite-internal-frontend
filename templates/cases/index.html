@@ -32,9 +32,12 @@
 		</div>
 	</div>
 
-	<a href="#" class="govuk-link govuk-link--no-visited-state lite-show-filters-link">+ Show filters</a>
+	<div class="lite-js-only">
+		<a href="#" onclick="toggleFilters()" id="show-filters-link" class="govuk-link govuk-link--no-visited-state lite-show-filters-link">+ Show filters</a>
+		<a href="#" onclick="toggleFilters()" id="hide-filters-link" class="govuk-link govuk-link--no-visited-state lite-hide-filters-link">- Hide filters</a>
+	</div>
 
-	<form action="{% url 'cases:cases'%}" method="get">
+	<form id="filters" action="{% url 'cases:cases'%}" method="get">
 
 		<div class="govuk-grid-row lite-filter-bar--horizontal">
 	  		<div class="govuk-grid-column-one-quarter">
@@ -170,6 +173,27 @@
 </form>
 
 <script>
+	$("#filters").hide();
+	$("#show-filters-link").show();
+	$("#hide-filters-link").hide();
+
+	{% if case_type or status %}
+		$("#filters").show();
+		$("#show-filters-link").hide();
+		$("#hide-filters-link").show();
+	{% endif %}
+
+	function toggleFilters() {
+		$("#filters").toggle();
+		if ($("#filters").is(':visible')) {
+			$("#show-filters-link").hide();
+			$("#hide-filters-link").show();
+		} else {
+			$("#show-filters-link").show();
+			$("#hide-filters-link").hide();
+		}
+	}
+
 	function toggleDropdown() {
 		$(".lite-dropdown-background").toggle();
 		$("#queues").toggleClass('lite-dropdown--visible');

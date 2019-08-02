@@ -49,8 +49,8 @@ class Cases(TemplateView):
             'data': queue,
             'title': queue.get('queue').get('name'),
             'sort': sort,
-			'case_type': case_type,
-			'status': status,
+            'case_type': case_type,
+            'status': status,
         }
         return render(request, 'cases/index.html', context)
 
@@ -419,7 +419,6 @@ class Document(TemplateView):
         response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
         response['Content-Disposition'] = f'attachment; filename="{original_file_name}"'
         return response
-
 
 # May be added to a future story, so don't delete :)
 # class DeleteDocument(TemplateView):
