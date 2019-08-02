@@ -4,7 +4,7 @@ from conf.settings import env
 
 
 class SeedData:
-    base_url = 'http://localhost:8100'
+    base_url = ''
     gov_user_email = env('TEST_SSO_EMAIL')
     exporter_user_email = env('TEST_EXPORTER_SSO_EMAIL')
 
@@ -16,10 +16,11 @@ class SeedData:
     export_headers = {'content-type': 'application/json'}
     context = {}
     logging = True
+    org_name = "Test Org"
 
     request_data = {
         "organisation": {
-            "name": "Test Org",
+            "name": org_name,
             "eori_number": "1234567890AAA",
             "sic_number": "2345",
             "vat_number": "GB1234567",
@@ -81,7 +82,7 @@ class SeedData:
     }
             
     def __init__(self, api_url, logging=True):
-        self.base_url = api_url
+        self.base_url = api_url.rstrip('/')
         self.auth_gov_user()
         self.setup_org()
         self.auth_export_user()
@@ -126,7 +127,7 @@ class SeedData:
     def find_org_by_name(self):
         response = self.make_request("GET", url='/organisations/')
         organisations = json.loads(response.text)['organisations']
-        organisation = next((item for item in organisations if item["name"] == "ExporterOrg"), None)
+        organisation = next((item for item in organisations if item["name"] == self.org_name), None)
         return organisation
 
     def get_org_primary_site_id(self, org_id):
