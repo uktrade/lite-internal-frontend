@@ -72,11 +72,14 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 	.govuk-select {
 		display: block;
 		width: 100%;
+		border-radius: 0px;
+		-webkit-appearance: none;
+		-webkit-border-radius: 0px;
+		text-indent: 5px;
 	}
 	.govuk-label {
+		@include govuk-font($size: 14, $weight: bold);
 		display: block;
-		font-size: 14px;
-		font-weight: bold;
 		color: govuk-colour("dark-grey");
 		letter-spacing: 1px;
 		text-transform: uppercase;
@@ -87,4 +90,22 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 .lite-show-filters-link {
 	display: inline-block;
 	margin-bottom: govuk-spacing(6);
+}
+
+.lite-select-wrapper {
+	position: relative;
+	&:after {
+		content: "";
+		position: absolute;
+		right: govuk-spacing(2);
+		top: 0;
+		bottom: 14px;
+		display: inline-block;
+		width: 20px;
+		background-image: url("/assets/images/chevron.svg");
+		background-size: 20px 10px;
+		background-repeat: no-repeat;
+		transform: scaleY(-1);
+		pointer-events: none;
+	}
 }
