@@ -18,6 +18,7 @@
 <form action="{% url 'cases:cases'%}" method="get">
 
 	<div class="govuk-grid-row lite-filter-bar--horizontal">
+		<input type="hidden" name="sort" value="{{ sort }}">
   		<div class="govuk-grid-column-one-quarter">
 			<label class="govuk-label" for="case_type">
 				Filter by case type
