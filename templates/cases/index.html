@@ -2,7 +2,7 @@
 
 {% load humanize svg %}
 
-{% block back-link %}{% endblock %}
+{% block back_link %}{% endblock %}
 
 {% block body %}
 
@@ -71,14 +71,12 @@
   	{% if data.queue.cases|length %}
 		<div class="lite-cases-table">
 			<div class="lite-cases-table-header">
-				<h4>
-					<div class="govuk-checkboxes govuk-checkboxes--small">
-						<div class="govuk-checkboxes__item">
-							<input id="select-all-checkbox" class="govuk-checkboxes__input" type="checkbox">
-							<label class="govuk-label govuk-checkboxes__label"></label>
-						</div>
+				<div class="govuk-checkboxes govuk-checkboxes--small">
+					<div class="govuk-checkboxes__item">
+						<input id="select-all-checkbox" class="govuk-checkboxes__input" type="checkbox">
+						<label class="govuk-label govuk-checkboxes__label"></label>
 					</div>
-				</h4>
+				</div>
 				<div>
 					<a href="#" class="lite-cases-table__heading">
 						Case

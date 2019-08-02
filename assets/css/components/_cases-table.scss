@@ -1,3 +1,5 @@
+$lite-table-border: 2px solid darken(govuk-colour("light-grey"), 2%);
+
 @mixin table-display {
 	display: grid;
 	grid-template-columns: 30px 1fr 200px 200px 200px;
@@ -6,7 +8,7 @@
 
 .lite-cases-table-header {
 	@include table-display;
-	border-bottom: 1px solid $govuk-border-colour;
+	border-bottom: $lite-table-border;
 
 	* {
 		@include govuk-font($size: 14, $weight: bold);
@@ -17,13 +19,17 @@
 		margin: 0;
 		padding: 0;
 	}
+
+	.govuk-checkboxes {
+		margin-top: -4px;
+	}
 }
 
 .lite-cases-table-row {
 	@include table-display;
 	transition: 0.3s ease;
 	padding: govuk-spacing(3) 0;
-	border-bottom: 1px solid $govuk-border-colour;
+	border-bottom: $lite-table-border;
 
 	.govuk-checkboxes--small .govuk-checkboxes__label::before {
 		top: 0;
