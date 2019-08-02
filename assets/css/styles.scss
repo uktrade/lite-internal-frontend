@@ -103,6 +103,15 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 		text-transform: uppercase;
 		margin-bottom: govuk-spacing(2);
 	}
+	.govuk-button--secondary {
+		background-color: white;
+		&:hover {
+			background-color: darken(govuk-colour("light-grey"), 5%);
+		}
+		&:active {
+			background-color: darken(govuk-colour("light-grey"), 10%);
+		}
+	}
 }
 
 .lite-show-filters-link, .lite-hide-filters-link {
