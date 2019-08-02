@@ -31,11 +31,12 @@ class Cases(TemplateView):
         """
         Show a list of cases pertaining to that queue
         """
-        filter = request.GET.getlist('filter')
+        case_type = request.GET.get('case_type')
+        status = request.GET.get('status')
         sort = request.GET.get('sort')
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         queues, status_code = get_queues(request)
-        queue, status_code = get_queue(request, queue_id, filter, sort)
+        queue, status_code = get_queue(request, queue_id, case_type, status, sort)
         case_assignments, status_code = get_queue_case_assignments(request, queue_id)
 
         # Add assigned users to each case
