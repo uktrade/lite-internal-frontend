@@ -10,7 +10,7 @@ from helpers.utils import Timer, get_or_create_attr
 
 
 @fixture(scope="session")
-def apply_for_standard_application_api(driver, request, context):
+def apply_for_standard_application(driver, request, context):
     timer = Timer()
     api = get_or_create_attr(context, 'api', lambda: SeedData(logging=True))
 
@@ -43,7 +43,7 @@ def apply_for_standard_application_api(driver, request, context):
 
 
 @fixture(scope="session")
-def apply_for_standard_application(driver, request, exporter_url, context):
+def apply_for_standard_application_old(driver, request, exporter_url, context):
     exporter_hub = ExporterHub(driver)
     driver.get(exporter_url)
     if "login" in driver.current_url:
