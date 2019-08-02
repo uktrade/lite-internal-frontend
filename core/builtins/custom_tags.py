@@ -80,6 +80,7 @@ def table_sort_text(key, actual_sort):
         return ''
 
 
+@register.filter()
 def add_subnav_selected_class(key, url):
     if key in url:
         return 'lite-subnav__link--selected'

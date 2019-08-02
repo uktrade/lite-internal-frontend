@@ -60,7 +60,7 @@
             </label>
             <div class="lite-select-wrapper">
                 <select class="govuk-select" id="status" name="status">
-                    <option {% if status == None %}selected{% endif %}  value="">Select</option>
+                    <option {% if status == None %}selected{% endif %} value="">Select</option>
                     <option {% if status == "submitted" %}selected{% endif %} value="submitted">Submitted</option>
                     <option {% if status == "resubmitted" %}selected{% endif %} value="resubmitted">Resubmitted</option>
                     <option {% if status == "more_information_required" %}selected{% endif %} value="more_information_required">More information required</option>
@@ -75,10 +75,10 @@
             </label>
             <div class="lite-buttons-row">
                 <button type="submit" form="filters" class="govuk-button" style="margin: 0;">
-                    Apply Filters
+                    Apply filters
                 </button>
                 <a href="{% url 'cases:cases' %}?queue={{ queue_id }}" class="govuk-button govuk-button--secondary" style="margin-bottom: 0;">
-                    Clear Filters
+                    Clear filters
                 </a>
             </div>
         </div>
