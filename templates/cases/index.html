@@ -71,9 +71,14 @@
 				<label class="govuk-label" for="filter" style="visibility: collapse;">
 					--
 				</label>
-				<button type="submit" class="govuk-button" style="margin: 0;">
-					Apply Filter
-				</button>
+				<div class="lite-buttons-row">
+					<button type="submit" class="govuk-button" style="margin: 0;">
+						Apply Filter
+					</button>
+					<a href="{% url 'cases:cases' %}?queue={{ queue_id }}" class="govuk-button govuk-button--secondary" style="margin-bottom: 0;">
+						Clear filters
+					</a>
+				</div>
 			</div>
 		</div>
 
