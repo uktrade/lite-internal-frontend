@@ -67,6 +67,11 @@ def table_sort(key, actual_sort):
     if key in actual_sort:
         return 'lite-cases-table__heading--active'
 
+
+def add_selected_class(key, url):
+    if key in url:
+        return 'lite-menu-item--selected'
+
     return ''
 
 
@@ -77,5 +82,10 @@ def table_sort_text(key, actual_sort):
 
     if key + '-asc' in actual_sort:
         return key + '-desc'
+
+
+def add_subnav_selected_class(key, url):
+    if key in url:
+        return 'lite-subnav__link--selected'
 
     return ''
