@@ -18,22 +18,22 @@
 <form action="{% url 'cases:cases'%}" method="get">
 
     <div class="govuk-form-group">
-        <label class="govuk-label" for="filter">
+        <label class="govuk-label" for="case_type">
             Filter by case type
         </label>
-        <select class="govuk-select" id="filter" name="filter">
+        <select class="govuk-select" id="case_type" name="case_type">
             <option value="" selected disabled>select a case type</option>
-            <option value="License application">License application</option>
-            <option value="CLC query">CLC query</option>
+            <option value="License%20application">License application</option>
+            <option value="CLC%20query">CLC query</option>
         </select>
     </div>
 
     <div class="govuk-form-group">
-        <label class="govuk-label" for="filter">
-            Filter by case status
+        <label class="govuk-label" for="status">
+            Filter by status
         </label>
-        <select class="govuk-select" id="filter" name="filter">
-            <option value="" selected disabled>select a case status</option>
+        <select class="govuk-select" id="status" name="status">
+            <option value="" selected disabled>select a status</option>
             <option value="submitted">Submitted</option>
             <option value="resubmitted">Resubmitted</option>
             <option value="more_information_required">More information required</option>

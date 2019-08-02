@@ -26,13 +26,12 @@ def post_queues(request, json):
     return data.json(), data.status_code
 
 
-def get_queue(request, pk, sort=None, filter=None):
+def get_queue(request, pk, filter=None, sort=None):
     filter_and_sort = []
 
     if filter:
-        filter_json = sort.split('-')
-        filter = filter
-        filter_and_sort.append('filter=' + sort)
+        # filter = json.dumps()
+        filter_and_sort.append('filter=' + filter)
 
     if sort:
         sort_json = sort.split('-')
