@@ -64,3 +64,27 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 .lite-tabs__tab {
 	text-decoration: none;
 }
+
+.lite-filter-bar--horizontal {
+	background: govuk-colour("light-grey");
+	margin-bottom: govuk-spacing(6);
+	padding: govuk-spacing(5) govuk-spacing(2) (govuk-spacing(5) + 3px) govuk-spacing(2);
+	.govuk-select {
+		display: block;
+		width: 100%;
+	}
+	.govuk-label {
+		display: block;
+		font-size: 14px;
+		font-weight: bold;
+		color: govuk-colour("dark-grey");
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		margin-bottom: govuk-spacing(2);
+	}
+}
+
+.lite-show-filters-link {
+	display: inline-block;
+	margin-bottom: govuk-spacing(6);
+}
