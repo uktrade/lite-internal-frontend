@@ -13,8 +13,8 @@ Feature: I want to add case-level flags to a case and view them
     When I go to the internal homepage
     When I click on application previously created
     And I click edit flags link
-    And I assign flags to the case
-    Then Number of assigned flags is '1'
+    And I select previously created flag
+    Then The previously created flag is assigned to the case
     When I click edit flags link
-    And I unassign flags from the case
-    Then Number of assigned flags is '0'
+    And I select previously created flag
+    Then The previously created flag is not assigned to the case

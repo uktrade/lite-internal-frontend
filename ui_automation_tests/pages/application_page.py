@@ -21,7 +21,8 @@ class ApplicationPage():
         self.activity_dates = ".lite-activity-item .govuk-hint"
         self.activity_user = ".user"
         self.is_visible_to_exporter_checkbox_id = 'is_visible_to_exporter'
-        self.edit_case_flags = 'EditCaseFlags'
+        self.edit_case_flags = 'application-edit-case-flags'
+        self.case_flags = 'application-case-flags'
 
     def click_visible_to_exporter_checkbox(self):
         self.driver.find_element_by_id(self.is_visible_to_exporter_checkbox_id).click()
@@ -80,3 +81,8 @@ class ApplicationPage():
     def click_edit_case_flags(self):
         edit_cases_btn = self.driver.find_element_by_id(self.edit_case_flags)
         edit_cases_btn.click()
+        
+    def is_flag_applied(self, flag_id):
+        case_flags = self.driver.find_element_by_id(self.case_flags)
+        count = len(case_flags.find_elements_by_id(flag_id))
+        return count == 1

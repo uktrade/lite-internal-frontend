@@ -1,8 +1,16 @@
 from conf.settings import env
 import os
+import types
 from selenium import webdriver
 from pytest import fixture
 
+
+def timeout_off(self):
+    self.implicitly_wait(0)
+
+
+def timeout_on(self):
+    self.implicitly_wait(10)
 
 # Create driver fixture that initiates chrome
 @fixture(scope="session", autouse=True)
@@ -20,8 +28,11 @@ def driver(request):
             browser = webdriver.Chrome("chromedriver", chrome_options=chrome_options)
         else:
             browser = webdriver.Chrome(chrome_options=chrome_options)
+
+        browser.timeout_off = types.MethodType(timeout_off, browser)
+        browser.timeout_on = types.MethodType(timeout_on, browser)
         browser.get("about:blank")
-        browser.implicitly_wait(10)
+        browser.timeout_on()
         return browser
     else:
         print('Only Chrome is supported at the moment')
