@@ -6,9 +6,6 @@ from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
 from fixtures.register_organisation import register_organisation
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_standard_application_with_ueu
 
-from ui_automation_tests.pages.roles_pages import RolesPages
-from ui_automation_tests.pages.users_page import UsersPage
-
 import helpers.helpers as utils
 from pages.flags_pages import FlagsPages
 from pages.header_page import HeaderPage
@@ -16,7 +13,6 @@ from pages.shared import Shared
 from pages.exporter_hub import ExporterHub
 from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
-from pages.record_decision_page import RecordDecision
 
 # Screenshot in case of any test failure
 
