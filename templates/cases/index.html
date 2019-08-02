@@ -15,6 +15,39 @@
 	<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
 </form>
 
+<form action="{% url 'cases:cases'%}" method="get">
+
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="filter">
+            Filter by case type
+        </label>
+        <select class="govuk-select" id="filter" name="filter">
+            <option value="" selected disabled>select a case type</option>
+            <option value="License application">License application</option>
+            <option value="CLC query">CLC query</option>
+        </select>
+    </div>
+
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="filter">
+            Filter by case status
+        </label>
+        <select class="govuk-select" id="filter" name="filter">
+            <option value="" selected disabled>select a case status</option>
+            <option value="submitted">Submitted</option>
+            <option value="resubmitted">Resubmitted</option>
+            <option value="more_information_required">More information required</option>
+            <option value="under_review">Under review</option>
+            <option value="withdrawn">Withdrawn</option>
+        </select>
+    </div>
+
+    <button type="submit" class="govuk-button" style="margin: 0;">
+        Apply Filter
+    </button>
+
+</form>
+
 <form method="post">
 
 	{% csrf_token %}
@@ -35,31 +68,6 @@
 			{% endfor %}
 		</div>
 	</div>
-
-	<div class="govuk-form-group">
-  		<label class="govuk-label" for="sort">
-	    	Filter by case
-	  	</label>
-	  	<select class="govuk-select" id="sort" name="sort">
-	    	<option value="published">Recently published</option>
-	    	<option value="updated" selected>Recently updated</option>
-	    	<option value="views">Most views</option>
-	    	<option value="comments">Most comments</option>
-	  	</select>
-	</div>
-
-	<div class="govuk-form-group">
-  		<label class="govuk-label" for="sort">
-	    	Filter by type
-	  	</label>
-	  	<select class="govuk-select" id="sort" name="sort">
-	    	<option value="published">Recently published</option>
-	    	<option value="updated" selected>Recently updated</option>
-	    	<option value="views">Most views</option>
-	    	<option value="comments">Most comments</option>
-	  	</select>
-	</div>
-
   	{% if data.queue.cases|length %}
 		<div class="lite-cases-table">
 			<div class="lite-cases-table-header">
