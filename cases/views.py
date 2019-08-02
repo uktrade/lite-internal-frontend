@@ -18,12 +18,12 @@ from cases.services import get_case, post_case_notes, put_applications, get_acti
     put_case_flags
 from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
 from conf.decorators import has_permission
-from core.services import get_queue, get_queues, get_user_permissions
+from core.services import get_user_permissions
 from flags.services import get_flags_case_level_for_team
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
 from queues.helpers import add_assigned_users_to_cases
-from queues.services import get_queue_case_assignments
+from queues.services import get_queue_case_assignments, get_queue, get_queues
 
 
 class Cases(TemplateView):

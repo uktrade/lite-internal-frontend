@@ -73,12 +73,9 @@ def table_sort(key, actual_sort):
 @register.filter()
 def table_sort_text(key, actual_sort):
     if not actual_sort:
-        return key
+        return key + '-asc'
 
-    if key + '-desc' in actual_sort:
-        return ''
-
-    if key in actual_sort:
+    if key + '-asc' in actual_sort:
         return key + '-desc'
 
-    return key
+    return ''

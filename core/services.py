@@ -1,7 +1,5 @@
-import json
-
 from conf.client import get
-from conf.constants import DENIAL_REASONS_URL, COUNTRIES_URL, QUEUES_URL
+from conf.constants import DENIAL_REASONS_URL, COUNTRIES_URL
 from libraries.forms.components import Option, Checkboxes
 from users.services import get_gov_user
 
@@ -44,40 +42,6 @@ def get_countries(request, convert_to_options=False):
             )
 
         return converted_units
-
-    return data.json(), data.status_code
-
-
-# Queues
-
-
-def get_queue(request, pk, sort=None):
-    if sort:
-        sort_json = sort.split('-')
-        if len(sort_json) == 2:
-            sort = {sort_json[0]: 'desc'}
-        else:
-            sort = {sort_json[0]: 'asc'}
-
-        data = get(request, QUEUES_URL + pk + '?sort=' + json.dumps(sort))
-    else:
-        data = get(request, QUEUES_URL + pk)
-
-    return data.json(), data.status_code
-
-
-def get_queues(request, convert_to_options=False):
-    data = get(request, QUEUES_URL)
-
-    if convert_to_options:
-        converted = []
-
-        for queue in data.json().get('queues'):
-            converted.append(
-                Option(queue.get('id'), queue.get('name'), description=queue.get('team').get('name'))
-            )
-
-        return converted
 
     return data.json(), data.status_code
 
