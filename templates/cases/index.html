@@ -6,68 +6,21 @@
 
 {% block body %}
 
-<form method="get" class="lite-dropdown-select">
-	<select class="govuk-select" name="queue">
-		{% for queue in queues.queues %}
-			<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}</option>
-		{% endfor %}
-	</select>
-	<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
-</form>
-
-<form action="{% url 'cases:cases'%}" method="get">
-
-	<div class="govuk-grid-row lite-filter-bar--horizontal">
-		<input type="hidden" name="sort" value="{{ sort }}">
-  		<div class="govuk-grid-column-one-quarter">
-			<label class="govuk-label" for="case_type">
-				Filter by case type
-			</label>
-			<div class="lite-select-wrapper">
-				<select class="govuk-select" id="case_type" name="case_type">
-					<option {% if case_type == None %}selected{% endif %} value="" disabled>Select</option>
-            		<option {% if case_type ==  "Licence application"|urlencode %}selected{% endif %} value={{ "Licence application"|urlencode }}>Licence application</option>
-            		<option {% if case_type == "CLC query"|urlencode %}selected{% endif %} value="{{ "CLC query"|urlencode }}">CLC query</option>
-				</select>
-			</div>
-  		</div>
-		<div class="govuk-grid-column-one-quarter">
-			<label class="govuk-label" for="status">
-				Filter by case status
-			</label>
-			<div class="lite-select-wrapper">
-				<select class="govuk-select" id="status" name="status">
-					<option {% if status == None %}selected{% endif %} selected disabled>Select</option>
-					<option {% if status == "submitted" %}selected{% endif %} value="submitted">Submitted</option>
-					<option {% if status == "resubmitted" %}selected{% endif %} value="resubmitted">Resubmitted</option>
-					<option {% if status == "more_information_required" %}selected{% endif %} value="more_information_required">More information required</option>
-					<option {% if status == "under_review" %}selected{% endif %} value="under_review">Under review</option>
-					<option {% if status == "withdrawn" %}selected{% endif %} value="withdrawn">Withdrawn</option>
-				</select>
-			</div>
-		</div>
-		<div class="govuk-grid-column-one-quarter">
-			<label class="govuk-label" for="filter" style="visibility: collapse;">
-				--
-			</label>
-			<button type="submit" class="govuk-button" style="margin: 0;">
-				Apply Filter
-			</button>
-		</div>
-	</div>
-
-</form>
-
-<form method="post">
-
-	{% csrf_token %}
+	<form method="get" class="lite-dropdown-select">
+		<select class="govuk-select" name="queue">
+			{% for queue in queues.queues %}
+				<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}</option>
+			{% endfor %}
+		</select>
+		<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
+	</form>
 
 	<div class="lite-app-bar">
 		<div>
 			<a id="queue-title" href="#" class="govuk-heading-l lite-heading-dropdown" onclick="toggleDropdown()">{{ title }}</a>
 		</div>
 		<div class="lite-app-bar--right">
-			<button id="assign-users-button" type="submit" class="govuk-button govuk-button--secondary">Assign users</button>
+			<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">Assign users</button>
 		</div>
 	</div>
 	<div class="lite-dropdown-background" onclick="toggleDropdown()"></div>
@@ -80,6 +33,52 @@
 	</div>
 
 	<a href="#" class="govuk-link govuk-link--no-visited-state lite-show-filters-link">+ Show filters</a>
+
+	<form action="{% url 'cases:cases'%}" method="get">
+
+		<div class="govuk-grid-row lite-filter-bar--horizontal">
+	  		<div class="govuk-grid-column-one-quarter">
+				<label class="govuk-label" for="case_type">
+					Filter by case type
+				</label>
+				<div class="lite-select-wrapper">
+					<select class="govuk-select" id="case_type" name="case_type">
+						<option {% if case_type == None %}selected{% endif %} value="" disabled>Select</option>
+	            		<option {% if case_type ==  "Licence application"|urlencode %}selected{% endif %} value={{ "Licence application"|urlencode }}>Licence application</option>
+	            		<option {% if case_type == "CLC query"|urlencode %}selected{% endif %} value="{{ "CLC query"|urlencode }}">CLC query</option>
+					</select>
+				</div>
+	  		</div>
+			<div class="govuk-grid-column-one-quarter">
+				<label class="govuk-label" for="status">
+					Filter by case status
+				</label>
+				<div class="lite-select-wrapper">
+					<select class="govuk-select" id="status" name="status">
+						<option {% if status == None %}selected{% endif %} selected disabled>Select</option>
+						<option {% if status == "submitted" %}selected{% endif %} value="submitted">Submitted</option>
+						<option {% if status == "resubmitted" %}selected{% endif %} value="resubmitted">Resubmitted</option>
+						<option {% if status == "more_information_required" %}selected{% endif %} value="more_information_required">More information required</option>
+						<option {% if status == "under_review" %}selected{% endif %} value="under_review">Under review</option>
+						<option {% if status == "withdrawn" %}selected{% endif %} value="withdrawn">Withdrawn</option>
+					</select>
+				</div>
+			</div>
+			<div class="govuk-grid-column-one-quarter">
+				<label class="govuk-label" for="filter" style="visibility: collapse;">
+					--
+				</label>
+				<button type="submit" class="govuk-button" style="margin: 0;">
+					Apply Filter
+				</button>
+			</div>
+		</div>
+
+	</form>
+
+<form id="cases-form" method="post">
+
+	{% csrf_token %}
 
   	{% if data.queue.cases|length %}
 		<div class="lite-cases-table">
