@@ -43,14 +43,19 @@ class Cases(TemplateView):
         queue['queue']['cases'] = add_assigned_users_to_cases(queue['queue']['cases'],
                                                               case_assignments['case_assignments'])
 
+        current_filter_url = request.GET.urlencode().split('&')
+        if sort:
+            current_filter_url.remove('sort=' + sort)
+
         context = {
             'queues': queues,
             'queue_id': queue_id,
             'data': queue,
             'title': queue.get('queue').get('name'),
             'sort': sort,
-			'case_type': case_type,
-			'status': status,
+            'case_type': case_type,
+            'status': status,
+            'current_filter_url': '?' + '&'.join(current_filter_url) + '&' if len(current_filter_url) > 0 else '?'
         }
         return render(request, 'cases/index.html', context)
 

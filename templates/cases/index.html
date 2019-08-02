@@ -18,7 +18,6 @@
 <form action="{% url 'cases:cases'%}" method="get">
 
 	<div class="govuk-grid-row lite-filter-bar--horizontal">
-		<input type="hidden" name="sort" value="{{ sort }}">
   		<div class="govuk-grid-column-one-quarter">
 			<label class="govuk-label" for="case_type">
 				Filter by case type
@@ -106,7 +105,7 @@
 					</a>
 				</div>
 				<div>
-					<a href="?sort={{ 'status'|table_sort_text:sort }}" class="lite-cases-table__heading {{ 'status'|table_sort:sort }}">
+					<a href="{{ current_filter_url }}sort={{ 'status'|table_sort_text:sort }}" class="lite-cases-table__heading {{ 'status'|table_sort:sort }}">
 						Status
 						{% svg 'chevron' %}
 					</a>
