@@ -5,7 +5,7 @@ Feature: I want to add a company to LITE
   So that the new company can make applications
 
 
-  @LT-934sites
+  @LT_934sites
   Scenario: Register site
     Given I go to exporter homepage
     When I login to exporter homepage
@@ -18,7 +18,7 @@ Feature: I want to add a company to LITE
     And I click on my registered organisation
     Then my new site is displayed
 
-  @LT-934_test
+  @LT_934_test
   Scenario: Test organisation
     Given I go to internal homepage
     When I go to organisations
@@ -28,7 +28,7 @@ Feature: I want to add a company to LITE
     And I setup the admin user with email: "TestBusinessForSites@mail.com", first name: "Trinity", last name: "Fishburne"
     Then organisation is registered
 
-  @LT-934_error
+  @LT_934_error
   Scenario: Organisation registration validation
     Given I go to internal homepage
     When I go to organisations
@@ -37,7 +37,7 @@ Feature: I want to add a company to LITE
     Then I see error message "This field may not be blank."
     When I provide company registration details of name: "GreenOcean", EORI: "GB987654312000", SIC: "73200", VAT: "123456789", CRN: "000000011"
     And I setup an initial site with name: " ", addres line 1: " ", town or city: " ", County: " ", post code: " ", country: " "
-    Then I see error message "This field may not be blank."
+    Then I see error message "Enter a name for your site"
     When I setup an initial site with name: "HQ", addres line 1: "123 Cobalt Street", town or city: "London", County: "Islington", post code: "AB1 2CD", country: "Ukraine"
     And I setup the admin user with email: " ", first name: " ", last name: " "
     Then I see error message "This field may not be blank."

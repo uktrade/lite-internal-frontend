@@ -2,8 +2,8 @@
 $lite-transition-speed: 0.3s !default;
 $govuk-page-width: 1200px !default;
 $govuk-brand-colour: #28a197; // GOV.UK Design System
-@import "../../lite-shared-assets/node_modules/govuk-frontend/all"; // LITE Shared Assets
-@import "../../lite-shared-assets/lite-frontend/scss/all"; // Local Assets
+@import "../shared/node_modules/govuk-frontend/govuk/all"; // LITE Shared Assets
+@import "../shared/lite-frontend/scss/all"; // Local Assets
 @import "components/all";
 
 .govuk-tag {
@@ -32,5 +32,35 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 	opacity: 1;
 	border: none;
 	background-color: currentColor;
-	height: 3px;
+}
+
+.lite-picklist-item__text {
+	position: relative;
+	display: block;
+	max-height: 200px;
+	padding-bottom: govuk-spacing(1);
+	margin-bottom: govuk-spacing(6);
+	border-bottom: 2px solid govuk-colour("mid-grey");
+	overflow: hidden;
+
+	& > p {
+		display: block;
+		line-height: 1.66;
+		white-space: normal;
+		word-wrap: break-word;
+	}
+
+	&:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: linear-gradient(rgba(govuk-colour("white"), 0) 10%, govuk-colour("white") 90%);
+	}
+}
+
+.lite-tabs__tab {
+	text-decoration: none;
 }
