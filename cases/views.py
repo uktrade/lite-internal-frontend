@@ -11,12 +11,12 @@ from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
 from cases.services import post_case_documents, get_case_documents, get_case_document
-from conf import settings
+from conf import settings, constants
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
     put_case_flags
-from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
+from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS, OPEN_CASES_SYSTEM_QUEUE_ID, ALL_CASES_SYSTEM_QUEUE_ID
 from conf.decorators import has_permission
 from core.services import get_user_permissions
 from flags.services import get_flags_case_level_for_team
@@ -35,7 +35,7 @@ class Cases(TemplateView):
         status = request.GET.get('status')
         sort = request.GET.get('sort')
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
-        queues, status_code = get_queues(request)
+        queues, status_code = get_queues(request, include_system_queues=True)
         queue, status_code = get_queue(request, queue_id, case_type, status, sort)
         case_assignments, status_code = get_queue_case_assignments(request, queue_id)
 
@@ -55,7 +55,8 @@ class Cases(TemplateView):
             'sort': sort,
             'case_type': case_type,
             'status': status,
-            'current_filter_url': '?' + '&'.join(current_filter_url) + '&' if len(current_filter_url) > 0 else '?'
+            'current_filter_url': '?' + '&'.join(current_filter_url) + '&' if len(current_filter_url) > 0 else '?',
+            'is_system_queue': queue_id == ALL_CASES_SYSTEM_QUEUE_ID or queue_id == OPEN_CASES_SYSTEM_QUEUE_ID,
         }
         return render(request, 'cases/index.html', context)
 
