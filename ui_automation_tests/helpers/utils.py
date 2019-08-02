@@ -15,7 +15,7 @@ class Timer:
         print("timer: "+context+": " + str(self.get_time()))
 
 
-def get_or_create(obj, attr, fn):
+def get_or_create_attr(obj, attr, fn):
     if not hasattr(obj, attr):
         setattr(obj, attr, fn())
     return getattr(obj, attr)

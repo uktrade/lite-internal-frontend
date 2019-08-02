@@ -12,10 +12,9 @@ Feature: I want to add case-level flags to a case and view them
     And I add a flag called "Needs" at level "Case"
     When I go to the internal homepage
     When I click on application previously created
-    And I count the number of assigned flags
     And I click edit flags link
     And I assign flags to the case
-    Then Number of assigned flags has increased
+    Then Number of assigned flags is '1'
     When I click edit flags link
     And I unassign flags from the case
-    Then Number of assigned flags is original value
+    Then Number of assigned flags is '0'

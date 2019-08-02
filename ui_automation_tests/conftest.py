@@ -77,7 +77,7 @@ def login_to_exporter(driver, exporter_url, exporter_sso_login_info, register_or
 
 @when('I click on application previously created')
 def click_on_created_application(driver, context):
-    driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
+    driver.find_element_by_link_text(context.app_id).click()
 
 
 @given('I create application or application has been previously created')

@@ -11,7 +11,8 @@ def driver(request):
 
     chrome_options = webdriver.ChromeOptions()
     # remove this line to see it running in browser.
-    chrome_options.add_argument('--headless')
+    if str(env('TEST_TYPE')) == 'headless':
+        chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
 
     if browser == 'chrome':

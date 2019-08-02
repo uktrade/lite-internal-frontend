@@ -1,6 +1,6 @@
 import helpers.helpers as utils
 from pages.shared import Shared
-from pytest_bdd import given, when, then, scenarios
+from pytest_bdd import given, when, then, scenarios, parsers
 from pages.assign_flags_to_case import CaseFlagsPages
 from pages.flags_pages import FlagsPages
 from pages.application_page import ApplicationPage
@@ -64,7 +64,7 @@ def assert_number_of_flags(driver, context):
     assert number_of_assigned_flags == context.number_of_assigned_flags, "number of assigned flags has changed"
 
 
-@then("Number of assigned flags has increased")
-def assert_number_of_flags_has_increased(driver, context):
+@then(parsers.parse("Number of assigned flags is '{flagcount}'"))
+def assert_number_of_flags_has_increased(driver, context, flagcount):
     number_of_assigned_flags = FlagsPages(driver).get_size_of_number_of_assigned_flags()
-    assert number_of_assigned_flags == context.number_of_assigned_flags + 1, "number of assigned flags has not increased"
+    assert str(number_of_assigned_flags) == flagcount, "number of assigned flags is not "+flagcount
