@@ -73,6 +73,10 @@ $lite-table-border: 2px solid darken(govuk-colour("light-grey"), 2%);
 		color: govuk-colour("black");
 	}
 
+	&:focus {
+		@include govuk-focused-text;
+	}
+
 	svg {
 		color: inherit;
 		fill: currentColor;
