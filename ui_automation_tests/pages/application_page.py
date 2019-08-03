@@ -16,12 +16,13 @@ class ApplicationPage():
         self.documents_btn = '.govuk-button[href*="documents"]'  # css
         self.progress_app_btn = '.govuk-button[href*="manage"]'
         self.record_decision_btn = '.govuk-button[href*="decide"]'  # css
-        self.headers = self.driver.find_elements_by_css_selector(".lite-heading-s")  # css
-        self.activity_case_note_subject = self.driver.find_elements_by_css_selector(".lite-activity-item .govuk-body")
+        self.headers = ".lite-heading-s"  # css
+        self.activity_case_note_subject = ".lite-activity-item .govuk-body"
         self.activity_dates = ".lite-activity-item .govuk-hint"
         self.activity_user = ".user"
         self.is_visible_to_exporter_checkbox_id = 'is_visible_to_exporter'
-        self.edit_case_flags = "a[href*='/assign-flags']"
+        self.edit_case_flags = 'application-edit-case-flags'
+        self.case_flags = 'application-case-flags'
 
     def click_visible_to_exporter_checkbox(self):
         self.driver.find_element_by_id(self.is_visible_to_exporter_checkbox_id).click()
@@ -66,10 +67,10 @@ class ApplicationPage():
         case_status_dropdown.select_by_visible_text(status)
 
     def get_text_of_application_headings(self):
-        return self.headers
+        return self.driver.find_elements_by_css_selector(self.headers)
 
     def get_text_of_case_note_subject(self, no):
-        return self.activity_case_note_subject[no].text
+        return self.driver.find_elements_by_css_selector(self.activity_case_note_subject)[no].text
 
     def get_text_of_activity_dates(self, no):
         return self.driver.find_elements_by_css_selector(self.activity_dates)[no].text
@@ -78,5 +79,10 @@ class ApplicationPage():
         return self.driver.find_elements_by_css_selector(self.activity_user)[no].text
 
     def click_edit_case_flags(self):
-        edit_cases_btn = self.driver.find_element_by_css_selector(self.edit_case_flags)
+        edit_cases_btn = self.driver.find_element_by_id(self.edit_case_flags)
         edit_cases_btn.click()
+        
+    def is_flag_applied(self, flag_id):
+        case_flags = self.driver.find_element_by_id(self.case_flags)
+        count = len(case_flags.find_elements_by_id(flag_id))
+        return count == 1

@@ -2,7 +2,7 @@ import os
 from pytest_bdd import given, when, then, parsers
 
 from fixtures.core import context, driver, sso_login_info, invalid_username, exporter_sso_login_info
-from fixtures.urls import exporter_url, internal_url, sso_sign_in_url
+from fixtures.urls import exporter_url, internal_url, sso_sign_in_url, api_url
 from fixtures.register_organisation import register_organisation
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_standard_application_with_ueu
 
@@ -12,16 +12,16 @@ from pages.header_page import HeaderPage
 from pages.shared import Shared
 from pages.exporter_hub import ExporterHub
 from pages.case_list_page import CaseListPage
+from pages.application_page import ApplicationPage
 
 # Screenshot in case of any test failure
-
 
 
 def pytest_exception_interact(node, report):
     if node and report.failed:
         class_name = node._nodeid.replace(".py::", "_class_")
         name = "{0}_{1}".format(class_name, exporter_url)
-        #utils.save_screenshot(node.funcargs.get("driver"), name)
+        # utils.save_screenshot(node.funcargs.get("driver"), name)
 
 
 # Create driver and url command line adoption
@@ -29,10 +29,18 @@ def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
     if env == 'None':
         env = "dev"
+
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
-    parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
+    
+    if env == 'local':
+        parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
+        parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
+        parser.addoption("--lite_api_url", action="store", default="http://localhost:8100", help="url")
+    else:
+        parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
+        parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
+        parser.addoption("--lite_api_url", action="store", default="https://lite-api-" + env + ".london.cloudapps.digital/", help="url")
 
 
 @given('I go to exporter homepage')
@@ -78,7 +86,7 @@ def login_to_exporter(driver, exporter_url, exporter_sso_login_info, register_or
 
 @when('I click on application previously created')
 def click_on_created_application(driver, context):
-    driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
+    driver.find_element_by_link_text(context.app_id).click()
 
 
 @when('I click on application previously created with pre incorporated goods')
@@ -168,3 +176,18 @@ def click_on_clc_case_previously_created(driver, context):
     case_list_page = CaseListPage(driver)
     assert case_list_page.assert_case_is_present(context.case_id)
     driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.case_id + "')]]").click()
+
+
+@when('I click progress application')
+def click_post_note(driver):
+    application_page = ApplicationPage(driver)
+    application_page.click_progress_application()
+
+
+@when(parsers.parse('I select status "{status}" and save'))
+def select_status_save(driver, status, context):
+    application_page = ApplicationPage(driver)
+    application_page.select_status(status)
+    context.status = status
+    context.date_time_of_update = utils.get_formatted_date_time_h_m_pm_d_m_y()
+    driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]").click()

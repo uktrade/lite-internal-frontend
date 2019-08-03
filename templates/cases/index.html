@@ -67,11 +67,9 @@
             <div class="lite-select-wrapper">
                 <select class="govuk-select" id="status" name="status">
                     <option {% if status == None %}selected{% endif %} value="">Select</option>
-                    <option {% if status == "submitted" %}selected{% endif %} value="submitted">Submitted</option>
-                    <option {% if status == "resubmitted" %}selected{% endif %} value="resubmitted">Resubmitted</option>
-                    <option {% if status == "more_information_required" %}selected{% endif %} value="more_information_required">More information required</option>
-                    <option {% if status == "under_review" %}selected{% endif %} value="under_review">Under review</option>
-                    <option {% if status == "withdrawn" %}selected{% endif %} value="withdrawn">Withdrawn</option>
+                    {% for case_status in statuses.statuses %}
+				        <option value="{{ case_status.status }}" {% if case_status.status == status %}selected{% endif %}>{{ case_status.status|default:"Untitled"|sentence_case }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
@@ -98,7 +96,7 @@
 
   	{% if data.queue.cases|length %}
 		<div class="lite-cases-table">
-			<div class="lite-cases-table-header">
+			<div class="lite-cases-table-header" {% if is_system_queue %}style="grid-template-columns: 30px 1fr 200px 200px 200px 200px"{% endif %}>
 				<div class="govuk-checkboxes govuk-checkboxes--small">
 					<div class="govuk-checkboxes__item">
 						<input id="select-all-checkbox" class="govuk-checkboxes__input" type="checkbox">
@@ -120,6 +118,11 @@
 						Type
 					</a>
 				</div>
+                {% if is_system_queue %}
+                    <h4>
+                        Queues
+                    </h4>
+                {% endif %}
 				<div>
 					<a href="{{ current_filter_url }}sort={{ 'status'|table_sort_text:sort }}" class="lite-cases-table__heading {{ 'status'|table_sort:sort }}">
 						Status
@@ -128,7 +131,7 @@
 				</div>
 			</div>
 			{% for case in data.queue.cases %}
-				<div class="lite-cases-table-row">
+				<div class="lite-cases-table-row" {% if is_system_queue %}style="grid-template-columns: 30px 1fr 200px 200px 200px 200px"{% endif %}>
 					<div class="govuk-checkboxes govuk-checkboxes--small">
 						<div class="govuk-checkboxes__item">
 							<input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}">
@@ -172,6 +175,11 @@
                     <p class="govuk-body">
                         {{ case.case_type.name }}
                     </p>
+                    {% if is_system_queue %}
+                        <p class="govuk-body">
+                            {{ case.queue_names|join:', '  }}
+                        </p>
+                    {% endif %}
                     <p class="govuk-body">
                         {% if case.is_clc %}
                             {{ case.clc_query.status|default:"Untitled"|sentence_case }}

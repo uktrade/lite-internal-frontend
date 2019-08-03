@@ -1,5 +1,5 @@
 from conf.client import get
-from conf.constants import DENIAL_REASONS_URL, COUNTRIES_URL
+from conf.constants import DENIAL_REASONS_URL, COUNTRIES_URL, STATUSES_URL
 from libraries.forms.components import Option, Checkboxes
 from users.services import get_gov_user
 
@@ -43,6 +43,13 @@ def get_countries(request, convert_to_options=False):
 
         return converted_units
 
+    return data.json(), data.status_code
+
+
+# Statuses
+
+def get_statuses(request):
+    data = get(request, STATUSES_URL)
     return data.json(), data.status_code
 
 
