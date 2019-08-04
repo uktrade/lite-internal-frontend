@@ -72,13 +72,19 @@ class SeedData:
             "type": "government",
             "website": "https://www.gov.uk"
         },
+        "ultimate_end_user": {
+            "name": "Individual",
+            "address": "Bullring, Birmingham SW1A 0AA",
+            "country": "GB",
+            "type": "commercial",
+            "website": "https://www.anothergov.uk"
+        },
         "add_good": {
             "good_id": "",
             "quantity": 1234,
             "unit": "NAR",
             "value": 123.45
         }
-
     }
             
     def __init__(self, api_url, logging=True):
@@ -142,7 +148,7 @@ class SeedData:
         item = json.loads(response.text)['good']
         self.add_to_context('good_id', item['id'])
 
-    def add_draft(self, draft=None, good=None, enduser=None):
+    def add_draft(self, draft=None, good=None, enduser=None, ultimate_end_user=None):
         self.log("Creating draft: ...")
         data = self.request_data['draft'] if draft is None else draft
         response = self.make_request("POST", url='/drafts/', headers=self.export_headers, body=data)
@@ -159,6 +165,10 @@ class SeedData:
         data = self.request_data['add_good'] if good is None else good
         data['good_id'] = self.context['good_id']
         self.make_request("POST", url='/drafts/' + draft_id + '/goods/', headers=self.export_headers, body=data)
+        self.log("Adding ultimate end user: ...")
+        data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
+        self.make_request("POST", url='/drafts/' + draft_id + '/ultimate-end-users/', headers=self.export_headers,
+                          body=data)
 
     def submit_application(self, draft_id=None):
         self.log("submitting application: ...")

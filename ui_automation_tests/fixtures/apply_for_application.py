@@ -35,6 +35,13 @@ def apply_for_standard_application(driver, request, context):
             "country": "UA",
             "type": "government",
             "website": "https://www.smith.com"
+        },
+        ultimate_end_user={
+            "name": "Individual",
+            "address": "Bullring, Birmingham SW1A 0AA",
+            "country": "GB",
+            "type": "commercial",
+            "website": "https://www.anothergov.uk"
         }
     )
     api.submit_application()
