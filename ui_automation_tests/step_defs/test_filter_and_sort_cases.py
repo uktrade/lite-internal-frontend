@@ -1,4 +1,4 @@
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+from pytest_bdd import given, when, then, parsers, scenarios
 
 from helpers.helpers import get_formatted_date_time_m_d_h_s
 from helpers.seed_data import SeedData
@@ -44,6 +44,17 @@ def i_show_filters(driver, context):
 @when('I hide filters')
 def i_hide_filters(driver, context):
     driver.find_element_by_id('hide-filters-link').click()
+
+
+@when(parsers.parse('I sort cases by "{sort_type}"'))
+def i_sort_cases_by(driver, context, sort_type):
+    driver.find_element_by_link_text(sort_type).click()
+    return ''
+
+
+@then('the cases are in order')
+def the_cases_are_in_order(driver, context):
+    return ''
 
 
 @when('the filters are no longer shown')

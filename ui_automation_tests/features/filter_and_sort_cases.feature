@@ -1,5 +1,5 @@
 @internal @filter_and_sort
-Feature:  I want to filter and sort cases on a queue
+Feature: I want to filter and sort cases on a queue
   As a logged in government user
   I want to filter and sort the cases in the work queue I am viewing
   So that I can easily find the cases I am most interested in
@@ -30,8 +30,8 @@ Feature:  I want to filter and sort cases on a queue
     And I select status "Under review" and save
     When I go to internal homepage
     When I click on new queue in dropdown
-    When I sort cases by status
-    Then cases are in order
+    When I sort cases by "Status"
+    Then the cases are in order
     When I show filters
     When I hide filters
     Then the filters are no longer shown
