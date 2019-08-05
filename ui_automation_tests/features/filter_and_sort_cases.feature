@@ -13,18 +13,18 @@ Feature: I want to filter and sort cases on a queue
     And I create a clc_query
     And case has been moved to new Queue
     And I click on new queue in dropdown
-#    Then "2" cases are shown
-#    When I show filters
-#    And filter status has been changed to "Approved"
-#    Then there are no cases shown
-#    When I click clear filters
-#    When I show filters
-#    When filter case type has been changed to "CLC query"
-#    Then "1" cases are shown
-#    When filter status has been changed to "Submitted"
-#    Then "1" cases are shown
-#    When I click clear filters
-#    Then "2" cases are shown
+    Then "2" cases are shown
+    When I show filters
+    And filter status has been changed to "Approved"
+    Then there are no cases shown
+    When I click clear filters
+    When I show filters
+    When filter case type has been changed to "CLC query"
+    Then "1" cases are shown
+    When filter status has been changed to "Submitted"
+    Then "1" cases are shown
+    When I click clear filters
+    Then "2" cases are shown
     When I click on application previously created
     And I click progress application
     And I select status "Under review" and save
