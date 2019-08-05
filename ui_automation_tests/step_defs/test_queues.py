@@ -1,4 +1,5 @@
 from pytest_bdd import when, then, parsers, scenarios
+import selenium.common.exceptions
 import helpers.helpers as utils
 from pages.header_page import HeaderPage
 from pages.queues_pages import QueuesPages
@@ -51,12 +52,18 @@ def see_queue_in_queue_list(driver, context):
 
 @then('I see previously created application')
 def see_queue_in_queue_list(driver, context):
-    assert QueuesPages(driver).case_is_on_the_list(context.app_id)
+    assert QueuesPages(driver).case_is_on_the_list(context.app_id) == 1
 
 
 @then('I dont see previously created application')
 def dont_see_queue_in_queue_list(driver, context):
-    assert not QueuesPages(driver).case_is_on_the_list(context.app_id)
+    driver.timeout_off()
+    try:
+        QueuesPages(driver).case_is_on_the_list(context.app_id)
+        driver.timeout_on()
+        assert False
+    except selenium.common.exceptions.NoSuchElementException:
+        assert True
 
 
 @when('I add case to new queue')
@@ -70,9 +77,10 @@ def move_case_to_new_queue(driver, context):
 @when('I deselect all queues')
 def deselect_all_queues(driver):
     driver.find_element_by_css_selector('.govuk-button[href*="move"]').click()
-    elements = driver.find_elements_by_css_selector('#checkbox-list .govuk-body')
+    elements = driver.find_elements_by_css_selector('.govuk-checkboxes__input')
     for element in elements:
-        driver.find_element_by_id(element.text).click()
+        if element.is_selected():
+            element.click()
     Shared(driver).click_submit()
 
 

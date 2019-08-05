@@ -225,7 +225,7 @@ def apply_for_clc_query(driver, request, context):
 
 
 @fixture(scope="session")
-def apply_for_clc_query_api(driver, request, context):
+def apply_for_clc_query(driver, request, context):
     api = get_or_create_attr(context, 'api', lambda: SeedData(logging=True))
     api.add_clc_query()
     context.case_id = api.context['case_id']
