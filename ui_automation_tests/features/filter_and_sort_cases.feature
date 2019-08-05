@@ -34,6 +34,11 @@ Feature: I want to filter and sort cases on a queue
     Then "2" cases are shown
     Then the case at index "0" has the status of "Submitted"
     And the case at index "1" has the status of "Under review"
+
+  @LT_914_filter_and_sort
+  Scenario: I can show and hide filters
+    When I go to internal homepage and sign in
     When I show filters
-    And I hide filters
-    Then the filters are no longer shown
+    Then the filters are shown
+    When I hide filters
+    Then the filters are hidden
