@@ -31,7 +31,7 @@ Feature: I want to filter and sort cases on a queue
     When I go to internal homepage
     When I click on new queue in dropdown
     When I sort cases by "Status"
-    Then the cases are in order
+    Then the cases are in order of "Status"
     When I show filters
     When I hide filters
     Then the filters are no longer shown

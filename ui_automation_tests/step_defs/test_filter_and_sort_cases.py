@@ -51,11 +51,16 @@ def i_sort_cases_by(driver, context, sort_type):
     driver.find_element_by_link_text(sort_type).click()
 
 
-@then('the cases are in order')
-def the_cases_are_in_order(driver, context):
-    return ''
+@when(parsers.parse('the cases are in order of "{sort_type}"'))
+def the_cases_are_in_order_of(driver, context, sort_type):
+    if sort_type == 'Status':
+        rows = driver.find_elements_by_css_selector('lite-cases-table-row')
+        assert rows[0].find_element_by_css_selector('p:last-child').text == 'Submitted'
+        assert rows[1].find_element_by_css_selector('p:last-child').text == 'Under review'
+    else:
+        raise NotImplementedError
 
 
 @when('the filters are no longer shown')
 def the_filters_are_no_longer_shown(driver, context):
-    driver.find_element_by_class_name('lite-filter-bar--horizontal').is_displayed()
+    assert not driver.find_element_by_class_name('lite-filter-bar--horizontal').is_displayed()
