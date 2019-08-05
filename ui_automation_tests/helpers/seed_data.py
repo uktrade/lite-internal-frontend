@@ -196,9 +196,9 @@ class SeedData:
         self.add_to_context('application_id', item['id'])
         self.add_to_context('case_id', item['case_id'])
 
-    def add_queue(self, queue_name=None):
+    def add_queue(self, queue_name):
         self.log("adding queue: ...")
-        queue_name = self.context['queue_name'] if queue_name is None else queue_name
+        self.context['queue_name'] = queue_name
         data = {'team': '00000000-0000-0000-0000-000000000001',
                 'name': queue_name
                 }

@@ -1,4 +1,5 @@
 from pytest_bdd import given, when, then, parsers, scenarios
+from selenium.webdriver.support.ui import Select
 from helpers.helpers import get_formatted_date_time_m_d_h_s
 from helpers.seed_data import SeedData
 from helpers.utils import get_or_create_attr
@@ -30,7 +31,7 @@ def num_cases_appear(driver, context, number):
     assert int(number) == len(driver.find_elements_by_css_selector('.lite-cases-table .lite-cases-table-row'))
 
 
-@when(parsers.parse('Filter status has been changed to "{status}"'))
+@when(parsers.parse('filter status has been changed to "{status}"'))
 def filter_status_change(driver, context, status):
     select = Select(driver.find_element_by_id('status'))
     select.select_by_visible_text(status)
