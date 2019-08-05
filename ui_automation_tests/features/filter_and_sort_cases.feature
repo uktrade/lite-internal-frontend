@@ -6,7 +6,7 @@ Feature: I want to filter and sort cases on a queue
 
   @LT_914_filter_and_sort
   Scenario: Filter and sort
-    Given queue has been created
+    Given a queue has been created
     And I create application or application has been previously created
     And I go to internal homepage
     When case has been moved to new Queue
