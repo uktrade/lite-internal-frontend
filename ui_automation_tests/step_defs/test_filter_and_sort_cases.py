@@ -72,6 +72,11 @@ def the_cases_are_in_order_of(driver, context, index, status):
     assert status in row.text
 
 
-@then('the filters are no longer shown')
-def the_filters_are_no_longer_shown(driver, context):
+@then('the filters are shown')
+def the_filters_are_shown(driver, context):
+    assert driver.find_element_by_class_name('lite-filter-bar--horizontal').is_displayed()
+
+
+@then('the filters are hidden')
+def the_filters_are_hidden(driver, context):
     assert not driver.find_element_by_class_name('lite-filter-bar--horizontal').is_displayed()
