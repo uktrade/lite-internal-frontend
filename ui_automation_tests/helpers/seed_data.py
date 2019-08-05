@@ -1,6 +1,7 @@
 import json
 import requests
 from conf.settings import env
+import helpers.helpers as utils
 
 
 class SeedData:
@@ -86,7 +87,7 @@ class SeedData:
             "value": 123.45
         }
     }
-            
+
     def __init__(self, api_url, logging=True):
         self.base_url = api_url.rstrip('/')
         self.auth_gov_user()
@@ -94,7 +95,7 @@ class SeedData:
         self.auth_export_user()
         self.add_good()
         self.logging = logging
-        
+
     def log(self, text):
         if self.logging:
             print(text)
@@ -177,6 +178,24 @@ class SeedData:
         response = self.make_request("POST", url='/applications/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['application']
         self.add_to_context('application_id', item['id'])
+
+    def add_queue(self, context):
+        self.log("adding queue: ...")
+        context.queue_name = 'queue' + utils.get_formatted_date_time_m_d_h_s()
+        data = {'team': '00000000-0000-0000-0000-000000000001',
+                'name': context.queue_name
+                }
+        response = self.make_request("POST", url='/queues/', headers=self.gov_headers, body=data)
+        item = json.loads(response.text)['queue']
+        context.queue_id = item['id']
+
+    def assign_case_to_queue(self, context):
+        self.log("assigning case to queue: ...")
+
+        data = {'/queues/': [{'case_id': 'f2b1d755-45a4-4cda-aa26-8e8c72680cc8'}]
+        }
+        response = self.make_request("PUT", url='/cases/f2b1d755-45a4-4cda-aa26-8e8c72680cc8/', headers=self.gov_headers, body=data)
+        assert True
 
     def make_request(self, method, url, headers=None, body=None):
         if headers is None:
