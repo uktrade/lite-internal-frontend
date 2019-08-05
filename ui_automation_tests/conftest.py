@@ -96,6 +96,10 @@ def click_on_created_application_with_ueu(driver, apply_for_standard_application
 
 
 @when('I create application or application has been previously created')
+def create_app(driver, register_organisation, apply_for_standard_application):
+    pass
+
+
 @given('I create application or application has been previously created')
 def create_app(driver, register_organisation, apply_for_standard_application):
     pass

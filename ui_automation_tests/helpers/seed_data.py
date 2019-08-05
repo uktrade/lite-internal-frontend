@@ -1,7 +1,6 @@
 import json
 import requests
 from conf.settings import env
-import helpers.helpers as utils
 
 
 class SeedData:
@@ -178,24 +177,24 @@ class SeedData:
         response = self.make_request("POST", url='/applications/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['application']
         self.add_to_context('application_id', item['id'])
+        self.add_to_context('case_id', item['case_id'])
 
-    def add_queue(self, context):
+    def add_queue(self, queue_name=None):
         self.log("adding queue: ...")
-        context.queue_name = 'queue' + utils.get_formatted_date_time_m_d_h_s()
+        queue_name = self.context['queue_name'] if queue_name is None else queue_name
         data = {'team': '00000000-0000-0000-0000-000000000001',
-                'name': context.queue_name
+                'name': queue_name
                 }
         response = self.make_request("POST", url='/queues/', headers=self.gov_headers, body=data)
         item = json.loads(response.text)['queue']
-        context.queue_id = item['id']
+        self.add_to_context('queue_id', item['id'])
 
-    def assign_case_to_queue(self, context):
+    def assign_case_to_queue(self, case_id=None, queue_id=None):
         self.log("assigning case to queue: ...")
-
-        data = {'/queues/': [{'case_id': 'f2b1d755-45a4-4cda-aa26-8e8c72680cc8'}]
-        }
-        response = self.make_request("PUT", url='/cases/f2b1d755-45a4-4cda-aa26-8e8c72680cc8/', headers=self.gov_headers, body=data)
-        assert True
+        queue_id = self.context['queue_id'] if queue_id is None else queue_id
+        case_id = self.context['case_id'] if case_id is None else case_id
+        data = {'queues':  [queue_id]}
+        self.make_request("PUT", url='/cases/' + case_id + '/', headers=self.gov_headers, body=data)
 
     def make_request(self, method, url, headers=None, body=None):
         if headers is None:

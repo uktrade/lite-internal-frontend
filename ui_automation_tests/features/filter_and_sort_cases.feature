@@ -7,8 +7,8 @@ Feature:  I want to filter and sort cases on a queue
   @LT_914_filter_and_sort
   Scenario: Filter and sort
     Given Queue has been created
-#    When I create application or application has been previously created
-#    When Case has been moved to new Queue
+    When I create application or application has been previously created
+    When Case has been moved to new Queue
 #    When I create application or application has been previously created
 #    When Case has been moved to new Queue
 #    When I create a clc_query
