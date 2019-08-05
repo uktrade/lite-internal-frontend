@@ -1,3 +1,4 @@
+import datetime
 import os
 from pytest_bdd import given, when, then, parsers
 
@@ -94,6 +95,7 @@ def click_on_created_application_with_ueu(driver, apply_for_standard_application
     driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
 
 
+@when('I create application or application has been previously created')
 @given('I create application or application has been previously created')
 def create_app(driver, register_organisation, apply_for_standard_application):
     pass

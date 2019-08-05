@@ -4,7 +4,6 @@ from pages.add_goods_page import AddGoodPage
 from pages.exporter_hub import ExporterHub
 from conf.settings import env
 import helpers.helpers as utils
-
 from helpers.seed_data import SeedData
 from helpers.utils import Timer, get_or_create_attr
 

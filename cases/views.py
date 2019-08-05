@@ -45,9 +45,9 @@ class Cases(TemplateView):
                                                               case_assignments['case_assignments'])
 
         # Get current query parameters to inject into template for sorting with filters
-        current_filter_url = request.GET.urlencode()
+        current_filter_url = request.GET.urlencode().split('&')
         if sort:
-            current_filter_url = current_filter_url.replace('&sort=' + sort, '')
+            current_filter_url.remove('sort=' + sort)
 
         context = {
             'queues': queues,
@@ -58,7 +58,7 @@ class Cases(TemplateView):
             'case_type': case_type,
             'status': status,
             'statuses': statuses,
-            'current_filter_url': '?' + current_filter_url + '&' if current_filter_url else '?',
+            'current_filter_url': '?' + '&'.join(current_filter_url) + '&' if len(current_filter_url) > 0 else '?',
             'is_system_queue': queue_id == ALL_CASES_SYSTEM_QUEUE_ID or queue_id == OPEN_CASES_SYSTEM_QUEUE_ID,
         }
         return render(request, 'cases/index.html', context)
