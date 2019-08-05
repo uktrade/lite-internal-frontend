@@ -1,6 +1,14 @@
 import helpers.helpers as utils
 
-class CaseListPage():
+
+class CaseListPage:
+
+    BUTTON_APPLY_FILTERS = 'button-apply-filters'  # ID
+    BUTTON_CLEAR_FILTERS = 'button-clear-filters'  # ID
+    LINK_SHOW_FILTERS = 'show-filters-link'  # ID
+    LINK_HIDE_FILTERS = 'hide-filters-link'  # ID
+    FILTER_BAR = 'lite-filter-bar--horizontal'  # Class
+    CASES_TABLE_ROW = '.lite-cases-table-row'  # CSS Selector
 
     def __init__(self, driver):
         self.driver = driver
@@ -34,6 +42,21 @@ class CaseListPage():
         return self.driver.find_elements_by_css_selector(self.checkbox_text)
 
     def assert_case_is_present(self, case_id):
-        elements = self.driver.find_elements_by_css_selector('.lite-cases-table-row')
+        elements = self.driver.find_elements_by_css_selector(self.CASES_TABLE_ROW)
         no = utils.get_element_index_by_partial_text(elements, case_id)
         return elements[no].is_displayed()
+
+    def click_apply_filters_button(self):
+        self.driver.find_element_by_id(self.BUTTON_APPLY_FILTERS).click()
+
+    def click_clear_filters_button(self):
+        self.driver.find_element_by_id(self.BUTTON_CLEAR_FILTERS).click()
+
+    def click_show_filters_link(self):
+        self.driver.find_element_by_id(self.LINK_SHOW_FILTERS).click()
+
+    def click_hide_filters_link(self):
+        self.driver.find_element_by_id(self.LINK_HIDE_FILTERS).click()
+
+    def is_filters_visible(self):
+        return self.driver.find_element_by_class_name(self.FILTER_BAR).is_displayed()

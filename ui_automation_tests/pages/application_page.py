@@ -2,7 +2,7 @@ from selenium.webdriver.support.ui import Select
 import time
 
 
-class ApplicationPage():
+class ApplicationPage:
 
     def __init__(self, driver):
         self.driver = driver
@@ -29,7 +29,8 @@ class ApplicationPage():
         self.driver.find_element_by_id(self.is_visible_to_exporter_checkbox_id).click()
 
     def enter_case_note(self, text):
-        self.driver.find_element_by_id(self.case_note_field).send_keys(text)
+        self.driver.execute_script(f'document.getElementById("{self.case_note_field}").value = "{text[:-1]}"')
+        self.driver.find_element_by_id(self.case_note_field).send_keys(text[-1:])
 
     def get_text_of_case_note_field(self):
         return self.driver.find_element_by_id(self.case_note_field).text
