@@ -26,7 +26,7 @@ def assign_case_to_queue(context):
     api.assign_case_to_queue()
 
 
-@then(parsers.parse('"{number}" cases appear'))
+@then(parsers.parse('"{number}" cases are shown'))
 def num_cases_appear(driver, context, number):
     assert int(number) == len(driver.find_elements_by_css_selector('.lite-cases-table .lite-cases-table-row'))
 
@@ -39,4 +39,9 @@ def filter_approved(driver, context, number):
 @when('I show filters')
 def i_show_filters(driver, context):
     driver.find_element_by_id('show-filters-link').click()
+
+
+@when('I hide filters')
+def i_hide_filters(driver, context):
+    driver.find_element_by_id('hide-filters-link').click()
 
