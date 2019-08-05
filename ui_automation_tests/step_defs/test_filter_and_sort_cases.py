@@ -64,14 +64,10 @@ def i_sort_cases_by(driver, context, sort_type):
     driver.find_element_by_link_text(sort_type).click()
 
 
-@when(parsers.parse('the cases are in order of "{sort_type}"'))
-def the_cases_are_in_order_of(driver, context, sort_type):
-    if sort_type == 'Status':
-        rows = driver.find_elements_by_css_selector('lite-cases-table-row')
-        assert rows[0].find_element_by_css_selector('p:last-child').text == 'Submitted'
-        assert rows[1].find_element_by_css_selector('p:last-child').text == 'Under review'
-    else:
-        raise NotImplementedError
+@then(parsers.parse('the case at index "{index}" has the status of "{status}"'))
+def the_cases_are_in_order_of(driver, context, index, status):
+    row = driver.find_element_by_css_selector('lite-cases-table-row:nth-of-type(' + index + ')')
+    assert row.find_element_by_css_selector('p:last-child').text == status
 
 
 @when('the filters are no longer shown')
