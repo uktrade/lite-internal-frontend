@@ -197,7 +197,7 @@ def apply_for_standard_application_with_ueu(driver, request, context):
 
 
 
-@fixture(scope="session")
+@fixture(scope="module")
 def apply_for_clc_query(driver, request, context):
     exporter_hub = ExporterHub(driver)
     driver.get(request.config.getoption("--exporter_url"))
