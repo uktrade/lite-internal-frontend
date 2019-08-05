@@ -20,7 +20,7 @@ class ApplicationPage(BasePage):
     activity_dates = ".lite-activity-item .govuk-hint"
     activity_user = ".user"
     is_visible_to_exporter_checkbox_id = 'is_visible_to_exporter'
-    edit_case_flags = "a[href*='/assign-flags']"
+    EDIT_CASE_FLAGS = 'application-edit-case-flags'  # ID
     view_advice = "a[href*='/advice-view/']"
     case_flags = 'application-case-flags'
 
@@ -80,7 +80,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_elements_by_css_selector(self.activity_user)[no].text
 
     def click_edit_case_flags(self):
-        edit_cases_btn = self.driver.find_element_by_id(self.edit_case_flags)
+        edit_cases_btn = self.driver.find_element_by_id(self.EDIT_CASE_FLAGS)
         edit_cases_btn.click()
 
     def click_view_advice(self):
