@@ -196,9 +196,8 @@ def apply_for_standard_application_with_ueu(driver, request, context):
     driver.get(request.config.getoption("--internal_url"))
 
 
-
 @fixture(scope="module")
-def apply_for_clc_query(driver, request, context):
+def apply_for_clc_query_old(driver, request, context):
     exporter_hub = ExporterHub(driver)
     driver.get(request.config.getoption("--exporter_url"))
     if "login" in driver.current_url:
@@ -224,7 +223,7 @@ def apply_for_clc_query(driver, request, context):
     driver.get(request.config.getoption("--internal_url"))
 
 
-@fixture(scope="session")
+@fixture(scope="module")
 def apply_for_clc_query(driver, request, context):
     api = get_or_create_attr(context, 'api', lambda: SeedData(logging=True))
     api.add_clc_query()
