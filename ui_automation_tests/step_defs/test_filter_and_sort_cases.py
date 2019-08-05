@@ -49,7 +49,6 @@ def i_hide_filters(driver, context):
 @when(parsers.parse('I sort cases by "{sort_type}"'))
 def i_sort_cases_by(driver, context, sort_type):
     driver.find_element_by_link_text(sort_type).click()
-    return ''
 
 
 @then('the cases are in order')
