@@ -15,10 +15,10 @@ Feature: I want to filter and sort cases on a queue
     And I click on new queue in dropdown
     Then "2" cases are shown
     When I show filters
-    When filter status has been changed to "approved"
+    And filter status has been changed to "approved"
     Then there are no cases shown
     When I show filters
-    When filter case type has been changed to "ClC query"
+    And filter case type has been changed to "ClC query"
     Then "1" cases are shown
     When Filter status has been changed to "submitted"
     Then "1" cases are shown
@@ -29,9 +29,9 @@ Feature: I want to filter and sort cases on a queue
     And I click progress application
     And I select status "Under review" and save
     When I go to internal homepage
-    When I click on new queue in dropdown
-    When I sort cases by "Status"
+    And I click on new queue in dropdown
+    And I sort cases by "Status"
     Then the cases are in order of "Status"
     When I show filters
-    When I hide filters
+    And I hide filters
     Then the filters are no longer shown
