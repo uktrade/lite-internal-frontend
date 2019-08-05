@@ -56,7 +56,7 @@ def see_queue_in_queue_list(driver, context):
 
 @then('There are no cases shown')
 def no_cases_shown(driver):
-    assert 'There are no new cases to show.' in QueuesPages(driver).get_caption_text()
+    assert 'There are no new cases to show.' in QueuesPages(driver).get_no_cases_text()
 
 
 @then('I dont see previously created application')
