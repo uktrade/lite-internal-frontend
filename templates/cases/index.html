@@ -34,8 +34,14 @@
 </div>
 
 <div class="lite-js-only">
-    <a href="#" onclick="toggleFilters()" id="show-filters-link" class="govuk-link govuk-link--no-visited-state lite-show-filters-link">+ Show filters</a>
-    <a href="#" onclick="toggleFilters()" id="hide-filters-link" class="govuk-link govuk-link--no-visited-state lite-hide-filters-link">- Hide filters</a>
+    <a href="#" onclick="toggleFilters()" id="show-filters-link" class="govuk-link govuk-link--no-visited-state lite-show-filters-link">
+		{% svg 'filter_show' %}
+		Show filters
+	</a>
+    <a href="#" onclick="toggleFilters()" id="hide-filters-link" class="govuk-link govuk-link--no-visited-state lite-hide-filters-link">
+		{% svg 'filter_hide' %}
+		Hide filters
+	</a>
 </div>
 
 <form id="filters" action="{% url 'cases:cases'%}" method="get">
@@ -134,16 +140,20 @@
 					</div>
 					<div>
                         {% if case.is_clc %}
-                                <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}" style="text-decoration: none; margin-bottom: 5px!important; display: block;">
-                                    {{ case.id }}
-                                </a>
+                                <div>
+									<a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
+	                                    {{ case.id }}
+	                                </a>
+                                </div>
                                 <p class="govuk-body" style="opacity: .7; margin: 0;">
                                     {{ case.clc_query.organisation_name }}
                                 </p>
                         {% elif not case.is_clc %}
-                            <a href="{% url 'cases:case' case.id %}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; display: block;">
-                                {{ case.application.id|default:"Untitled" }}
-                            </a>
+							<div class="">
+								<a href="{% url 'cases:case' case.id %}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
+									{{ case.application.id|default:"Untitled" }}
+								</a>
+							</div>
                             <p class="govuk-body" style="opacity: .7; margin: 0;">
                                 {{ case.application.organisation.name }}
                             </p>
