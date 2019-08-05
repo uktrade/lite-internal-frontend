@@ -106,4 +106,4 @@ Feature: I want to record the final decision overall on an application case
   Scenario: Gov user can see advice view page
     Given I go to internal homepage
     When I click on application previously created
-    When I click on advice view
+    And I click on advice view
