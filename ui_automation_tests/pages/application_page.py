@@ -83,10 +83,8 @@ class ApplicationPage():
         edit_cases_btn = self.driver.find_element_by_id(self.edit_case_flags)
         edit_cases_btn.click()
 
-
-    def click_view_adivce(self):
+    def click_view_advice(self):
         self.driver.find_element_by_css_selector(self.advice_view).click()
-
 
     def is_flag_applied(self, flag_id):
         case_flags = self.driver.find_element_by_id(self.case_flags)
