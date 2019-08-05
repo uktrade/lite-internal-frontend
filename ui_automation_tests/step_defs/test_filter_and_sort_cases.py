@@ -14,13 +14,13 @@ console = logging.StreamHandler()
 log.addHandler(console)
 
 
-@given('Queue has been created')
+@given('queue has been created')
 def create_queue(register_organisation, context):
     api = get_or_create_attr(context, 'api', lambda: SeedData(logging=True))
     api.add_queue('queue' + get_formatted_date_time_m_d_h_s())
 
 
-@when('Case has been moved to new Queue')
+@when('case has been moved to new Queue')
 def assign_case_to_queue(context):
     api = get_or_create_attr(context, 'api', lambda: SeedData(logging=True))
     api.assign_case_to_queue()
@@ -31,7 +31,7 @@ def num_cases_appear(driver, context, number):
     assert int(number) == len(driver.find_elements_by_css_selector('.lite-cases-table .lite-cases-table-row'))
 
 
-@when(parsers.parse('Filter status has been changed to "{approved}"'))
+@when(parsers.parse('filter status has been changed to "{approved}"'))
 def filter_approved(driver, context, number):
     assert int(number) == len(driver.find_elements_by_css_selector('.lite-cases-table .lite-cases-table-row'))
 
@@ -45,3 +45,7 @@ def i_show_filters(driver, context):
 def i_hide_filters(driver, context):
     driver.find_element_by_id('hide-filters-link').click()
 
+
+@when('the filters are no longer shown')
+def the_filters_are_no_longer_shown(driver, context):
+    driver.find_element_by_class_name('lite-filter-bar--horizontal').is_displayed()

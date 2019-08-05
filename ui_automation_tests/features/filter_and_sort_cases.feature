@@ -15,10 +15,10 @@ Feature:  I want to filter and sort cases on a queue
     When I click on new queue in dropdown
     Then "2" cases are shown
     When I show filters
-    When Filter status has been changed to "approved"
-    Then There are no cases shown
+    When filter status has been changed to "approved"
+    Then there are no cases shown
     When I show filters
-    When Filter case type has been changed to "ClC query"
+    When filter case type has been changed to "ClC query"
     Then "1" cases are shown
     When Filter status has been changed to "submitted"
     Then "1" cases are shown
@@ -31,7 +31,7 @@ Feature:  I want to filter and sort cases on a queue
     When I go to internal homepage
     When I click on new queue in dropdown
     When I sort cases by status
-    Then Cases are in order
+    Then cases are in order
     When I show filters
     When I hide filters
-    Then Filter dropdowns are no longer shown
+    Then the filters are no longer shown
