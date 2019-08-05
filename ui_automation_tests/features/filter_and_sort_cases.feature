@@ -6,12 +6,12 @@ Feature: I want to filter and sort cases on a queue
 
   @LT_914_filter_and_sort
   Scenario: Filter and sort
-    Given Queue has been created
+    Given queue has been created
     And I create application or application has been previously created
     And I go to internal homepage
-    When Case has been moved to new Queue
+    When case has been moved to new Queue
     And I create a clc_query
-    And Case has been moved to new Queue
+    And case has been moved to new Queue
     And I click on new queue in dropdown
     Then "2" cases are shown
     When I show filters
