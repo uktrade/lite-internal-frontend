@@ -78,10 +78,10 @@
                 --
             </label>
             <div class="lite-buttons-row">
-                <button type="submit" form="filters" class="govuk-button" style="margin: 0;">
+                <button type="submit" form="filters" class="govuk-button" style="margin: 0;" id="button-apply-filters">
                     Apply filters
                 </button>
-                <a href="{% url 'cases:cases' %}?queue={{ queue_id }}" class="govuk-button govuk-button--secondary" style="margin-bottom: 0;">
+                <a href="{% url 'cases:cases' %}?queue={{ queue_id }}" class="govuk-button govuk-button--secondary" style="margin-bottom: 0;" id="button-clear-filters">
                     Clear filters
                 </a>
             </div>
