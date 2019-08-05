@@ -1,6 +1,7 @@
 import helpers.helpers as utils
 
-class CaseListPage():
+
+class CaseListPage:
 
     def __init__(self, driver):
         self.driver = driver

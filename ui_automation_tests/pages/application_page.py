@@ -2,7 +2,7 @@ from selenium.webdriver.support.ui import Select
 import time
 
 
-class ApplicationPage():
+class ApplicationPage:
 
     def __init__(self, driver):
         self.driver = driver
@@ -28,7 +28,8 @@ class ApplicationPage():
         self.driver.find_element_by_id(self.is_visible_to_exporter_checkbox_id).click()
 
     def enter_case_note(self, text):
-        self.driver.find_element_by_id(self.case_note_field).send_keys(text)
+        self.driver.execute_script(f'document.getElementById("{self.case_note_field}").value = "{text[:-1]}"')
+        self.driver.find_element_by_id(self.case_note_field).send_keys(text[-1:])
 
     def get_text_of_case_note_field(self):
         return self.driver.find_element_by_id(self.case_note_field).text
@@ -81,7 +82,7 @@ class ApplicationPage():
     def click_edit_case_flags(self):
         edit_cases_btn = self.driver.find_element_by_id(self.edit_case_flags)
         edit_cases_btn.click()
-        
+
     def is_flag_applied(self, flag_id):
         case_flags = self.driver.find_element_by_id(self.case_flags)
         count = len(case_flags.find_elements_by_id(flag_id))
