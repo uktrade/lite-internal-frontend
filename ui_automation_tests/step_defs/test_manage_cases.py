@@ -157,7 +157,7 @@ class ManageCases():
         assert context.ueu_address in destinations_table
         assert context.ueu_country[0] in destinations_table
 
-    @when('I click on advice view')
-    def i_click_on_advice_view(driver, context):
+    @when('I click on view advice')
+    def i_click_on_view_advice(driver, context):
         application_page = ApplicationPage(driver)
         application_page.click_view_advice()

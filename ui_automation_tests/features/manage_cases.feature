@@ -107,4 +107,4 @@ Feature: I want to record the final decision overall on an application case
     Given I create application or application has been previously created
     And I go to internal homepage
     When I click on application previously created
-    And I click on advice view
+    And I click on view advice
