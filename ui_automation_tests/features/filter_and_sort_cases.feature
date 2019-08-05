@@ -36,3 +36,4 @@ Feature: I want to filter and sort cases on a queue
     When I show filters
     And I hide filters
     Then the filters are no longer shown
+    
