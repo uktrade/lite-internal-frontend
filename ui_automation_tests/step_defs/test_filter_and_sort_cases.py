@@ -4,6 +4,7 @@ from helpers.helpers import get_formatted_date_time_m_d_h_s
 from helpers.seed_data import SeedData
 from helpers.utils import get_or_create_attr
 
+from ui_automation_tests.pages.case_list_page import CaseListPage
 
 scenarios('../features/filter_and_sort_cases.feature', strict_gherkin=False)
 
@@ -36,29 +37,29 @@ def num_cases_appear(driver, context, number):
 def filter_status_change(driver, context, status):
     select = Select(driver.find_element_by_id('status'))
     select.select_by_visible_text(status)
-    driver.find_element_by_id("button-apply-filters").click()
+    CaseListPage(driver).click_apply_filters_button()
 
 
 @when(parsers.parse('filter case type has been changed to "{case_type}"'))
 def filter_status_change(driver, context, case_type):
     select = Select(driver.find_element_by_id('case_type'))
     select.select_by_visible_text(case_type)
-    driver.find_element_by_id("button-apply-filters").click()
+    CaseListPage(driver).click_apply_filters_button()
 
 
 @when('I show filters')
 def i_show_filters(driver, context):
-    driver.find_element_by_id('show-filters-link').click()
+    CaseListPage(driver).click_show_filters_link()
 
 
 @when('I click clear filters')
 def i_show_filters(driver, context):
-    driver.find_element_by_id('button-clear-filters').click()
+    CaseListPage(driver).click_clear_filters_button()
 
 
 @when('I hide filters')
 def i_hide_filters(driver, context):
-    driver.find_element_by_id('hide-filters-link').click()
+    CaseListPage(driver).click_hide_filters_link()
 
 
 @when(parsers.parse('I sort cases by "{sort_type}"'))
@@ -74,9 +75,9 @@ def the_cases_are_in_order_of(driver, context, index, status):
 
 @then('the filters are shown')
 def the_filters_are_shown(driver, context):
-    assert driver.find_element_by_class_name('lite-filter-bar--horizontal').is_displayed()
+    assert CaseListPage(driver).is_filters_visible()
 
 
 @then('the filters are hidden')
 def the_filters_are_hidden(driver, context):
-    assert not driver.find_element_by_class_name('lite-filter-bar--horizontal').is_displayed()
+    assert not CaseListPage(driver).is_filters_visible()
