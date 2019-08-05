@@ -37,7 +37,7 @@ Feature: I want to filter and sort cases on a queue
 
   @LT_914_filter_and_sort
   Scenario: I can show and hide filters
-    When I go to internal homepage and sign in
+    Given I go to internal homepage
     When I show filters
     Then the filters are shown
     When I hide filters
