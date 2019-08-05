@@ -201,3 +201,15 @@ def select_status_save(driver, status, context):
     context.status = status
     context.date_time_of_update = utils.get_formatted_date_time_h_m_pm_d_m_y()
     driver.find_element_by_xpath("//button[text()[contains(.,'Save')]]").click()
+
+
+@when('I click on new queue in dropdown')
+def new_queue_shown_in_dropdown(driver, context):
+    driver.find_element_by_id('queue-title').click()
+    elements = driver.find_elements_by_css_selector('.lite-dropdown .lite-dropdown--item')
+    for idx, element in enumerate(elements):
+        if element.text == context.queue_name:
+            driver.execute_script("document.getElementsByClassName('lite-dropdown--item')[" + str(idx) + "].scrollIntoView(true);")
+            element.click()
+            break
+

@@ -89,16 +89,6 @@ def move_case_to_original_queue(driver, context):
     Shared(driver).click_submit()
 
 
-@when('I click on new queue in dropdown')
-def new_queue_shown_in_dropdown(driver, context):
-    driver.find_element_by_id('queue-title').click()
-    elements = driver.find_elements_by_css_selector('.lite-dropdown .lite-dropdown--item')
-    for idx, element in enumerate(elements):
-        if element.text == context.queue_name:
-            driver.execute_script("document.getElementsByClassName('lite-dropdown--item')[" + str(idx) + "].scrollIntoView(true);")
-            element.click()
-            break
-
 
 @when(parsers.parse('I click on the "{queue_name}" queue in dropdown'))
 def system_queue_shown_in_dropdown(driver, queue_name):
