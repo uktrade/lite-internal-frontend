@@ -31,8 +31,8 @@ Feature: I want to filter and sort cases on a queue
     When I go to internal homepage
     And I click on new queue in dropdown
     And I sort cases by "Status"
-    Then the case at index "1" has the status of "Submitted"
-    And the case at index "2" has the status of "Under review"
+    Then the case at index "0" has the status of "Submitted"
+    And the case at index "1" has the status of "Under review"
     When I show filters
     And I hide filters
     Then the filters are no longer shown
