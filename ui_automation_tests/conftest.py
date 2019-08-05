@@ -6,6 +6,7 @@ from fixtures.core import context, driver, sso_login_info, invalid_username, exp
 from fixtures.urls import exporter_url, internal_url, sso_sign_in_url, api_url
 from fixtures.register_organisation import register_organisation
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_clc_query_api, apply_for_standard_application_with_ueu
+from fixtures.sign_in_to_sso import sign_in_to_internal_sso
 
 import helpers.helpers as utils
 from pages.flags_pages import FlagsPages
@@ -56,11 +57,7 @@ def when_go_to_internal_homepage(driver, internal_url):
 
 
 @given('I go to internal homepage')
-def go_to_internal_homepage(driver, internal_url, sso_sign_in_url, sso_login_info):
-    driver.get(sso_sign_in_url)
-    driver.find_element_by_name("username").send_keys(sso_login_info['email'])
-    driver.find_element_by_name("password").send_keys(sso_login_info['password'])
-    driver.find_element_by_css_selector("[type='submit']").click()
+def go_to_internal_homepage(driver, internal_url, sso_sign_in_url, sso_login_info, sign_in_to_internal_sso):
     driver.get(internal_url)
 
 

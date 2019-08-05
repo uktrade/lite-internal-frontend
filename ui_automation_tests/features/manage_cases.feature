@@ -24,7 +24,7 @@ Feature: I want to record the final decision overall on an application case
   @LT_957_record
   Scenario: Record decision
     Given I create application or application has been previously created
-    And I go to internal homepage
+    When I go to internal homepage and sign in
     When I give myself the required permissions for "Make final decisions"
     And I go to the internal homepage
     And I click on application previously created
@@ -101,3 +101,10 @@ Feature: I want to record the final decision overall on an application case
     Given I go to internal homepage
     When I click on application previously created with pre incorporated goods
     Then I see an ultimate end user
+
+  @LT-956_can_see_advice_view
+  Scenario: Gov user can see advice view page
+    Given I create application or application has been previously created
+    And I go to internal homepage
+    When I click on application previously created
+    And I click on view advice
