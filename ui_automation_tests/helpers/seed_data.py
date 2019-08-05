@@ -96,7 +96,6 @@ class SeedData:
         }
     }
 
-
     def __init__(self, api_url, logging=True):
         self.base_url = api_url.rstrip('/')
         self.auth_gov_user()
