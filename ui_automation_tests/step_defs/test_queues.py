@@ -58,12 +58,8 @@ def see_queue_in_queue_list(driver, context):
 @then('I dont see previously created application')
 def dont_see_queue_in_queue_list(driver, context):
     driver.timeout_off()
-    try:
-        QueuesPages(driver).case_is_on_the_list(context.app_id)
-        driver.timeout_on()
-        assert False
-    except selenium.common.exceptions.NoSuchElementException:
-        assert True
+    assert context.app_id not in driver.find_element_by_css_selector('.lite-cases-table').text
+    driver.timeout_on()
 
 
 @when('I add case to new queue')
