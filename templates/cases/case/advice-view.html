@@ -23,7 +23,7 @@
 			<th class="lite-table__header" scope="col">Country</th>
 			<th class="lite-table__header" scope="col">Role</th>
 			<th class="lite-table__header" scope="col">Name</th>
-			<th class="lite-table__header" scope="col">Advice</th>
+			<!-- <th class="lite-table__header" scope="col">Advice</th> -->
 			<th class="lite-table__header" scope="col"></th>
 			<th class="lite-table__header" scope="col">User</th>
 		</tr>
@@ -41,11 +41,12 @@
 			<td class="lite-table__cell">{{ data.case.application.destinations.data.country }}</td>
 			<td class="lite-table__cell">End User</td>
 			<td class="lite-table__cell">{{ data.case.application.destinations.data.name }}</td>
-			<td class="lite-table__cell">Approve</td>
+			<!-- <td class="lite-table__cell">Approve</td> -->
+			<!-- <td class="lite-table__cell"></td> -->
 			<td class="lite-table__cell">
 
 		</td>
-		<td class="lite-table__cell">Christopher Stobart</td>
+		<td class="lite-table__cell"></td>
 	</tr>
 	{% for ultimate_end_user in data.case.application.ultimate_end_users.data %}
 	<tr>
@@ -60,8 +61,10 @@
 		<td class="lite-table__cell">{{ ultimate_end_user.country }}</td>
 		<td class="lite-table__cell">Ultimate End User</td>
 		<td class="lite-table__cell">{{ ultimate_end_user.name }}</td>
-		<td class="lite-table__cell">Proviso</td>
-		<td class="lite-table__cell">
+		<!-- <td class="lite-table__cell">Proviso</td> -->
+		<!-- <td class="lite-table__cell"></td> -->
+		<td class="lite-table__cell"></td>
+		<!-- <td class="lite-table__cell">
 			<table>
 				<tr">
 				<td style="vertical-align: top">Proviso:</td>
@@ -73,8 +76,8 @@
 				<td>This is a paragraph of note text</td>
 			</tr>
 		</table>
-	</td>
-	<td class="lite-table__cell">Christopher Stobart</td>
+	</td> -->
+	<td class="lite-table__cell"></td>
 </tr>
 {% endfor %}
 </tbody>
@@ -88,7 +91,7 @@
 			<th class="lite-table__header" scope="col">Control List Entry</th>
 			<th class="lite-table__header" scope="col">ARS Description</th>
 			<th class="lite-table__header">Quantity/Value</th>
-			<th class="lite-table__header" scope="col">Advice</th>
+			<!-- <th class="lite-table__header" scope="col">Advice</th> -->
 			<th class="lite-table__header" scope="col"></th>
 			<th class="lite-table__header" scope="col">User</th>
 		</tr>
@@ -107,9 +110,9 @@
 			<td class="lite-table__cell">{{ good.good.control_code|default:'None' }}</td>
 			<td class="lite-table__cell">Annual report summary 17</td>
 			<td class="lite-table__cell">{{ good.quantity }} {{ good.unit }}/£{{ good.value }}</td>
-			<td class="lite-table__cell">Proviso</td>
+			<!-- <td class="lite-table__cell"></td> -->
 			<td class="lite-table__cell">
-				<table>
+				<!-- <table>
 					<tr>
 						<td style="vertical-align: top">Proviso:</td>
 						<td>This is a paragraph of proviso text advising about something but nothing in particular and everything. If you know how to read or even read this filler text please enjoy it because it is not lipsum orem</td>
@@ -119,9 +122,9 @@
 						<td style="vertical-align: top">Note:</td>
 						<td>This is a paragraph of note text</td>
 					</tr>
-				</table>
+				</table> -->
 			</td>
-			<td class="lite-table__cell">Christopher Stobart</td>
+			<td class="lite-table__cell"></td>
 		</tr>
 		{% endfor %}
 	</tbody>
