@@ -1,5 +1,7 @@
 ISO8601_FMT = '%Y-%m-%dT%H:%M:%S.%fZ'
 DEFAULT_QUEUE_ID = '00000000-0000-0000-0000-000000000001'
+ALL_CASES_SYSTEM_QUEUE_ID = 'de13c40a-b330-4d77-8304-57ac12326e5a'
+OPEN_CASES_SYSTEM_QUEUE_ID = 'f1a0631d-7abd-4152-a184-5e8557da8d49'
 
 # URLS
 ORGANISATIONS_URL = '/organisations/'
@@ -20,6 +22,7 @@ GOV_USERS_PERMISSIONS_URL = '/gov-users/permissions/'
 FLAGS_URL = '/flags/'
 FLAGS_CASE_LEVEL_FOR_TEAM = '/flags/?level=Case&team=True'
 CLC_QUERIES_URL = '/clc_queries/'
+PICKLIST_URL = '/picklist/'
 
 # Static URLs
 STATIC_URL = '/static/'
