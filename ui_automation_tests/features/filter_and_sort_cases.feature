@@ -25,11 +25,11 @@ Feature: I want to filter and sort cases on a queue
 #    Then "1" cases are shown
 #    When I click clear filters
 #    Then "2" cases are shown
-#    When I click on application previously created
-#    And I click progress application
-#    And I select status "Under review" and save
-#    And I go to the internal homepage
-#    And I click on new queue in dropdown
+    When I click on application previously created
+    And I click progress application
+    And I select status "Under review" and save
+    And I go to the internal homepage
+    And I click on new queue in dropdown
     And I sort cases by "STATUS"
     Then "2" cases are shown
     Then the case at index "0" has the status of "Submitted"

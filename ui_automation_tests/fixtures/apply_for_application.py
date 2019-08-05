@@ -8,7 +8,7 @@ from helpers.seed_data import SeedData
 from helpers.utils import Timer, get_or_create_attr
 
 
-@fixture(scope="session")
+@fixture(scope="function")
 def apply_for_standard_application(driver, request, context):
     timer = Timer()
     api = get_or_create_attr(context, 'api', lambda: SeedData(logging=True))

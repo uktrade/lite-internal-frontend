@@ -68,10 +68,10 @@ def i_sort_cases_by(driver, context, sort_type):
 
 @then(parsers.parse('the case at index "{index}" has the status of "{status}"'))
 def the_cases_are_in_order_of(driver, context, index, status):
-    row = driver.find_element_by_css_selector('lite-cases-table-row:nth-of-type(' + index + ')')
-    assert row.find_element_by_css_selector('p:last-child').text == status
+    row = driver.find_elements_by_css_selector('.lite-cases-table-row')[int(index)]
+    assert status in row.text
 
 
-@when('the filters are no longer shown')
+@then('the filters are no longer shown')
 def the_filters_are_no_longer_shown(driver, context):
     assert not driver.find_element_by_class_name('lite-filter-bar--horizontal').is_displayed()
