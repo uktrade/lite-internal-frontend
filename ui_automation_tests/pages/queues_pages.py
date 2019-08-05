@@ -14,10 +14,7 @@ class QueuesPages():
         self.driver.find_element_by_css_selector(self.add_queue_button).click()
 
     def case_is_on_the_list(self, app_id):
-        if self.driver.find_elements_by_link_text(app_id):
-            return True
-        else:
-            return False
+        return self.driver.find_elements_by_link_text(app_id) is not None
 
     def get_no_cases_text(self):
         return self.driver.find_element_by_css_selector(self.no_cases_text).text
