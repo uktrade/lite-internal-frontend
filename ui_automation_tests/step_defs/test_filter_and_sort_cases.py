@@ -18,6 +18,7 @@ log.addHandler(console)
 def create_queue(register_organisation, context):
     api = get_or_create_attr(context, 'api', lambda: SeedData(logging=True))
     api.add_queue('queue' + get_formatted_date_time_m_d_h_s())
+    context.queue_name = api.context['queue_name']
 
 
 @when('case has been moved to new Queue')
@@ -38,7 +39,7 @@ def filter_status_change(driver, context, status):
     driver.find_element_by_id("button-apply-filters").click()
 
 
-@when(parsers.parse('Filter case type has been changed to "{case_type}"'))
+@when(parsers.parse('filter case type has been changed to "{case_type}"'))
 def filter_status_change(driver, context, case_type):
     select = Select(driver.find_element_by_id('case_type'))
     select.select_by_visible_text(case_type)

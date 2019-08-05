@@ -14,6 +14,7 @@ from pages.shared import Shared
 from pages.exporter_hub import ExporterHub
 from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
+from pages.queues_pages import QueuesPages
 
 # Screenshot in case of any test failure
 
@@ -181,6 +182,7 @@ def assert_case_is_present(driver, register_organisation, apply_for_clc_query, c
 def create_clc_query(driver, apply_for_clc_query_api, context):
     pass
 
+
 @when('I click on the clc-case previously created')
 def click_on_clc_case_previously_created(driver, context):
     case_list_page = CaseListPage(driver)
@@ -212,4 +214,10 @@ def new_queue_shown_in_dropdown(driver, context):
             driver.execute_script("document.getElementsByClassName('lite-dropdown--item')[" + str(idx) + "].scrollIntoView(true);")
             element.click()
             break
+
+
+@then('there are no cases shown')
+def no_cases_shown(driver):
+    assert 'There are no new cases to show.' in QueuesPages(driver).get_no_cases_text()
+
 
