@@ -24,3 +24,19 @@ def create_queue(register_organisation, context):
 def assign_case_to_queue(context):
     api = get_or_create_attr(context, 'api', lambda: SeedData(logging=True))
     api.assign_case_to_queue()
+
+
+@then(parsers.parse('"{number}" cases appear'))
+def num_cases_appear(driver, context, number):
+    assert int(number) == len(driver.find_elements_by_css_selector('.lite-cases-table .lite-cases-table-row'))
+
+
+@when(parsers.parse('Filter status has been changed to "{approved}"'))
+def filter_approved(driver, context, number):
+    assert int(number) == len(driver.find_elements_by_css_selector('.lite-cases-table .lite-cases-table-row'))
+
+
+@when('I show filters')
+def i_show_filters(driver, context):
+    driver.find_element_by_id('show-filters-link').click()
+

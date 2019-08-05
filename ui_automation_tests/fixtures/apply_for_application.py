@@ -45,6 +45,7 @@ def apply_for_standard_application(driver, request, context):
     )
     api.submit_application()
     context.app_id = api.context['application_id']
+    context.case_id = api.context['case_id']
     timer.print_time('apply_for_standard_application')
 
 
@@ -221,3 +222,10 @@ def apply_for_clc_query(driver, request, context):
     case_id = add_goods_page.assert_good_is_displayed_and_return_case_id(context.good_description)
     context.case_id = case_id
     driver.get(request.config.getoption("--internal_url"))
+
+
+@fixture(scope="session")
+def apply_for_clc_query_api(driver, request, context):
+    api = get_or_create_attr(context, 'api', lambda: SeedData(logging=True))
+    api.add_clc_query()
+    context.case_id = api.context['case_id']

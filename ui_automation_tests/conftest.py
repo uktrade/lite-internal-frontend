@@ -5,7 +5,7 @@ from pytest_bdd import given, when, then, parsers
 from fixtures.core import context, driver, sso_login_info, invalid_username, exporter_sso_login_info
 from fixtures.urls import exporter_url, internal_url, sso_sign_in_url, api_url
 from fixtures.register_organisation import register_organisation
-from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_standard_application_with_ueu
+from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_clc_query_api, apply_for_standard_application_with_ueu
 
 import helpers.helpers as utils
 from pages.flags_pages import FlagsPages
@@ -95,13 +95,13 @@ def click_on_created_application_with_ueu(driver, apply_for_standard_application
     driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
 
 
-@when('I create application or application has been previously created')
+@given('I create application or application has been previously created')
 def create_app(driver, register_organisation, apply_for_standard_application):
     pass
 
 
-@given('I create application or application has been previously created')
-def create_app(driver, register_organisation, apply_for_standard_application):
+@when('I create application or application has been previously created')
+def create_app_when(driver, register_organisation, apply_for_standard_application):
     pass
 
 
@@ -176,6 +176,10 @@ def assert_case_is_present(driver, register_organisation, apply_for_clc_query, c
     case_list_page = CaseListPage(driver)
     assert case_list_page.assert_case_is_present(context.case_id), "clc case ID is not present on page"
 
+
+@when('I create a clc_query')
+def create_clc_query(driver, apply_for_clc_query_api, context):
+    pass
 
 @when('I click on the clc-case previously created')
 def click_on_clc_case_previously_created(driver, context):

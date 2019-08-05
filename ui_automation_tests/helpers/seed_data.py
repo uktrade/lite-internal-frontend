@@ -84,8 +84,18 @@ class SeedData:
             "quantity": 1234,
             "unit": "NAR",
             "value": 123.45
+        },
+        "clc_good": {
+            "description": "Targus",
+            "is_good_controlled": "unsure",
+            "control_code": "1234",
+            "is_good_end_product": True,
+            "part_number": "1234",
+            "validate_only": False,
+            "not_sure_details_details": "Kebabs"
         }
     }
+
 
     def __init__(self, api_url, logging=True):
         self.base_url = api_url.rstrip('/')
@@ -147,6 +157,13 @@ class SeedData:
         response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['good']
         self.add_to_context('good_id', item['id'])
+
+    def add_clc_query(self):
+        self.log("Adding clc query: ...")
+        data = self.request_data['clc_good']
+        response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
+        item = json.loads(response.text)['good']
+        self.add_to_context('case_id', item['clc_query_case_id'])
 
     def add_draft(self, draft=None, good=None, enduser=None, ultimate_end_user=None):
         self.log("Creating draft: ...")
