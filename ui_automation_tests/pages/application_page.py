@@ -22,7 +22,7 @@ class ApplicationPage():
         self.activity_user = ".user"
         self.is_visible_to_exporter_checkbox_id = 'is_visible_to_exporter'
         self.edit_case_flags = "a[href*='/assign-flags']"
-        self.advice_view = "a[href*='/advice-view/']"
+        self.view_advice = "a[href*='/advice-view/']"
         self.case_flags = 'application-case-flags'
 
     def click_visible_to_exporter_checkbox(self):
@@ -84,7 +84,7 @@ class ApplicationPage():
         edit_cases_btn.click()
 
     def click_view_advice(self):
-        self.driver.find_element_by_css_selector(self.advice_view).click()
+        self.driver.find_element_by_css_selector(self.view_advice).click()
 
     def is_flag_applied(self, flag_id):
         case_flags = self.driver.find_element_by_id(self.case_flags)
