@@ -16,7 +16,7 @@ class Shared(BasePage):
         return self.driver.find_element_by_css_selector('body').text
 
     def get_text_of_selected_tab(self):
-        return self.driver.find_element_by_css_selector('.lite-tabs__tab .selected').text
+        return self.driver.find_element_by_css_selector('.lite-tabs__tab.selected').text
 
     def get_text_of_table_body(self):
         return self.driver.find_element_by_css_selector('.govuk-table__body').text
