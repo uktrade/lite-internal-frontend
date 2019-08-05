@@ -16,15 +16,11 @@ Feature: I want to record the final decision overall on an application case
     And I select status "Under review" and save
     Then the status has been changed in the application
     And the application headers and information are correct
-    #TODO remove dependency here
-    When I go to exporter homepage
-    And I click applications
-    Then the status has been changed in exporter
 
   @LT_957_record
   Scenario: Record decision
     Given I create application or application has been previously created
-    When I go to internal homepage and sign in
+    And I go to internal homepage
     When I give myself the required permissions for "Make final decisions"
     And I go to the internal homepage
     And I click on application previously created
