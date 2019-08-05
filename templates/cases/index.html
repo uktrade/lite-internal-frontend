@@ -192,7 +192,8 @@
     </div>
 
 	{% else %}
-		<p class="govuk-caption-l">{% get_string 'cases.no_cases' %}</p>
+		{% get_string 'cases.no_cases' as no_cases_text %}
+		{% include "includes/information-text.html" with text=no_cases_text %}
 	{% endif %}
 
 </form>
