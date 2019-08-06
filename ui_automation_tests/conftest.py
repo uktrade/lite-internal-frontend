@@ -52,6 +52,11 @@ def go_to_internal_homepage(driver, internal_url, sso_sign_in_url, sso_login_inf
     driver.get(internal_url)
 
 
+@given('I sign in to SSO or am signed into SSO')
+def sign_into_sso(driver, sign_in_to_internal_sso):
+    pass
+
+
 @when('I go to internal homepage and sign in')
 def go_to_internal_homepage_sign_in(driver, internal_url, sso_sign_in_url, sso_login_info):
     driver.get(sso_sign_in_url)

@@ -74,7 +74,7 @@ Feature: I want to define new work queues and the teams they belong to
   @LT_1125_error
   Scenario: Move cases error message when not selecting any queues
     Given I create application or application has been previously created
-    And I go to internal homepage
+    And I sign in to SSO or am signed into SSO
     When I go to application previously created
     And I deselect all queues
     Then I see error message "Select at least one queue"
@@ -96,7 +96,7 @@ Feature: I want to define new work queues and the teams they belong to
   @LT-1123-view_all_cases @view_all_cases
   Scenario: Closed cases appear on the all cases queue
     Given I create application or application has been previously created
-    And I go to internal homepage
+    And I sign in to SSO or am signed into SSO
     When I go to application previously created
     And I click progress application
     And I select status "Withdrawn" and save
@@ -107,7 +107,7 @@ Feature: I want to define new work queues and the teams they belong to
   @LT-1123-view_all_cases @view_all_cases
   Scenario: Closed cases dont appear on the open cases queue
     Given I create application or application has been previously created
-    And I go to internal homepage
+    And I sign in to SSO or am signed into SSO
     When I go to application previously created
     And I click progress application
     And I select status "Withdrawn" and save

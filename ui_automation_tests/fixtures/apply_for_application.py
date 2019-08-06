@@ -11,6 +11,11 @@ def apply_for_standard_application(driver, request, context):
 
     app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     context.app_time_id = app_time_id
+    context.ueu_type = "commercial"
+    context.ueu_name = "Individual"
+    context.ueu_website = "https://www.anothergov.uk"
+    context.ueu_address = "Bullring, Birmingham SW1A 0AA"
+    context.ueu_country = ["GB", "United Kingdom"]
 
     api.add_draft(
         draft={
@@ -32,11 +37,11 @@ def apply_for_standard_application(driver, request, context):
             "website": "https://www.smith.com"
         },
         ultimate_end_user={
-            "name": "Individual",
-            "address": "Bullring, Birmingham SW1A 0AA",
-            "country": "GB",
-            "type": "commercial",
-            "website": "https://www.anothergov.uk"
+            "name": context.ueu_name,
+            "address": context.ueu_address,
+            "country": context.ueu_country[0],
+            "type": context.ueu_type,
+            "website": context.ueu_website
         }
     )
     api.submit_application()

@@ -7,7 +7,7 @@ Feature: I want to add an internal note to a case and view notes
   @LT_911_add
   Scenario: Add a new valid case note
     Given I create application or application has been previously created
-    And I go to internal homepage
+    And I sign in to SSO or am signed into SSO
     When I go to application previously created
     And I enter "This application is potentially risky." for case note
     And I click post note
@@ -16,7 +16,7 @@ Feature: I want to add an internal note to a case and view notes
   @LT_911_max
   Scenario: Add a case note filled to max with space characters
     Given I create application or application has been previously created
-    And I go to internal homepage
+    And I sign in to SSO or am signed into SSO
     When I go to application previously created
     And I enter "the maximum limit with spaces" for case note
     And I click post note
@@ -25,7 +25,7 @@ Feature: I want to add an internal note to a case and view notes
   @LT_911_too_many
   Scenario: Add a case note with too many characters
     Given I create application or application has been previously created
-    And I go to internal homepage
+    And I sign in to SSO or am signed into SSO
     When I go to application previously created
     And I enter "the maximum limit" for case note
     Then case note warning is "None"
@@ -36,7 +36,7 @@ Feature: I want to add an internal note to a case and view notes
   @LT_911_cancel
   Scenario: Case note cancel button
     Given I create application or application has been previously created
-    And I go to internal homepage
+    And I sign in to SSO or am signed into SSO
     When I go to application previously created
     And I enter "Case note to cancel" for case note
     And I click cancel button
@@ -45,7 +45,7 @@ Feature: I want to add an internal note to a case and view notes
   @LT_912_add_external
   Scenario: Add a new exporter visible case note
     Given I create application or application has been previously created
-    And I go to internal homepage
+    And I sign in to SSO or am signed into SSO
     When I go to application previously created
     And I enter "This note is visible to exporters." for case note
     And I click visible to exporters checkbox
@@ -56,7 +56,7 @@ Feature: I want to add an internal note to a case and view notes
   @LT_912_add_external_to_clc_query
   Scenario: Add a new exporter visible case note to clc query
     Given I create clc query or clc query has been previously created
-    And I go to internal homepage
+    And I sign in to SSO or am signed into SSO
     When I go to application previously created
     And I enter "This clc query note is visible to exporters." for case note
     And I click visible to exporters checkbox
