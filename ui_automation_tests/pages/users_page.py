@@ -8,6 +8,9 @@ class UsersPage:
     def __init__(self, driver):
         self.driver = driver
 
+    def click_save_and_continue(self):
+        self.driver.find_element_by_css_selector("button[type*='submit']").click()
+
     def click_add_a_user_btn(self):
         self.driver.find_element_by_css_selector("a[href*='/users/add']").click()
 

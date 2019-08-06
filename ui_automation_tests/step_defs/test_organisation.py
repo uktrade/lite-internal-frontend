@@ -2,7 +2,6 @@ from datetime import datetime
 from pages.header_page import HeaderPage
 from pages.organisations_form_page import OrganisationsFormPage
 from pages.organisations_page import OrganisationsPage
-from pages.exporter_hub import ExporterHub
 from pytest_bdd import scenarios, when, then, parsers
 from selenium.webdriver.common.by import By
 import helpers.helpers as utils
