@@ -9,7 +9,7 @@ def apply_for_standard_application(driver, request, context):
     timer = Timer()
     api = get_or_create_attr(context, 'api', lambda: SeedData(logging=True))
 
-    app_time_id = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    app_time_id = datetime.datetime.now().strftime(" %H:%M:%S")
     context.app_time_id = app_time_id
     context.ueu_type = "commercial"
     context.ueu_name = "Individual"
