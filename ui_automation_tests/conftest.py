@@ -83,9 +83,9 @@ def login_to_exporter(driver, exporter_url, exporter_sso_login_info, register_or
         exporter_hub.login(exporter_sso_login_info['email'], exporter_sso_login_info['password'])
 
 
-@when('I click on application previously created')
-def click_on_created_application(driver, context):
-    driver.find_element_by_link_text(context.app_id).click()
+@when('I go to application previously created')
+def click_on_created_application(driver, context, internal_url):
+    driver.get(internal_url.rstrip('/' + '/cases/' + context.case_id))
 
 
 @when('I click on application previously created with pre incorporated goods')

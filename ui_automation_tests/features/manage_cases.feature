@@ -11,7 +11,7 @@ Feature: I want to record the final decision overall on an application case
   Scenario: Change status to Under Review
     Given I create application or application has been previously created
     And I go to internal homepage
-    When I click on application previously created
+    When I go to application previously created
     And I click progress application
     And I select status "Under review" and save
     Then the status has been changed in the application
@@ -22,8 +22,7 @@ Feature: I want to record the final decision overall on an application case
     Given I create application or application has been previously created
     And I go to internal homepage
     When I give myself the required permissions for "Make final decisions"
-    And I go to the internal homepage
-    And I click on application previously created
+    And I go to application previously created
     And I click record decision
     And I "grant" application
     And I click continue
@@ -50,8 +49,7 @@ Feature: I want to record the final decision overall on an application case
     Given I create application or application has been previously created
     And I go to internal homepage
     When I give myself the required permissions for "Make final decisions"
-    And I go to the internal homepage
-    And I click on application previously created
+    And I go to application previously created
     And I click record decision
     And I "deny" application
     And I click continue
@@ -65,8 +63,7 @@ Feature: I want to record the final decision overall on an application case
     Given I create application or application has been previously created
     And I go to internal homepage
     When I give myself the required permissions for "Make final decisions"
-    And I go to the internal homepage
-    And I click on application previously created
+    And I go to application previously created
     And I click record decision
     And I "deny" application
     And I click continue
@@ -82,8 +79,7 @@ Feature: I want to record the final decision overall on an application case
     Given I create application or application has been previously created
     And I go to internal homepage
     When I give myself the required permissions for "Make final decisions"
-    And I go to the internal homepage
-    And I click on application previously created
+    And I go to application previously created
     And I click record decision
     And I "deny" application
     And I click continue
@@ -102,5 +98,5 @@ Feature: I want to record the final decision overall on an application case
   Scenario: Gov user can see advice view page
     Given I create application or application has been previously created
     And I go to internal homepage
-    When I click on application previously created
+    When I go to application previously created
     And I click on view advice

@@ -8,7 +8,7 @@ So that it is recorded against the case and available for other case workers to 
 Scenario: Upload a new document that doesn't contain a virus
   Given I create application or application has been previously created
   And I go to internal homepage
-  When I click on application previously created
+  When I go to application previously created
   And I click on the Documents button
   And I click on the Attach Document button
   And I upload file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really"

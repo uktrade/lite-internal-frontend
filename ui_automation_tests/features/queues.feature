@@ -41,13 +41,12 @@ Feature: I want to define new work queues and the teams they belong to
     When I go to queues
     And I click on add a queue
     And I enter in queue name "Queue to move case to"
-    And I go to the internal homepage
-    And I click on application previously created
+    And I go to application previously created
     And I add case to new queue
     And I go to the internal homepage
     And I click on new queue in dropdown
     Then I see previously created application
-    When I click on application previously created
+    When I go to application previously created
     And I move case to new cases original queue and remove from new queue
     And I go to the internal homepage
     And I click on new queue in dropdown
@@ -76,7 +75,7 @@ Feature: I want to define new work queues and the teams they belong to
   Scenario: Move cases error message when not selecting any queues
     Given I create application or application has been previously created
     And I go to internal homepage
-    When I click on application previously created
+    When I go to application previously created
     And I deselect all queues
     Then I see error message "Select at least one queue"
 
@@ -98,7 +97,7 @@ Feature: I want to define new work queues and the teams they belong to
   Scenario: Closed cases appear on the all cases queue
     Given I create application or application has been previously created
     And I go to internal homepage
-    When I click on application previously created
+    When I go to application previously created
     And I click progress application
     And I select status "Withdrawn" and save
     And I go to the internal homepage
@@ -109,7 +108,7 @@ Feature: I want to define new work queues and the teams they belong to
   Scenario: Closed cases dont appear on the open cases queue
     Given I create application or application has been previously created
     And I go to internal homepage
-    When I click on application previously created
+    When I go to application previously created
     And I click progress application
     And I select status "Withdrawn" and save
     And I go to the internal homepage
