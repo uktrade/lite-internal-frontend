@@ -91,7 +91,7 @@ Feature: I want to record the final decision overall on an application case
   @LT_1042_can_see_ultimate_end_users
   Scenario: Gov user can see ultimate end users in the destinations section of the case
     Given I go to internal homepage
-    When I click on application previously created with pre incorporated goods
+    When I go to application previously created
     Then I see an ultimate end user
 
   @LT-956_can_see_advice_view

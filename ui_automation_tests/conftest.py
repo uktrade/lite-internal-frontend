@@ -5,7 +5,7 @@ from pytest_bdd import given, when, then, parsers
 from fixtures.core import context, driver, sso_login_info, invalid_username, exporter_sso_login_info
 from fixtures.urls import exporter_url, internal_url, sso_sign_in_url, api_url
 from fixtures.register_organisation import register_organisation
-from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_standard_application_with_ueu
+from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query
 from fixtures.sign_in_to_sso import sign_in_to_internal_sso
 
 import helpers.helpers as utils
@@ -37,18 +37,11 @@ def pytest_addoption(parser):
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
     
     if env == 'local':
-        parser.addoption("--exporter_url", action="store", default="http://localhost:9000", help="url")
         parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
         parser.addoption("--lite_api_url", action="store", default="http://localhost:8100", help="url")
     else:
-        parser.addoption("--exporter_url", action="store", default="https://exporter.lite.service." + env + ".uktrade.io/", help="url")
         parser.addoption("--internal_url", action="store", default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
         parser.addoption("--lite_api_url", action="store", default="https://lite-api-" + env + ".london.cloudapps.digital/", help="url")
-
-
-@given('I go to exporter homepage')
-def go_to_exporter_given(driver, exporter_url):
-    driver.get(exporter_url)
 
 
 @when('I go to the internal homepage')
@@ -70,26 +63,13 @@ def go_to_internal_homepage_sign_in(driver, internal_url, sso_sign_in_url, sso_l
     driver.get(internal_url)
 
 
-@when('I go to exporter homepage')
-def go_to_exporter_when(driver, exporter_url):
-    driver.get(exporter_url)
-
-
-@when('I login to exporter homepage')
-def login_to_exporter(driver, exporter_url, exporter_sso_login_info, register_organisation):
-    driver.get(exporter_url)
-    exporter_hub = ExporterHub(driver)
-    if "login" in driver.current_url:
-        exporter_hub.login(exporter_sso_login_info['email'], exporter_sso_login_info['password'])
-
-
 @when('I go to application previously created')
 def click_on_created_application(driver, context, internal_url):
     driver.get(internal_url.rstrip('/' + '/cases/' + context.case_id))
 
 
 @when('I click on application previously created with pre incorporated goods')
-def click_on_created_application_with_ueu(driver, apply_for_standard_application_with_ueu, context):
+def click_on_created_application_with_ueu(driver, apply_for_standard_application, context):
     driver.find_element_by_css_selector('.lite-cases-table').find_element_by_xpath("//*[text()[contains(.,'" + context.app_id + "')]]").click()
 
 
