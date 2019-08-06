@@ -26,7 +26,7 @@ Feature: I want standard picklists
     And I go to "footnotes" picklist
     And I add a new picklist item with " " and " "
     Then I see picklist error messages
-    
+
   @LT_1077_deactivate
   Scenario: Deactivate and reactivate a picklist item
     Given I go to internal homepage

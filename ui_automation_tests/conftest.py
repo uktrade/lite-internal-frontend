@@ -156,7 +156,7 @@ def create_clc_query(driver, apply_for_clc_query, context):
 def click_on_clc_case_previously_created(driver, context):
     case_list_page = CaseListPage(driver)
     assert case_list_page.assert_case_is_present(context.case_id)
-    driver.find_element_by_css_selector('.lite-cases-table [href*=' + context.case_id + ']').click()
+    driver.find_element_by_css_selector('.lite-cases-table [href*="' + context.case_id + '"]').click()
 
 
 @when('I click progress application')
