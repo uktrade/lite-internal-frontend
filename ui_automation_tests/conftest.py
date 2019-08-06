@@ -4,7 +4,6 @@ from pytest_bdd import given, when, then, parsers
 
 from fixtures.core import context, driver, sso_login_info, invalid_username
 from fixtures.urls import internal_url, sso_sign_in_url, api_url
-from fixtures.register_organisation import register_organisation
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query
 from fixtures.sign_in_to_sso import sign_in_to_internal_sso
 
@@ -77,17 +76,17 @@ def click_on_created_application_with_ueu(driver, apply_for_standard_application
 
 
 @given('I create application or application has been previously created')
-def create_app(driver, register_organisation, apply_for_standard_application):
+def create_app(driver, apply_for_standard_application):
     pass
 
 
 @when('I create application or application has been previously created')
-def create_app_when(driver, register_organisation, apply_for_standard_application):
+def create_app_when(driver, apply_for_standard_application):
     pass
 
 
 @given('I create clc query or clc query has been previously created')
-def create_clc(driver, register_organisation, apply_for_clc_query):
+def create_clc(driver, apply_for_clc_query):
     pass
 
 
@@ -153,7 +152,7 @@ def go_to_users(driver):
 
 
 @then('I see the clc-case previously created')
-def assert_case_is_present(driver, register_organisation, apply_for_clc_query, context):
+def assert_case_is_present(driver, apply_for_clc_query, context):
     case_list_page = CaseListPage(driver)
     assert case_list_page.assert_case_is_present(context.case_id), "clc case ID is not present on page"
 
