@@ -6,7 +6,7 @@ Feature: I want to define new work queues and the teams they belong to
 
 
   @LT_919_add
-  Scenario: Add and edit a new queue
+  Scenario: Add a new queue
     Given I go to internal homepage
     When I go to queues
     And I click on add a queue
@@ -23,8 +23,6 @@ Feature: I want to define new work queues and the teams they belong to
     And I enter in queue name "Ready for Edit"
     And I edit the new queue
     Then I see the new queue
-    When I go to the internal homepage
-    And I click on new queue in dropdown
 
   @LT_919_empty_validation
   Scenario: Add empty queue
@@ -60,8 +58,7 @@ Feature: I want to define new work queues and the teams they belong to
     When I go to queues
     And I click on add a queue
     And I enter in queue name "Queue to move case to"
-    And I go to the internal homepage
-    And I click on the clc-case previously created
+    And I go to application previously created
     And I add case to new queue
     And I go to the internal homepage
     And I click on new queue in dropdown
@@ -113,4 +110,5 @@ Feature: I want to define new work queues and the teams they belong to
     And I select status "Withdrawn" and save
     And I go to the internal homepage
     And I click on the "Open cases" queue in dropdown
+    And I refresh the page
     Then I dont see previously created application

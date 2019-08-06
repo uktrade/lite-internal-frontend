@@ -4,6 +4,9 @@ import types
 from selenium import webdriver
 from pytest import fixture
 
+from helpers.seed_data import SeedData
+from helpers.utils import get_or_create_attr
+
 
 def timeout_off(self):
     self.implicitly_wait(0)
@@ -60,3 +63,17 @@ def sso_login_info(request):
 @fixture(scope="module")
 def invalid_username(request):
     return "invalid@mail.com"
+
+
+def clear_down(driver, context, api_url):
+    api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=True))
+    print(api.get_queues())
+    if "Application Bin" not in str(api.get_queues()):
+        api.add_queue("Application Bin")
+        bin_id = context['queue_id']
+    else:
+        for queue in api.get_queues():
+            if queue['name'] == "Application Bin":
+                bin_id = queue['id']
+                break
+    api.assign_test_cases_to_bin(bin_id)
