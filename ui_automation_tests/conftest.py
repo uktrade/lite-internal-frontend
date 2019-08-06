@@ -47,7 +47,7 @@ def when_go_to_internal_homepage(driver, internal_url):
 
 
 @given('I go to internal homepage')
-def go_to_internal_homepage(driver, internal_url, sso_sign_in_url, sso_login_info, sign_in_to_internal_sso):
+def go_to_internal_homepage(driver, internal_url, sign_in_to_internal_sso):
     driver.get(internal_url)
 
 
