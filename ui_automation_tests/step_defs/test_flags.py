@@ -98,7 +98,6 @@ def i_see_the_original_number_of_active_flags(driver, context):
 @when('I go to flags via menu')
 def go_to_flags_menu(driver):
     header = HeaderPage(driver)
-
     header.click_lite_menu()
     header.click_flags()
 
@@ -113,5 +112,5 @@ def add_a_flag(driver, flag_name, flag_level, context):
 
 
 @when('I add a flag called UAE at level Case')
-def add_a_flag(driver, context, add_uae_flag):
+def add_a_uae_flag(driver, context, add_uae_flag):
     pass
