@@ -1,5 +1,7 @@
 import datetime
 import os
+
+from pytest import fixture
 from pytest_bdd import given, when, then, parsers
 
 from fixtures.core import context, driver, sso_login_info, invalid_username, new_cases_queue_id
@@ -94,7 +96,7 @@ def click_on_submit_button(driver):
 
 
 @when('I refresh the page')
-def I_refresh_the_page(driver):
+def i_refresh_the_page(driver):
     driver.refresh()
 
 
@@ -109,35 +111,43 @@ def i_click_continue(driver):
     driver.find_element_by_css_selector("button[type*='submit']").click()
 
 
-@when('I go to flags')
-def go_to_flags(driver):
+@when('I go to flags via menu')
+def go_to_flags_menu(driver):
     header = HeaderPage(driver)
 
     header.click_lite_menu()
     header.click_flags()
 
 
+@given('I go to flags')
+def go_to_flags(driver, internal_url, sign_in_to_internal_sso):
+    driver.get(internal_url.rstrip("/")+"/flags")
+
+
 @when(parsers.parse('I add a flag called "{flag_name}" at level "{flag_level}"'))
 def add_a_flag(driver, flag_name, flag_level, context):
     flags_page = FlagsPages(driver)
-    shared = Shared(driver)
-    utils.get_unformatted_date_time()
     flags_page.click_add_a_flag_button()
-    if flag_name == " ":
-        context.flag_name = flag_name
-    else:
-        extra_string = str(utils.get_unformatted_date_time())
-        extra_string = extra_string[(len(extra_string))-7:]
-        context.flag_name = flag_name + extra_string
-    flags_page.enter_flag_name(context.flag_name)
+    flags_page.enter_flag_name(flag_name)
     flags_page.select_flag_level(flag_level)
-    shared.click_submit()
+    Shared(driver).click_submit()
+
+
+@fixture(scope="session")
+@when(parsers.parse('I add a flag called UAE at level Case'))
+def add_a_flag(driver, context):
+    flags_page = FlagsPages(driver)
+    flags_page.click_add_a_flag_button()
+    extra_string = str(utils.get_formatted_date_time_d_h_m_s())
+    context.flag_name = "UAE" + extra_string
+    flags_page.enter_flag_name(context.flag_name)
+    flags_page.select_flag_level("Case")
+    Shared(driver).click_submit()
 
 
 @when('I go to users')
 def go_to_users(driver):
     header = HeaderPage(driver)
-
     header.open_users()
 
 

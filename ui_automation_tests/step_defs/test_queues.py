@@ -38,8 +38,7 @@ def add_a_queue(driver, queue_name, context):
     if queue_name == " ":
         context.queue_name = queue_name
     else:
-        extra_string = str(utils.get_unformatted_date_time())
-        extra_string = extra_string[(len(extra_string))-14:]
+        extra_string = str(utils.get_formatted_date_time_d_h_m_s())
         context.queue_name = queue_name + extra_string
     QueuesPages(driver).enter_queue_name(context.queue_name)
     Shared(driver).click_submit()
