@@ -51,7 +51,8 @@
 					</p>
 				</div>
 			{% empty %}
-				<p class="govuk-caption-l" style="margin-top: 10px;">There aren't any items in this picklist.</p>
+				<p class="govuk-caption-l" style="margin-top: 10px;"></p>
+					{% include "includes/information-text.html" with text="There aren't any items in this picklist" %}
 			{% endfor %}
 		</div>
 	</div>

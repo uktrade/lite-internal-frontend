@@ -1,0 +1,90 @@
+{% extends 'layouts/two_pane.html' %}
+
+{% load static humanize svg %}
+
+{% block two_thirds %}
+
+<h2 class="govuk-heading-l">Give advice</h2>
+<div class="govuk-form-group">
+	<p class="govuk-caption-m">
+		This is a placeholder
+	</p>
+</div>
+
+{% if type == 'proviso' %}
+	<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
+		<div class="govuk-form-group">
+			<div class="app-picklist-picker-heading__container">
+				<label class="govuk-label" for="{{ question.name }}">
+					Proviso
+				</label>
+				<a onclick="return showProvisoModal();" href="#" class="govuk-label govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">
+					{% svg 'new' %}
+					Import proviso from picklists
+				</a>
+			</div>
+			<span class="govuk-hint" for="{{ question.name }}">
+				This is a really long description
+			</span>
+			<textarea class="govuk-textarea govuk-js-character-count " id="textarea-proviso" name="textarea" rows="5" aria-describedby="textarea-proviso-info textarea-proviso-hint"></textarea>
+		</div>
+
+		<span id="textarea-proviso-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+			You can enter up to 200 characters
+		</span>
+	</div>
+{% endif %}
+
+<div class="app-picklist-picker-heading__container">
+	<label class="govuk-label" for="{{ question.name }}">
+		Advice
+	</label>
+	<a href="#" class="govuk-label govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">
+		{% svg 'new' %}
+		Import advice from picklists
+	</a>
+</div>
+<!-- <span class="govuk-hint" for="{{ question.name }}">
+	This is a really long description
+</span> -->
+{% include "components/textarea.html" %}
+
+<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
+	<div class="govuk-form-group">
+		<label class="govuk-label" for="{{ question.name }}">
+			Note to company
+		</label>
+		<span class="govuk-hint" for="{{ question.name }}">
+			This is a really long description
+		</span>
+		<textarea class="govuk-textarea govuk-js-character-count " id="textarea-note" name="note" rows="5" aria-describedby="textarea-note-info textarea-note-hint"></textarea>
+	</div>
+
+	<span id="textarea-note-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+		You can enter up to 200 characters
+	</span>
+</div>
+
+<button class="govuk-button">Submit advice</button>
+
+<div id="modal-proviso-picker" style="display: none;">
+	{% if proviso_picklist %}
+		<div class="app-picklist-picker__container">
+			{% for item in proviso_picklist %}
+				<a onclick="return showPreviewModal(this)" data-title="{{ item.name }}" data-text="{{ item.text }}" data-last-updated="{{ item.last_modified_at|str_date }}" class="app-picklist-picker__item">
+					<h4 class="govuk-heading-s">{{ item.name }}</h4>
+					<p class="govuk-caption-m">
+						{{ item.text|slice:":100" }}
+					</p>
+				</a>
+			{% endfor %}
+		</div>
+	{% else %}
+		{% include "includes/information-text.html" with text="There aren't any items in this picklist" %}
+	{% endif %}
+</div>
+
+<script src="{% static 'javascripts/modal.js' %}"></script>
+<script src="{% static 'javascripts/give-advice.js' %}"></script>
+
+{% endblock %}
