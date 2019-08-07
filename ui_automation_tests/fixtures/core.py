@@ -78,3 +78,8 @@ def clear_down(context, api_url):
                 bin_id = queue['id']
                 break
     api.assign_test_cases_to_bin(bin_id)
+
+
+@fixture(scope="session")
+def new_cases_queue_id():
+    return "00000000-0000-0000-0000-000000000001"
