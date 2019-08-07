@@ -1,4 +1,3 @@
-import datetime
 import os
 
 from pytest import fixture
@@ -10,8 +9,6 @@ from fixtures.apply_for_application import apply_for_standard_application, apply
 from fixtures.sign_in_to_sso import sign_in_to_internal_sso
 
 import helpers.helpers as utils
-from helpers.seed_data import SeedData
-from helpers.utils import get_or_create_attr
 from pages.flags_pages import FlagsPages
 from pages.header_page import HeaderPage
 from pages.shared import Shared
@@ -89,12 +86,6 @@ def create_clc(driver, apply_for_clc_query):
     pass
 
 
-@when('I click submit button')
-def click_on_submit_button(driver):
-    shared = Shared(driver)
-    shared.click_submit()
-
-
 @when('I refresh the page')
 def i_refresh_the_page(driver):
     driver.refresh()
@@ -108,29 +99,12 @@ def error_message_shared(driver, expected_error):
 
 @when('I click continue')
 def i_click_continue(driver):
-    driver.find_element_by_css_selector("button[type*='submit']").click()
-
-
-@when('I go to flags via menu')
-def go_to_flags_menu(driver):
-    header = HeaderPage(driver)
-
-    header.click_lite_menu()
-    header.click_flags()
+    Shared(driver).click_submit()
 
 
 @given('I go to flags')
 def go_to_flags(driver, internal_url, sign_in_to_internal_sso):
     driver.get(internal_url.rstrip("/")+"/flags")
-
-
-@when(parsers.parse('I add a flag called "{flag_name}" at level "{flag_level}"'))
-def add_a_flag(driver, flag_name, flag_level, context):
-    flags_page = FlagsPages(driver)
-    flags_page.click_add_a_flag_button()
-    flags_page.enter_flag_name(flag_name)
-    flags_page.select_flag_level(flag_level)
-    Shared(driver).click_submit()
 
 
 @fixture(scope="session")

@@ -93,3 +93,21 @@ def i_see_the_original_number_of_active_flags(driver, context):
 
     assert context.original_number_of_active_flags == number_of_active_flags
     assert context.original_number_of_deactivated_flags == number_of_deactivated_flags
+
+
+@when('I go to flags via menu')
+def go_to_flags_menu(driver):
+    header = HeaderPage(driver)
+
+    header.click_lite_menu()
+    header.click_flags()
+
+
+@when(parsers.parse('I add a flag called "{flag_name}" at level "{flag_level}"'))
+def add_a_flag(driver, flag_name, flag_level, context):
+    flags_page = FlagsPages(driver)
+    flags_page.click_add_a_flag_button()
+    flags_page.enter_flag_name(flag_name)
+    flags_page.select_flag_level(flag_level)
+    Shared(driver).click_submit()
+
