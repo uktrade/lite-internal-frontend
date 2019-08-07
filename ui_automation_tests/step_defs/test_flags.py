@@ -62,18 +62,18 @@ def deactivate_first_active_flag(driver):
 
 @when('I click include deactivated')
 def click_include_deactivated(driver):
-    driver.timeout_off()
+    driver.set_timeout_to(0)
     if len(driver.find_elements_by_css_selector("[href*='flags/all/']")) == 1:
         driver.find_element_by_css_selector("[href*='flags/all/']").click()
-    driver.timeout_on()
+    driver.set_timeout_to_10_seconds()
 
 
 @when('I click include reactivated if displayed')
 def click_include_deactivated(driver):
-    driver.timeout_off()
+    driver.set_timeout_to(0)
     if len(driver.find_element_by_css_selector("[href*='/flags/active/']")) == 1:
         driver.find_element_by_css_selector("[href*='/flags/active/']").click()
-    driver.timeout_on()
+    driver.set_timeout_to_10_seconds()
 
 
 @then('I see one less active flags')

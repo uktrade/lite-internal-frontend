@@ -7,12 +7,13 @@ from pytest import fixture
 from helpers.seed_data import SeedData
 from helpers.utils import get_or_create_attr
 
+# set_timeouts are for elements that dont exist that dont need a 10 second timeout to return that they dont exist. so wait 0 seconds to return that the element doesnt exist rather than 10.
 
-def timeout_off(self):
-    self.implicitly_wait(0)
+def set_timeout_to(self, time=0):
+    self.implicitly_wait(time)
 
 
-def timeout_on(self):
+def set_timeout_to_10_seconds(self):
     self.implicitly_wait(10)
 
 # Create driver fixture that initiates chrome
@@ -31,10 +32,10 @@ def driver(request):
         else:
             browser = webdriver.Chrome(chrome_options=chrome_options)
 
-        browser.timeout_off = types.MethodType(timeout_off, browser)
-        browser.timeout_on = types.MethodType(timeout_on, browser)
+        browser.set_timeout_to = types.MethodType(set_timeout_to, browser)
+        browser.set_timeout_to_10_seconds = types.MethodType(set_timeout_to_10_seconds, browser)
         browser.get("about:blank")
-        browser.timeout_on()
+        browser.set_timeout_to_10_seconds()
         return browser
     else:
         print('Only Chrome is supported at the moment')
