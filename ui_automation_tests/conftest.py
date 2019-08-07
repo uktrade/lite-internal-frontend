@@ -143,6 +143,7 @@ def add_a_flag(driver, context):
     flags_page.enter_flag_name(context.flag_name)
     flags_page.select_flag_level("Case")
     Shared(driver).click_submit()
+    assert context.flag_name in Shared(driver).get_text_of_table()
 
 
 @when('I go to users')

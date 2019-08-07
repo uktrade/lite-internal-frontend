@@ -9,7 +9,6 @@ Feature:  I want to create and deactivate case flags
     Given I go to internal homepage
     When I go to flags via menu
     And I add a flag called UAE at level Case
-    Then I see the flag in the flag list
     When I add an existing flag name
     Then I see error message "Enter a name which is not already in use by another flag"
 
