@@ -7,6 +7,7 @@ from fixtures.core import context, driver, sso_login_info, invalid_username, new
 from fixtures.urls import internal_url, sso_sign_in_url, api_url
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query
 from fixtures.sign_in_to_sso import sign_in_to_internal_sso
+from fixtures.add_a_flag import add_uae_flag
 
 import helpers.helpers as utils
 from pages.flags_pages import FlagsPages
@@ -105,19 +106,6 @@ def i_click_continue(driver):
 @given('I go to flags')
 def go_to_flags(driver, internal_url, sign_in_to_internal_sso):
     driver.get(internal_url.rstrip("/")+"/flags")
-
-
-@fixture(scope="session")
-@when(parsers.parse('I add a flag called UAE at level Case'))
-def add_a_flag(driver, context):
-    flags_page = FlagsPages(driver)
-    flags_page.click_add_a_flag_button()
-    extra_string = str(utils.get_formatted_date_time_d_h_m_s())
-    context.flag_name = "UAE" + extra_string
-    flags_page.enter_flag_name(context.flag_name)
-    flags_page.select_flag_level("Case")
-    Shared(driver).click_submit()
-    assert context.flag_name in Shared(driver).get_text_of_table()
 
 
 @when('I go to users')

@@ -111,3 +111,7 @@ def add_a_flag(driver, flag_name, flag_level, context):
     flags_page.select_flag_level(flag_level)
     Shared(driver).click_submit()
 
+
+@when('I add a flag called UAE at level Case')
+def add_a_flag(driver, context, add_uae_flag):
+    pass
