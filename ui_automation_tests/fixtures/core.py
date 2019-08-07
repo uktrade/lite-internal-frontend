@@ -65,7 +65,7 @@ def invalid_username(request):
     return "invalid@mail.com"
 
 
-def clear_down(driver, context, api_url):
+def clear_down(context, api_url):
     api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=True))
     print(api.get_queues())
     if "Application Bin" not in str(api.get_queues()):

@@ -218,14 +218,11 @@ class SeedData:
         data = {'queues':  [queue_id]}
         self.make_request("PUT", url='/cases/' + case_id + '/', headers=self.gov_headers, body=data)
 
-    def assign_test_cases_to_bin(self, bin_queue_id):
+    def assign_test_cases_to_bin(self, bin_queue_id, new_cases_queue_id):
         self.log("assigning cases to bin: ...")
-        new_cases_queue_id = "00000000-0000-0000-0000-000000000001"
         response = self.make_request("GET", url='/queues/' + new_cases_queue_id + '/', headers=self.gov_headers)
-        print(response)
         queue = json.loads(response.text)['queue']
         cases = queue['cases']
-        # cases = json.loads(queue.text)['cases']
         for case in cases:
             data = {'queues':  [bin_queue_id]}
             self.make_request("PUT", url='/cases/' + case['id'] + '/', headers=self.gov_headers, body=data)
