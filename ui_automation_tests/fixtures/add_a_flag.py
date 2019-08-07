@@ -1,13 +1,4 @@
-import os
-
 from pytest import fixture
-from pytest_bdd import given, when, then, parsers
-
-from fixtures.core import context, driver, sso_login_info, invalid_username, new_cases_queue_id
-from fixtures.urls import internal_url, sso_sign_in_url, api_url
-from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query
-from fixtures.sign_in_to_sso import sign_in_to_internal_sso
-
 import helpers.helpers as utils
 from pages.flags_pages import FlagsPages
 from pages.shared import Shared

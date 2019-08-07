@@ -8,6 +8,7 @@ from fixtures.urls import internal_url, sso_sign_in_url, api_url
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query
 from fixtures.sign_in_to_sso import sign_in_to_internal_sso
 from fixtures.add_a_flag import add_uae_flag
+from fixtures.add_queue import add_queue
 
 import helpers.helpers as utils
 from pages.flags_pages import FlagsPages
@@ -149,17 +150,11 @@ def select_status_save(driver, status, context):
 
 @when('I click on new queue in dropdown')
 def new_queue_shown_in_dropdown(driver, context):
-    driver.find_element_by_id('queue-title').click()
-    elements = driver.find_elements_by_css_selector('.lite-dropdown .lite-dropdown--item')
-    for idx, element in enumerate(elements):
-        if element.text == context.queue_name:
-            driver.execute_script("document.getElementsByClassName('lite-dropdown--item')[" + str(idx) + "].scrollIntoView(true);")
-            element.click()
-            break
+    CaseListPage(driver).click_on_queue_name(context.queue_name)
 
 
 @then('there are no cases shown')
 def no_cases_shown(driver):
-    assert 'There are no new cases to show.' in QueuesPages(driver).get_no_cases_text()
+    assert 'There are no new cases to show.' in QueuesPages(driver).get_no_cases_text(), "There are cases shown in the newly created queue."
 
 
