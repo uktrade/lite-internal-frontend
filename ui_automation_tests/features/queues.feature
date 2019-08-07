@@ -50,24 +50,6 @@ Feature: I want to define new work queues and the teams they belong to
     And I click on new queue in dropdown
     Then there are no cases shown
 
-
-  @LT_1125_move_cases_clc_query
-  Scenario: Move CLC Query to different queue
-    Given I create clc query or clc query has been previously created
-    And I go to internal homepage
-    When I go to queues
-    And I click on add a queue
-    And I enter in queue name "Queue to move case to"
-    And I go to application previously created
-    And I add case to new queue
-    And I go to the internal homepage
-    And I click on new queue in dropdown
-    And I click on the clc-case previously created
-    And I move case to new cases original queue and remove from new queue
-    And I go to the internal homepage
-    And I click on new queue in dropdown
-    Then there are no cases shown
-
   @LT_1125_error
   Scenario: Move cases error message when not selecting any queues
     Given I create application or application has been previously created
@@ -112,3 +94,20 @@ Feature: I want to define new work queues and the teams they belong to
     And I click on the "Open cases" queue in dropdown
     And I refresh the page
     Then I dont see previously created application
+
+  @LT_1125_move_cases_clc_query
+  Scenario: Move CLC Query to different queue
+    Given I create clc query or clc query has been previously created
+    And I go to internal homepage
+    When I go to queues
+    And I click on add a queue
+    And I enter in queue name "Queue to move case to"
+    And I go to application previously created
+    And I add case to new queue
+    And I go to the internal homepage
+    And I click on new queue in dropdown
+    And I click on the clc-case previously created
+    And I move case to new cases original queue and remove from new queue
+    And I go to the internal homepage
+    And I click on new queue in dropdown
+    Then there are no cases shown
