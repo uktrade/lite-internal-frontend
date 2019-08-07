@@ -9,19 +9,19 @@ def get_case(request, pk):
 
 
 def put_case(request, pk, json):
-    data = put(request, CASE_URL + pk + '/', json)
+    data = put(request, CASE_URL + pk, json)
     return data.json(), data.status_code
 
 
 # Applications
 def put_applications(request, pk, json):
-    data = put(request, APPLICATIONS_URL + pk + '/', json)
+    data = put(request, APPLICATIONS_URL + pk, json)
     return data.json(), data.status_code
 
 
 # CLC Queries
 def put_clc_queries(request, pk, json):
-    data = put(request, CLC_QUERIES_URL + pk + '/', json)
+    data = put(request, CLC_QUERIES_URL + pk, json)
     return data.json(), data.status_code
 
 
@@ -37,8 +37,6 @@ def post_case_notes(request, pk, json):
 
 
 # Case Flags
-
-
 def put_case_flags(request, pk, flags):
     data = put(request, CASE_URL + pk + CASE_FLAGS_URL, flags)
     return data.json(), data.status_code
