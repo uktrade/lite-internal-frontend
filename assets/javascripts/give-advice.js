@@ -16,7 +16,7 @@ function showPreviewModal(item, type) {
 	var previewHtml = '<div class="app-picklist-picker-preview">' +
 						  '<div class="app-picklist-picker-preview__text">' +
 							  '<p id="picker-preview-text" class="govuk-body-m">' + text + '</p>' +
-							  '<p class="govuk-caption-m">' + lastUpdated + '</p>' +
+							  '<p class="govuk-caption-m">Last updated ' + lastUpdated + '</p>' +
 						  '</div>' +
 						  '<div class="app-picklist-picker-preview__controls">' +
 							  '<button onclick="setProvisoText(\'' + type + '\');" type="submit" class="govuk-button" data-module="govuk-button">' +

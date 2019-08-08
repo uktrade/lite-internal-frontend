@@ -9,6 +9,37 @@
 	padding-top: 2px;
 }
 
+.app-picklist-item__text {
+	position: relative;
+	display: block;
+	max-height: 200px;
+	padding-bottom: govuk-spacing(1);
+	margin-bottom: govuk-spacing(6);
+	border-bottom: 2px solid govuk-colour("mid-grey");
+	overflow: hidden;
+
+	&:last-of-type {
+		border-bottom-color: transparent;
+	}
+
+	& > p {
+		display: block;
+		line-height: 1.66;
+		white-space: normal;
+		word-wrap: break-word;
+	}
+
+	&:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: linear-gradient(rgba(govuk-colour("white"), 0) 30px, govuk-colour("white") 90%);
+	}
+}
+
 .app-picklist-picker__item {
 	position: relative;
 	display: block;
