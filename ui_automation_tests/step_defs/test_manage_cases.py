@@ -21,8 +21,7 @@ class ManageCases():
 
     @when('I click record decision')
     def click_post_note(driver, context):
-        application_page = ApplicationPage(driver)
-        application_page.click_record_decision()
+        ApplicationPage(driver).click_record_decision()
         context.decision_array = []
 
     @when(parsers.parse('I "{grant_or_deny}" application'))
@@ -104,26 +103,20 @@ class ManageCases():
     @when(parsers.parse('I give myself the required permissions for "{permission}"'))
     def get_required_permissions(driver, permission):
         roles_page = RolesPages(driver)
-        user_page = UsersPage(driver)
-        header = HeaderPage(driver)
-        shared = Shared(driver)
-        header.open_users()
-        user_page.click_on_manage_roles()
+        HeaderPage(driver).open_users()
+        UsersPage(driver).click_on_manage_roles()
         roles_page.click_edit_for_default_role()
         roles_page.edit_default_role_to_have_permission(permission)
-        shared.click_submit()
+        Shared(driver).click_submit()
 
     @then("I reset the permissions")
     def reset_permissions(driver):
         roles_page = RolesPages(driver)
-        user_page = UsersPage(driver)
-        header = HeaderPage(driver)
-        shared = Shared(driver)
-        header.open_users()
-        user_page.click_on_manage_roles()
+        HeaderPage(driver).open_users()
+        UsersPage(driver).click_on_manage_roles()
         roles_page.click_edit_for_default_role()
         roles_page.remove_all_permissions_from_default_role()
-        shared.click_submit()
+        Shared(driver).click_submit()
 
     @then('I see an ultimate end user')
     def i_see_ultimate_end_user_on_page(driver, context):

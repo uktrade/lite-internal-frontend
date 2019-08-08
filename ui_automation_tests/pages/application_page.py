@@ -24,6 +24,7 @@ class ApplicationPage(BasePage):
     view_advice = "a[href*='/advice-view/']"
     case_flags = 'application-case-flags'
     move_case_button = '.govuk-button[href*="move"]' # CSS
+    status = 'status'  # ID
 
     def click_visible_to_exporter_checkbox(self):
         time.sleep(.5)
@@ -69,7 +70,7 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_css_selector(self.documents_btn).click()
 
     def select_status(self, status):
-        case_status_dropdown = Select(self.driver.find_element_by_id('status'))
+        case_status_dropdown = Select(self.driver.find_element_by_id(self.status))
         case_status_dropdown.select_by_visible_text(status)
 
     def get_application_headings(self):
