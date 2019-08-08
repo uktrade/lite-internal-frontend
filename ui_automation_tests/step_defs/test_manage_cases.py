@@ -48,7 +48,9 @@ class ManageCases():
     @then(parsers.parse('I see application "{grant_or_deny}"'))
     def see_application_granted_or_denied(driver, grant_or_deny, context):
         record = RecordDecision(driver)
-        details = driver.find_elements_by_css_selector(".lite-heading-s")
+        application_page = ApplicationPage(driver)
+
+        details = application_page.get_application_headings()
         for header in details:
             if header.text == "STATUS":
                 status_detail = header.find_element_by_xpath("./following-sibling::p").text
@@ -64,7 +66,6 @@ class ManageCases():
                     except IndexError:
                         pass
                     assert record.get_text_of_denial_reasons_headers(0) == "This case was denied because"
-                    # TODO ask dev to put a selector in here
                     i = 5
                     for denial_reason_code in context.decision_array:
                         assert record.get_text_of_denial_reasons_listed(i) == denial_reason_code
@@ -73,7 +74,7 @@ class ManageCases():
     @then('the status has been changed in the application')
     def status_has_been_changed_in_header(driver, context):
         application_page = ApplicationPage(driver)
-        for header in application_page.get_text_of_application_headings():
+        for header in application_page.get_application_headings():
             if header.text == "STATUS":
                 status_detail = header.find_element_by_xpath("./following-sibling::p").text
                 assert status_detail == context.status, "status has not been updated"

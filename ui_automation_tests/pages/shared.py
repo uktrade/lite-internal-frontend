@@ -11,7 +11,8 @@ class Shared(BasePage):
     govuk_caption = '.govuk-caption-l'  # CSS
     selected_tab = '.lite-tabs__tab.selected'  # CSS
     body = 'body'  # CSS
-    links_in_table = ".lite-table td a"
+    links_in_table = '.lite-table td a'
+    rows_in_table = '.lite-cases-table .lite-cases-table-row'  # CSS
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(self.submit_button).click()
@@ -39,3 +40,9 @@ class Shared(BasePage):
 
     def get_links_in_cells_in_table(self):
         return self.driver.find_elements_by_css_selector(self.links_in_table)
+
+    def get_number_of_rows_in_lite_table(self):
+        return len(self.driver.find_elements_by_css_selector(self.rows_in_table))
+
+    def get_lite_row_text_by_index(self, index):
+        return self.driver.find_elements_by_css_selector(self.rows_in_table)[int(index)].text

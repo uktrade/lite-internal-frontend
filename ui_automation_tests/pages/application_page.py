@@ -56,6 +56,9 @@ class ApplicationPage(BasePage):
     def get_disabled_attribute_of_post_note(self):
         return self.driver.find_element_by_id(self.post_note_btn).get_attribute("disabled")
 
+    def get_class_name_of_post_note(self):
+        return self.driver.find_element_by_id(self.post_note_btn).get_attribute("class")
+
     def click_progress_application(self):
         self.driver.find_element_by_css_selector(self.progress_app_btn).click()
 
@@ -69,7 +72,7 @@ class ApplicationPage(BasePage):
         case_status_dropdown = Select(self.driver.find_element_by_id('status'))
         case_status_dropdown.select_by_visible_text(status)
 
-    def get_text_of_application_headings(self):
+    def get_application_headings(self):
         return self.driver.find_elements_by_css_selector(self.headers)
 
     def get_text_of_case_note_subject(self, no):

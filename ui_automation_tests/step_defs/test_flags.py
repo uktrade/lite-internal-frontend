@@ -75,8 +75,8 @@ def i_see_one_less_active_flag(driver, context):
     number_of_active_flags = flags.get_size_of_active_flags()
     number_of_deactivated_flags = flags.get_size_of_inactive_flags()
 
-    assert context.original_number_of_active_flags - number_of_active_flags == 1
-    assert context.original_number_of_deactivated_flags - number_of_deactivated_flags == -1
+    assert context.original_number_of_active_flags - number_of_active_flags == 1, "There is not one less flag"
+    assert context.original_number_of_deactivated_flags - number_of_deactivated_flags == -1, "There is not one less deactivated flag"
 
 
 @when('I reactivate the first deactivated flag')
@@ -91,8 +91,8 @@ def i_see_the_original_number_of_active_flags(driver, context):
     number_of_active_flags = flags.get_size_of_active_flags()
     number_of_deactivated_flags = flags.get_size_of_inactive_flags()
 
-    assert context.original_number_of_active_flags == number_of_active_flags
-    assert context.original_number_of_deactivated_flags == number_of_deactivated_flags
+    assert context.original_number_of_active_flags == number_of_active_flags, "There is not equal flags to before"
+    assert context.original_number_of_deactivated_flags == number_of_deactivated_flags, "There is not equal deactivated flags to before"
 
 
 @when('I go to flags via menu')
