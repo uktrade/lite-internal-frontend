@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% extends 'layouts/base.html' %}
+
+{% load svg %}
+
+{% block back_link %}
+	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">{% get_string 'cases.back_to_case' %}</a>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="lite-app-bar">
+	<h1 class="govuk-heading-l">{{ title }}</h1>
+	<div class="lite-app-bar--right">
+		<a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:attach_documents' case.id %}">
+			{% get_string 'cases.manage.documents.attach_documents.button' %}
+		</a>
+	</div>
+</div>
+
+{% if ecju_queries %}
+	<p class="govuk-caption-m">{% get_string 'cases.manage.documents.description' %}</p>
+	{% for query in ecju_queries %}
+		{{ query }}
+	{% endfor %}
+{% else %}
+	<p class="govuk-caption-l">{% get_string 'cases.manage.documents.case_has_no_documents' %}</p>
+{% endif %}
+
+{% endblock %}
+</title>
+</head>
+<body>
+
+</body>
+</html>

@@ -15,7 +15,7 @@ from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
-    put_case_flags
+    put_case_flags, get_ecju_queries
 from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS, OPEN_CASES_SYSTEM_QUEUE_ID, ALL_CASES_SYSTEM_QUEUE_ID
 from conf.decorators import has_permission
 from core.services import get_user_permissions, get_statuses
@@ -135,6 +135,23 @@ class ViewAdvice(TemplateView):
             'edit_case_flags': get_string('cases.case.edit_case_flags')
         }
         return render(request, 'cases/case/advice-view.html', context)
+
+
+class EcjuQueries(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        case, status_code = get_case(request, case_id)
+        ecju_queries, status_code = get_ecju_queries(request, case_id)
+
+        title = case.get('case').get('clc_query').get('name') if case['case']['is_clc'] \
+            else case.get('case').get('application').get('name')
+
+        context = {
+            'data': case,
+            'title': title,
+            'ecju_queries': ecju_queries
+        }
+        return render(request, 'cases/case/ecju-queries.html', context)
 
 
 class ViewCLCCase(TemplateView):
