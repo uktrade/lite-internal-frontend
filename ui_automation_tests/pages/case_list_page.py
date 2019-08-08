@@ -26,7 +26,7 @@ class CaseListPage(BasePage):
     assignee = "[style='margin-bottom: 6px;']"  # CSS
     no_assignee = "[style='margin-bottom: 0; opacity: .7;']"  # CSS
 
-    #Queue dropdown
+    # Queue dropdown
     queue_dropdown_title = 'queue-title'  # ID
     dropdown_item = '.lite-dropdown .lite-dropdown--item' # CSS
     dropdown_item_class = 'lite-dropdown--item'  # Class_Name

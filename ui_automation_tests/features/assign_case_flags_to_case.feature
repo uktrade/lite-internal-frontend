@@ -7,7 +7,6 @@ Feature: I want to add case-level flags to a case and view them
   @LT_949_add
   Scenario: Add flag to case
     Given I create application or application has been previously created
-    And I go to internal homepage
     And I go to flags
     When I add a flag called UAE at level Case
     And I go to application previously created
