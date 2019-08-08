@@ -26,6 +26,7 @@ class ApplicationPage(BasePage):
     move_case_button = '.govuk-button[href*="move"]' # CSS
 
     def click_visible_to_exporter_checkbox(self):
+        time.sleep(.5)
         self.driver.find_element_by_id(self.is_visible_to_exporter_checkbox_id).click()
 
     def enter_case_note(self, text):
@@ -39,7 +40,7 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_id(self.post_note_btn).click()
 
     def click_cancel_btn(self):
-        time.sleep(1)
+        time.sleep(.5)
         self.driver.find_element_by_id(self.cancel_note_btn).click()
 
     def get_text_of_case_note(self, no):
