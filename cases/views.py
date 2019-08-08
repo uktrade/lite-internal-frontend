@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from cases.forms.attach_documents import attach_documents_form
+from cases.forms.create_ecju_query import create_ecju_queries_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
@@ -15,13 +16,15 @@ from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
-    put_case_flags, get_ecju_queries
+    put_case_flags, get_ecju_queries, post_ecju_query
 from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS, OPEN_CASES_SYSTEM_QUEUE_ID, ALL_CASES_SYSTEM_QUEUE_ID
 from conf.decorators import has_permission
 from core.services import get_user_permissions, get_statuses
 from flags.services import get_flags_case_level_for_team
+from libraries.forms.components import Option
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
+from picklists.services import get_picklists
 from queues.helpers import add_assigned_users_to_cases
 from queues.services import get_queue_case_assignments, get_queue, get_queues
 
@@ -149,14 +152,36 @@ class ViewEcjuQueries(TemplateView):
         return render(request, 'cases/case/ecju-queries.html', context)
 
 
-class CreateEcjuQueries(TemplateView):
+class CreateEcjuQuery(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
+        picklists, status = get_picklists(request, picklist_type='ecju_query')
+        picklists = picklists.get('picklist_items')
+        picklist_choices = [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
+        form = create_ecju_queries_form(case_id, reverse('cases:ecju_queries', kwargs={'pk': case_id}),
+                                        picklist_choices)
 
-        context = {
-            'case_id': case_id,
-        }
-        return render(request, 'cases/case/create-ecju-queries.html', context)
+        return form_page(request, form, extra_data={'case_id': case_id})
+
+    def post(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+        data = {'case': case_id, 'question': request.POST.get('question', None)}
+        ecju_query, status_code = post_ecju_query(request, data)
+
+        if status_code != 201:
+            picklists, status = get_picklists(request, picklist_type='ecju_query')
+            picklists = picklists.get('picklist_items')
+            errors = ecju_query.get('errors')
+
+            errors = {error: message for error, message in errors.items()}
+            picklist_choices = [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
+
+            form = create_ecju_queries_form(case_id, reverse('cases:ecju_queries', kwargs={'pk': case_id}),
+                                            picklist_choices)
+
+            return form_page(request, form, extra_data={'case_id': case_id}, errors=errors)
+        else:
+            return redirect(reverse('cases:ecju_queries', kwargs={'pk': case_id}))
 
 
 class ViewCLCCase(TemplateView):

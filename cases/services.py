@@ -73,3 +73,8 @@ def delete_case_document(request, pk, s3_key):
 def get_ecju_queries(request, pk):
     data = get(request, CASE_URL + pk + ECJU_QUERIES_URL)
     return data.json(), data.status_code
+
+
+def post_ecju_query(request, json):
+    data = post(request, ECJU_QUERIES_URL, json)
+    return data.json(), data.status_code

@@ -17,13 +17,13 @@
 	<h1 class="govuk-heading-l">{{ case_id }}</h1>
 	<div class="lite-app-bar--right">
 		<a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:ecju_queries_add' case_id %}">
-			{% get_string 'cases.ecju_queries.add_query_button' %}
+			{% get_string 'cases.ecju_queries.add_query.title' %}
 		</a>
 	</div>
 </div>
 
 {% if ecju_queries %}
-	<p class="govuk-caption-m">{% get_string 'cases.ecju_queries.queries' %}</p>
+	<p class="govuk-caption-m">{% get_string 'cases.ecju_queries.title' %}</p>
 	{% for query in ecju_queries %}
 		{{ query }}
 	{% endfor %}
