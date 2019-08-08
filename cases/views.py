@@ -157,7 +157,8 @@ class CreateEcjuQuery(TemplateView):
         case_id = str(kwargs['pk'])
         picklists, status = get_picklists(request, picklist_type='ecju_query')
         picklists = picklists.get('picklist_items')
-        picklist_choices = [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
+        picklist_choices = [Option('new_question', 'Write a new question')] +\
+                           [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
         form = choose_ecju_query_type_form(
             reverse('cases:ecju_queries', kwargs={'pk': case_id}),
             picklist_choices
@@ -167,8 +168,8 @@ class CreateEcjuQuery(TemplateView):
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        if request.POST.get('question'):
-            # The presence of a question implies that the user has submitted on final form
+        if 'form_add_ecju_query' in request.POST:
+            # The user has submitted on final form (add ECJU query)
             data = {'case': case_id, 'question': request.POST.get('question')}
             ecju_query, status_code = post_ecju_query(request, data)
 
@@ -181,11 +182,10 @@ class CreateEcjuQuery(TemplateView):
             else:
                 return redirect(reverse('cases:ecju_queries', kwargs={'pk': case_id}))
         else:
-            # The absence of a question implies that the user has just submitted on the first form
+            # The user has submitted on first form (select ECJU Query type)
             # data = {'case': case_id, 'question': request.POST.get('question')}
             form = create_ecju_query_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
             return form_page(request, form, extra_data={'case_id': case_id})
-
 
 
 class ViewCLCCase(TemplateView):
