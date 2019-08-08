@@ -6,7 +6,7 @@ from conf.settings import env
 class SeedData:
     base_url = ''
     gov_user_email = env('TEST_SSO_EMAIL')
-    exporter_user_email = "madeupmail@testtesttest.com"
+    exporter_user_email = env('TEST_EXPORTER_SSO_EMAIL')
 
     gov_user_request_data = {
         "email": gov_user_email,
