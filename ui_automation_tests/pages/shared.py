@@ -34,7 +34,7 @@ class Shared(BasePage):
     def get_text_of_table(self):
         return self.driver.find_element_by_css_selector(self.lite_table).text
 
-    def get_text_of_table_body(self):
+    def get_text_of_lite_table_body(self):
         return self.driver.find_element_by_css_selector(self.lite_table_body).text
 
     def get_links_in_cells_in_table(self):

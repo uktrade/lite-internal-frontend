@@ -5,7 +5,7 @@ from pages.shared import Shared
 
 
 @fixture(scope="session")
-def add_uae_flag(driver, request, api_url, context):
+def add_uae_flag(driver, context):
     flags_page = FlagsPages(driver)
     flags_page.click_add_a_flag_button()
     extra_string = str(utils.get_formatted_date_time_d_h_m_s())

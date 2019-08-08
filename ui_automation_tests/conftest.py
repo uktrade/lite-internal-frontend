@@ -9,6 +9,7 @@ from fixtures.apply_for_application import apply_for_standard_application, apply
 from fixtures.sign_in_to_sso import sign_in_to_internal_sso
 from fixtures.add_a_flag import add_uae_flag
 from fixtures.add_queue import add_queue
+from fixtures.add_a_team import add_a_team
 
 import helpers.helpers as utils
 from pages.flags_pages import FlagsPages
