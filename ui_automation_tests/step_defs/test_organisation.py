@@ -18,7 +18,6 @@ class OrganisationSteps():
             registration_complete_message = driver.find_element_by_tag_name("h1").text
             assert registration_complete_message == "Organisation Registered"
 
-
     @when('I go to organisations')
     def i_go_to_organisations(driver, context):
         header = HeaderPage(driver)
@@ -26,11 +25,9 @@ class OrganisationSteps():
         header.click_organisations()
         context.org_registered_status = False
 
-
     @when('I click on my registered organisation')
     def click_my_organisation(driver, context):
         driver.find_element_by_xpath("//*[text()[contains(.,'" + context.org_name + "')]]").click()
-
 
     @when('I choose to add a new organisation for setup')
     def i_choose_to_add_a_new_organisation_setup(driver, context):
@@ -41,17 +38,14 @@ class OrganisationSteps():
         else:
             organisations_page.click_new_organisation_btn()
 
-
     @when('I choose to add a new organisation')
     def i_choose_to_add_a_new_organisation(driver):
         organisations_page = OrganisationsPage(driver)
         organisations_page.click_new_organisation_btn()
 
-
     @then('my new site is displayed')
     def new_site_is_displayed(driver, context):
         assert driver.find_element_by_xpath("//*[text()[contains(.,'" + context.new_site_name + "')]]").is_displayed()
-
 
     @when(parsers.parse('I provide company registration details of name: "{name}", EORI: "{eori}", SIC: "{sic}", VAT: "{vat}", CRN: "{registration}"'))
     def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, registration, context):
@@ -69,7 +63,6 @@ class OrganisationSteps():
             organisations_form_page.enter_registration_number(registration)
             organisations_form_page.click_submit()
 
-
     @when(parsers.parse('I setup an initial site with name: "{name}", addres line 1: "{address_line_1}", town or city: "{city}", County: "{region}", post code: "{post_code}", country: "{country}"'))
     def fill_out_site_details(driver, name, address_line_1, city, region, post_code, country, context):
         if not context.org_registered_status:
@@ -82,7 +75,6 @@ class OrganisationSteps():
             organisations_form_page.enter_city(city)
             organisations_form_page.enter_country(country)
             organisations_form_page.click_submit()
-
 
     @when(parsers.parse('I setup the admin user with email: "{email}", first name: "{first_name}", last name: "{last_name}"'))
     def fill_out_admin_user_details(driver, email, first_name, last_name, context):
