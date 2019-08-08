@@ -1,20 +1,30 @@
 from core.builtins.custom_tags import get_string
-from libraries.forms.components import Form, BackLink, Question, InputType, HiddenField, Select, Button, Group
+from libraries.forms.components import Form, BackLink, Question, InputType, Select
 
 
-def create_ecju_queries_form(case, case_url, picklists):
-    return Form(title=get_string('cases.ecju_queries.title'),
+def create_ecju_query_form(choose_picklist_url):
+    return Form(title=get_string('cases.ecju_queries.add_query.title'),
                 description='',
                 questions=[
-                    Question(title=get_string('cases.ecju_queries.add_query.title'),
+                    Question(title='',
                              description=get_string('cases.ecju_queries.add_query.description'),
                              input_type=InputType.TEXTAREA,
                              name='question',
                              extras={
                                  'max_length': 5000,
                              }),
-                    HiddenField(name='case', value=case),
-                    Select(title='Ask a quick question', description='Select a pre-filled question',
+                ],
+                back_link=BackLink('Back to ' + get_string('cases.ecju_queries.add_query.picklist_title'),
+                                   choose_picklist_url)
+                )
+
+
+def choose_ecju_query_type_form(case_url, picklists):
+    return Form(title=get_string('cases.ecju_queries.add_query.picklist_title'),
+                description='',
+                questions=[
+                    Select(title='',
+                           description='Select a pre-filled question',
                            name='picklist',
                            options=picklists,
                            optional=True)

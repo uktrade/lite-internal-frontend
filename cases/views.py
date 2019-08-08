@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from cases.forms.attach_documents import attach_documents_form
-from cases.forms.create_ecju_query import create_ecju_queries_form
+from cases.forms.create_ecju_query import create_ecju_query_form, choose_ecju_query_type_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
@@ -158,30 +158,34 @@ class CreateEcjuQuery(TemplateView):
         picklists, status = get_picklists(request, picklist_type='ecju_query')
         picklists = picklists.get('picklist_items')
         picklist_choices = [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
-        form = create_ecju_queries_form(case_id, reverse('cases:ecju_queries', kwargs={'pk': case_id}),
-                                        picklist_choices)
+        form = choose_ecju_query_type_form(
+            reverse('cases:ecju_queries', kwargs={'pk': case_id}),
+            picklist_choices
+        )
 
         return form_page(request, form, extra_data={'case_id': case_id})
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        data = {'case': case_id, 'question': request.POST.get('question', None)}
-        ecju_query, status_code = post_ecju_query(request, data)
+        if request.POST.get('question'):
+            # The presence of a question implies that the user has submitted on final form
+            data = {'case': case_id, 'question': request.POST.get('question')}
+            ecju_query, status_code = post_ecju_query(request, data)
 
-        if status_code != 201:
-            picklists, status = get_picklists(request, picklist_type='ecju_query')
-            picklists = picklists.get('picklist_items')
-            errors = ecju_query.get('errors')
+            if status_code != 201:
+                errors = ecju_query.get('errors')
+                errors = {error: message for error, message in errors.items()}
+                form = create_ecju_query_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
 
-            errors = {error: message for error, message in errors.items()}
-            picklist_choices = [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
-
-            form = create_ecju_queries_form(case_id, reverse('cases:ecju_queries', kwargs={'pk': case_id}),
-                                            picklist_choices)
-
-            return form_page(request, form, extra_data={'case_id': case_id}, errors=errors)
+                return form_page(request, form, extra_data={'case_id': case_id}, errors=errors)
+            else:
+                return redirect(reverse('cases:ecju_queries', kwargs={'pk': case_id}))
         else:
-            return redirect(reverse('cases:ecju_queries', kwargs={'pk': case_id}))
+            # The absence of a question implies that the user has just submitted on the first form
+            # data = {'case': case_id, 'question': request.POST.get('question')}
+            form = create_ecju_query_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
+            return form_page(request, form, extra_data={'case_id': case_id})
+
 
 
 class ViewCLCCase(TemplateView):
