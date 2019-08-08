@@ -6,14 +6,14 @@ class FlagsPages():
 
     def __init__(self, driver):
         self.driver = driver
-        self.add_flag_text_field = "name"  #id
-        self.select_flag_level_dropdown = "level"  #id
-        self.add_flag_button = "add-a-flag-button"  #id
-        self.flags_in_edit_box = "lite-flag"  #class_name
-        self.reactivate_flag_button = "a[href*='edit/reactivate/']"  #css
-        self.deactivate_flag_button = "a[href*='edit/deactivate/']"  #css
-        self.include_deactivated_flags_button = "[href*='flags/all/']"  #css
-        self.include_reactivated_flags_button = "[href*='flags/active/']"  #css
+        self.add_flag_text_field = "name"  # ID
+        self.select_flag_level_dropdown = "level"  # ID
+        self.add_flag_button = "add-a-flag-button"  # ID
+        self.flags_in_edit_box = "lite-flag"  # CLASS NAME
+        self.reactivate_flag_button = "a[href*='edit/reactivate/']"  # CSS
+        self.deactivate_flag_button = "a[href*='edit/deactivate/']"  # CSS
+        self.include_deactivated_flags_button = "[href*='flags/all/']"  # CSS
+        self.include_reactivated_flags_button = "[href*='flags/active/']"  # CSS
 
     def enter_flag_name(self, text):
         self.driver.find_element_by_id(self.add_flag_text_field).clear()
