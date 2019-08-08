@@ -42,7 +42,7 @@
 		{% elif item.type == 'change' %}
 			<div class="lite-activity-item">
 				<p class="govuk-body" style="margin-bottom: 0;">
-					{% for key, value in item.items %}
+					{% for key, value in item.data.items %}
 						{% if forloop.first %}
 							<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span> set the
 						{% endif %}

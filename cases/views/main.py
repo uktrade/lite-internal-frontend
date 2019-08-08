@@ -159,26 +159,25 @@ class ManageCase(TemplateView):
         case, status_code = get_case(request, case_id)
         statuses, status_code = get_statuses(request)
 
-        if not case['case']['type']['key'] == 'application':
+        if case['case']['type']['key'] == 'application':
             title = 'Manage ' + case.get('case').get('application').get('name')
         else:
             title = 'Manage CLC query case'
+
         context = {
             'data': case,
             'title': title,
             'statuses': statuses
         }
-
         return render(request, 'cases/manage.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
 
-        if not case['case']['type']['key'] == 'application':
+        if case['case']['type']['key'] == 'application':
             application_id = case.get('case').get('application').get('id')
             data, status_code = put_applications(request, application_id, request.POST)
-
         else:
             clc_query_id = case['case']['clc_query']['id']
             data, status_code = put_clc_queries(request, clc_query_id, request.POST)
