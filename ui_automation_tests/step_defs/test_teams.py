@@ -63,11 +63,7 @@ def add_a_team(driver, team_name, context):
     shared = Shared(driver)
     utils.get_unformatted_date_time()
     teams_pages.click_add_a_team_button()
-    if team_name == " ":
-        context.team_name = team_name
-    else:
-        context.team_name = team_name + str(utils.get_unformatted_date_time())
-    teams_pages.enter_team_name(context.team_name)
+    teams_pages.enter_team_name(team_name)
     shared.click_submit()
 
 
