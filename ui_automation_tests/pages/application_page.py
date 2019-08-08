@@ -94,4 +94,4 @@ class ApplicationPage(BasePage):
         return count == 1
 
     def click_move_case_button(self):
-        self.driver.find_element_by_css_selector(self.move_case_button).click()
+        self.driver.find_element_by_css_selector(self.move_case_button).click(
