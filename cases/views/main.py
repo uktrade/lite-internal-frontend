@@ -86,7 +86,6 @@ class ViewCase(TemplateView):
                 'case': case,
                 'activity': activity.get('activity'),
                 'permissions': permissions,
-                'edit_case_flags': get_string('cases.case.edit_case_flags')
             }
             return render(request, 'cases/case/clc-query-case.html', context)
         else:
@@ -95,7 +94,6 @@ class ViewCase(TemplateView):
                 'title': case.get('application').get('name'),
                 'activity': activity.get('activity'),
                 'permissions': permissions,
-                'edit_case_flags': get_string('cases.case.edit_case_flags')
             }
             return render(request, 'cases/case/application-case.html', context)
 

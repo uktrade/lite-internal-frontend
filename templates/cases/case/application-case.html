@@ -33,21 +33,10 @@
 	</div>
 </div>
 
-<!-- # TODO: Create modal for clients with JS enabled -->
-<!-- <a href="{% url 'cases:assign_flags' case.id %}" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a> -->
-<a href="{% url 'cases:assign_flags' case.id %}" id="application-edit-case-flags" class="govuk-link govuk-link--no-visited-state">{{  edit_case_flags }}</a>
-<div class="lite-case-flags" id="application-case-flags">
-    {% for flag in case.flags %}
-        <div class="lite-flag" id="{{ flag.name }}">
-            {{ flag.name }}
-        </div>
-    {% endfor %}
-</div>
+<!-- Case flags -->
+{% include 'cases/case/views/case-flags.html' %}
 
-<div id="flags-modal" style="display: none;">
-	{% include "cases/case/flags.html" %}
-</div>
-
+<!-- Information board -->
 {% include 'cases/case/views/application-information-board.html' %}
 
 {% if case.application.application_denial_reason %}
