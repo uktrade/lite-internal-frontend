@@ -137,21 +137,26 @@ class ViewAdvice(TemplateView):
         return render(request, 'cases/case/advice-view.html', context)
 
 
-class EcjuQueries(TemplateView):
+class ViewEcjuQueries(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
         ecju_queries, status_code = get_ecju_queries(request, case_id)
 
-        title = case.get('case').get('clc_query').get('name') if case['case']['is_clc'] \
-            else case.get('case').get('application').get('name')
-
         context = {
-            'data': case,
-            'title': title,
-            'ecju_queries': ecju_queries
+            'case_id': case_id,
+            'ecju_queries': ecju_queries.get('ecju_queries')
         }
         return render(request, 'cases/case/ecju-queries.html', context)
+
+
+class CreateEcjuQueries(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+
+        context = {
+            'case_id': case_id,
+        }
+        return render(request, 'cases/case/create-ecju-queries.html', context)
 
 
 class ViewCLCCase(TemplateView):

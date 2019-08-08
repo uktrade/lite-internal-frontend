@@ -7,28 +7,28 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">{% get_string 'cases.back_to_case' %}</a>
+	<a href="{% url 'cases:case' case_id %}" class="govuk-back-link">{% get_string 'cases.back_to_case' %}</a>
 {% endblock %}
 
 
 {% block body %}
 
 <div class="lite-app-bar">
-	<h1 class="govuk-heading-l">{{ title }}</h1>
+	<h1 class="govuk-heading-l">{{ case_id }}</h1>
 	<div class="lite-app-bar--right">
-		<a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:attach_documents' case.id %}">
-			{% get_string 'cases.manage.documents.attach_documents.button' %}
+		<a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:ecju_queries_add' case_id %}">
+			{% get_string 'cases.ecju_queries.add_query_button' %}
 		</a>
 	</div>
 </div>
 
 {% if ecju_queries %}
-	<p class="govuk-caption-m">{% get_string 'cases.manage.documents.description' %}</p>
+	<p class="govuk-caption-m">{% get_string 'cases.ecju_queries.queries' %}</p>
 	{% for query in ecju_queries %}
 		{{ query }}
 	{% endfor %}
 {% else %}
-	<p class="govuk-caption-l">{% get_string 'cases.manage.documents.case_has_no_documents' %}</p>
+	<p class="govuk-caption-l">{% get_string 'cases.ecju_queries.case_has_no_queries' %}</p>
 {% endif %}
 
 {% endblock %}
