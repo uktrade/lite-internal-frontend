@@ -48,6 +48,7 @@ def add_a_queue(driver, queue_name):
 def add_a_queue(driver, context, add_queue):
     pass
 
+
 @then('I see the new queue')
 def see_queue_in_queue_list(driver, context):
     assert context.queue_name in Shared(driver).get_text_of_body()

@@ -31,7 +31,7 @@ class QueuesPages():
         return self.driver.find_elements_by_css_selector(self.table_rows)
 
     def click_queue_edit_button(self, num):
-        self.driver.find_elements_by_css_selector(self.queues_edit_link)[num].click()
+        self.driver.find_elements_by_css_selector(self.table_rows)[num].find_element_by_css_selector(self.queues_edit_link).click()
 
     def click_on_new_cases_queue(self):
         self.driver.find_element_by_id(self.new_cases_queue).click()
