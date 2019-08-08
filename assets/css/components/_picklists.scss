@@ -1,6 +1,8 @@
 .app-picklist-picker__container {
+	min-height: 400px;
 	max-height: 400px;
 	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 	margin-left: - govuk-spacing(6);
 	margin-right: - govuk-spacing(6);
 	margin-bottom: - govuk-spacing(6);
@@ -64,6 +66,10 @@
 			opacity: 1;
 		}
 	}
+
+	&:last-of-type {
+		border-bottom-color: transparent;
+	}
 }
 
 .app-picklist-picker-heading {
@@ -113,6 +119,10 @@
 			margin-bottom: govuk-spacing(6);
 			line-height: 1.6;
 			white-space: pre-line!important;
+		}
+
+		.govuk-body-m {
+			margin-bottom: govuk-spacing(3);
 		}
 	}
 

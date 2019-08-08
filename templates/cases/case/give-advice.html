@@ -35,19 +35,27 @@
 	</div>
 {% endif %}
 
-<div class="app-picklist-picker-heading__container">
-	<label class="govuk-label" for="{{ question.name }}">
-		Advice
-	</label>
-	<a href="#" class="govuk-label govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">
-		{% svg 'new' %}
-		Import advice from picklists
-	</a>
+<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
+	<div class="govuk-form-group">
+		<div class="app-picklist-picker-heading__container">
+			<label class="govuk-label" for="{{ question.name }}">
+				Advice
+			</label>
+			<a onclick="return showAdviceModal();" href="#" class="govuk-label govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">
+				{% svg 'new' %}
+				Import advice from picklists
+			</a>
+		</div>
+		<span class="govuk-hint" for="{{ question.name }}">
+			This is a really long description
+		</span>
+		<textarea class="govuk-textarea govuk-js-character-count " id="textarea-advice" name="textarea" rows="5" aria-describedby="textarea-advice-info textarea-advice-hint"></textarea>
+	</div>
+
+	<span id="textarea-advice-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+		You can enter up to 200 characters
+	</span>
 </div>
-<!-- <span class="govuk-hint" for="{{ question.name }}">
-	This is a really long description
-</span> -->
-{% include "components/textarea.html" %}
 
 <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
 	<div class="govuk-form-group">
@@ -71,7 +79,24 @@
 	{% if proviso_picklist %}
 		<div class="app-picklist-picker__container">
 			{% for item in proviso_picklist %}
-				<a onclick="return showPreviewModal(this)" data-title="{{ item.name }}" data-text="{{ item.text }}" data-last-updated="{{ item.last_modified_at|str_date }}" class="app-picklist-picker__item">
+				<a onclick="return showPreviewModal(this, 'proviso')" data-title="{{ item.name }}" data-text="{{ item.text }}" data-last-updated="{{ item.last_modified_at|str_date }}" class="app-picklist-picker__item">
+					<h4 class="govuk-heading-s">{{ item.name }}</h4>
+					<p class="govuk-caption-m">
+						{{ item.text|slice:":100" }}
+					</p>
+				</a>
+			{% endfor %}
+		</div>
+	{% else %}
+		{% include "includes/information-text.html" with text="There aren't any items in this picklist" %}
+	{% endif %}
+</div>
+
+<div id="modal-advice-picker" style="display: none;">
+	{% if advice_picklist %}
+		<div class="app-picklist-picker__container">
+			{% for item in advice_picklist %}
+				<a onclick="return showPreviewModal(this, 'advice')" data-title="{{ item.name }}" data-text="{{ item.text }}" data-last-updated="{{ item.last_modified_at|str_date }}" class="app-picklist-picker__item">
 					<h4 class="govuk-heading-s">{{ item.name }}</h4>
 					<p class="govuk-caption-m">
 						{{ item.text|slice:":100" }}

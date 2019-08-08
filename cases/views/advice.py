@@ -75,11 +75,13 @@ class GiveAdviceDetail(TemplateView):
         case, _ = get_case(request, case_id)
 
         proviso_picklist_items, status_code = get_picklists(request, 'proviso')
+        advice_picklist_items, status_code = get_picklists(request, 'standard_advice')
 
         context = {
             'case': case['case'],
             'title': 'Give advice',
             'type': self.type,
             'proviso_picklist': proviso_picklist_items['picklist_items'],
+            'advice_picklist': advice_picklist_items['picklist_items'],
         }
         return render(request, self.form, context)
