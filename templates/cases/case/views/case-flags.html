@@ -2,15 +2,17 @@
 <!-- <a href="{% url 'cases:assign_flags' case.id %}" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a> -->
 
 {% if case.flags %}
-	<a href="{% url 'cases:assign_flags' case.id %}" id="application-edit-case-flags" class="govuk-link govuk-link--no-visited-state">
-		{% get_string 'cases.case.edit_case_flags' %}
-	</a>
-	<div class="lite-case-flags" id="application-case-flags">
+	<div class="app-flags" id="application-case-flags">
 	    {% for flag in case.flags %}
-	        <div class="lite-flag" id="{{ flag.name }}">
+	        <div class="app-flag" id="{{ flag.name }}">
 	            {{ flag.name }}
 	        </div>
 	    {% endfor %}
+	</div>
+	<div class="govuk-form-group">
+		<a href="{% url 'cases:assign_flags' case.id %}" id="application-edit-case-flags" class="govuk-link govuk-link--no-visited-state">
+			{% get_string 'cases.case.edit_case_flags' %}
+		</a>
 	</div>
 {% else %}
 	<div class="govuk-form-group">
