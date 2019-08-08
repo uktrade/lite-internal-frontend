@@ -58,8 +58,11 @@
 					{% if item.data.flags.removed|length > 0 %}
 						removed flags:
 						{% for flag in item.data.flags.removed %}
-							<span class="highlight">{{ flag|sentence_case|lower }}</span>{% if not forloop.last %}, {% else %}{% if item.flags.added|length > 0 %} and {% else %}.{% endif %}{% endif %}
+							<span class="highlight">{{ flag|sentence_case|lower }}</span>{% if not forloop.last %}, {% else %}{% if item.flags.added|length > 0 %} and {% else %}{% if item.data.flags.removed|length > 0 and item.data.flags.added|length > 0 %},{% else %}.{% endif %}{% endif %}{% endif %}
 						{% endfor %}
+					{% endif %}
+					{% if item.data.flags.removed|length > 0 and item.data.flags.added|length > 0 %}
+						and
 					{% endif %}
 					{% if item.data.flags.added|length > 0 %}
 						added flags:
