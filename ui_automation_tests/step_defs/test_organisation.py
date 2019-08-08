@@ -51,9 +51,8 @@ class OrganisationSteps():
     def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, registration, context):
         if not context.org_registered_status:
             organisations_form_page = OrganisationsFormPage(driver)
-            if name == "Test Org" or name == " ":
+            if name == " ":
                 organisations_form_page.enter_name(name)
-                context.org_name = name
             else:
                 context.org_name = name+utils.get_formatted_date_time_m_d_h_s()
                 organisations_form_page.enter_name(context.org_name)
@@ -80,11 +79,10 @@ class OrganisationSteps():
     def fill_out_admin_user_details(driver, email, first_name, last_name, context):
         if not context.org_registered_status:
             organisations_form_page = OrganisationsFormPage(driver)
-            if email == "trinity@unicorns.com" or email == " ":
+            if email == " ":
                 organisations_form_page.enter_email(email)
-                context.email = email
             else:
-                context.email = email+utils.get_formatted_date_time_m_d_h_s()
+                context.email = email + utils.get_formatted_date_time_m_d_h_s()
                 organisations_form_page.enter_email(context.email)
             organisations_form_page.enter_first_name(first_name)
             organisations_form_page.enter_last_name(last_name)
