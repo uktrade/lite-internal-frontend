@@ -10,8 +10,6 @@ def advice_recommendation_form():
                         Option('proviso', 'Proviso', 'Description goes here'),
                         Option('refuse', 'Refuse', 'Description goes here'),
                         Option('nlr', 'No licence required', 'Description goes here'),
-                        Option('revoke', 'Revoke', 'Description goes here'),
-                        Option('suspend', 'Suspend', 'Description goes here'),
                         Option('na', 'Not applicable', show_or=True),
                     ]),
                 ],

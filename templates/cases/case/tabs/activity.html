@@ -13,7 +13,7 @@
 							<label class="govuk-label govuk-checkboxes__label" for="is_visible_to_exporter">Make visible to exporter</label>
 						</div>
 					</div>
-			<a id="case-note-cancel-button" href="{% url 'cases:case' data.case.id %}" class="govuk-button govuk-button--secondary" type="button" draggable="false">
+			<a id="case-note-cancel-button" href="{% url 'cases:case' case.id %}" class="govuk-button govuk-button--secondary" type="button" draggable="false">
 				Cancel
 			</a>
 			<button class="govuk-button" type="submit" id="button-post-note">
@@ -42,7 +42,7 @@
 		{% elif item.type == 'change' %}
 			<div class="lite-activity-item">
 				<p class="govuk-body" style="margin-bottom: 0;">
-					{% for key, value in item.data.items %}
+					{% for key, value in item.items %}
 						{% if forloop.first %}
 							<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span> set the
 						{% endif %}
@@ -55,16 +55,16 @@
 			<div class="lite-activity-item">
 				<p class="govuk-body" style="margin-bottom: 0;">
 					<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span>
-					{% if item.data.flags.removed|length > 0 %}
+					{% if item.flags.removed|length > 0 %}
 						removed flags:
-						{% for flag in item.data.flags.removed %}
+						{% for flag in item.flags.removed %}
 							<span class="highlight">{{ flag|sentence_case|lower }}</span>
-							{% if not forloop.last %}, {% else %}{% if item.data.flags.added|length > 0 %} and {% else %}.{% endif %}{% endif %}
+							{% if not forloop.last %}, {% else %}{% if item.flags.added|length > 0 %} and {% else %}.{% endif %}{% endif %}
 						{% endfor %}
 					{% endif %}
-					{% if item.data.flags.added|length > 0 %}
+					{% if item.flags.added|length > 0 %}
 						added flags:
-						{% for flag in item.data.flags.added %}
+						{% for flag in item.flags.added %}
 							<span class="highlight">{{ flag|sentence_case|lower }}</span>{% if not forloop.last %}, {% else %}.{% endif %}
 						{% endfor %}
 					{% endif %}

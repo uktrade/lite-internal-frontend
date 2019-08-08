@@ -76,13 +76,14 @@ class ViewCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
+        case = case['case']
         activity, status_code = get_activity(request, case_id)
         permissions = get_user_permissions(request)
 
-        if case['case']['is_clc']:
+        if case['type']['key'] == 'clc_query':
             context = {
                 'title': 'Case',
-                'data': case,
+                'case': case,
                 'activity': activity.get('activity'),
                 'permissions': permissions,
                 'edit_case_flags': get_string('cases.case.edit_case_flags')
@@ -90,8 +91,8 @@ class ViewCase(TemplateView):
             return render(request, 'cases/case/clc-query-case.html', context)
         else:
             context = {
-                'data': case,
-                'title': case.get('case').get('application').get('name'),
+                'case': case,
+                'title': case.get('application').get('name'),
                 'activity': activity.get('activity'),
                 'permissions': permissions,
                 'edit_case_flags': get_string('cases.case.edit_case_flags')
@@ -160,7 +161,7 @@ class ManageCase(TemplateView):
         case, status_code = get_case(request, case_id)
         statuses, status_code = get_statuses(request)
 
-        if not case['case']['is_clc']:
+        if not case['case']['type']['key'] == 'application':
             title = 'Manage ' + case.get('case').get('application').get('name')
         else:
             title = 'Manage CLC query case'
@@ -176,7 +177,7 @@ class ManageCase(TemplateView):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
 
-        if not case['case']['is_clc']:
+        if not case['case']['type']['key'] == 'application':
             application_id = case.get('case').get('application').get('id')
             data, status_code = put_applications(request, application_id, request.POST)
 

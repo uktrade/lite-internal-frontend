@@ -8,6 +8,8 @@
 
 {% block body %}
 
+	{% include 'cases/case/views/application-information-board.html' %}
+
 	<!-- Tab bar -->
 	<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
 		<div class="lite-tabs--fade">
@@ -22,21 +24,21 @@
 
 	<!-- Goods -->
 	<h3 class="govuk-heading-m">Goods</h3>
-	{% if case.application.licence_type == 'open_licence' %}
-		{% include 'cases/case/views/open-goods.html' %}
+	{% if case.application.licence_type.key == 'open_licence' %}
+		{% include 'cases/case/views/open-goods.html' with show_checkboxes=True %}
 	{% endif %}
-	{% if case.application.licence_type == 'standard_licence' %}
-		{% include 'cases/case/views/standard-goods.html' %}
+	{% if case.application.licence_type.key == 'standard_licence' %}
+		{% include 'cases/case/views/standard-goods.html' with show_checkboxes=True %}
 	{% endif %}
 
 	<!-- Destinations/End-User -->
-	{% if case.application.licence_type == 'open_licence' %}
+	{% if case.application.licence_type.key == 'open_licence' %}
 		<h3 class="govuk-heading-m">Destinations</h3>
-		{% include 'cases/case/views/open-destinations.html' %}
+		{% include 'cases/case/views/open-destinations.html' with show_checkboxes=True %}
 	{% endif %}
-	{% if case.application.licence_type == 'standard_licence' %}
+	{% if case.application.licence_type.key == 'standard_licence' %}
 		<h3 class="govuk-heading-m">End User</h3>
-		{% include 'cases/case/views/standard-destinations.html' %}
+		{% include 'cases/case/views/standard-destinations.html' with show_checkboxes=True %}
 	{% endif %}
 
 {% endblock %}

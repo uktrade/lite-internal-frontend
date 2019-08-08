@@ -6,10 +6,15 @@
 			<th class="lite-table__header">Is Good controlled</th>
 		</tr>
 	</thead>
-	<tbody class="lite-table__body">
+	<tbody class="lite-table__body govuk-checkboxes govuk-checkboxes--small">
 		{% for good in case.application.goods_types %}
 			<tr class="lite-table__row">
-				<td class="lite-table__cell">{{ good.description }}</td>
+				<td class="lite-table__cell">
+					{% if show_checkboxes %}<div class="govuk-checkboxes__item">
+						<input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}"> {% endif %}
+						<label class="govuk-label {% if show_checkboxes %}govuk-checkboxes__label{% endif %}">{{ good.description }}</label>
+					{% if show_checkboxes %}</div>{% endif %}
+				</td>
 				<td class="lite-table__cell">{{ good.control_code|default:'None' }}</td>
 				<td class="lite-table__cell">{{ good.is_good_controlled }}</td>
 			</tr>
