@@ -39,6 +39,7 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_id(self.post_note_btn).click()
 
     def click_cancel_btn(self):
+        time.sleep(1)
         self.driver.find_element_by_id(self.cancel_note_btn).click()
 
     def get_text_of_case_note(self, no):
