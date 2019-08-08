@@ -38,7 +38,7 @@ def click_on_edit_queue(driver, context):
 
 
 @when(parsers.parse('I enter in queue name "{queue_name}"'))
-def add_a_queue(driver, queue_name, context):
+def add_a_queue(driver, queue_name):
     QueuesPages(driver).click_add_a_queue_button()
     QueuesPages(driver).enter_queue_name(queue_name)
     Shared(driver).click_submit()
