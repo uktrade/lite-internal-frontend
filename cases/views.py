@@ -7,21 +7,22 @@ from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from cases.forms.attach_documents import attach_documents_form
-from cases.forms.create_ecju_query import create_ecju_query_form, choose_ecju_query_type_form
+from cases.forms.create_ecju_query import create_ecju_query_write_or_edit_form, choose_ecju_query_type_form, \
+    create_ecju_create_confirmation_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import post_case_documents, get_case_documents, get_case_document
-from conf import settings
-from conf.settings import AWS_STORAGE_BUCKET_NAME
-from core.builtins.custom_tags import get_string
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
     put_case_flags, get_ecju_queries, post_ecju_query
+from cases.services import post_case_documents, get_case_documents, get_case_document
+from conf import settings
 from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS, OPEN_CASES_SYSTEM_QUEUE_ID, ALL_CASES_SYSTEM_QUEUE_ID
 from conf.decorators import has_permission
+from conf.settings import AWS_STORAGE_BUCKET_NAME
+from core.builtins.custom_tags import get_string
 from core.services import get_user_permissions, get_statuses
 from flags.services import get_flags_case_level_for_team
-from libraries.forms.components import Option
+from libraries.forms.components import Option, HiddenField
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
 from picklists.services import get_picklists, get_picklist_item
@@ -170,30 +171,73 @@ class CreateEcjuQuery(TemplateView):
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        if 'form_ecju_query_type_select' in request.POST:
-            picklist_selection = request.POST.get('picklist')
-            picklist_item_text = get_picklist_item(request, picklist_selection)[0]['picklist_item']['text'] \
-                if picklist_selection != self.NEW_QUESTION_DDL_ID else ''
+        form_name = request.POST.get('form_name')
 
-            form = create_ecju_query_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
-            data = {'question': picklist_item_text}
+        if form_name == 'ecju_query_type_select':
+            return self._handle_ecju_query_type_select_post(request, case_id)
 
-            return form_page(request, form, data=data, extra_data={'case_id': case_id})
-        elif 'form_ecju_query_write_or_edit_question' in request.POST:
-            data = {'case': case_id, 'question': request.POST.get('question')}
-            ecju_query, status_code = post_ecju_query(request, data)
+        elif form_name == 'ecju_query_write_or_edit_question':
+            return self._handle_ecju_query_write_or_edit_post(case_id, request)
 
-            if status_code != 201:
-                errors = ecju_query.get('errors')
-                errors = {error: message for error, message in errors.items()}
-                form = create_ecju_query_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
+        elif form_name == 'ecju_query_create_confirmation':
+            return self._handle_ecju_query_confirmation_post(case_id, request)
 
-                return form_page(request, form, extra_data={'case_id': case_id}, errors=errors)
-            else:
-                return redirect(reverse('cases:ecju_queries', kwargs={'pk': case_id}))
         else:
             # Submitted data does not contain an expected form field - return an error
             return error_page(None, 'We had an issue creating your question. Try again later.')
+
+    def _handle_ecju_query_type_select_post(self, request, case_id):
+        picklist_selection = request.POST.get('picklist')
+
+        if picklist_selection != self.NEW_QUESTION_DDL_ID:
+            picklist_item_text = get_picklist_item(request, picklist_selection)[0]['picklist_item']['text']
+        else:
+            picklist_item_text = ''
+
+        form = create_ecju_query_write_or_edit_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
+        data = {'question': picklist_item_text}
+
+        return form_page(request, form, data=data)
+
+    def _handle_ecju_query_write_or_edit_post(self, case_id, request):
+        # Post the form data to API for validation only
+        data = {'case': case_id, 'question': request.POST.get('question'), 'validate_only': True}
+        ecju_query, status_code = post_ecju_query(request, data)
+
+        if status_code != 200:
+            return self._handle_ecju_query_form_errors(case_id, ecju_query, request)
+        else:
+            form = create_ecju_create_confirmation_form()
+            form.questions.append(HiddenField('question', request.POST.get('question')))
+            return form_page(request, form)
+
+    def _handle_ecju_query_confirmation_post(self, case_id, request):
+        data = {'case': case_id, 'question': request.POST.get('question')}
+
+        if request.POST.get('ecju_query_confirmation') == 'yes':
+            ecju_query, status_code = post_ecju_query(request, data)
+
+            if status_code != 201:
+                return self._handle_ecju_query_form_errors(case_id, ecju_query, request)
+            else:
+                return redirect(reverse('cases:ecju_queries', kwargs={'pk': case_id}))
+        elif request.POST.get('ecju_query_confirmation') == 'no':
+            form = create_ecju_query_write_or_edit_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
+
+            return form_page(request, form, data=data)
+        else:
+            errors = {'ecju_query_confirmation': ['This field is required']}
+
+            form = create_ecju_create_confirmation_form()
+            form.questions.append(HiddenField('question', request.POST.get('question')))
+            return form_page(request, form, errors=errors)
+
+    def _handle_ecju_query_form_errors(self, case_id, ecju_query, request):
+        errors = ecju_query.get('errors')
+        errors = {error: message for error, message in errors.items()}
+        form = create_ecju_query_write_or_edit_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
+        data = {'question': request.POST.get('question')}
+        return form_page(request, form, data=data, errors=errors)
 
 
 class ViewCLCCase(TemplateView):
