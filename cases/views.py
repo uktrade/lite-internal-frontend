@@ -24,7 +24,7 @@ from flags.services import get_flags_case_level_for_team
 from libraries.forms.components import Option
 from libraries.forms.generators import error_page, form_page
 from libraries.forms.submitters import submit_single_form
-from picklists.services import get_picklists
+from picklists.services import get_picklists, get_picklist_item
 from queues.helpers import add_assigned_users_to_cases
 from queues.services import get_queue_case_assignments, get_queue, get_queues
 
@@ -153,11 +153,13 @@ class ViewEcjuQueries(TemplateView):
 
 
 class CreateEcjuQuery(TemplateView):
+    NEW_QUESTION_DDL_ID = 'new_question'
+
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         picklists, status = get_picklists(request, picklist_type='ecju_query')
         picklists = picklists.get('picklist_items')
-        picklist_choices = [Option('new_question', 'Write a new question')] +\
+        picklist_choices = [Option(self.NEW_QUESTION_DDL_ID, 'Write a new question')] +\
                            [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
         form = choose_ecju_query_type_form(
             reverse('cases:ecju_queries', kwargs={'pk': case_id}),
@@ -168,8 +170,16 @@ class CreateEcjuQuery(TemplateView):
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        if 'form_add_ecju_query' in request.POST:
-            # The user has submitted on final form (add ECJU query)
+        if 'form_ecju_query_type_select' in request.POST:
+            picklist_selection = request.POST.get('picklist')
+            picklist_item_text = get_picklist_item(request, picklist_selection)[0]['picklist_item']['text'] \
+                if picklist_selection != self.NEW_QUESTION_DDL_ID else ''
+
+            form = create_ecju_query_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
+            data = {'question': picklist_item_text}
+
+            return form_page(request, form, data=data, extra_data={'case_id': case_id})
+        elif 'form_ecju_query_write_or_edit_question' in request.POST:
             data = {'case': case_id, 'question': request.POST.get('question')}
             ecju_query, status_code = post_ecju_query(request, data)
 
@@ -182,10 +192,8 @@ class CreateEcjuQuery(TemplateView):
             else:
                 return redirect(reverse('cases:ecju_queries', kwargs={'pk': case_id}))
         else:
-            # The user has submitted on first form (select ECJU Query type)
-            # data = {'case': case_id, 'question': request.POST.get('question')}
-            form = create_ecju_query_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
-            return form_page(request, form, extra_data={'case_id': case_id})
+            # Submitted data does not contain an expected form field - return an error
+            return error_page(None, 'We had an issue creating your question. Try again later.')
 
 
 class ViewCLCCase(TemplateView):
