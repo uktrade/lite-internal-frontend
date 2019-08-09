@@ -2,8 +2,8 @@ from pages.header_page import HeaderPage
 from pages.organisations_form_page import OrganisationsFormPage
 from pages.organisations_page import OrganisationsPage
 from pytest_bdd import scenarios, when, then, parsers
-from selenium.webdriver.common.by import By
 import helpers.helpers as utils
+from pages.shared import Shared
 
 scenarios('../features/organisation.feature', strict_gherkin=False)
 
@@ -13,9 +13,9 @@ class OrganisationSteps():
     @then('organisation is registered')
     def verify_registered_organisation(driver, context):
         if not context.org_registered_status:
-            exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + context.org_name + "')]]")
-            assert exists
-            registration_complete_message = driver.find_element_by_tag_name("h1").text
+            Shared(driver).get_text_of_table_body()
+            assert context.organisation_name_name in Shared(driver).get_text_of_table_body()
+            registration_complete_message = Shared(driver).get_text_of_h1()
             assert registration_complete_message == "Organisation Registered"
 
     @when('I go to organisations')
@@ -25,27 +25,10 @@ class OrganisationSteps():
         header.click_organisations()
         context.org_registered_status = False
 
-    @when('I click on my registered organisation')
-    def click_my_organisation(driver, context):
-        driver.find_element_by_xpath("//*[text()[contains(.,'" + context.org_name + "')]]").click()
-
-    @when('I choose to add a new organisation for setup')
-    def i_choose_to_add_a_new_organisation_setup(driver, context):
-        organisations_page = OrganisationsPage(driver)
-        exists = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Test Org')]]")
-        if exists:
-            context.org_registered_status = True
-        else:
-            organisations_page.click_new_organisation_btn()
-
     @when('I choose to add a new organisation')
     def i_choose_to_add_a_new_organisation(driver):
         organisations_page = OrganisationsPage(driver)
         organisations_page.click_new_organisation_btn()
-
-    @then('my new site is displayed')
-    def new_site_is_displayed(driver, context):
-        assert driver.find_element_by_xpath("//*[text()[contains(.,'" + context.new_site_name + "')]]").is_displayed()
 
     @when(parsers.parse('I provide company registration details of name: "{name}", EORI: "{eori}", SIC: "{sic}", VAT: "{vat}", CRN: "{registration}"'))
     def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, registration, context):
@@ -54,8 +37,8 @@ class OrganisationSteps():
             if name == " ":
                 organisations_form_page.enter_name(name)
             else:
-                context.org_name = name+utils.get_formatted_date_time_m_d_h_s()
-                organisations_form_page.enter_name(context.org_name)
+                context.organisation_name = name+utils.get_formatted_date_time_m_d_h_s()
+                organisations_form_page.enter_name(context.organisation_name)
             organisations_form_page.enter_eori_number(eori)
             organisations_form_page.enter_sic_number(sic)
             organisations_form_page.enter_vat_number(vat)

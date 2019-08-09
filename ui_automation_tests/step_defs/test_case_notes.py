@@ -1,5 +1,5 @@
 import time
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+from pytest_bdd import when, then, parsers, scenarios
 from pages.application_page import ApplicationPage
 import helpers.helpers as utils
 

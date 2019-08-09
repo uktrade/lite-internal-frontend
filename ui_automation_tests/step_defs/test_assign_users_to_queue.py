@@ -1,4 +1,4 @@
-from pytest_bdd import scenarios, given, when, then, parsers, scenarios
+from pytest_bdd import when, then, parsers, scenarios
 from pages.case_list_page import CaseListPage
 from pages.shared import Shared
 

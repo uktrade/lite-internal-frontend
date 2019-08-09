@@ -1,5 +1,4 @@
 from pytest_bdd import given, when, then, parsers, scenarios
-from selenium.webdriver.support.ui import Select
 from helpers.helpers import get_formatted_date_time_m_d_h_s
 from helpers.seed_data import SeedData
 from helpers.utils import get_or_create_attr

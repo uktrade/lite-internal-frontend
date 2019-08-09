@@ -25,6 +25,9 @@ class ApplicationPage(BasePage):
     case_flags = 'application-case-flags'
     move_case_button = '.govuk-button[href*="move"]' # CSS
     status = 'status'  # ID
+    audit_trail_item = '.lite-case-notes .lite-activity-item'  # CSS
+    application_summary_board = '.lite-information-board'  # CSS
+    destinations_table = 'destinations'  # ID
 
     def click_visible_to_exporter_checkbox(self):
         time.sleep(.5)
@@ -99,3 +102,12 @@ class ApplicationPage(BasePage):
 
     def click_move_case_button(self):
         self.driver.find_element_by_css_selector(self.move_case_button).click()
+
+    def get_text_of_audit_trail_item(self, no):
+        return self.driver.find_elements_by_css_selector(self.audit_trail_item)[no].text
+
+    def get_text_of_application_summary_board(self):
+        return self.driver.find_elements_by_css_selector(self.application_summary_board).text
+
+    def get_text_of_destinations_table(self):
+        return self.driver.find_element_by_css_selector(self.destinations_table).text
