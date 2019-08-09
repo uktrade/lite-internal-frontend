@@ -69,3 +69,8 @@ def post_case_documents(request, pk, json):
 def delete_case_document(request, pk, s3_key):
     data = delete(request, CASE_URL + pk + DOCUMENTS_URL + s3_key)
     return data.json(), data.status_code
+
+
+def get_document(request, pk):
+    data = get(request, DOCUMENTS_URL + pk)
+    return data.json(), data.status_code
