@@ -43,33 +43,31 @@ class ManageCases():
         record.click_on_decision_number(number)
         context.decision_array.append(number)
 
+    @then('I see denied reason')
+    def denied_reason(driver, context):
+        body = Shared(driver).get_text_of_body()
+        assert "Further information" in body
+        assert context.optional_text in body
+
     @then(parsers.parse('I see application "{grant_or_deny}"'))
     def see_application_granted_or_denied(driver, grant_or_deny, context):
-        record = RecordDecision(driver)
         application_page = ApplicationPage(driver)
-
         if grant_or_deny == "granted":
             assert "set the status to approved" in application_page.get_text_of_audit_trail_item(0), "status has not been shown as approved in audit trail"
         elif grant_or_deny == "denied":
             assert "set the status to under final review" in application_page.get_text_of_audit_trail_item(0), "status has not been shown as under review in audit trail"
-            try:
-                assert record.get_text_of_denial_reasons_headers(1) == "Further information"
-                assert record.get_text_of_denial_reasons_listed(6) == context.optional_text
-            except AttributeError:
-                pass
-            except IndexError:
-                pass
-            assert record.get_text_of_denial_reasons_headers(0) == "This case was denied because"
-            i = 5
+            body = Shared(driver).get_text_of_body()
+            assert "This case was denied because" in body
             for denial_reason_code in context.decision_array:
-                assert record.get_text_of_denial_reasons_listed(i) == denial_reason_code
-                i += 1
+                assert denial_reason_code in body
+
+
 
     @then('the status has been changed in the application')
     def status_has_been_changed_in_header(driver, context, sso_users_name):
         application_page = ApplicationPage(driver)
-        assert "set the status to " + context.status.lower in application_page.get_text_of_audit_trail_item(0), "status has not been shown as approved in audit trail"
-        # this also tests that the activities are in reverse chronological order as it is expecting the status change to be first.
+        assert "set the status to " + context.status.lower() in application_page.get_text_of_audit_trail_item(0), "status has not been shown as approved in audit trail"
+
         assert utils.search_for_correct_date_regex_in_element(application_page.get_text_of_activity_dates(0)), "date is not displayed after status change"
         assert application_page.get_text_of_activity_users(0) == sso_users_name, "user who has made the status change has not been displayed correctly"
 

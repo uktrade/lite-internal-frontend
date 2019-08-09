@@ -13,8 +13,7 @@ class OrganisationSteps():
     @then('organisation is registered')
     def verify_registered_organisation(driver, context):
         if not context.org_registered_status:
-            Shared(driver).get_text_of_table_body()
-            assert context.organisation_name_name in Shared(driver).get_text_of_table_body()
+            assert context.organisation_name in Shared(driver).get_text_of_panel_body()
             registration_complete_message = Shared(driver).get_text_of_h1()
             assert registration_complete_message == "Organisation Registered"
 

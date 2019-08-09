@@ -107,7 +107,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_elements_by_css_selector(self.audit_trail_item)[no].text
 
     def get_text_of_application_summary_board(self):
-        return self.driver.find_elements_by_css_selector(self.application_summary_board).text
+        return self.driver.find_element_by_css_selector(self.application_summary_board).text
 
     def get_text_of_destinations_table(self):
-        return self.driver.find_element_by_css_selector(self.destinations_table).text
+        return self.driver.find_element_by_id(self.destinations_table).text

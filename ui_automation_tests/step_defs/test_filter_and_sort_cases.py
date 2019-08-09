@@ -61,7 +61,7 @@ def i_sort_cases_by(driver, context, sort_type):
 
 @then(parsers.parse('the case at index "{index}" has the status of "{status}"'))
 def the_cases_are_in_order_of(driver, index, status):
-    assert status in Shared(driver).get_lite_row_text_by_index(index).text, status + " is not in the correct order"
+    assert status in Shared(driver).get_lite_row_text_by_index(index), status + " is not in the correct order"
 
 
 @then('the filters are shown')
