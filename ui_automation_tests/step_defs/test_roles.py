@@ -18,8 +18,7 @@ def go_to_manage_roles(driver):
 def add_a_role(driver, role_name, permissions, context):
     roles_page = RolesPages(driver)
     roles_page.click_add_a_role_button()
-
-    if role_name != " ":
+    if role_name == " ":
         context.role_name = role_name
     else:
         extra_string = str(utils.get_unformatted_date_time())
