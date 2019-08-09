@@ -11,6 +11,10 @@
 	</p>
 </div>
 
+<form method="post">
+
+	{% csrf_token %}
+
 {% if type == 'proviso' %}
 	<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
 		<div class="govuk-form-group">
@@ -74,6 +78,8 @@
 </div>
 
 <button class="govuk-button">Submit advice</button>
+
+</form>
 
 <div id="modal-proviso-picker" style="display: none;">
 	{% if proviso_picklist %}

@@ -1,11 +1,11 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 
 from cases.forms.advice import advice_recommendation_form
 from cases.services import get_case
-from libraries.forms.generators import form_page
+from libraries.forms.generators import form_page, success_page
 from picklists.services import get_picklists
 
 
@@ -56,32 +56,38 @@ class GiveAdvice(TemplateView):
 class GiveAdviceDetail(TemplateView):
     case = None
     form = 'cases/case/give-advice.html'
-    type = ''
+    advice_type = ''
 
     def dispatch(self, request, *args, **kwargs):
         case_id = str(kwargs['pk'])
         case, _ = get_case(request, case_id)
         self.case = case['case']
-        self.type = kwargs['type']
+        self.advice_type = kwargs['type']
 
-        # If the type is not valid, raise a 404
-        if self.type not in ['approve', 'proviso', 'refuse', 'nlr', 'revoke', 'suspend', 'na']:
+        # If the advice type is not valid, raise a 404
+        if self.advice_type not in ['approve', 'proviso', 'refuse', 'nlr', 'revoke', 'suspend', 'na']:
             raise Http404
 
         return super(GiveAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        case, _ = get_case(request, case_id)
-
         proviso_picklist_items, status_code = get_picklists(request, 'proviso')
         advice_picklist_items, status_code = get_picklists(request, 'standard_advice')
 
         context = {
-            'case': case['case'],
+            'case': self.case,
             'title': 'Give advice',
-            'type': self.type,
+            'type': self.advice_type,
             'proviso_picklist': proviso_picklist_items['picklist_items'],
             'advice_picklist': advice_picklist_items['picklist_items'],
         }
         return render(request, self.form, context)
+
+    def post(self, request, **kwargs):
+        return success_page(request,
+                            'Your advice has been posted successfully',
+                            '',
+                            'Lorem ipsum',
+                            None,
+                            {'Go back to advice to view': reverse_lazy('cases:advice_view',
+                                                                       kwargs={'pk': self.case['id']})})
