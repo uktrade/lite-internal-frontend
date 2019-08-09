@@ -69,4 +69,3 @@ class OrganisationSteps():
             organisations_form_page.enter_first_name(first_name)
             organisations_form_page.enter_last_name(last_name)
             organisations_form_page.click_submit()
-

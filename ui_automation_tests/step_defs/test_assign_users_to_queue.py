@@ -58,4 +58,3 @@ def assign_user_to_case(driver, enabled_disabled):
         assert "disabled" not in CaseListPage(driver).get_class_name_of_assign_users_button(), "assign users button is not enabled"
     elif enabled_disabled == "disabled":
         assert "disabled" in CaseListPage(driver).get_class_name_of_assign_users_button(), "assign users button is not disabled"
-

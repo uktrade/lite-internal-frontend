@@ -54,8 +54,8 @@ class SeedData:
         },
         "gov_user": {
             "email": gov_user_email,
-            "first_name": "first-name",
-            "last_name": "last-name"},
+            "first_name": gov_user_first_name,
+            "last_name": gov_user_last_name},
         "export_user": {
             "email": exporter_user_email,
             "password": "password"

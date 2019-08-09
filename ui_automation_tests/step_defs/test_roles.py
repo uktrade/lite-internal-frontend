@@ -53,5 +53,3 @@ def edit_existing_role(driver, context):
     context.flag_name = str(context.role_name)[:12] + "edited"
     roles_pages.enter_role_name(context.role_name)
     Shared(driver).click_submit()
-
-

@@ -76,9 +76,6 @@ class ApplicationPage(BasePage):
         case_status_dropdown = Select(self.driver.find_element_by_id(self.status))
         case_status_dropdown.select_by_visible_text(status)
 
-    def get_application_headings(self):
-        return self.driver.find_elements_by_css_selector(self.headers)
-
     def get_text_of_case_note_subject(self, no):
         return self.driver.find_elements_by_css_selector(self.activity_case_note_subject)[no].text
 
