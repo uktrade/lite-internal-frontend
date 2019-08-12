@@ -24,9 +24,15 @@
 
 {% if ecju_queries %}
 	<p class="govuk-caption-m">{% get_string 'cases.ecju_queries.title' %}</p>
+    <div class="lite-table">
 	{% for query in ecju_queries %}
-		{{ query }}
+        <div class="lite-table-row">
+            <div class="lite-table__cell">
+                {{ query.question }}
+            </div>
+        </div>
 	{% endfor %}
+    </div>
 {% else %}
 	<p class="govuk-caption-l">{% get_string 'cases.ecju_queries.case_has_no_queries' %}</p>
 {% endif %}
