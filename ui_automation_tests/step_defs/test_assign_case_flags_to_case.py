@@ -6,7 +6,7 @@ from pages.flags_pages import FlagsPages
 from pages.application_page import ApplicationPage
 from pages.header_page import HeaderPage
 
-#scenarios('../features/assign_case_flags_to_case.feature', strict_gherkin=False)
+scenarios('../features/assign_case_flags_to_case.feature', strict_gherkin=False)
 
 
 @given('Case flags have been created')

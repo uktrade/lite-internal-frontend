@@ -5,7 +5,7 @@ from pages.shared import Shared
 from pages.users_page import UsersPage
 
 
-#scenarios('../features/roles.feature', strict_gherkin=False)
+scenarios('../features/roles.feature', strict_gherkin=False)
 
 
 @when('I go to manage roles')

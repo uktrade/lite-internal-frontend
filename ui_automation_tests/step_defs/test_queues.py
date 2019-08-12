@@ -6,7 +6,7 @@ from pages.header_page import HeaderPage
 from pages.queues_pages import QueuesPages
 from pages.shared import Shared
 
-#scenarios('../features/queues.feature', strict_gherkin=False)
+scenarios('../features/queues.feature', strict_gherkin=False)
 
 import logging
 

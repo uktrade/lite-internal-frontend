@@ -6,7 +6,7 @@ from pages.shared import Shared
 
 from ui_automation_tests.pages.case_list_page import CaseListPage
 
-#scenarios('../features/filter_and_sort_cases.feature', strict_gherkin=False)
+scenarios('../features/filter_and_sort_cases.feature', strict_gherkin=False)
 
 
 @given('a queue has been created')

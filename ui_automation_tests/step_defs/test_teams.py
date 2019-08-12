@@ -5,7 +5,7 @@ from pages.shared import Shared
 from pages.teams_pages import TeamsPages
 from pages.users_page import UsersPage
 
-#scenarios('../features/teams.feature', strict_gherkin=False)
+scenarios('../features/teams.feature', strict_gherkin=False)
 
 
 @when('I go to teams via menu')

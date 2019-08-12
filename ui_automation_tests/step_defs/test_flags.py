@@ -5,7 +5,7 @@ from pages.shared import Shared
 
 from pages.flags_pages import FlagsPages
 
-#scenarios('../features/flags.feature', strict_gherkin=False)
+scenarios('../features/flags.feature', strict_gherkin=False)
 
 import logging
 
