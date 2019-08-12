@@ -1,6 +1,6 @@
 import os
 import allure
-from allure.constants import AttachmentType
+import allure.constants
 
 from pytest import fixture
 from pytest_bdd import given, when, then, parsers
