@@ -10,13 +10,13 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
-from datetime import date, datetime
+from datetime import datetime
 import logging
 
-d = date.fromordinal(730920)
-now = d.strftime("%d-%m-%Y")
+now = datetime.now().isoformat()
 path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
 screen_dir = os.path.join(path, "screenshot", str(now))
+
 
 def get_current_date_time_string():
     return datetime.now().strftime("%Y/%m/%d %H:%M:%S:%f")
@@ -37,12 +37,7 @@ def remove_special_characters(text):
 
 
 def save_screenshot(driver, name):
-    logging.info("name: " + name)
-    print("name: " + name)
     _name = remove_special_characters(name)
-    print("name: " + _name)
-    print("name: " + _name + '-' + now + ".png")
-
     driver.get_screenshot_as_file(os.path.join(screen_path(), _name + '-' + now + ".png"))
     allure.attach(driver.get_screenshot_as_png(), name=_name + "-" + now, attachment_type=allure.attachment_type.PNG)
 
