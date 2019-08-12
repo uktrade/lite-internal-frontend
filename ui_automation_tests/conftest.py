@@ -1,15 +1,17 @@
-import datetime
 import os
+
+from pytest import fixture
 from pytest_bdd import given, when, then, parsers
 
-from fixtures.core import context, driver, sso_login_info, invalid_username, new_cases_queue_id
+from fixtures.core import context, driver, sso_login_info, invalid_username, new_cases_queue_id, sso_users_name
 from fixtures.urls import internal_url, sso_sign_in_url, api_url
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query
 from fixtures.sign_in_to_sso import sign_in_to_internal_sso
+from fixtures.add_a_flag import add_uae_flag
+from fixtures.add_queue import add_queue
+from fixtures.add_a_team import add_a_team
 
 import helpers.helpers as utils
-from helpers.seed_data import SeedData
-from helpers.utils import get_or_create_attr
 from pages.flags_pages import FlagsPages
 from pages.header_page import HeaderPage
 from pages.shared import Shared
@@ -58,15 +60,6 @@ def sign_into_sso(driver, sign_in_to_internal_sso):
     pass
 
 
-@when('I go to internal homepage and sign in')
-def go_to_internal_homepage_sign_in(driver, internal_url, sso_sign_in_url, sso_login_info):
-    driver.get(sso_sign_in_url)
-    driver.find_element_by_name("username").send_keys(sso_login_info['email'])
-    driver.find_element_by_name("password").send_keys(sso_login_info['password'])
-    driver.find_element_by_css_selector("[type='submit']").click()
-    driver.get(internal_url)
-
-
 @when('I go to application previously created')
 def click_on_created_application(driver, context, internal_url):
     driver.get(internal_url.rstrip('/') + '/cases/' + context.case_id)
@@ -87,17 +80,6 @@ def create_clc(driver, apply_for_clc_query):
     pass
 
 
-@when('I click submit button')
-def click_on_submit_button(driver):
-    shared = Shared(driver)
-    shared.click_submit()
-
-
-@when('I refresh the page')
-def I_refresh_the_page(driver):
-    driver.refresh()
-
-
 @then(parsers.parse('I see error message "{expected_error}"'))
 def error_message_shared(driver, expected_error):
     shared = Shared(driver)
@@ -106,38 +88,17 @@ def error_message_shared(driver, expected_error):
 
 @when('I click continue')
 def i_click_continue(driver):
-    driver.find_element_by_css_selector("button[type*='submit']").click()
+    Shared(driver).click_submit()
 
 
-@when('I go to flags')
-def go_to_flags(driver):
-    header = HeaderPage(driver)
-
-    header.click_lite_menu()
-    header.click_flags()
-
-
-@when(parsers.parse('I add a flag called "{flag_name}" at level "{flag_level}"'))
-def add_a_flag(driver, flag_name, flag_level, context):
-    flags_page = FlagsPages(driver)
-    shared = Shared(driver)
-    utils.get_unformatted_date_time()
-    flags_page.click_add_a_flag_button()
-    if flag_name == " ":
-        context.flag_name = flag_name
-    else:
-        extra_string = str(utils.get_unformatted_date_time())
-        extra_string = extra_string[(len(extra_string))-7:]
-        context.flag_name = flag_name + extra_string
-    flags_page.enter_flag_name(context.flag_name)
-    flags_page.select_flag_level(flag_level)
-    shared.click_submit()
+@given('I go to flags')
+def go_to_flags(driver, internal_url, sign_in_to_internal_sso):
+    driver.get(internal_url.rstrip("/")+"/flags")
 
 
 @when('I go to users')
 def go_to_users(driver):
     header = HeaderPage(driver)
-
     header.open_users()
 
 
@@ -171,22 +132,16 @@ def select_status_save(driver, status, context):
     application_page.select_status(status)
     context.status = status
     context.date_time_of_update = utils.get_formatted_date_time_h_m_pm_d_m_y()
-    driver.find_element_by_css_selector(".govuk-button").click()
+    Shared(driver).click_submit()
 
 
 @when('I click on new queue in dropdown')
 def new_queue_shown_in_dropdown(driver, context):
-    driver.find_element_by_id('queue-title').click()
-    elements = driver.find_elements_by_css_selector('.lite-dropdown .lite-dropdown--item')
-    for idx, element in enumerate(elements):
-        if element.text == context.queue_name:
-            driver.execute_script("document.getElementsByClassName('lite-dropdown--item')[" + str(idx) + "].scrollIntoView(true);")
-            element.click()
-            break
+    CaseListPage(driver).click_on_queue_name(context.queue_name)
 
 
 @then('there are no cases shown')
 def no_cases_shown(driver):
-    assert 'There are no new cases to show.' in QueuesPages(driver).get_no_cases_text()
+    assert 'There are no new cases to show.' in QueuesPages(driver).get_no_cases_text(), "There are cases shown in the newly created queue."
 
 

@@ -20,11 +20,18 @@ class CaseListPage(BasePage):
     LINK_SHOW_FILTERS = 'show-filters-link'  # ID
     LINK_HIDE_FILTERS = 'hide-filters-link'  # ID
     FILTER_BAR = 'lite-filter-bar--horizontal'  # Class
+    STATUS_DROPDOWN = 'status'  # ID
+    CASE_TYPE_DROPDOWN = 'case_type'  # ID
 
     # Deprecated
     FILTER_SEARCH_BOX = "filter-box"  # ID
     assignee = "[style='margin-bottom: 6px;']"  # CSS
     no_assignee = "[style='margin-bottom: 0; opacity: .7;']"  # CSS
+
+    # Queue dropdown
+    queue_dropdown_title = 'queue-title'  # ID
+    dropdown_item = '.lite-dropdown .lite-dropdown--item' # CSS
+    dropdown_item_class = 'lite-dropdown--item'  # Class_Name
 
     def click_on_case_checkbox(self, case_id):
         self.driver.find_element_by_css_selector(self.CHECKBOX_CASE + case_id + "']").click()
@@ -69,3 +76,22 @@ class CaseListPage(BasePage):
 
     def click_on_href_within_cases_table(self, href):
         self.driver.find_element_by_css_selector(self.CASES_TABLE + ' [href*="' + href + '"]').click()
+
+    def click_on_queue_title(self):
+        self.driver.find_element_by_id(self.queue_dropdown_title).click()
+
+    def click_on_queue_name(self, queue_name):
+        self.click_on_queue_title()
+        elements = self.driver.find_elements_by_css_selector(self.dropdown_item)
+        for idx, element in enumerate(elements):
+            if element.text == queue_name:
+                self.driver.execute_script(
+                    "document.getElementsByClassName('" + self.dropdown_item_class + "')[" + str(idx) + "].scrollIntoView(true);")
+                element.click()
+                break
+
+    def select_filter_status_from_dropdown(self, status):
+        utils.select_visible_text_from_dropdown(self.driver.find_element_by_id(self.STATUS_DROPDOWN), status)
+
+    def select_filter_case_type_from_dropdown(self, status):
+        utils.select_visible_text_from_dropdown(self.driver.find_element_by_id(self.CASE_TYPE_DROPDOWN), status)
