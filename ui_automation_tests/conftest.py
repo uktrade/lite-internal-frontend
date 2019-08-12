@@ -41,10 +41,9 @@ def pytest_addoption(parser):
 
 
 # Create driver and url command line adoption
-def pytest_exception_interact(driver, node, report):
+def pytest_exception_interact(node, report):
     if node and report.failed:
-        allure.attach('screenshot', driver.get_screenshot_as_png(), type=AttachmentType.PNG)
-
+        utils.save_screenshot(node.funcargs.get("driver"), "name")
 
 @when('I go to the internal homepage')
 def when_go_to_internal_homepage(driver, internal_url):
