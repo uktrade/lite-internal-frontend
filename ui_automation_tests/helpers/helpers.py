@@ -1,6 +1,8 @@
 import re
 
 import allure
+from allure_commons._allure import attach
+from allure_commons.types import AttachmentType
 import os
 import time
 from selenium.webdriver.support.ui import WebDriverWait
@@ -42,7 +44,7 @@ def save_screenshot(driver, name):
     print("name: " + _name + '-' + now + ".png")
 
     driver.get_screenshot_as_file(os.path.join(screen_path(), _name + '-' + now + ".png"))
-    allure.attach(_name + "-" + now, driver.get_screenshot_as_png(), allure.attachment_type.PNG)
+    allure.attach(driver.get_screenshot_as_png(), name=_name + "-" + now, attachment_type=allure.attachment_type.PNG)
 
 
 def find_element(driver, by_type, locator):
