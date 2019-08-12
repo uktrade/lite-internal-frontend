@@ -56,7 +56,6 @@
 {% endif %}
 
 <!-- Goods -->
-<h3 class="govuk-heading-m">Goods</h3>
 {% if case.application.licence_type.key == 'open_licence' %}
 	{% include 'cases/case/views/open-goods.html' %}
 {% endif %}
@@ -66,11 +65,9 @@
 
 <!-- Destinations/End-User -->
 {% if case.application.licence_type.key == 'open_licence' %}
-	<h3 class="govuk-heading-m">Destinations</h3>
 	{% include 'cases/case/views/open-destinations.html' %}
 {% endif %}
 {% if case.application.licence_type.key == 'standard_licence' %}
-	<h3 class="govuk-heading-m">End User</h3>
 	{% include 'cases/case/views/standard-destinations.html' %}
 {% endif %}
 

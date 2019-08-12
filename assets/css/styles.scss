@@ -6,26 +6,6 @@ $govuk-brand-colour: #28a197; // GOV.UK Design System
 @import "../shared/lite-frontend/scss/all"; // Local Assets
 @import "components/all";
 
-.app-country-label {
-	border-radius: 100px;
-	color: govuk-colour("white");
-	background-color: govuk-colour("mid-grey");
-	font-weight: bold;
-	margin-left: 3px;
-	padding: 2px 8px;
-	font-size: 17px;
-
-	&--green {
-		background-color: govuk-colour("green");
-	}
-	&--orange {
-		background-color: govuk-colour("orange");
-	}
-	&--red {
-		background-color: govuk-colour("red");
-	}
-}
-
 .app-wrappable-list {
 	display: flex;
 	flex-wrap: wrap;

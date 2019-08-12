@@ -29,6 +29,6 @@ urlpatterns = [
     path('<uuid:pk>/advice-view/', advice.ViewAdvice.as_view(), name='advice_view'),
     # ex: /cases/<uuid:pk>/advice-view/give-advice/
     path('<uuid:pk>/advice-view/give-advice/', advice.GiveAdvice.as_view(), name='give_advice'),
-    # ex: /cases/<uuid:pk>/advice-view/give-advice/approve
+    # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/
     path('<uuid:pk>/advice-view/give-advice/<str:type>/', advice.GiveAdviceDetail.as_view(), name='give_advice_detail'),
 ]

@@ -11,73 +11,107 @@
 	</p>
 </div>
 
-<form method="post">
+<form action="{% url 'cases:give_advice_detail' case.id type %}" method="post">
 
 	{% csrf_token %}
 
-{% if type == 'proviso' %}
+	<input type="hidden" name="type" value="{{ type }}">
+	<input type="hidden" name="goods" value="{{ goods }}">
+	<input type="hidden" name="goods_types" value="{{ goods_types }}">
+	<input type="hidden" name="countries" value="{{ countries }}">
+	<input type="hidden" name="end_user" value="{{ end_user }}">
+	<input type="hidden" name="ultimate_end_users" value="{{ ultimate_end_users }}">
+
+	{% if type == 'proviso' %}
+		<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
+			<div class="govuk-form-group">
+				<div class="app-picklist-picker-heading__container">
+					<label class="govuk-label" for="{{ question.name }}">
+						Proviso
+					</label>
+					<a onclick="return showProvisoModal();" href="#" class="govuk-label lite-js-only govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">
+						{% svg 'new' %}
+						Import proviso from picklists
+					</a>
+				</div>
+				<span class="govuk-hint" for="{{ question.name }}">
+					This is a really long description
+				</span>
+				<textarea class="govuk-textarea govuk-js-character-count " id="textarea-proviso" name="proviso" rows="5" aria-describedby="textarea-proviso-info textarea-proviso-hint"></textarea>
+			</div>
+
+			<span id="textarea-proviso-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+				You can enter up to 200 characters
+			</span>
+		</div>
+	{% endif %}
+
+	{% if type == 'refuse' %}
+		<div class="govuk-form-group">
+			<div class="govuk-form-group">
+				<label class="govuk-label" for="{{ question.name }}">
+					Denial Reasons
+				</label>
+				<span class="govuk-hint" for="{{ question.name }}">
+					This is a really long description
+				</span>
+			</div>
+			<div class="govuk-checkboxes">
+				{% for denial_reason_key, denial_reason_values in static_denial_reasons.items %}
+					<div class="govuk-form-group lite-checkboxes--inline">
+						{% for denial_reason in denial_reason_values %}
+							<div class="govuk-checkboxes__item">
+								<input class="govuk-checkboxes__input" id="{{ denial_reason }}" name="denial_reasons" type="checkbox" value="{{ denial_reason }}">
+								<label class="govuk-label govuk-checkboxes__label" for="{{ denial_reason }}">
+									{{ denial_reason }}
+								</label>
+							</div>
+						{% endfor %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+
 	<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
 		<div class="govuk-form-group">
 			<div class="app-picklist-picker-heading__container">
 				<label class="govuk-label" for="{{ question.name }}">
-					Proviso
+					Advice
 				</label>
-				<a onclick="return showProvisoModal();" href="#" class="govuk-label lite-js-only govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">
+				<a onclick="return showAdviceModal();" href="#" class="govuk-label lite-js-only govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">
 					{% svg 'new' %}
-					Import proviso from picklists
+					Import advice from picklists
 				</a>
 			</div>
 			<span class="govuk-hint" for="{{ question.name }}">
 				This is a really long description
 			</span>
-			<textarea class="govuk-textarea govuk-js-character-count " id="textarea-proviso" name="textarea" rows="5" aria-describedby="textarea-proviso-info textarea-proviso-hint"></textarea>
+			<textarea class="govuk-textarea govuk-js-character-count " id="textarea-advice" name="advice" rows="5" aria-describedby="textarea-advice-info textarea-advice-hint"></textarea>
 		</div>
 
-		<span id="textarea-proviso-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+		<span id="textarea-advice-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
 			You can enter up to 200 characters
 		</span>
 	</div>
-{% endif %}
 
-<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-	<div class="govuk-form-group">
-		<div class="app-picklist-picker-heading__container">
+	<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
+		<div class="govuk-form-group">
 			<label class="govuk-label" for="{{ question.name }}">
-				Advice
+				Note to company
 			</label>
-			<a onclick="return showAdviceModal();" href="#" class="govuk-label lite-js-only govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">
-				{% svg 'new' %}
-				Import advice from picklists
-			</a>
+			<span class="govuk-hint" for="{{ question.name }}">
+				This is a really long description
+			</span>
+			<textarea class="govuk-textarea govuk-js-character-count " id="textarea-note" name="note" rows="5" aria-describedby="textarea-note-info textarea-note-hint"></textarea>
 		</div>
-		<span class="govuk-hint" for="{{ question.name }}">
-			This is a really long description
+
+		<span id="textarea-note-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+			You can enter up to 200 characters
 		</span>
-		<textarea class="govuk-textarea govuk-js-character-count " id="textarea-advice" name="textarea" rows="5" aria-describedby="textarea-advice-info textarea-advice-hint"></textarea>
 	</div>
 
-	<span id="textarea-advice-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
-		You can enter up to 200 characters
-	</span>
-</div>
-
-<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-	<div class="govuk-form-group">
-		<label class="govuk-label" for="{{ question.name }}">
-			Note to company
-		</label>
-		<span class="govuk-hint" for="{{ question.name }}">
-			This is a really long description
-		</span>
-		<textarea class="govuk-textarea govuk-js-character-count " id="textarea-note" name="note" rows="5" aria-describedby="textarea-note-info textarea-note-hint"></textarea>
-	</div>
-
-	<span id="textarea-note-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
-		You can enter up to 200 characters
-	</span>
-</div>
-
-<button class="govuk-button">Submit advice</button>
+	<button class="govuk-button">Submit advice</button>
 
 </form>
 
