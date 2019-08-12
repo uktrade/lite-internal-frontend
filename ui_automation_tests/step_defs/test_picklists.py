@@ -4,7 +4,7 @@ from pages.picklist_pages import PicklistPages
 from pytest_bdd import scenarios, when, then, parsers
 import helpers.helpers as utils
 
-scenarios('../features/picklists.feature', strict_gherkin=False)
+#scenarios('../features/picklists.feature', strict_gherkin=False)
 
 
 @when('I go to My Team')

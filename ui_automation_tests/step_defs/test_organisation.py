@@ -5,7 +5,7 @@ from pytest_bdd import scenarios, when, then, parsers
 import helpers.helpers as utils
 from pages.shared import Shared
 
-scenarios('../features/organisation.feature', strict_gherkin=False)
+#scenarios('../features/organisation.feature', strict_gherkin=False)
 
 
 class OrganisationSteps():

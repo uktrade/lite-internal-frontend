@@ -11,7 +11,7 @@ from ui_automation_tests.pages.users_page import UsersPage
 
 
 class ManageCases():
-    scenarios('../features/manage_cases.feature', strict_gherkin=False)
+    #scenarios('../features/manage_cases.feature', strict_gherkin=False)
 
     import logging
     log = logging.getLogger()

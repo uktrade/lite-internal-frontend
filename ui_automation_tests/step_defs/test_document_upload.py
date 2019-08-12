@@ -6,7 +6,7 @@ from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.attach_document_page import AttachDocumentPage
 from ui_automation_tests.pages.documents_page import DocumentsPage
 
-scenarios('../features/document_upload.feature', strict_gherkin=False)
+#scenarios('../features/document_upload.feature', strict_gherkin=False)
 
 
 @when('I click on the Documents button')
