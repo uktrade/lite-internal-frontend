@@ -45,6 +45,7 @@ def pytest_exception_interact(node, report):
     if node and report.failed:
         class_name = "baba"
         name = "{0}_{1}".format(class_name, "ababa")
+        print(name)
         utils.save_screenshot(node.funcargs.get("driver"), name)
 
 

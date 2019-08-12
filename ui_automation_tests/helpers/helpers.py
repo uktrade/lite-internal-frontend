@@ -36,7 +36,11 @@ def remove_special_characters(text):
 
 def save_screenshot(driver, name):
     logging.info("name: " + name)
+    print("name: " + name)
     _name = remove_special_characters(name)
+    print("name: " + _name)
+    print("name: " + _name + '-' + now + ".png")
+
     driver.get_screenshot_as_file(os.path.join(screen_path(), _name + '-' + now + ".png"))
     allure.attach(_name + "-" + now, driver.get_screenshot_as_png(), allure.attachment_type.PNG)
 
