@@ -1,4 +1,6 @@
 import os
+import allure
+from allure.constants import AttachmentType
 
 from pytest import fixture
 from pytest_bdd import given, when, then, parsers
@@ -22,10 +24,9 @@ from pages.queues_pages import QueuesPages
 # Screenshot in case of any test failure
 
 
-def pytest_exception_interact(node, report):
+def pytest_exception_interact(self, node, report):
     if node and report.failed:
-        class_name = node._nodeid.replace(".py::", "_class_")
-        # utils.save_screenshot(node.funcargs.get("driver"), class_name)
+        allure.attach('screenshot', self.driver.get_screenshot_as_png(), type=AttachmentType.PNG)
 
 
 # Create driver and url command line adoption
@@ -105,7 +106,7 @@ def go_to_users(driver):
 @then('I see the clc-case previously created')
 def assert_case_is_present(driver, apply_for_clc_query, context):
     case_list_page = CaseListPage(driver)
-    assert case_list_page.assert_case_is_present(context.case_id), "clc case ID is not present on page"
+    assert not case_list_page.assert_case_is_present(context.case_id), "clc case ID is not present on page"
 
 
 @when('I create a clc_query')
