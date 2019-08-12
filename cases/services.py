@@ -75,6 +75,6 @@ def get_ecju_queries(request, pk):
     return data.json(), data.status_code
 
 
-def post_ecju_query(request, json):
-    data = post(request, ECJU_QUERIES_URL, json)
+def post_ecju_query(request, pk, json):
+    data = post(request, CASE_URL + pk + ECJU_QUERIES_URL, json)
     return data.json(), data.status_code

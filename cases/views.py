@@ -201,8 +201,8 @@ class CreateEcjuQuery(TemplateView):
 
     def _handle_ecju_query_write_or_edit_post(self, case_id, request):
         # Post the form data to API for validation only
-        data = {'case': case_id, 'question': request.POST.get('question'), 'validate_only': True}
-        ecju_query, status_code = post_ecju_query(request, data)
+        data = {'question': request.POST.get('question'), 'validate_only': True}
+        ecju_query, status_code = post_ecju_query(request, case_id, data)
 
         if status_code != 200:
             return self._handle_ecju_query_form_errors(case_id, ecju_query, request)
@@ -212,10 +212,10 @@ class CreateEcjuQuery(TemplateView):
             return form_page(request, form)
 
     def _handle_ecju_query_confirmation_post(self, case_id, request):
-        data = {'case': case_id, 'question': request.POST.get('question')}
+        data = {'question': request.POST.get('question')}
 
         if request.POST.get('ecju_query_confirmation') == 'yes':
-            ecju_query, status_code = post_ecju_query(request, data)
+            ecju_query, status_code = post_ecju_query(request, case_id, data)
 
             if status_code != 201:
                 return self._handle_ecju_query_form_errors(case_id, ecju_query, request)
