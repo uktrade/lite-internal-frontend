@@ -41,7 +41,7 @@ def pytest_addoption(parser):
 
 
 # Create driver and url command line adoption
-def pytest_exception_interact(node, report):
+def pytest_exception_interact(driver, node, report):
     if node and report.failed:
         allure.attach('screenshot', driver.get_screenshot_as_png(), type=AttachmentType.PNG)
 
