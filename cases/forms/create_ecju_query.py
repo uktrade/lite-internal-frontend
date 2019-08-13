@@ -48,8 +48,7 @@ def create_ecju_create_confirmation_form():
                                              value='Yes, send the question'),
                                       Option(key='no',
                                              value='No, edit the question')
-                                  ],
-                                  classes=['govuk-radios--inline']),
+                                  ]),
                      HiddenField(name='form_name', value='ecju_query_create_confirmation'),
                 ],
                 back_link=BackLink('Back to ' + get_string('cases.ecju_queries.add_query.title'), '#'),
