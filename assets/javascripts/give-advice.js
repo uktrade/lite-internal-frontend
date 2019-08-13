@@ -30,6 +30,6 @@ function showPreviewModal(item, type) {
 };
 
 function setProvisoText(type) {
-	$('#textarea-' + type).val($('#picker-preview-text').text()).keyup();
+	$('#' + type).val($('#picker-preview-text').text()).keyup();
 	LITECommon.Modal.closeAllModals();
 }

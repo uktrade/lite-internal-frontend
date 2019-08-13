@@ -78,7 +78,6 @@ class GiveAdvice(TemplateView):
 
         # Validate at least one radiobutton is selected
         if not data.get('type'):
-
             # Add data to the error form as hidden fields
             self.form.questions = add_hidden_advice_data(self.form.questions, data)
 
@@ -121,18 +120,42 @@ class GiveAdviceDetail(TemplateView):
         self.advice_type = kwargs['type']
 
         # If the advice type is not valid, raise a 404
-        if self.advice_type not in ['approve', 'proviso', 'refuse', 'nlr', 'na']:
+        if self.advice_type not in ['approve', 'proviso', 'refuse', 'no_licence_required', 'not_applicable']:
             raise Http404
 
         return super(GiveAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        response, status_code = post_case_advice(request, self.case_id, request.POST)
+        data = request.POST
+        response, status_code = post_case_advice(request, self.case_id, data)
+
+        if 'errors' in response:
+            proviso_picklist_items, status_code = get_picklists(request, 'proviso')
+            advice_picklist_items, status_code = get_picklists(request, 'standard_advice')
+            static_denial_reasons, status_code = get_denial_reasons(request, False)
+
+            context = {
+                'case': self.case,
+                'title': 'Give advice',
+                'type': data.get('type'),
+                'proviso_picklist': proviso_picklist_items['picklist_items'],
+                'advice_picklist': advice_picklist_items['picklist_items'],
+                'static_denial_reasons': static_denial_reasons,
+                # Add previous data
+                'goods': data.get('goods'),
+                'goods_types': data.get('goods_types'),
+                'countries': data.get('countries'),
+                'end_user': data.get('end_user'),
+                'ultimate_end_users': data.get('ultimate_end_users'),
+                'errors': response['errors'],
+                'data': data,
+            }
+            return render(request, self.form, context)
 
         return success_page(request,
                             'Your advice has been posted successfully',
                             '',
-                            'Lorem ipsum',
+                            '',
                             None,
-                            {'Go back to advice to view': reverse_lazy('cases:advice_view',
-                                                                       kwargs={'pk': self.case['id']})})
+                            {'Go back to the advice screen': reverse_lazy('cases:advice_view',
+                                                                          kwargs={'pk': self.case['id']})})
