@@ -18,9 +18,13 @@ class Shared(BasePage):
     h1 = 'h1'  # CSS
     links_in_gov_table = '.govuk-table__cell a'  # CSS
     govuk_panel_body = '.govuk-panel__body'  # CSS
+    back_link = '.govuk-back-link'  # CSS
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(self.submit_button).click()
+
+    def click_back(self):
+        self.driver.find_element_by_css_selector(self.back_link).click()
 
     def get_text_of_error_message(self, no):
         return self.driver.find_elements_by_css_selector(self.error_message)[no].text
