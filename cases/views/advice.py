@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.forms.advice import advice_recommendation_form
+from cases.helpers import clean_advice
 from cases.services import get_case, post_case_advice, get_case_advice
 from core.services import get_denial_reasons
 from libraries.forms.components import HiddenField
@@ -133,6 +134,8 @@ class GiveAdviceDetail(TemplateView):
             proviso_picklist_items, status_code = get_picklists(request, 'proviso')
             advice_picklist_items, status_code = get_picklists(request, 'standard_advice')
             static_denial_reasons, status_code = get_denial_reasons(request, False)
+
+            data = clean_advice(data)
 
             context = {
                 'case': self.case,
