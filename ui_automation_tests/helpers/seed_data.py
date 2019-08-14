@@ -89,11 +89,9 @@ class SeedData:
         "clc_good": {
             "description": "Targus",
             "is_good_controlled": "unsure",
-            "control_code": "1234",
             "is_good_end_product": True,
             "part_number": "1234",
             "validate_only": False,
-            "not_sure_details_details": "Kebabs"
         },
         "document": [{
             'name': 'document 1',
@@ -180,6 +178,13 @@ class SeedData:
         response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['good']
         self.add_to_context('case_id', item['clc_query_case_id'])
+        self.add_document(item['id'])
+        data = {
+            'not_sure_details_details': 'something',
+            'not_sure_details_control_code': 'ML17',
+            'good_id': item['id']
+        }
+        self.make_request("POST", url='/applications/clcs/', headers=self.export_headers, body=data)
 
     def add_draft(self, draft=None, good=None, enduser=None, ultimate_end_user=None):
         self.log("Creating draft: ...")
