@@ -49,8 +49,7 @@ class SeedData:
             "control_code": "1234",
             "is_good_end_product": True,
             "part_number": "1234",
-            "validate_only": False,
-            "not_sure_details_details": ""
+            "validate_only": False
         },
         "gov_user": {
             "email": gov_user_email,
@@ -95,7 +94,13 @@ class SeedData:
             "part_number": "1234",
             "validate_only": False,
             "not_sure_details_details": "Kebabs"
-        }
+        },
+        "document": [{
+            'name': 'document 1',
+            's3_key': env('TEST_S3_KEY'),
+            'size': 0,
+            'description': 'document for test setup'
+        }]
     }
 
     def __init__(self, api_url, logging=True):
@@ -161,7 +166,14 @@ class SeedData:
         response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['good']
         self.add_to_context('good_id', item['id'])
+        self.add_document(item['id'])
 
+    def add_document(self, good_id):
+        data = self.request_data['document']
+        response = self.make_request("POST", url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
+        print(response)
+
+    #CHRIS this needs changing below.
     def add_clc_query(self):
         self.log("Adding clc query: ...")
         data = self.request_data['clc_good']
