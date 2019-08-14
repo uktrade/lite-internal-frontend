@@ -171,7 +171,6 @@ class SeedData:
         response = self.make_request("POST", url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
         print(response)
 
-    #CHRIS this needs changing below.
     def add_clc_query(self):
         self.log("Adding clc query: ...")
         data = self.request_data['clc_good']
@@ -184,7 +183,7 @@ class SeedData:
             'good_id': item['id']
         }
         response = self.make_request("POST", url='/applications/clcs/', headers=self.export_headers, body=data)
-        self.add_to_context('case_id', json.loads(response.text)['id'])
+        self.add_to_context('case_id', json.loads(response.text)['case_id'])
 
     def add_draft(self, draft=None, good=None, enduser=None, ultimate_end_user=None):
         self.log("Creating draft: ...")
