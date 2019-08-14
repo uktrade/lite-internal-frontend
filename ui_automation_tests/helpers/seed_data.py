@@ -177,14 +177,14 @@ class SeedData:
         data = self.request_data['clc_good']
         response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['good']
-        self.add_to_context('case_id', item['clc_query_case_id'])
         self.add_document(item['id'])
         data = {
             'not_sure_details_details': 'something',
             'not_sure_details_control_code': 'ML17',
             'good_id': item['id']
         }
-        self.make_request("POST", url='/applications/clcs/', headers=self.export_headers, body=data)
+        response = self.make_request("POST", url='/applications/clcs/', headers=self.export_headers, body=data)
+        self.add_to_context('case_id', json.loads(response.text)['id'])
 
     def add_draft(self, draft=None, good=None, enduser=None, ultimate_end_user=None):
         self.log("Creating draft: ...")
