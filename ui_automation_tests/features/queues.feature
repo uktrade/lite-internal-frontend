@@ -47,7 +47,7 @@ Feature: I want to define new work queues and the teams they belong to
     And I go to application previously created
     And I add case to newly created queue
     Then I see "2" queue checkboxes selected
-    
+
   @LT_1125_error
   Scenario: Move cases error message when not selecting any queues
     Given I create application or application has been previously created
@@ -106,7 +106,7 @@ Feature: I want to define new work queues and the teams they belong to
     And I move case to new cases original queue and remove from new queue
     And I go to the internal homepage
     And I click on new queue in dropdown
-    Then there are no cases shown
+    Then I dont see previously created application
 
   @LT_919_edit
   Scenario: Edit a new queue

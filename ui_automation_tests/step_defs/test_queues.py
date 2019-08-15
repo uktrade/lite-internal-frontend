@@ -65,6 +65,7 @@ def dont_see_queue_in_queue_list(driver, context):
         assert True
     else:
         assert context.app_id not in driver.find_element_by_css_selector('.lite-cases-table').text
+        assert context.case_id not in driver.find_element_by_css_selector('.lite-cases-table').text
     driver.set_timeout_to_10_seconds()
 
 
