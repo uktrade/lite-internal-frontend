@@ -85,7 +85,7 @@ class ManageCases():
         assert "Trading" in application_summary or "Brokering" in application_summary
         assert context.date_time_of_update.split(':')[1] in application_summary
         assert "None" in application_summary
-        assert "Standard licence" in application_summary
+        assert "Standard Licence" in application_summary
 
     @when(parsers.parse('I give myself the required permissions for "{permission}"'))
     def get_required_permissions(driver, permission):
