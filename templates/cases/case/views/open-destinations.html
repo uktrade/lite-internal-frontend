@@ -23,7 +23,7 @@
 					</td>
 					<td class="lite-table__cell">
 						{% for advice in all_advice %}
-							{% if country.id in advice.countries %}
+							{% if advice.country == country.id %}
 								{% include 'cases/case/views/table-advice.html' %}
 							{% endif %}
 						{% endfor %}

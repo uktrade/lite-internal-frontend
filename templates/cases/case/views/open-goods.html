@@ -24,7 +24,7 @@
 				{% if show_advice %}
 					<td class="lite-table__cell">
 						{% for advice in all_advice %}
-							{% if good.id in advice.goods_types %}
+							{% if advice.goods_type == good.id %}
 								{% include 'cases/case/views/table-advice.html' %}
 							{% endif %}
 						{% endfor %}

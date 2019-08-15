@@ -35,7 +35,7 @@
 				{% if show_advice %}
 					<td class="lite-table__cell">
 						{% for advice in all_advice %}
-							{% if end_user.id == advice.end_user %}
+							{% if advice.end_user == end_user.id %}
 								{% include 'cases/case/views/table-advice.html' %}
 							{% endif %}
 						{% endfor %}
@@ -85,7 +85,7 @@
 						{% if show_advice %}
 							<td class="lite-table__cell">
 								{% for advice in all_advice %}
-									{% if end_user.id in advice.ultimate_end_users %}
+									{% if advice.ultimate_end_user == end_user.id %}
 										{% include 'cases/case/views/table-advice.html' %}
 									{% endif %}
 								{% endfor %}

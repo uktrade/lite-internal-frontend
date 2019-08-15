@@ -76,6 +76,64 @@ def get_case_advice(request, case_pk):
     return data.json(), data.status_code
 
 
+def return_non_empty(data):
+    for item in data:
+        if item:
+            return item
+
+
 def post_case_advice(request, case_pk, json):
-    data = post(request, CASE_URL + case_pk + ADVICE_URL, clean_advice(json))
+    json = clean_advice(json)
+
+    # Split the json data into multiple
+    base_data = {
+        'type': json['type'],
+        'text': json['advice'],
+        'note': json['note']
+    }
+
+    if json.get('type') == 'refuse':
+        base_data['denial_reasons'] = json['denial_reasons']
+
+    if json.get('type') == 'proviso':
+        base_data['proviso'] = json['proviso']
+
+    new_data = []
+
+    if json.get('end_user'):
+        data = base_data.copy()
+        data['end_user'] = json.get('end_user')
+        new_data.append(
+            data
+        )
+
+    for item in json.get('ultimate_end_users', []):
+        data = base_data.copy()
+        data['ultimate_end_user'] = item
+        new_data.append(
+            data
+        )
+
+    for item in json.get('countries', []):
+        data = base_data.copy()
+        data['country'] = item
+        new_data.append(
+            data
+        )
+
+    for item in json.get('goods', []):
+        data = base_data.copy()
+        data['good'] = item
+        new_data.append(
+            data
+        )
+
+    for item in json.get('goods_types', []):
+        data = base_data.copy()
+        data['goods_type'] = item
+        new_data.append(
+            data
+        )
+
+    data = post(request, CASE_URL + case_pk + ADVICE_URL, new_data)
     return data.json(), data.status_code
