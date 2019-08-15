@@ -150,7 +150,7 @@ class GiveAdviceDetail(TemplateView):
                 'countries': data.get('countries'),
                 'end_user': data.get('end_user'),
                 'ultimate_end_users': data.get('ultimate_end_users'),
-                'errors': response['errors'],
+                'errors': response['errors'][0],
                 'data': data,
             }
             return render(request, self.form, context)
