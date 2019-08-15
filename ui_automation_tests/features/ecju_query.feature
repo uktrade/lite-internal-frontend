@@ -5,7 +5,6 @@ Feature: I want to create ECJU queries
   So that I can ask them for additional information or to correct an issue with the case they have submitted
 
   @LT_1192_add
-  @ECF
   Scenario: Add an ECJU Query to a case
     Given I create application or application has been previously created
     And I sign in to SSO or am signed into SSO

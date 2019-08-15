@@ -1,5 +1,6 @@
 from helpers.BasePage import BasePage
 from helpers.helpers import select_visible_text_from_dropdown
+from pages.shared import Shared
 
 
 class EcjuQueriesPages(BasePage):
@@ -9,7 +10,6 @@ class EcjuQueriesPages(BasePage):
     question_text_area = 'question'
     confirm_query_create_no = '.govuk-radios__input[value="no"]'
     confirm_query_create_yes = '.govuk-radios__input[value="yes"]'
-    question_list_question_table_cell = '.lite-table__cell'
 
     def click_add_an_ecju_query_btn(self):
         self.driver.find_element_by_css_selector(self.add_an_ecju_query_btn).click()
@@ -31,4 +31,5 @@ class EcjuQueriesPages(BasePage):
         self.driver.find_element_by_css_selector(self.confirm_query_create_yes).click()
 
     def get_all_ecju_query_questions(self):
-        return [i.text for i in self.driver.find_elements_by_css_selector(self.question_list_question_table_cell)]
+        driver = Shared(self.driver)
+        return [i.text for i in driver.get_cells_in_lite_table()]
