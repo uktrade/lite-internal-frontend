@@ -9,6 +9,7 @@ class Shared(BasePage):
     lite_table_body = '.lite-table__body'  # CSS
     lite_table_row = '.lite-table__body .lite-table__row'  # CSS
     lite_table_cell = '.lite-table__body .lite-table__cell'  # CSS
+    lite_table_cell_no_body = '.lite-table__cell'  # CSS
     govuk_table_body = '.govuk-table__body'  # CSS
     govuk_caption = '.govuk-caption-l'  # CSS
     selected_tab = '.lite-tabs__tab.selected'  # CSS
@@ -64,6 +65,9 @@ class Shared(BasePage):
 
     def get_cells_in_lite_table(self):
         return self.driver.find_elements_by_css_selector(self.lite_table_cell)
+
+    def get_cells_in_lite_table_no_body(self):
+        return self.driver.find_elements_by_css_selector(self.lite_table_cell_no_body)
 
     def get_rows_in_lite_table(self):
         return self.driver.find_elements_by_css_selector(self.lite_table_row)

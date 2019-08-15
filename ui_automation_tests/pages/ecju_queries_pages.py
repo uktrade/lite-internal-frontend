@@ -31,5 +31,5 @@ class EcjuQueriesPages(BasePage):
         self.driver.find_element_by_css_selector(self.confirm_query_create_yes).click()
 
     def get_all_ecju_query_questions(self):
-        driver = Shared(self.driver)
-        return [i.text for i in driver.get_cells_in_lite_table()]
+        shared = Shared(self.driver)
+        return [i.text for i in shared.get_cells_in_lite_table_no_body()]
