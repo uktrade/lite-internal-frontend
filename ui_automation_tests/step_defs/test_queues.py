@@ -68,10 +68,23 @@ def dont_see_queue_in_queue_list(driver, context):
     driver.set_timeout_to_10_seconds()
 
 
-@when('I add case to new queue')
+@when('I add case to newly created queue')
 def move_case_to_new_queue(driver, context):
     ApplicationPage(driver).click_move_case_button()
     driver.find_element_by_id(context.queue_name).click()
+    Shared(driver).click_submit()
+
+
+@then(parsers.parse('I see "{num}" queue checkboxes selected'))
+def see_number_of_checkboxes_selected(driver, context, num):
+    ApplicationPage(driver).click_move_case_button()
+    assert QueuesPages(driver).get_size_of_selected_queues() == int(num)
+    Shared(driver).click_back_link()
+
+
+@when('I remove case from new cases queue')
+def move_case_to_new_queue(driver, context):
+    ApplicationPage(driver).click_move_case_button()
     QueuesPages(driver).click_on_new_cases_queue()
     Shared(driver).click_submit()
 
