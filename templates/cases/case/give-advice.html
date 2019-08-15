@@ -105,7 +105,7 @@
 	{% endif %}
 
 	<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
-		<div class="govuk-form-group">
+		<div class="govuk-form-group {% if errors|key_value:'text' %}govuk-form-group--error{% endif %}">
 			<div class="app-picklist-picker-heading__container">
 				<label class="govuk-label" for="advice">
 					Why do you advise this?
@@ -115,6 +115,11 @@
 					Import advice from picklists
 				</a>
 			</div>
+			{% if errors|key_value:'text' %}
+				<span class="govuk-error-message">
+					<span class="govuk-visually-hidden">Error:</span> {{ errors|key_value:'text'|first }}
+				</span>
+			{% endif %}
 <!--			<span class="govuk-hint" for="{{ question.name }}">-->
 <!--				This is a really long description-->
 <!--			</span>-->
@@ -127,10 +132,15 @@
 	</div>
 
 	<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-		<div class="govuk-form-group">
+		<div class="govuk-form-group {% if errors|key_value:'note' %}govuk-form-group--error{% endif %}">
 			<label class="govuk-label" for="{{ question.name }}">
 				Is there anything else you want to say to the applicant?
 			</label>
+			{% if errors|key_value:'note' %}
+				<span class="govuk-error-message">
+					<span class="govuk-visually-hidden">Error:</span> {{ errors|key_value:'note'|first }}
+				</span>
+			{% endif %}
 <!--			<span class="govuk-hint" for="{{ question.name }}">-->
 <!--				This is a really long description-->
 <!--			</span>-->
