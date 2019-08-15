@@ -1,27 +1,23 @@
-import logging
-from pytest_bdd import when, then, parsers, scenarios
-from conf.settings import env
+from pytest_bdd import when, then, parsers, scenarios, given
 import helpers.helpers as utils
 from pages.header_page import HeaderPage
 from pages.shared import Shared
 from pages.teams_pages import TeamsPages
-
-log = logging.getLogger()
-console = logging.StreamHandler()
-log.addHandler(console)
-
-sso_email = env('TEST_SSO_EMAIL')
-sso_name = env('TEST_SSO_NAME')
+from pages.users_page import UsersPage
 
 scenarios('../features/teams.feature', strict_gherkin=False)
 
 
-@when('I go to teams')
-def go_to_teams(driver):
+@when('I go to teams via menu')
+def go_to_teams_via_menu(driver):
     header = HeaderPage(driver)
-
     header.click_lite_menu()
     header.click_teams()
+
+
+@given('I go to teams')
+def go_to_teams(driver, sign_in_to_internal_sso, internal_url):
+    driver.get(internal_url.rstrip('/') + '/teams/')
 
 
 @when('I click on my team')
@@ -42,10 +38,14 @@ def select_team(driver):
 
 
 @when('I click edit for my user')
-def click_edit_for_my_user(driver):
-    user = driver.find_element_by_xpath("//td[text()='" + sso_email + "']/following-sibling::td[last()]/a")
-    driver.execute_script("arguments[0].scrollIntoView();", user)
-    user.click()
+def click_edit_for_my_user(driver, sso_login_info):
+    no = utils.get_element_index_by_text(Shared(driver).get_rows_in_lite_table(), sso_login_info['email'])
+    UsersPage(driver).click_edit_button_by_index(no)
+
+
+@when(parsers.parse('I add a team called BlueOcean'))
+def add_a_team_blue_ocean(driver, add_a_team, context):
+    pass
 
 
 @when(parsers.parse('I add a team called "{team_name}"'))
@@ -54,11 +54,7 @@ def add_a_team(driver, team_name, context):
     shared = Shared(driver)
     utils.get_unformatted_date_time()
     teams_pages.click_add_a_team_button()
-    if team_name == " ":
-        context.team_name = team_name
-    else:
-        context.team_name = team_name + str(utils.get_unformatted_date_time())
-    teams_pages.enter_team_name(context.team_name)
+    teams_pages.enter_team_name(team_name)
     shared.click_submit()
 
 
@@ -75,7 +71,7 @@ def add_existing_team(driver, context):
 def edit_existing_team(driver, context):
     teams_pages = TeamsPages(driver)
     shared = Shared(driver)
-    elements = driver.find_elements_by_css_selector(".govuk-table__cell a")
+    elements = shared.get_links_in_gov_table()
     no = utils.get_element_index_by_text(elements, context.team_name)
     elements[no+1].click()
     context.team_name = context.team_name + "edited"
@@ -85,18 +81,17 @@ def edit_existing_team(driver, context):
 
 @then('I see the team in the team list')
 def see_team_in_list(driver, context):
-    team_name = driver.find_element_by_xpath("//*[text()[contains(.,'" + context.team_name + "')]]")
-    assert team_name.is_displayed()
+    assert context.team_name in Shared(driver).get_text_of_table_body()
 
 
 @then(parsers.parse('I see my teams user list with user "{added_not_added}"'))
-def see_team_user_added(driver, added_not_added, context):
-    assert driver.find_element_by_tag_name("h1").text == context.team_name , "User is not on teams user list"
+def see_team_user_added(driver, added_not_added, context, sso_login_info, sso_users_name):
+    assert Shared(driver).get_text_of_h1() == context.team_name , "User is not on teams user list"
     assert Shared(driver).get_text_of_selected_tab() == "USERS" , "Users tab isn't shown"
     if added_not_added == "added":
         table = Shared(driver).get_text_of_table_body()
-        assert sso_name in table, "User is not displayed in team list"
-        assert sso_email in table, "User is not displayed in team list"
+        assert sso_users_name in table, "User is not displayed in team list"
+        assert sso_login_info['email'] in table, "User is not displayed in team list"
         assert "Active" in table, "User is not displayed in team list"
     elif added_not_added == "not added":
         assert Shared(driver).get_text_of_caption() == "You don't have any users at the moment." , "Users are potentially displayed for a just created Team List"

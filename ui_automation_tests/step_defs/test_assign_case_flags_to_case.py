@@ -80,7 +80,12 @@ def assert_flag_is_assigned(driver, context):
 @then('The previously created flag is not assigned to the case')
 def assert_flag_is_assigned(driver, context):
     application_page = ApplicationPage(driver)
-    driver.timeout_off()
+    driver.set_timeout_to(0)
     exists = application_page.is_flag_applied(context.flag_name)
-    driver.timeout_on()
+    driver.set_timeout_to_10_seconds()
     assert exists is False
+
+
+@when('I add a flag called UAE at level Case')
+def add_a_flag(driver, context, add_uae_flag):
+    pass

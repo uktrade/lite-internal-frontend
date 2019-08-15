@@ -1,17 +1,22 @@
+import re
+
 import allure
+from allure_commons._allure import attach
+from allure_commons.types import AttachmentType
 import os
 import time
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
-from datetime import date, datetime
+from datetime import datetime
 import logging
 
-d = date.fromordinal(730920)
-now = d.strftime("%d-%m-%Y")
+now = datetime.now().isoformat()
 path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
 screen_dir = os.path.join(path, "screenshot", str(now))
+
 
 def get_current_date_time_string():
     return datetime.now().strftime("%Y/%m/%d %H:%M:%S:%f")
@@ -21,7 +26,7 @@ def screen_path():
     global screen_dir
     if not os.path.exists(screen_dir):
         os.makedirs(screen_dir)
-        os.chmod(screen_dir, 0o755)
+        os.chmod(screen_dir, 0o644)
     return screen_dir
 
 
@@ -32,10 +37,9 @@ def remove_special_characters(text):
 
 
 def save_screenshot(driver, name):
-    logging.info("name: " + name)
     _name = remove_special_characters(name)
     driver.get_screenshot_as_file(os.path.join(screen_path(), _name + '-' + now + ".png"))
-    allure.attach(_name + "-" + now, driver.get_screenshot_as_png(), allure.attachment_type.PNG)
+    allure.attach(driver.get_screenshot_as_png(), name=_name + "-" + now, attachment_type=allure.attachment_type.PNG)
 
 
 def find_element(driver, by_type, locator):
@@ -90,6 +94,10 @@ def get_unformatted_date_time():
 
 def get_formatted_date_time_m_d_h_s():
     return datetime.now().strftime("%m%d%H%M%S")
+
+
+def get_formatted_date_time_d_h_m_s():
+    return datetime.now().strftime(" %d%H%M%S")
 
 
 def highlight(element):
@@ -163,3 +171,12 @@ def wait_until_menu_is_visible(driver):
                 break
         except Exception:
             continue
+
+
+def select_visible_text_from_dropdown(element, text):
+    select = Select(element)
+    select.select_by_visible_text(text)
+
+
+def search_for_correct_date_regex_in_element(element):
+    return re.search("([0-9]{1,2}):([0-9]{2})(am|pm) ([0-9][0-9]) (January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{4,})", element)
