@@ -106,7 +106,7 @@ Feature: I want to define new work queues and the teams they belong to
     And I move case to new cases original queue and remove from new queue
     And I go to the internal homepage
     And I click on new queue in dropdown
-    Then I dont see previously created application
+    Then I dont see previously created clc query
 
   @LT_919_edit
   Scenario: Edit a new queue
