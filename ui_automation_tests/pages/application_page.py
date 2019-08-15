@@ -93,8 +93,7 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_css_selector(self.view_advice).click()
 
     def is_flag_applied(self, flag_id):
-        case_flags = self.driver.find_element_by_id(self.case_flags)
-        count = len(case_flags.find_elements_by_id(flag_id))
+        count = len(self.driver.find_elements_by_id(flag_id))
         return count == 1
 
     def click_move_case_button(self):
