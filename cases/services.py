@@ -107,33 +107,37 @@ def post_case_advice(request, case_pk, json):
             data
         )
 
-    for item in json.get('ultimate_end_users', []):
-        data = base_data.copy()
-        data['ultimate_end_user'] = item
-        new_data.append(
-            data
-        )
+    if json.get('ultimate_end_users'):
+        for item in json.get('ultimate_end_users', []):
+            data = base_data.copy()
+            data['ultimate_end_user'] = item
+            new_data.append(
+                data
+            )
 
-    for item in json.get('countries', []):
-        data = base_data.copy()
-        data['country'] = item
-        new_data.append(
-            data
-        )
+    if json.get('countries'):
+        for item in json.get('countries', []):
+            data = base_data.copy()
+            data['country'] = item
+            new_data.append(
+                data
+            )
 
-    for item in json.get('goods', []):
-        data = base_data.copy()
-        data['good'] = item
-        new_data.append(
-            data
-        )
+    if json.get('goods'):
+        for item in json.get('goods', []):
+            data = base_data.copy()
+            data['good'] = item
+            new_data.append(
+                data
+            )
 
-    for item in json.get('goods_types', []):
-        data = base_data.copy()
-        data['goods_type'] = item
-        new_data.append(
-            data
-        )
+    if json.get('goods_types'):
+        for item in json.get('goods_types', []):
+            data = base_data.copy()
+            data['goods_type'] = item
+            new_data.append(
+                data
+            )
 
     data = post(request, CASE_URL + case_pk + ADVICE_URL, new_data)
     return data.json(), data.status_code
