@@ -76,7 +76,7 @@
 
 	{% if type == 'refuse' %}
 		<div class="govuk-form-group {% if errors|key_value:'denial_reasons' %}govuk-form-group--error{% endif %}">
-			<label class="govuk-label" for="{{ question.name }}">
+			<label class="govuk-label">
 				Denial Reasons
 			</label>
 <!--				<span class="govuk-hint" for="{{ question.name }}">-->
@@ -92,7 +92,7 @@
 					<div class="govuk-form-group lite-checkboxes--inline">
 						{% for denial_reason in denial_reason_values %}
 							<div class="govuk-checkboxes__item">
-								<input class="govuk-checkboxes__input" id="{{ denial_reason }}" name="denial_reasons" type="checkbox" value="{{ denial_reason }}">
+								<input class="govuk-checkboxes__input" {% if denial_reason in data.denial_reasons %}checked{% endif %} id="{{ denial_reason }}" name="denial_reasons" type="checkbox" value="{{ denial_reason }}">
 								<label class="govuk-label govuk-checkboxes__label" for="{{ denial_reason }}">
 									{{ denial_reason }}
 								</label>

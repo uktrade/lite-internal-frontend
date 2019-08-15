@@ -139,7 +139,7 @@ class GiveAdviceDetail(TemplateView):
 
             context = {
                 'case': self.case,
-                'title': 'Give advice',
+                'title': 'Error: Give advice',
                 'type': data.get('type'),
                 'proviso_picklist': proviso_picklist_items['picklist_items'],
                 'advice_picklist': advice_picklist_items['picklist_items'],
