@@ -74,3 +74,6 @@ class Shared(BasePage):
 
     def get_links_in_gov_table(self):
         return self.driver.find_elements_by_css_selector(self.links_in_gov_table)
+
+    def click_back_link(self):
+        return self.driver.find_element_by_css_selector(self.back_link).click()
