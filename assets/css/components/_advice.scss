@@ -1,4 +1,10 @@
 .app-advice {
+	* {
+		white-space: normal;
+		word-wrap: break-word;
+		word-break: break-all;
+	}
+
 	&__user {
 		* {
 			margin: 0 0 govuk-spacing(2);
