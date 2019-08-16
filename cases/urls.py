@@ -31,4 +31,8 @@ urlpatterns = [
     path('<uuid:pk>/advice-view/give-advice/', advice.GiveAdvice.as_view(), name='give_advice'),
     # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/
     path('<uuid:pk>/advice-view/give-advice/<str:type>/', advice.GiveAdviceDetail.as_view(), name='give_advice_detail'),
+    # ex: /cases/<uuid:pk>/ecju-queries/
+    path('<uuid:pk>/ecju-queries/', views.ViewEcjuQueries.as_view(), name='ecju_queries'),
+    # ex: /cases/<uuid:pk>/ecju-queries/add
+    path('<uuid:pk>/ecju-queries/add', views.CreateEcjuQuery.as_view(), name='ecju_queries_add'),
 ]

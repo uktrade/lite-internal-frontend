@@ -1,7 +1,7 @@
 from cases.helpers import clean_advice
 from conf.client import post, get, put, delete
 from conf.constants import CASE_URL, CASE_NOTES_URL, APPLICATIONS_URL, ACTIVITY_URL, CLC_QUERIES_URL, DOCUMENTS_URL, \
-    CASE_FLAGS_URL, ADVICE_URL
+    CASE_FLAGS_URL, ADVICE_URL, ECJU_QUERIES_URL
 
 
 def get_case(request, pk):
@@ -140,4 +140,13 @@ def post_case_advice(request, case_pk, json):
             )
 
     data = post(request, CASE_URL + case_pk + ADVICE_URL, new_data)
+
+# ECJU Queries
+def get_ecju_queries(request, pk):
+    data = get(request, CASE_URL + pk + ECJU_QUERIES_URL)
+    return data.json(), data.status_code
+
+
+def post_ecju_query(request, pk, json):
+    data = post(request, CASE_URL + pk + ECJU_QUERIES_URL, json)
     return data.json(), data.status_code

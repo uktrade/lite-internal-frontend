@@ -19,6 +19,7 @@ _picklist_type = Select(name='type',
                         title='Type')
 
 _text = TextArea(title='Add text for picklist item',
+                 description='',
                  name='text',
                  extras={
                      'max_length': 5000,
