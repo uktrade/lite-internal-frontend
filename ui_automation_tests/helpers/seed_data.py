@@ -51,6 +51,11 @@ class SeedData:
             "part_number": "1234",
             "validate_only": False
         },
+        "ecju_query_picklist": {
+            "name": "Standard question 1",
+            "text": "Why did the chicken cross the road?",
+            "type": "ecju_query"
+        },
         "gov_user": {
             "email": gov_user_email,
             "first_name": gov_user_first_name,
@@ -146,6 +151,12 @@ class SeedData:
         response = self.make_request("POST", url='/organisations/', body=data)
         organisation = json.loads(response.text)['organisation']
         return organisation
+
+    def add_ecju_query_picklist(self):
+        self.log("Creating ECJU Query picklist item ...")
+        data = self.request_data['ecju_query_picklist']
+        response = self.make_request("POST", url='/picklist/', body=data)
+        return json.loads(response.text)['picklist_item']
 
     def find_org_by_name(self):
         response = self.make_request("GET", url='/organisations/')
