@@ -180,6 +180,7 @@
           <th class="lite-table__header" scope="col">Website</th>
 		  <th class="lite-table__header" scope="col">Address</th>
 		  <th class="lite-table__header" scope="col">Country</th>
+		  <th class="lite-table__header" scope="col">Documents</th>
 		</tr>
 	</thead>
 	<tbody class="lite-table__body">
@@ -190,6 +191,16 @@
           <td class="lite-table__cell">{{ data.case.application.destinations.data.website|default:'None' }}</td>
           <td class="lite-table__cell">{{ data.case.application.destinations.data.address }}</td>
           <td class="lite-table__cell">{{ data.case.application.destinations.data.country }}</td>
+          <td class="lite-table__cell">
+              {% for document in data.case.application.destinations.data.documents %}
+                {% if document.safe == True %}
+                    <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' data.case.id document.id %}">
+                        <span class="govuk-visually-hidden">{% get_string 'cases.manage.documents.download_document' %}</span>
+                        {{ document.name }}<br>
+                    </a>
+                {% endif %}
+              {% endfor %}
+          </td>
         </tr>
         {% for ultimate_end_user in data.case.application.ultimate_end_users.data %}
             <tr>
