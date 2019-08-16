@@ -158,7 +158,7 @@
 
 <div id="modal-proviso-picker" style="display: none;">
 	{% if proviso_picklist %}
-		<div class="app-picklist-picker__container">
+		<div id="picklist-proviso" class="app-picklist-picker__container">
 			{% for item in proviso_picklist %}
 				<a onclick="return showPreviewModal(this, 'proviso')" data-title="{{ item.name }}" data-text="{{ item.text }}" data-last-updated="{{ item.last_modified_at|str_date }}" class="app-picklist-picker__item">
 					<h4 class="govuk-heading-s">{{ item.name }}</h4>
@@ -175,7 +175,7 @@
 
 <div id="modal-advice-picker" style="display: none;">
 	{% if advice_picklist %}
-		<div class="app-picklist-picker__container">
+		<div id="picklist-advice" class="app-picklist-picker__container">
 			{% for item in advice_picklist %}
 				<a onclick="return showPreviewModal(this, 'advice')" data-title="{{ item.name }}" data-text="{{ item.text }}" data-last-updated="{{ item.last_modified_at|str_date }}" class="app-picklist-picker__item">
 					<h4 class="govuk-heading-s">{{ item.name }}</h4>
