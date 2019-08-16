@@ -52,9 +52,7 @@ def import_text_advice(driver, option, context):
     GiveAdvicePages(driver).click_on_import_advice_link(option)
     text = GiveAdvicePages(driver).get_text_of_picklist_item()
     context.advice_data.append(text)
-    # Not working here
-    GiveAdvicePages(driver).click_on_picklist_item()
-    Shared(driver).click_submit()
+    GiveAdvicePages(driver).click_on_picklist_item(option)
     assert text == driver.find_element_by_id(option).text
 
 

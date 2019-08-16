@@ -63,8 +63,8 @@ class SeedData:
             "type": "proviso"
         },
         "standard_advice_picklist": {
-            "name": "Misc",
-            "text": "My proviso would be this.",
+            "name": "More advice",
+            "text": "My standard advice would be this.",
             "type": "standard_advice"
         },
         "gov_user": {
