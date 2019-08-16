@@ -42,6 +42,7 @@ class ManageCases():
         record = RecordDecision(driver)
         record.click_on_decision_number(number)
         context.decision_array.append(number)
+        context.advice_data.append(number)
 
     @then('I see denied reason')
     def denied_reason(driver, context):
@@ -121,8 +122,3 @@ class ManageCases():
         assert context.ueu_website in destinations_table
         assert context.ueu_address in destinations_table
         assert context.ueu_country[0] in destinations_table
-
-    @when('I click on view advice')
-    def i_click_on_view_advice(driver, context):
-        application_page = ApplicationPage(driver)
-        application_page.click_view_advice()
