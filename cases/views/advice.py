@@ -18,7 +18,7 @@ def add_hidden_advice_data(questions_list, data):
     questions_list.append(HiddenField('goods', data.getlist('goods')))
     questions_list.append(HiddenField('goods_types', data.getlist('goods_types')))
     questions_list.append(HiddenField('countries', data.getlist('countries')))
-    questions_list.append(HiddenField('end_user', data.getlist('end_user')))
+    questions_list.append(HiddenField('end_user', data.get('end_user', '')))
     questions_list.append(HiddenField('ultimate_end_users', data.getlist('ultimate_end_users')))
     return questions_list
 

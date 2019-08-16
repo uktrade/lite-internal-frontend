@@ -12,10 +12,9 @@ def clean_advice(json):
     json['ultimate_end_users'] = _clean_dict_item(json['ultimate_end_users'])
     json['denial_reasons'] = json.getlist('denial_reasons')
 
-    if json.get('end_user') and isinstance(json.get('end_user'), list):
-        json['end_user'] = _clean_dict_item(json['end_user'])
-        json['end_user'] = json['end_user'][0]
+    if json.get('end_user'):
+        json['end_user'] = json['end_user']
     else:
-        json['end_user'] = None
+        json['end_user'] = ''
 
     return json
