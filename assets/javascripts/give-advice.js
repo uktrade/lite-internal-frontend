@@ -19,7 +19,7 @@ function showPreviewModal(item, type) {
 							  '<p class="govuk-caption-m">Last updated ' + lastUpdated + '</p>' +
 						  '</div>' +
 						  '<div class="app-picklist-picker-preview__controls">' +
-							  '<button onclick="setProvisoText(\'' + type + '\');" type="submit" class="govuk-button" data-module="govuk-button">' +
+							  '<button id="button-submit-' + type + '" onclick="setProvisoText(\'' + type + '\');" type="submit" class="govuk-button" data-module="govuk-button">' +
 								  'Use template' +
 							  '</button>' +
 						   '</div>' +
