@@ -140,6 +140,8 @@ def post_case_advice(request, case_pk, json):
             )
 
     data = post(request, CASE_URL + case_pk + ADVICE_URL, new_data)
+    return data.json(), data.status_code
+
 
 # ECJU Queries
 def get_ecju_queries(request, pk):
