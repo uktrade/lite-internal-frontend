@@ -16,7 +16,7 @@ class GiveAdvicePages(BasePage):
         self.driver.find_element_by_id(self.import_advice_link + option).click()
 
     def click_on_picklist_item(self):
-        self.driver.find_element_by_css_selector(self.picklist_item).click()
+        self.driver.execute_script(f'document.getElementByCSS("{self.picklist_item}").click"')
 
     def get_text_of_picklist_item(self):
         return self.driver.find_element_by_css_selector(self.picklist_item_text).text
