@@ -1,6 +1,7 @@
 from pytest_bdd import when, then, parsers, scenarios, given
 from pages.application_page import ApplicationPage
 from pages.give_advice_pages import GiveAdvicePages
+from pages.record_decision_page import RecordDecision
 from pages.shared import Shared
 
 scenarios('../features/give_advice.feature', strict_gherkin=False)
@@ -10,6 +11,13 @@ scenarios('../features/give_advice.feature', strict_gherkin=False)
 def i_create_an_proviso_picklist(context, add_a_proviso_picklist):
     context.proviso_picklist_name = add_a_proviso_picklist['name']
     context.proviso_picklist_question_text = add_a_proviso_picklist['text']
+
+
+@when(parsers.parse('I select decision "{number}"'))
+def select_decision(driver, number, context):
+    record = RecordDecision(driver)
+    record.click_on_decision_number(number)
+    context.advice_data.append(number)
 
 
 @given("I create a standard advice picklist")
