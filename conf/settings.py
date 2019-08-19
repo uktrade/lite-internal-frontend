@@ -173,6 +173,9 @@ STATICFILES_FINDERS = (
 
 SASS_PROCESSOR_ENABLED = True
 
+# Django Messages
+MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
+
 # File Upload
 # https://github.com/uktrade/s3chunkuploader
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
