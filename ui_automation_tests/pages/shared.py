@@ -20,6 +20,7 @@ class Shared(BasePage):
     links_in_gov_table = '.govuk-table__cell a'  # CSS
     govuk_panel_body = '.govuk-panel__body'  # CSS
     back_link = '.govuk-back-link'  # CSS
+    info_bar = '.lite-info-bar'  # CSS
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(self.submit_button).click()
@@ -75,5 +76,9 @@ class Shared(BasePage):
     def get_links_in_gov_table(self):
         return self.driver.find_elements_by_css_selector(self.links_in_gov_table)
 
+    def get_text_of_info_bar(self):
+        return self.driver.find_elements_by_css_selector(self.info_bar)
+
     def click_back_link(self):
         return self.driver.find_element_by_css_selector(self.back_link).click()
+

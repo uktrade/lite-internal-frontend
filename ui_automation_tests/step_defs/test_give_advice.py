@@ -50,11 +50,6 @@ def write_note_text_field(driver, text, context):
     context.advice_data.append(text)
 
 
-@when("I click go back to advice screen")
-def see_advice(driver):
-    GiveAdvicePages(driver).click_go_back_to_advice_screen()
-
-
 @when(parsers.parse("I import text from the '{option}' picklist"))
 def import_text_advice(driver, option, context):
     GiveAdvicePages(driver).click_on_import_advice_link(option)
@@ -64,14 +59,9 @@ def import_text_advice(driver, option, context):
     assert text == driver.find_element_by_id(option).text
 
 
-@then("I see advice in the same amount of places")
-def see_advice(driver, text):
-    assert Shared(driver).get_text_of_h1() == "Your advice has been posted successfully"
-
-
 @then("I see my advice has been posted successfully")
 def posted_successfully_advice(driver):
-    assert Shared(driver).get_text_of_h1() == "Your advice has been posted successfully"
+    assert Shared(driver).get_text_of_info_bar() == "Your advice has been posted successfully"
 
 
 @then('I see added advice in the same amount of places')
