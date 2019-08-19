@@ -28,7 +28,7 @@ class ApplicationPage(BasePage):
     status = 'status'  # ID
     audit_trail_item = '.lite-case-notes .lite-activity-item'  # CSS
     application_summary_board = '.lite-information-board'  # CSS
-    destinations_table = 'destinations'  # ID
+    ueu_table = 'ultimate-end-users'  # ID
     give_advice_button = 'button-give-advice'  # ID
     checkbox = '[type="checkbox"]'  # CSS
 
@@ -111,8 +111,8 @@ class ApplicationPage(BasePage):
     def get_text_of_application_summary_board(self):
         return self.driver.find_element_by_css_selector(self.application_summary_board).text
 
-    def get_text_of_destinations_table(self):
-        return self.driver.find_element_by_id(self.destinations_table).text
+    def get_text_of_ueu_table(self):
+        return self.driver.find_element_by_id(self.ueu_table).text
 
     def click_on_all_checkboxes(self):
         elements = self.driver.find_elements_by_css_selector(self.checkbox)

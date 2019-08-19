@@ -108,15 +108,12 @@ class ManageCases():
 
     @then('I see an ultimate end user')
     def i_see_ultimate_end_user_on_page(driver, context):
-        destinations_table = ApplicationPage(driver).get_text_of_destinations_table()
+        destinations_table = ApplicationPage(driver).get_text_of_ueu_table()
         destinations_table_lower = destinations_table.lower()
         assert "name" in destinations_table_lower
-        assert "destination type" in destinations_table_lower
         assert "type" in destinations_table_lower
         assert "website" in destinations_table_lower
         assert "address" in destinations_table_lower
-        assert "country" in destinations_table_lower
-        assert "Ultimate End User" in destinations_table
         assert context.ueu_type in destinations_table
         assert context.ueu_name in destinations_table
         assert context.ueu_website in destinations_table
