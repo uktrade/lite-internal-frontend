@@ -66,7 +66,7 @@
 		                            {{ flag.status }}
 		                        </td>
 								<td class="lite-table__cell">
-									{% if user_data.user.team.id == flag.team %}
+									{% if user_data.user.team.id == flag.team.id %}
 										{% if flag.status == 'Active' %}
 											<a href="{% url 'flags:change_status' flag.id 'deactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state govuk-!-margin-right-2">Deactivate</a>
 										{% elif flag.status == 'Deactivated' %}
