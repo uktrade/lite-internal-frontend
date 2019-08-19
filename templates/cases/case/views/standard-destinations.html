@@ -1,6 +1,6 @@
 {% with end_user=case.application.destinations.data %}
 	<h3 class="govuk-heading-m">End User</h3>
-	<table class="lite-table" id="goods">
+	<table class="lite-table" id="end-user">
 		<thead class="lite-table__head">
 			<tr class="lite-table__row">
 				<th class="lite-table__header" scope="col">Name</th>
@@ -49,7 +49,7 @@
 {% with end_users=case.application.ultimate_end_users %}
 	{% if end_users %}
 		<h3 class="govuk-heading-m">Ultimate End Users</h3>
-		<table class="lite-table" id="goods">
+		<table class="lite-table" id="ultimate-end-users">
 			<thead class="lite-table__head">
 				<tr class="lite-table__row">
 					<th class="lite-table__header" scope="col">Name</th>
