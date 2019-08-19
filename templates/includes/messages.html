@@ -1,0 +1,5 @@
+{% for message in messages %}
+	<div class="lite-info-bar {% if message.tags %}lite-info-bar--{{ message.tags }}{% endif %}">
+		{{ message }}
+	</div>
+{% endfor %}
