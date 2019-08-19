@@ -1,7 +1,7 @@
-import json
-
-from django.http import Http404
-from django.shortcuts import render
+from django.contrib import messages
+from django.http import Http404, HttpRequest
+from django.middleware.csrf import rotate_token
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
@@ -10,7 +10,7 @@ from cases.helpers import clean_advice
 from cases.services import get_case, post_case_advice, get_case_advice
 from core.services import get_denial_reasons
 from libraries.forms.components import HiddenField
-from libraries.forms.generators import form_page, success_page, error_page
+from libraries.forms.generators import form_page, error_page
 from picklists.services import get_picklists
 
 
@@ -50,6 +50,8 @@ class ViewAdvice(TemplateView):
         return render(request, 'cases/case/advice-view.html', context)
 
     def post(self, request, **kwargs):
+        rotate_token(request)
+
         data = request.POST
 
         # Validate at least one checkbox is checked
@@ -112,16 +114,15 @@ class GiveAdviceDetail(TemplateView):
     case_id = None
     case = None
     form = 'cases/case/give-advice.html'
-    advice_type = ''
 
     def dispatch(self, request, *args, **kwargs):
         self.case_id = str(kwargs['pk'])
         case, _ = get_case(request, self.case_id)
         self.case = case['case']
-        self.advice_type = kwargs['type']
 
         # If the advice type is not valid, raise a 404
-        if self.advice_type not in ['approve', 'proviso', 'refuse', 'no_licence_required', 'not_applicable']:
+        advice_type = kwargs['type']
+        if advice_type not in ['approve', 'proviso', 'refuse', 'no_licence_required', 'not_applicable']:
             raise Http404
 
         return super(GiveAdviceDetail, self).dispatch(request, *args, **kwargs)
@@ -155,10 +156,7 @@ class GiveAdviceDetail(TemplateView):
             }
             return render(request, self.form, context)
 
-        return success_page(request,
-                            'Your advice has been posted successfully',
-                            '',
-                            '',
-                            None,
-                            {'Go back to the advice screen': reverse_lazy('cases:advice_view',
-                                                                          kwargs={'pk': self.case['id']})})
+        # Add success message
+        messages.success(request, 'Your advice has been posted successfully')
+
+        return redirect(reverse_lazy('cases:advice_view', kwargs={'pk': self.case_id}))
