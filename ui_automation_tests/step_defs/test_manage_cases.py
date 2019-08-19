@@ -114,8 +114,6 @@ class ManageCases():
         assert "type" in destinations_table_lower
         assert "website" in destinations_table_lower
         assert "address" in destinations_table_lower
-        assert "country" in destinations_table_lower
-        assert "Ultimate End User" in destinations_table
         assert context.ueu_type in destinations_table
         assert context.ueu_name in destinations_table
         assert context.ueu_website in destinations_table
