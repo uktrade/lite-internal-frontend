@@ -27,6 +27,7 @@ def check_matching_advice(user_id, advice, goods_or_destinations):
     first_advice = None
     pre_data = None
 
+    # Checks if the item of advice which is owned by the user is in the selected advice that they are trying to edit
     def is_in_goods_or_destinations(item, goods_or_destinations):
         goods_or_destinations = str(goods_or_destinations)
         if str(item.get('good')) in goods_or_destinations \
@@ -36,7 +37,9 @@ def check_matching_advice(user_id, advice, goods_or_destinations):
             return True
         return False
 
+    # Pre-populate data only in the instance that all the data contained within all selected advice matches
     for item in [x for x in advice if x['user']['id'] == user_id and is_in_goods_or_destinations(x, goods_or_destinations)]:
+        # Sets up the first piece of advice to compare against then skips to the next cycle of the loop
         if first_advice is None:
             first_advice = item
             pre_data = {
@@ -51,6 +54,7 @@ def check_matching_advice(user_id, advice, goods_or_destinations):
             }
             continue
 
+        # End loop if any data does not match
         if not first_advice['type']['key'] == item['type']['key']:
             pre_data = None
             break
