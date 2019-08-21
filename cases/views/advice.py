@@ -23,6 +23,54 @@ def add_hidden_advice_data(questions_list, data):
     return questions_list
 
 
+def check_matching_advice(user_id, advice, goods_or_destinations):
+    first_advice = None
+    pre_data = None
+
+    def is_in_goods_or_destinations(item, goods_or_destinations):
+        goods_or_destinations = str(goods_or_destinations)
+        if str(item.get('good')) in goods_or_destinations \
+                or str(item.get('end_user')) in goods_or_destinations \
+                or str(item.get('ultimate_end_user')) in goods_or_destinations \
+                or str(item.get('country')) in goods_or_destinations:
+            return True
+        return False
+
+    for item in [x for x in advice if x['user']['id'] == user_id and is_in_goods_or_destinations(x, goods_or_destinations)]:
+        if first_advice is None:
+            first_advice = item
+            pre_data = {
+                'type': {
+                    'key': first_advice['type']['key'],
+                    'value': first_advice['type']['value']
+                },
+                'proviso': first_advice.get('proviso'),
+                'denial_reasons': first_advice.get('denial_reasons'),
+                'advice': first_advice.get('text'),
+                'note': first_advice.get('note')
+            }
+            continue
+
+        if not first_advice['type']['key'] == item['type']['key']:
+            pre_data = None
+            break
+        else:
+            if not first_advice.get('proviso') == item.get('proviso'):
+                pre_data = None
+                break
+            if not first_advice.get('denial_reasons') == item.get('denial_reasons'):
+                pre_data = None
+                break
+            if not first_advice.get('text') == item.get('text'):
+                pre_data = None
+                break
+            if not first_advice.get('note') == item.get('note'):
+                pre_data = None
+                break
+
+    return pre_data
+
+
 class ViewAdvice(TemplateView):
     case_id = None
     case = None
@@ -50,39 +98,46 @@ class ViewAdvice(TemplateView):
         return render(request, 'cases/case/advice-view.html', context)
 
     def post(self, request, **kwargs):
-        rotate_token(request)
 
-        data = request.POST
+        advice, status_code = get_case_advice(request, self.case_id)
+        selected_advice_data = request.POST
+        pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
 
         # Validate at least one checkbox is checked
-        if not len(data) > 1:
+        if not len(selected_advice_data) > 1:
             return error_page(request, 'Select at least one good or destination to give advice on')
 
         # Add data to the form as hidden fields
-        self.form.questions = add_hidden_advice_data(self.form.questions, data)
+        self.form.questions = add_hidden_advice_data(self.form.questions, selected_advice_data)
 
-        return form_page(request, self.form)
+        return form_page(request, self.form, data=pre_data)
 
 
 class GiveAdvice(TemplateView):
+    case_id = None
     case = None
     form = None
 
     def dispatch(self, request, *args, **kwargs):
-        case_id = str(kwargs['pk'])
-        case, _ = get_case(request, case_id)
+        self.case_id = str(kwargs['pk'])
+        case, _ = get_case(request, self.case_id)
         self.case = case['case']
-        self.form = advice_recommendation_form(case_id)
+        self.form = advice_recommendation_form(self.case_id)
 
         return super(GiveAdvice, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        data = request.POST
+        selected_advice_data = request.POST
+        advice, status_code = get_case_advice(request, self.case_id)
+        pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
+
+        if pre_data and not str(selected_advice_data['type']) in str(pre_data['type']):
+            pre_data = None
 
         # Validate at least one radiobutton is selected
-        if not data.get('type'):
+        if not selected_advice_data.get('type'):
             # Add data to the error form as hidden fields
-            self.form.questions = add_hidden_advice_data(self.form.questions, data)
+            self.form.questions = add_hidden_advice_data(self.form.questions, selected_advice_data)
 
             return form_page(request, self.form, errors={'type': ['Select a decision']})
 
@@ -96,16 +151,17 @@ class GiveAdvice(TemplateView):
         context = {
             'case': self.case,
             'title': 'Give advice',
-            'type': data.get('type'),
+            'type': selected_advice_data.get('type'),
             'proviso_picklist': proviso_picklist_items['picklist_items'],
             'advice_picklist': advice_picklist_items['picklist_items'],
             'static_denial_reasons': static_denial_reasons,
             # Add previous data
-            'goods': data.get('goods'),
-            'goods_types': data.get('goods_types'),
-            'countries': data.get('countries'),
-            'end_user': data.get('end_user'),
-            'ultimate_end_users': data.get('ultimate_end_users'),
+            'goods': selected_advice_data.get('goods'),
+            'goods_types': selected_advice_data.get('goods_types'),
+            'countries': selected_advice_data.get('countries'),
+            'end_user': selected_advice_data.get('end_user'),
+            'ultimate_end_users': selected_advice_data.get('ultimate_end_users'),
+            'data': pre_data,
         }
         return render(request, self.form, context)
 
