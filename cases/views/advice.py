@@ -109,7 +109,7 @@ class ViewAdvice(TemplateView):
         pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
 
         # Validate at least one checkbox is checked
-        if not len(selected_advice_data) > 1:
+        if not len(selected_advice_data) > 0:
             return error_page(request, 'Select at least one good or destination to give advice on')
 
         # Add data to the form as hidden fields
