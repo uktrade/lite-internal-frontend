@@ -33,6 +33,7 @@ def check_matching_advice(user_id, advice, goods_or_destinations):
         if str(item.get('good')) in goods_or_destinations \
                 or str(item.get('end_user')) in goods_or_destinations \
                 or str(item.get('ultimate_end_user')) in goods_or_destinations \
+                or str(item.get('goods_type')) in goods_or_destinations \
                 or str(item.get('country')) in goods_or_destinations:
             return True
         return False
