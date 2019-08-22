@@ -198,9 +198,9 @@ class SeedData:
         response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['good']
         self.add_to_context('good_id', item['id'])
-        self.add_document(item['id'])
+        self.add_good_document(item['id'])
 
-    def add_document(self, good_id):
+    def add_good_document(self, good_id):
         data = self.request_data['document']
         response = self.make_request("POST", url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
         print(response)
@@ -210,7 +210,7 @@ class SeedData:
         data = self.request_data['clc_good']
         response = self.make_request("POST", url='/goods/', headers=self.export_headers, body=data)
         item = json.loads(response.text)['good']
-        self.add_document(item['id'])
+        self.add_good_document(item['id'])
         data = {
             'not_sure_details_details': 'something',
             'not_sure_details_control_code': 'ML17',
@@ -232,6 +232,8 @@ class SeedData:
         data = self.request_data['end-user'] if enduser is None else enduser
         self.make_request("POST", url='/drafts/' + draft_id + '/end-user/', headers=self.export_headers,
                           body=data)
+        self.log("Adding end user document: ...")
+        self.add_end_user_document(draft_id)
         self.log("Adding good: ...")
         data = self.request_data['add_good'] if good is None else good
         data['good_id'] = self.context['good_id']
@@ -240,6 +242,12 @@ class SeedData:
         data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
         self.make_request("POST", url='/drafts/' + draft_id + '/ultimate-end-users/', headers=self.export_headers,
                           body=data)
+
+    def add_end_user_document(self, draft_id):
+        data = self.request_data['document']
+        response = self.make_request("POST", url='/drafts/' + draft_id + '/end-user/documents/',
+                                     headers=self.export_headers, body=data)
+        print(response)
 
     def submit_application(self, draft_id=None):
         self.log("submitting application: ...")
