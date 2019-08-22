@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% load humanize %}
+{% load humanize static %}
 
 {% block back_link %}
 	<a href="{% url 'cases:cases' %}" class="govuk-back-link">{% get_string 'cases.case.back_to_cases_link' %}</a>
@@ -15,103 +15,40 @@
 		<h1 class="govuk-heading-l">{{ title }}</h1>
 	</div>
 	<div class="lite-app-bar__controls">
-		<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' data.case.id %}">
-        	{% get_string 'cases.manage.documents.button' %}
-        </a>
-        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:ecju_queries' data.case.id %}">
-            {% get_string 'cases.ecju_queries.title' %}
-		</a>
-        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' data.case.id %}">
-			{% get_string 'cases.manage.move_case.button' %}
-		</a>
-		<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' data.case.id %}">
-			Change Status
-		</a>
-		{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
-			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' data.case.id %}">
-				Record Decision
+		<div class="app-more-actions__container">
+			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
+	        	{% get_string 'cases.manage.documents.button' %}
+	        </a>
+	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:ecju_queries' case.id %}">
+	            {% get_string 'cases.ecju_queries.title' %}
 			</a>
-		{% endif %}
-        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:advice_view' data.case.id %}">
-			View Advice
-		</a>
-	</div>
-</div>
-
-<!-- # TODO: Create modal for clients with JS enabled -->
-<!-- <a href="{% url 'cases:assign_flags' data.case.id %}" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a> -->
-<a href="{% url 'cases:assign_flags' data.case.id %}" id="application-edit-case-flags" class="govuk-link govuk-link--no-visited-state">{{  edit_case_flags }}</a>
-<div class="lite-case-flags" id="application-case-flags">
-    {% for flag in data.case.flags %}
-        <div class="lite-flag" id="{{ flag.name }}">
-            {{ flag.name }}
-        </div>
-    {% endfor %}
-</div>
-
-<div id="flags-modal" style="display: none;">
-	{% include "cases/case/flags.html" %}
-</div>
-
-<div class="lite-information-board">
-	<div class="govuk-grid-row">
-		<div class="govuk-grid-column-one-third">
-			<div style="height: auto;">
-				<h4 class="lite-heading-s">Applicant</h4>
-				<a class="govuk-label govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' data.case.application.organisation.id %}">
-					{{ data.case.application.organisation.name }}
+	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
+				{% get_string 'cases.manage.move_case.button' %}
+			</a>
+			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' case.id %}">
+				Change Status
+			</a>
+			{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
+				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' case.id %}">
+					Record Decision
 				</a>
-			</div>
-		</div>
-		<div class="govuk-grid-column-one-third">
-			<div style="height: auto;">
-				<h4 class="lite-heading-s">Activity</h4>
-				<p class="govuk-label">
-					{{ data.case.application.activity }}
-				</p>
-			</div>
-		</div>
-		<div class="govuk-grid-column-one-third">
-			<div style="height: auto;">
-				<h4 class="lite-heading-s">Created at</h4>
-				<p class="govuk-label">
-					{{ data.case.application.created_at|str_date }}
-				</p>
-			</div>
-		</div>
-	</div>
-
-	<div class="govuk-grid-row">
-		<div class="govuk-grid-column-one-third">
-			<div style="height: auto;">
-				<h4 class="lite-heading-s">Reference Number</h4>
-				<p class="govuk-label">
-					{{ data.case.application.organisation.reference_number_on_information_form|default:'None' }}
-				</p>
-			</div>
-		</div>
-		<div class="govuk-grid-column-one-third">
-			<div style="height: auto;">
-				<h4 class="lite-heading-s">Licence Type</h4>
-				<p class="govuk-label">
-					{{ data.case.application.licence_type|sentence_case }}
-				</p>
-			</div>
-		</div>
-		<div class="govuk-grid-column-one-third">
-			<div style="height: auto;">
-				<h4 class="lite-heading-s">Last Updated</h4>
-				<p class="govuk-label">
-					{{ data.case.application.last_modified_at|str_date }}
-				</p>
-			</div>
+			{% endif %}
+	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:advice_view' case.id %}">
+				View Advice
+			</a>
 		</div>
 	</div>
 </div>
 
-{% if data.case.application.application_denial_reason %}
+<!-- Case flags -->
+{% include 'cases/case/views/case-flags.html' %}
+
+<!-- Information board -->
+{% include 'cases/case/views/application-information-board.html' %}
+
+{% if case.application.application_denial_reason %}
 <h3 class="govuk-heading-m">Denial Reasons</h3>
-{% for reason in data.case.application.application_denial_reason %}
+{% for reason in case.application.application_denial_reason %}
 <p class="govuk-heading-s">This case was denied because</p>
 {% for reason_id in reason.reasons %}
 <p class="govuk-label">{{ reason_id.id }}</p>
@@ -218,59 +155,28 @@
 			{{ country.name }}
 		</p>
 	{% endfor %}
+{%  endif %}
+
+<!-- Goods -->
+{% if case.application.licence_type.key == 'open_licence' %}
+	{% include 'cases/case/views/open-goods.html' %}
+{% endif %}
+{% if case.application.licence_type.key == 'standard_licence' %}
+	{% include 'cases/case/views/standard-goods.html' %}
 {% endif %}
 
-<br><br><br><br>
-
-<h3 class="govuk-heading-m">{% get_string 'cases.case.goods_location_heading' %}</h3>
-{% if data.case.application.goods_locations.type == 'external_locations' %}
-	<table class="lite-table">
-		<thead class="lite-table__head">
-			<tr class="lite-table__row">
-			  <th class="lite-table__header" scope="col">Name</th>
-			  <th class="lite-table__header" scope="col">Address</th>
-			  <th class="lite-table__header" scope="col">Country</th>
-			</tr>
-		</thead>
-		<tbody class="lite-table__body">
-			{% for country in data.case.application.goods_locations.data %}
-				<tr class="lite-table__row">
-				  <td class="lite-table__cell" scope="row">{{ country.name }}</td>
-				  <td class="lite-table__cell">{{ country.address }}</td>
-				  <td class="lite-table__cell">{{ country.country }}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-{% else %}
-	<table class="lite-table">
-		<thead class="lite-table__head">
-			<tr class="lite-table__row">
-			  <th class="lite-table__header" scope="col">Name</th>
-			  <th class="lite-table__header" scope="col">Address</th>
-			  <th class="lite-table__header" scope="col">Country</th>
-			</tr>
-		</thead>
-		<tbody class="lite-table__body">
-			{% for country in data.case.application.goods_locations.data %}
-				<tr class="lite-table__row">
-				  <td class="lite-table__cell" scope="row">{{ country.name }}</td>
-				  <td class="lite-table__cell">
-                      {{ country.address.address_line_1 }}<br>
-                      {% if country.address.address_line_2 %}
-                        {{ country.address.address_line_2 }}<br>
-                      {% endif %}
-                      {{ country.address.postcode }}<br>
-                      {{ country.address.city }}<br>
-                      {{ country.address.region }}<br>
-                  </td>
-				  <td class="lite-table__cell">{{ country.address.country }}</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+<!-- Destinations/End-User -->
+{% if case.application.licence_type.key == 'open_licence' %}
+	{% include 'cases/case/views/open-destinations.html' %}
+{% endif %}
+{% if case.application.licence_type.key == 'standard_licence' %}
+	{% include 'cases/case/views/standard-destinations.html' %}
 {% endif %}
 
 {% include "cases/case/tabs/activity.html" %}
 
+{% endblock %}
+
+{% block javascript %}
+	<!-- <script src="{% static 'javascripts/more-actions.js' %}"></script> -->
 {% endblock %}
