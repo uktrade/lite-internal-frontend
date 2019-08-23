@@ -109,12 +109,12 @@ class SeedData:
             "part_number": "1234",
             "validate_only": False,
         },
-        "document": [{
+        "document": {
             'name': 'document 1',
             's3_key': env('TEST_S3_KEY'),
             'size': 0,
             'description': 'document for test setup'
-        }]
+        }
     }
 
     def __init__(self, api_url, logging=True):
@@ -201,7 +201,7 @@ class SeedData:
         self.add_good_document(item['id'])
 
     def add_good_document(self, good_id):
-        data = self.request_data['document']
+        data = [self.request_data['document']]
         response = self.make_request("POST", url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
         print(response)
 
@@ -245,7 +245,7 @@ class SeedData:
 
     def add_end_user_document(self, draft_id):
         data = self.request_data['document']
-        response = self.make_request("POST", url='/drafts/' + draft_id + '/end-user/documents/',
+        response = self.make_request("POST", url='/drafts/' + draft_id + '/end-user/document/',
                                      headers=self.export_headers, body=data)
         print(response)
 
