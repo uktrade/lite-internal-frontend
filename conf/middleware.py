@@ -45,10 +45,10 @@ class LoggingMiddleware:
         start = time.time()
         request.correlation = uuid.uuid4().hex
         data = {
-            "message": "liteolog",
-            "correlation": request.correlation,
-            "type": "http request",
+            "message": "liteolog internal",
+            "corrID": request.correlation,
             "method": request.method,
+            "type": "http request",
             "url": request.path,
         }
         logging.info(data)
