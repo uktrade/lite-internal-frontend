@@ -1,6 +1,7 @@
 import logging
 import uuid
 import json
+import time
 from django.shortcuts import redirect
 from django.urls import resolve
 from s3chunkuploader.file_handler import UploadFailed
@@ -43,18 +44,16 @@ class LoggingMiddleware:
     def __call__(self, request):
         start = time.time()
         request.correlation = uuid.uuid4().hex
-        logging.info(json.dumps({
+        data = {
+            "message": "liteolog",
             "correlation": request.correlation,
-            "type": "request",
+            "type": "http request",
             "method": request.method,
-            "path": request.path,
-        }))
+            "url": request.path,
+        }
+        logging.info(data)
         response = self.get_response(request)
-        elapsed = time.time() - start
-        logging.info(json.dumps({
-            "correlation": request.correlation,
-            'type': 'response',
-            "status": response.status_code,
-            "elapsed": elapsed
-        }))
+        data['type'] = "http response"
+        data['elapsed'] = time.time() - start
+        logging.info(data)
         return response
