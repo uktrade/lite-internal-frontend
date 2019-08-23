@@ -64,7 +64,9 @@ class Cases(TemplateView):
             'status': status,
             'statuses': statuses,
             'current_filter_url': '?' + '&'.join(current_filter_url) + '&' if len(current_filter_url) > 0 else '?',
-            'is_system_queue': queue_id == ALL_CASES_SYSTEM_QUEUE_ID or queue_id == OPEN_CASES_SYSTEM_QUEUE_ID,
+            'is_system_queue': queue_id == ALL_CASES_SYSTEM_QUEUE_ID or \
+                               queue_id == OPEN_CASES_SYSTEM_QUEUE_ID or \
+                               queue_id == '00000000-0000-0000-0000-000000000002',
         }
         return render(request, 'cases/index.html', context)
 
