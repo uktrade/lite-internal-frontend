@@ -41,7 +41,13 @@ def check_file2_is_uploaded(driver, filename, description, position):
     assert documents_page.get_document_description_at_position(int(position)) == description, description + " is not uploaded"
 
 
-@then("I can click on the good document download button")
-def can_click_on_the_good_document_download_button(driver):
+@then("I can click on the good document download link")
+def can_click_on_the_good_document_download_link(driver):
     application_page = ApplicationPage(driver)
     assert application_page.can_click_good_document_link()
+
+
+@then("I can click on the end user document download link")
+def can_click_on_the_end_user_document_download_link(driver):
+    application_page = ApplicationPage(driver)
+    assert application_page.can_click_end_user_document_link()

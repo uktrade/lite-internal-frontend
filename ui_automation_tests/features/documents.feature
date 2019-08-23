@@ -17,9 +17,10 @@ So that it is recorded against the case and available for other case workers to 
     Then file "file_for_doc_upload_test_2.txt" with description "Still doesnt matter" is on position "0"
     And file "file_for_doc_upload_test_1.txt" with description "Doesnt matter really" is on position "1"
 
-  @LT_1190_download_good_document
-  Scenario: Download the end user document of a submitted application
+  @LT_1190_download_documents
+  Scenario: Download the good and end user document of a submitted application
     Given I create application or application has been previously created
     And I sign in to SSO or am signed into SSO
     When I go to application previously created
-    Then I can click on the good document download button
+    Then I can click on the good document download link
+    And I can click on the end user document download link
