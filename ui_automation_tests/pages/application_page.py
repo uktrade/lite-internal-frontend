@@ -125,8 +125,8 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_id(self.give_advice_button).click()
         return num
 
-    def can_click_good_document_link(self):
+    def good_document_link_is_enabled(self):
         return self.driver.find_element_by_id(self.download_good_document).is_enabled()
 
-    def can_click_end_user_document_link(self):
+    def end_user_document_link_is_enabled(self):
         return self.driver.find_element_by_id(self.download_end_user_document).is_enabled()

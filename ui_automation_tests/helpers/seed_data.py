@@ -203,7 +203,6 @@ class SeedData:
     def add_good_document(self, good_id):
         data = [self.request_data['document']]
         response = self.make_request("POST", url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)
-        print(response)
 
     def add_clc_query(self):
         self.log("Adding clc query: ...")
@@ -247,7 +246,6 @@ class SeedData:
         data = self.request_data['document']
         response = self.make_request("POST", url='/drafts/' + draft_id + '/end-user/document/',
                                      headers=self.export_headers, body=data)
-        print(response)
 
     def submit_application(self, draft_id=None):
         self.log("submitting application: ...")
