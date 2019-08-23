@@ -39,20 +39,22 @@ class UploadFailedMiddleware:
 class LoggingMiddleware:
     def __init__(self, get_response=None):
         self.get_response = get_response
-        super().__init__()
 
     def __call__(self, request):
+        start = time.time()
         request.correlation = uuid.uuid4().hex
         logging.info(json.dumps({
             "correlation": request.correlation,
             "type": "request",
-            "path": request.path,
             "method": request.method,
+            "path": request.path,
         }))
         response = self.get_response(request)
+        elapsed = time.time() - start
         logging.info(json.dumps({
             "correlation": request.correlation,
             'type': 'response',
             "status": response.status_code,
+            "elapsed": elapsed
         }))
         return response
