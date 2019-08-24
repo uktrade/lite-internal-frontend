@@ -6,6 +6,7 @@ OPEN_CASES_SYSTEM_QUEUE_ID = 'f1a0631d-7abd-4152-a184-5e8557da8d49'
 # URLS
 ORGANISATIONS_URL = '/organisations/'
 CASE_URL = '/cases/'
+GOOD_URL = '/goods/'
 APPLICATIONS_URL = '/applications/'
 CASE_NOTES_URL = '/case_notes/'
 CASE_FLAGS_URL = '/flags/'

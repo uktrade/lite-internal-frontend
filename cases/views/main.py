@@ -427,7 +427,7 @@ class AssignFlags(TemplateView):
             'caseId': case_id,
             'case_level_team_flags': case_level_team_flags
         }
-        return render(request, 'cases/case/flags.html', context)
+        return render(request, 'cases/case/case_flags.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
