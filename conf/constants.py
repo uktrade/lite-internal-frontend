@@ -24,6 +24,7 @@ GOV_USERS_ROLES_URL = '/gov-users/roles/'
 GOV_USERS_PERMISSIONS_URL = '/gov-users/permissions/'
 FLAGS_URL = '/flags/'
 FLAGS_CASE_LEVEL_FOR_TEAM = '/flags/?level=Case&team=True'
+FLAGS_GOOD_LEVEL_FOR_TEAM = '/flags/?level=Good&team=True'
 CLC_QUERIES_URL = '/clc_queries/'
 PICKLIST_URL = '/picklist/'
 

@@ -35,7 +35,7 @@
         <h3 class="govuk-heading-l">Flags</h3>
     </div>
 
-    {{ good.flags }}
+{% include 'cases/case/views/goods-flags.html' %}
 
     <div class="lite-app-bar">
         <h3 class="govuk-heading-l">Documents</h3>
@@ -68,10 +68,6 @@
 {#        <p class="govuk-caption-l">{% get_string 'goods.documents.good_has_no_documents' %}</p>#}
     {% endif %}
 
-    <div class="lite-app-bar">
-        <h3 class="govuk-heading-l">Activity</h3>
-    </div>
-
-    {{ activity }}
+{% include "cases/case/tabs/good-activity.html" %}
 
 {% endblock %}

@@ -3,7 +3,7 @@
 {% load static humanize %}
 
 {% block back_link %}
-	<a href="/cases/{{ caseId }}/" class="govuk-back-link">Back to Case</a>
+	<a href="/goods/{{ good_id }}/" class="govuk-back-link">Back to Good</a>
 {% endblock %}
 
 {% block body %}
@@ -32,6 +32,23 @@
 				</div>
 			{% endfor %}
 		</div>
+
+        <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
+		<div class="govuk-form-group {% if errors|key_value:'note' %}govuk-form-group--error{% endif %}">
+			<label class="govuk-label" for="{{ question.name }}">
+				Reason for changing the flags?
+			</label>
+			{% if errors|key_value:'note' %}
+				<span class="govuk-error-message">
+					<span class="govuk-visually-hidden">Error:</span> {{ errors|key_value:'note'|first }}
+				</span>
+			{% endif %}
+			<textarea class="govuk-textarea govuk-js-character-count " id="textarea-note" name="note" rows="5" aria-describedby="textarea-note-info textarea-note-hint">{{ data.note }}</textarea>
+		</div>
+
+		<span id="textarea-note-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
+			You can enter up to 200 characters
+		</span>
 	</div>
 
 	<button type="submit" class="govuk-button" style="margin: 0;">
