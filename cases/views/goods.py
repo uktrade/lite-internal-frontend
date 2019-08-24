@@ -33,7 +33,7 @@ class AssignGoodsFlags(TemplateView):
 
         for flag in good_level_team_flags:
             for good_flag in good_flags:
-                flag['selected'] = flag['id'] in good_flag
+                flag['selected'] = flag['id'] in good_flag['id']
                 if flag['selected']:
                     break
 
@@ -53,6 +53,13 @@ class AssignGoodsFlags(TemplateView):
 
         if status_code != 201:
             good_level_team_flags_data, status_code = get_flags_good_level_for_team(request)
+            good_data, status_code = get_good(request, good_id)
+
+            for flag in good_level_team_flags_data.get('flags'):
+                for good_flag in good_data.get('good').get('flags'):
+                    flag['selected'] = flag['id'] in good_flag['id']
+                    if flag['selected']:
+                        break
 
             context = {
                 'case_id': case_id,

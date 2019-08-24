@@ -10,9 +10,28 @@
 
 {% block body %}
 
-    {{ errors }}
-
 <h2 class="govuk-heading-l">Assign flags to this good</h2>
+
+{% if errors.errors %}
+	<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+		<h2 class="govuk-error-summary__title" id="error-summary-title">
+			There is a problem
+		</h2>
+		<div class="govuk-error-summary__body">
+			<ul class="govuk-list govuk-error-summary__list">
+				{% for key, value in errors.errors.items %}
+					<li>
+						<a href="#{{ key }}">
+							{% for error in value %}
+								{{ error }}
+							{% endfor %}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+{% endif %}
 
 <form method="post">
 
@@ -36,19 +55,16 @@
 				</div>
 			{% endfor %}
 		</div>
-
-    {% if errors|key_value:'note' %}
-        Found an error with notes
-    {% endif %}
+        <br>
 
         <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
-		<div class="govuk-form-group {% if errors|key_value:'note' %}govuk-form-group--error{% endif %}">
+		<div class="govuk-form-group {% if errors.errors|key_value:'note' %}govuk-form-group--error{% endif %}">
 			<label class="govuk-label" for="{{ question.name }}">
 				Reason for changing the flags?
 			</label>
-			{% if errors|key_value:'note' %}
+			{% if errors.errors|key_value:'note' %}
 				<span class="govuk-error-message">
-					<span class="govuk-visually-hidden">Error:</span> {{ errors|key_value:'note'|first }}
+					<span class="govuk-visually-hidden">Error:</span> {{ errors.errors|key_value:'note'|first }}
 				</span>
 			{% endif %}
 			<textarea class="govuk-textarea govuk-js-character-count " id="textarea-note" name="note" rows="5" aria-describedby="textarea-note-info textarea-note-hint">{{ data.note }}</textarea>
