@@ -24,8 +24,7 @@
 		{% for good in case.application.goods %}
 			<tr class="lite-table__row">
                 <td class="lite-table__cell">
-                    <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:good' case.id good.id %}">
-{#                          <span class="govuk-visually-hidden">{% get_string 'cases.manage.documents.download_document' %}</span>#}
+                    <a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:good' case.id good.good.id %}">
                           {{ good.good.description }}
                       </a>
                 </td>

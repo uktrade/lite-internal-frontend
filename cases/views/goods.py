@@ -17,4 +17,4 @@ class Good(TemplateView):
             'activity': activity['activity']
         }
 
-        return render('templates/cases/case/good.html', context)
+        return render(request, 'cases/case/good.html', context)
