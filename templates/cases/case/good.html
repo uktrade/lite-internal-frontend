@@ -5,7 +5,7 @@
 {% load humanize static %}
 
 {% block back_link %}
-{#	<a href="/goods/" class="govuk-back-link">Back to Goods</a>#}
+	<a href="{% url 'cases:case' case_id %}" class="govuk-back-link">Back to Case</a>
 {% endblock %}
 
 {% block body %}
@@ -32,13 +32,13 @@
         </div>
     </div>
     <div class="lite-app-bar">
-        <h3 class="govuk-heading-l">Flags</h3>
+        <h3 class="govuk-heading-m">Flags</h3>
     </div>
 
 {% include 'cases/case/views/goods-flags.html' %}
 
     <div class="lite-app-bar">
-        <h3 class="govuk-heading-l">Documents</h3>
+        <h3 class="govuk-heading-m">Documents</h3>
     </div>
 
 

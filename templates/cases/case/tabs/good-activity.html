@@ -22,6 +22,11 @@
 							<span class="highlight">{{ flag|sentence_case|lower }}</span>{% if not forloop.last %}, {% else %}.{% endif %}
 						{% endfor %}
 					{% endif %}
+                    <br>
+                    {% if item.data.flags.note|length %}
+                        Note:
+                        {{ item.data.flags.note }}
+                    {% endif %}
 				</p>
 				<p class="govuk-hint govuk-!-font-size-16" style="margin-top: 10px;">{{ item.date|str_date }}</p>
 			</div>

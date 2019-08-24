@@ -49,6 +49,17 @@ class AssignGoodsFlags(TemplateView):
         good_id = str(kwargs['good_pk'])
         flags = request.POST.getlist('flags[]')
 
-        response, status_code = put_good_flags(request, good_id, {'flags': flags})
+        response, status_code = put_good_flags(request, good_id, {'flags': flags, 'note': request.POST.get('note')})
+
+        if status_code != 201:
+            good_level_team_flags_data, status_code = get_flags_good_level_for_team(request)
+
+            context = {
+                'case_id': case_id,
+                'good_id': good_id,
+                'good_level_team_flags': good_level_team_flags_data.get('flags'),
+                'errors': response
+            }
+            return render(request, 'cases/case/good_flags.html', context)
 
         return redirect(reverse('cases:good', kwargs={'pk': case_id, 'good_pk': good_id}))

@@ -46,7 +46,13 @@
 						  </a>
 					  {% endif %}
 				   {% endfor %}
-                <td class="lite-table__cell">{{ good.good.flags }}</td>
+                <td class="lite-table__cell">
+                    {% if good.good.flags %}
+                        {% for flag in good.good.flags %}
+                            {{ flag.name }}<br>
+                        {% endfor %}
+                    {% endif %}
+                </td>
 				{% if show_advice %}
 					<td class="lite-table__cell">
 						{% for advice in all_advice %}

@@ -2,11 +2,15 @@
 
 {% load static humanize %}
 
+{% load custom_tags %}
+
 {% block back_link %}
-	<a href="/goods/{{ good_id }}/" class="govuk-back-link">Back to Good</a>
+	<a href="/cases/{{ case_id }}/goods/{{ good_id }}" class="govuk-back-link">Back to Good</a>
 {% endblock %}
 
 {% block body %}
+
+    {{ errors }}
 
 <h2 class="govuk-heading-l">Assign flags to this good</h2>
 
@@ -32,6 +36,10 @@
 				</div>
 			{% endfor %}
 		</div>
+
+    {% if errors|key_value:'note' %}
+        Found an error with notes
+    {% endif %}
 
         <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="200">
 		<div class="govuk-form-group {% if errors|key_value:'note' %}govuk-form-group--error{% endif %}">
