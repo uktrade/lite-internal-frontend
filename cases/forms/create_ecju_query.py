@@ -1,6 +1,6 @@
 from core.builtins.custom_tags import get_string
-from libraries.forms.components import Form, BackLink, Select, TextArea, RadioButtons, Option, HiddenField
-
+from libraries.forms.components import Form, BackLink, Select, TextArea, HiddenField
+from libraries.forms.generators import confirm_form
 
 def choose_ecju_query_type_form(case_url, picklists):
     return Form(title=get_string('cases.ecju_queries.add_query.dropdown_title'),
@@ -37,20 +37,12 @@ def create_ecju_query_write_or_edit_form(choose_picklist_url):
 
 
 def create_ecju_create_confirmation_form():
-    return Form(title='Do you want to send your question?',
-                description='',
-                questions=[
-                     RadioButtons(title='',
-                                  name='ecju_query_confirmation',
-                                  description='',
-                                  options=[
-                                      Option(key='yes',
-                                             value='Yes, send the question'),
-                                      Option(key='no',
-                                             value='No, edit the question')
-                                  ]),
-                     HiddenField(name='form_name', value='ecju_query_create_confirmation'),
-                ],
-                back_link=BackLink('Back to ' + get_string('cases.ecju_queries.add_query.title'), '#'),
-                default_button_name='Continue'
-                )
+    return confirm_form(title='Do you want to send your question?',
+                        confirmation_name='ecju_query_confirmation',
+                        back_link_text='Back to '+get_string('cases.ecju_queries.add_query.title'),
+                        back_url='#',
+                        yes_label='Yes, send the question',
+                        no_label='No, edit the question',
+                        submit_button_text='Continue',
+                        hidden_field='ecju_query_create_confirmation'
+                        )
