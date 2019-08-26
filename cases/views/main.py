@@ -99,6 +99,7 @@ class ViewCase(TemplateView):
                 'title': case.get('application').get('name'),
                 'activity': activity.get('activity'),
                 'permissions': permissions,
+                'show_checkboxes': 'True'
             }
             return render(request, 'cases/case/application-case.html', context)
 
