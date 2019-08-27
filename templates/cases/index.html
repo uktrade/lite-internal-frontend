@@ -6,14 +6,10 @@
 
 {% block body %}
 
-{% for queue in queues.queues %}
-    {{ queue.name }} {{ queue.cases_count }}<br>
-{% endfor %}
-
 <form method="get" class="lite-dropdown-select">
 	<select class="govuk-select" name="queue">
 		{% for queue in queues.queues %}
-			<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}</option>
+			<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}{{ queue.cases_count }}</option>
 		{% endfor %}
 	</select>
 	<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
@@ -32,7 +28,9 @@
 <div class="lite-dropdown--container" id="queues">
     <div class="lite-dropdown">
         {% for queue in queues.queues %}
-            <a href="/cases/?queue={{ queue.id }}" class="lite-dropdown--item {% if queue.id == queue_id %}lite-dropdown--item--selected{% endif %}">{{ queue.name }}</a>
+            <a href="/cases/?queue={{ queue.id }}" class="lite-dropdown--item {% if queue.id == queue_id %}lite-dropdown--item--selected{% endif %}">{{ queue.name }}
+                <p float="right">({{ queue.cases_count }})</p>
+            </a>
         {% endfor %}
     </div>
 </div>
