@@ -12,7 +12,7 @@ def goods_flags_form(flags, good_or_case, url):
                     name='flags',
                     options=flags
                 ),
-                TextArea(name='note', title='Reasons')
+                TextArea(name='note', title='Notes', description='Provide reasons for editing the flags on these goods', optional=True)
             ],
             javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
             back_link=BackLink('Back to ' + good_or_case, url))
