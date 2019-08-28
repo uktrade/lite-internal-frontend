@@ -35,7 +35,7 @@ def register_business_forms():
                  TextInput(title='Name of site',
                            name='site.name'),
                  Heading('Where is the organisation based?', HeadingStyle.M),
-                 address_questions(get_countries(None, True), 'site.address.'),
+                 *address_questions(get_countries(None, True), 'site.address.'),
              ],
              buttons=[
                  Button('Save and continue', '')
