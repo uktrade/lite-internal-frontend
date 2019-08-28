@@ -43,7 +43,8 @@ class AssignGoodsFlags(TemplateView):
             raise Http404
 
         good_level_team_flags_data, status_code = get_flags_good_level_for_team(request)
-        good_level_team_flags = good_level_team_flags_data.get('flags')
+
+        good_level_team_flags = [x for x in good_level_team_flags_data.get('flags') if x['status'] == 'Active']
 
         if len(self.goods) == 1:
             good, status_code = get_good(request, pk=self.goods[0])
