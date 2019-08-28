@@ -36,7 +36,7 @@
                           {{ good.good.description }}
                       </a>
                 </td>
-				<td class="lite-table__cell">{{ good.quantity }} {{ good.unit }}/£{{ good.value }}</td>
+				<td class="lite-table__cell">{{ good.quantity }} {{ good.unit.value }}/£{{ good.value }}</td>
 				<td class="lite-table__cell">
 				  {% for document in good.good.documents %}
 					  {% if document.safe == True %}
