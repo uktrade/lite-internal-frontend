@@ -1,25 +1,20 @@
-<!-- # TODO: Create modal for clients with JS enabled -->
-<!-- <a href="{% url 'cases:assign_good_flags' case_id good.id %}" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a> -->
+{% include 'cases/case/views/standard-goods.html' %}
 
 {% if good.flags %}
-	<div class="app-flags" id="application-good-flags">
-	    {% for flag in good.flags %}
-	        <div class="app-flag" id="{{ flag.name }}">
-	            {{ flag.name }}
-	        </div>
-	    {% endfor %}
-	</div>
-	<div class="govuk-form-group">
-		<a href="{% url 'cases:assign_good_flags' case_id good.id %}" id="application-edit-case-flags" class="govuk-link govuk-link--no-visited-state">
-			{% get_string 'cases.case.edit_case_flags' %}
-		</a>
-	</div>
+    <div class="app-flags" id="application-good-flags">
+        {% for flag in good.flags %}
+            <div class="app-flag" id="{{ flag.name }}">
+                {{ flag.name }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="govuk-form-group">
+        <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_good_flags' case_id %}?goods={{ good.id }}&good_or_case=good">Edit goods flags</a>
+    </div>
 {% else %}
-	<div class="govuk-form-group">
-		<a href="{% url 'cases:assign_good_flags' case_id good.id %}" id="application-edit-good-flags" class="govuk-link govuk-link--no-visited-state">
-			Set good flags
-		</a>
-	</div>
+    <div class="govuk-form-group">
+        <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_good_flags' case_id %}?goods={{ good.id }}&good_or_case=good">Set goods flags</a>
+    </div>
 {% endif %}
 
 <div id="flags-modal" style="display: none;">

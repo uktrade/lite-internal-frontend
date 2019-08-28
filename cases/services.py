@@ -1,7 +1,7 @@
 from cases.helpers import clean_advice
 from conf.client import post, get, put, delete
 from conf.constants import CASE_URL, CASE_NOTES_URL, APPLICATIONS_URL, ACTIVITY_URL, CLC_QUERIES_URL, DOCUMENTS_URL, \
-    CASE_FLAGS_URL, ADVICE_URL, ECJU_QUERIES_URL, GOOD_URL, FLAGS_URL
+    CASE_FLAGS_URL, ADVICE_URL, ECJU_QUERIES_URL, GOOD_URL, GOODS_FLAGS_URL
 
 
 def get_case(request, pk):
@@ -142,7 +142,7 @@ def post_case_advice(request, case_pk, json):
     data = post(request, CASE_URL + case_pk + ADVICE_URL, new_data)
     return data.json(), data.status_code
 
-	
+
 def get_document(request, pk):
     data = get(request, DOCUMENTS_URL + pk)
     return data.json(), data.status_code
@@ -170,6 +170,7 @@ def get_good_activity(request, pk):
 
 
 # Good Flags
-def put_good_flags(request, pk, flags):
-    data = put(request, GOOD_URL + pk + FLAGS_URL, flags)
+# Always takes an array of good id's
+def put_good_flags(request, flags):
+    data = put(request, GOOD_URL + GOODS_FLAGS_URL, flags)
     return data.json(), data.status_code

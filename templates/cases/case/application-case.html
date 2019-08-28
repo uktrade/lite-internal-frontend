@@ -67,7 +67,12 @@
 	{% include 'cases/case/views/open-goods.html' %}
 {% endif %}
 {% if case.application.licence_type.key == 'standard_licence' %}
-	{% include 'cases/case/views/standard-goods.html' %}
+    <form action="{% url 'cases:assign_good_flags' case.id %}" method="get">
+        <button id="button-edit-goods-flags" value="goods" class="govuk-button" data-module="govuk-button">
+            Edit goods flags
+        </button>
+        {% include 'cases/case/views/standard-goods.html' with show_checkboxes=True %}
+    </form>
 {% endif %}
 
 <!-- Destinations/End-User -->
@@ -84,4 +89,5 @@
 
 {% block javascript %}
 	<!-- <script src="{% static 'javascripts/more-actions.js' %}"></script> -->
+	<script src="{% static 'javascripts/edit-good-flags.js' %}"></script>
 {% endblock %}
