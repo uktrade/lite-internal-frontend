@@ -1,4 +1,6 @@
 import json
+import time
+
 import requests
 from conf.settings import env
 
@@ -241,6 +243,7 @@ class SeedData:
         data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
         self.make_request("POST", url='/drafts/' + draft_id + '/ultimate-end-users/', headers=self.export_headers,
                           body=data)
+        return draft_id
 
     def add_end_user_document(self, draft_id):
         data = self.request_data['document']
@@ -255,6 +258,23 @@ class SeedData:
         item = json.loads(response.text)['application']
         self.add_to_context('application_id', item['id'])
         self.add_to_context('case_id', item['case_id'])
+
+    def check_end_user_document_is_processed(self, draft_id):
+        data = self.make_request("GET", url='/drafts/' + draft_id + '/end-user/document/', headers=self.export_headers)
+        return json.loads(data.text)['document']['safe']
+
+    def ensure_end_user_document_is_processed(self, draft_id):
+        # Constants for total time to retry function and intervals between attempts
+        timeout_limit = 60
+        function_retry_interval = 1
+
+        time_no = 0
+        while time_no < timeout_limit:
+            if self.check_end_user_document_is_processed(draft_id):
+                return True
+            time.sleep(function_retry_interval)
+            time_no += function_retry_interval
+        return False
 
     def add_queue(self, queue_name):
         self.log("adding queue: ...")
