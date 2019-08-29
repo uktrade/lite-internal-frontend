@@ -50,6 +50,7 @@ def pytest_exception_interact(node, report):
         except Exception:
             pass
 
+
 @when('I go to the internal homepage')
 def when_go_to_internal_homepage(driver, internal_url):
     driver.get(internal_url)
