@@ -1,9 +1,9 @@
 from libraries.forms.components import Form, Filter, Checkboxes, BackLink, TextArea
 
 
-def goods_flags_form(flags, good_or_case, url):
+def flags_form(flags, level,  origin, url):
     return Form(
-            title='Edit goods flags',
+            title='Edit ' + level + ' flags',
             description='',
             questions=[
                 Filter(placeholder='Filter flags'),
@@ -12,7 +12,7 @@ def goods_flags_form(flags, good_or_case, url):
                     name='flags',
                     options=flags
                 ),
-                TextArea(name='note', title='Notes', description='Provide reasons for editing the flags on these goods', optional=True)
+                TextArea(name='note', title='Notes', description='Provide reasons for editing the flags on these ' + level, optional=True)
             ],
             javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
-            back_link=BackLink('Back to ' + good_or_case, url))
+            back_link=BackLink('Back to ' + origin, url))
