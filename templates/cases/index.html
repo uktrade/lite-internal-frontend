@@ -15,7 +15,6 @@
 	<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
 </form>
 
-
 <div class="lite-app-bar">
     <div>
         <a id="queue-title" href="#" class="govuk-heading-l lite-heading-dropdown" onclick="toggleDropdown()">{{ title }}</a>
@@ -45,8 +44,6 @@
 		Hide filters
 	</a>
 </div>
-
-{{ cases|pretty_json }}
 
 <form id="filters" action="{% url 'cases:cases'%}" method="get">
     <input hidden name="queue" value="{{ queue_id }}">
