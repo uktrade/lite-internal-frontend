@@ -16,7 +16,7 @@ import logging
 now = datetime.now().isoformat()
 path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
 screen_dir = os.path.join(path, "screenshot", str(now))
-timeout_limit = 30
+timeout_limit = 20
 
 
 def get_current_date_time_string():

@@ -266,7 +266,7 @@ class SeedData:
 
     def ensure_end_user_document_is_processed(self, draft_id):
         # Constants for total time to retry function and intervals between attempts
-        timeout_limit = 60
+        timeout_limit = 20
         function_retry_interval = 1
 
         time_no = 0
