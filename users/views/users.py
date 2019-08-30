@@ -1,10 +1,8 @@
-from boto3 import Session
-from django.http import Http404, JsonResponse
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from conf.settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from libraries.forms.generators import form_page
 from users.forms.users import add_user_form, edit_user_form
@@ -13,21 +11,13 @@ from users.services import get_gov_users, post_gov_users, put_gov_user, get_gov_
 
 class UsersList(TemplateView):
     def get(self, request, **kwargs):
-        session = Session(aws_access_key_id=AWS_ACCESS_KEY_ID,
-                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-                          region_name='eu-west-2')
-        s3 = session.resource('s3')
-        your_bucket = s3.Bucket(AWS_STORAGE_BUCKET_NAME)
-
-        return JsonResponse(data={'data': [{'file': x.key} for x in your_bucket.objects.all()]})
-
-        '''data, status_code = get_gov_users(request)
+        data, status_code = get_gov_users(request)
 
         context = {
             'data': data,
             'title': 'Users',
         }
-        return render(request, 'users/index.html', context)'''
+        return render(request, 'users/index.html', context)
 
 
 class AddUser(TemplateView):
