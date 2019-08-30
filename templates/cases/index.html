@@ -46,11 +46,7 @@
 	</a>
 </div>
 
-    {{ queues }}
-
-    <h1>Banana</h1>
-
-    {{ data }}
+{{ data }}
 
 <form id="filters" action="{% url 'cases:cases'%}" method="get">
     <input hidden name="queue" value="{{ queue_id }}">
@@ -139,6 +135,7 @@
 				</div>
 			</div>
 			{% for case in data.queue.cases %}
+                {{ case }}
 				<div class="lite-cases-table-row" {% if is_system_queue %}style="grid-template-columns: 30px 1fr 200px 200px 200px 200px"{% endif %}>
 					<div class="govuk-checkboxes govuk-checkboxes--small">
 						<div class="govuk-checkboxes__item">
@@ -154,16 +151,16 @@
 	                                </a>
                                 </div>
                                 <p class="govuk-body" style="opacity: .7; margin: 0;">
-                                    {{ case.clc_query.organisation_name }}
+                                    {{ case.organisation }}
                                 </p>
                         {% else %}
 							<div class="">
 								<a href="{% url 'cases:case' case.id %}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
-									{{ case.application.id|default:"Untitled" }}
+									{{ case.id|default:"Untitled" }}
 								</a>
 							</div>
                             <p class="govuk-body" style="opacity: .7; margin: 0;">
-                                {{ case.application.organisation.name }}
+                                {{ case.organisation }}
                             </p>
                         {% endif %}
 					</div>
@@ -181,7 +178,7 @@
 						{% endfor %}
 					</div>
                     <p class="govuk-body">
-                        {{ case.type.value }}
+                        {{ case.type }}
                     </p>
                     {% if is_system_queue %}
                         <p class="govuk-body">
@@ -190,9 +187,9 @@
                     {% endif %}
                     <p class="govuk-body">
                         {% if case.type.key == 'clc_query' %}
-                            {{ case.clc_query.status|default:"Untitled"|sentence_case }}
+                            {{ case.status|default:"Untitled"|sentence_case }}
                         {% else %}
-                            {{ case.application.status|default:"Untitled"|sentence_case }}
+                            {{ case.status|default:"Untitled"|sentence_case }}
                         {% endif %}
                     </p>
 				</div>
