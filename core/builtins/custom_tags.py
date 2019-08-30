@@ -104,3 +104,8 @@ def pretty_json(value):
     Pretty print JSON - for development purposes only.
     """
     return '<pre>' + json.dumps(value, indent=4) + '</pre>'
+
+
+@register.filter(name='times')
+def times(number):
+    return [str(x+1) for x in range(number)]

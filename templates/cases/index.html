@@ -46,7 +46,7 @@
 	</a>
 </div>
 
-{{ data }}
+{{ cases|pretty_json }}
 
 <form id="filters" action="{% url 'cases:cases'%}" method="get">
     <input hidden name="queue" value="{{ queue_id }}">
@@ -98,7 +98,7 @@
 
 	{% csrf_token %}
 
-  	{% if data.queue.cases|length %}
+  	{% if cases.results|length %}
 		<div class="lite-cases-table">
 			<div class="lite-cases-table-header" {% if is_system_queue %}style="grid-template-columns: 30px 1fr 200px 200px 200px 200px"{% endif %}>
 				<div class="govuk-checkboxes govuk-checkboxes--small">
@@ -134,7 +134,7 @@
 					</a>
 				</div>
 			</div>
-			{% for case in data.queue.cases %}
+			{% for case in cases.results %}
                 {{ case }}
 				<div class="lite-cases-table-row" {% if is_system_queue %}style="grid-template-columns: 30px 1fr 200px 200px 200px 200px"{% endif %}>
 					<div class="govuk-checkboxes govuk-checkboxes--small">
@@ -143,57 +143,18 @@
 							<label class="govuk-label govuk-checkboxes__label"></label>
 						</div>
 					</div>
-					<div>
-                        {% if case.type.key == 'clc_query' %}
-                                <div>
-									<a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
-	                                    {{ case.id }}
-	                                </a>
-                                </div>
-                                <p class="govuk-body" style="opacity: .7; margin: 0;">
-                                    {{ case.organisation }}
-                                </p>
-                        {% else %}
-							<div class="">
-								<a href="{% url 'cases:case' case.id %}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
-									{{ case.id|default:"Untitled" }}
-								</a>
-							</div>
-                            <p class="govuk-body" style="opacity: .7; margin: 0;">
-                                {{ case.organisation }}
-                            </p>
-                        {% endif %}
-					</div>
-					<div>
-						{% for user in case.assignments %}
-							<p class="govuk-body user" style="margin-bottom: 6px;">
-								{% if user.first_name %}
-									{{ user.first_name }} {{ user.last_name }}
-								{% else %}
-									{{ user.email }}
-								{% endif %}
-							</p>
-						{% empty %}
-							<p class="govuk-body" style="margin-bottom: 0; opacity: .7;">No users assigned</p>
-						{% endfor %}
-					</div>
-                    <p class="govuk-body">
-                        {{ case.type }}
-                    </p>
-                    {% if is_system_queue %}
-                        <p class="govuk-body">
-                            {{ case.queue_names|join:', '  }}
-                        </p>
-                    {% endif %}
-                    <p class="govuk-body">
-                        {% if case.type.key == 'clc_query' %}
-                            {{ case.status|default:"Untitled"|sentence_case }}
-                        {% else %}
-                            {{ case.status|default:"Untitled"|sentence_case }}
-                        {% endif %}
-                    </p>
 				</div>
 			{% endfor %}
+
+		<br><br>
+		<div class="lite-pagination">
+			{% for i in cases.total_pages|times %}
+				<a href="{% url 'cases:cases' %}?page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}">
+					{{ i }}
+				</a>
+			{% endfor %}
+		</div>
+
     </div>
 
 	{% else %}

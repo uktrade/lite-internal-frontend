@@ -28,7 +28,7 @@ from core.services import get_user_permissions, get_statuses
 from flags.services import get_flags_case_level_for_team
 from picklists.services import get_picklists, get_picklist_item
 from queues.helpers import add_assigned_users_to_cases
-from queues.services import get_queue_case_assignments, get_queue, get_queues
+from queues.services import get_queue_case_assignments, get_queue, get_queues, get_queue_cases
 
 
 class Cases(TemplateView):
@@ -45,6 +45,10 @@ class Cases(TemplateView):
         queue, status_code = get_queue(request, queue_id, case_type, status, sort)
         case_assignments, status_code = get_queue_case_assignments(request, queue_id)
 
+        page = request.GET.get('page', 1)
+
+        cases = get_queue_cases(request, queue_id, 'page=' + str(page))
+
         # Add assigned users to each case
         queue['queue']['cases'] = add_assigned_users_to_cases(queue['queue']['cases'],
                                                               case_assignments['case_assignments'])
@@ -57,7 +61,8 @@ class Cases(TemplateView):
         context = {
             'queues': queues['queues'],
             'queue_id': queue_id,
-            'data': queue,
+            'cases': cases,
+            'page': page,
             'title': queue.get('queue').get('name'),
             'sort': sort,
             'case_type': case_type,
