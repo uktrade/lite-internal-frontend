@@ -47,7 +47,15 @@ class Cases(TemplateView):
 
         page = request.GET.get('page', 1)
 
-        cases = get_queue_cases(request, queue_id, 'page=' + str(page))
+        params = ''
+        if sort:
+            params += 'sort=' + sort
+        if status:
+            params += 'status=' + status
+        if case_type:
+            params += 'case_type=' + case_type
+
+        cases = get_queue_cases(request, queue_id, params)
 
         # Add assigned users to each case
         queue['queue']['cases'] = add_assigned_users_to_cases(queue['queue']['cases'],
