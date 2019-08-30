@@ -132,7 +132,6 @@
 				</div>
 			</div>
 			{% for case in cases.results %}
-                {{ case }}
 				<div class="lite-cases-table-row" {% if is_system_queue %}style="grid-template-columns: 30px 1fr 200px 200px 200px 200px"{% endif %}>
 					<div class="govuk-checkboxes govuk-checkboxes--small">
 						<div class="govuk-checkboxes__item">
@@ -140,7 +139,56 @@
 							<label class="govuk-label govuk-checkboxes__label"></label>
 						</div>
 					</div>
-				</div>
+                <div>
+                    {% if case.type.key == 'clc_query' %}
+                            <div>
+                                <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
+                                    {{ case.id }}
+                                </a>
+                            </div>
+                            <p class="govuk-body" style="opacity: .7; margin: 0;">
+                                {{ case.organisation }}
+                            </p>
+                    {% else %}
+                        <div class="">
+                            <a href="{% url 'cases:case' case.id %}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
+                                {{ case.id|default:"Untitled" }}
+                            </a>
+                        </div>
+                        <p class="govuk-body" style="opacity: .7; margin: 0;">
+                            {{ case.organisation }}
+                        </p>
+                    {% endif %}
+                </div>
+                <div>
+                    {% for user in case.assignments %}
+                        <p class="govuk-body user" style="margin-bottom: 6px;">
+                            {% if user.first_name %}
+                                {{ user.first_name }} {{ user.last_name }}
+                            {% else %}
+                                {{ user.email }}
+                            {% endif %}
+                        </p>
+                    {% empty %}
+                        <p class="govuk-body" style="margin-bottom: 0; opacity: .7;">No users assigned</p>
+                    {% endfor %}
+                </div>
+                <p class="govuk-body">
+                    {{ case.type }}
+                </p>
+                {% if is_system_queue %}
+                    <p class="govuk-body">
+                        {{ case.queue_names|join:', '  }}
+                    </p>
+                {% endif %}
+                <p class="govuk-body">
+                    {% if case.type.key == 'clc_query' %}
+                        {{ case.status|default:"Untitled"|sentence_case }}
+                    {% else %}
+                        {{ case.status|default:"Untitled"|sentence_case }}
+                    {% endif %}
+                </p>
+                </div>
 			{% endfor %}
 
 		<br><br>
