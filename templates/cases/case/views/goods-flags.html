@@ -1,5 +1,3 @@
-{% include 'cases/case/views/standard-goods.html' %}
-
 {% if good.flags %}
     <div class="app-flags" id="application-good-flags">
         {% for flag in good.flags %}
@@ -9,11 +7,11 @@
         {% endfor %}
     </div>
     <div class="govuk-form-group">
-        <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' case_id %}?level=goods&goods={{ good.id }}&origin=good">Edit goods flags</a>
+        <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' case_id %}?level=goods&goods={{ good.id }}&origin={{ origin }}">Edit goods flags</a>
     </div>
 {% else %}
     <div class="govuk-form-group">
-        <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' case_id %}?level=goods&goods={{ good.id }}&origin=good">Set goods flags</a>
+        <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' case_id %}?level=goods&goods={{ good.id }}&origin={{ origin }}">Set goods flags</a>
     </div>
 {% endif %}
 
