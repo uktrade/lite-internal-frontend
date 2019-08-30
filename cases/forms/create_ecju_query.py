@@ -1,12 +1,8 @@
 from lite_forms.components import Form, Select, HiddenField, BackLink, TextArea, RadioButtons, Option
 
 from core.builtins.custom_tags import get_string
-<<<<<<< HEAD
-from libraries.forms.components import Form, BackLink, Select, TextArea, HiddenField
-from libraries.forms.generators import confirm_form
-=======
-
->>>>>>> 6d135542dbb2806b01faf93c91b5414b28dda3d0
+from lite_forms.components import Form, BackLink, Select, TextArea, HiddenField
+from lite_forms.generators import confirm_form
 
 def choose_ecju_query_type_form(case_url, picklists):
     return Form(title=get_string('cases.ecju_queries.add_query.dropdown_title'),
