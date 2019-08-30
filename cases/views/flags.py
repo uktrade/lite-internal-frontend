@@ -2,11 +2,11 @@ from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
+from lite_forms.components import Option
+from lite_forms.generators import form_page
 
 from cases.forms.goods_flags import flags_form
 from cases.services import get_flags_for_team_of_level, get_object, put_objects_flags
-from libraries.forms.components import Option
-from libraries.forms.generators import form_page
 
 
 class AssignFlags(TemplateView):

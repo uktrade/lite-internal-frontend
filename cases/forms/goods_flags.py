@@ -1,4 +1,4 @@
-from libraries.forms.components import Form, Filter, Checkboxes, BackLink, TextArea
+from lite_forms.components import Form, Filter, Checkboxes, TextArea, BackLink
 
 
 def flags_form(flags, level,  origin, url):

@@ -8,7 +8,7 @@
 
 <form method="get" class="lite-dropdown-select">
 	<select class="govuk-select" name="queue">
-		{% for queue in queues.queues %}
+		{% for queue in queues %}
 			<option value="{{ queue.id }}" {% if queue.id == queue_id %}selected{% endif %}>{{ queue.name }}</option>
 		{% endfor %}
 	</select>
@@ -27,7 +27,7 @@
 <div class="lite-dropdown-background" onclick="toggleDropdown()"></div>
 <div class="lite-dropdown--container" id="queues">
     <div class="lite-dropdown">
-        {% for queue in queues.queues %}
+        {% for queue in queues %}
             <a href="/cases/?queue={{ queue.id }}" class="lite-dropdown--item {% if queue.id == queue_id %}lite-dropdown--item--selected{% endif %}">{{ queue.name }}</a>
         {% endfor %}
     </div>
@@ -43,6 +43,12 @@
 		Hide filters
 	</a>
 </div>
+
+    {{ queues }}
+
+    <h1>Banana</h1>
+
+    {{ data }}
 
 <form id="filters" action="{% url 'cases:cases'%}" method="get">
     <input hidden name="queue" value="{{ queue_id }}">

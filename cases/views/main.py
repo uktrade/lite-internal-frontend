@@ -55,7 +55,7 @@ class Cases(TemplateView):
             current_filter_url.remove('sort=' + sort)
 
         context = {
-            'queues': queues,
+            'queues': queues['queues'],
             'queue_id': queue_id,
             'data': queue,
             'title': queue.get('queue').get('name'),
