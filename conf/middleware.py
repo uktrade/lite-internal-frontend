@@ -47,11 +47,11 @@ class LoggingMiddleware:
         data = {
             "message": "liteolog internal",
             "corrID": request.correlation,
-            "method": request.method,
             "type": "http request",
+            "method": request.method,
             "url": request.path,
         }
-        logging.info(data)
+        # logging.info(data)
         response = self.get_response(request)
         data['type'] = "http response"
         data['elapsed_time'] = time.time() - start
