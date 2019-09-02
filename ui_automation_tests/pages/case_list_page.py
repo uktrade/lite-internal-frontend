@@ -30,16 +30,44 @@ class CaseListPage(BasePage):
 
     # Queue dropdown
     queue_dropdown_title = 'queue-title'  # ID
-    dropdown_item = '.lite-dropdown .lite-dropdown--item' # CSS
-    dropdown_item_class = 'lite-dropdown--item'  # Class_Name
+    dropdown_item = '.app-dropdown__item' # CSS
+    dropdown_item_class = 'app-dropdown__item'  # Class_Name
 
     def click_on_case_checkbox(self, case_id):
+        self.driver.set_timeout_to(1)
+        is_present = len(self.driver.find_elements_by_link_text(case_id))
+        while is_present == 0:
+            url = self.driver.current_url
+            if 'page' not in url:
+                self.driver.find_element_by_id("page-2").click()
+                page_number = 2
+            else:
+                next_page = url + '&page=' + str(page_number)
+                self.driver.get(next_page)
+            page_number += 1
+            is_present = len(self.driver.find_elements_by_link_text(case_id))
+
+        self.driver.set_timeout_to(10)
         self.driver.find_element_by_css_selector(self.CHECKBOX_CASE + case_id + "']").click()
 
     def click_on_assign_users_button(self):
         self.driver.find_element_by_id(self.BUTTON_ASSIGN_USERS).click()
 
     def get_text_of_assignees(self, case_id):
+        self.driver.set_timeout_to(1)
+        is_present = len(self.driver.find_elements_by_link_text(case_id))
+        while is_present == 0:
+            url = self.driver.current_url
+            if 'page' not in url:
+                self.driver.find_element_by_id("page-2").click()
+                page_number = 2
+            else:
+                next_page = url + '&page=' + str(page_number)
+                self.driver.get(next_page)
+            page_number += 1
+            is_present = len(self.driver.find_elements_by_link_text(case_id))
+
+        self.driver.set_timeout_to(10)
         return self.driver.find_element_by_xpath("//*[text()[contains(.,'" + case_id + "')]]/following::p/following::p").text
 
     def click_select_all_checkbox(self):
@@ -84,7 +112,7 @@ class CaseListPage(BasePage):
         self.click_on_queue_title()
         elements = self.driver.find_elements_by_css_selector(self.dropdown_item)
         for idx, element in enumerate(elements):
-            if element.text == queue_name:
+            if queue_name in element.text:
                 self.driver.execute_script(
                     "document.getElementsByClassName('" + self.dropdown_item_class + "')[" + str(idx) + "].scrollIntoView(true);")
                 element.click()

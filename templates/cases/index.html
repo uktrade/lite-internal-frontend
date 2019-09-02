@@ -163,7 +163,7 @@
                     {% endif %}
                 </div>
                 <div>
-                    {% for user in case.assignments %}
+                    {% for user in case.users %}
                         <p class="govuk-body user" style="margin-bottom: 6px;">
                             {% if user.first_name %}
                                 {{ user.first_name }} {{ user.last_name }}
@@ -198,7 +198,7 @@
 
             <div class="lite-pagination__container ">
                 {% for i in cases.total_pages|times %}
-                    <a href="{% url 'cases:cases' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}">
+                    <a href="{% url 'cases:cases' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
                         {{ i }}
                     </a>
                 {% endfor %}
