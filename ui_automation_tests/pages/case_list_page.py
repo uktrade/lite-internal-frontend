@@ -36,15 +36,16 @@ class CaseListPage(BasePage):
     def click_on_case_checkbox(self, case_id):
         self.driver.set_timeout_to(1)
         is_present = len(self.driver.find_elements_by_link_text(case_id))
+        number_of_pages = len(self.driver.find_elements_by_css_selector(".lite-pagination__item"))
         while is_present == 0:
             url = self.driver.current_url
             if 'page' not in url:
-                self.driver.find_element_by_id("page-2").click()
-                page_number = 2
+                self.driver.find_element_by_id("page-" + str(number_of_pages)).click()
+                page_number = number_of_pages
             else:
                 next_page = url + '&page=' + str(page_number)
                 self.driver.get(next_page)
-            page_number += 1
+            page_number -= 1
             is_present = len(self.driver.find_elements_by_link_text(case_id))
 
         self.driver.set_timeout_to(10)
@@ -56,15 +57,16 @@ class CaseListPage(BasePage):
     def get_text_of_assignees(self, case_id):
         self.driver.set_timeout_to(1)
         is_present = len(self.driver.find_elements_by_link_text(case_id))
+        number_of_pages = len(self.driver.find_elements_by_css_selector(".lite-pagination__item"))
         while is_present == 0:
             url = self.driver.current_url
             if 'page' not in url:
-                self.driver.find_element_by_id("page-2").click()
-                page_number = 2
+                self.driver.find_element_by_id("page-" + str(number_of_pages)).click()
+                page_number = number_of_pages
             else:
                 next_page = url + '&page=' + str(page_number)
                 self.driver.get(next_page)
-            page_number += 1
+            page_number -= 1
             is_present = len(self.driver.find_elements_by_link_text(case_id))
 
         self.driver.set_timeout_to(10)
