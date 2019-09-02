@@ -153,7 +153,7 @@
                 "sha256:b9dba845cdcf1345b451db8cf59b76d4ea712458227b8f9e59e37c39223eed27"
             ],
             "index": "pypi",
-            "version": "==1.33"
+            "version": "==1.4"
         },
         "oauthlib": {
             "hashes": [
