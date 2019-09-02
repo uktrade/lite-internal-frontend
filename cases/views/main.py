@@ -24,6 +24,7 @@ from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS, OPEN_CASES_SY
 from conf.decorators import has_permission
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
+from core.helpers import convert_dict_to_query_params
 from core.services import get_user_permissions, get_statuses
 from flags.services import get_flags_case_level_for_team
 from picklists.services import get_picklists, get_picklist_item
@@ -43,43 +44,32 @@ class Cases(TemplateView):
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         queues, status_code = get_queues(request, include_system_queues=True)
         queue, status_code = get_queue(request, queue_id, case_type, status, sort)
-        case_assignments, status_code = get_queue_case_assignments(request, queue_id)
+        # case_assignments, status_code = get_queue_case_assignments(request, queue_id)
+        #
+        # # Add assigned users to each case
+        # queue['queue']['cases'] = add_assigned_users_to_cases(queue['queue']['cases'],
+        #                                                       case_assignments['case_assignments'])
 
-        page = request.GET.get('page', 1)
-
-        params = ''
+        # Page parameters
+        params = {'queue': queue_id, 'page': int(request.GET.get('page', 1))}
         if sort:
-            params += 'sort=' + sort
+            params['sort'] = sort
         if status:
-            params += 'status=' + status
+            params['status'] = status
         if case_type:
-            params += 'case_type=' + case_type
+            params['case_type'] = case_type
 
-        cases = get_queue_cases(request, queue_id, params)
-
-        # Add assigned users to each case
-        queue['queue']['cases'] = add_assigned_users_to_cases(queue['queue']['cases'],
-                                                              case_assignments['case_assignments'])
-
-        # Get current query parameters to inject into template for sorting with filters
-        current_filter_url = request.GET.urlencode().split('&')
-        if sort:
-            current_filter_url.remove('sort=' + sort)
+        cases = get_queue_cases(request, queue_id, convert_dict_to_query_params(params))
 
         context = {
+            'title': queue['queue'].get('name'),
             'queues': queues['queues'],
-            'queue_id': queue_id,
+            'current_queue': queue['queue'],
             'cases': cases,
-            'page': page,
-            'title': queue.get('queue').get('name'),
-            'sort': sort,
-            'case_type': case_type,
-            'status': status,
+            'page': params.pop('page'),
             'statuses': statuses,
-            'current_filter_url': '?' + '&'.join(current_filter_url) + '&' if len(current_filter_url) > 0 else '?',
-            'is_system_queue': queue_id == ALL_CASES_SYSTEM_QUEUE_ID or \
-                               queue_id == OPEN_CASES_SYSTEM_QUEUE_ID or \
-                               queue_id == '00000000-0000-0000-0000-000000000002',
+            'params': params,
+            'params_str': convert_dict_to_query_params(params)
         }
         return render(request, 'cases/index.html', context)
 
@@ -95,6 +85,8 @@ class Cases(TemplateView):
 class ViewCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
+        queue_id = request.GET.get('return_to', DEFAULT_QUEUE_ID)
+        queue, status_code = get_queue(request, queue_id)
         case, status_code = get_case(request, case_id)
         case = case['case']
         activity, status_code = get_activity(request, case_id)
@@ -108,6 +100,7 @@ class ViewCase(TemplateView):
                 'case_id': case_id,
                 'activity': activity.get('activity'),
                 'permissions': permissions,
+                'queue': queue,
             }
             return render(request, 'cases/case/clc-query-case.html', context)
         else:
@@ -115,7 +108,8 @@ class ViewCase(TemplateView):
                 'case': case,
                 'title': case.get('application').get('name'),
                 'activity': activity.get('activity'),
-                'permissions': permissions
+                'permissions': permissions,
+                'queue': queue,
             }
             return render(request, 'cases/case/application-case.html', context)
 
@@ -177,7 +171,7 @@ class CreateEcjuQuery(TemplateView):
         case_id = str(kwargs['pk'])
         picklists, status = get_picklists(request, 'ecju_query', False)
         picklists = picklists.get('picklist_items')
-        picklist_choices = [Option(self.NEW_QUESTION_DDL_ID, 'Write a new question')] +\
+        picklist_choices = [Option(self.NEW_QUESTION_DDL_ID, 'Write a new question')] + \
                            [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
         form = choose_ecju_query_type_form(
             reverse('cases:ecju_queries', kwargs={'pk': case_id}),
@@ -255,6 +249,7 @@ class CreateEcjuQuery(TemplateView):
         form = create_ecju_query_write_or_edit_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
         data = {'question': request.POST.get('question')}
         return form_page(request, form, data=data, errors=errors)
+
 
 #
 # class ViewCLCCase(TemplateView):
