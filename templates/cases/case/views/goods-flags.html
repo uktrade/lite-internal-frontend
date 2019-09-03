@@ -14,7 +14,3 @@
         <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' case_id %}?level=goods&goods={{ good.id }}&origin={{ origin }}">Set goods flags</a>
     </div>
 {% endif %}
-
-<div id="flags-modal" style="display: none;">
-	{% include "cases/case/good_flags.html" %}
-</div>
