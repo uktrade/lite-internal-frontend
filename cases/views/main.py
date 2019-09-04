@@ -44,11 +44,6 @@ class Cases(TemplateView):
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         queues, status_code = get_queues(request, include_system_queues=True)
         queue, status_code = get_queue(request, queue_id, case_type, status, sort)
-        # case_assignments, status_code = get_queue_case_assignments(request, queue_id)
-        #
-        # # Add assigned users to each case
-        # queue['queue']['cases'] = add_assigned_users_to_cases(queue['queue']['cases'],
-        #                                                       case_assignments['case_assignments'])
 
         # Page parameters
         params = {'queue': queue_id, 'page': int(request.GET.get('page', 1))}
@@ -249,41 +244,6 @@ class CreateEcjuQuery(TemplateView):
         form = create_ecju_query_write_or_edit_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
         data = {'question': request.POST.get('question')}
         return form_page(request, form, data=data, errors=errors)
-
-
-#
-# class ViewCLCCase(TemplateView):
-#     def get(self, request, **kwargs):
-#         case_id = str(kwargs['pk'])
-#         case, status_code = get_case(request, case_id)
-#         activity, status_code = get_activity(request, case_id)
-#
-#         context = {
-#             'data': case,
-#             'activity': activity.get('activity'),
-#         }
-#         return render(request, 'cases/case/clc-query-case.html', context)
-#
-#     def post(self, request, **kwargs):
-#         case_id = str(kwargs['pk'])
-#         response, status_code = post_case_notes(request, case_id, request.POST)
-#
-#         if status_code != 201:
-#
-#             errors = response.get('errors')
-#             if errors.get('text'):
-#                 error = errors.get('text')[0]
-#                 error = error.replace('This field', 'Case note')  # TODO: Move to API
-#                 error = error.replace('this field', 'the case note')  # TODO: Move to API
-#
-#             else:
-#                 error_list = []
-#                 for key in errors:
-#                     error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-#                 error = "\n".join(error_list)
-#             return error_page(request, error)
-#
-#         return redirect('/cases/clc-query/' + case_id + '#case_notes')
 
 
 class ManageCase(TemplateView):
