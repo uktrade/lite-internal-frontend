@@ -176,11 +176,6 @@ def get_good_activity(request, pk):
 
 # Good Flags
 # Always takes an array of good id's
-def put_good_flags(request, json):
-    data = put(request, GOOD_URL + GOODS_FLAGS_URL, json)
-    return data.json(), data.status_code
-
-
 def get_flags_for_team_of_level(request, level):
     data = get(request, FLAGS_URL + '?level=' + level + '&team=True')
     return data.json(), data.status_code

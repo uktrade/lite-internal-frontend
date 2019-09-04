@@ -20,9 +20,7 @@ class AssignFlags(TemplateView):
         case_id = str(kwargs['pk'])
         kwargs = {'pk': case_id}
         self.level = request.GET.get('level')
-        self.objects = request.GET.getlist(
-            self.level
-        )
+        self.objects = request.GET.getlist(self.level)
         origin = request.GET.get('origin') if request.GET.get('origin') else 'case'
 
         if not self.objects:
