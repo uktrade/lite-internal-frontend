@@ -6,7 +6,7 @@ from lite_forms.components import Option
 from lite_forms.generators import form_page
 
 from cases.forms.goods_flags import flags_form
-from cases.services import get_flags_for_team_of_level, put_objects_flags, get_good, get_goods_type, get_case
+from cases.services import get_flags_for_team_of_level, put_flag_assignments, get_good, get_goods_type, get_case
 
 
 class AssignFlags(TemplateView):
@@ -71,8 +71,8 @@ class AssignFlags(TemplateView):
         return form_page(request, self.form, data=self.selected_flags)
 
     def post(self, request, **kwargs):
-        response, status_code = put_objects_flags(request,
-                                                  {
+        response, status_code = put_flag_assignments(request,
+                                                     {
                                                       'level': self.level,
                                                       'objects': self.objects,
                                                       'flags': request.POST.getlist('flags'),

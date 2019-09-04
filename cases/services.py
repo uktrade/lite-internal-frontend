@@ -1,7 +1,7 @@
 from cases.helpers import clean_advice
 from conf.client import post, get, put, delete
 from conf.constants import CASE_URL, CASE_NOTES_URL, APPLICATIONS_URL, ACTIVITY_URL, CLC_QUERIES_URL, DOCUMENTS_URL, \
-    CASE_FLAGS_URL, ADVICE_URL, ECJU_QUERIES_URL, GOOD_URL, GOODS_FLAGS_URL, FLAGS_URL, ASSIGN_FLAGS_URL, GOODS_TYPE_URL
+    CASE_FLAGS_URL, ADVICE_URL, ECJU_QUERIES_URL, GOOD_URL, FLAGS_URL, ASSIGN_FLAGS_URL, GOODS_TYPE_URL
 
 
 def get_case(request, pk):
@@ -175,12 +175,11 @@ def get_good_activity(request, pk):
 
 
 # Good Flags
-# Always takes an array of good id's
 def get_flags_for_team_of_level(request, level):
     data = get(request, FLAGS_URL + '?level=' + level + '&team=True')
     return data.json(), data.status_code
 
 
-def put_objects_flags(request, json):
+def put_flag_assignments(request, json):
     data = put(request, ASSIGN_FLAGS_URL, json)
     return data.json(), data.status_code
