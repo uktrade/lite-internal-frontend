@@ -176,6 +176,12 @@ def get_good_activity(request, pk):
 
 # Good Flags
 def get_flags_for_team_of_level(request, level):
+    """
+
+    :param request:
+    :param level: 'cases', 'goods'
+    :return:
+    """
     data = get(request, FLAGS_URL + '?level=' + level + '&team=True')
     return data.json(), data.status_code
 
