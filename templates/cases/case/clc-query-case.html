@@ -5,7 +5,9 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'cases:cases' %}" class="govuk-back-link">{% get_string 'cases.case.back_to_cases_link' %}</a>
+	<a href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}" class="govuk-back-link">
+		Back to {{ queue.queue.name }}
+	</a>
 {% endblock %}
 
 {% block body %}
