@@ -6,7 +6,7 @@ from lite_forms.components import Option
 from lite_forms.generators import form_page
 
 from cases.forms.goods_flags import flags_form
-from cases.services import get_flags_for_team_of_level, get_object, put_objects_flags
+from cases.services import get_flags_for_team_of_level, get_flagging_enabled_object, put_objects_flags
 
 
 class AssignFlags(TemplateView):
@@ -31,7 +31,7 @@ class AssignFlags(TemplateView):
         level_team_flags = [x for x in level_team_flags_data.get('flags') if x['status'] == 'Active']
 
         if len(self.objects) == 1:
-            object, status_code = get_object(request, self.level, pk=self.objects[0])
+            object, status_code = get_flagging_enabled_object(request, self.level, pk=self.objects[0])
             object_flags = object.get(self.level[:-1]).get('flags')
             self.selected_flags = {'flags': []}
             for flag in level_team_flags:
