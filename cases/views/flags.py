@@ -28,6 +28,7 @@ class AssignFlags(TemplateView):
 
         level_team_flags_data, status_code = get_flags_for_team_of_level(request, self.level)
 
+        # Only active flags are able to be set or unset
         level_team_flags = [x for x in level_team_flags_data.get('flags') if x['status'] == 'Active']
 
         # Perform pre-population of the flags if there is only one object to be flagged
@@ -39,13 +40,18 @@ class AssignFlags(TemplateView):
             elif self.level == 'cases':
                 object, _ = get_case(request, self.objects[0])
 
+            # Fetches existing flags on the object
             object_flags = object.get(self.level[:-1]).get('flags')
             self.selected_flags = {'flags': []}
             for flag in level_team_flags:
                 for object_flag in object_flags:
+
+                    # If flag is both on the object and available to the user, show that it is already set
                     if flag['id'] in object_flag['id']:
                         self.selected_flags['flags'].append(flag['id'])
                         break
+
+            # Origin is set to tell the form where to return to after submission or when back link is clicked
             if origin == 'good':
                 kwargs = {'pk': case_id, 'good_pk': self.objects[0]}
 
