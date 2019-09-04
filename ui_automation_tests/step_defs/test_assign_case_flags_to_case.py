@@ -93,17 +93,17 @@ def assert_flag_is_assigned(driver, context):
     assert exists is False
 
 
-@then('The previously created goods flag is assigned to the case')
+@then('the previously created goods flag is assigned to the case')
 def assert_flag_is_assigned(driver, context):
     application_page = ApplicationPage(driver)
-    application_page.is_good_flag_applied(context.flag_name)
+    assert application_page.is_good_flag_applied(context.flag_name)
 
 
 @when('I add a flag called UAE at level Case')
-def add_a_flag(driver, context, add_uae_flag):
+def add_a_flag(driver, add_uae_flag):
     pass
 
 
 @when('I add a flag called Suspicious at level Good')
-def add_a_suspicious_flag(driver, context, add_suspicious_flag):
+def add_a_suspicious_flag(driver, add_suspicious_flag):
     pass

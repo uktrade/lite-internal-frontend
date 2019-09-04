@@ -48,7 +48,7 @@ class CaseListPage(BasePage):
             page_number -= 1
             is_present = len(self.driver.find_elements_by_link_text(case_id))
 
-        self.driver.set_timeout_to(10)
+        self.driver.set_timeout_to_10_seconds()
         self.driver.find_element_by_css_selector(self.CHECKBOX_CASE + case_id + "']").click()
 
     def click_on_assign_users_button(self):
@@ -69,7 +69,7 @@ class CaseListPage(BasePage):
             page_number -= 1
             is_present = len(self.driver.find_elements_by_link_text(case_id))
 
-        self.driver.set_timeout_to(10)
+        self.driver.set_timeout_to_10_seconds()
         return self.driver.find_element_by_xpath("//*[text()[contains(.,'" + case_id + "')]]/following::p/following::p").text
 
     def click_select_all_checkbox(self):

@@ -23,4 +23,4 @@ Feature: I want to add case-level flags to a case and view them
     And I go to application previously created
     And I click edit goods flags link
     And I select previously created flag
-    Then The previously created goods flag is assigned to the case
+    Then the previously created goods flag is assigned to the case
