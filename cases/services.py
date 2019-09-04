@@ -181,17 +181,6 @@ def get_flags_for_team_of_level(request, level):
     return data.json(), data.status_code
 
 
-def get_flagging_enabled_object(request, level, pk):
-    if level == 'goods':
-        data, status_code = get_good(request, pk)
-        if status_code == 404:
-            return get_goods_type(request, pk)
-        return data, status_code
-    elif level == 'cases':
-        return get_case(request, pk)
-    return None, 404
-
-
 def put_objects_flags(request, json):
     data = put(request, ASSIGN_FLAGS_URL, json)
     return data.json(), data.status_code
