@@ -50,6 +50,12 @@ def sentence_case(value):
 
 
 @register.filter()
+def reference_code(value):
+    value = str(value)
+    return value[:5] + '-' + value[5:]
+
+
+@register.filter()
 def add_selected_class(key, url):
     if key in url:
         return 'lite-menu-item--selected'

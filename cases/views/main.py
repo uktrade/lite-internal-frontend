@@ -92,7 +92,7 @@ class ViewCase(TemplateView):
                 }
             return render(request, 'cases/case/queries/end_user_advisory.html', context)
 
-        # case = case['case']
+        # case = case
         # activity, status_code = get_activity(request, case_id)
         # permissions = get_user_permissions(request)
         #
@@ -274,7 +274,7 @@ class ManageCase(TemplateView):
         case = get_case(request, case_id)
         statuses, status_code = get_statuses(request)
 
-        if case['case']['type']['key'] == 'application':
+        if case['type']['key'] == 'application':
             title = 'Manage ' + case.get('case').get('application').get('name')
         else:
             title = 'Manage CLC query case'
@@ -290,11 +290,11 @@ class ManageCase(TemplateView):
         case_id = str(kwargs['pk'])
         case = get_case(request, case_id)
 
-        if case['case']['type']['key'] == 'application':
+        if case['type']['key'] == 'application':
             application_id = case.get('case').get('application').get('id')
             data, status_code = put_applications(request, application_id, request.POST)
         else:
-            clc_query_id = case['case']['clc_query']['id']
+            clc_query_id = case['clc_query']['id']
             data, status_code = put_clc_queries(request, clc_query_id, request.POST)
 
         if 'errors' in data:
@@ -309,11 +309,11 @@ class DecideCase(TemplateView):
         case_id = str(kwargs['pk'])
         case = get_case(request, case_id)
 
-        if case['case']['application']['status'] == 'approved':
+        if case['application']['status'] == 'approved':
             data = {
-                'status': case['case']['application']['status']
+                'status': case['application']['status']
             }
-        elif case['case']['application']['status'] == 'under_final_review':
+        elif case['application']['status'] == 'under_final_review':
             data = {
                 'status': 'declined'
             }
@@ -354,7 +354,7 @@ class DenyCase(TemplateView):
         case_id = str(kwargs['pk'])
         case = get_case(request, case_id)
 
-        application_id = case['case']['application']['id']
+        application_id = case['application']['id']
 
         data = {
             'reasons': request.POST.getlist('reasons'),
@@ -382,7 +382,7 @@ class MoveCase(TemplateView):
 
         return form_page(request,
                          move_case_form(request, reverse('cases:case', kwargs={'pk': case_id})),
-                         data=case['case'])
+                         data=case)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
@@ -443,7 +443,7 @@ class Documents(TemplateView):
 
         context = {
             'title': get_string('cases.manage.documents.title'),
-            'case': case['case'],
+            'case': case,
             'case_documents': case_documents['documents'],
         }
         return render(request, 'cases/case/documents.html', context)
@@ -522,7 +522,7 @@ class Document(TemplateView):
 #         context = {
 #             'title': 'Are you sure you want to delete this file?',
 #             'description': original_file_name,
-#             'case': case['case'],
+#             'case': case,
 #             'document': document['document'],
 #             'page': 'cases/case/modals/delete_document.html',
 #         }
@@ -542,7 +542,7 @@ class Document(TemplateView):
 #         context = {
 #             'title': 'Are you sure you want to delete this file?',
 #             'description': original_file_name,
-#             'case': case['case'],
+#             'case': case,
 #             'document': document['document'],
 #             'page': 'cases/case/modals/delete_document.html',
 #         }

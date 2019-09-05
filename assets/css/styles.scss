@@ -12,20 +12,7 @@ $govuk-link-active-colour: darken($govuk-brand-colour, 20%);
 
 .app-reference-code {
 	position: relative;
-	display: inline-block;
-	z-index: 0;
-	overflow: visible!important;
-
-	&:before {
-		content: "";
-		position: absolute;
-		top: -8px;
-		left: -15px;
-		right: -15px;
-		bottom: -8px;
-		background-color: govuk-colour("light-grey");
-		z-index: -1;
-	}
+	letter-spacing: 2px;
 }
 
 .app-wrappable-list {
