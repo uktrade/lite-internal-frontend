@@ -10,6 +10,24 @@ $govuk-link-active-colour: darken($govuk-brand-colour, 20%);
 @import "../shared/lite-frontend/scss/all"; // Local Assets
 @import "components/all";
 
+.app-reference-code {
+	position: relative;
+	display: inline-block;
+	z-index: 0;
+	overflow: visible!important;
+
+	&:before {
+		content: "";
+		position: absolute;
+		top: -8px;
+		left: -15px;
+		right: -15px;
+		bottom: -8px;
+		background-color: govuk-colour("light-grey");
+		z-index: -1;
+	}
+}
+
 .app-wrappable-list {
 	display: flex;
 	flex-wrap: wrap;

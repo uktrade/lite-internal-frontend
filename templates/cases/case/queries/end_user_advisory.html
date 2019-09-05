@@ -1,0 +1,61 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block back_link %}
+	<a href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}" class="govuk-back-link">
+		Back to {{ queue.queue.name }}
+	</a>
+{% endblock %}
+
+{% block body %}
+
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h2 class="govuk-heading-l app-reference-code">EUA1-91A2</h2>
+		</div>
+		<div class="lite-app-bar__controls">
+			<div class="app-more-actions__container">
+				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
+					{% get_string 'cases.manage.move_case.button' %}
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Case flags -->
+	{% include 'cases/case/views/case-flags.html' %}
+
+			<h2 class="govuk-heading-l app-reference-code">EUA1-91A2</h2>
+
+	<h4 class="govuk-heading-s">Name</h4>
+	<p class="govuk-body-l">{{ case.query.end_user.name }}</p>
+
+	<h4 class="govuk-heading-s">Type</h4>
+	<p class="govuk-body-l">{{ case.query.end_user.type.value }}</p>
+
+	<h4 class="govuk-heading-s">Address</h4>
+	<p class="govuk-body-l">{{ case.query.end_user.address }}<br>{{ case.query.end_user.country.name }}</p>
+
+	<h4 class="govuk-heading-s">Website</h4>
+	{% if case.query.end_user.website %}
+		<a class="govuk-body-l govuk-link" href="{{ case.query.end_user.website }}">{{ case.query.end_user.website }}</a>
+	{% else %}
+		<p class="govuk-body-l">N/A</p>
+	{% endif %}
+
+	<hr class="lite-horizontal-separator">
+
+	<h4 class="govuk-heading-s">Reasoning behind query</h4>
+	<p class="govuk-body-l">{{ case.query.reasoning|default:'N/A' }}</p>
+
+	<h4 class="govuk-heading-s">Notes about end user</h4>
+	<p class="govuk-body-l">{{ case.query.note|default:'N/A' }}</p>
+
+	{% include "cases/case/tabs/activity.html" %}
+
+{% endblock %}
+
+{% block javascript %}
+	<script src="{% static 'javascripts/more-actions.js' %}"></script>
+{% endblock %}

@@ -34,14 +34,14 @@ class AssignFlags(TemplateView):
         # Perform pre-population of the flags if there is only one object to be flagged
         if len(self.objects) == 1:
             if self.level == 'goods':
-                object, status_code = get_good(request, self.objects[0])
+                obj, status_code = get_good(request, self.objects[0])
                 if status_code == 404:
-                    object, _ = get_goods_type(request, self.objects[0])
+                    obj, _ = get_goods_type(request, self.objects[0])
             elif self.level == 'cases':
-                object, _ = get_case(request, self.objects[0])
+                obj = get_case(request, self.objects[0])
 
             # Fetches existing flags on the object
-            object_flags = object.get(self.level[:-1]).get('flags')
+            object_flags = obj.get(self.level[:-1]).get('flags')
             self.selected_flags = {'flags': []}
             for flag in level_team_flags:
                 for object_flag in object_flags:

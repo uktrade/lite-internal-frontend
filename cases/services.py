@@ -6,7 +6,7 @@ from conf.constants import CASE_URL, CASE_NOTES_URL, APPLICATIONS_URL, ACTIVITY_
 
 def get_case(request, pk):
     data = get(request, CASE_URL + pk)
-    return data.json(), data.status_code
+    return data.json()['case']
 
 
 def put_case(request, pk, json):
