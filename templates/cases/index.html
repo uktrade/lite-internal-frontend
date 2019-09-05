@@ -57,7 +57,8 @@
                 <select class="govuk-select" id="case_type" name="case_type">
                     <option {% if params.case_type == None %}selected{% endif %} value="">Select</option>
                     <option {% if params.case_type == "application" %}selected{% endif %} value="application">Licence application</option>
-                    <option {% if params.case_type == "clc_query" %}selected{% endif %} value="clc_query">CLC query</option>
+					<option {% if params.case_type == "clc_query" %}selected{% endif %} value="clc_query">CLC Query</option>
+                    <option {% if params.case_type == "end_user_advisory_query" %}selected{% endif %} value="end_user_advisory_query">End User Advisory Query</option>
                 </select>
             </div>
         </div>
@@ -176,7 +177,7 @@
                     {% endfor %}
                 </div>
                 <p class="govuk-body">
-                    {{ case.type }}
+                    {{ case.type.value }}
                 </p>
                 {% if current_queue.is_system_queue %}
                     <p class="govuk-body">

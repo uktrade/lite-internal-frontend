@@ -38,7 +38,7 @@ class AssignFlags(TemplateView):
                 if status_code == 404:
                     obj, _ = get_goods_type(request, self.objects[0])
             elif self.level == 'cases':
-                obj = get_case(request, self.objects[0])
+                obj = {'case': get_case(request, self.objects[0])}
 
             # Fetches existing flags on the object
             object_flags = obj.get(self.level[:-1]).get('flags')

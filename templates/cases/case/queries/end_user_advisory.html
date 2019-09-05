@@ -27,33 +27,66 @@
 	<!-- Case flags -->
 	{% include 'cases/case/views/case-flags.html' %}
 
-	<br><br>
+	<div class="govuk-!-width-two-thirds">
+		<dl class="govuk-summary-list">
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Name
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ case.query.end_user.name }}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Type
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ case.query.end_user.type.value }}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Address
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ case.query.end_user.address }}<br>{{ case.query.end_user.country.name }}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Website
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{% if case.query.end_user.website %}
+						<a class="govuk-link" href="{{ case.query.end_user.website }}">{{ case.query.end_user.website }}</a>
+					{% else %}
+						N/A
+					{% endif %}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Reasoning behind query
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ case.query.reasoning|default:'N/A' }}
+				</dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Notes about end user
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ case.query.note|default:'N/A' }}
+				</dd>
+			</div>
+		</dl>
 
-	<h4 class="govuk-heading-s">Name</h4>
-	<p class="govuk-body-l">{{ case.query.end_user.name }}</p>
+		<br><br>
 
-	<h4 class="govuk-heading-s">Type</h4>
-	<p class="govuk-body-l">{{ case.query.end_user.type.value }}</p>
-
-	<h4 class="govuk-heading-s">Address</h4>
-	<p class="govuk-body-l">{{ case.query.end_user.address }}<br>{{ case.query.end_user.country.name }}</p>
-
-	<h4 class="govuk-heading-s">Website</h4>
-	{% if case.query.end_user.website %}
-		<a class="govuk-body-l govuk-link" href="{{ case.query.end_user.website }}">{{ case.query.end_user.website }}</a>
-	{% else %}
-		<p class="govuk-body-l">N/A</p>
-	{% endif %}
-
-	<hr class="lite-horizontal-separator">
-
-	<h4 class="govuk-heading-s">Reasoning behind query</h4>
-	<p class="govuk-body-l">{{ case.query.reasoning|default:'N/A' }}</p>
-
-	<h4 class="govuk-heading-s">Notes about end user</h4>
-	<p class="govuk-body-l">{{ case.query.note|default:'N/A' }}</p>
-
-	{% include "cases/case/tabs/activity.html" %}
+		{% include "cases/case/tabs/activity.html" %}
+	</div>
 
 {% endblock %}
 
