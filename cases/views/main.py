@@ -81,54 +81,25 @@ class ViewCase(TemplateView):
         queue_id = request.GET.get('return_to', DEFAULT_QUEUE_ID)
         queue, status_code = get_queue(request, queue_id)
         case = get_case(request, case_id)
-        print(case)
+        activity = get_activity(request, case_id)
+        permissions = get_user_permissions(request)
+
+        context = {
+            'title': 'Case',
+            'case': case,
+            'queue': queue,
+            'activity': activity,
+            'permissions': permissions,
+        }
 
         if case['type']['key'] == 'end_user_advisory_query':
-            context = {
-                    'title': 'Case',
-                    'case': case,
-                    'case_id': case_id,
-                    'queue': queue,
-                }
             return render(request, 'cases/case/queries/end_user_advisory.html', context)
-
-        # case = case
-        # activity, status_code = get_activity(request, case_id)
-        # permissions = get_user_permissions(request)
-        #
-        # print(case)
-        #
-        # if case['type']['key'] == 'clc_query':
-        #     context = {
-        #         'title': 'Case',
-        #         'case': case,
-        #         'good': case['query']['good'],
-        #         'case_id': case_id,
-        #         'activity': activity.get('activity'),
-        #         'permissions': permissions,
-        #         'queue': queue,
-        #     }
-        #     return render(request, 'cases/case/clc-query-case.html', context)
-        # elif case['type']['key'] == 'end_user_advisory_query':
-        #     context = {
-        #         'title': 'Case',
-        #         'case': case,
-        #         'case_id': case_id,
-        #         'activity': activity.get('activity'),
-        #         'permissions': permissions,
-        #         'queue': queue,
-        #     }
-        #     return render(request, 'cases/case/clc-query-case.html', context)
-        # elif case['type']['key'] == 'application':
-        #     context = {
-        #         'case': case,
-        #         'title': case.get('application').get('name'),
-        #         'activity': activity.get('activity'),
-        #         'permissions': permissions,
-        #         'queue': queue,
-        #     }
-        # context = {}
-        # return render(request, 'cases/index.html', context)
+        elif case['type']['key'] == 'clc_query':
+            context['good'] = case['query']['good']
+            return render(request, 'cases/case/queries/clc-query-case.html', context)
+        elif case['type']['key'] == 'application':
+            context['title'] = case.get('application').get('name')
+            return render(request, 'cases/application-case.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
