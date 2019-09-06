@@ -27,6 +27,8 @@
 
 	<!-- Case flags -->
 	{% include 'cases/case/views/case-flags.html' %}
+	
+	<br><br>
 
 	<div class="govuk-!-width-two-thirds">
 		<dl class="govuk-summary-list">
@@ -68,12 +70,16 @@
 			</div>
 		{% endif %}
 
+		<br><br>
+
 		<!-- Goods flags -->
 		<h3 class="govuk-heading-m">Flags</h3>
 		{% include 'cases/case/views/goods-flags.html' with origin='case' %}
 
+		<br><br>
+
 		{% if case.query.good.documents %}
-			<p class="govuk-caption-m">{% get_string 'cases.manage.documents.description' %}</p>
+			<h3 class="govuk-heading-m">Documents</h3>
 			{% for document in case.query.good.documents %}
 				<div class="lite-card lite-card--download">
 					<div>
