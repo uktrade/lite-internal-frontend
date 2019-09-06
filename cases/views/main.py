@@ -251,11 +251,11 @@ class ManageCase(TemplateView):
             title = 'Manage CLC query case'
 
         context = {
-            'data': case,
+            'case': case,
             'title': title,
             'statuses': statuses
         }
-        return render(request, 'cases/manage.html', context)
+        return render(request, 'cases/case/change-status.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])

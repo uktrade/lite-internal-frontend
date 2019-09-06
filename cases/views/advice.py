@@ -19,8 +19,8 @@ class ViewAdvice(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.case_id = str(kwargs['pk'])
-        case, _ = get_case(request, self.case_id)
-        self.case = case['case']
+        case = get_case(request, self.case_id)
+        self.case = case
         self.form = advice_recommendation_form(self.case_id)
 
         return super(ViewAdvice, self).dispatch(request, *args, **kwargs)
@@ -61,8 +61,8 @@ class GiveAdvice(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.case_id = str(kwargs['pk'])
-        case, _ = get_case(request, self.case_id)
-        self.case = case['case']
+        case = get_case(request, self.case_id)
+        self.case = case
         self.form = advice_recommendation_form(self.case_id)
 
         return super(GiveAdvice, self).dispatch(request, *args, **kwargs)
@@ -114,8 +114,8 @@ class GiveAdviceDetail(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.case_id = str(kwargs['pk'])
-        case, _ = get_case(request, self.case_id)
-        self.case = case['case']
+        case = get_case(request, self.case_id)
+        self.case = case
 
         # If the advice type is not valid, raise a 404
         advice_type = kwargs['type']
