@@ -149,19 +149,16 @@
                                 {{ case.query.id|reference_code }}
                             </a>
                         </div>
-                        <p class="govuk-body" style="opacity: .7; margin: 0;">
-                            {{ case.organisation }}
-                        </p>
                     {% else %}
-                        <div class="">
+                        <div>
                             <a href="{% url 'cases:case' case.id %}?return_to={{ current_queue.id }}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
-                                {{ case.application.id }}
+                                {{ case.id }}
                             </a>
                         </div>
-                        <p class="govuk-body" style="opacity: .7; margin: 0;">
-                            {{ case.organisation }}
-                        </p>
                     {% endif %}
+                    <p class="govuk-body" style="opacity: .7; margin: 0;">
+                        {{ case.organisation }}
+                    </p>
                 </div>
                 <div>
                     {% for user in case.users %}

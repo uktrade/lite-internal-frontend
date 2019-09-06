@@ -99,7 +99,7 @@ class ViewCase(TemplateView):
             return render(request, 'cases/case/queries/clc-query-case.html', context)
         elif case['type']['key'] == 'application':
             context['title'] = case.get('application').get('name')
-            return render(request, 'cases/application-case.html', context)
+            return render(request, 'cases/case/application-case.html', context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
@@ -132,7 +132,7 @@ class ViewAdvice(TemplateView):
 
         context = {
             'data': case,
-            'title': case.get('case').get('application').get('name'),
+            'title': case.get('application').get('name'),
             'activity': activity.get('activity'),
             'permissions': permissions,
             'edit_case_flags': get_string('cases.case.edit_case_flags')
@@ -246,7 +246,7 @@ class ManageCase(TemplateView):
         statuses, status_code = get_statuses(request)
 
         if case['type']['key'] == 'application':
-            title = 'Manage ' + case.get('case').get('application').get('name')
+            title = 'Manage ' + case.get('application').get('name')
         else:
             title = 'Manage CLC query case'
 
@@ -262,7 +262,7 @@ class ManageCase(TemplateView):
         case = get_case(request, case_id)
 
         if case['type']['key'] == 'application':
-            application_id = case.get('case').get('application').get('id')
+            application_id = case.get('application').get('id')
             data, status_code = put_applications(request, application_id, request.POST)
         else:
             clc_query_id = case['clc_query']['id']
@@ -298,8 +298,8 @@ class DecideCase(TemplateView):
         case_id = str(kwargs['pk'])
         case = get_case(request, case_id)
 
-        case_id = case.get('case').get('id')
-        application_id = case.get('case').get('application').get('id')
+        case_id = case.get('id')
+        application_id = case.get('application').get('id')
 
         if not request.POST.get('status'):
             return form_page(request, record_decision_form(), errors={
