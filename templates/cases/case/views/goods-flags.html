@@ -7,10 +7,10 @@
         {% endfor %}
     </div>
     <div class="govuk-form-group">
-        <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' case_id %}?level=goods&goods={{ good.id }}&origin={{ origin }}">Edit goods flags</a>
+        <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' case.id %}?level=goods&goods={{ good.id }}&origin={{ origin }}">Edit goods flags</a>
     </div>
 {% else %}
     <div class="govuk-form-group">
-        <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' case_id %}?level=goods&goods={{ good.id }}&origin={{ origin }}">Set goods flags</a>
+        <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' case.id %}?level=goods&goods={{ good.id }}&origin={{ origin }}">Set goods flags</a>
     </div>
 {% endif %}
