@@ -88,14 +88,14 @@ class SeedData:
             "name": "Government",
             "address": "Westminster, London SW1A 0AA",
             "country": "Ukraine",
-            "type": "government",
+            "sub_type": "government",
             "website": "https://www.gov.uk"
         },
         "ultimate_end_user": {
             "name": "Individual",
             "address": "Bullring, Birmingham SW1A 0AA",
             "country": "GB",
-            "type": "commercial",
+            "sub_type": "commercial",
             "website": "https://www.anothergov.uk"
         },
         "add_good": {
