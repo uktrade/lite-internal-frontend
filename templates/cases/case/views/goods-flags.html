@@ -4,7 +4,7 @@
 			{{ flag.name }}
 		</div>
 	{% endfor %}
-	<a class="app-flag govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' case.id %}?level=goods&goods={{ good.id }}&origin={{ origin }}">
+	<a class="app-flag app-flag--action" href="{% url 'cases:assign_flags' case.id %}?level=goods&goods={{ good.id }}&origin={{ origin }}">
 		{% if good.flags %}
 		Edit good flags
 		{% else %}
