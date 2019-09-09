@@ -1,6 +1,3 @@
-<!-- # TODO: Create modal for clients with JS enabled -->
-<!-- <a href="{% url 'cases:assign_flags' case.id %}" class="govuk-link govuk-link--no-visited-state" onclick="return showFlagsModal();">Edit case flags</a> -->
-
 <div class="app-flags" id="application-case-flags">
     {% for flag in case.flags %}
         <div class="app-flag" id="{{ flag.name }}">
@@ -14,8 +11,4 @@
 			Set case flags
 		{% endif %}
 	</a>
-</div>
-
-<div id="flags-modal" style="display: none;">
-	{% include "cases/case/case_flags.html" %}
 </div>

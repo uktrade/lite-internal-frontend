@@ -205,6 +205,10 @@
 	{% else %}
 		{% get_string 'cases.no_cases' as no_cases_text %}
 		{% include "includes/information-text.html" with text=no_cases_text %}
+		<br><br>
+		{% if params.case_type or params.status %}
+			<a href="{% url 'cases:cases' %}?queue={{ current_queue.id }}" class="govuk-link govuk-link--no-visited-state govuk-body">Clear filters</a>
+		{% endif %}
 	{% endif %}
 
 </form>

@@ -12,12 +12,14 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<p class="govuk-caption-m" style="margin: 0;">{{ case.type.value }}</p>
+			<p class="govuk-caption-m" style="margin: 0;">{{ case.type.value }} by <a class="govuk-link govuk-link--no-visited-state" style="display: inline-block;" href="{% url 'organisations:organisation' case.query.organisation.id %}">{{ case.query.organisation.name }}</a></p>
 			<h2 class="govuk-heading-l app-reference-code">{{ case.query.id|reference_code }}</h2>
-			<p class="govuk-caption-m">Query by <a class="govuk-link govuk-link--no-visited-state" style="display: inline-block;" href="{% url 'organisations:organisation' case.query.organisation.id %}">{{ case.query.organisation.name }}</a></p>
 		</div>
 		<div class="lite-app-bar__controls">
-			<div class="app-more-actions__container">
+			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:respond_to_clc_query' case.id %}">
+				Respond to query
+			</a>
+			<div class="app-more-actions__container app-more-actions__container--secondary">
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
 					{% get_string 'cases.manage.move_case.button' %}
 				</a>
@@ -27,9 +29,10 @@
 
 	<!-- Case flags -->
 	{% include 'cases/case/views/case-flags.html' %}
-	
+
 	<br><br>
 
+	<h3 class="govuk-heading-m">Good Details</h3>
 	<div class="govuk-!-width-two-thirds">
 		<dl class="govuk-summary-list">
 			<div class="govuk-summary-list__row">
@@ -56,6 +59,14 @@
 					{{ good.part_number }}
 				</dd>
 			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Flags
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{% include 'cases/case/views/goods-flags.html' with origin='case' %}
+				</dd>
+			</div>
 		</dl>
 
 		<!-- Query Details -->
@@ -69,12 +80,6 @@
 				</div>
 			</div>
 		{% endif %}
-
-		<br><br>
-
-		<!-- Goods flags -->
-		<h3 class="govuk-heading-m">Flags</h3>
-		{% include 'cases/case/views/goods-flags.html' with origin='case' %}
 
 		<br><br>
 

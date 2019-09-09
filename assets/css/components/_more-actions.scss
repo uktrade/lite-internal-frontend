@@ -43,7 +43,7 @@
 			@include govuk-shape-arrow($direction: down, $base: 10px, $height: 6px, $display: inline-block);
 
 			content: "";
-			background: govuk-colour("white");
+			background: currentColor;
 			margin-left: 8px;
 			transform: translateY(-2px);
 		}

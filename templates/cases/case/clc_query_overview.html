@@ -1,0 +1,82 @@
+{% extends 'layouts/two_pane.html' %}
+
+{% block two_thirds %}
+
+	<h2 class="govuk-heading-l">{{ title }}</h2>
+
+    <p class="govuk-body-m">You won't be able to change this case once you've submitted.</p>
+
+	<br>
+
+
+	<div>
+		<a href="#" class="govuk-body-m govuk-link govuk-link--no-visited-state" style="float: right;">View query (in new tab)</a>
+		<h4 class="govuk-heading-s" style="padding-top: 0;">CLC12-13279</h4>
+	</div>
+	<div class="app-summary-list app-inset-text">
+		<div class="app-summary-list__item">
+			<p class="govuk-caption-m">Description</p>
+			<p class="govuk-body-m">Lorem Ipsum</p>
+		</div>
+
+		<div class="app-summary-list__item">
+			<p class="govuk-caption-m">Control Code Classification</p>
+			<p class="govuk-body-m">ML1a</p>
+		</div>
+
+		<div class="app-summary-list__item">
+			<p class="govuk-caption-m">Part Number</p>
+			<p class="govuk-body-m">AM-1337</p>
+		</div>
+
+		<div class="app-summary-list__item">
+			<p class="govuk-caption-m">Flags</p>
+			<div class="app-flags" style="margin: 0;">
+				<div class="app-flag">
+					AirPods
+				</div>
+				<div class="app-flag">
+					The New Yorker
+				</div>
+				<div class="app-flag">
+					Water bottle
+				</div>
+			</div>
+		</div>
+
+		<div class="app-summary-list__item">
+			<p class="govuk-caption-m">Documents</p>
+			<p class="govuk-body-m">widget_template-18932.docx</p>
+		</div>
+	</div>
+
+	<br>
+
+	<div>
+		<a href="#" class="govuk-body-m govuk-link govuk-link--no-visited-state" style="float: right;">Change answers</a>
+		<h4 class="govuk-heading-s" style="padding-top: 0;">Your answers</h4>
+	</div>
+	<div class="app-summary-list app-inset-text">
+		<div class="app-summary-list__item">
+			<p class="govuk-caption-m">Is this good controlled?</p>
+			<p class="govuk-body-m">Yes</p>
+		</div>
+
+		<div class="app-summary-list__item">
+			<p class="govuk-caption-m">Control Code Classification</p>
+			<p class="govuk-body-m">ML1a</p>
+		</div>
+
+		<div class="app-summary-list__item">
+			<p class="govuk-caption-m">Annual Report Summary</p>
+			<p class="govuk-body-m">It's quiet company</p>
+		</div>
+	</div>
+
+	<br><br>
+
+	<div class="lite-buttons-row">
+		<button type="submit" name="button" class="govuk-button">Submit response</button>
+	</div>
+
+{% endblock %}
