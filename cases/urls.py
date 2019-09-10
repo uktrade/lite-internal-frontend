@@ -26,8 +26,16 @@ urlpatterns = [
     path('<uuid:pk>/goods/<str:good_pk>/', goods.Good.as_view(), name='good'),
     # ex: /cases/<uuid:pk>/assign-flags/
     path('<uuid:pk>/assign-flags/', flags.AssignFlags.as_view(), name='assign_flags'),
-    # ex: /cases/<uuid:pk>/advice-view/
-    path('<uuid:pk>/advice-view/', advice.ViewAdvice.as_view(), name='advice_view'),
+    # ex: /cases/<uuid:pk>/user-advice-view/
+    path('<uuid:pk>/user-advice-view/', advice.ViewUserAdvice.as_view(), name='user_advice_view'),
+    # ex: /cases/<uuid:pk>/team-advice-view/coalesce
+    path('<uuid:pk>/team-advice-view/coalesce', advice.CoalesceUserAdvice.as_view(), name='coalesce_user_advice'),
+    # ex: /cases/<uuid:pk>/team-advice-view/
+    path('<uuid:pk>/team-advice-view/', advice.ViewTeamAdvice.as_view(), name='team_advice_view'),
+    # ex: /cases/<uuid:pk>/final-advice-view/coalesce
+    path('<uuid:pk>/final-advice-view/coalesce', advice.CoalesceTeamAdvice.as_view(), name='coalesce_team_advice'),
+    # ex: /cases/<uuid:pk>/final-advice-view/
+    path('<uuid:pk>/final-advice-view/', advice.ViewFinalAdvice.as_view(), name='final_advice_view'),
     # ex: /cases/<uuid:pk>/advice-view/give-advice/
     path('<uuid:pk>/advice-view/give-advice/', advice.GiveAdvice.as_view(), name='give_advice'),
     # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/

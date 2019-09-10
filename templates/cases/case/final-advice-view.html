@@ -1,0 +1,67 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block back_link %}
+	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">Back to case</a>
+{% endblock %}
+
+{% block body %}
+
+	{% include 'includes/messages.html' %}
+
+	<h2 class="govuk-heading-l">{{ title }}</h2>
+
+	<form method="post">
+
+		{% csrf_token %}
+
+		<!-- Tab bar -->
+		<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
+			<div class="lite-tabs--fade">
+				<div class="lite-tabs">
+					<a href="{% url 'cases:user_advice_view' case.id %}" class="lite-tabs__tab">User Advice</a>
+                    <a href="{% url 'cases:team_advice_view' case.id %}" class="lite-tabs__tab">Team Advice</a>
+                    <a href="{% url 'cases:final_advice_view' case.id %}" class="lite-tabs__tab selected">Final Advice</a>
+				</div>
+			</div>
+			{% if all_advice|length %}
+                <div>
+                    <button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+                        Give or change advice
+                    </button>
+                    <button id="button-give-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
+                        Clear advice
+                    </button>
+                </div>
+            {% else %}
+                <a href="{% url 'cases:coalesce_team_advice' case.id %}" class="lite-tabs__tab">Coalesce all team advice</a>
+            {% endif %}
+		</div>
+
+		<!-- Conditional error wrapper -->
+		<div class="govuk-form-group">
+			<!-- Goods -->
+			{% if case.application.licence_type.key == 'open_licence' %}
+				{% include 'cases/case/views/open-goods.html' with show_checkboxes=True show_advice=True %}
+			{% endif %}
+			{% if case.application.licence_type.key == 'standard_licence' %}
+				{% include 'cases/case/views/standard-goods.html' with show_checkboxes=True show_advice=True %}
+			{% endif %}
+
+			<!-- Destinations/End User + Ultimate End Users -->
+			{% if case.application.licence_type.key == 'open_licence' %}
+				{% include 'cases/case/views/open-destinations.html' with show_checkboxes=True show_advice=True %}
+			{% endif %}
+			{% if case.application.licence_type.key == 'standard_licence' %}
+				{% include 'cases/case/views/standard-destinations.html' with show_checkboxes=True show_advice=True %}
+			{% endif %}
+		</div>
+
+	</form>
+
+{% endblock %}
+
+{% block javascript %}
+	<script src="{% static 'javascripts/advice-view.js' %}"></script>
+{% endblock %}

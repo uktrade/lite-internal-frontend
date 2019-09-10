@@ -1,18 +1,19 @@
 from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 from lite_forms.generators import error_page, form_page
 
 from cases.forms.advice import advice_recommendation_form
 from cases.helpers import clean_advice, check_matching_advice, add_hidden_advice_data
-from cases.services import get_case, post_case_advice, get_case_advice
+from cases.services import get_case, post_case_advice, get_user_case_advice, get_team_case_advice, get_final_case_advice, coalesce_user_advice, coalesce_team_advice, clear_team_advice, clear_final_advice
 from core.services import get_denial_reasons
 from picklists.services import get_picklists
+from users.services import get_gov_user
 
 
-class ViewAdvice(TemplateView):
+class ViewUserAdvice(TemplateView):
     case_id = None
     case = None
     form = None
@@ -23,24 +24,140 @@ class ViewAdvice(TemplateView):
         self.case = case['case']
         self.form = advice_recommendation_form(self.case_id)
 
-        return super(ViewAdvice, self).dispatch(request, *args, **kwargs)
+        return super(ViewUserAdvice, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
         """
         Show all advice given for a case
         """
-        advice, status_code = get_case_advice(request, self.case_id)
+        advice, status_code = get_user_case_advice(request, self.case_id)
 
         context = {
             'case': self.case,
             'title': self.case.get('application').get('name'),
             'all_advice': advice['advice'],
         }
-        return render(request, 'cases/case/advice-view.html', context)
+        return render(request, 'cases/case/user-advice-view.html', context)
 
     def post(self, request, **kwargs):
 
-        advice, status_code = get_case_advice(request, self.case_id)
+        advice, status_code = get_user_case_advice(request, self.case_id)
+        selected_advice_data = request.POST
+        pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
+
+        # Validate at least one checkbox is checked
+        if not len(selected_advice_data) > 0:
+            return error_page(request, 'Select at least one good or destination to give advice on')
+
+        # Add data to the form as hidden fields
+        self.form.questions = add_hidden_advice_data(self.form.questions, selected_advice_data)
+
+        return form_page(request, self.form, data=pre_data)
+
+
+class CoalesceUserAdvice(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+
+        coalesce_user_advice(request, case_id)
+
+        return redirect(reverse('cases:team_advice_view', kwargs={'pk': case_id}))
+
+
+class ViewTeamAdvice(TemplateView):
+    case_id = None
+    case = None
+    form = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.case_id = str(kwargs['pk'])
+        self.user, _ = get_gov_user(request)
+        case, _ = get_case(request, self.case_id)
+        self.case = case['case']
+        self.form = advice_recommendation_form(self.case_id)
+
+
+        return super(ViewTeamAdvice, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, **kwargs):
+        """
+        Show all advice given for a case
+        """
+        print(self.user)
+        team = self.user['user']['team']['id']
+        advice, status_code = get_team_case_advice(request, self.case_id, team)
+
+        context = {
+            'case': self.case,
+            'title': self.case.get('application').get('name'),
+            'all_advice': advice['advice'],
+        }
+        return render(request, 'cases/case/team-advice-view.html', context)
+
+    def post(self, request, **kwargs):
+
+        if request.POST.get('action') == 'delete':
+            clear_team_advice(request, self.case_id)
+
+            return redirect(reverse('cases:team_advice_view', kwargs={'pk': self.case_id}))
+
+        advice, status_code = get_team_case_advice(request, self.case_id)
+        selected_advice_data = request.POST
+        pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
+
+        # Validate at least one checkbox is checked
+        if not len(selected_advice_data) > 0:
+            return error_page(request, 'Select at least one good or destination to give advice on')
+
+        # Add data to the form as hidden fields
+        self.form.questions = add_hidden_advice_data(self.form.questions, selected_advice_data)
+
+        return form_page(request, self.form, data=pre_data)
+
+
+class CoalesceTeamAdvice(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs['pk'])
+
+        coalesce_team_advice(request, case_id)
+
+        return redirect(reverse('cases:final_advice_view', kwargs={'pk': case_id}))
+
+
+class ViewFinalAdvice(TemplateView):
+    case_id = None
+    case = None
+    form = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.case_id = str(kwargs['pk'])
+        case, _ = get_case(request, self.case_id)
+        self.case = case['case']
+        self.form = advice_recommendation_form(self.case_id)
+
+        return super(ViewFinalAdvice, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, **kwargs):
+        """
+        Show all advice given for a case
+        """
+        advice, status_code = get_final_case_advice(request, self.case_id)
+
+        context = {
+            'case': self.case,
+            'title': self.case.get('application').get('name'),
+            'all_advice': advice['advice'],
+        }
+        return render(request, 'cases/case/final-advice-view.html', context)
+
+    def post(self, request, **kwargs):
+
+        if request.POST.get('action') == 'delete':
+            clear_final_advice(request, self.case_id)
+
+            return redirect(reverse('cases:final_advice_view', kwargs={'pk': self.case_id}))
+
+        advice, status_code = get_final_case_advice(request, self.case_id)
         selected_advice_data = request.POST
         pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
 
@@ -69,7 +186,7 @@ class GiveAdvice(TemplateView):
 
     def post(self, request, **kwargs):
         selected_advice_data = request.POST
-        advice, status_code = get_case_advice(request, self.case_id)
+        advice, status_code = get_user_case_advice(request, self.case_id)
         pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
 
         if pre_data and not str(selected_advice_data['type']) in str(pre_data['type']):
@@ -156,4 +273,4 @@ class GiveAdviceDetail(TemplateView):
         # Add success message
         messages.success(request, 'Your advice has been posted successfully')
 
-        return redirect(reverse_lazy('cases:advice_view', kwargs={'pk': self.case_id}))
+        return redirect(reverse_lazy('cases:user_advice_view', kwargs={'pk': self.case_id}))

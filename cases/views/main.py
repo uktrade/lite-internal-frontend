@@ -144,7 +144,7 @@ class ViewAdvice(TemplateView):
             'permissions': permissions,
             'edit_case_flags': get_string('cases.case.edit_case_flags')
         }
-        return render(request, 'cases/case/advice-view.html', context)
+        return render(request, 'cases/case/user-advice-view.html', context)
 
 
 class ViewEcjuQueries(TemplateView):

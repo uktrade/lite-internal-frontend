@@ -20,7 +20,9 @@
 		<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
 			<div class="lite-tabs--fade">
 				<div class="lite-tabs">
-					<a href="{% url 'cases:advice_view' case.id %}" class="lite-tabs__tab selected">Advice</a>
+					<a href="{% url 'cases:user_advice_view' case.id %}" class="lite-tabs__tab selected">User Advice</a>
+                    <a href="{% url 'cases:team_advice_view' case.id %}" class="lite-tabs__tab">Team Advice</a>
+                    <a href="{% url 'cases:final_advice_view' case.id %}" class="lite-tabs__tab">Final Advice</a>
 				</div>
 			</div>
 			<button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
