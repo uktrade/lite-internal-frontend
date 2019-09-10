@@ -1,6 +1,6 @@
 from django.urls import path
 
-from cases.views import main, advice, goods, flags
+from cases.views import main, advice, goods, flags, ecju
 
 app_name = 'cases'
 urlpatterns = [
@@ -33,7 +33,7 @@ urlpatterns = [
     # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/
     path('<uuid:pk>/advice-view/give-advice/<str:type>/', advice.GiveAdviceDetail.as_view(), name='give_advice_detail'),
     # ex: /cases/<uuid:pk>/ecju-queries/
-    path('<uuid:pk>/ecju-queries/', main.ViewEcjuQueries.as_view(), name='ecju_queries'),
+    path('<uuid:pk>/ecju-queries/', ecju.ViewEcjuQueries.as_view(), name='ecju_queries'),
     # ex: /cases/<uuid:pk>/ecju-queries/add
-    path('<uuid:pk>/ecju-queries/add', main.CreateEcjuQuery.as_view(), name='ecju_queries_add'),
+    path('<uuid:pk>/ecju-queries/add', ecju.CreateEcjuQuery.as_view(), name='ecju_queries_add'),
 ]
