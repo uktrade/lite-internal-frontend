@@ -254,8 +254,9 @@ class SeedData:
         data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
         ultimate_end_user_post = self.make_request('POST', url='/drafts/' + draft_id + '/ultimate-end-users/',
                                                    headers=self.export_headers, body=data)
-        self.add_ultimate_end_user_document(draft_id, json.loads(ultimate_end_user_post.text)['end_user']['id'])
-        return draft_id
+        ultimate_end_user_id = json.loads(ultimate_end_user_post.text)['end_user']['id']
+        self.add_ultimate_end_user_document(draft_id, ultimate_end_user_id)
+        return draft_id, ultimate_end_user_id
 
     def submit_application(self, draft_id=None):
         self.log("submitting application: ...")
@@ -278,6 +279,24 @@ class SeedData:
         time_no = 0
         while time_no < timeout_limit:
             if self.check_end_user_document_is_processed(draft_id):
+                return True
+            time.sleep(function_retry_interval)
+            time_no += function_retry_interval
+        return False
+
+    def check_ultimate_end_user_document_is_processed(self, draft_id, ultimate_end_user_id):
+        data = self.make_request("GET", url='/drafts/' + draft_id + '/ultimate-end-user/'
+                                            + ultimate_end_user_id + '/document/', headers=self.export_headers)
+        return json.loads(data.text)['document']['safe']
+
+    def ensure_ultimate_end_user_document_is_processed(self, draft_id, ultimate_end_user_id):
+        # Constants for total time to retry function and intervals between attempts
+        timeout_limit = 20
+        function_retry_interval = 1
+
+        time_no = 0
+        while time_no < timeout_limit:
+            if self.check_ultimate_end_user_document_is_processed(draft_id, ultimate_end_user_id):
                 return True
             time.sleep(function_retry_interval)
             time_no += function_retry_interval
