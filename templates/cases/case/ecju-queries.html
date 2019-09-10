@@ -18,17 +18,13 @@
 	{% if open_ecju_queries or closed_ecju_queries %}
         {% if open_ecju_queries %}
             <h3 class="govuk-heading-m">Open queries</h3>
-            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-summary-sections">
+            <div class="govuk-accordion">
             {% for query in open_ecju_queries %}
-                <div class="govuk-accordion__section ">
-                    <div class="govuk-accordion__section-header">
-                        <h2 class="govuk-accordion__section-heading">
-                            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-                                {{ query.question }}
-                            </span>
-                        </h2>
-                    </div>
-                </div>
+                <p class="govuk-accordion__section-header">
+                    <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                        {{ query.question }}
+                    </span>
+                    <p class="govuk-label">User: date</p>
             {% endfor %}
             </div>
         {% endif %}
