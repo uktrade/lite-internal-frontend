@@ -18,24 +18,36 @@
 	{% if open_ecju_queries or closed_ecju_queries %}
         {% if open_ecju_queries %}
             <h3 class="govuk-heading-m">Open queries</h3>
-            <div class="lite-table">
+            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-summary-sections">
             {% for query in open_ecju_queries %}
-                <div class="lite-table-row">
-                    <div class="lite-table__cell">
-                        {{ query.question }}
+                <div class="govuk-accordion__section ">
+                    <div class="govuk-accordion__section-header">
+                        <h2 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                                {{ query.question }}
+                            </span>
+                        </h2>
                     </div>
                 </div>
             {% endfor %}
             </div>
         {% endif %}
         {% if closed_ecju_queries %}
-            <div class="lite-table">
-            {% for query in open_ecju_queries %}
-                <div class="lite-table-row">
-                    <div class="lite-table__cell">
-                        {{ query.question }}
+            <h3 class="govuk-heading-m">Closed queries</h3>
+            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-with-summary-sections">
+            {% for query in closed_ecju_queries %}
+              <div class="govuk-accordion__section ">
+                    <div class="govuk-accordion__section-header">
+                        <h2 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                                {{ query.question }}
+                            </span>
+                        </h2>
                     </div>
+                <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+                    <p class='govuk-body'>Answer goes here</p>
                 </div>
+              </div>
             {% endfor %}
             </div>
         {% endif %}
