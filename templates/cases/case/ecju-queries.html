@@ -15,16 +15,30 @@
 		</div>
 	</div>
 
-	{% if ecju_queries %}
-	    <div class="lite-table">
-		{% for query in ecju_queries %}
-	        <div class="lite-table-row">
-	            <div class="lite-table__cell">
-	                {{ query.question }}
-	            </div>
-	        </div>
-		{% endfor %}
-	    </div>
+	{% if open_ecju_queries or closed_ecju_queries %}
+        {% if open_ecju_queries %}
+            <h3 class="govuk-heading-m">Open queries</h3>
+            <div class="lite-table">
+            {% for query in open_ecju_queries %}
+                <div class="lite-table-row">
+                    <div class="lite-table__cell">
+                        {{ query.question }}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% if closed_ecju_queries %}
+            <div class="lite-table">
+            {% for query in open_ecju_queries %}
+                <div class="lite-table-row">
+                    <div class="lite-table__cell">
+                        {{ query.question }}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
 	{% else %}
 		<p class="govuk-caption-l">{% get_string 'cases.ecju_queries.case_has_no_queries' %}</p>
 	{% endif %}

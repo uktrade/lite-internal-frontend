@@ -11,13 +11,24 @@ from picklists.services import get_picklists, get_picklist_item
 
 
 class ViewEcjuQueries(TemplateView):
+    def _get_ecju_queries(self, request, case_id):
+        ecju_queries, status_code = get_ecju_queries(request, case_id)
+        open_ecju_queries = list()
+        closed_ecju_queries = list()
+        for query in ecju_queries.get('ecju_queries'):
+            if query.get('response'):
+                closed_ecju_queries.append(query)
+            else:
+                open_ecju_queries.append(query)
+        return open_ecju_queries, closed_ecju_queries
+
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        ecju_queries, status_code = get_ecju_queries(request, case_id)
-
+        open_ecju_queries, closed_ecju_queries = self._get_ecju_queries(request, case_id)
         context = {
             'case_id': case_id,
-            'ecju_queries': ecju_queries.get('ecju_queries')
+            'open_ecju_queries': open_ecju_queries,
+            'closed_ecju_queries': closed_ecju_queries
         }
         return render(request, 'cases/case/ecju-queries.html', context)
 
