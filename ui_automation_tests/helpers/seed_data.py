@@ -271,36 +271,10 @@ class SeedData:
         data = self.make_request("GET", url='/drafts/' + draft_id + '/end-user/document/', headers=self.export_headers)
         return json.loads(data.text)['document']['safe']
 
-    def ensure_end_user_document_is_processed(self, draft_id):
-        # Constants for total time to retry function and intervals between attempts
-        timeout_limit = 20
-        function_retry_interval = 1
-
-        time_no = 0
-        while time_no < timeout_limit:
-            if self.check_end_user_document_is_processed(draft_id):
-                return True
-            time.sleep(function_retry_interval)
-            time_no += function_retry_interval
-        return False
-
     def check_ultimate_end_user_document_is_processed(self, draft_id, ultimate_end_user_id):
         data = self.make_request("GET", url='/drafts/' + draft_id + '/ultimate-end-user/'
                                             + ultimate_end_user_id + '/document/', headers=self.export_headers)
         return json.loads(data.text)['document']['safe']
-
-    def ensure_ultimate_end_user_document_is_processed(self, draft_id, ultimate_end_user_id):
-        # Constants for total time to retry function and intervals between attempts
-        timeout_limit = 20
-        function_retry_interval = 1
-
-        time_no = 0
-        while time_no < timeout_limit:
-            if self.check_ultimate_end_user_document_is_processed(draft_id, ultimate_end_user_id):
-                return True
-            time.sleep(function_retry_interval)
-            time_no += function_retry_interval
-        return False
 
     def add_queue(self, queue_name):
         self.log("adding queue: ...")
