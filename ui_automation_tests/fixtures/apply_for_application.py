@@ -3,7 +3,7 @@ import datetime
 from helpers.seed_data import SeedData
 from helpers.utils import Timer, get_or_create_attr
 
-from ui_automation_tests.helpers.wait import wait_for_ultimate_end_user_document, wait_for_end_user_document
+from helpers.wait import wait_for_ultimate_end_user_document, wait_for_end_user_document
 
 
 @fixture(scope="module")
