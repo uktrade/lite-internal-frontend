@@ -249,6 +249,9 @@ class ManageCase(TemplateView):
         case, status_code = get_case(request, case_id)
         statuses, status_code = get_statuses(request)
 
+        reduced_statuses = {}
+        reduced_statuses['statuses'] = [x for x in statuses['statuses'] if x['status'] != 'finalised']
+
         if case['case']['type']['key'] == 'application':
             title = 'Manage ' + case.get('case').get('application').get('name')
         else:
@@ -257,7 +260,7 @@ class ManageCase(TemplateView):
         context = {
             'data': case,
             'title': title,
-            'statuses': statuses
+            'statuses': reduced_statuses
         }
         return render(request, 'cases/manage.html', context)
 
