@@ -20,11 +20,12 @@
             <h3 class="govuk-heading-m">Open queries</h3>
             <div class="govuk-accordion">
             {% for query in open_ecju_queries %}
-                <p class="govuk-accordion__section-header">
+                <div class="govuk-accordion__section-header">
                     <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
                         {{ query.question }}
                     </span>
                     <p class="govuk-label"><b>{{ query.raised_by_user }}</b>: {{ query.created_at|str_date }}</p>
+                </div>
             {% endfor %}
             </div>
         {% endif %}
@@ -34,15 +35,16 @@
             {% for query in closed_ecju_queries %}
               <div class="govuk-accordion__section ">
                     <div class="govuk-accordion__section-header">
-                        <h2 class="govuk-accordion__section-heading">
-                            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                        <div class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button">
                                 {{ query.question }}
                             </span>
-                            <p class="govuk-label"><b>User</b>: {{ query.created_at|str_date }}</p>
-                        </h2>
+                        </div>
+                        <p class="govuk-hint govuk-!-font-size-16">{{ query.raised_by_user }}: {{ query.created_at|str_date }}</p>
                     </div>
-                <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
-                    <p class='govuk-body'>Answer goes here</p>
+                <div class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+                    <p class='govuk-body'>{{ query.response }}</p>
+                    <p class="govuk-hint govuk-!-font-size-16">{{ query.responded_by_user }}: {{ query.responded_at|str_date }}</p>
                 </div>
               </div>
             {% endfor %}
