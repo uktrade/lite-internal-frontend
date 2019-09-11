@@ -24,7 +24,7 @@
                     <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
                         {{ query.question }}
                     </span>
-                    <p class="govuk-label">User: date</p>
+                    <p class="govuk-label"><b>User</b>: {{ query.created_at|str_date }}</p>
             {% endfor %}
             </div>
         {% endif %}
@@ -38,6 +38,7 @@
                             <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
                                 {{ query.question }}
                             </span>
+                            <p class="govuk-label"><b>User</b>: {{ query.created_at|str_date }}</p>
                         </h2>
                     </div>
                 <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
