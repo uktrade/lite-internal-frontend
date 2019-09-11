@@ -125,10 +125,6 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final):
     return redirect(reverse_lazy('cases:' + user_team_final + '_advice_view', kwargs={'pk': case.get('id')}))
 
 
-def view_advice_dispatch(user_team_final, request, **kwargs):
-    return give_advice_dispatch(user_team_final, request, **kwargs)
-
-
 def give_advice_dispatch(user_team_final, request, **kwargs):
     case, _ = get_case(request, str(kwargs['pk']))
     case = case['case']

@@ -25,38 +25,28 @@
 					<a href="{% url 'cases:final_advice_view' case.id %}" class="lite-tabs__tab">Final Advice</a>
 				</div>
 			</div>
-            {% if all_advice|length %}
-                <div>
-                    <button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-                        Give or change advice
-                    </button>
-                    <button id="button-clear-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
-                        Clear advice
-                    </button>
-                </div>
-            {% else %}
-                <a href="{% url 'cases:coalesce_user_advice' case.id %}" class="lite-tabs__tab">Coalesce all user advice</a>
+            {% if not case.has_advice.final %}
+                {% if all_advice|length %}
+                    <div>
+                        <button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+                            Give or change advice
+                        </button>
+                        <button id="button-clear-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
+                            Clear advice
+                        </button>
+                    </div>
+                {% else %}
+                    <a href="{% url 'cases:coalesce_user_advice' case.id %}" class="lite-tabs__tab">Coalesce all user advice</a>
+                {% endif %}
             {% endif %}
 		</div>
 
 		<!-- Conditional error wrapper -->
-		<div class="govuk-form-group">
-			<!-- Goods -->
-			{% if case.application.licence_type.key == 'open_licence' %}
-				{% include 'cases/case/views/open-goods.html' with show_checkboxes=True show_advice=True %}
-			{% endif %}
-			{% if case.application.licence_type.key == 'standard_licence' %}
-				{% include 'cases/case/views/standard-goods.html' with show_checkboxes=True show_advice=True %}
-			{% endif %}
-
-			<!-- Destinations/End User + Ultimate End Users -->
-			{% if case.application.licence_type.key == 'open_licence' %}
-				{% include 'cases/case/views/open-destinations.html' with show_checkboxes=True show_advice=True %}
-			{% endif %}
-			{% if case.application.licence_type.key == 'standard_licence' %}
-				{% include 'cases/case/views/standard-destinations.html' with show_checkboxes=True show_advice=True %}
-			{% endif %}
-		</div>
+		{% if case.has_advice.final %}
+            {% include 'cases/case/views/advice-view.html' with show_advice=True %}
+        {% else %}
+            {% include 'cases/case/views/advice-view.html' with show_checkboxes=True show_advice=True %}
+        {% endif %}
 
 	</form>
 

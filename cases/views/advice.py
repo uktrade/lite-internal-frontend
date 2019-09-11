@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from cases.services import post_user_case_advice, get_user_case_advice, get_team_case_advice, \
     get_final_case_advice, coalesce_user_advice, coalesce_team_advice, post_team_case_advice, post_final_case_advice, clear_team_advice, clear_final_advice
-from cases.views_helpers import get_case_advice, render_form_page, post_advice, post_advice_details, give_advice_detail_dispatch, give_advice_dispatch, view_advice_dispatch
+from cases.views_helpers import get_case_advice, render_form_page, post_advice, post_advice_details, give_advice_detail_dispatch, give_advice_dispatch
 
 
 class ViewUserAdvice(TemplateView):
@@ -12,7 +12,7 @@ class ViewUserAdvice(TemplateView):
     form = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.case, self.form = view_advice_dispatch('user', request, **kwargs)
+        self.case, self.form = give_advice_dispatch('user', request, **kwargs)
         return super(ViewUserAdvice, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
@@ -62,7 +62,7 @@ class ViewTeamAdvice(TemplateView):
     team = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.case, self.form, self.team = view_advice_dispatch('team', request, **kwargs)
+        self.case, self.form, self.team = give_advice_dispatch('team', request, **kwargs)
         return super(ViewTeamAdvice, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
@@ -117,7 +117,7 @@ class ViewFinalAdvice(TemplateView):
     form = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.case, self.form = view_advice_dispatch('final', request, **kwargs)
+        self.case, self.form = give_advice_dispatch('final', request, **kwargs)
         return super(ViewFinalAdvice, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):

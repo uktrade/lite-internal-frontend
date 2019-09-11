@@ -25,29 +25,21 @@
                     <a href="{% url 'cases:final_advice_view' case.id %}" class="lite-tabs__tab">Final Advice</a>
 				</div>
 			</div>
-			<button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-				Give or change advice
-			</button>
+            {% if not case.has_advice.my_team %}
+                {% if not case.has_advice.final %}
+                    <button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+                        Give or change advice
+                    </button>
+                {% endif %}
+            {% endif %}
 		</div>
 
 		<!-- Conditional error wrapper -->
-		<div class="govuk-form-group">
-			<!-- Goods -->
-			{% if case.application.licence_type.key == 'open_licence' %}
-				{% include 'cases/case/views/open-goods.html' with show_checkboxes=True show_advice=True %}
-			{% endif %}
-			{% if case.application.licence_type.key == 'standard_licence' %}
-				{% include 'cases/case/views/standard-goods.html' with show_checkboxes=True show_advice=True %}
-			{% endif %}
-
-			<!-- Destinations/End User + Ultimate End Users -->
-			{% if case.application.licence_type.key == 'open_licence' %}
-				{% include 'cases/case/views/open-destinations.html' with show_checkboxes=True show_advice=True %}
-			{% endif %}
-			{% if case.application.licence_type.key == 'standard_licence' %}
-				{% include 'cases/case/views/standard-destinations.html' with show_checkboxes=True show_advice=True %}
-			{% endif %}
-		</div>
+        {% if case.has_advice.my_team or case.has_advice.final %}
+            {% include 'cases/case/views/advice-view.html' with show_advice=True %}
+        {% else %}
+            {% include 'cases/case/views/advice-view.html' with show_checkboxes=True show_advice=True %}
+        {% endif %}
 
 	</form>
 
