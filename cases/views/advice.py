@@ -8,7 +8,6 @@ from cases.views_helpers import get_case_advice, render_form_page, post_advice, 
 
 
 class ViewUserAdvice(TemplateView):
-    case_id = None
     case = None
     form = None
 
@@ -27,7 +26,6 @@ class ViewUserAdvice(TemplateView):
 
 
 class GiveUserAdvice(TemplateView):
-    case_id = None
     case = None
     form = None
 
@@ -40,7 +38,6 @@ class GiveUserAdvice(TemplateView):
 
 
 class GiveUserAdviceDetail(TemplateView):
-    case_id = None
     case = None
     form = 'cases/case/give-advice.html'
 
@@ -60,10 +57,8 @@ class CoalesceUserAdvice(TemplateView):
 
 
 class ViewTeamAdvice(TemplateView):
-    case_id = None
     case = None
     form = None
-    user = None
     team = None
 
     def dispatch(self, request, *args, **kwargs):
@@ -81,7 +76,6 @@ class ViewTeamAdvice(TemplateView):
 
 
 class GiveTeamAdvice(TemplateView):
-    case_id = None
     case = None
     form = None
 
@@ -94,7 +88,6 @@ class GiveTeamAdvice(TemplateView):
 
 
 class GiveTeamAdviceDetail(TemplateView):
-    case_id = None
     case = None
     form = 'cases/case/give-advice.html'
 
@@ -114,7 +107,6 @@ class CoalesceTeamAdvice(TemplateView):
 
 
 class ViewFinalAdvice(TemplateView):
-    case_id = None
     case = None
     form = None
 
@@ -133,7 +125,6 @@ class ViewFinalAdvice(TemplateView):
 
 
 class GiveFinalAdvice(TemplateView):
-    case_id = None
     case = None
     form = None
 
@@ -146,7 +137,6 @@ class GiveFinalAdvice(TemplateView):
 
 
 class GiveFinalAdviceDetail(TemplateView):
-    case_id = None
     case = None
     form = 'cases/case/give-advice.html'
 
