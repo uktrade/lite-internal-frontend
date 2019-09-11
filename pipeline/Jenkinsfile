@@ -124,45 +124,41 @@ pipeline
               - name: DEBUG
                 value: "True"
               - name: PORT
-                value: "8300"
+                value: "8200"
               - name: ALLOWED_HOSTS
                 value: '["*"]'
               - name: LITE_API_URL
                 value: "http://api:8100"
               - name: DATABASE_URL
                 value: "postgres://postgres:password@exfedb:5432/postgres"
-              - name: PERMISSIONS_FINDER_URL
-                value: ""
               - name: GOOGLE_ANALYTICS_KEY
                 value: ""
-              - name: PYTHONUNBUFFERED
-                value: "1"
+              - name: TEST_SSO_EMAIL
+                value: "${params.TEST_SSO_EMAIL}"
+              - name: TEST_SSO_PASSWORD
+                value: "${params.TEST_SSO_PASSWORD}"
+              - name: TEST_SSO_NAME
+                value: "${params.TEST_SSO_NAME}"
               - name: TEST_EXPORTER_SSO_EMAIL
                 value: "${params.TEST_EXPORTER_SSO_EMAIL}"
-              - name: TEST_EXPORTER_SSO_EMAIL2
-                value: "${params.TEST_EXPORTER_SSO_EMAIL2}"
-              - name: TEST_EXPORTER_SSO_PASSWORD
-                value: "${params.TEST_EXPORTER_SSO_PASSWORD}"
-              - name: TEST_EXPORTER_SSO_PASSWORD2
-                value: "${params.TEST_EXPORTER_SSO_PASSWORD2}"
               - name: AUTHBROKER_CLIENT_ID
-                value: ""
+                value: "notset"
               - name: AUTHBROKER_CLIENT_SECRET
-                value: ""
+                value: "notset"
               - name: AUTHBROKER_URL
-                value: ""
+                value: "notset"
               - name: TEST_TYPE_HEADLESS
                 value: "${params.TEST_TYPE_HEADLESS}"
               - name: TEST_S3_KEY
                 value: "${params.TEST_S3_KEY}"
               - name: AWS_ACCESS_KEY_ID
-                value: "${params.AWS_ACCESS_KEY_ID}"
+                value: ""
               - name: AWS_SECRET_ACCESS_KEY
-                value: "${params.AWS_SECRET_ACCESS_KEY}"
+                value: ""
               - name: AWS_STORAGE_BUCKET_NAME
-                value: "${params.AWS_STORAGE_BUCKET_NAME}"
+                value: ""
               - name: AWS_REGION
-                value: "${params.AWS_REGION}"
+                value: "eu-west-2"
         """) {
           node(POD_LABEL) {
             container(name: 'selenium-internal-frontend', shell: '/bin/bash') {
