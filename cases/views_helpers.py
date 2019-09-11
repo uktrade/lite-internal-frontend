@@ -1,11 +1,15 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from lite_forms.generators import error_page, form_page
 
+from cases.forms.advice import advice_recommendation_form
 from cases.helpers import check_matching_advice, add_hidden_advice_data, clean_advice
+from cases.services import clear_team_advice, get_case
 from core.services import get_denial_reasons
 from picklists.services import get_picklists
+from users.services import get_gov_user
 
 
 def get_case_advice(get_advice, request, case, user_team_final, team=None):
@@ -23,6 +27,11 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
 
 
 def render_form_page(get_advice, request, case, form, team=None):
+    if request.POST.get('action') == 'delete':
+        clear_team_advice(request, case.get('id'))
+
+        return redirect(reverse('cases:team_advice_view', kwargs={'pk': case.get('id')}))
+
     if team:
         advice, status_code = get_advice(request, case.get('id'), team)
     else:
@@ -111,6 +120,7 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final):
             'ultimate_end_users': data.get('ultimate_end_users'),
             'errors': response['errors'][0],
             'data': data,
+            'level': user_team_final
         }
         return render(request, form, context)
 
@@ -118,3 +128,38 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final):
     messages.success(request, 'Your advice has been posted successfully')
 
     return redirect(reverse_lazy('cases:' + user_team_final + '_advice_view', kwargs={'pk': case.get('id')}))
+
+
+def view_advice_dispatch(user_team_final, request, **kwargs):
+    case, _ = get_case(request, str(kwargs['pk']))
+    case = case['case']
+
+    post_url = reverse_lazy('cases:give_' + user_team_final + '_advice', kwargs={'pk': str(kwargs['pk'])})
+    form = advice_recommendation_form(post_url)
+
+    if user_team_final == 'team':
+        user, _ = get_gov_user(request)
+        team = user['user']['team']
+        return case, form, team
+
+    return case, form
+
+
+def give_advice_dispatch(user_team_final, request, **kwargs):
+    case, _ = get_case(request, str(kwargs['pk']))
+    case = case['case']
+    form = advice_recommendation_form(reverse_lazy('cases:give_' + user_team_final + '_advice', kwargs={'pk': str(kwargs['pk'])}))
+
+    return case, form
+
+
+def give_advice_detail_dispatch(request, **kwargs):
+    case, _ = get_case(request, str(kwargs['pk']))
+    case = case['case']
+
+    # If the advice type is not valid, raise a 404
+    advice_type = kwargs['type']
+    if advice_type not in ['approve', 'proviso', 'refuse', 'no_licence_required', 'not_applicable']:
+        raise Http404
+
+    return case
