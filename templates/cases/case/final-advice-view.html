@@ -8,16 +8,12 @@
 
 {% block body %}
 
-    {{ permissions }}
-
 	{% include 'includes/messages.html' %}
 
 	<h2 class="govuk-heading-l">{{ title }}</h2>
 
 	<form method="post">
-
-        {{ able_to_finalize }}
-
+    
 		{% csrf_token %}
 
 		<!-- Tab bar -->
