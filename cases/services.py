@@ -113,7 +113,7 @@ def return_non_empty(data):
             return item
 
 
-def post_case_advice(request, case_pk, json):
+def prepare_data_for_advice(json):
     json = clean_advice(json)
 
     # Split the json data into multiple
@@ -170,7 +170,24 @@ def post_case_advice(request, case_pk, json):
                 data
             )
 
-    data = post(request, CASE_URL + case_pk + ADVICE_URL, new_data)
+    return new_data
+
+
+def post_user_case_advice(request, case_pk, json):
+    new_data = prepare_data_for_advice(json)
+    data = post(request, CASE_URL + case_pk + USER_ADVICE_URL, new_data)
+    return data.json(), data.status_code
+
+
+def post_team_case_advice(request, case_pk, json):
+    new_data = prepare_data_for_advice(json)
+    data = post(request, CASE_URL + case_pk + TEAM_ADVICE_URL, new_data)
+    return data.json(), data.status_code
+
+
+def post_final_case_advice(request, case_pk, json):
+    new_data = prepare_data_for_advice(json)
+    data = post(request, CASE_URL + case_pk + FINAL_ADVICE_URL, new_data)
     return data.json(), data.status_code
 
 

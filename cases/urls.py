@@ -37,9 +37,17 @@ urlpatterns = [
     # ex: /cases/<uuid:pk>/final-advice-view/
     path('<uuid:pk>/final-advice-view/', advice.ViewFinalAdvice.as_view(), name='final_advice_view'),
     # ex: /cases/<uuid:pk>/advice-view/give-advice/
-    path('<uuid:pk>/advice-view/give-advice/', advice.GiveAdvice.as_view(), name='give_advice'),
+    path('<uuid:pk>/advice-view/give-user-advice/', advice.GiveUserAdvice.as_view(), name='give_user_advice'),
     # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/
-    path('<uuid:pk>/advice-view/give-advice/<str:type>/', advice.GiveAdviceDetail.as_view(), name='give_advice_detail'),
+    path('<uuid:pk>/advice-view/give-user-advice/<str:type>/', advice.GiveUserAdviceDetail.as_view(), name='give_user_advice_detail'),
+    # ex: /cases/<uuid:pk>/advice-view/give-advice/
+    path('<uuid:pk>/advice-view/give-team-advice/', advice.GiveTeamAdvice.as_view(), name='give_team_advice'),
+    # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/
+    path('<uuid:pk>/advice-view/give-team-advice/<str:type>/', advice.GiveTeamAdviceDetail.as_view(), name='give_team_advice_detail'),
+    # ex: /cases/<uuid:pk>/advice-view/give-advice/
+    path('<uuid:pk>/advice-view/give-final-advice/', advice.GiveFinalAdvice.as_view(), name='give_final_advice'),
+    # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/
+    path('<uuid:pk>/advice-view/give-final-advice/<str:type>/', advice.GiveFinalAdviceDetail.as_view(), name='give_final_advice_detail'),
     # ex: /cases/<uuid:pk>/ecju-queries/
     path('<uuid:pk>/ecju-queries/', main.ViewEcjuQueries.as_view(), name='ecju_queries'),
     # ex: /cases/<uuid:pk>/ecju-queries/add
