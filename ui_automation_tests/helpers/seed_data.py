@@ -214,7 +214,7 @@ class SeedData:
             'not_sure_details_control_code': 'ML17',
             'good_id': item['id']
         }
-        response = self.make_request("POST", url='/applications/clcs/', headers=self.export_headers, body=data)
+        response = self.make_request("POST", url='/queries/control-list-classifications/', headers=self.export_headers, body=data)
         self.add_to_context('case_id', json.loads(response.text)['case_id'])
 
     def add_good_document(self, good_id):
