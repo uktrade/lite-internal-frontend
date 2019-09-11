@@ -15,12 +15,11 @@ from cases.forms.create_ecju_query import create_ecju_query_write_or_edit_form, 
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import post_case_documents, get_case_documents, get_case_document, get_document
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
     put_case_flags, get_ecju_queries, post_ecju_query
-
+from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
-from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS, OPEN_CASES_SYSTEM_QUEUE_ID, ALL_CASES_SYSTEM_QUEUE_ID
+from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
 from conf.decorators import has_permission
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
@@ -28,8 +27,7 @@ from core.helpers import convert_dict_to_query_params
 from core.services import get_user_permissions, get_statuses
 from flags.services import get_flags_case_level_for_team
 from picklists.services import get_picklists, get_picklist_item
-from queues.helpers import add_assigned_users_to_cases
-from queues.services import get_queue_case_assignments, get_queue, get_queues, get_queue_cases
+from queues.services import get_queue, get_queues, get_queue_cases
 
 
 class Cases(TemplateView):

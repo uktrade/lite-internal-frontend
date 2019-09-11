@@ -1,13 +1,13 @@
+from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from lite_forms.generators import error_page, form_page
 
 from cases.forms.advice import advice_recommendation_form
 from cases.helpers import check_matching_advice, add_hidden_advice_data, clean_advice
-from cases.services import clear_team_advice, get_case, clear_final_advice
-from core.services import get_denial_reasons
+from cases.services import get_case
+from core.services import get_denial_reasons, get_user_permissions
 from picklists.services import get_picklists
 from users.services import get_gov_user
 
@@ -18,11 +18,23 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
     else:
         advice, status_code = get_advice(request, case.get('id'))
 
+    permissions = get_user_permissions(request)
+
     context = {
         'case': case,
         'title': case.get('application').get('name'),
         'all_advice': advice['advice'],
+        'permissions': permissions
     }
+
+    able_to_finalize = True
+    for item in advice['advice']:
+        if item['type']['key'] == 'conflicting':
+            able_to_finalize = False
+            break
+
+    context['able_to_finalize'] = able_to_finalize
+
     return render(request, 'cases/case/' + user_team_final + '-advice-view.html', context)
 
 

@@ -8,11 +8,15 @@
 
 {% block body %}
 
+    {{ permissions }}
+
 	{% include 'includes/messages.html' %}
 
 	<h2 class="govuk-heading-l">{{ title }}</h2>
 
 	<form method="post">
+
+        {{ able_to_finalize }}
 
 		{% csrf_token %}
 
@@ -25,18 +29,25 @@
                     <a href="{% url 'cases:final_advice_view' case.id %}" class="lite-tabs__tab selected">Final Advice</a>
 				</div>
 			</div>
-            {% if case.has_advice.team %}
-                {% if all_advice|length %}
-                    <div>
-                        <button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-                            Give or change advice
-                        </button>
-                        <button id="button-give-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
-                            Clear advice
-                        </button>
-                    </div>
-                {% else %}
-                    <a href="{% url 'cases:coalesce_team_advice' case.id %}" class="lite-tabs__tab">Coalesce all team advice</a>
+            {% if 'MANAGE_FINAL_ADVICE' in permissions %}
+                {% if case.has_advice.team %}
+                    {% if all_advice|length %}
+                        <div>
+                            <button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+                                Give or change advice
+                            </button>
+                            <button id="button-give-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
+                                Clear advice
+                            </button>
+                            {% if able_to_finalize %}
+                                <button id="button-give-advice" name="action" value="finalize" type="submit" class="govuk-button" data-module="govuk-button">
+                                    Finalize
+                                </button>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <a href="{% url 'cases:coalesce_team_advice' case.id %}" class="lite-tabs__tab">Coalesce all team advice</a>
+                    {% endif %}
                 {% endif %}
             {% endif %}
 		</div>
@@ -44,8 +55,10 @@
 		<!-- Conditional error wrapper -->
         {% if not case.has_advice.team %}
             {% include 'cases/case/views/advice-view.html' with show_advice=True %}
-        {% else %}
+        {% elif all_advice|length and 'MANAGE_FINAL_ADVICE' in permissions %}
             {% include 'cases/case/views/advice-view.html' with show_checkboxes=True show_advice=True %}
+        {% else %}
+            {% include 'cases/case/views/advice-view.html' with show_advice=True %}
         {% endif %}
 
 	</form>
