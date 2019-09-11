@@ -39,7 +39,7 @@ def respond_to_clc_query_form(request, case):
                     RadioButtons(title='Which report summary would you like to use?',
                                  description='Example description text',
                                  name='report_summary',
-                                 options=get_picklists(request, 'annual_report_summary', convert_to_options=True),
+                                 options=get_picklists(request, 'report_summary', convert_to_options=True),
                                  classes=['test']),
                     TextArea(title='Why are you making this decision?',
                              description='Example text here',

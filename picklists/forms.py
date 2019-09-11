@@ -11,7 +11,7 @@ _picklist_type = Select(name='type',
                         options=[Option('proviso', 'Proviso'),
                                  Option('ecju_query', 'ECJU Query'),
                                  Option('letter_paragraph', 'Letter Paragraph'),
-                                 Option('annual_report_summary', 'Annual Report Summary'),
+                                 Option('report_summary', 'Report Summary'),
                                  Option('standard_advice', 'Standard Advice'),
                                  Option('footnotes', 'Footnote')],
                         title='Type')

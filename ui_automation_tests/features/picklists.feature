@@ -32,13 +32,10 @@ Feature: I want standard picklists
     Given I go to internal homepage
     When I go to My Team
     And I go to picklists tab
-    And I go to "annual_report_summary" picklist
+    And I go to "report_summary" picklist
     And I add a new picklist item with "name" and "description"
     And I click on my picklist item
-#  Commented out due to deactivate button not showing properly.  Uncomment when this is fixed:
-#
-#    And I deactivate my picklist
-#    Then I see my picklist page with status as "Deactivated"
-#    When I reactivate my picklist
-#    Then I see my picklist page with status as "Active"
-
+    And I deactivate my picklist
+    Then I see my picklist page with status as "Deactivated"
+    When I reactivate my picklist
+    Then I see my picklist page with status as "Active"
