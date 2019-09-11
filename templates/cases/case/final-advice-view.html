@@ -37,13 +37,13 @@
                                     Clear advice
                                 </button>
                                 {% if able_to_finalize %}
-                                    <a href="{% url 'cases:finalise' case.id %}">
+                                    <a class="govuk-button"  href="{% url 'cases:finalise' case.id %}">
                                         Finalise
                                     </a>
                                 {% endif %}
                             </div>
                         {% else %}
-                            <a href="{% url 'cases:coalesce_team_advice' case.id %}" class="lite-tabs__tab">Coalesce all team advice</a>
+                            <a class="govuk-button" href="{% url 'cases:coalesce_team_advice' case.id %}" class="lite-tabs__tab">Coalesce all team advice</a>
                         {% endif %}
                     {% endif %}
                 {% endif %}
