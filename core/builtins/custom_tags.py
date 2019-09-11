@@ -119,3 +119,12 @@ def pretty_json(value):
 @register.filter(name='times')
 def times(number):
     return [x+1 for x in range(number)]
+
+
+@register.simple_tag
+@mark_safe
+def hidden_field(key, value):
+    """
+    Generates a hidden field from the given key and value
+    """
+    return f'<input type="hidden" name="{key}" value="{value}">'

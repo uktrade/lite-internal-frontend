@@ -10,16 +10,24 @@
 
 {% block body %}
 
+	{% if case.query.good.status.key == 'verified' %}
+		<div class="lite-info-bar lite-info-bar--no-animation {% if message.tags %}lite-info-bar--{{ message.tags }}{% endif %}">
+			This case is closed
+		</div>
+	{% endif %}
+
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<p class="govuk-caption-m" style="margin: 0;">{{ case.type.value }} by <a class="govuk-link govuk-link--no-visited-state" style="display: inline-block;" href="{% url 'organisations:organisation' case.query.organisation.id %}">{{ case.query.organisation.name }}</a></p>
 			<h2 class="govuk-heading-l app-reference-code">{{ case.query.id|reference_code }}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
-			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:respond_to_clc_query' case.id %}">
-				Respond to query
-			</a>
-			<div class="app-more-actions__container app-more-actions__container--secondary">
+			{% if case.query.good.status.key != 'verified' %}
+				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:respond_to_clc_query' case.id %}">
+					Respond to query
+				</a>
+			{% endif %}
+			<div class="app-more-actions__container {% if case.query.good.status != 'final' %}app-more-actions__container--secondary{% endif %}">
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
 					{% get_string 'cases.manage.move_case.button' %}
 				</a>
@@ -31,6 +39,30 @@
 	{% include 'cases/case/views/case-flags.html' %}
 
 	<br><br>
+
+	{% if case.query.good.status.key == 'verified' %}
+		<div class="govuk-!-width-two-thirds">
+			<div class="app-panel app-panel--info">
+				<h3 class="govuk-heading-m">Outcome</h3>
+
+				<hr>
+
+				<h4 class="govuk-heading-s">Is the good controlled?</h4>
+				<p class="govuk-body-m">{{ good.is_good_controlled }}</p>
+
+				<h4 class="govuk-heading-s">What's the good's actual control list classification?</h4>
+				<p class="govuk-body-m">{{ good.control_code }}</p>
+
+				<h4 class="govuk-heading-s">Report Summary</h4>
+				<p class="govuk-body-m">{{ case.query.report_summary }}</p>
+
+				<h4 class="govuk-heading-s">Why was this outcome chosen?</h4>
+				<p class="govuk-body-m">{{ case.query.comment }}</p>
+			</div>
+		</div>
+
+		<br><br>
+	{% endif %}
 
 	<h3 class="govuk-heading-m">Good Details</h3>
 	<div class="govuk-!-width-two-thirds">
@@ -45,12 +77,22 @@
 			</div>
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
+					Controlled
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ good.is_good_controlled }}
+				</dd>
+			</div>
+			{% if good.is_good_controlled == 'True' %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
 					Control List Classification
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ good.control_code }}
+					{{ good.control_code|default:"N/A" }}
 				</dd>
 			</div>
+			{% endif %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
 					Part Number

@@ -10,6 +10,27 @@ $govuk-link-active-colour: darken($govuk-brand-colour, 20%);
 @import "../shared/lite-frontend/scss/all"; // Local Assets
 @import "components/all";
 
+.app-panel {
+	background-color: govuk-colour("light-grey");
+	padding: govuk-spacing(6);
+	margin-bottom: govuk-spacing(6);
+
+	&--info {
+		border-left: 5px solid $govuk-brand-colour;
+	}
+
+	hr {
+		@extend .lite-horizontal-separator;
+		background-color: govuk-colour("black");
+		opacity: .05;
+	}
+
+	.govuk-body-m:last-of-type {
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+}
+
 .test {
 	position: relative;
 	background: govuk-colour("light-grey");
@@ -22,7 +43,7 @@ $govuk-link-active-colour: darken($govuk-brand-colour, 20%);
 
 	.govuk-radios__item {
 		margin-bottom: govuk-spacing(4);
-		
+
 		&:last-of-type {
 			margin-bottom: 0;
 		}

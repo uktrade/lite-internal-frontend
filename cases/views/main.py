@@ -15,7 +15,7 @@ from cases.forms.create_ecju_query import create_ecju_query_write_or_edit_form, 
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_control_list_classification_query, \
     put_case_flags, get_ecju_queries, post_ecju_query
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
@@ -157,7 +157,7 @@ class CreateEcjuQuery(TemplateView):
 
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        picklists, status = get_picklists(request, 'ecju_query', False)
+        picklists = get_picklists(request, 'ecju_query', False)
         picklists = picklists.get('picklist_items')
         picklist_choices = [Option(self.NEW_QUESTION_DDL_ID, 'Write a new question')] + \
                            [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
@@ -189,7 +189,7 @@ class CreateEcjuQuery(TemplateView):
         picklist_selection = request.POST.get('picklist')
 
         if picklist_selection != self.NEW_QUESTION_DDL_ID:
-            picklist_item_text = get_picklist_item(request, picklist_selection)[0]['picklist_item']['text']
+            picklist_item_text = get_picklist_item(request, picklist_selection)[0]['text']
         else:
             picklist_item_text = ''
 
@@ -266,7 +266,7 @@ class ManageCase(TemplateView):
             data, status_code = put_applications(request, application_id, request.POST)
         else:
             clc_query_id = case['clc_query']['id']
-            data, status_code = put_clc_queries(request, clc_query_id, request.POST)
+            data, status_code = put_control_list_classification_query(request, clc_query_id, request.POST)
 
         if 'errors' in data:
             return redirect('/cases/' + case_id + '/manage')

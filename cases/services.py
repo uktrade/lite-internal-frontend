@@ -21,7 +21,7 @@ def put_applications(request, pk, json):
 
 
 # CLC Queries
-def put_clc_queries(request, pk, json):
+def put_control_list_classification_query(request, pk, json):
     data = put(request, CLC_QUERIES_URL + pk, json)
     return data.json(), data.status_code
 
