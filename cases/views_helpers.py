@@ -6,7 +6,7 @@ from lite_forms.generators import error_page, form_page
 
 from cases.forms.advice import advice_recommendation_form
 from cases.helpers import check_matching_advice, add_hidden_advice_data, clean_advice
-from cases.services import clear_team_advice, get_case
+from cases.services import clear_team_advice, get_case, clear_final_advice
 from core.services import get_denial_reasons
 from picklists.services import get_picklists
 from users.services import get_gov_user
@@ -14,7 +14,7 @@ from users.services import get_gov_user
 
 def get_case_advice(get_advice, request, case, user_team_final, team=None):
     if team:
-        advice, status_code = get_advice(request, case.get('id'), team)
+        advice, status_code = get_advice(request, case.get('id'), team.get('id'))
     else:
         advice, status_code = get_advice(request, case.get('id'))
 
@@ -27,13 +27,8 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
 
 
 def render_form_page(get_advice, request, case, form, team=None):
-    if request.POST.get('action') == 'delete':
-        clear_team_advice(request, case.get('id'))
-
-        return redirect(reverse('cases:team_advice_view', kwargs={'pk': case.get('id')}))
-
     if team:
-        advice, status_code = get_advice(request, case.get('id'), team)
+        advice, status_code = get_advice(request, case.get('id'), team.get('id'))
     else:
         advice, status_code = get_advice(request, case.get('id'))
 
@@ -53,7 +48,7 @@ def render_form_page(get_advice, request, case, form, team=None):
 def post_advice(get_advice, request, case, form, user_team_final, team=None):
     selected_advice_data = request.POST
     if team:
-        advice, status_code = get_advice(request, case.get('id'), team)
+        advice, status_code = get_advice(request, case.get('id'), team.get('id'))
     else:
         advice, status_code = get_advice(request, case.get('id'))
     pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
@@ -131,24 +126,18 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final):
 
 
 def view_advice_dispatch(user_team_final, request, **kwargs):
-    case, _ = get_case(request, str(kwargs['pk']))
-    case = case['case']
-
-    post_url = reverse_lazy('cases:give_' + user_team_final + '_advice', kwargs={'pk': str(kwargs['pk'])})
-    form = advice_recommendation_form(post_url)
-
-    if user_team_final == 'team':
-        user, _ = get_gov_user(request)
-        team = user['user']['team']
-        return case, form, team
-
-    return case, form
+    return give_advice_dispatch(user_team_final, request, **kwargs)
 
 
 def give_advice_dispatch(user_team_final, request, **kwargs):
     case, _ = get_case(request, str(kwargs['pk']))
     case = case['case']
     form = advice_recommendation_form(reverse_lazy('cases:give_' + user_team_final + '_advice', kwargs={'pk': str(kwargs['pk'])}))
+
+    if user_team_final == 'team':
+        user, _ = get_gov_user(request)
+        team = user['user']['team']
+        return case, form, team
 
     return case, form
 
