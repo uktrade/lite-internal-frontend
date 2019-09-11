@@ -50,7 +50,7 @@
 				<h4 class="govuk-heading-s">Is the good controlled?</h4>
 				<p class="govuk-body-m">{{ good.is_good_controlled|friendly_boolean }}</p>
 
-				<h4 class="govuk-heading-s">What's the good's actual control list classification?</h4>
+				<h4 class="govuk-heading-s">What's the good's actual Control list entry?</h4>
 				<p class="govuk-body-m">{{ good.control_code }}</p>
 
 				<h4 class="govuk-heading-s">Report Summary</h4>
@@ -86,7 +86,7 @@
 			{% if good.is_good_controlled == 'True' %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					Control List Classification
+					Control list entry
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{{ good.control_code|default:"N/A" }}

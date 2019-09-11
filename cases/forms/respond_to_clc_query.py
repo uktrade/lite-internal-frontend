@@ -18,7 +18,7 @@ def respond_to_clc_query_form(request, case):
                                             '<p class="govuk-body-m">' + case['query']['good']['description'] + '</p>'
                                         '</div>'
                                         '<div class="app-summary-list__item">'
-                                            '<p class="govuk-caption-m">Control Code Classification</p>'
+                                            '<p class="govuk-caption-m">Control list entry</p>'
                                             '<p class="govuk-body-m">' + default(case['query']['good']['control_code'], 'N/A') + '</p>'
                                         '</div>'
                                     '</div>'),
