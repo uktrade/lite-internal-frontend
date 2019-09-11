@@ -104,7 +104,7 @@ def group_list(items, split):
     """
     Groups items in a list based on a specified size
     """
-    return [items[x:x+split] for x in range(0, len(items), split)]
+    return [items[x:x + split] for x in range(0, len(items), split)]
 
 
 @register.filter
@@ -118,7 +118,7 @@ def pretty_json(value):
 
 @register.filter(name='times')
 def times(number):
-    return [x+1 for x in range(number)]
+    return [x + 1 for x in range(number)]
 
 
 @register.simple_tag
@@ -128,3 +128,14 @@ def hidden_field(key, value):
     Generates a hidden field from the given key and value
     """
     return f'<input type="hidden" name="{key}" value="{value}">'
+
+
+@register.filter()
+def friendly_boolean(boolean):
+    """
+    Returns 'Yes' if a boolean is equal to True, else 'No'
+    """
+    if boolean is True or boolean == 'true' or boolean == 'True':
+        return 'Yes'
+    else:
+        return 'No'

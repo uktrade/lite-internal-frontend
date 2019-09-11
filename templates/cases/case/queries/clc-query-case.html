@@ -48,7 +48,7 @@
 				<hr>
 
 				<h4 class="govuk-heading-s">Is the good controlled?</h4>
-				<p class="govuk-body-m">{{ good.is_good_controlled }}</p>
+				<p class="govuk-body-m">{{ good.is_good_controlled|friendly_boolean }}</p>
 
 				<h4 class="govuk-heading-s">What's the good's actual control list classification?</h4>
 				<p class="govuk-body-m">{{ good.control_code }}</p>
