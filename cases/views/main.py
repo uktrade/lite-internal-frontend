@@ -14,7 +14,6 @@ from cases.forms.create_ecju_query import create_ecju_query_write_or_edit_form, 
     create_ecju_create_confirmation_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
-from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
     put_case_flags, get_ecju_queries, post_ecju_query
 from cases.services import post_case_documents, get_case_documents, get_document
@@ -265,6 +264,8 @@ class ManageCase(TemplateView):
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case, status_code = get_case(request, case_id)
+
+        print('\n\n\n', request.POST, '\n\n\n')
 
         if case['case']['type']['key'] == 'application':
             application_id = case.get('case').get('application').get('id')

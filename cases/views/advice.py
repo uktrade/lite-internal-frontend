@@ -1,9 +1,11 @@
-from django.shortcuts import redirect
-from django.urls import reverse
+from django.shortcuts import redirect, render
+from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
+from lite_forms.generators import form_page
 
+from cases.forms.finalise_case import approve_licence_form, refuse_licence_form
 from cases.services import post_user_case_advice, get_user_case_advice, get_team_case_advice, \
-    get_final_case_advice, coalesce_user_advice, coalesce_team_advice, post_team_case_advice, post_final_case_advice, clear_team_advice, clear_final_advice
+    get_final_case_advice, coalesce_user_advice, coalesce_team_advice, post_team_case_advice, post_final_case_advice, clear_team_advice, clear_final_advice, get_case, put_applications
 from cases.views_helpers import get_case_advice, render_form_page, post_advice, post_advice_details, give_advice_detail_dispatch, give_advice_dispatch
 
 
@@ -157,3 +159,26 @@ class GiveFinalAdviceDetail(TemplateView):
 
     def post(self, request, **kwargs):
         return post_advice_details(post_final_case_advice, request, self.case, self.form, 'final')
+
+
+class Finalise(TemplateView):
+    def get(self, request, *args, **kwargs):
+        case, _ = get_case(request, str(kwargs['pk']))
+        advice, _ = get_final_case_advice(request, str(kwargs['pk']))
+        case_id = case['case']['id']
+
+        for item in advice['advice']:
+            print(item)
+            if item['type']['key'] == 'approve' or item['type']['key'] == 'proviso':
+                return form_page(request, approve_licence_form(case_id))
+
+        return form_page(request, refuse_licence_form(case_id))
+
+    def post(self, request, *args, **kwargs):
+        case, _ = get_case(request, str(kwargs['pk']))
+        application_id = case.get('case').get('application').get('id')
+        data = request.POST.copy()
+        data['status'] = 'finalised'
+        put_applications(request, application_id, data)
+
+        return redirect(reverse_lazy('cases:case', kwargs={'pk': case['case']['id']}))

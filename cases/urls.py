@@ -48,6 +48,8 @@ urlpatterns = [
     path('<uuid:pk>/advice-view/give-final-advice/', advice.GiveFinalAdvice.as_view(), name='give_final_advice'),
     # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/
     path('<uuid:pk>/advice-view/give-final-advice/<str:type>/', advice.GiveFinalAdviceDetail.as_view(), name='give_final_advice_detail'),
+    # ex: /cases/<uuid:pk>/finalise/
+    path('<uuid:pk>/finalise/', advice.Finalise.as_view(), name='finalise'),
     # ex: /cases/<uuid:pk>/ecju-queries/
     path('<uuid:pk>/ecju-queries/', main.ViewEcjuQueries.as_view(), name='ecju_queries'),
     # ex: /cases/<uuid:pk>/ecju-queries/add
