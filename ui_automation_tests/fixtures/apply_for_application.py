@@ -44,6 +44,20 @@ def apply_for_standard_application(driver, request, api_url, context):
             "country": context.ueu_country[0],
             "sub_type": context.ueu_type,
             "website": context.ueu_website
+        },
+        consignee={
+            "name": "Government",
+            "address": "Westminster, London SW1A 0BB",
+            "country": "GB",
+            "sub_type": "government",
+            "website": "https://www.gov.uk"
+        },
+        third_party={
+            "name": "Individual",
+            "address": "Ukraine, 01532",
+            "country": "UA",
+            "sub_type": "agent",
+            "website": "https://www.anothergov.uk"
         }
     )
     document_is_processed = wait_for_end_user_document(api=api, draft_id=draft_id)
@@ -54,6 +68,8 @@ def apply_for_standard_application(driver, request, api_url, context):
     api.submit_application()
     context.app_id = api.context['application_id']
     context.case_id = api.context['case_id']
+    context.consignee = api.context['consignee']
+    context.third_party = api.context['third_party']
     timer.print_time('apply_for_standard_application')
 
 

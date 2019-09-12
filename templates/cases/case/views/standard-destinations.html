@@ -58,7 +58,7 @@
 {% with consignee=case.application.consignee %}
     {% if consignee %}
         <h3 class="govuk-heading-m">Consignee</h3>
-        <table class="lite-table" id="end-user">
+        <table class="lite-table" id="consignee">
             <thead class="lite-table__head">
                 <tr class="lite-table__row">
                     <th class="lite-table__header" scope="col">Name</th>
@@ -157,7 +157,7 @@
 {% with third_parties=case.application.third_parties %}
 	{% if third_parties %}
 		<h3 class="govuk-heading-m">Third parties</h3>
-		<table class="lite-table" id="ultimate-end-users">
+		<table class="lite-table" id="third-parties">
 			<thead class="lite-table__head">
 				<tr class="lite-table__row">
 					<th class="lite-table__header" scope="col">Name</th>

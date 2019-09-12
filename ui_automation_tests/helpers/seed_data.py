@@ -98,6 +98,20 @@ class SeedData:
             "sub_type": "commercial",
             "website": "https://www.anothergov.uk"
         },
+        "consignee": {
+            "name": "Government",
+            "address": "Westminster, London SW1A 0BB",
+            "country": "GB",
+            "sub_type": "government",
+            "website": "https://www.gov.uk"
+        },
+        "third_party": {
+            "name": "Individual",
+            "address": "Ukraine, 01532",
+            "country": "UA",
+            "sub_type": "agent",
+            "website": "https://www.anothergov.uk"
+        },
         "add_good": {
             "good_id": "",
             "quantity": 1234,
@@ -132,7 +146,7 @@ class SeedData:
             print(text)
 
     def add_to_context(self, name, value):
-        self.log(name + ": " + value)
+        self.log(name + ": " + str(value))
         self.context[name] = value
 
     def auth_gov_user(self):
@@ -231,7 +245,7 @@ class SeedData:
         self.make_request("POST", url='/drafts/' + draft_id + '/ultimate-end-user/' + ultimate_end_user_id +
                                       '/document/', headers=self.export_headers, body=data)
 
-    def add_draft(self, draft=None, good=None, enduser=None, ultimate_end_user=None):
+    def add_draft(self, draft=None, good=None, enduser=None, ultimate_end_user=None, consignee=None, third_party=None):
         self.log("Creating draft: ...")
         data = self.request_data['draft'] if draft is None else draft
         response = self.make_request("POST", url='/drafts/', headers=self.export_headers, body=data)
@@ -254,8 +268,17 @@ class SeedData:
         data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
         ultimate_end_user_post = self.make_request('POST', url='/drafts/' + draft_id + '/ultimate-end-users/',
                                                    headers=self.export_headers, body=data)
-        ultimate_end_user_id = json.loads(ultimate_end_user_post.text)['end_user']['id']
+        ultimate_end_user_id = json.loads(ultimate_end_user_post.text)['ultimate_end_user']['id']
         self.add_ultimate_end_user_document(draft_id, ultimate_end_user_id)
+
+        data = self.request_data['consignee'] if consignee is None else consignee
+        consignee_response = self.make_request('POST', url='/drafts/' + draft_id + '/consignee/',
+                                               headers=self.export_headers, body=data)
+        self.add_to_context('consignee', json.loads(consignee_response.text)['consignee'])
+        data = self.request_data['third_party'] if third_party is None else third_party
+        third_party_response = self.make_request('POST', url='/drafts/' + draft_id + '/third-parties/',
+                                                 headers=self.export_headers, body=data)
+        self.add_to_context('third_party', json.loads(third_party_response.text)['third_party'])
         return draft_id, ultimate_end_user_id
 
     def submit_application(self, draft_id=None):
@@ -296,7 +319,7 @@ class SeedData:
         self.log("assigning case to queue: ...")
         queue_id = self.context['queue_id'] if queue_id is None else queue_id
         case_id = self.context['case_id'] if case_id is None else case_id
-        data = {'queues':  [queue_id]}
+        data = {'queues': [queue_id]}
         self.make_request("PUT", url='/cases/' + case_id + '/', headers=self.gov_headers, body=data)
 
     def assign_test_cases_to_bin(self, bin_queue_id, new_cases_queue_id):
@@ -305,7 +328,7 @@ class SeedData:
         queue = json.loads(response.text)['queue']
         cases = queue['cases']
         for case in cases:
-            data = {'queues':  [bin_queue_id]}
+            data = {'queues': [bin_queue_id]}
             self.make_request("PUT", url='/cases/' + case['id'] + '/', headers=self.gov_headers, body=data)
 
     def make_request(self, method, url, headers=None, body=None):

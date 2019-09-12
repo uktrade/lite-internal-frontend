@@ -105,17 +105,3 @@ class ManageCases():
         roles_page.click_edit_for_default_role()
         roles_page.remove_all_permissions_from_default_role()
         Shared(driver).click_submit()
-
-    @then('I see an ultimate end user')
-    def i_see_ultimate_end_user_on_page(driver, context):
-        destinations_table = ApplicationPage(driver).get_text_of_ueu_table()
-        destinations_table_lower = destinations_table.lower()
-        assert "name" in destinations_table_lower
-        assert "type" in destinations_table_lower
-        assert "website" in destinations_table_lower
-        assert "address" in destinations_table_lower
-        assert context.ueu_type in destinations_table
-        assert context.ueu_name in destinations_table
-        assert context.ueu_website in destinations_table
-        assert context.ueu_address in destinations_table
-        assert context.ueu_country[0] in destinations_table
