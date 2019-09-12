@@ -13,15 +13,6 @@ Feature: I want to add an internal note to a case and view notes
     And I click post note
     Then note is displayed
 
-  @LT_911_max
-  Scenario: Add a case note filled to max with space characters
-    Given I create application or application has been previously created
-    And I sign in to SSO or am signed into SSO
-    When I go to application previously created
-    And I enter "the maximum limit with spaces" for case note
-    And I click post note
-    Then maximum case error is displayed
-
   @LT_911_too_many
   Scenario: Add a case note with too many characters
     Given I create application or application has been previously created
