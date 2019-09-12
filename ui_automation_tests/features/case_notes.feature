@@ -43,14 +43,3 @@ Feature: I want to add an internal note to a case and view notes
     And I click post note
     And I click confirm on confirmation box
     Then note is displayed
-
-  @LT_912_add_external_to_clc_query
-  Scenario: Add a new exporter visible case note to clc query
-    Given I create clc query or clc query has been previously created
-    And I sign in to SSO or am signed into SSO
-    When I go to application previously created
-    And I enter "This clc query note is visible to exporters." for case note
-    And I click visible to exporters checkbox
-    And I click post note
-    And I click confirm on confirmation box
-    Then note is displayed
