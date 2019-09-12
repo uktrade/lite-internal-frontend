@@ -189,7 +189,7 @@ class CreateEcjuQuery(TemplateView):
         picklist_selection = request.POST.get('picklist')
 
         if picklist_selection != self.NEW_QUESTION_DDL_ID:
-            picklist_item_text = get_picklist_item(request, picklist_selection)[0]['text']
+            picklist_item_text = get_picklist_item(request, picklist_selection)['text']
         else:
             picklist_item_text = ''
 
