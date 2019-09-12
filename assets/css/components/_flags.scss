@@ -18,6 +18,10 @@
 		position: relative;
 		text-decoration: none;
 		color: $govuk-link-colour;
+		border: 0;
+		border-radius: 0;
+		outline: 0;
+	    -webkit-appearance: none;
 
 		&:hover {
 			color: $govuk-link-hover-colour;

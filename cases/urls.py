@@ -38,4 +38,6 @@ urlpatterns = [
     path('<uuid:pk>/ecju-queries/add', main.CreateEcjuQuery.as_view(), name='ecju_queries_add'),
     # ex: /cases/<uuid:pk>/respond-to-query/
     path('<uuid:pk>/respond-to-query/', clc_query.Respond.as_view(), name='respond_to_clc_query'),
+    # ex: /cases/<uuid:pk>/respond-to-query/
+    path('<uuid:pk>/respond-to-query/flags/', clc_query.RespondFlags.as_view(), name='respond_to_clc_query_flags'),
 ]

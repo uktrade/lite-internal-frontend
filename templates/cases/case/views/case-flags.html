@@ -4,7 +4,7 @@
             {{ flag.name }}
         </div>
     {% endfor %}
-	<a href="{% url 'cases:assign_flags' case.id %}?level=cases&cases={{ case.id }}" id="application-edit-case-flags" class="app-flag app-flag--action">
+	<a href="{% url 'cases:assign_flags' case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags" class="app-flag app-flag--action">
 		{% if case.flags %}
 			{% get_string 'cases.case.edit_case_flags' %}
 		{% else %}

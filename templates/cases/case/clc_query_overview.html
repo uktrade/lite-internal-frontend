@@ -10,53 +10,74 @@
 
 	<br>
 
-	<h4 class="govuk-heading-s">{{ case.query.id|reference_code }}</h4>
-	<div class="app-summary-list app-inset-text">
-		<div class="app-summary-list__item">
-			<p class="govuk-caption-m">Description</p>
-			<p class="govuk-body-m">{{ case.query.good.description }}</p>
-		</div>
+	<form action="{% url 'cases:respond_to_clc_query' case.id %}" method="post">
 
-		<div class="app-summary-list__item">
-			<p class="govuk-caption-m">Control list entry</p>
-			<p class="govuk-body-m">{{ case.query.good.control_code|default:'N/A' }}</p>
-		</div>
+		{% hidden_field 'is_good_controlled' data.is_good_controlled %}
+		{% hidden_field 'control_code' data.control_code%}
+		{% hidden_field 'report_summary' data.report_summary %}
+		{% hidden_field 'comment' data.comment %}
 
-		<div class="app-summary-list__item">
-			<p class="govuk-caption-m">Part Number</p>
-			<p class="govuk-body-m">{{ case.query.good.part_number }}</p>
-		</div>
+		{% csrf_token %}
 
-		<div class="app-summary-list__item">
-			<p class="govuk-caption-m">Flags</p>
-			{% with good=case.query.good %}
-				{% include 'cases/case/views/goods-flags.html' with origin='case' %}
-			{% endwith %}
-		</div>
+		<h4 class="govuk-heading-s">{{ case.query.id|reference_code }}</h4>
+		<div class="app-summary-list app-inset-text">
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Description</p>
+				<p class="govuk-body-m">{{ case.query.good.description }}</p>
+			</div>
 
-		<div class="app-summary-list__item">
-			<p class="govuk-caption-m">Documents</p>
-			{% for document in case.query.good.documents %}
-				<div>
-					<a href="#" class="govuk-link govuk-body-m">
-						{% if document.safe == True %}
-							<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.id %}">
-								<span class="govuk-visually-hidden">Download</span> {{ document.name }}
-							</a>
-						{% elif document.safe == False %}
-							{% get_string 'cases.manage.documents.virus_infected' %} {{ document.name }}
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Control list entry</p>
+				<p class="govuk-body-m">{{ case.query.good.control_code|default:'N/A' }}</p>
+			</div>
+
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Part Number</p>
+				<p class="govuk-body-m">{{ case.query.good.part_number }}</p>
+			</div>
+
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Flags</p>
+				<div class="app-flags">
+					{% for flag in case.query.good.flags %}
+						<div class="app-flag" id="{{ flag.name }}">
+							{{ flag.name }}
+						</div>
+					{% endfor %}
+					<button class="app-flag app-flag--action" type="submit" name="action" value="set-flags">
+						{% if case.query.good.flags %}
+							Edit good flags
 						{% else %}
-							{% get_string 'cases.manage.documents.processing' %} {{ document.name }}
+							Set a flag on this good
 						{% endif %}
-					</a>
+					</button>
 				</div>
-			{% endfor %}
+			</div>
+
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Documents</p>
+				{% for document in case.query.good.documents %}
+					<div>
+						<a href="#" class="govuk-link govuk-body-m">
+							{% if document.safe == True %}
+								<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.id %}">
+									<span class="govuk-visually-hidden">Download</span> {{ document.name }}
+								</a>
+							{% elif document.safe == False %}
+								{% get_string 'cases.manage.documents.virus_infected' %} {{ document.name }}
+							{% else %}
+								{% get_string 'cases.manage.documents.processing' %} {{ document.name }}
+							{% endif %}
+						</a>
+					</div>
+				{% empty %}
+					<p class="govuk-body-m">This good has no documents attached.</p>
+				{% endfor %}
+			</div>
 		</div>
-	</div>
 
-	<br>
+		<br>
 
-	<form method="post">
 		<h4 class="govuk-heading-s">What you've said</h4>
 		<div class="app-summary-list app-inset-text">
 			<div class="app-summary-list__item">
@@ -84,18 +105,11 @@
 			</div>
 		</div>
 
-		{% hidden_field 'is_good_controlled' data.is_good_controlled %}
-		{% hidden_field 'control_code' data.control_code%}
-		{% hidden_field 'report_summary' data.report_summary %}
-		{% hidden_field 'comment' data.comment %}
-
-		{% csrf_token %}
-
 		<br><br>
 
 		<div class="lite-buttons-row">
 			<button type="submit" name="action" value="submit" class="govuk-button">Submit response</button>
-			<button type="change" name="action" value="change" class="govuk-button govuk-button--secondary">Change answers</button>
+			<button type="submit" name="action" value="change" class="govuk-button govuk-button--secondary">Change answers</button>
 		</div>
 	</form>
 
