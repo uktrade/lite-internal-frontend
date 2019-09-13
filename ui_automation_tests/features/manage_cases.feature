@@ -75,19 +75,6 @@ Feature: I want to record the final decision overall on an application case
     Then I see application "denied"
     And I reset the permissions
 
-  @LT_957_error
-  Scenario: Record decision validation
-    Given I create application or application has been previously created
-    And I go to internal homepage
-    When I give myself the required permissions for "Make final decisions"
-    And I go to application previously created
-    And I click record decision
-    And I "deny" application
-    And I click continue
-    And I click continue
-    Then I see error message "Select at least one denial reason"
-    And I reset the permissions
-
   @LT_909_clc_status
   Scenario: Change CLC query status to Under Review
     Given I create clc query or clc query has been previously created
