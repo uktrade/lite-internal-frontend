@@ -169,11 +169,6 @@ def get_goods_type(request, pk):
     return data.json(), data.status_code
 
 
-def get_good_activity(request, pk):
-    data = get(request, GOOD_URL + pk + ACTIVITY_URL)
-    return data.json(), data.status_code
-
-
 # Good Flags
 def get_flags_for_team_of_level(request, level):
     """
