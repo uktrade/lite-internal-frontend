@@ -74,7 +74,7 @@ Feature: I want to record the final decision overall on an application case
     And I click continue
     Then I see application "denied"
     And I reset the permissions
-
+    
   @LT_957_error
   Scenario: Record decision validation
     Given I create application or application has been previously created
