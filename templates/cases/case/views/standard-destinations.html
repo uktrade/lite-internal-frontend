@@ -65,6 +65,7 @@
                     <th class="lite-table__header" scope="col">Type</th>
                     <th class="lite-table__header" scope="col">Address</th>
                     <th class="lite-table__header" scope="col">Website</th>
+                	<th class="lite-table__header" scope="col">Document</th>
                     {% if show_advice %}
 						<th class="lite-table__header" style="width: 350px;">Advice</th>
 					{% endif %}
@@ -89,6 +90,14 @@
                     </td>
                     <td class="lite-table__cell">
                         {{ consignee.website|default:'Not set' }}
+                    </td>
+                    <td class="lite-table__cell">
+                    {% if consignee.document.safe == True %}
+                        <a class="govuk-link lite-link--icon govuk-link--no-visited-state" id="consignee_document" href="{% url 'cases:document' case.id consignee.document.id %}">
+                            <span class="govuk-visually-hidden">{% get_string 'cases.manage.documents.download_document' %}</span>
+                            {{ consignee.document.name }}<br>
+                        </a>
+                    {% endif %}
                     </td>
                     {% if show_advice %}
                         <td class="lite-table__cell">
@@ -176,6 +185,7 @@
 					<th class="lite-table__header" scope="col">Type</th>
 					<th class="lite-table__header" scope="col">Address</th>
 					<th class="lite-table__header" scope="col">Website</th>
+					<th class="lite-table__header" scope="col">Document</th>
                     {% if show_advice %}
 						<th class="lite-table__header" style="width: 350px;">Advice</th>
 					{% endif %}
@@ -202,6 +212,14 @@
 						<td class="lite-table__cell">
 							{{ third_party.website|default:'Not set' }}
 						</td>
+                        <td class="lite-table__cell">
+                        {% if third_party.document.safe == True %}
+                            <a class="govuk-link lite-link--icon govuk-link--no-visited-state" id="third_party_document" href="{% url 'cases:document' case.id third_party.document.id %}">
+                                <span class="govuk-visually-hidden">{% get_string 'cases.manage.documents.download_document' %}</span>
+                                {{ third_party.document.name }}<br>
+                            </a>
+                        {% endif %}
+                        </td>
                         {% if show_advice %}
 							<td class="lite-table__cell">
 								{% for advice in all_advice %}
