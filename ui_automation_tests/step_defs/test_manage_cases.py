@@ -81,7 +81,6 @@ class ManageCases():
         assert "CREATED AT" in application_summary
         assert "REFERENCE NUMBER" in application_summary
         assert "LICENCE TYPE" in application_summary
-        assert "LAST UPDATED" in application_summary
         assert context.org_name in application_summary
         assert "Trading" in application_summary or "Brokering" in application_summary
         assert context.date_time_of_update.split(':')[1] in application_summary
