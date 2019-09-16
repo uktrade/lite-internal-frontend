@@ -69,4 +69,4 @@ Feature: I want to define new work queues and the teams they belong to
     Given I go to queues
     When I enter in queue name Review
     And I edit the new queue
-    Then I see the new queue
+    Then I see the edited queue
