@@ -28,7 +28,7 @@ class Team(TemplateView):
 
 class TeamsList(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_teams(request)
+        data, _ = get_teams(request)
 
         context = {
             'data': data,
@@ -62,7 +62,7 @@ class AddTeam(TemplateView):
 
 class TeamDetail(TemplateView):
     def get(self, request, **kwargs):
-        data, status_code = get_team(request, str(kwargs['pk']))
+        data, _ = get_team(request, str(kwargs['pk']))
         title = data['team']['name']
         data, status_code = get_users_by_team(request, str(kwargs['pk']))
         context = {

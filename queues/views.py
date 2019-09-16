@@ -84,7 +84,7 @@ class CaseAssignments(TemplateView):
 
         queue_id = str(kwargs['pk'])
         queue, _ = get_queue(request, queue_id)
-        case_assignments, status_code = get_queue_case_assignments(request, queue_id)
+        case_assignments, _ = get_queue_case_assignments(request, queue_id)
 
         case_ids = request.GET.get('cases').split(',')
         user_data, status_code = get_gov_user(request, str(request.user.lite_api_user_id))
@@ -111,7 +111,7 @@ class CaseAssignments(TemplateView):
         queue_id = str(kwargs['pk'])
         queue, _ = get_queue(request, queue_id)
         case_ids = request.GET.get('cases').split(',')
-        user_data, status_code = get_gov_user(request, str(request.user.lite_api_user_id))
+        user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
         data = {
             'case_assignments': []

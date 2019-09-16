@@ -12,7 +12,7 @@ from users.services import get_roles, get_permissions, get_role, put_role, post_
 class Roles(TemplateView):
     def get(self, request, **kwargs):
         roles, _ = get_roles(request)
-        all_permissions, status_code = get_permissions(request)
+        all_permissions, _ = get_permissions(request)
 
         context = {
             'all_permissions': all_permissions['permissions'],
