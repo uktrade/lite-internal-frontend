@@ -17,9 +17,11 @@ Feature: I want to assign one or more specific users to a case in a work queue
   Scenario: Add user to case
     When I select the checkbox for previously created case to be assigned
     And I select user to assign SSO users name
+    And I click on the added queue in dropdown
     Then user is assignee on case list
     When I select the checkbox for previously created case to be assigned
     And I select user to assign SSO users name
+    And I click on the added queue in dropdown
     Then user is not assignee on case list
 
   @LT_947_select_all
