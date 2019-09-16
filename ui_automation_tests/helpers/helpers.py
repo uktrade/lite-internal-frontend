@@ -1,8 +1,6 @@
 import re
 
 import allure
-from allure_commons._allure import attach
-from allure_commons.types import AttachmentType
 import os
 import time
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,7 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from datetime import datetime
-import logging
 
 now = datetime.now().isoformat()
 path = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir))
@@ -180,4 +177,6 @@ def select_visible_text_from_dropdown(element, text):
 
 
 def search_for_correct_date_regex_in_element(element):
-    return re.search("([0-9]{1,2}):([0-9]{2})(am|pm) ([0-9][0-9]) (January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{4,})", element)
+    return re.search(
+        "([0-9]{1,2}):([0-9]{2})(am|pm) ([0-9][0-9]) (January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{4,})", # noqa
+        element)

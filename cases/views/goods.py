@@ -9,7 +9,7 @@ class Good(TemplateView):
         case_id = str(kwargs['pk'])
         good_pk = str(kwargs['good_pk'])
         good, _ = get_good(request, good_pk)
-        activity, status_code = get_good_activity(request, good_pk)
+        activity, _ = get_good_activity(request, good_pk)
 
         context = {
             'case_id': case_id,

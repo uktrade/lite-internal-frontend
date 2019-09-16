@@ -64,7 +64,7 @@ class TeamDetail(TemplateView):
     def get(self, request, **kwargs):
         data, _ = get_team(request, str(kwargs['pk']))
         title = data['team']['name']
-        data, status_code = get_users_by_team(request, str(kwargs['pk']))
+        data, _ = get_users_by_team(request, str(kwargs['pk']))
         context = {
             'title': title,
             'users': data['users'],

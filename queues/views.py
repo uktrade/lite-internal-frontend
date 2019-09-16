@@ -87,7 +87,7 @@ class CaseAssignments(TemplateView):
         case_assignments, _ = get_queue_case_assignments(request, queue_id)
 
         case_ids = request.GET.get('cases').split(',')
-        user_data, status_code = get_gov_user(request, str(request.user.lite_api_user_id))
+        user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
         # If no cases have been selected, return an error page
         if not request.GET.get('cases'):
@@ -126,7 +126,7 @@ class CaseAssignments(TemplateView):
                 }
             )
 
-        response, status_code = put_queue_case_assignments(request, queue_id, data)
+        response, _ = put_queue_case_assignments(request, queue_id, data)
 
         if 'errors' in response:
             return form_page(request, assign_users_form(request,
