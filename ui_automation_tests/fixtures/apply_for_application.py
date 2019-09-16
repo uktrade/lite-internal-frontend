@@ -17,7 +17,7 @@ def apply_for_standard_application(driver, request, api_url, context):
     context.ueu_name = "Individual"
     context.ueu_website = "https://www.anothergov.uk"
     context.ueu_address = "Bullring, Birmingham SW1A 0AA"
-    context.ueu_country = ["GB", "United Kingdom"]
+    context.ueu_country = {'type': 'GB', 'name': 'United Kingdom'}
 
     draft_id, ultimate_end_user_id = api.add_draft(
         draft={
@@ -33,15 +33,15 @@ def apply_for_standard_application(driver, request, api_url, context):
             "value": 1},
         enduser={
             "name": "Mr Smith",
-            "address": "London",
-            "country": "UA",
+            "address": "Westminster, London SW1A 0BB",
+            "country": "GB",
             "sub_type": "government",
-            "website": "https://www.smith.com"
+            "website": "https://www.gov.uk"
         },
         ultimate_end_user={
             "name": context.ueu_name,
             "address": context.ueu_address,
-            "country": context.ueu_country[0],
+            "country": context.ueu_country['type'],
             "sub_type": context.ueu_type,
             "website": context.ueu_website
         },

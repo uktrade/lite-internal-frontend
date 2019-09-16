@@ -28,7 +28,7 @@
 				</td>
 				<td class="lite-table__cell">
 					{{ end_user.address }}
-					{{ end_user.country }}
+					{{ end_user.country.name }}
 				</td>
 				<td class="lite-table__cell">
 					{{ end_user.website|default:'Not set' }}
@@ -86,7 +86,7 @@
                     </td>
                     <td class="lite-table__cell">
                         {{ consignee.address }}
-                        {{ consignee.country }}
+                        {{ consignee.country.name }}
                     </td>
                     <td class="lite-table__cell">
                         {{ consignee.website|default:'Not set' }}
@@ -146,7 +146,7 @@
 						</td>
 						<td class="lite-table__cell">
 							{{ ultimate_end_user.address }}
-							{{ ultimate_end_user.country }}
+							{{ ultimate_end_user.country.name }}
 						</td>
 						<td class="lite-table__cell">
 							{{ ultimate_end_user.website|default:'Not set' }}
@@ -207,7 +207,7 @@
 						</td>
 						<td class="lite-table__cell">
 							{{ third_party.address }}
-							{{ third_party.country }}
+							{{ third_party.country.name }}
 						</td>
 						<td class="lite-table__cell">
 							{{ third_party.website|default:'Not set' }}

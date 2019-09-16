@@ -255,9 +255,9 @@ class SeedData:
         self.make_request("POST", url='/drafts/' + draft_id + '/sites/', headers=self.export_headers,
                           body={'sites': [self.context['primary_site_id']]})
         self.log("Adding end user: ...")
-        data = self.request_data['end-user'] if enduser is None else enduser
+        end_user_data = self.request_data['end-user'] if enduser is None else enduser
         self.make_request("POST", url='/drafts/' + draft_id + '/end-user/', headers=self.export_headers,
-                          body=data)
+                          body=end_user_data)
         self.log("Adding end user document: ...")
         self.add_end_user_document(draft_id)
         self.log("Adding good: ...")
@@ -265,19 +265,19 @@ class SeedData:
         data['good_id'] = self.context['good_id']
         self.make_request("POST", url='/drafts/' + draft_id + '/goods/', headers=self.export_headers, body=data)
         self.log("Adding ultimate end user: ...")
-        data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
+        ueu_data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
         ultimate_end_user_post = self.make_request('POST', url='/drafts/' + draft_id + '/ultimate-end-users/',
-                                                   headers=self.export_headers, body=data)
+                                                   headers=self.export_headers, body=ueu_data)
         ultimate_end_user_id = json.loads(ultimate_end_user_post.text)['ultimate_end_user']['id']
         self.add_ultimate_end_user_document(draft_id, ultimate_end_user_id)
 
-        data = self.request_data['consignee'] if consignee is None else consignee
+        consignee_data = self.request_data['consignee'] if consignee is None else consignee
         consignee_response = self.make_request('POST', url='/drafts/' + draft_id + '/consignee/',
-                                               headers=self.export_headers, body=data)
+                                               headers=self.export_headers, body=consignee_data)
         self.add_to_context('consignee', json.loads(consignee_response.text)['consignee'])
-        data = self.request_data['third_party'] if third_party is None else third_party
+        third_party_data = self.request_data['third_party'] if third_party is None else third_party
         third_party_response = self.make_request('POST', url='/drafts/' + draft_id + '/third-parties/',
-                                                 headers=self.export_headers, body=data)
+                                                 headers=self.export_headers, body=third_party_data)
         self.add_to_context('third_party', json.loads(third_party_response.text)['third_party'])
         return draft_id, ultimate_end_user_id
 

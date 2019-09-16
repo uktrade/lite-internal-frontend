@@ -22,7 +22,7 @@ class ViewCaseDetails():
         assert context.ueu_name in destinations_table
         assert context.ueu_website in destinations_table
         assert context.ueu_address in destinations_table
-        assert context.ueu_country[0] in destinations_table
+        assert context.ueu_country['name'] in destinations_table
 
     @then('I see a consignee')
     def i_see_consignee_on_page(driver, context):
@@ -36,7 +36,7 @@ class ViewCaseDetails():
         assert context.consignee['name'] in destinations_table
         assert context.consignee['website'] in destinations_table
         assert context.consignee['address'] in destinations_table
-        assert context.consignee['country'][0] in destinations_table
+        assert context.consignee['country']['name'] in destinations_table
 
     @then('I see a third party')
     def i_see_third_party_on_page(driver, context):
@@ -50,4 +50,4 @@ class ViewCaseDetails():
         assert context.third_party['name'] in destinations_table
         assert context.third_party['website'] in destinations_table
         assert context.third_party['address'] in destinations_table
-        assert context.third_party['country'][0] in destinations_table
+        assert context.third_party['country']['name'] in destinations_table
