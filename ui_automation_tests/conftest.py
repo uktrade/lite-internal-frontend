@@ -2,7 +2,14 @@ import os
 
 from pytest_bdd import given, when, then, parsers
 
-from fixtures.core import driver
+from fixtures.core import context, driver, sso_login_info, invalid_username, new_cases_queue_id, sso_users_name # noqa
+from fixtures.urls import internal_url, sso_sign_in_url, api_url
+from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query # noqa
+from fixtures.sign_in_to_sso import sign_in_to_internal_sso # noqa
+from fixtures.add_a_flag import add_uae_flag, add_suspicious_flag # noqa
+from fixtures.add_queue import add_queue # noqa
+from fixtures.add_a_team import add_a_team # noqa
+from fixtures.add_a_picklist import add_an_ecju_query_picklist, add_a_proviso_picklist, add_a_standard_advice_picklist # noqa
 
 import helpers.helpers as utils
 from pages.header_page import HeaderPage
