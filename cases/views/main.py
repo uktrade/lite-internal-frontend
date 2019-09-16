@@ -1,4 +1,4 @@
-from django.http import StreamingHttpResponse
+from django.http import StreamingHttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -265,11 +265,7 @@ class ManageCase(TemplateView):
             application_id = case.get('application').get('id')
             data, status_code = put_applications(request, application_id, request.POST)
         else:
-            clc_query_id = case['clc_query']['id']
-            data, status_code = put_control_list_classification_query(request, clc_query_id, request.POST)
-
-        if 'errors' in data:
-            return redirect('/cases/' + case_id + '/manage')
+            raise Http404
 
         return redirect(reverse('cases:case', kwargs={'pk': case_id}))
 
