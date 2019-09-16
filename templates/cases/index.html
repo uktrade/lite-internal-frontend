@@ -7,17 +7,15 @@
 {% block body %}
 
 <div class="lite-app-bar">
-    <div>
-		<form method="get" class="app-dropdown__select">
-			<select class="govuk-select" name="queue">
-				{% for queue in queues %}
-					<option value="{{ queue.id }}" {% if queue.id == current_queue.id %}selected{% endif %}>{{ queue.name }}</option>
-				{% endfor %}
-			</select>
-			<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
-		</form>
-        <a id="queue-title" href="#" class="govuk-heading-l app-dropdown__heading" onclick="toggleDropdown()">{{ title }}</a>
-    </div>
+	<form method="get" class="app-dropdown__select">
+		<select class="govuk-select" name="queue">
+			{% for queue in queues %}
+				<option value="{{ queue.id }}" {% if queue.id == current_queue.id %}selected{% endif %}>{{ queue.name }}</option>
+			{% endfor %}
+		</select>
+		<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
+	</form>
+    <a id="queue-title" href="#" class="govuk-heading-l app-dropdown__heading" onclick="toggleDropdown()">{{ title }}</a>
     <div class="lite-app-bar__controls">
 		{% if not current_queue.is_system_queue %}
         	<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">Assign users</button>
