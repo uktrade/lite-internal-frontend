@@ -39,7 +39,7 @@ def see_queue_in_queue_list(driver, context):
 
 @then('I see the edited queue')
 def see_edited_queue_in_queue_list(driver, context):
-    assert context.context.edited_queue_name in Shared(driver).get_text_of_body()
+    assert context.edited_queue_name in Shared(driver).get_text_of_body()
 
 
 @then('I see previously created application')
@@ -71,13 +71,6 @@ def see_number_of_checkboxes_selected(driver, context, num):
     ApplicationPage(driver).click_move_case_button()
     assert QueuesPages(driver).get_size_of_selected_queues() == int(num)
     Shared(driver).click_back_link()
-
-
-@when('I remove case from new cases queue')
-def move_case_to_new_queue(driver, context):
-    ApplicationPage(driver).click_move_case_button()
-    QueuesPages(driver).click_on_new_cases_queue()
-    Shared(driver).click_submit()
 
 
 @when('I deselect all queues')

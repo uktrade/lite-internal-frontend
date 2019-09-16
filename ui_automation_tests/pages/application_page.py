@@ -19,7 +19,7 @@ class ApplicationPage(BasePage):
     record_decision_btn = '[href*="decide"]'  # css
     headers = ".lite-heading-s"  # css
     activity_case_note_subject = ".lite-activity-item .govuk-body"
-    activity_dates = ".lite-activity-item .govuk-hint"
+    activity_dates = ".govuk-hint .govuk-!-font-size-16"
     activity_user = ".user"
     is_visible_to_exporter_checkbox_id = 'is_visible_to_exporter'
     edit_case_flags = 'application-edit-case-flags'  # ID
@@ -29,7 +29,7 @@ class ApplicationPage(BasePage):
     case_flags = 'application-case-flags'
     move_case_button = '[href*="move"]' # CSS
     status = 'status'  # ID
-    audit_trail_item = '.lite-case-notes .lite-activity-item'  # CSS
+    audit_trail_item = '.app-activity__item'  # CSS
     application_summary_board = '.lite-information-board'  # CSS
     ueu_table = 'ultimate-end-users'  # ID
     give_advice_button = 'button-give-advice'  # ID

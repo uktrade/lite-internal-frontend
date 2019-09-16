@@ -21,17 +21,10 @@ Feature: I want to define new work queues and the teams they belong to
     When I enter in queue name Review
     And I go to application previously created
     And I add case to newly created queue
-    And I remove case from new cases queue
     Then I see "1" queue checkboxes selected
     When I go to the internal homepage
     And I click on new queue in dropdown
     Then I see previously created application
-    When I go to application previously created
-    And I move case to new cases original queue and remove from new queue
-    Then I see "1" queue checkboxes selected
-    When I go to the internal homepage
-    And I click on new queue in dropdown
-    Then there are no cases shown
 
   @LT_1125_move_cases_multiple_queues
   Scenario: Move case to multiple queues
