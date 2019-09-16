@@ -75,7 +75,7 @@ def i_click_yes(driver):
 @then("the new ECJU Query is visible in the list")
 def the_new_ecju_query_is_visible_in_the_list(driver, context):
     ecju_queries_pages = EcjuQueriesPages(driver)
-    assert context.custom_question_text in ecju_queries_pages.get_all_ecju_query_questions()
+    assert context.custom_question_text in ecju_queries_pages.get_open_query_questions()
 
 
 @then("the ECJU Query creation is visible in the case timeline")
