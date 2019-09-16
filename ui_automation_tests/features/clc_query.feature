@@ -8,8 +8,9 @@ Feature: I want to respond to clc queries
   Scenario: respond to a clc type case
     Given I create clc query or clc query has been previously created
     And I sign in to SSO or am signed into SSO
+    And I create report summary picklist
     When I go to clc query previously created
     And I click Respond to query
-    And I respond "yes", "pa3q", "2", "Because the good is controlled" and click continue
+    And I respond "yes", "pa3q", "0", "Because the good is controlled" and click continue
     And I submit response
     Then I see case is closed

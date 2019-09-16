@@ -6,7 +6,7 @@ from helpers.BasePage import BasePage
 
 class ApplicationPage(BasePage):
 
-    actions_dropdown = ".app-more-actions__button"
+    actions_dropdown = ".app-more-actions__button"  # CSS
     case_note_field = "case_note"  # id
     post_note_btn = "button-post-note"  # id
     cancel_note_btn = "case-note-cancel-button"  # id
