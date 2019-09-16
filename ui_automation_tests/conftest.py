@@ -88,11 +88,6 @@ def create_app(driver, apply_for_standard_application):
     pass
 
 
-@when('I create application or application has been previously created')
-def create_app_when(driver, apply_for_standard_application):
-    pass
-
-
 @given('I create clc query or clc query has been previously created')
 def create_clc(driver, apply_for_clc_query):
     pass
