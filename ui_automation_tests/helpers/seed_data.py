@@ -69,10 +69,10 @@ class SeedData:
             "text": "My standard advice would be this.",
             "type": "standard_advice"
         },
-        "annual_report_picklist": {
+        "report_picklist": {
             "name": "More advice",
             "text": "My standard advice would be this.",
-            "type": "annual_report"
+            "type": "report_summary"
         },
         "gov_user": {
             "email": gov_user_email,
@@ -191,7 +191,7 @@ class SeedData:
 
     def add_report_summary_picklist(self):
         self.log("Creating standard advice picklist item ...")
-        data = self.request_data['annual_report_picklist']
+        data = self.request_data['report_picklist']
         response = self.make_request("POST", url='/picklist/', body=data)
         return json.loads(response.text)['picklist_item']
 
