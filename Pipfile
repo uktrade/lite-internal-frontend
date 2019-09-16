@@ -5,7 +5,6 @@ verify_ssl = true
 
 [dev-packages]
 libsass = "==0.18.0"
-pytest = "==4.4.0"
 pytest_bdd = "==3.1.0"
 selenium = "==3.141.0"
 allure-pytest = "==2.6.1"
@@ -27,6 +26,7 @@ django-staff-sso-client = "*"
 requests-oauthlib = "*"
 s3chunkuploader = "*"
 boto3 = ">=1.9"
+pytest = "*"
 lite-forms = "*"
 
 [requires]
