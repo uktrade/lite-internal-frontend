@@ -9,7 +9,7 @@ class ApplicationPage(BasePage):
     case_note_field = "case_note"  # id
     post_note_btn = "button-post-note"  # id
     cancel_note_btn = "case-note-cancel-button"  # id
-    case_notes_text = ".lite-case-note"  # css
+    case_notes_text = ".app-activity__additional-text"  # css
     case_note_date_time = ".lite-activity-item .govuk-hint"  # css
     case_note_character_warning = "case_note-warning"  # id
     documents_btn = '.govuk-button[href*="documents"]'  # css
