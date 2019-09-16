@@ -28,6 +28,7 @@ s3chunkuploader = "*"
 boto3 = ">=1.9"
 pytest = "*"
 lite-forms = "*"
+prospector = "*"
 
 [requires]
 python_version = "3.7"
