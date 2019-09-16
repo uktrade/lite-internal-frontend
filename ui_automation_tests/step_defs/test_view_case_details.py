@@ -18,11 +18,11 @@ class ViewCaseDetails():
         assert "type" in destinations_table_lower
         assert "website" in destinations_table_lower
         assert "address" in destinations_table_lower
-        assert context.ueu_type in destinations_table
-        assert context.ueu_name in destinations_table
-        assert context.ueu_website in destinations_table
-        assert context.ueu_address in destinations_table
-        assert context.ueu_country['name'] in destinations_table
+        assert context.ultimate_end_user['sub_type'] in destinations_table
+        assert context.ultimate_end_user['name'] in destinations_table
+        assert context.ultimate_end_user['website'] in destinations_table
+        assert context.ultimate_end_user['address'] in destinations_table
+        assert context.ultimate_end_user['country']['name'] in destinations_table
 
     @then('I see a consignee')
     def i_see_consignee_on_page(driver, context):

@@ -1,8 +1,8 @@
 import json
-import time
 
 import requests
 from conf.settings import env
+from helpers.wait import wait_for_document, wait_for_ultimate_end_user_document
 
 
 class SeedData:
@@ -245,6 +245,36 @@ class SeedData:
         self.make_request("POST", url='/drafts/' + draft_id + '/ultimate-end-user/' + ultimate_end_user_id +
                                       '/document/', headers=self.export_headers, body=data)
 
+    def add_consignee_document(self, draft_id):
+        data = self.request_data['document']
+        self.make_request("POST", url='/drafts/' + draft_id + '/consignee/document/',
+                          headers=self.export_headers, body=data)
+
+    def check_document(self, url):
+        data = self.make_request("GET", url=url, headers=self.export_headers)
+        return json.loads(data.text)['document']['safe']
+
+    def check_end_user_document_is_processed(self, draft_id):
+        return self.check_document('/drafts/' + draft_id + '/end-user/document/')
+
+    def check_consignee_document_is_processed(self, draft_id):
+        return self.check_document('/drafts/' + draft_id + '/consignee/document/')
+
+    def check_ultimate_end_user_document_is_processed(self, draft_id, ultimate_end_user_id):
+        return self.check_document('/drafts/' + draft_id + '/ultimate-end-user/' + ultimate_end_user_id + '/document/')
+
+    def check_documents(self, draft_id, ultimate_end_user_id):
+        end_user_document_is_processed = wait_for_document(
+            func=self.check_end_user_document_is_processed, draft_id=draft_id)
+        assert end_user_document_is_processed, "End user document wasn't successfully processed"
+        consignee_document_is_processed = wait_for_document(
+            func=self.check_consignee_document_is_processed, draft_id=draft_id)
+        assert consignee_document_is_processed, "Consignee document wasn't successfully processed"
+        ultimate_end_user_document_is_processed = wait_for_ultimate_end_user_document(
+            func=self.check_ultimate_end_user_document_is_processed, draft_id=draft_id,
+            ultimate_end_user_id=ultimate_end_user_id)
+        assert ultimate_end_user_document_is_processed, "Ultimate end user document wasn't successfully processed"
+
     def add_draft(self, draft=None, good=None, enduser=None, ultimate_end_user=None, consignee=None, third_party=None):
         self.log("Creating draft: ...")
         data = self.request_data['draft'] if draft is None else draft
@@ -268,18 +298,22 @@ class SeedData:
         ueu_data = self.request_data['ultimate_end_user'] if ultimate_end_user is None else ultimate_end_user
         ultimate_end_user_post = self.make_request('POST', url='/drafts/' + draft_id + '/ultimate-end-users/',
                                                    headers=self.export_headers, body=ueu_data)
-        ultimate_end_user_id = json.loads(ultimate_end_user_post.text)['ultimate_end_user']['id']
-        self.add_ultimate_end_user_document(draft_id, ultimate_end_user_id)
+        self.add_to_context('ultimate_end_user', json.loads(ultimate_end_user_post.text)['ultimate_end_user'])
+        ultimate_end_user_id = self.context['ultimate_end_user']['id']
+        self.add_ultimate_end_user_document(draft_id, self.context['ultimate_end_user']['id'])
 
         consignee_data = self.request_data['consignee'] if consignee is None else consignee
         consignee_response = self.make_request('POST', url='/drafts/' + draft_id + '/consignee/',
                                                headers=self.export_headers, body=consignee_data)
         self.add_to_context('consignee', json.loads(consignee_response.text)['consignee'])
+        self.add_consignee_document(draft_id)
+
         third_party_data = self.request_data['third_party'] if third_party is None else third_party
         third_party_response = self.make_request('POST', url='/drafts/' + draft_id + '/third-parties/',
                                                  headers=self.export_headers, body=third_party_data)
         self.add_to_context('third_party', json.loads(third_party_response.text)['third_party'])
-        return draft_id, ultimate_end_user_id
+
+        self.check_documents(draft_id=draft_id, ultimate_end_user_id=ultimate_end_user_id)
 
     def submit_application(self, draft_id=None):
         self.log("submitting application: ...")
@@ -289,15 +323,6 @@ class SeedData:
         item = json.loads(response.text)['application']
         self.add_to_context('application_id', item['id'])
         self.add_to_context('case_id', item['case_id'])
-
-    def check_end_user_document_is_processed(self, draft_id):
-        data = self.make_request("GET", url='/drafts/' + draft_id + '/end-user/document/', headers=self.export_headers)
-        return json.loads(data.text)['document']['safe']
-
-    def check_ultimate_end_user_document_is_processed(self, draft_id, ultimate_end_user_id):
-        data = self.make_request("GET", url='/drafts/' + draft_id + '/ultimate-end-user/'
-                                            + ultimate_end_user_id + '/document/', headers=self.export_headers)
-        return json.loads(data.text)['document']['safe']
 
     def add_queue(self, queue_name):
         self.log("adding queue: ...")
