@@ -21,9 +21,9 @@ class Picklists(TemplateView):
         picklist_type = request.GET.get('type')
         if not picklist_type:
             return redirect(reverse_lazy('picklists:picklists') + '?type=proviso')
-        user, status_code = get_gov_user(request)
-        team, status_code = get_team(request, user['user']['team']['id'])
-        picklist_items, status_code = get_picklists(request, picklist_type, True)
+        user, _ = get_gov_user(request)
+        team, _ = get_team(request, user['user']['team']['id'])
+        picklist_items, _ = get_picklists(request, picklist_type, True)
 
         active_picklist_items = [x for x in picklist_items['picklist_items'] if x['status']['key'] == 'active']
         deactivated_picklist_items = [x for x in picklist_items['picklist_items'] if x['status']['key'] != 'active']
@@ -61,7 +61,7 @@ class AddPicklistItem(TemplateView):
 
 class ViewPicklistItem(TemplateView):
     def get(self, request, **kwargs):
-        picklist_item, status_code = get_picklist_item(request, str(kwargs['pk']))
+        picklist_item, _ = get_picklist_item(request, str(kwargs['pk']))
 
         context = {
             'title': picklist_item['picklist_item']['name'],
@@ -77,7 +77,7 @@ class EditPicklistItem(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.picklist_item_id = str(kwargs['pk'])
-        self.picklist_item, status_code = get_picklist_item(request, self.picklist_item_id)
+        self.picklist_item, _ = get_picklist_item(request, self.picklist_item_id)
         self.form = edit_picklist_item_form(self.picklist_item)
 
         return super(EditPicklistItem, self).dispatch(request, *args, **kwargs)
@@ -101,7 +101,7 @@ class DeactivatePicklistItem(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.picklist_item_id = str(kwargs['pk'])
-        self.picklist_item, status_code = get_picklist_item(request, self.picklist_item_id)
+        self.picklist_item, _ = get_picklist_item(request, self.picklist_item_id)
         self.form = deactivate_picklist_item(self.picklist_item)
 
         return super(DeactivatePicklistItem, self).dispatch(request, *args, **kwargs)
@@ -128,7 +128,7 @@ class ReactivatePicklistItem(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.picklist_item_id = str(kwargs['pk'])
-        self.picklist_item, status_code = get_picklist_item(request, self.picklist_item_id)
+        self.picklist_item, _ = get_picklist_item(request, self.picklist_item_id)
         self.form = reactivate_picklist_item(self.picklist_item)
 
         return super(ReactivatePicklistItem, self).dispatch(request, *args, **kwargs)
