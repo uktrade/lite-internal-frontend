@@ -29,7 +29,7 @@ class ViewAdvice(TemplateView):
         """
         Show all advice given for a case
         """
-        advice, status_code = get_case_advice(request, self.case_id)
+        advice, _ = get_case_advice(request, self.case_id)
 
         context = {
             'case': self.case,
@@ -40,7 +40,7 @@ class ViewAdvice(TemplateView):
 
     def post(self, request, **kwargs):
 
-        advice, status_code = get_case_advice(request, self.case_id)
+        advice, _ = get_case_advice(request, self.case_id)
         selected_advice_data = request.POST
         pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
 
@@ -69,7 +69,7 @@ class GiveAdvice(TemplateView):
 
     def post(self, request, **kwargs):
         selected_advice_data = request.POST
-        advice, status_code = get_case_advice(request, self.case_id)
+        advice, _ = get_case_advice(request, self.case_id)
         pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
 
         if pre_data and not str(selected_advice_data['type']) in str(pre_data['type']):
@@ -126,7 +126,7 @@ class GiveAdviceDetail(TemplateView):
 
     def post(self, request, **kwargs):
         data = request.POST
-        response, status_code = post_case_advice(request, self.case_id, data)
+        response, _ = post_case_advice(request, self.case_id, data)
 
         if 'errors' in response:
             proviso_picklist_items, status_code = get_picklists(request, 'proviso')

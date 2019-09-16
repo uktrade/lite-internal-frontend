@@ -15,12 +15,12 @@ from cases.forms.create_ecju_query import create_ecju_query_write_or_edit_form, 
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
-from cases.services import post_case_documents, get_case_documents, get_case_document, get_document
+from cases.services import post_case_documents, get_case_documents, get_document
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, put_clc_queries, \
     put_case_flags, get_ecju_queries, post_ecju_query
 
 from conf import settings
-from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS, OPEN_CASES_SYSTEM_QUEUE_ID, ALL_CASES_SYSTEM_QUEUE_ID
+from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
 from conf.decorators import has_permission
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
@@ -28,8 +28,7 @@ from core.helpers import convert_dict_to_query_params
 from core.services import get_user_permissions, get_statuses
 from flags.services import get_flags_case_level_for_team
 from picklists.services import get_picklists, get_picklist_item
-from queues.helpers import add_assigned_users_to_cases
-from queues.services import get_queue_case_assignments, get_queue, get_queues, get_queue_cases
+from queues.services import get_queue, get_queues, get_queue_cases
 
 
 class Cases(TemplateView):
@@ -42,7 +41,7 @@ class Cases(TemplateView):
         statuses, status_code = get_statuses(request)
         sort = request.GET.get('sort')
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
-        queues, status_code = get_queues(request, include_system_queues=True)
+        queues, _ = get_queues(request, include_system_queues=True)
         queue, status_code = get_queue(request, queue_id, case_type, status, sort)
 
         # Page parameters
@@ -81,10 +80,10 @@ class ViewCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         queue_id = request.GET.get('return_to', DEFAULT_QUEUE_ID)
-        queue, status_code = get_queue(request, queue_id)
-        case, status_code = get_case(request, case_id)
+        queue, _ = get_queue(request, queue_id)
+        case, _ = get_case(request, case_id)
         case = case['case']
-        activity, status_code = get_activity(request, case_id)
+        activity, _ = get_activity(request, case_id)
         permissions = get_user_permissions(request)
 
         if case['type']['key'] == 'clc_query':
@@ -133,8 +132,8 @@ class ViewCase(TemplateView):
 class ViewAdvice(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-        activity, status_code = get_activity(request, case_id)
+        case, _ = get_case(request, case_id)
+        activity, _ = get_activity(request, case_id)
         permissions = get_user_permissions(request)
 
         context = {
@@ -150,7 +149,7 @@ class ViewAdvice(TemplateView):
 class ViewEcjuQueries(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        ecju_queries, status_code = get_ecju_queries(request, case_id)
+        ecju_queries, _ = get_ecju_queries(request, case_id)
 
         context = {
             'case_id': case_id,
@@ -164,7 +163,7 @@ class CreateEcjuQuery(TemplateView):
 
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        picklists, status = get_picklists(request, 'ecju_query', False)
+        picklists, _ = get_picklists(request, 'ecju_query', False)
         picklists = picklists.get('picklist_items')
         picklist_choices = [Option(self.NEW_QUESTION_DDL_ID, 'Write a new question')] + \
                            [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
@@ -249,8 +248,8 @@ class CreateEcjuQuery(TemplateView):
 class ManageCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-        statuses, status_code = get_statuses(request)
+        case, _ = get_case(request, case_id)
+        statuses, _ = get_statuses(request)
 
         if case['case']['type']['key'] == 'application':
             title = 'Manage ' + case.get('case').get('application').get('name')
@@ -266,7 +265,7 @@ class ManageCase(TemplateView):
 
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
+        case, _ = get_case(request, case_id)
 
         if case['case']['type']['key'] == 'application':
             application_id = case.get('case').get('application').get('id')
@@ -285,7 +284,7 @@ class DecideCase(TemplateView):
     @has_permission(MAKE_FINAL_DECISIONS)
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
+        case, _ = get_case(request, case_id)
 
         if case['case']['application']['status'] == 'approved':
             data = {
@@ -303,7 +302,7 @@ class DecideCase(TemplateView):
     @has_permission(MAKE_FINAL_DECISIONS)
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
+        case, _ = get_case(request, case_id)
 
         case_id = case.get('case').get('id')
         application_id = case.get('case').get('application').get('id')
@@ -330,7 +329,7 @@ class DenyCase(TemplateView):
     @has_permission(MAKE_FINAL_DECISIONS)
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
+        case, _ = get_case(request, case_id)
 
         application_id = case['case']['application']['id']
 
@@ -356,7 +355,7 @@ class DenyCase(TemplateView):
 class MoveCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
+        case, _ = get_case(request, case_id)
 
         return form_page(request,
                          move_case_form(request, reverse('cases:case', kwargs={'pk': case_id})),
@@ -384,7 +383,7 @@ class MoveCase(TemplateView):
 class AssignFlags(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        case_data, status_code = get_case(request, case_id)
+        case_data, _ = get_case(request, case_id)
         case_level_team_flags_data, status_code = get_flags_case_level_for_team(request)
         case_flags = case_data.get('case').get('flags')
         case_level_team_flags = case_level_team_flags_data.get('flags')
@@ -416,8 +415,8 @@ class Documents(TemplateView):
         List all documents belonging to a case
         """
         case_id = str(kwargs['pk'])
-        case, status_code = get_case(request, case_id)
-        case_documents, status_code = get_case_documents(request, case_id)
+        case, _ = get_case(request, case_id)
+        case_documents, _ = get_case_documents(request, case_id)
 
         context = {
             'title': get_string('cases.manage.documents.title'),
@@ -451,12 +450,12 @@ class AttachDocuments(TemplateView):
         data.append({
             'name': file.original_name,
             's3_key': file.name,
-            'size': int(file.size / 1024) if file.size else 0,  # in kilobytes
+            'size': int(file.size // 1024) if file.size else 0,  # in kilobytes
             'description': request.POST['description'],
         })
 
         # Send LITE API the file information
-        case_documents, status_code = post_case_documents(request, case_id, data)
+        case_documents, _ = post_case_documents(request, case_id, data)
 
         if 'errors' in case_documents:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
@@ -466,10 +465,9 @@ class AttachDocuments(TemplateView):
 
 class Document(TemplateView):
     def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
         file_pk = str(kwargs['file_pk'])
 
-        document, status_code = get_document(request, file_pk)
+        document, _ = get_document(request, file_pk)
         original_file_name = document['document']['name']
 
         # Stream file
