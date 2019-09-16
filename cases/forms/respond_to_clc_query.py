@@ -24,7 +24,6 @@ def respond_to_clc_query_form(request, case):
                                     '</div>'),
                     HTMLBlock(html='<hr class="lite-horizontal-separator">'),
                     RadioButtons(title='Is this good controlled?',
-                                 description='Example description text',
                                  name='is_good_controlled',
                                  options=[
                                      Option(key='yes',
@@ -37,12 +36,10 @@ def respond_to_clc_query_form(request, case):
                     TextInput(title='What\'s the good\'s actual control rating?',
                               name='control_code'),
                     RadioButtons(title='Which report summary would you like to use?',
-                                 description='Example description text',
                                  name='report_summary',
                                  options=get_picklists(request, 'report_summary', convert_to_options=True),
                                  classes=['test']),
                     TextArea(title='Why are you making this decision?',
-                             description='Example text here',
                              name='comment',
                              extras={
                                  'max_length': 500,
