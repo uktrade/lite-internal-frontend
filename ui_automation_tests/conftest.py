@@ -35,7 +35,7 @@ def pytest_addoption(parser):
     if env == 'local':
         parser.addoption("--internal_url", action="store", default="http://localhost:8200", help="url")
         parser.addoption("--lite_api_url", action="store", default="http://localhost:8100", help="url")
-    elif env == 'dev2':
+    elif env == 'dev2' or env == 'DEV2':
         parser.addoption("--internal_url", action="store",
                          default="https://internal2.lite.service.dev.uktrade.io/", help="url")
         parser.addoption("--lite_api_url", action="store",
