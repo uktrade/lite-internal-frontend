@@ -39,7 +39,7 @@ def respond_to_clc_query_form(request, case):
                                  name='report_summary',
                                  options=get_picklists(request, 'report_summary', convert_to_options=True),
                                  classes=['test']),
-                    TextArea(title='Goods comment',
+                    TextArea(title='Good\'s comment',
                              name='comment',
                              extras={
                                  'max_length': 500,
