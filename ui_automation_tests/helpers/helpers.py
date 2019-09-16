@@ -21,7 +21,7 @@ def get_current_date_time_string():
 
 
 def screen_path():
-    global screen_dir
+    global screen_dir # noqa
     if not os.path.exists(screen_dir):
         os.makedirs(screen_dir)
         os.chmod(screen_dir, 0o644)
@@ -30,7 +30,7 @@ def screen_path():
 
 def remove_special_characters(text):
     # text = text.translate(str.maketrans('', '', string.punctuation))
-    text = text.translate(str.maketrans('', '', '\ / : * ? " < > |'))
+    text = text.translate(str.maketrans('', '', '\ / : * ? " < > |')) # noqa
     return text
 
 
@@ -167,7 +167,7 @@ def wait_until_menu_is_visible(driver):
         try:
             if driver.find_element_by_css_selector('.lite-menu--visible').is_displayed():
                 break
-        except Exception:
+        except Exception: # noqa
             continue
 
 

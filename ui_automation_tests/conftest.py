@@ -42,7 +42,7 @@ def pytest_exception_interact(node, report):
         name = " {0}_{1}".format(class_name, "error")
         try:
             utils.save_screenshot(node.funcargs.get("driver"), name)
-        except Exception:
+        except Exception: # noqa
             pass
 
 
