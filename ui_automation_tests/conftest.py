@@ -78,6 +78,11 @@ def click_on_created_application(driver, context, internal_url):
     driver.get(internal_url.rstrip('/') + '/cases/' + context.case_id)
 
 
+@when('I go to clc query previously created')
+def click_on_created_application(driver, context, internal_url):
+    driver.get(internal_url.rstrip('/') + '/cases/' + context.clc_case_id)
+
+
 @given('I create application or application has been previously created')
 def create_app(driver, apply_for_standard_application):
     pass
@@ -123,7 +128,7 @@ def go_to_users(driver):
 @then('I see the clc-case previously created')
 def assert_case_is_present(driver, apply_for_clc_query, context):
     case_list_page = CaseListPage(driver)
-    assert case_list_page.assert_case_is_present(context.case_id), "clc case ID is not present on page"
+    assert case_list_page.assert_case_is_present(context.clc_case_id), "clc case ID is not present on page"
 
 
 @when('I create a clc_query')

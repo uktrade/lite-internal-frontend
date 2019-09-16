@@ -11,7 +11,7 @@ class ApplicationPage(BasePage):
     post_note_btn = "button-post-note"  # id
     cancel_note_btn = "case-note-cancel-button"  # id
     case_notes_text = ".app-activity__additional-text"  # css
-    case_note_date_time = ".lite-activity-item .govuk-hint"  # css
+    case_note_date_time = ".app-activity__item .govuk-hint"  # css
     case_note_character_warning = "case_note-warning"  # id
     documents_btn = '[href*="documents"]'  # css
     ecju_queries_btn = '[href*="ecju-queries"]'  # css
@@ -19,7 +19,7 @@ class ApplicationPage(BasePage):
     record_decision_btn = '[href*="decide"]'  # css
     headers = ".lite-heading-s"  # css
     activity_case_note_subject = ".lite-activity-item .govuk-body"
-    activity_dates = ".govuk-hint .govuk-!-font-size-16"
+    activity_dates = ".app-activity__item .govuk-hint"
     activity_user = ".user"
     is_visible_to_exporter_checkbox_id = 'is_visible_to_exporter'
     edit_case_flags = 'application-edit-case-flags'  # ID

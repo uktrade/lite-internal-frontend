@@ -25,16 +25,7 @@ Feature: I want to define new work queues and the teams they belong to
     When I go to the internal homepage
     And I click on new queue in dropdown
     Then I see previously created application
-
-  @LT_1125_move_cases_multiple_queues
-  Scenario: Move case to multiple queues
-    Given I create application or application has been previously created
-    And I go to queues
-    When I enter in queue name Review
-    And I go to application previously created
-    And I add case to newly created queue
-    Then I see "2" queue checkboxes selected
-
+    
   @LT-1123-view_all_cases @view_all_cases
   Scenario: Closed cases appear on the all cases queue
     Given I create application or application has been previously created
