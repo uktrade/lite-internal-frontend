@@ -38,11 +38,11 @@ class Cases(TemplateView):
         """
         case_type = request.GET.get('case_type')
         status = request.GET.get('status')
-        statuses, status_code = get_statuses(request)
+        statuses, _ = get_statuses(request)
         sort = request.GET.get('sort')
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         queues, _ = get_queues(request, include_system_queues=True)
-        queue, status_code = get_queue(request, queue_id, case_type, status, sort)
+        queue, _ = get_queue(request, queue_id, case_type, status, sort)
 
         # Page parameters
         params = {'queue': queue_id, 'page': int(request.GET.get('page', 1))}
@@ -269,10 +269,10 @@ class ManageCase(TemplateView):
 
         if case['case']['type']['key'] == 'application':
             application_id = case.get('case').get('application').get('id')
-            data, status_code = put_applications(request, application_id, request.POST)
+            data, _ = put_applications(request, application_id, request.POST)
         else:
             clc_query_id = case['case']['clc_query']['id']
-            data, status_code = put_clc_queries(request, clc_query_id, request.POST)
+            data, _ = put_clc_queries(request, clc_query_id, request.POST)
 
         if 'errors' in data:
             return redirect('/cases/' + case_id + '/manage')
@@ -384,7 +384,7 @@ class AssignFlags(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case_data, _ = get_case(request, case_id)
-        case_level_team_flags_data, status_code = get_flags_case_level_for_team(request)
+        case_level_team_flags_data, _ = get_flags_case_level_for_team(request)
         case_flags = case_data.get('case').get('flags')
         case_level_team_flags = case_level_team_flags_data.get('flags')
 
@@ -404,7 +404,7 @@ class AssignFlags(TemplateView):
         case_id = str(kwargs['pk'])
         flags = request.POST.getlist('flags[]')
 
-        response, status_code = put_case_flags(request, case_id, {'flags': flags})
+        _, _ = put_case_flags(request, case_id, {'flags': flags})
 
         return redirect(reverse('cases:case', kwargs={'pk': case_id}))
 

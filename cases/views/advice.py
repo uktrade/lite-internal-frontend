@@ -83,9 +83,9 @@ class GiveAdvice(TemplateView):
             return form_page(request, self.form, errors={'type': ['Select a decision']})
 
         # Render the advice detail page
-        proviso_picklist_items, status_code = get_picklists(request, 'proviso')
-        advice_picklist_items, status_code = get_picklists(request, 'standard_advice')
-        static_denial_reasons, status_code = get_denial_reasons(request, False)
+        proviso_picklist_items, _ = get_picklists(request, 'proviso')
+        advice_picklist_items, _ = get_picklists(request, 'standard_advice')
+        static_denial_reasons, _ = get_denial_reasons(request, False)
 
         self.form = 'cases/case/give-advice.html'
 
@@ -129,9 +129,9 @@ class GiveAdviceDetail(TemplateView):
         response, _ = post_case_advice(request, self.case_id, data)
 
         if 'errors' in response:
-            proviso_picklist_items, status_code = get_picklists(request, 'proviso')
-            advice_picklist_items, status_code = get_picklists(request, 'standard_advice')
-            static_denial_reasons, status_code = get_denial_reasons(request, False)
+            proviso_picklist_items, _ = get_picklists(request, 'proviso')
+            advice_picklist_items, _ = get_picklists(request, 'standard_advice')
+            static_denial_reasons, _ = get_denial_reasons(request, False)
 
             data = clean_advice(data)
 

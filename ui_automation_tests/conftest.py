@@ -1,8 +1,5 @@
 import os
-import allure
-from allure_commons.types import AttachmentType
 
-from pytest import fixture
 from pytest_bdd import given, when, then, parsers
 
 from fixtures.core import context, driver, sso_login_info, invalid_username, new_cases_queue_id, sso_users_name
