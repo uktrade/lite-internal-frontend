@@ -262,7 +262,7 @@ class ManageCase(TemplateView):
 
         if case['type']['key'] == 'application':
             application_id = case.get('application').get('id')
-            data, _ = put_applications(request, application_id, request.POST)
+            _, _ = put_applications(request, application_id, request.POST)
         else:
             raise Http404
 

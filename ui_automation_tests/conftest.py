@@ -165,28 +165,28 @@ def system_queue_shown_in_dropdown(driver, queue_name):
     CaseListPage(driver).click_on_queue_name(queue_name)
 
 
-@when(parsers.parse('I click on the added queue in dropdown'))
+@when(parsers.parse('I click on the added queue in dropdown')) # noqa
 def system_queue_shown_in_dropdown(driver, context):
     CaseListPage(driver).click_on_queue_name(context.queue_name)
 
 
-@when('I enter in queue name Review')
+@when('I enter in queue name Review') # noqa
 def add_a_queue(driver, context, add_queue):
     pass
 
 
-@when('I go to queues via menu')
+@when('I go to queues via menu') # noqa
 def go_to_queues_via_menu(driver):
     HeaderPage(driver).click_lite_menu()
     HeaderPage(driver).click_queues()
 
 
-@given('I go to queues')
+@given('I go to queues') # noqa
 def go_to_queues(driver, sign_in_to_internal_sso, internal_url):
     driver.get(internal_url.rstrip('/') + '/queues/')
 
 
-@when('I add case to newly created queue')
+@when('I add case to newly created queue') # noqa
 def move_case_to_new_queue(driver, context):
     ApplicationPage(driver).click_move_case_button()
     driver.find_element_by_id(context.queue_name).click()
