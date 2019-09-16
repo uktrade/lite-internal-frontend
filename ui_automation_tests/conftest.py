@@ -2,6 +2,8 @@ import os
 
 from pytest_bdd import given, when, then, parsers
 
+from fixtures.core import driver
+
 import helpers.helpers as utils
 from pages.header_page import HeaderPage
 from pages.shared import Shared
