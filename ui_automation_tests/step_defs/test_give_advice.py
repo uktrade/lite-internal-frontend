@@ -79,3 +79,27 @@ def added_advice_on_application_page(driver, context):
     assert len(driver.find_elements_by_css_selector('.app-advice__details')) == context.number_of_advice_items_clicked
     for advice in context.advice_data:
         assert advice in driver.find_element_by_css_selector('.app-advice__details').text
+
+
+@when("I go to the team advice")
+def go_to_team_advice(driver):
+    page = GiveAdvicePages(driver)
+    page.go_to_team_advice()
+
+
+@when("I go to the final advice")
+def go_to_final_advice(driver):
+    page = GiveAdvicePages(driver)
+    page.go_to_final_advice()
+
+
+@when("I combine all advice")
+def combine_all_advice(driver):
+    page = GiveAdvicePages(driver)
+    page.combine_advice()
+
+
+@when("I finalise the licence")
+def finalise(driver):
+    page = GiveAdvicePages(driver)
+    page.finalise()

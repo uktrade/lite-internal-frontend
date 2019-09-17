@@ -20,9 +20,9 @@
 		<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
 			<div class="lite-tabs--fade">
 				<div class="lite-tabs">
-					<a href="{% url 'cases:user_advice_view' case.id %}" class="lite-tabs__tab">User Advice</a>
-                    <a href="{% url 'cases:team_advice_view' case.id %}" class="lite-tabs__tab">Team Advice</a>
-                    <a href="{% url 'cases:final_advice_view' case.id %}" class="lite-tabs__tab selected">Final Advice</a>
+					<a href="{% url 'cases:user_advice_view' case.id %}" class="lite-tabs__tab" id="user_advice">User Advice</a>
+                    <a href="{% url 'cases:team_advice_view' case.id %}" class="lite-tabs__tab" id="team_advice">Team Advice</a>
+                    <a href="{% url 'cases:final_advice_view' case.id %}" class="lite-tabs__tab lite-tabs__tab--selected" id="final_advice">Final Advice</a>
 				</div>
 			</div>
             {% if case.application.status != 'finalised' %}
@@ -37,13 +37,15 @@
                                     Clear advice
                                 </button>
                                 {% if able_to_finalize %}
-                                    <a class="govuk-button"  href="{% url 'cases:finalise' case.id %}">
+                                    <a class="govuk-button"  href="{% url 'cases:finalise' case.id %}" id="finalise_button">
                                         Finalise
                                     </a>
                                 {% endif %}
                             </div>
                         {% else %}
-                            <a class="govuk-button" href="{% url 'cases:coalesce_team_advice' case.id %}" class="lite-tabs__tab">Coalesce all team advice</a>
+                            <a class="govuk-button" href="{% url 'cases:coalesce_team_advice' case.id %}" class="lite-tabs__tab" id="combine_advice_button">
+                                Combine all team advice
+                            </a>
                         {% endif %}
                     {% endif %}
                 {% endif %}
