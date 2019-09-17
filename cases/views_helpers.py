@@ -14,6 +14,14 @@ from users.services import get_gov_user
 
 
 def get_case_advice(get_advice, request, case, user_team_final, team=None):
+    """
+    :param get_advice: This is a service method to get the advice from a particular level
+    :param request:
+    :param case: Case DTO returned form API in the dispatch
+    :param user_team_final: This is a choice of "user", "team" or "final"
+    :param team: Optional team object, only used if getting the advice for a case at the team level
+    :return: A page with all the advice for a case at the user level, team level for a chosen team or a final level
+    """
     if team:
         advice, status_code = get_advice(request, case.get('id'), team.get('id'))
     else:
@@ -46,6 +54,14 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
 
 
 def render_form_page(get_advice, request, case, form, team=None):
+    """
+    :param get_advice: This is a service method to get the advice from a particular level
+    :param request:
+    :param case: Case DTO returned form API in the dispatch
+    :param form: To be rendered
+    :param team: Optional team object, only used if getting the advice for a case at the team level
+    :return: Form page for selecting advice type with pre-populating data if it matches
+    """
     if team:
         advice, status_code = get_advice(request, case.get('id'), team.get('id'))
     else:
@@ -65,6 +81,15 @@ def render_form_page(get_advice, request, case, form, team=None):
 
 
 def post_advice(get_advice, request, case, form, user_team_final, team=None):
+    """
+    :param get_advice: This is a service method to get the advice from a particular level
+    :param request:
+    :param case: Case DTO returned form API in the dispatch
+    :param form: To be rendered
+    :param user_team_final: This is a choice of "user", "team" or "final"
+    :param team: Optional team object, only used if getting the advice for a case at the team level
+    :return:
+    """
     selected_advice_data = request.POST
     if team:
         advice, status_code = get_advice(request, case.get('id'), team.get('id'))
@@ -109,6 +134,14 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
 
 
 def post_advice_details(post_case_advice, request, case, form, user_team_final):
+    """
+    :param post_case_advice: This is a service method to post the advice for a particular level
+    :param request:
+    :param case: The case DTO returned by the API
+    :param form: To be rendered
+    :param user_team_final: This is a choice of "user", "team" or "final"
+    :return:
+    """
     data = request.POST
     response, status_code = post_case_advice(request, case.get('id'), data)
 
@@ -145,6 +178,9 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final):
 
 
 def give_advice_dispatch(user_team_final, request, **kwargs):
+    """
+    Returns the case and the form for the level of the advice to be used in the end points
+    """
     case, _ = get_case(request, str(kwargs['pk']))
     case = case['case']
     form = advice_recommendation_form(reverse_lazy('cases:give_' + user_team_final + '_advice', kwargs={'pk': str(kwargs['pk'])}))
@@ -158,6 +194,9 @@ def give_advice_dispatch(user_team_final, request, **kwargs):
 
 
 def give_advice_detail_dispatch(request, **kwargs):
+    """
+    Returns the case to be used in the end point and validates advice type selection
+    """
     case, _ = get_case(request, str(kwargs['pk']))
     case = case['case']
 

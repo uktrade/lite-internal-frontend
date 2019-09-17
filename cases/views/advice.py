@@ -10,6 +10,9 @@ from cases.views_helpers import get_case_advice, render_form_page, post_advice, 
 
 
 class ViewUserAdvice(TemplateView):
+    """
+    view advice at a user level and select advice to edit
+    """
     case = None
     form = None
 
@@ -28,6 +31,9 @@ class ViewUserAdvice(TemplateView):
 
 
 class GiveUserAdvice(TemplateView):
+    """
+    Select the type of advice
+    """
     case = None
     form = None
 
@@ -40,6 +46,9 @@ class GiveUserAdvice(TemplateView):
 
 
 class GiveUserAdviceDetail(TemplateView):
+    """
+    Give details on the selection and send the data to the API
+    """
     case = None
     form = 'cases/case/give-advice.html'
 
@@ -52,6 +61,9 @@ class GiveUserAdviceDetail(TemplateView):
 
 
 class CoalesceUserAdvice(TemplateView):
+    """
+    Group all of a user's team's user level advice in a team advie for the user's team
+    """
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         coalesce_user_advice(request, case_id)
@@ -59,6 +71,9 @@ class CoalesceUserAdvice(TemplateView):
 
 
 class ViewTeamAdvice(TemplateView):
+    """
+    View the user's team's team level advice or another team's, edit and clear the user's team's team level advice
+    """
     case = None
     form = None
     team = None
@@ -86,6 +101,9 @@ class ViewTeamAdvice(TemplateView):
 
 
 class GiveTeamAdvice(TemplateView):
+    """
+    Select the type of advice
+    """
     case = None
     form = None
     team = None
@@ -99,6 +117,9 @@ class GiveTeamAdvice(TemplateView):
 
 
 class GiveTeamAdviceDetail(TemplateView):
+    """
+    Post the advice details to the API
+    """
     case = None
     form = 'cases/case/give-advice.html'
 
@@ -111,6 +132,9 @@ class GiveTeamAdviceDetail(TemplateView):
 
 
 class CoalesceTeamAdvice(TemplateView):
+    """
+    Group all team's advice into final advice
+    """
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         coalesce_team_advice(request, case_id)
@@ -118,6 +142,9 @@ class CoalesceTeamAdvice(TemplateView):
 
 
 class ViewFinalAdvice(TemplateView):
+    """
+    View, clear and edit final advice
+    """
     case = None
     form = None
 
@@ -141,6 +168,9 @@ class ViewFinalAdvice(TemplateView):
 
 
 class GiveFinalAdvice(TemplateView):
+    """
+    Select advice type
+    """
     case = None
     form = None
 
@@ -153,6 +183,9 @@ class GiveFinalAdvice(TemplateView):
 
 
 class GiveFinalAdviceDetail(TemplateView):
+    """
+    Post the advice details to the API
+    """
     case = None
     form = 'cases/case/give-advice.html'
 
@@ -165,13 +198,15 @@ class GiveFinalAdviceDetail(TemplateView):
 
 
 class Finalise(TemplateView):
+    """
+    Finalise a case and change the case status to finalised
+    """
     def get(self, request, *args, **kwargs):
         case, _ = get_case(request, str(kwargs['pk']))
         advice, _ = get_final_case_advice(request, str(kwargs['pk']))
         case_id = case['case']['id']
 
         for item in advice['advice']:
-            print(item)
             if item['type']['key'] == 'approve' or item['type']['key'] == 'proviso':
                 return form_page(request, approve_licence_form(case_id))
 

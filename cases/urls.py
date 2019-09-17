@@ -28,25 +28,25 @@ urlpatterns = [
     path('<uuid:pk>/assign-flags/', flags.AssignFlags.as_view(), name='assign_flags'),
     # ex: /cases/<uuid:pk>/user-advice-view/
     path('<uuid:pk>/user-advice-view/', advice.ViewUserAdvice.as_view(), name='user_advice_view'),
-    # ex: /cases/<uuid:pk>/team-advice-view/coalesce
-    path('<uuid:pk>/team-advice-view/coalesce', advice.CoalesceUserAdvice.as_view(), name='coalesce_user_advice'),
+    # ex: /cases/<uuid:pk>/team-advice-view/coalesce/
+    path('<uuid:pk>/team-advice-view/coalesce/', advice.CoalesceUserAdvice.as_view(), name='coalesce_user_advice'),
     # ex: /cases/<uuid:pk>/team-advice-view/
     path('<uuid:pk>/team-advice-view/', advice.ViewTeamAdvice.as_view(), name='team_advice_view'),
-    # ex: /cases/<uuid:pk>/final-advice-view/coalesce
-    path('<uuid:pk>/final-advice-view/coalesce', advice.CoalesceTeamAdvice.as_view(), name='coalesce_team_advice'),
+    # ex: /cases/<uuid:pk>/final-advice-view/coalesce/
+    path('<uuid:pk>/final-advice-view/coalesce/', advice.CoalesceTeamAdvice.as_view(), name='coalesce_team_advice'),
     # ex: /cases/<uuid:pk>/final-advice-view/
     path('<uuid:pk>/final-advice-view/', advice.ViewFinalAdvice.as_view(), name='final_advice_view'),
-    # ex: /cases/<uuid:pk>/advice-view/give-advice/
+    # ex: /cases/<uuid:pk>/advice-view/give-user-advice/
     path('<uuid:pk>/advice-view/give-user-advice/', advice.GiveUserAdvice.as_view(), name='give_user_advice'),
-    # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/
+    # ex: /cases/<uuid:pk>/advice-view/give-user-advice/approve/
     path('<uuid:pk>/advice-view/give-user-advice/<str:type>/', advice.GiveUserAdviceDetail.as_view(), name='give_user_advice_detail'),
-    # ex: /cases/<uuid:pk>/advice-view/give-advice/
+    # ex: /cases/<uuid:pk>/advice-view/give-team-advice/
     path('<uuid:pk>/advice-view/give-team-advice/', advice.GiveTeamAdvice.as_view(), name='give_team_advice'),
-    # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/
+    # ex: /cases/<uuid:pk>/advice-view/give-team-advice/approve/
     path('<uuid:pk>/advice-view/give-team-advice/<str:type>/', advice.GiveTeamAdviceDetail.as_view(), name='give_team_advice_detail'),
-    # ex: /cases/<uuid:pk>/advice-view/give-advice/
+    # ex: /cases/<uuid:pk>/advice-view/give-final-advice/
     path('<uuid:pk>/advice-view/give-final-advice/', advice.GiveFinalAdvice.as_view(), name='give_final_advice'),
-    # ex: /cases/<uuid:pk>/advice-view/give-advice/approve/
+    # ex: /cases/<uuid:pk>/advice-view/give-final-advice/approve/
     path('<uuid:pk>/advice-view/give-final-advice/<str:type>/', advice.GiveFinalAdviceDetail.as_view(), name='give_final_advice_detail'),
     # ex: /cases/<uuid:pk>/finalise/
     path('<uuid:pk>/finalise/', advice.Finalise.as_view(), name='finalise'),
