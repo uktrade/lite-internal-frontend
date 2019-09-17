@@ -82,23 +82,6 @@ def return_non_empty(data):
             return item
 
 
-def build_case_advice(json, key, base_data, new_data):
-    if json.get(key):
-        data = base_data.copy()
-        data[key] = json.get(key)
-        new_data.append(data)
-    return new_data
-
-
-def build_case_advice_list(json, key, base_data, new_data):
-    if json.get(key):
-        for item in json.get(key, []):
-            data = base_data.copy()
-            data[key] = item
-            new_data.append(data)
-    return new_data
-
-
 def post_case_advice(request, case_pk, json):
     json = clean_advice(json)
 
@@ -116,13 +99,61 @@ def post_case_advice(request, case_pk, json):
         base_data['proviso'] = json['proviso']
 
     new_data = []
-    new_data = build_case_advice(json, 'end_user', base_data, new_data)
-    new_data = build_case_advice_list(json, 'ultimate_end_users', base_data, new_data)
-    new_data = build_case_advice(json, 'consignee', base_data, new_data)
-    new_data = build_case_advice_list(json, 'third_parties', base_data, new_data)
-    new_data = build_case_advice_list(json, 'countries', base_data, new_data)
-    new_data = build_case_advice_list(json, 'goods', base_data, new_data)
-    new_data = build_case_advice_list(json, 'goods_types', base_data, new_data)
+
+    if json.get('end_user'):
+        data = base_data.copy()
+        data['end_user'] = json.get('end_user')
+        new_data.append(
+            data
+        )
+
+    if json.get('ultimate_end_users'):
+        for item in json.get('ultimate_end_users', []):
+            data = base_data.copy()
+            data['ultimate_end_user'] = item
+            new_data.append(
+                data
+            )
+
+    if json.get('consignee'):
+        data = base_data.copy()
+        data['consignee'] = json.get('consignee')
+        new_data.append(
+            data
+        )
+
+    if json.get('third_parties'):
+        for item in json.get('third_parties', []):
+            data = base_data.copy()
+            data['third_party'] = item
+            new_data.append(
+                data
+            )
+
+    if json.get('countries'):
+        for item in json.get('countries', []):
+            data = base_data.copy()
+            data['country'] = item
+            new_data.append(
+                data
+            )
+
+    if json.get('goods'):
+        for item in json.get('goods', []):
+            data = base_data.copy()
+            data['good'] = item
+            new_data.append(
+                data
+            )
+
+    if json.get('goods_types'):
+        for item in json.get('goods_types', []):
+            data = base_data.copy()
+            data['goods_type'] = item
+            new_data.append(
+                data
+            )
+
     data = post(request, CASE_URL + case_pk + ADVICE_URL, new_data)
     return data.json(), data.status_code
 
