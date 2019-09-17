@@ -79,6 +79,9 @@ class ViewTeamAdvice(TemplateView):
 
             return redirect(reverse('cases:team_advice_view', kwargs={'pk': self.case.get('id')}))
 
+        elif request.POST.get('action') == 'team':
+            return get_case_advice(get_team_case_advice, request, self.case, 'team', {'id': request.POST.get('team')})
+
         return render_form_page(get_team_case_advice, request, self.case, self.form, self.team)
 
 

@@ -9,6 +9,7 @@ from cases.helpers import check_matching_advice, add_hidden_advice_data, clean_a
 from cases.services import get_case
 from core.services import get_denial_reasons, get_user_permissions
 from picklists.services import get_picklists
+from teams.services import get_teams
 from users.services import get_gov_user
 
 
@@ -18,7 +19,7 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
     else:
         advice, status_code = get_advice(request, case.get('id'))
 
-    permissions = get_user_permissions(request)
+    permissions, user_team = get_user_permissions(request, True)
 
     context = {
         'case': case,
@@ -26,6 +27,12 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
         'all_advice': advice['advice'],
         'permissions': permissions
     }
+
+    if team:
+        context['team'] = team
+        context['is_user_team'] = team.get('id') == user_team.get('id')
+        teams, _ = get_teams(request)
+        context['teams'] = teams['teams']
 
     able_to_finalize = True
     for item in advice['advice']:
