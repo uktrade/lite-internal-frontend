@@ -5,9 +5,9 @@ verify_ssl = true
 
 [dev-packages]
 libsass = "==0.18.0"
-selenium = "==3.141.0"
-pytest = "*"
+pytest = "~=5.1.2"
 pytest_bdd = "==3.1.0"
+selenium = "==3.141.0"
 allure-pytest = "==2.6.1"
 allure-python-commons = "==2.6.1"
 pytest-html = "*"
@@ -28,6 +28,7 @@ requests-oauthlib = "*"
 s3chunkuploader = "*"
 boto3 = ">=1.9"
 lite-forms = "*"
+prospector = "*"
 
 [requires]
 python_version = "3.7"
