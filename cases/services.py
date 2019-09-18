@@ -82,6 +82,12 @@ def return_non_empty(data):
             return item
 
 
+def build_case_advice(key, value, base_data):
+    data = base_data.copy()
+    data[key] = value
+    return data
+
+
 def post_case_advice(request, case_pk, json):
     json = clean_advice(json)
 
@@ -99,45 +105,18 @@ def post_case_advice(request, case_pk, json):
         base_data['proviso'] = json['proviso']
 
     new_data = []
+    single_cases = ['end_user', 'consignee']
+    multiple_cases = {'ultimate_end_users': 'ultimate_end_user', 'third_parties': 'third_party',
+                      'countries': 'country', 'goods': 'good', 'goods_types': 'good_type'}
 
-    if json.get('end_user'):
-        data = base_data.copy()
-        data['end_user'] = json.get('end_user')
-        new_data.append(
-            data
-        )
+    for entity_name in single_cases:
+        if json.get(entity_name):
+            new_data.append(build_case_advice(entity_name, json.get(entity_name), base_data))
 
-    if json.get('ultimate_end_users'):
-        for item in json.get('ultimate_end_users', []):
-            data = base_data.copy()
-            data['ultimate_end_user'] = item
-            new_data.append(
-                data
-            )
-
-    if json.get('countries'):
-        for item in json.get('countries', []):
-            data = base_data.copy()
-            data['country'] = item
-            new_data.append(
-                data
-            )
-
-    if json.get('goods'):
-        for item in json.get('goods', []):
-            data = base_data.copy()
-            data['good'] = item
-            new_data.append(
-                data
-            )
-
-    if json.get('goods_types'):
-        for item in json.get('goods_types', []):
-            data = base_data.copy()
-            data['goods_type'] = item
-            new_data.append(
-                data
-            )
+    for entity_name, entity_name_singular in multiple_cases.items():
+        if json.get(entity_name):
+            for entity in json.get(entity_name, []):
+                new_data.append(build_case_advice(entity_name_singular, entity, base_data))
 
     data = post(request, CASE_URL + case_pk + ADVICE_URL, new_data)
     return data.json(), data.status_code
