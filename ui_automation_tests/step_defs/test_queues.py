@@ -1,7 +1,7 @@
-from pytest_bdd import given, when, then, parsers, scenarios
+from pytest_bdd import when, then, parsers, scenarios
+
 import helpers.helpers as utils
 from pages.application_page import ApplicationPage
-from pages.header_page import HeaderPage
 from pages.queues_pages import QueuesPages
 from pages.shared import Shared
 
@@ -48,6 +48,7 @@ def see_queue_in_queue_list(driver, context):
 
 @then('I dont see previously created application')
 def dont_see_queue_in_queue_list(driver, context):
+    driver.refresh()
     driver.set_timeout_to(0)
     if len(driver.find_elements_by_css_selector('.lite-information-text__text')) != 1:
         assert context.app_id not in driver.find_element_by_css_selector('.lite-cases-table').text

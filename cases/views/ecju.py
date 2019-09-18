@@ -38,7 +38,7 @@ class CreateEcjuQuery(TemplateView):
 
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        picklists, status = get_picklists(request, 'ecju_query', False)
+        picklists = get_picklists(request, 'ecju_query', False)
         picklists = picklists.get('picklist_items')
         picklist_choices = [Option(self.NEW_QUESTION_DDL_ID, 'Write a new question')] + \
                            [Option(picklist.get('id'), picklist.get('name')) for picklist in picklists]
@@ -70,7 +70,7 @@ class CreateEcjuQuery(TemplateView):
         picklist_selection = request.POST.get('picklist')
 
         if picklist_selection != self.NEW_QUESTION_DDL_ID:
-            picklist_item_text = get_picklist_item(request, picklist_selection)[0]['picklist_item']['text']
+            picklist_item_text = get_picklist_item(request, picklist_selection)['text']
         else:
             picklist_item_text = ''
 
