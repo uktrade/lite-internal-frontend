@@ -105,7 +105,7 @@ class CaseListPage(BasePage):
 
     def click_on_queue_name(self, queue_name):
         self.click_on_queue_title()
-        time.sleep(.5)
+        time.sleep(0.5)
         self.driver.execute_script("document.getElementById('" + queue_name + "').scrollIntoView(true);")
         self.driver.find_element_by_id(queue_name).click()
 
