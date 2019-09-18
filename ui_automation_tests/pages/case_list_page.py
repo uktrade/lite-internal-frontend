@@ -106,7 +106,7 @@ class CaseListPage(BasePage):
     def click_on_queue_name(self, queue_name):
         self.click_on_queue_title()
         time.sleep(0.5)
-        self.driver.execute_script("document.getElementById('" + queue_name + "').scrollIntoView(true);")
+        utils.scroll_to_element_by_id(self.driver, queue_name)
         self.driver.find_element_by_id(queue_name).click()
 
     def select_filter_status_from_dropdown(self, status):

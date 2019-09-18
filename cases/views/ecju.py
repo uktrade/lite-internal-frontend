@@ -61,16 +61,12 @@ class CreateEcjuQuery(TemplateView):
         """
         case_id = str(kwargs['pk'])
         form_name = request.POST.get('form_name')
-
         if form_name == 'ecju_query_type_select':
             return self._handle_ecju_query_type_select_post(request, case_id)
-
         elif form_name == 'ecju_query_write_or_edit_question':
             return self._handle_ecju_query_write_or_edit_post(case_id, request)
-
         elif form_name == 'ecju_query_create_confirmation':
             return self._handle_ecju_query_confirmation_post(case_id, request)
-
         else:
             # Submitted data does not contain an expected form field - return an error
             return error_page(None, 'We had an issue creating your question. Try again later.')

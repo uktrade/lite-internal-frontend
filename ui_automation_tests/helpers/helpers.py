@@ -169,3 +169,7 @@ def search_for_correct_date_regex_in_element(element):
     return re.search(
         "([0-9]{1,2}):([0-9]{2})(am|pm) ([0-9][0-9]) (January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{4,})", # noqa
         element)
+
+
+def scroll_to_element_by_id(driver, id):
+    driver.execute_script("document.getElementById('" + id + "').scrollIntoView(true);")
