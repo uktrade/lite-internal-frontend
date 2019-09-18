@@ -202,9 +202,9 @@ class Finalise(TemplateView):
     Finalise a case and change the case status to finalised
     """
     def get(self, request, *args, **kwargs):
-        case, _ = get_case(request, str(kwargs['pk']))
+        case = get_case(request, str(kwargs['pk']))
         advice, _ = get_final_case_advice(request, str(kwargs['pk']))
-        case_id = case['case']['id']
+        case_id = case['id']
 
         for item in advice['advice']:
             if item['type']['key'] == 'approve' or item['type']['key'] == 'proviso':
@@ -213,10 +213,10 @@ class Finalise(TemplateView):
         return form_page(request, refuse_licence_form(case_id))
 
     def post(self, request, *args, **kwargs):
-        case, _ = get_case(request, str(kwargs['pk']))
-        application_id = case.get('case').get('application').get('id')
+        case = get_case(request, str(kwargs['pk']))
+        application_id = case.get('application').get('id')
         data = request.POST.copy()
         data['status'] = 'finalised'
         put_applications(request, application_id, data)
 
-        return redirect(reverse_lazy('cases:case', kwargs={'pk': case['case']['id']}))
+        return redirect(reverse_lazy('cases:case', kwargs={'pk': case['id']}))

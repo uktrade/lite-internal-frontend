@@ -248,7 +248,7 @@ class ManageCase(TemplateView):
         reduced_statuses = {}
         reduced_statuses['statuses'] = [x for x in statuses['statuses'] if x['status'] != 'finalised']
 
-        if case['case']['type']['key'] == 'application':
+        if case['type']['key'] == 'application':
             title = 'Manage ' + case.get('application').get('name')
 
         else:

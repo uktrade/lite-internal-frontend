@@ -108,9 +108,9 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
         return form_page(request, form, errors={'type': ['Select a decision']})
 
     # Render the advice detail page
-    proviso_picklist_items, status_code = get_picklists(request, 'proviso')
-    advice_picklist_items, status_code = get_picklists(request, 'standard_advice')
-    static_denial_reasons, status_code = get_denial_reasons(request, False)
+    proviso_picklist_items = get_picklists(request, 'proviso')
+    advice_picklist_items = get_picklists(request, 'standard_advice')
+    static_denial_reasons = get_denial_reasons(request, False)
 
     form = 'cases/case/give-advice.html'
 
@@ -127,6 +127,8 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
         'countries': selected_advice_data.get('countries'),
         'end_user': selected_advice_data.get('end_user'),
         'ultimate_end_users': selected_advice_data.get('ultimate_end_users'),
+        'third_parties': selected_advice_data.get('third_parties'),
+        'consignee': selected_advice_data.get('consignee'),
         'data': pre_data,
         'level': user_team_final
     }
@@ -165,6 +167,8 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final):
             'countries': data.get('countries'),
             'end_user': data.get('end_user'),
             'ultimate_end_users': data.get('ultimate_end_users'),
+            'third_parties': data.get('third_parties'),
+            'consignee': data.get('consignee'),
             'errors': response['errors'][0],
             'data': data,
             'level': user_team_final
@@ -181,8 +185,7 @@ def give_advice_dispatch(user_team_final, request, **kwargs):
     """
     Returns the case and the form for the level of the advice to be used in the end points
     """
-    case, _ = get_case(request, str(kwargs['pk']))
-    case = case['case']
+    case = get_case(request, str(kwargs['pk']))
     form = advice_recommendation_form(reverse_lazy('cases:give_' + user_team_final + '_advice', kwargs={'pk': str(kwargs['pk'])}))
 
     if user_team_final == 'team':
@@ -197,8 +200,7 @@ def give_advice_detail_dispatch(request, **kwargs):
     """
     Returns the case to be used in the end point and validates advice type selection
     """
-    case, _ = get_case(request, str(kwargs['pk']))
-    case = case['case']
+    case = get_case(request, str(kwargs['pk']))
 
     # If the advice type is not valid, raise a 404
     advice_type = kwargs['type']
