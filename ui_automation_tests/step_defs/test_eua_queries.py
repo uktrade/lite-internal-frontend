@@ -11,7 +11,7 @@ def click_on_created_application(driver):
     caselistpage.click_show_filters_link()
     caselistpage.select_filter_case_type_from_dropdown("End User Advisory Query")
     caselistpage.click_apply_filters_button()
-    caselistpage.click_on_case_by_num(1)
+    caselistpage.click_on_case_by_num(0)
 
 
 @then('I should see flags can be added')
