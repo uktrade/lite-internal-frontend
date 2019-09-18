@@ -10,10 +10,6 @@ urlpatterns = [
     path('<uuid:pk>/', main.ViewCase.as_view(), name='case'),
     # ex: /cases/<uuid:pk>/manage
     path('<uuid:pk>/manage/', main.ManageCase.as_view(), name='manage'),
-    # ex: /cases/<uuid:pk>/decide
-    path('<uuid:pk>/decide/', main.DecideCase.as_view(), name='decide'),
-    # ex: /cases/<uuid:pk>/deny/
-    path('<uuid:pk>/deny/', main.DenyCase.as_view(), name='deny'),
     # ex: /cases/<uuid:pk>/move/
     path('<uuid:pk>/move/', main.MoveCase.as_view(), name='move'),
     # ex: /<uuid:pk>/documents/

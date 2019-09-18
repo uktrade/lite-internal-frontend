@@ -1,13 +1,8 @@
 from pytest_bdd import when, then, parsers, scenarios
 from pages.application_page import ApplicationPage
 from pages.record_decision_page import RecordDecision
-from pages.shared import Shared
+
 import helpers.helpers as utils
-
-from ui_automation_tests.pages.roles_pages import RolesPages
-
-from pages.header_page import HeaderPage
-from ui_automation_tests.pages.users_page import UsersPage
 
 
 class ManageCases:
@@ -23,47 +18,12 @@ class ManageCases:
         ApplicationPage(driver).click_record_decision()
         context.decision_array = []
 
-    @when(parsers.parse('I "{grant_or_deny}" application'))
-    def grant_or_deny_decision(driver, grant_or_deny, context):
-        record = RecordDecision(driver)
-        if grant_or_deny == "grant":
-            record.click_on_grant_licence()
-        elif grant_or_deny == "deny":
-            record.click_on_deny_licence()
-            context.advice_data = []
-
-    @when(parsers.parse('I type optional text "{optional_text}"'))
-    def type_optional_text(driver, optional_text, context):
-        record = RecordDecision(driver)
-        record.enter_optional_text(optional_text)
-        context.optional_text = optional_text
-
     @when(parsers.parse('I select decision "{number}"'))
     def select_decision(driver, number, context):
         record = RecordDecision(driver)
         record.click_on_decision_number(number)
         context.decision_array.append(number)
         context.advice_data.append(number)
-
-    @then('I see denied reason')
-    def denied_reason(driver, context):
-        body = Shared(driver).get_text_of_body()
-        assert "Further information" in body
-        assert context.optional_text in body
-
-    @then(parsers.parse('I see application "{grant_or_deny}"'))
-    def see_application_granted_or_denied(driver, grant_or_deny, context):
-        application_page = ApplicationPage(driver)
-        if grant_or_deny == "granted":
-            assert "updated the status to approved" in application_page.get_text_of_audit_trail_item(0), "status has not been shown as approved in audit trail"
-        elif grant_or_deny == "denied":
-            assert "updated the status to under_final_review" in application_page.get_text_of_audit_trail_item(0), "status has not been shown as under review in audit trail"
-            body = Shared(driver).get_text_of_body()
-            assert "This case was denied because" in body
-            for denial_reason_code in context.decision_array:
-                assert denial_reason_code in body
-
-
 
     @then('the status has been changed in the application')
     def status_has_been_changed_in_header(driver, context, sso_users_name):
