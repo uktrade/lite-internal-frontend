@@ -2,6 +2,8 @@ import json
 import time
 
 import requests
+
+from conf.constants import DEFAULT_QUEUE_ID
 from conf.settings import env
 
 
@@ -307,6 +309,21 @@ class SeedData:
         for case in cases:
             data = {'queues':  [bin_queue_id]}
             self.make_request("PUT", url='/cases/' + case['id'] + '/', headers=self.gov_headers, body=data)
+
+    def add_ecju_response(self, question, response):
+        self.log("adding response to ecju: ...")
+        case_id = self.context['case_id']
+        ecju_queries = self.make_request("GET", url='/cases/' + case_id + '/ecju-queries/', headers=self.gov_headers)
+        ecju_query_id = None
+        for ecju_query in ecju_queries.json()['ecju_queries']:
+            if ecju_query['question'] == question:
+                ecju_query_id = ecju_query['id']
+                break
+        assert ecju_query_id
+
+        data = {'response': response}
+        self.make_request("PUT", url='/cases/' + case_id + '/ecju-queries/' + ecju_query_id + '/',
+                          headers=self.export_headers, body=data)
 
     def make_request(self, method, url, headers=None, body=None):
         if headers is None:

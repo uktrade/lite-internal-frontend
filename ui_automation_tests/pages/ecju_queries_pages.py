@@ -34,6 +34,9 @@ class EcjuQueriesPages(BasePage):
     def get_open_query_questions(self):
         return [i.text for i in self.driver.find_elements_by_id(self.open_questions)]
 
+    def click_closed_query(self):
+        self.driver.find_element_by_id(self.closed_questions).click()
+
     def get_closed_query_questions(self):
         return [i.text for i in self.driver.find_elements_by_id(self.closed_questions)]
 

@@ -42,8 +42,8 @@
                         </div>
                         <p class="govuk-hint govuk-!-font-size-16">{{ query.raised_by_user_name }}: {{ query.created_at|str_date }}</p>
                     </div>
-                <div class="govuk-accordion__section-content" id="closed-answer">
-                    <p class='govuk-body'>{{ query.response }}</p>
+                <div class="govuk-accordion__section-content">
+                    <p class='govuk-body' id="closed-answer">{{ query.response }}</p>
                     <p class="govuk-hint govuk-!-font-size-16">{{ query.responded_by_user_name }}: {{ query.responded_at|str_date }}</p>
                 </div>
               </div>

@@ -1,7 +1,6 @@
 from pytest_bdd import given, when, then, parsers, scenarios
 import helpers.helpers as utils
 from pages.application_page import ApplicationPage
-from pages.case_list_page import CaseListPage
 from pages.header_page import HeaderPage
 from pages.queues_pages import QueuesPages
 from pages.shared import Shared
