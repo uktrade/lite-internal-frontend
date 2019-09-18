@@ -1,8 +1,8 @@
-from django.shortcuts import render
-from django.urls import reverse
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from lite_forms.components import HiddenField
-from lite_forms.generators import form_page, success_page
+from lite_forms.generators import form_page
 from lite_forms.helpers import get_form_by_pk, get_next_form_after_pk, nest_data, flatten_data
 
 from organisations.services import post_organisations
@@ -27,7 +27,7 @@ class RegisterBusiness(TemplateView):
 
         # Post the data to the validator and check for errors
         nested_data = nest_data(data)
-        validated_data, status_code = post_organisations(request, nested_data)
+        validated_data, _ = post_organisations(request, nested_data)
 
         if 'errors' in validated_data:
             for key, value in validated_data.get('errors').copy().items():
@@ -63,14 +63,8 @@ class RegisterBusiness(TemplateView):
 
         # If there aren't any forms left to go through, submit all the data and go to a success page
         if next_form is None:
-            return success_page(request,
-                                title='Organisation Registered',
-                                secondary_title=nested_data.get('name') + ' registered successfully',
-                                description='',
-                                what_happens_next=[],
-                                links={
-                                    'Go to organisations': reverse('organisations:organisations')
-                                })
+            messages.success(request, 'The organisation was created successfully')
+            return redirect('organisations:organisations')
 
         # Add existing post data to new form as hidden fields
         for key, value in data.items():
