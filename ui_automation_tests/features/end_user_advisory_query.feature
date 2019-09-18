@@ -5,7 +5,6 @@ Feature: I want to respond to an End User Advisory query
   So that I can inform an exporter whether or not an entity is a suitable end user for a potential export licence
 
   @LT_1474_respond
-    @MSTG
   Scenario: I want to check that the functionality of other cases exists
     Given I sign in to SSO or am signed into SSO
     When I go to eua query previously created

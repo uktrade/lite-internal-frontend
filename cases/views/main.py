@@ -265,7 +265,7 @@ class ManageCase(TemplateView):
             _, _ = put_applications(request, application_id, request.POST)
         elif case['type']['key'] == 'end_user_advisory_query':
             query_id = case.get('query').get('id')
-            data, status_code = put_end_user_advisory_query(request, query_id, request.POST)
+            _, _ = put_end_user_advisory_query(request, query_id, request.POST)
         else:
             raise Http404
 

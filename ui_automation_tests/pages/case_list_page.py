@@ -10,7 +10,7 @@ class CaseListPage(BasePage):
     CHECKBOX_CASE = ".govuk-checkboxes__input[value='"  # CSS
     CHECKBOX_TEXT = ".govuk-checkboxes"  # CSS
     CHECKBOX_SELECT_ALL = "select-all-checkbox"  # ID
-    CASE_LINK = "//div[@class='lite-cases-table-row']//a"  # xpath - There are 32 elements that use href with /cases/ currently before the table
+    CASE_LINK = "//div[@class='lite-cases-table-row']//a"  # xpath
 
     # App Bar Buttons
     BUTTON_ASSIGN_USERS = "assign-users-button"  # ID
