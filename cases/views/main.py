@@ -16,8 +16,7 @@ from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
 from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, \
-    put_control_list_classification_query, \
-    get_ecju_queries, post_ecju_query
+    put_end_user_advisory_query, get_ecju_queries, post_ecju_query
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
 from conf.constants import DEFAULT_QUEUE_ID, MAKE_FINAL_DECISIONS
@@ -264,6 +263,9 @@ class ManageCase(TemplateView):
         if case['type']['key'] == 'application':
             application_id = case.get('application').get('id')
             data, status_code = put_applications(request, application_id, request.POST)
+        elif case['type']['key'] == 'end_user_advisory_query':
+            query_id = case.get('query').get('id')
+            data, status_code = put_end_user_advisory_query(request, query_id, request.POST)
         else:
             raise Http404
 

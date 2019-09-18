@@ -16,14 +16,22 @@
 			<h2 class="govuk-heading-l app-reference-code">{{ case.query.id|reference_code }}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
-			<div class="app-more-actions__container">
+			<div class="app-more-actions__container {% if case.query.good.status != 'final' %}app-more-actions__container--secondary{% endif %}">
+				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
+					{% get_string 'cases.manage.documents.button' %}
+				</a>
+				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:ecju_queries' case.id %}">
+					{% get_string 'cases.ecju_queries.title' %}
+				</a>
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
 					{% get_string 'cases.manage.move_case.button' %}
 				</a>
+                <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' case.id %}">
+                    Change Status
+                </a>
 			</div>
 		</div>
 	</div>
-
 	<!-- Case flags -->
 	{% include 'cases/case/views/case-flags.html' %}
 

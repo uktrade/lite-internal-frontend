@@ -10,6 +10,7 @@ class CaseListPage(BasePage):
     CHECKBOX_CASE = ".govuk-checkboxes__input[value='"  # CSS
     CHECKBOX_TEXT = ".govuk-checkboxes"  # CSS
     CHECKBOX_SELECT_ALL = "select-all-checkbox"  # ID
+    CASE_LINK = "//div[@class='lite-cases-table-row']//a"  # xpath - There are 32 elements that use href with /cases/ currently before the table
 
     # App Bar Buttons
     BUTTON_ASSIGN_USERS = "assign-users-button"  # ID
@@ -50,6 +51,9 @@ class CaseListPage(BasePage):
 
         self.driver.set_timeout_to_10_seconds()
         self.driver.find_element_by_css_selector(self.CHECKBOX_CASE + case_id + "']").click()
+
+    def click_on_case_by_num(self, num):
+        self.driver.find_elements_by_xpath(self.CASE_LINK)[num].click()
 
     def click_on_assign_users_button(self):
         self.driver.find_element_by_id(self.BUTTON_ASSIGN_USERS).click()

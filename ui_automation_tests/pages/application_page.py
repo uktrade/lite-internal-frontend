@@ -87,6 +87,9 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_css_selector(self.actions_dropdown).click()
         self.driver.find_element_by_css_selector(self.ecju_queries_btn).click()
 
+    def click_drop_down(self):
+        self.driver.find_element_by_css_selector(self.actions_dropdown).click()
+
     def select_status(self, status):
         case_status_dropdown = Select(self.driver.find_element_by_id(self.status))
         case_status_dropdown.select_by_visible_text(status)
@@ -150,3 +153,19 @@ class ApplicationPage(BasePage):
 
     def end_user_document_link_is_enabled(self):
         return self.driver.find_element_by_id(self.download_end_user_document).is_enabled()
+
+    def is_flag_available(self):
+        return self.driver.find_element_by_id(self.case_flags)
+
+    def is_document_available(self):
+        return len(self.driver.find_elements_by_css_selector(self.documents_btn)) == 1
+
+    def is_move_case_available(self):
+        return len(self.driver.find_elements_by_css_selector(self.move_case_button)) == 1
+
+    def is_ecju_queries_available(self):
+        return len(self.driver.find_elements_by_css_selector(self.ecju_queries_btn)) == 1
+
+    def is_change_status_available(self):
+        # this should equal 2 as there is a 'manage' in the link of the footer image
+        return len(self.driver.find_elements_by_css_selector(self.progress_app_btn)) == 2
