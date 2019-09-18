@@ -1,4 +1,3 @@
-import helpers.helpers as utils
 from helpers.wait import wait_until_page_is_loaded, wait_until_menu_is_visible
 
 

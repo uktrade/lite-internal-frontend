@@ -2,7 +2,6 @@ import json
 
 import requests
 
-from conf.constants import DEFAULT_QUEUE_ID
 from conf.settings import env
 from helpers.wait import wait_for_document, wait_for_ultimate_end_user_document
 

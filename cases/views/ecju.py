@@ -12,7 +12,7 @@ from picklists.services import get_picklists, get_picklist_item
 
 class ViewEcjuQueries(TemplateView):
     def _get_ecju_queries(self, request, case_id):
-        ecju_queries, status_code = get_ecju_queries(request, case_id)
+        ecju_queries = get_ecju_queries(request, case_id)[0]
         open_ecju_queries = list()
         closed_ecju_queries = list()
         for query in ecju_queries.get('ecju_queries'):
