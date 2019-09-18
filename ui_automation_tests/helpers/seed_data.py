@@ -377,7 +377,6 @@ class SeedData:
             if ecju_query['question'] == question:
                 ecju_query_id = ecju_query['id']
                 break
-        assert ecju_query_id
 
         data = {'response': response}
         self.make_request("PUT", url='/cases/' + case_id + '/ecju-queries/' + ecju_query_id + '/',

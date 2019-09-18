@@ -23,6 +23,9 @@ class ViewEcjuQueries(TemplateView):
         return open_ecju_queries, closed_ecju_queries
 
     def get(self, request, **kwargs):
+        """
+        Get all ECJU queries for the given case, divided into open and close
+        """
         case_id = str(kwargs['pk'])
         open_ecju_queries, closed_ecju_queries = self._get_ecju_queries(request, case_id)
         context = {
@@ -37,6 +40,9 @@ class CreateEcjuQuery(TemplateView):
     NEW_QUESTION_DDL_ID = 'new_question'
 
     def get(self, request, **kwargs):
+        """
+        Show form for creating an ECJU query with a selection of template picklist questions
+        """
         case_id = str(kwargs['pk'])
         picklists = get_picklists(request, 'ecju_query', False)
         picklists = picklists.get('picklist_items')
@@ -50,6 +56,9 @@ class CreateEcjuQuery(TemplateView):
         return form_page(request, form, extra_data={'case_id': case_id})
 
     def post(self, request, **kwargs):
+        """
+        Handle the different stages of the ECJU query forms and ultimately POST the query when confirmed
+        """
         case_id = str(kwargs['pk'])
         form_name = request.POST.get('form_name')
 

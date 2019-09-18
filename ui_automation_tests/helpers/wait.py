@@ -1,8 +1,8 @@
 import time
 
-# How long in seconds the function should be attempted until giving up
 from helpers.helpers import page_is_ready, menu_is_visible
 
+# How long in seconds the function should be attempted until giving up
 timeout_limit = 20
 # How frequently in seconds the function should be checked
 function_retry_interval = 1
