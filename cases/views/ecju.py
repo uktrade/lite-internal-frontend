@@ -99,14 +99,14 @@ class CreateEcjuQuery(TemplateView):
     def _handle_ecju_query_confirmation_post(self, case_id, request):
         data = {'question': request.POST.get('question')}
 
-        if request.POST.get('ecju_query_confirmation') == 'yes':
+        if request.POST.get('ecju_query_confirmation').lower() == 'yes':
             ecju_query, status_code = post_ecju_query(request, case_id, data)
 
             if status_code != 201:
                 return self._handle_ecju_query_form_errors(case_id, ecju_query, request)
             else:
                 return redirect(reverse('cases:ecju_queries', kwargs={'pk': case_id}))
-        elif request.POST.get('ecju_query_confirmation') == 'no':
+        elif request.POST.get('ecju_query_confirmation').lower() == 'no':
             form = create_ecju_query_write_or_edit_form(reverse('cases:ecju_queries_add', kwargs={'pk': case_id}))
 
             return form_page(request, form, data=data)

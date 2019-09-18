@@ -17,7 +17,7 @@
 
 	{% if open_ecju_queries or closed_ecju_queries %}
         {% if open_ecju_queries %}
-            <h3 class="govuk-heading-m">Open queries</h3>
+            <h3 class="govuk-heading-m">{% get_string 'cases.ecju_queries.open' %}</h3>
             <div class="govuk-accordion">
             {% for query in open_ecju_queries %}
                 <div class="govuk-accordion__section-header">
@@ -30,7 +30,7 @@
             </div>
         {% endif %}
         {% if closed_ecju_queries %}
-            <h3 class="govuk-heading-m">Closed queries</h3>
+            <h3 class="govuk-heading-m">{% get_string 'cases.ecju_queries.closed' %}</h3>
             <div class="govuk-accordion" data-module="govuk-accordion">
             {% for query in closed_ecju_queries %}
               <div class="govuk-accordion__section ">
