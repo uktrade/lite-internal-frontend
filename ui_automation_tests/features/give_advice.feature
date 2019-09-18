@@ -74,13 +74,14 @@ Feature: I want to record my user advice and any comments and conditions relatin
     Then I see the fields pre-populated with the proviso and advice picklist items
 
 
-  @LT_1376_grant
+  @LT_1115_grant
   Scenario: Finalise a licence
     Given I create application or application has been previously created
     And I create a proviso picklist
     And I create a standard advice picklist
     And I sign in to SSO or am signed into SSO
-    When I go to application previously created
+    When I give myself all permissions
+    And I go to application previously created
     And I click on view advice
     And I select all items in the advice view
     And I choose to 'approve' the licence
@@ -92,3 +93,4 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I go to the final advice
     And I combine all advice
     And I finalise the licence
+    Then I reset the permissions

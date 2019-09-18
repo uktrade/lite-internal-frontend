@@ -1,10 +1,33 @@
 from pytest_bdd import when, then, parsers, scenarios, given
 from pages.application_page import ApplicationPage
 from pages.give_advice_pages import GiveAdvicePages
+from pages.header_page import HeaderPage
 from pages.record_decision_page import RecordDecision
+from pages.roles_pages import RolesPages
 from pages.shared import Shared
+from pages.users_page import UsersPage
 
 scenarios('../features/give_advice.feature', strict_gherkin=False)
+
+
+@when("I give myself all permissions")
+def get_required_permissions(driver):
+    roles_page = RolesPages(driver)
+    HeaderPage(driver).open_users()
+    UsersPage(driver).click_on_manage_roles()
+    roles_page.click_edit_for_default_role()
+    roles_page.edit_default_role_to_have_all_permissions()
+    Shared(driver).click_submit()
+
+
+@then("I reset the permissions")
+def reset_permissions(driver):
+    roles_page = RolesPages(driver)
+    HeaderPage(driver).open_users()
+    UsersPage(driver).click_on_manage_roles()
+    roles_page.click_edit_for_default_role()
+    roles_page.remove_all_permissions_from_default_role()
+    Shared(driver).click_submit()
 
 
 @given("I create a proviso picklist")

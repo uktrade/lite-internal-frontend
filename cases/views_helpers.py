@@ -110,7 +110,7 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
     # Render the advice detail page
     proviso_picklist_items = get_picklists(request, 'proviso')
     advice_picklist_items = get_picklists(request, 'standard_advice')
-    static_denial_reasons = get_denial_reasons(request, False)
+    static_denial_reasons, status_code = get_denial_reasons(request, False)
 
     form = 'cases/case/give-advice.html'
 
@@ -148,8 +148,8 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final):
     response, status_code = post_case_advice(request, case.get('id'), data)
 
     if 'errors' in response:
-        proviso_picklist_items, status_code = get_picklists(request, 'proviso')
-        advice_picklist_items, status_code = get_picklists(request, 'standard_advice')
+        proviso_picklist_items = get_picklists(request, 'proviso')
+        advice_picklist_items = get_picklists(request, 'standard_advice')
         static_denial_reasons, status_code = get_denial_reasons(request, False)
 
         data = clean_advice(data)

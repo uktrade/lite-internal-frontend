@@ -91,21 +91,3 @@ class ManageCases:
         assert context.date_time_of_update.split(':')[1] in application_summary
         assert "None" in application_summary
         assert "Standard Licence" in application_summary
-
-    @when(parsers.parse('I give myself the required permissions for "{permission}"'))
-    def get_required_permissions(driver, permission):
-        roles_page = RolesPages(driver)
-        HeaderPage(driver).open_users()
-        UsersPage(driver).click_on_manage_roles()
-        roles_page.click_edit_for_default_role()
-        roles_page.edit_default_role_to_have_permission(permission)
-        Shared(driver).click_submit()
-
-    @then("I reset the permissions")
-    def reset_permissions(driver):
-        roles_page = RolesPages(driver)
-        HeaderPage(driver).open_users()
-        UsersPage(driver).click_on_manage_roles()
-        roles_page.click_edit_for_default_role()
-        roles_page.remove_all_permissions_from_default_role()
-        Shared(driver).click_submit()
