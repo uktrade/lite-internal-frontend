@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html' %}
+
+{% block body %}
+
+	<div class="lite-app-bar__content">
+		<h2 class="govuk-heading-l">Rylan</h2>
+	</div>
+
+	<form action="{% url 'documents:create2' %}">
+		<button class="govuk-button">Continue</button>
+	</form>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "letter_base.html" %}
+
+
+{% block letter_area %}
+
+<div>
+<img id="logo" src="https://www.great.gov.uk/international/static/directory_components/images/hm-government.629a6facf425.svg" />
+</div>
+
+<h1>Standard Letter</h1>
+
+Dear {{name}}
+
+</p>
+
+<br />
+<br />
+<br />
+
+<div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Gun</td>
+                <td>2</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+{% endblock letter_area %}

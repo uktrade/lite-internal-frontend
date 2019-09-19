@@ -45,6 +45,8 @@
 	</a>
 </div>
 
+<a href="{% url 'documents:create' %}">Docs</a>
+
 <form id="filters" action="{% url 'cases:cases'%}" method="get">
     <input hidden name="queue" value="{{ current_queue.id }}">
 

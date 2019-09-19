@@ -1,0 +1,24 @@
+{% extends 'layouts/base.html' %}
+
+{% block body %}
+
+	<div class="lite-app-bar__content">
+		<h1 class="govuk-heading-xl">Select a template to use</h1>
+	</div>
+
+	<form action="{% url 'documents:create2' %}">
+		<div class="app-document-templates__list">
+			{% for template in templates %}
+			<div class="app-document-templates__item">
+				<input type="radio" id="template-{{ template }}" name="template" value="{{ template }}" checked>
+				<label for="template-{{ template }}">
+					<img src="/assets/images/letter_base.png" alt="{{ template }}">
+					{{ template }}
+				</label>
+			</div>
+			{% endfor %}
+		</div>
+		<button class="govuk-button">Continue</button>
+	</form>
+
+{% endblock %}

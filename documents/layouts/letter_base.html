@@ -1,0 +1,32 @@
+{% load markdown_convert %}
+
+
+<head>
+    <style>
+        #logo {
+            margin-right: 10px;
+            float: right;
+        }
+
+        table, th, tr, td {
+            border: 1px solid black;
+        }
+
+        .custom_area {
+            margin-top: 10px;
+            border: 1px dashed black;
+        }
+
+    </style>
+
+
+
+</head>
+
+
+{% block letter_area %}
+{% endblock letter_area %}
+
+<div class="custom_area">
+{% markdown_convert content_area %}
+</div>
