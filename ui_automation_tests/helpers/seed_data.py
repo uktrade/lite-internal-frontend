@@ -242,6 +242,12 @@ class SeedData:
         response = self.make_request("POST", url='/queries/control-list-classifications/', headers=self.export_headers, body=data)
         self.add_to_context('case_id', json.loads(response.text)['case_id'])
 
+    def add_eua_query(self):
+        self.log("Adding end user advisory: ...")
+        data = self.request_data['end_user_advisory']
+        response = self.make_request("POST", url='/queries/end-user-advisories/', headers=self.export_headers, body=data)
+        self.add_to_context('case_id', json.loads(response.text)['case']['id'])
+
     def add_good_document(self, good_id):
         data = [self.request_data['document']]
         self.make_request("POST", url='/goods/' + good_id + '/documents/', headers=self.export_headers, body=data)

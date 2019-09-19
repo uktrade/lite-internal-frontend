@@ -11,3 +11,12 @@ Feature: I want to respond to an End User Advisory query
     Then I should see flags can be added
     And I should see the ability to add case notes
     And The dropdown should contain Move Case, Documents, and Ecju queries
+
+  @LT_1474_change_case_status
+  Scenario: I want to check that the case status can be changed
+    Given I create end user advisory
+    And I sign in to SSO or am signed into SSO
+    When I go to eua query previously created
+    And I click progress application
+    And I select status "Under review" and save
+    Then the status has been changed in the end user advisory
