@@ -1,22 +1,11 @@
-from pytest_bdd import when, then, scenarios
-from ui_automation_tests.pages.case_list_page import CaseListPage
+from pytest_bdd import then, scenarios
 from ui_automation_tests.pages.application_page import ApplicationPage
 
 scenarios('../features/end_user_advisory_query.feature', strict_gherkin=False)
 
 
-@when('I go to eua query previously created')
-def click_on_created_application(driver):
-    caselistpage = CaseListPage(driver)
-    caselistpage.click_show_filters_link()
-    caselistpage.select_filter_case_type_from_dropdown("End User Advisory Query")
-    caselistpage.click_apply_filters_button()
-    caselistpage.click_on_case_by_num(0)
-
-
 @then('I should see flags can be added')
 def flags_are_available(driver):
-    flags = 'application-edit-case-flags'  # id
     application_page = ApplicationPage(driver)
     assert application_page.is_flag_available()
 
@@ -36,3 +25,8 @@ def dropdown_contains_correct_functionality(driver):
     assert application_page.is_ecju_queries_available()
     assert application_page.is_change_status_available()
     assert len(driver.find_elements_by_xpath('//div[@class="lite-app-bar__controls"]//div//a')) == 4
+
+
+@then('the status has been changed in the end user advisory')
+def check_status_has_changed(driver):
+    assert "under_review" in ApplicationPage(driver).get_text_of_case_note_subject(0)

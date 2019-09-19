@@ -52,9 +52,6 @@ class CaseListPage(BasePage):
         self.driver.set_timeout_to_10_seconds()
         self.driver.find_element_by_css_selector(self.CHECKBOX_CASE + case_id + "']").click()
 
-    def click_on_case_by_num(self, num):
-        self.driver.find_elements_by_xpath(self.CASE_LINK)[num].click()
-
     def click_on_assign_users_button(self):
         self.driver.find_element_by_id(self.BUTTON_ASSIGN_USERS).click()
 

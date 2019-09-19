@@ -96,6 +96,17 @@ class SeedData:
             "sub_type": "government",
             "website": "https://www.gov.uk"
         },
+        "end_user_advisory": {
+            "end_user": {
+              "name": "Person",
+              "address": "Westminster, London SW1A 0AA",
+              "country": "GB",
+              "sub_type": "government",
+              "website": "https://www.gov.uk"
+            },
+            "reasoning": "I'm unsure about this user",
+            "note": "they are being weird"
+        },
         "ultimate_end_user": {
             "name": "Individual",
             "address": "Bullring, Birmingham SW1A 0AA",
@@ -246,7 +257,7 @@ class SeedData:
         self.log("Adding end user advisory: ...")
         data = self.request_data['end_user_advisory']
         response = self.make_request("POST", url='/queries/end-user-advisories/', headers=self.export_headers, body=data)
-        self.add_to_context('case_id', json.loads(response.text)['case']['id'])
+        self.add_to_context('end_user_advisory_id', json.loads(response.text)['end_user_advisory']['id'])
 
     def add_good_document(self, good_id):
         data = [self.request_data['document']]

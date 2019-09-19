@@ -18,7 +18,7 @@ class ApplicationPage(BasePage):
     progress_app_btn = '[href*="manage"]'
     record_decision_btn = '[href*="decide"]'  # css
     headers = ".lite-heading-s"  # css
-    activity_case_note_subject = ".lite-activity-item .govuk-body"
+    activity_case_note_subject = ".govuk-body"
     activity_dates = ".app-activity__item .govuk-hint"
     activity_user = ".user"
     is_visible_to_exporter_checkbox_id = 'is_visible_to_exporter'
@@ -166,13 +166,13 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.case_flags)
 
     def is_document_available(self):
-        return len(self.driver.find_elements_by_css_selector(self.documents_btn)) == 1
+        return self.driver.find_element_by_css_selector(self.documents_btn)
 
     def is_move_case_available(self):
-        return len(self.driver.find_elements_by_css_selector(self.move_case_button)) == 1
+        return self.driver.find_element_by_css_selector(self.move_case_button)
 
     def is_ecju_queries_available(self):
-        return len(self.driver.find_elements_by_css_selector(self.ecju_queries_btn)) == 1
+        return self.driver.find_element_by_css_selector(self.ecju_queries_btn)
 
     def is_change_status_available(self):
         # this should equal 2 as there is a 'manage' in the link of the footer image
