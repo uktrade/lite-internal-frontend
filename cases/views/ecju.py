@@ -7,6 +7,7 @@ from lite_forms.generators import form_page, error_page
 from cases.forms.create_ecju_query import choose_ecju_query_type_form, create_ecju_query_write_or_edit_form, \
     create_ecju_create_confirmation_form
 from cases.services import get_ecju_queries, post_ecju_query
+from core.builtins.custom_tags import get_string
 from picklists.services import get_picklists, get_picklist_item
 
 
@@ -31,7 +32,8 @@ class ViewEcjuQueries(TemplateView):
         context = {
             'case_id': case_id,
             'open_ecju_queries': open_ecju_queries,
-            'closed_ecju_queries': closed_ecju_queries
+            'closed_ecju_queries': closed_ecju_queries,
+            'title': get_string('cases.ecju_queries.title')
         }
         return render(request, 'cases/case/ecju-queries.html', context)
 
