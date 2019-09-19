@@ -22,9 +22,9 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
     :return: A page with all the advice for a case at the user level, team level for a chosen team or a final level
     """
     if team:
-        advice, status_code = get_advice(request, case.get('id'), team.get('id'))
+        advice, _ = get_advice(request, case.get('id'), team.get('id'))
     else:
-        advice, status_code = get_advice(request, case.get('id'))
+        advice, _ = get_advice(request, case.get('id'))
 
     permissions, user_team = get_user_permissions(request, True)
 
@@ -61,9 +61,9 @@ def render_form_page(get_advice, request, case, form, team=None):
     :return: Form page for selecting advice type with pre-populating data if it matches
     """
     if team:
-        advice, status_code = get_advice(request, case.get('id'), team.get('id'))
+        advice, _ = get_advice(request, case.get('id'), team.get('id'))
     else:
-        advice, status_code = get_advice(request, case.get('id'))
+        advice, _ = get_advice(request, case.get('id'))
 
     selected_advice_data = request.POST
     pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
@@ -89,9 +89,9 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
     """
     selected_advice_data = request.POST
     if team:
-        advice, status_code = get_advice(request, case.get('id'), team.get('id'))
+        advice, _ = get_advice(request, case.get('id'), team.get('id'))
     else:
-        advice, status_code = get_advice(request, case.get('id'))
+        advice, _ = get_advice(request, case.get('id'))
     pre_data = check_matching_advice(request.user.lite_api_user_id, advice['advice'], selected_advice_data)
 
     if pre_data and not str(selected_advice_data['type']) in str(pre_data['type']):
@@ -141,7 +141,7 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final):
     :return:
     """
     data = request.POST
-    response, status_code = post_case_advice(request, case.get('id'), data)
+    response, _ = post_case_advice(request, case.get('id'), data)
 
     if 'errors' in response:
         proviso_picklist_items = get_picklists(request, 'proviso')
