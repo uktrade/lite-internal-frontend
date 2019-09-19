@@ -27,7 +27,7 @@ def put_control_list_classification_query(request, pk, json):
     return data.json(), data.status_code
 
 
-# CLC Queries
+# EUA Queries
 def put_end_user_advisory_query(request, pk, json):
     data = put(request, END_USER_ADVISORY_URL + str(pk), json)
     return data.json(), data.status_code
