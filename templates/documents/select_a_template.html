@@ -9,13 +9,13 @@
 	<form action="{% url 'documents:create2' %}">
 		<div class="app-document-templates__list">
 			{% for template in templates %}
-			<div class="app-document-templates__item">
-				<input type="radio" id="template-{{ template }}" name="template" value="{{ template }}" checked>
-				<label for="template-{{ template }}">
-					<img src="/assets/images/letter_base.png" alt="{{ template }}">
-					{{ template }}
-				</label>
-			</div>
+				<div class="app-document-templates__item">
+					<input type="radio" id="template-{{ template }}" name="template" value="{{ template }}">
+					<label for="template-{{ template }}">
+						<img src="/assets/images/letter_base.png" alt="{{ template }}">
+						{{ template }}
+					</label>
+				</div>
 			{% endfor %}
 		</div>
 		<button class="govuk-button">Continue</button>

@@ -2,12 +2,26 @@
 
 {% block body %}
 
-	<div class="lite-app-bar__content">
-		<h2 class="govuk-heading-l">Rylan</h2>
+	<div class="app-document-generator__container">
+		<form method="post">
+			{% csrf_token %}
+			<h2 class="govuk-heading-l">Create your document</h2>
+			<div class="govuk-form-group">
+				<label class="govuk-label" for="more-detail">
+					Content
+				</label>
+				<textarea name="content" rows="12" class="govuk-textarea">{{ content }}</textarea>
+			</div>
+			<button class="govuk-button" style="min-width: 100%; margin: 0;">Preview</button>
+		</form>
+
+		<div class="">
+			<h2 class="govuk-heading-l">Preview</h2>
+			<div class="app-document-generator__preview app-prose-scope">
+				{{ preview|safe }}
+			</div>
+		</div>
 	</div>
 
-	<form action="{% url 'documents:create2' %}">
-		<button class="govuk-button">Continue</button>
-	</form>
 
 {% endblock %}

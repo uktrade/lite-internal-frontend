@@ -1,0 +1,37 @@
+{% extends 'layouts/base.html' %}
+
+{% block body %}
+
+	<h2 class="govuk-heading-l">Help with creating a document</h2>
+
+	<h3 class="govuk-heading-m">Formatting</h3>
+
+	<p class="govuk-body">To put a title in your template, use a hash:</p>
+
+	<p class="govuk-inset-text"># This is a title</p>
+
+	<p class="govuk-body">To make bullet points, use asterisks:</p>
+
+	<p class="govuk-inset-text">
+		* point 1<br>
+		* point 2<br>
+		* point 3
+	</p>
+
+	<p class="govuk-body">To add a horizontal line, use three dashes:</p>
+
+	<p class="govuk-inset-text">
+		First paragraph
+		<br>
+		<span style="letter-spacing: 2px;">---</span>
+		<br>
+		Second paragraph
+	</p>
+
+	<h3 class="govuk-heading-m">Personalisation</h3>
+
+	<p class="govuk-body">Use double brackets to personalise your document:</p>
+
+	<p class="govuk-inset-text">{% verbatim %}Hello <span class="lite-filter-highlight">{% first name %}</span>, your reference is <span class="lite-filter-highlight">{% refence_number %}</span>{% endverbatim %}</p>
+
+{% endblock %}
