@@ -14,7 +14,6 @@ from cases.forms.create_ecju_query import create_ecju_query_write_or_edit_form, 
     create_ecju_create_confirmation_form
 from cases.forms.denial_reasons import denial_reasons_form
 from cases.forms.move_case import move_case_form
-from cases.forms.record_decision import record_decision_form
 from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, \
     put_end_user_advisory_query, get_ecju_queries, post_ecju_query
 from cases.services import post_case_documents, get_case_documents, get_document
@@ -136,7 +135,7 @@ class ViewAdvice(TemplateView):
             'permissions': permissions,
             'edit_case_flags': get_string('cases.case.edit_case_flags')
         }
-        return render(request, 'cases/case/advice-view.html', context)
+        return render(request, 'cases/case/user-advice-view.html', context)
 
 
 class ViewEcjuQueries(TemplateView):
@@ -244,15 +243,19 @@ class ManageCase(TemplateView):
         case = get_case(request, case_id)
         statuses, _ = get_statuses(request)
 
+        reduced_statuses = {}
+        reduced_statuses['statuses'] = [x for x in statuses['statuses'] if x['status'] != 'finalised']
+
         if case['type']['key'] == 'application':
             title = 'Manage ' + case.get('application').get('name')
+
         else:
             title = 'Manage CLC query case'
 
         context = {
             'case': case,
             'title': title,
-            'statuses': statuses
+            'statuses': reduced_statuses
         }
         return render(request, 'cases/case/change-status.html', context)
 
@@ -287,41 +290,7 @@ class DecideCase(TemplateView):
                 'status': 'declined'
             }
         else:
-            data = {}
-
-        return form_page(request, record_decision_form(), data=data)
-
-    @has_permission(MAKE_FINAL_DECISIONS)
-    def post(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        case = get_case(request, case_id)
-
-        case_id = case.get('id')
-        application_id = case.get('application').get('id')
-
-        if not request.POST.get('status'):
-            return form_page(request, record_decision_form(), errors={
-                'status': ['Select an option']
-            })
-
-        if request.POST.get('status') == 'declined':
-            return redirect(reverse('cases:deny', kwargs={'pk': case_id}))
-
-        # PUT form data
-        put_applications(request, application_id, request.POST)
-
-        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
-
-
-class DenyCase(TemplateView):
-    @has_permission(MAKE_FINAL_DECISIONS)
-    def get(self, request, **kwargs):
-        return form_page(request, denial_reasons_form())
-
-    @has_permission(MAKE_FINAL_DECISIONS)
-    def post(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        case = get_case(request, case_id)
+            raise Http404
 
         application_id = case['application']['id']
 
