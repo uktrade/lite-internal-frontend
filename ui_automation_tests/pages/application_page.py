@@ -162,16 +162,16 @@ class ApplicationPage(BasePage):
     def end_user_document_link_is_enabled(self):
         return self.driver.find_element_by_id(self.download_end_user_document).is_enabled()
 
-    def is_flag_available(self):
+    def get_case_flag_element(self):
         return self.driver.find_element_by_id(self.case_flags)
 
-    def is_document_available(self):
+    def get_document_element(self):
         return self.driver.find_element_by_css_selector(self.documents_btn)
 
-    def is_move_case_available(self):
+    def get_move_case_element(self):
         return self.driver.find_element_by_css_selector(self.move_case_button)
 
-    def is_ecju_queries_available(self):
+    def get_ecju_queries_element(self):
         return self.driver.find_element_by_css_selector(self.ecju_queries_btn)
 
     def is_change_status_available(self):

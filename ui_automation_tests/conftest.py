@@ -77,8 +77,7 @@ def click_on_created_application(driver, context, internal_url):
 
 
 @when('I go to end user advisory previously created') # noqa
-def click_on_created_eua(driver, context, internal_url):
-    driver.get(internal_url)
+def click_on_created_eua(driver, context):
     driver.find_element_by_link_text(reference_code(context.eua_id)).click()
 
 

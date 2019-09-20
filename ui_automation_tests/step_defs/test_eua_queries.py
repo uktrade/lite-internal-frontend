@@ -7,7 +7,7 @@ scenarios('../features/end_user_advisory_query.feature', strict_gherkin=False)
 @then('I should see flags can be added')
 def flags_are_available(driver):
     application_page = ApplicationPage(driver)
-    assert application_page.is_flag_available()
+    assert application_page.get_case_flag_element()
 
 
 @then('I should see the ability to add case notes')
@@ -20,9 +20,9 @@ def case_notes_are_available(driver):
 def dropdown_contains_correct_functionality(driver):
     application_page = ApplicationPage(driver)
     application_page.click_drop_down()
-    assert application_page.is_document_available()
-    assert application_page.is_move_case_available()
-    assert application_page.is_ecju_queries_available()
+    assert application_page.get_document_element()
+    assert application_page.get_move_case_element()
+    assert application_page.get_ecju_queries_element()
     assert application_page.is_change_status_available()
     assert len(driver.find_elements_by_xpath('//div[@class="lite-app-bar__controls"]//div//a')) == 4
 
