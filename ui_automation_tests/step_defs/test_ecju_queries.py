@@ -96,6 +96,5 @@ def i_create_a_response_to_an_ecju(driver, context):
 @then("the ECJU Query is in the closed list")
 def ecju_query_in_closed_list(driver, context):
     ecju_page = EcjuQueriesPages(driver)
-    ecju_page.click_closed_query()
     assert context.ecju_response in ecju_page.get_closed_query_answers()
     assert context.ecju_question in ecju_page.get_closed_query_questions()
