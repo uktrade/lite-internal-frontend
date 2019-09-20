@@ -9,11 +9,8 @@ from lite_forms.submitters import submit_single_form
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from cases.forms.attach_documents import attach_documents_form
-from cases.forms.create_ecju_query import create_ecju_query_write_or_edit_form, choose_ecju_query_type_form, \
-    create_ecju_create_confirmation_form
 from cases.forms.move_case import move_case_form
-from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case, \
-    get_ecju_queries, post_ecju_query
+from cases.services import get_case, post_case_notes, put_applications, get_activity, put_case
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
 from conf.constants import DEFAULT_QUEUE_ID
