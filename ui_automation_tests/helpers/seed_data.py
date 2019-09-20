@@ -169,8 +169,12 @@ class SeedData:
 
     def setup_org(self):
         organisation = self.find_org_by_name()
+
         if not organisation:
             organisation = self.add_org()
+        else:
+            self.add_exporter_user_to_org(organisation['id'])
+
         org_id = organisation['id']
         self.add_to_context('org_id', org_id)
         self.add_to_context('org_name', self.org_name)
@@ -184,6 +188,10 @@ class SeedData:
         response = self.make_request("POST", url='/organisations/', body=data)
         organisation = json.loads(response.text)['organisation']
         return organisation
+
+    def add_exporter_user_to_org(self, org_id):
+        user_data = self.request_data['organisation']['user']
+        self.make_request("POST", url='/organisations/' + org_id + '/users/', body=user_data, validate_response=False)
 
     def add_ecju_query_picklist(self):
         self.log("Creating ECJU Query picklist item ...")
@@ -367,7 +375,7 @@ class SeedData:
             data = {'queues': [bin_queue_id]}
             self.make_request("PUT", url='/cases/' + case['id'] + '/', headers=self.gov_headers, body=data)
 
-    def make_request(self, method, url, headers=None, body=None):
+    def make_request(self, method, url, headers=None, body=None, validate_response=True):
         if headers is None:
             headers = self.gov_headers
         if body:
@@ -376,6 +384,6 @@ class SeedData:
                                         headers=headers)
         else:
             response = requests.request(method, self.base_url + url, headers=headers)
-        if not response.ok:
+        if validate_response and not response.ok:
             raise Exception("bad response: " + response.text)
         return response
