@@ -8,6 +8,7 @@ Feature: I want to respond to an End User Advisory query
   Scenario: I want to check that the functionality of other cases exists
     Given I create eua query or eua query has been previously created
     And I sign in to SSO or am signed into SSO
+    And I go to internal homepage
     When I go to end user advisory previously created
     Then I should see flags can be added
     And I should see the ability to add case notes
@@ -17,6 +18,7 @@ Feature: I want to respond to an End User Advisory query
   Scenario: I want to check that the case status can be changed
     Given I create eua query or eua query has been previously created
     And I sign in to SSO or am signed into SSO
+    And I go to internal homepage
     When I go to end user advisory previously created
     And I click progress application
     And I select status "Under review" and save
