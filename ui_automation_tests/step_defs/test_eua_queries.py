@@ -24,6 +24,8 @@ def dropdown_contains_correct_functionality(driver):
     assert application_page.get_move_case_element()
     assert application_page.get_ecju_queries_element()
     assert application_page.is_change_status_available()
+    # This tests that the expected elements are the only ones that appear, and that any new functionality added
+    #   should be tested if not tested elsewhere.
     assert len(driver.find_elements_by_css_selector('div.lite-app-bar__controls>div>a')) == 4
 
 
