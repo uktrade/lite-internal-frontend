@@ -1,12 +1,15 @@
 import os
 from collections import MutableMapping
 
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import engines
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+# from weasyprint import HTML
 
-from cases.documents.services import get_letter_templates
+from cases.documents.services import get_letter_templates, get_letter_template
 from cases.services import get_case
 from conf import settings
 
@@ -63,6 +66,8 @@ class CreateDocument(TemplateView):
         if not template:
             return redirect(reverse_lazy('cases:documents:pick_a_template', kwargs={'pk': case_id}) + '?show_error=True')
 
+        template_data = get_letter_template(request, template)
+
         django_engine = engines['django']
         template = django_engine.from_string(open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, f'{template}.html'), 'r').read())
         letter_context = {
@@ -77,9 +82,41 @@ class CreateDocument(TemplateView):
             'preview': preview,
             'content': letter_context.pop('content'),
             'letter_context': letter_context,
-            'flattened_letter_context': flatten_data_new(letter_context)
+            'flattened_letter_context': flatten_data_new(letter_context),
+            'template_data': template_data,
         }
-        return render(request, 'documents/document_generator.html', context)
+
+        print(preview)
+
+        if request.POST.get('action') == 'print':
+            return render(request, 'documents/preview.html', context)
+        else:
+            return render(request, 'documents/document_generator.html', context)
+
+
+class Preview(TemplateView):
+
+    def dispatch(self, request, *args, **kwargs):
+        case_id = str(kwargs['pk'])
+        case = get_case(request, case_id)
+        template = request.GET.get('template')
+
+        django_engine = engines['django']
+        template = django_engine.from_string(open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, f'{template}.html'), 'r').read())
+        letter_context = {
+            'applicant': case.get('query').get('organisation'),
+            'query': case.get('query'),
+            'content': request.POST.get('content', ''),
+        }
+        preview = template.render(letter_context)
+
+        # html = HTML(string=preview)
+        # html.write_pdf(target='/tmp/mypdf.pdf')
+        # fs = FileSystemStorage('/tmp')
+        # with fs.open('mypdf.pdf') as pdf:
+        #     response = HttpResponse(pdf, content_type='application/pdf')
+        #     response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+        #     return response
 
 
 class Help(TemplateView):

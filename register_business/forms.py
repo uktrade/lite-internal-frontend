@@ -24,8 +24,7 @@ def register_business_forms():
                            description='8 numbers, or 2 letters followed by 6 numbers.',
                            name='registration_number'),
              ],
-             default_button_name='Continue'
-             ),
+             default_button_name='Continue'),
         Form(title='Create a default site for this organisation',
              questions=[
                  TextInput(title='Name of site',
@@ -48,4 +47,4 @@ def register_business_forms():
                  HelpSection('Help', 'This will be the default user for this organisation.')
              ]),
     ],
-        show_progress_indicators=True,)
+        show_progress_indicators=True, )

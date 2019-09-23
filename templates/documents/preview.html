@@ -1,0 +1,25 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block head %}
+	<style>
+		.govuk-width-container {
+			max-width: 1300px;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<form action="{% 'cases:documents:preview' case.id %}" method="post">
+		{% hidden_field 'content' content %}
+		<button type="button" name="button">Submit</button>
+	</form>
+	<div class="app-document-generator__preview-container">
+		<div style="max-width: 800px; margin: auto;">
+			<div class="app-document-generator__preview app-prose-scope">
+				{{ preview|safe }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

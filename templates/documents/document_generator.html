@@ -30,13 +30,15 @@
 		<div>
 			<div class="lite-app-bar">
 				<div class="lite-app-bar__content">
-					<h2 class="govuk-heading-l">Create your letter</h2>
+					<h2 class="govuk-heading-l">Create your {{ template_data.name }}</h2>
 				</div>
 			</div>
 			<form method="post" style="position: sticky; position: -webkit-sticky; top: 30px;">
 				{% csrf_token %}
 				<textarea placeholder="Letter content" autocomplete="off" autocorrect="off" autocapitalize="off" id="content" name="content" rows="12" class="govuk-textarea hwt-input hwt-content">{{ content }}</textarea>
-				<button class="govuk-button" style="min-width: 100%; margin: 0;">Preview</button>
+				<button class="govuk-button" name="action" value="preview" style="min-width: 100%; margin: 0;">Preview</button>
+				<br><br>
+				<button class="govuk-button govuk-button--secondary" name="action" value="print" style="min-width: 100%; margin: 0;">Print</button>
 			</form>
 		</div>
 
