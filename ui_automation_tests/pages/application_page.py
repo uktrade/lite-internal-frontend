@@ -74,19 +74,19 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.post_note_btn).get_attribute("class")
 
     def click_progress_application(self):
-        self.driver.find_element_by_css_selector(self.actions_dropdown).click()
+        self.click_drop_down()
         self.driver.find_element_by_css_selector(self.progress_app_btn).click()
 
     def click_record_decision(self):
-        self.driver.find_element_by_css_selector(self.actions_dropdown).click()
+        self.click_drop_down()
         self.driver.find_element_by_css_selector(self.record_decision_btn).click()
 
     def click_documents_button(self):
-        self.driver.find_element_by_css_selector(self.actions_dropdown).click()
+        self.click_drop_down()
         self.driver.find_element_by_css_selector(self.documents_btn).click()
 
     def click_ecju_queries_button(self):
-        self.driver.find_element_by_css_selector(self.actions_dropdown).click()
+        self.click_drop_down()
         self.driver.find_element_by_css_selector(self.ecju_queries_btn).click()
 
     def click_drop_down(self):
@@ -129,7 +129,7 @@ class ApplicationPage(BasePage):
         return flag_name in self.driver.find_element_by_id("goods").text
 
     def click_move_case_button(self):
-        self.driver.find_element_by_css_selector(self.actions_dropdown).click()
+        self.click_drop_down()
         self.driver.find_element_by_css_selector(self.move_case_button).click()
 
     def get_text_of_audit_trail_item(self, no):
