@@ -58,12 +58,13 @@ class CreateDocument(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         case_id = str(kwargs['pk'])
         case = get_case(request, case_id)
+        template = request.GET.get('template')
 
-        if not request.GET.get('template'):
+        if not template:
             return redirect(reverse_lazy('cases:documents:pick_a_template', kwargs={'pk': case_id}) + '?show_error=True')
 
         django_engine = engines['django']
-        template = django_engine.from_string(open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, 'licence.html'), 'r').read())
+        template = django_engine.from_string(open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, f'{template}.html'), 'r').read())
         letter_context = {
             'applicant': case.get('query').get('organisation'),
             'query': case.get('query'),
