@@ -16,7 +16,7 @@
 			<h2 class="govuk-heading-l app-reference-code">{{ case.query.id|reference_code }}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
-			<div class="app-more-actions__container {% if case.query.good.status != 'final' %}app-more-actions__container--secondary{% endif %}">
+			<div class="app-more-actions__container">
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
 					{% get_string 'cases.manage.documents.button' %}
 				</a>
