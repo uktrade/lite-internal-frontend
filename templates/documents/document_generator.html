@@ -1,27 +1,276 @@
 {% extends 'layouts/base.html' %}
 
+{% load static %}
+
+{% block head %}
+	<style>
+		.govuk-width-container {
+			max-width: 1400px;
+		}
+	</style>
+{% endblock %}
+
 {% block body %}
 
-	<div class="app-document-generator__container">
-		<form method="post">
-			{% csrf_token %}
-			<h2 class="govuk-heading-l">Create your document</h2>
-			<div class="govuk-form-group">
-				<label class="govuk-label" for="more-detail">
-					Content
-				</label>
-				<textarea name="content" rows="12" class="govuk-textarea">{{ content }}</textarea>
-			</div>
-			<button class="govuk-button" style="min-width: 100%; margin: 0;">Preview</button>
-		</form>
+	<div class="app-document-formatter" style="display: none;">
+		<a class="app-document-formatter__item" href="#" onclick="return boldText()">
+			B
+		</a>
+		<a class="app-document-formatter__item" href="#" onclick="return italicText()">
+			I
+		</a>
+		<a class="app-document-formatter__item" href="#" onclick="return italicText()">
+			U
+		</a>
+	</div>
 
+	<div class="app-document-generator__container">
 		<div class="">
-			<h2 class="govuk-heading-l">Preview</h2>
-			<div class="app-document-generator__preview app-prose-scope">
-				{{ preview|safe }}
+			<div class="lite-app-bar">
+				<div class="lite-app-bar__content">
+					<h2 class="govuk-heading-l">Create your document</h2>
+				</div>
+			</div>
+			<form method="post" style="position: sticky; position: -webkit-sticky; top: 30px;">
+				{% csrf_token %}
+				<textarea placeholder="Letter content" autocomplete="off" autocorrect="off" autocapitalize="off" id="content" name="content" rows="12" class="govuk-textarea hwt-input hwt-content">{{ content }}</textarea>
+				<button class="govuk-button" style="min-width: 100%; margin: 0;">Preview</button>
+			</form>
+		</div>
+
+		<div class="app-document-generator__preview-container">
+			<div style="max-width: 800px; margin: auto;">
+				<div class="lite-app-bar">
+					<div class="lite-app-bar__content">
+
+					</div>
+					<div class="lite-app-bar__controls">
+						<a class="govuk-button govuk-button--secondary" href="#" onclick="return showFlagsModal()">Help</a>
+					</div>
+				</div>
+				<div class="app-document-generator__preview app-prose-scope">
+					{{ preview|safe }}
+				</div>
 			</div>
 		</div>
 	</div>
 
+	<div id="autocomplete-suggestions">
 
+	</div>
+
+	<div id="flags-modal" style="display: none;">
+		{% include 'documents/help.html' %}
+	</div>
+
+	<script type="text/javascript">
+		function showFlagsModal() {
+			LITECommon.Modal.showModal("Formatting", $("#flags-modal").html(), false);
+			return false;
+		}
+
+		var currentMousePos = { x: -1, y: -1 };
+		$(document).mousemove(function(event) {
+			currentMousePos.x = event.pageX;
+			currentMousePos.y = event.pageY;
+		});
+
+		$('textarea').mouseup(function() {
+		    var text=getSel();
+			if (text.length == 0) {
+				$(".app-document-formatter").fadeOut(100);
+			} else {
+				$(".app-document-formatter").fadeIn(100);
+				$(".app-document-formatter").css({'top': currentMousePos.y, 'left': currentMousePos.x})
+			}
+		});
+
+		$.fn.selectRange = function(start, end) {
+		    var e = document.getElementById($(this).attr('id')); // I don't know why... but $(this) don't want to work today :-/
+		    if (!e) return;
+		    else if (e.setSelectionRange) { e.focus(); e.setSelectionRange(start, end); } /* WebKit */
+		    else if (e.createTextRange) { var range = e.createTextRange(); range.collapse(true); range.moveEnd('character', end); range.moveStart('character', start); range.select(); } /* IE */
+		    else if (e.selectionStart) { e.selectionStart = start; e.selectionEnd = end; }
+		};
+
+		function boldText() {
+			var editor = document.getElementById("content");
+			var editorHTML = editor.value;
+			var selectionStart = 0, selectionEnd = 0;
+			if (editor.selectionStart) selectionStart = editor.selectionStart;
+			if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
+			if (selectionStart != selectionEnd) {
+				var editorCharArray = editorHTML.split("");
+				editorCharArray.splice(selectionEnd, 0, "**");
+				editorCharArray.splice(selectionStart, 0, "**"); //must do End first
+				editorHTML = editorCharArray.join("");
+				editor.value = editorHTML;
+			}
+			$('#content').selectRange(selectionStart, selectionEnd + 4);
+			$('#content').highlightWithinTextarea('update');
+		}
+
+		function italicText() {
+			var editor = document.getElementById("content");
+			var editorHTML = editor.value;
+			var selectionStart = 0, selectionEnd = 0;
+			if (editor.selectionStart) selectionStart = editor.selectionStart;
+			if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
+			if (selectionStart != selectionEnd) {
+				var editorCharArray = editorHTML.split("");
+				editorCharArray.splice(selectionEnd, 0, "_");
+				editorCharArray.splice(selectionStart, 0, "_"); //must do End first
+				editorHTML = editorCharArray.join("");
+				editor.value = editorHTML;
+			}
+			$('#content').selectRange(selectionStart, selectionEnd + 2);
+			$('#content').highlightWithinTextarea('update');
+		}
+
+		function getSel() {
+		    // obtain the object reference for the <textarea>
+		    var txtarea = document.getElementById("content");
+		    // obtain the index of the first selected character
+		    var start = txtarea.selectionStart;
+		    // obtain the index of the last selected character
+		    var finish = txtarea.selectionEnd;
+		    // obtain the selected text
+		    var sel = txtarea.value.substring(start, finish);
+		    // do something with the selected content
+			return sel;
+		}
+	</script>
+
+{% endblock %}
+
+{% block javascript %}
+	<script src="{% static 'javascripts/modal.js' %}"></script>
+	<script src="{% static 'javascripts/highlight_tags.js' %}"></script>
+	<script src="{% static 'javascripts/caret_position.js' %}"></script>
+	<script type="text/javascript">
+		$('#content').highlightWithinTextarea({
+		    highlight: [
+		        {
+		            highlight: {% verbatim %}/{{(.*?)}}/g{% endverbatim %},
+		            className: 'lite-highlight'
+		        },
+		        {
+		            highlight: {% verbatim %}/{%(.*?)%}/g{% endverbatim %},
+		            className: 'lite-highlight lite-highlight--purple'
+		        }
+		    ]
+		});
+	</script>
+
+	<script>
+		var text = {{ flattened_letter_context|safe }};
+
+		function getSuggestion(string) {
+			if (!string.trim()) {
+				return '';
+			}
+
+			for (var i = 0; i < text.length; i++) {
+				if (text[i].toLowerCase().startsWith(string.toLowerCase())) {
+					if (text[i].toLowerCase() != string.toLowerCase()) {
+						return text[i];
+					} else {
+						return '';
+					}
+				}
+			}
+			return '';
+		}
+
+		function clickSuggestion(string) {
+			replaceCurrentWord(string);
+			$("#autocomplete-suggestions").empty();
+		}
+
+		function getSuggestions(string) {
+			returnValue = [];
+
+			if (!string.trim()) {
+				return [];
+			}
+
+			for (var i = 0; i < text.length; i++) {
+				if (text[i].toLowerCase().startsWith(string.toLowerCase())) {
+					if (text[i].toLowerCase() != string.toLowerCase()) {
+						returnValue.push(text[i])
+					} else {
+						return '';
+					}
+				}
+			}
+			return returnValue;
+		}
+
+		{% verbatim %}
+		function getCurrentWord() {
+			var input = $("#content");
+			var currentWord = '';
+			var selectionStart = input.prop('selectionStart');
+			var wordStart = input.val().substring(0, selectionStart).lastIndexOf(' ') + 1;
+			currentWord = input.val().substring(wordStart, selectionStart);
+
+			if (input.val().substring(0, selectionStart).lastIndexOf('{{') <= input.val().substring(0, selectionStart).lastIndexOf('}}') &&
+				input.val().substring(0, selectionStart).lastIndexOf('{%') <= input.val().substring(0, selectionStart).lastIndexOf('%}')) {
+				return '';
+			}
+
+			return currentWord;
+		}
+		{% endverbatim %}
+
+		String.prototype.replaceBetween = function(start, end, what) {
+			return this.substring(0, start) + what + this.substring(end);
+		};
+
+		function replaceCurrentWord(newWord) {
+			var input = $("#content");
+			var currentWord = '';
+			var selectionStart = input.prop('selectionStart');
+			var wordStart = input.val().substring(0, selectionStart).lastIndexOf(' ') + 1;
+
+			input.val(input.val().replaceBetween(wordStart, selectionStart, newWord));
+
+			$('#content').selectRange(wordStart + newWord.length, wordStart + newWord.length);
+
+			$('#content').highlightWithinTextarea('update');
+		}
+
+		$( '#content' ).keyup(function(e) {
+			suggestions = getSuggestions(getCurrentWord())
+
+			$("#autocomplete-suggestions").empty();
+			for (var i = 0; i < suggestions.length; i++) {
+			   nameList = "<a onclick='return clickSuggestion(\"" + suggestions[i] + "\")'>" + suggestions[i] + "</a>";
+			   $("#autocomplete-suggestions").append(nameList);
+			}
+		});
+
+		document.querySelector('textarea').addEventListener('input', function () {
+		  var caret = getCaretCoordinates(this, this.selectionEnd);
+
+		  posY =  $('#content')[0].getBoundingClientRect().top + $(window)['scrollTop']() + caret.top + 30;
+		  posX = $('#content').offset().left + 5;
+
+		  $( '#autocomplete-suggestions' ).css({'top': posY,
+		  										'left': caret.left + posX});
+		})
+
+		$( '#content' ).keypress(function(e) {
+			var code = e.keyCode ? e.keyCode : e.which;
+			suggestion = getSuggestion(getCurrentWord())
+
+			if (suggestion) {
+				if (code == 13) {
+					e.preventDefault();
+					replaceCurrentWord(suggestion);
+				}
+			}
+		});
+
+	</script>
 {% endblock %}

@@ -1,37 +1,65 @@
-{% extends 'layouts/base.html' %}
+<p class="govuk-body">To put a title in your document, use a hash:</p>
 
-{% block body %}
+<p class="govuk-inset-text"># This is a title</p>
 
-	<h2 class="govuk-heading-l">Help with creating a document</h2>
+<p class="govuk-body">To make bullet points, use asterisks:</p>
 
-	<h3 class="govuk-heading-m">Formatting</h3>
+<p class="govuk-inset-text">
+	* point 1<br>
+	* point 2<br>
+	* point 3
+</p>
 
-	<p class="govuk-body">To put a title in your template, use a hash:</p>
+<p class="govuk-body">To add a horizontal line, use three dashes:</p>
 
-	<p class="govuk-inset-text"># This is a title</p>
+<p class="govuk-inset-text">
+	First paragraph
+	<br>
+	<span style="letter-spacing: 2px;">---</span>
+	<br>
+	Second paragraph
+</p>
 
-	<p class="govuk-body">To make bullet points, use asterisks:</p>
+<h3 class="govuk-heading-m">Personalisation</h3>
 
-	<p class="govuk-inset-text">
-		* point 1<br>
-		* point 2<br>
-		* point 3
-	</p>
+<p class="govuk-body">Use double brackets to personalise your document:</p>
 
-	<p class="govuk-body">To add a horizontal line, use three dashes:</p>
+<p class="govuk-inset-text">{% verbatim %}Hello <span class="lite-highlight">{{ applicant.name }}</span>, your reference is <span class="lite-highlight">{{ refence_number }}</span>{% endverbatim %}</p>
 
-	<p class="govuk-inset-text">
-		First paragraph
-		<br>
-		<span style="letter-spacing: 2px;">---</span>
-		<br>
-		Second paragraph
-	</p>
+<p class="govuk-body">Use magic brackets to have conditional content:</p>
 
-	<h3 class="govuk-heading-m">Personalisation</h3>
+<p class="govuk-inset-text">
+	{% verbatim %}
+		<span class="lite-highlight lite-highlight--purple">{% if case.is_finalised %}</span><br>
+		Your application has been approved...<br>
+		<span class="lite-highlight lite-highlight--purple">{% endif %}</span>
+	{% endverbatim %}
+</p>
 
-	<p class="govuk-body">Use double brackets to personalise your document:</p>
+<p class="govuk-body">You can also use magic brackets to have looping content:</p>
 
-	<p class="govuk-inset-text">{% verbatim %}Hello <span class="lite-filter-highlight">{% first name %}</span>, your reference is <span class="lite-filter-highlight">{% refence_number %}</span>{% endverbatim %}</p>
+<p class="govuk-inset-text">
+	{% verbatim %}
+		<span class="lite-highlight lite-highlight--purple">{% for flag in flags %}</span><br>
+		<span class="lite-highlight">{{ flag.name }}</span><br>
+		<span class="lite-highlight lite-highlight--purple">{% endfor %}</span>
+	{% endverbatim %}
+</p>
 
-{% endblock %}
+<h3 class="govuk-heading-m">Variables</h3>
+
+<dl class="govuk-summary-list govuk-summary-list--no-border">
+	{% for key, value in letter_context.items %}
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				{{ key }}
+			</dt>
+			<dd class="govuk-summary-list__value">
+
+			{% for key, value in value.items %}
+				{{ key }}<br>
+			{% endfor %}
+			</dd>
+		</div>
+	{% endfor %}
+</dl>

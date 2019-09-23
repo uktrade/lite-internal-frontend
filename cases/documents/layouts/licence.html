@@ -1,0 +1,177 @@
+<style>
+	.letter-heading {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		grid-gap: 30px;
+		margin-bottom: 20px;
+	}
+	table {
+		width: 100%;
+	}
+	table, th, td {
+		border: 2px solid grey;
+  		border-collapse: collapse;
+		vertical-align: top;
+	}
+</style>
+
+<div class="letter-heading">
+	<p>Standard Individual Export Licence</p>
+	<img src="/assets/images/dit.png" alt="" width="140px">
+</div>
+
+<table>
+	<tr>
+		<td rowspan="4">1</td>
+		<td rowspan="4">
+			1. Exporter<br>
+			{{ applicant.name }}<br>
+			{{ applicant.primary_site.address.address_line_1 }}<br>
+			{% if applicant.primary_site.address.address_line_2 %}{{ applicant.primary_site.address.address_line_2 }}<br>{% endif %}
+			{{ applicant.primary_site.address.postcode }}<br>
+			{{ applicant.primary_site.address.city }}<br>
+			{{ applicant.primary_site.address.region }}<br>
+			{{ applicant.primary_site.address.country.name }}<br>
+		</td>
+		<td>
+			2. Licence number<br>
+			licence_number
+		</td>
+		<td>
+			3a. Commencement date<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td>
+			2a. Application number<br>
+			licence_number
+		</td>
+		<td>
+			3a. Expiry date<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			2b. Application reference<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			4. Exporter contact details<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			5. Application number<br>
+			licence_number
+		</td>
+		<td colspan="2">
+			6. Expiry date<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" rowspan="2">
+			7. Application number<br>
+			licence_number
+		</td>
+		<td>
+			8. Expiry date<br>
+			licence_number
+		</td>
+		<td>
+			Code<br>
+			licence_number
+		</td>
+	</tr>
+	<!-- <tr>
+		<td>
+			8. Expiry date<br>
+			licence_number
+		</td>
+		<td>
+			Code<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" rowspan="3">
+			10. Application number<br>
+			licence_number
+		</td>
+		<td>
+			8. Expiry date<br>
+			licence_number
+		</td>
+		<td>
+			Code<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td>
+			8. Expiry date<br>
+			licence_number
+		</td>
+		<td>
+			Code<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td>
+			8. Expiry date<br>
+			licence_number
+		</td>
+		<td>
+			Code<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" rowspan="2">
+			7. Application number<br>
+			licence_number
+		</td>
+		<td>
+			8. Expiry date<br>
+			licence_number
+		</td>
+		<td>
+			Code<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td>
+			8. Expiry date<br>
+			licence_number
+		</td>
+		<td>
+			Code<br>
+			licence_number
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" rowspan="2">
+			7. Application number<br>
+			licence_number
+		</td>
+		<td>
+			8. Expiry date<br>
+			licence_number
+		</td>
+		<td>
+			Code<br>
+			licence_number
+		</td>
+	</tr> -->
+</table>
+
+<br><br>
+
+{% markdown_convert %}

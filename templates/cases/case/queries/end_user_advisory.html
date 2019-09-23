@@ -24,6 +24,8 @@
 		</div>
 	</div>
 
+	<a class="govuk-button" href="{% url 'cases:documents:pick_a_template' case.id %}">Document Generator (ALPHA)</a>
+
 	<!-- Case flags -->
 	{% include 'cases/case/views/case-flags.html' %}
 

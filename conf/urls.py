@@ -6,7 +6,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('auth.urls', namespace='authbroker')),
     path('cases/', include('cases.urls')),
-    path('documents/', include('documents.urls')),
     path('organisations/', include('organisations.urls')),
     path('organisations/register/', include('register_business.urls')),
     path('team/picklists/', include('picklists.urls')),

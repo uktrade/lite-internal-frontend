@@ -1,3 +1,5 @@
+import warnings
+
 from conf.settings import env
 import os
 import types
@@ -17,33 +19,35 @@ def set_timeout_to(self, time=0):
 def set_timeout_to_10_seconds(self):
     self.implicitly_wait(10)
 
-# Create driver fixture that initiates chrome
-@fixture(scope="session", autouse=True)
+
+@fixture(scope='session', autouse=True)
 def driver(request):
-    browser = request.config.getoption("--driver")
+    """
+    Open a browser for the session
+    """
+    browser = request.config.getoption('--driver').lower()
 
-    chrome_options = webdriver.ChromeOptions()
-    if str(os.environ.get('TEST_TYPE_HEADLESS')) == 'True':
-        chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--no-sandbox')
-
+    # Set browser
     if browser == 'chrome':
-        if str(os.environ.get('ENVIRONMENT')) == 'None':
-            browser = webdriver.Chrome("chromedriver", chrome_options=chrome_options)
-        else:
-            browser = webdriver.Chrome(chrome_options=chrome_options)
+        chrome_options = webdriver.ChromeOptions()
 
-        browser.set_timeout_to = types.MethodType(set_timeout_to, browser)
-        browser.set_timeout_to_10_seconds = types.MethodType(set_timeout_to_10_seconds, browser)
-        browser.get("about:blank")
-        browser.set_timeout_to_10_seconds()
-        return browser
+        if str(os.environ.get('TEST_TYPE_HEADLESS')) == 'True':
+            chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+
+        browser = webdriver.Chrome(options=chrome_options)
+    elif browser == 'safari':
+        warnings.warn('Safari is buggy, use at your own risk', UserWarning, stacklevel=2)
+        browser = webdriver.Safari()
+        browser.maximize_window()
     else:
         print('Only Chrome is supported at the moment')
 
-    def fin():
-        driver.quit()
-    request.addfinalizer(fin)
+    browser.set_timeout_to = types.MethodType(set_timeout_to, browser)
+    browser.set_timeout_to_10_seconds = types.MethodType(set_timeout_to_10_seconds, browser)
+    browser.get("about:blank")
+    browser.set_timeout_to_10_seconds()
+    return browser
 
 
 @fixture(scope="session")

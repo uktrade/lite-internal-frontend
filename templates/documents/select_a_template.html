@@ -6,14 +6,14 @@
 		<h1 class="govuk-heading-xl">Select a template to use</h1>
 	</div>
 
-	<form action="{% url 'documents:create2' %}">
+	<form action="{% url 'cases:documents:create' case.id %}">
 		<div class="app-document-templates__list">
 			{% for template in templates %}
 				<div class="app-document-templates__item">
-					<input type="radio" id="template-{{ template }}" name="template" value="{{ template }}">
-					<label for="template-{{ template }}">
-						<img src="/assets/images/letter_base.png" alt="{{ template }}">
-						{{ template }}
+					<input type="radio" id="template-{{ template.id }}" name="template" value="{{ template.id }}">
+					<label for="template-{{ template.id }}">
+						<img src="/assets/images/letter_base.png" alt="{{ template.name }}">
+						{{ template.name }}
 					</label>
 				</div>
 			{% endfor %}

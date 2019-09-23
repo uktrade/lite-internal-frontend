@@ -77,7 +77,7 @@ TEMPLATES = [
                 'conf.context_processors.export_vars',
                 'conf.context_processors.lite_menu',
             ],
-            'builtins': ['core.builtins.custom_tags'],
+            'builtins': ['core.builtins.custom_tags', 'cases.documents.templatetags.markdown_convert'],
         },
     },
 ]
@@ -189,7 +189,7 @@ S3_MIN_PART_SIZE = 5*1024*1024
 MAX_UPLOAD_SIZE = 100*1024*1024
 
 # Document generatino
-LETTER_TEMPLATES_DIRECTORY = os.path.join(BASE_DIR, "documents", "layouts")
+LETTER_TEMPLATES_DIRECTORY = os.path.join(BASE_DIR, "cases", "documents", "layouts")
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases

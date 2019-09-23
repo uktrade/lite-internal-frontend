@@ -4,6 +4,38 @@
 @import "country-tag";
 @import "dropdown";
 @import "flags";
+@import "highlight-tags";
 @import "lite-menu";
 @import "more-actions";
 @import "picklists";
+
+#autocomplete-suggestions {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: govuk-colour("white");
+	box-shadow: $lite-drop-shadow;
+	max-height: 300px;
+	min-width: 250px;
+	overflow-y: scroll;
+	z-index: 10;
+	transition: top 0.2s ease, left 0.2s ease;
+
+	a {
+		display: block;
+		@include govuk-font($size: 16);
+		padding: govuk-spacing(3) govuk-spacing(4);
+		border-bottom: 2px solid govuk-colour("light-grey");
+		cursor: pointer;
+
+		&:hover {
+			background-color: govuk-colour("light-grey");
+		}
+
+		&:first-of-type {
+			background-color: $govuk-brand-colour;
+			color: govuk-colour("white");
+			font-weight: bold;
+		}
+	}
+}

@@ -1,3 +1,4 @@
+import logging
 import os
 
 from pytest_bdd import given, when, then, parsers
@@ -18,21 +19,19 @@ from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
 from pages.queues_pages import QueuesPages
 
-# Screenshot in case of any test failure
-
 
 def pytest_addoption(parser):
-    env = str(os.environ.get('ENVIRONMENT'))
-    if env == 'None':
-        env = "dev"
+    env = str(os.environ.get('ENVIRONMENT')).lower()
+    if env == 'none':
+        env = 'local'
 
-    parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
+    parser.addoption('--driver', action='store', default='chrome', help='What browser do you want to test with?')
     parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
 
-    if env.lower() == 'local':
-        parser.addoption("--internal_url", action="store", default="http://localhost:8200", help="url")
+    if env == 'local':
+        parser.addoption("--internal_url", action="store", default="http://localhost:8080", help="url")
         parser.addoption("--lite_api_url", action="store", default="http://localhost:8100", help="url")
-    elif env.lower() == 'dev2':
+    elif env == 'dev2':
         parser.addoption("--internal_url", action="store",
                          default="https://internal2.lite.service.dev.uktrade.io/", help="url")
         parser.addoption("--lite_api_url", action="store",

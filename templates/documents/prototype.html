@@ -1,0 +1,101 @@
+{% extends 'layouts/base.html' %}
+
+{% block body %}
+
+<textarea name="name" id="proto" rows="8" cols="80"></textarea>
+
+<ol id="text">
+
+</ol>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+	var text = {{ flattened_letter_context|safe }};
+
+	function getSuggestion(string) {
+		if (!string.trim()) {
+			return '';
+		}
+
+		for (var i = 0; i < text.length; i++) {
+			if (text[i].toLowerCase().startsWith(string.toLowerCase())) {
+				if (text[i].toLowerCase() != string.toLowerCase()) {
+					return text[i];
+				} else {
+					return '';
+				}
+			}
+		}
+		return '';
+	}
+
+	function getSuggestions(string) {
+		returnValue = [];
+
+		if (!string.trim()) {
+			return [];
+		}
+
+		for (var i = 0; i < text.length; i++) {
+			if (text[i].toLowerCase().startsWith(string.toLowerCase())) {
+				if (text[i].toLowerCase() != string.toLowerCase()) {
+					returnValue.push(text[i])
+				} else {
+					return '';
+				}
+			}
+		}
+		return returnValue;
+	}
+
+	{% verbatim %}
+	function getCurrentWord() {
+		var input = $("#proto");
+		var currentWord = '';
+		var selectionStart = input.get(0).selectionStart;
+		var wordStart = input.val().substring(0, selectionStart).lastIndexOf(' ') + 1;
+		currentWord = input.val().substring(wordStart, selectionStart);
+
+		if (input.val().substring(0, selectionStart).lastIndexOf('{{') <= input.val().substring(0, selectionStart).lastIndexOf('}}')) {
+			return '';
+		}
+
+		return currentWord;
+	}
+	{% endverbatim %}
+
+	function replaceCurrentWord(newWord) {
+		var input = $("#proto");
+		var currentWord = '';
+		var selectionStart = input.get(0).selectionStart;
+		var wordStart = input.val().substring(0, selectionStart).lastIndexOf(' ') + 1;
+		input.val(input.val().replace(input.val().substring(wordStart, selectionStart), newWord));
+	}
+
+	$( '#proto' ).keyup(function(e) {
+		suggestions = getSuggestions(getCurrentWord())
+
+		$("#text").empty();
+		for (var i = 0; i < suggestions.length; i++) {
+		   nameList = "<li>" + suggestions[i] + "</li>";
+		   $("#text").append(nameList);
+		}
+	});
+
+	$( '#proto' ).keypress(function(e) {
+		var code = e.keyCode ? e.keyCode : e.which;
+		suggestion = getSuggestion(getCurrentWord())
+
+		if (suggestion) {
+			if (code == 13) {
+				e.preventDefault();
+				replaceCurrentWord(suggestion);
+			}
+		}
+	});
+
+</script>
+{% endblock %}
