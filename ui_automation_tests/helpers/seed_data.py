@@ -105,8 +105,8 @@ class SeedData:
               "sub_type": "government",
               "website": "https://www.gov.uk"
             },
-            "reasoning": "I'm unsure about this user",
-            "note": "they are being weird"
+            "reasoning": "I'm unsure about them",
+            "note": "note for end user advisory"
         },
         "ultimate_end_user": {
             "name": "Individual",
