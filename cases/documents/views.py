@@ -1,10 +1,10 @@
 import os
 from collections import MutableMapping
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import engines
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from lite_forms.helpers import flatten_data
 
 from cases.documents.services import get_letter_templates
 from cases.services import get_case
@@ -21,6 +21,7 @@ class PickATemplate(TemplateView):
             'title': 'Flags',
             'case': case,
             'templates': get_letter_templates(request),
+            'show_error': request.GET.get('show_error'),
         }
         return render(request, 'documents/select_a_template.html', context)
 
@@ -55,7 +56,11 @@ def flatten_data_new(d, parent_key='', sep='.'):
 class CreateDocument(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
-        case = get_case(request, str(kwargs['pk']))
+        case_id = str(kwargs['pk'])
+        case = get_case(request, case_id)
+
+        if not request.GET.get('template'):
+            return redirect(reverse_lazy('cases:documents:pick_a_template', kwargs={'pk': case_id}) + '?show_error=True')
 
         django_engine = engines['django']
         template = django_engine.from_string(open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, 'licence.html'), 'r').read())
