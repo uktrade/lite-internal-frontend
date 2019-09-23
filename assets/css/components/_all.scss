@@ -28,6 +28,13 @@
 		border-bottom: 2px solid govuk-colour("light-grey");
 		cursor: pointer;
 
+		span {
+			display: block;
+			opacity: .5;
+			font-weight: normal;
+			margin-top: 4px;
+		}
+
 		&:hover {
 			background-color: govuk-colour("light-grey");
 		}

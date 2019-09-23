@@ -1,13 +1,10 @@
 import os
-from collections import MutableMapping
-
-from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import engines
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 # from weasyprint import HTML
+from lite_forms.helpers import flatten_data
 
 from cases.documents.services import get_letter_templates, get_letter_template
 from cases.services import get_case
@@ -27,33 +24,6 @@ class PickATemplate(TemplateView):
             'show_error': request.GET.get('show_error'),
         }
         return render(request, 'documents/select_a_template.html', context)
-
-
-def flatten_data_new(d, parent_key='', sep='.'):
-    """
-    Flattens dictionaries eg
-    {
-        'site': {
-            'name': 'SITE1'
-            'address_line_1': '110 ...'
-        }
-    }
-    becomes
-    [
-        'site.name',
-        'site.address_line_1'
-    ]
-    """
-    items = []
-
-    for k, v in d.items():
-        new_key = parent_key + sep + k if parent_key else k
-        if isinstance(v, MutableMapping):
-            items.extend(flatten_data_new(v, new_key, sep=sep))
-        else:
-            items.append(new_key)
-
-    return items
 
 
 class CreateDocument(TemplateView):
@@ -77,12 +47,18 @@ class CreateDocument(TemplateView):
         }
         preview = template.render(letter_context)
 
+        flattened_letter_context = flatten_data(letter_context)
+
+        for key, value in flattened_letter_context.items():
+            if not value:
+                flattened_letter_context[key] = ''
+
         context = {
             'title': 'Flags',
             'preview': preview,
             'content': letter_context.pop('content'),
             'letter_context': letter_context,
-            'flattened_letter_context': flatten_data_new(letter_context),
+            'flattened_letter_context': flattened_letter_context,
             'template_data': template_data,
         }
 

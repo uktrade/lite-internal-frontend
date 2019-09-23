@@ -174,16 +174,19 @@
 				return '';
 			}
 
-			for (var i = 0; i < text.length; i++) {
-				if (text[i].toLowerCase().startsWith(string.toLowerCase())) {
-					if (text[i].toLowerCase() != string.toLowerCase()) {
-						return text[i];
-					} else {
-						return '';
+			returnValue = ''
+
+			for (var key in text) {
+				if (key.toLowerCase().startsWith(string.toLowerCase())) {
+					if (key.toLowerCase() != string.toLowerCase()) {
+						if (returnValue == '') {
+							returnValue = key;
+						}
 					}
 				}
 			}
-			return '';
+
+			return returnValue;
 		}
 
 		function clickSuggestion(string) {
@@ -192,18 +195,15 @@
 		}
 
 		function getSuggestions(string) {
-			returnValue = [];
-
 			if (!string.trim()) {
 				return [];
 			}
+			returnValue = [];
 
-			for (var i = 0; i < text.length; i++) {
-				if (text[i].toLowerCase().startsWith(string.toLowerCase())) {
-					if (text[i].toLowerCase() != string.toLowerCase()) {
-						returnValue.push(text[i])
-					} else {
-						return '';
+			for (var key in text) {
+				if (key.toLowerCase().startsWith(string.toLowerCase())) {
+					if (key.toLowerCase() != string.toLowerCase()) {
+						returnValue.push([key, text[key]])
 					}
 				}
 			}
@@ -249,7 +249,7 @@
 
 			$("#autocomplete-suggestions").empty();
 			for (var i = 0; i < suggestions.length; i++) {
-			   nameList = "<a onclick='return clickSuggestion(\"" + suggestions[i] + "\")'>" + suggestions[i] + "</a>";
+			   nameList = "<a onclick='return clickSuggestion(\"" + suggestions[i][0] + "\")'>" + suggestions[i][0] + "<span>" + suggestions[i][1] + "</span>" + "</a>";
 			   $("#autocomplete-suggestions").append(nameList);
 			}
 		});
