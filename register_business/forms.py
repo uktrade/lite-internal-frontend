@@ -18,7 +18,7 @@ def conditional(condition: bool, obj, obj_2=None):
 
 def register_business_forms(individual=False):
     return FormGroup([
-        Form(title='Commercial or private individual',
+        Form(title='Commercial or private individual?',
              questions=[
                  RadioButtons(name='sub_type',
                               options=[
@@ -31,7 +31,7 @@ def register_business_forms(individual=False):
         conditional(individual,
                     Form(title='Register a private individual',
                          questions=[
-                             TextInput(title='Email Address',
+                             TextInput(title='Email',
                                        name='user.email'),
                              TextInput(title='First name',
                                        name='user.first_name'),
