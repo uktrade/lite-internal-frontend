@@ -90,9 +90,9 @@ class SeedData:
             "reference_number_on_information_form": "1234"
         },
         "end-user": {
-            "name": "Government",
-            "address": "Westminster, London SW1A 0AA",
-            "country": "Ukraine",
+            "name": "Mr Smith",
+            "address": "Westminster, London SW1A 0BB",
+            "country": "GB",
             "sub_type": "government",
             "website": "https://www.gov.uk"
         },
@@ -297,10 +297,11 @@ class SeedData:
                           body={'sites': [self.context['primary_site_id']]})
         self.log("Adding end user: ...")
         end_user_data = self.request_data['end-user'] if enduser is None else enduser
-        self.make_request("POST", url='/drafts/' + draft_id + '/end-user/', headers=self.export_headers,
+        end_user_post = self.make_request("POST", url='/drafts/' + draft_id + '/end-user/', headers=self.export_headers,
                           body=end_user_data)
         self.log("Adding end user document: ...")
         self.add_end_user_document(draft_id)
+        self.add_to_context('end_user', json.loads(end_user_post.text)['end_user'])
         self.log("Adding good: ...")
         data = self.request_data['add_good'] if good is None else good
         data['good_id'] = self.context['good_id']
