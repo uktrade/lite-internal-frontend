@@ -143,7 +143,8 @@ class ManageCase(TemplateView):
 
         if case['type']['key'] == 'application':
             title = 'Manage ' + case.get('application').get('name')
-
+        elif case['query']['end_user']:
+            title = 'Manage End User Advisory'
         else:
             title = 'Manage CLC query case'
 
