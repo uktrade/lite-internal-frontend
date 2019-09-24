@@ -89,4 +89,4 @@ def register_business_forms(individual=False):
                                              HelpSection('Help', 'This will be the default user for this organisation.')
                                          ]))
     ],
-        show_progress_indicators=True, )
+        show_progress_indicators=True)
