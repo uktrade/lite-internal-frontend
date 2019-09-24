@@ -15,7 +15,8 @@ class RegisterBusiness(TemplateView):
 
     def post(self, request, **kwargs):
         data = request.POST.copy()
-        register_business_forms = forms.register_business_forms()
+        individual = data.get('sub_type') == 'individual'
+        register_business_forms = forms.register_business_forms(individual)
 
         # Get the next form based off form_pk
         current_form = get_form_by_pk(data.get('form_pk'), register_business_forms)
