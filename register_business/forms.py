@@ -31,8 +31,12 @@ def register_business_forms(individual=False):
         conditional(individual,
                     Form(title='Register a private individual',
                          questions=[
-                             TextInput(title='What\'s the individual\'s name?',
-                                       name='name'),
+                             TextInput(title='Email Address',
+                                       name='user.email'),
+                             TextInput(title='First name',
+                                       name='user.first_name'),
+                             TextInput(title='Last name',
+                                       name='user.last_name'),
                              TextInput(title='European Union registration and identification number (EORI)',
                                        optional=True,
                                        name='eori_number'),
@@ -72,18 +76,18 @@ def register_business_forms(individual=False):
                  *address_questions(get_countries(None, True), 'site.address.'),
              ],
              default_button_name='Continue'),
-        Form(title=conditional(individual, 'Register the individual\'s details', 'Create an admin for this organisation'),
-             questions=[
-                 TextInput(title='Email Address',
-                           name='user.email'),
-                 TextInput(title='First name',
-                           name='user.first_name'),
-                 TextInput(title='Last name',
-                           name='user.last_name'),
-             ],
-             default_button_name='Submit',
-             helpers=[
-                 HelpSection('Help', 'This will be the default user for this organisation.')
-             ]),
+        conditional(not individual, Form(title='Create an admin for this organisation',
+                                         questions=[
+                                             TextInput(title='Email Address',
+                                                       name='user.email'),
+                                             TextInput(title='First name',
+                                                       name='user.first_name'),
+                                             TextInput(title='Last name',
+                                                       name='user.last_name'),
+                                         ],
+                                         default_button_name='Submit',
+                                         helpers=[
+                                             HelpSection('Help', 'This will be the default user for this organisation.')
+                                         ]))
     ],
         show_progress_indicators=True, )
