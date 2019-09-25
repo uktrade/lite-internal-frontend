@@ -193,10 +193,10 @@
         },
         "lite-forms": {
             "hashes": [
-                "sha256:df562ae9c461c046e0ddecf0c86410419e33aa342a6589889e2c9eb248111535"
+                "sha256:d3edeedaa555933a1c74e54ea27c666702159c8ba755189620a7e84e7af7c767"
             ],
             "index": "pypi",
-            "version": "==0.7"
+            "version": "==0.8"
         },
         "mccabe": {
             "hashes": [

@@ -119,12 +119,6 @@ def go_to_users(driver):
     header.open_users()
 
 
-@then('I see the clc-case previously created') # noqa
-def assert_case_is_present(driver, apply_for_clc_query, context):
-    case_list_page = CaseListPage(driver)
-    assert case_list_page.assert_case_is_present(context.clc_case_id), "clc case ID is not present on page"
-
-
 @when('I create a clc_query') # noqa
 def create_clc_query(driver, apply_for_clc_query, context):
     pass
