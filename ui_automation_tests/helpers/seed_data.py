@@ -136,7 +136,7 @@ class SeedData:
             'size': 0,
             'description': 'document for test setup'
         },
-        "additional_documents": {
+        "additional_document": {
             'name': 'picture',
             's3_key': env('TEST_S3_KEY'),
             'size': 0,
@@ -267,8 +267,8 @@ class SeedData:
         self.make_request("POST", url='/drafts/' + draft_id + '/consignee/document/',
                           headers=self.export_headers, body=data)
 
-    def add_additional_documents(self, draft_id):
-        data = self.request_data['additional_documents']
+    def add_additional_document(self, draft_id):
+        data = self.request_data['additional_document']
         self.make_request("POST", url='/drafts/' + draft_id + '/document/',
                           headers=self.export_headers, body=data)
 
@@ -338,10 +338,10 @@ class SeedData:
         self.add_to_context('third_party', json.loads(third_party_response.text)['third_party'])
 
         additional_documents_data = \
-            self.request_data['additional_documents'] if additional_documents is None else additional_documents
+            self.request_data['additional_document'] if additional_documents is None else additional_documents
         additional_documents_response = self.make_request('POST', url='/drafts/' + draft_id + '/documents/',
                                                           headers=self.export_headers, body=additional_documents_data)
-        self.add_to_context('additional_documents',
+        self.add_to_context('additional_document',
                             json.loads(additional_documents_response.text)['document'])
 
         self.check_documents(draft_id=draft_id, ultimate_end_user_id=ultimate_end_user_id)
