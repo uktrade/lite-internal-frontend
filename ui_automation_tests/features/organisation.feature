@@ -15,8 +15,8 @@ Feature: I want to add a company to LITE
     And I setup the admin user with email: "TestBusinessForSites@mail.com", first name: "Trinity", last name: "Fishburne"
     Then organisation is registered
 
-  @LT_1417_test
-  Scenario: Test registering and individual
+  @LT_1417_test_adding_individual_as_organisation
+  Scenario: Test registering an individual
     Given I go to internal homepage
     When I go to organisations
     And I choose to add a new organisation

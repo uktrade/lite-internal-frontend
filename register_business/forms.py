@@ -66,7 +66,7 @@ def register_business_forms(individual=False):
                          default_button_name='Continue'
                          ),
                     ),
-        Form(title=get_string('register_business.create_default_site_for_this_exporter'),
+        Form(title=get_string('register_business.create_default_site'),
              questions=[
                  TextInput(title=get_string('register_business.name_of_site'),
                            name='site.name'),
@@ -74,7 +74,7 @@ def register_business_forms(individual=False):
                  *address_questions(get_countries(None, True), 'site.address.'),
              ],
              default_button_name='Continue'),
-        conditional(not individual, Form(title=get_string('register_business.create_admin_user_for_this_organisation'),
+        conditional(not individual, Form(title=get_string('register_business.create_admin'),
                                          questions=[
                                              TextInput(title=get_string('register_business.email'),
                                                        name='user.email'),
@@ -85,7 +85,7 @@ def register_business_forms(individual=False):
                                          ],
                                          default_button_name='Submit',
                                          helpers=[
-                                             HelpSection('Help', get_string('register_business.this_will_be_the_default_user_for_this_organisation'))
+                                             HelpSection('Help', get_string('register_business.default_user'))
                                          ]))
     ],
     show_progress_indicators=True)
