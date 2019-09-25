@@ -106,6 +106,8 @@ class SeedData:
               "sub_type": "government",
               "website": "https://www.gov.uk"
             },
+            "contact_email": "email@address.com",
+            "contact_telephone": 12345678901,
             "reasoning": "I'm unsure about them",
             "note": "note for end user advisory"
         },
