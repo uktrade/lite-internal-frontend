@@ -17,7 +17,7 @@
                 <td class="lite-table__cell">
                     {{ additional_document.description }}
                 </td>
-                <td>
+                <td class="lite-table__cell">
                     {% if additional_document.safe == True %}
                     <a class="govuk-link lite-link--icon govuk-link--no-visited-state" id="end_user_document" href="{% url 'cases:document' case.id additional_document.id %}">
                         <span class="govuk-visually-hidden">{% get_string 'cases.manage.documents.download_document' %}</span>
