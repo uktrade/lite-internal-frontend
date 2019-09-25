@@ -52,6 +52,7 @@ def apply_for_standard_application(driver, request, api_url, context):
             "sub_type": "agent",
             "website": "https://www.anothergov.uk"
         }
+
     )
     api.submit_application()
     context.app_id = api.context['application_id']
@@ -60,6 +61,7 @@ def apply_for_standard_application(driver, request, api_url, context):
     context.consignee = api.context['consignee']
     context.third_party = api.context['third_party']
     context.ultimate_end_user = api.context['ultimate_end_user']
+
     timer.print_time('apply_for_standard_application')
 
 

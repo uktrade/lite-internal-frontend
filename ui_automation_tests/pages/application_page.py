@@ -39,6 +39,7 @@ class ApplicationPage(BasePage):
     checkbox = '[type="checkbox"]'  # CSS
     download_good_document = 'good_document'  # ID
     download_end_user_document = 'end_user_document'  # ID
+    download_additional_document = 'additional_document'  # ID
 
     def click_visible_to_exporter_checkbox(self):
         time.sleep(.5)
@@ -162,3 +163,6 @@ class ApplicationPage(BasePage):
 
     def end_user_document_link_is_enabled(self):
         return self.driver.find_element_by_id(self.download_end_user_document).is_enabled()
+
+    def additional_document_link_is_enabled(self):
+        return self.driver.find_element_by_id(self.download_additional_document).is_enabled()
