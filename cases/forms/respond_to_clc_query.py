@@ -1,7 +1,7 @@
 from django.template.defaultfilters import default
 from django.urls import reverse_lazy
 from lite_forms.common import control_list_entry_question
-from lite_forms.components import Form, BackLink, RadioButtons, Option, TextInput, TextArea, HTMLBlock, Heading, \
+from lite_forms.components import Form, BackLink, RadioButtons, Option, TextArea, HTMLBlock, Heading, \
     HiddenField
 from lite_forms.styles import HeadingStyle
 
