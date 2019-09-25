@@ -21,7 +21,7 @@ class RegisterBusiness(TemplateView):
         return form_page(request, self.forms.forms[0])
 
     def post(self, request, **kwargs):
-        response, data = submit_paged_form(request, self.forms, post_organisations)
+        response, _ = submit_paged_form(request, self.forms, post_organisations)
 
         if response:
             return response
