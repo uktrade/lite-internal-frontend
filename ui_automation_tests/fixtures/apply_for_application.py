@@ -56,6 +56,7 @@ def apply_for_standard_application(driver, request, api_url, context):
     api.submit_application()
     context.app_id = api.context['application_id']
     context.case_id = api.context['case_id']
+    context.end_user = api.context['end_user']
     context.consignee = api.context['consignee']
     context.third_party = api.context['third_party']
     context.ultimate_end_user = api.context['ultimate_end_user']

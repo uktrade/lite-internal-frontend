@@ -31,6 +31,7 @@ class ApplicationPage(BasePage):
     status = 'status'  # ID
     audit_trail_item = '.app-activity__item'  # CSS
     application_summary_board = '.lite-information-board'  # CSS
+    eu_table = 'end-user'  # ID
     ueu_table = 'ultimate-end-users'  # ID
     consignee_table = 'consignee'  # ID
     third_parties_table = 'third-parties'  # ID
@@ -134,6 +135,9 @@ class ApplicationPage(BasePage):
 
     def get_text_of_application_summary_board(self):
         return self.driver.find_element_by_css_selector(self.application_summary_board).text
+
+    def get_text_of_eu_table(self):
+        return self.driver.find_element_by_id(self.eu_table).text
 
     def get_text_of_ueu_table(self):
         return self.driver.find_element_by_id(self.ueu_table).text
