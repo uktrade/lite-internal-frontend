@@ -31,6 +31,7 @@ class ApplicationPage(BasePage):
     status = 'status'  # ID
     audit_trail_item = '.app-activity__item'  # CSS
     application_summary_board = '.lite-information-board'  # CSS
+    eu_table = 'end-user'  # ID
     ueu_table = 'ultimate-end-users'  # ID
     consignee_table = 'consignee'  # ID
     third_parties_table = 'third-parties'  # ID
@@ -38,6 +39,7 @@ class ApplicationPage(BasePage):
     checkbox = '[type="checkbox"]'  # CSS
     download_good_document = 'good_document'  # ID
     download_end_user_document = 'end_user_document'  # ID
+    download_additional_document = 'additional_document'  # ID
 
     def click_visible_to_exporter_checkbox(self):
         time.sleep(.5)
@@ -138,6 +140,9 @@ class ApplicationPage(BasePage):
     def get_text_of_application_summary_board(self):
         return self.driver.find_element_by_css_selector(self.application_summary_board).text
 
+    def get_text_of_eu_table(self):
+        return self.driver.find_element_by_id(self.eu_table).text
+
     def get_text_of_ueu_table(self):
         return self.driver.find_element_by_id(self.ueu_table).text
 
@@ -177,3 +182,6 @@ class ApplicationPage(BasePage):
     def is_change_status_available(self):
         # this should equal 2 as there is a 'manage' in the link of the footer image
         return len(self.driver.find_elements_by_css_selector(self.progress_app_btn)) == 2
+
+    def additional_document_link_is_enabled(self):
+        return self.driver.find_element_by_id(self.download_additional_document).is_enabled()
