@@ -41,7 +41,8 @@ class SeedData:
                 "name": "Headquarters",
                 "address": {
                     "address_line_1": "42 Question Road",
-                    "postcode": "Islington", "city": "London",
+                    "postcode": "Islington",
+                    "city": "London",
                     "region": "London",
                     "country": "GB"
                 }
@@ -140,17 +141,15 @@ class SeedData:
         }
     }
 
-    def __init__(self, api_url, logging=True):
+    def __init__(self, api_url):
         self.base_url = api_url.rstrip('/')
         self.auth_gov_user()
         self.setup_org()
         self.auth_export_user()
         self.add_good()
-        self.logging = logging
 
     def log(self, text):
-        if self.logging:
-            print(text)
+        print(text)
 
     def add_to_context(self, name, value):
         self.log(name + ": " + str(value))

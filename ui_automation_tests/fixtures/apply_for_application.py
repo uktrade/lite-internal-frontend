@@ -1,18 +1,19 @@
-from pytest import fixture
 import datetime
-from helpers.seed_data import SeedData
-from helpers.utils import Timer, get_or_create_attr
+
+from pytest import fixture
+
+from helpers.utils import Timer, get_lite_client
 
 
 @fixture(scope="module")
 def apply_for_standard_application(driver, request, api_url, context):
     timer = Timer()
-    api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=True))
+    lite_client = get_lite_client(context)
 
     app_time_id = datetime.datetime.now().strftime(" %d%H%M%S")
     context.app_time_id = app_time_id
 
-    api.add_draft(
+    lite_client.add_draft(
         draft={
             "name": "Test Application " + app_time_id,
             "licence_type": "standard_licence",
@@ -53,17 +54,17 @@ def apply_for_standard_application(driver, request, api_url, context):
             "website": "https://www.anothergov.uk"
         }
     )
-    api.submit_application()
-    context.app_id = api.context['application_id']
-    context.case_id = api.context['case_id']
-    context.consignee = api.context['consignee']
-    context.third_party = api.context['third_party']
-    context.ultimate_end_user = api.context['ultimate_end_user']
+    lite_client.submit_application()
+    context.app_id = lite_client.context['application_id']
+    context.case_id = lite_client.context['case_id']
+    context.consignee = lite_client.context['consignee']
+    context.third_party = lite_client.context['third_party']
+    context.ultimate_end_user = lite_client.context['ultimate_end_user']
     timer.print_time('apply_for_standard_application')
 
 
 @fixture(scope="module")
 def apply_for_clc_query(driver, request, api_url, context):
-    api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=True))
-    api.add_clc_query()
-    context.clc_case_id = api.context['case_id']
+    lite_client = get_lite_client(context)
+    lite_client.add_clc_query()
+    context.clc_case_id = lite_client.context['case_id']

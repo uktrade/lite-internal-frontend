@@ -18,8 +18,6 @@ from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
 from pages.queues_pages import QueuesPages
 
-# Screenshot in case of any test failure
-
 
 def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
