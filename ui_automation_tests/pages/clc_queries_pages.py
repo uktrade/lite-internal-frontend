@@ -22,7 +22,8 @@ class ClcQueriesPages(BasePage):
         self.driver.find_element_by_id(self.control_list_entry).send_keys(code)
 
     def choose_report_summary(self, num):
-        self.driver.find_elements_by_name(self.report_summary)[int(num)].click()
+        element = self.driver.find_elements_by_name(self.report_summary)[int(num)]
+        self.driver.execute_script("arguments[0].click();", element)
 
     def enter_a_comment(self, comment):
         self.driver.find_element_by_id(self.comment).send_keys(comment)
