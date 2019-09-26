@@ -8,7 +8,7 @@ from helpers.utils import Timer, get_lite_client
 @fixture(scope="module")
 def apply_for_standard_application(driver, request, api_url, context):
     timer = Timer()
-    lite_client = get_lite_client(context)
+    lite_client = get_lite_client(context, api_url)
 
     app_time_id = datetime.datetime.now().strftime(" %d%H%M%S")
     context.app_time_id = app_time_id
@@ -65,6 +65,6 @@ def apply_for_standard_application(driver, request, api_url, context):
 
 @fixture(scope="module")
 def apply_for_clc_query(driver, request, api_url, context):
-    lite_client = get_lite_client(context)
+    lite_client = get_lite_client(context, api_url)
     lite_client.add_clc_query()
     context.clc_case_id = lite_client.context['case_id']

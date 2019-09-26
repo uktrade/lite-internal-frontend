@@ -30,8 +30,8 @@ def get_or_create_attr(obj, attr: str, fn):
     return getattr(obj, attr)
 
 
-def get_lite_client(context):
+def get_lite_client(context, api_url):
     """
     Returns the existing LITE API client, or creates a new one
     """
-    return get_or_create_attr(context, 'api', SeedData(api_url=env('LITE_API_URL')))
+    return get_or_create_attr(context, 'api', SeedData(api_url=api_url))

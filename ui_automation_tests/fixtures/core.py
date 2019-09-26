@@ -74,8 +74,8 @@ def invalid_username(request):
     return "invalid@mail.com"
 
 
-def clear_down(context):
-    lite_client = get_lite_client(context)
+def clear_down(context, api_url):
+    lite_client = get_lite_client(context, api_url)
     if "Application Bin" not in str(lite_client.get_queues()):
         lite_client.add_queue("Application Bin")
         bin_id = context['queue_id']
