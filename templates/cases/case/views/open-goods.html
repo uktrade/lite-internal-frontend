@@ -21,7 +21,12 @@
 						<label class="govuk-label {% if show_checkboxes %}govuk-checkboxes__label{% endif %}" for="{{ good.id }}">{{ good.description }}</label>
 					{% if show_checkboxes %}</div>{% endif %}
 				</td>
-				<td class="lite-table__cell">{{ good.control_code|default:'None' }}</td>
+				<td class="lite-table__cell">
+                    {% if good.control_code %}
+                        <span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span></td>
+                    {% else %}
+                        None
+                    {% endif %}
 				<td class="lite-table__cell">
                     {% for country in good.countries %}
                         <span class="app-country-tag">{{ country }}</span>

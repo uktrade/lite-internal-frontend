@@ -46,7 +46,9 @@
                                 </span>
                                 {% for good in case.application.goods_types %}
                                     {% if country.id in good.countries %}
-                                        <span class="app-country-tag">{{ good.control_code }}</span>
+                                        {% if good.control_code %}
+                                            <span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
                             </label>
