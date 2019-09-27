@@ -55,26 +55,26 @@ def apply_for_standard_application(driver, request, api_url, context):
         }
 
     )
-    api.submit_application()
-    context.app_id = api.context['application_id']
-    context.case_id = api.context['case_id']
-    context.end_user = api.context['end_user']
-    context.consignee = api.context['consignee']
-    context.third_party = api.context['third_party']
-    context.ultimate_end_user = api.context['ultimate_end_user']
+    lite_client.submit_application()
+    context.app_id = lite_client.context['application_id']
+    context.case_id = lite_client.context['case_id']
+    context.end_user = lite_client.context['end_user']
+    context.consignee = lite_client.context['consignee']
+    context.third_party = lite_client.context['third_party']
+    context.ultimate_end_user = lite_client.context['ultimate_end_user']
 
     timer.print_time('apply_for_standard_application')
 
 
 @fixture(scope="module")
-def apply_for_clc_query(driver, request, api_url, context):
+def apply_for_clc_query(driver, api_url, context):
     lite_client = get_lite_client(context, api_url)
     lite_client.add_clc_query()
-    context.clc_case_id = api.context['case_id']
+    context.clc_case_id = lite_client.context['case_id']
 
 
 @fixture(scope="module")
-def apply_for_eua_query(driver, request, api_url, context):
+def apply_for_eua_query(driver, api_url, context):
     lite_client = get_lite_client(context, api_url)
     lite_client.add_eua_query()
-    context.eua_id = api.context['end_user_advisory_id']
+    context.eua_id = lite_client.context['end_user_advisory_id']

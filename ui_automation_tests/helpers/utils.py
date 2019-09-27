@@ -1,6 +1,5 @@
 import time
 
-from conf.settings import env
 from helpers.seed_data import SeedData
 
 
