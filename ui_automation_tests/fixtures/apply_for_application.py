@@ -52,13 +52,16 @@ def apply_for_standard_application(driver, request, api_url, context):
             "sub_type": "agent",
             "website": "https://www.anothergov.uk"
         }
+
     )
     api.submit_application()
     context.app_id = api.context['application_id']
     context.case_id = api.context['case_id']
+    context.end_user = api.context['end_user']
     context.consignee = api.context['consignee']
     context.third_party = api.context['third_party']
     context.ultimate_end_user = api.context['ultimate_end_user']
+
     timer.print_time('apply_for_standard_application')
 
 
@@ -67,3 +70,10 @@ def apply_for_clc_query(driver, request, api_url, context):
     api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=True))
     api.add_clc_query()
     context.clc_case_id = api.context['case_id']
+
+
+@fixture(scope="module")
+def apply_for_eua_query(driver, request, api_url, context):
+    api = get_or_create_attr(context, 'api', lambda: SeedData(api_url=api_url, logging=True))
+    api.add_eua_query()
+    context.eua_id = api.context['end_user_advisory_id']
