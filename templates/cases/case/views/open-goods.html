@@ -4,6 +4,7 @@
 		<tr class="lite-table__row">
 			<th class="lite-table__header" scope="col">Description</th>
 			<th class="lite-table__header" scope="col">Control List Entry</th>
+			<th class="lite-table__header" scope="col">Countries</th>
 			<th class="lite-table__header">Is Good controlled</th>
 			<th class="lite-table__header">Flags</th>
 			{% if show_advice %}
@@ -21,6 +22,11 @@
 					{% if show_checkboxes %}</div>{% endif %}
 				</td>
 				<td class="lite-table__cell">{{ good.control_code|default:'None' }}</td>
+				<td class="lite-table__cell">
+                    {% for country in good.countries %}
+                        <span class="app-country-tag">{{ country }}</span>
+                    {% endfor %}
+                </td>
 				<td class="lite-table__cell">{{ good.is_good_controlled }}</td>
                 <td class="lite-table__cell">
                     {% if good.flags %}
