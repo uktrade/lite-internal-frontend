@@ -19,7 +19,7 @@ def apply_for_standard_application(driver, request, api_url, context):
             "licence_type": "standard_licence",
             "export_type": "permanent",
             "have_you_been_informed": "yes",
-            "reference_number_on_information_form": "1234"}, 
+            "reference_number_on_information_form": "1234"},
         good={
             "good_id": "",
             "quantity": 1234,
@@ -53,13 +53,16 @@ def apply_for_standard_application(driver, request, api_url, context):
             "sub_type": "agent",
             "website": "https://www.anothergov.uk"
         }
+
     )
-    lite_client.submit_application()
-    context.app_id = lite_client.context['application_id']
-    context.case_id = lite_client.context['case_id']
-    context.consignee = lite_client.context['consignee']
-    context.third_party = lite_client.context['third_party']
-    context.ultimate_end_user = lite_client.context['ultimate_end_user']
+    api.submit_application()
+    context.app_id = api.context['application_id']
+    context.case_id = api.context['case_id']
+    context.end_user = api.context['end_user']
+    context.consignee = api.context['consignee']
+    context.third_party = api.context['third_party']
+    context.ultimate_end_user = api.context['ultimate_end_user']
+
     timer.print_time('apply_for_standard_application')
 
 
@@ -67,4 +70,11 @@ def apply_for_standard_application(driver, request, api_url, context):
 def apply_for_clc_query(driver, request, api_url, context):
     lite_client = get_lite_client(context, api_url)
     lite_client.add_clc_query()
-    context.clc_case_id = lite_client.context['case_id']
+    context.clc_case_id = api.context['case_id']
+
+
+@fixture(scope="module")
+def apply_for_eua_query(driver, request, api_url, context):
+    lite_client = get_lite_client(context, api_url)
+    lite_client.add_eua_query()
+    context.eua_id = api.context['end_user_advisory_id']
