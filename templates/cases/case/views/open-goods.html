@@ -29,10 +29,16 @@
                     {% endif %}
 				<td class="lite-table__cell">
                     {% for country in good.countries %}
-                        <span class="app-country-tag">{{ country }}</span>
+                        <span class="app-country-tag">{{ country.id }}</span>
                     {% endfor %}
                 </td>
-				<td class="lite-table__cell">{{ good.is_good_controlled }}</td>
+				<td class="lite-table__cell">
+                    {% if good.is_good_controlled %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                </td>
                 <td class="lite-table__cell">
                     {% if good.flags %}
                         {% for flag in good.flags %}
