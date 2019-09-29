@@ -1,0 +1,69 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block back_link %}
+	<a href="{% url 'cases:final_advice_view' case.id %}" class="govuk-back-link">Back to final advice</a>
+{% endblock %}
+
+{% block body %}
+
+    <form action="{% url 'cases:finalise_goods_countries' case.id %}" method="post">
+
+    {% csrf_token %}
+
+    <table class="lite-table">
+        <thead class="lite-table__head">
+            <tr class="lite-table__row">
+                <th class="lite-table__header">Good</th>
+                <th class="lite-table__header">Countries</th>
+                {% for advie_type in advice_types %}
+                    <th class="lite-table__header">{{ advie_type }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody class="lite-table__body">
+            {% for good in case.application.goods_types %}
+                <tr class="lite-table__row">
+                    <td class="lite-table__cell">{{ good.control_code }} ({{ good.advice.value }})
+                    </td>
+                    <td class="lite-table__cell">
+                        {% for country in good.countries %}
+                            <div class="govuk-checkboxes govuk-checkboxes--small" style="padding-bottom: 25px">
+                                <div>
+                                    {{ country.name }} ({{ country.advice.value }})
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </td>
+                    {% for advice_type in advice_types %}
+                        <td class="lite-table__cell">
+                            {% for country in good.countries %}
+                                <div class="govuk-checkboxes govuk-checkboxes--small" style="padding-bottom: 50px">
+                                    <div class="govuk-checkboxes__item">
+                                        {% if country.advice.value == advice_type or good.advice.value == advice_type %}
+                                            <input class="govuk-checkboxes__input" type="checkbox"
+                                                {% for data in good_countries %}{% if good.id == data.good %}{% if country.id == data.country %}{% if advice_type == data.advice_type %}
+                                                    checked
+                                                {% endif %}{% endif %}{% endif %}{% endfor %}
+                                                    name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ advice_type }}">
+                                            <label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}.{{ country.id }}">
+                                            </label>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button id="submit" type="submit" class="govuk-button" data-module="govuk-button">
+        Submit
+    </button>
+
+    </form>
+
+{% endblock %}

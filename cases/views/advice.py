@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.generators import form_page
@@ -66,6 +66,7 @@ class CoalesceUserAdvice(TemplateView):
     """
     Group all of a user's team's user level advice in a team advie for the user's team
     """
+
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         coalesce_user_advice(request, case_id)
@@ -137,6 +138,7 @@ class CoalesceTeamAdvice(TemplateView):
     """
     Group all team's advice into final advice
     """
+
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         coalesce_team_advice(request, case_id)
@@ -199,10 +201,59 @@ class GiveFinalAdviceDetail(TemplateView):
         return post_advice_details(post_final_case_advice, request, self.case, self.form, 'final')
 
 
+class FinaliseGoodsCountries(TemplateView):
+    case = None
+    advice = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.case = get_case(request, str(kwargs['pk']))
+        self.advice, _ = get_final_case_advice(request, str(kwargs['pk']))
+        for good in self.case['application']['goods_types']:
+            for advice in self.advice['advice']:
+                if advice['goods_type'] == good['id']:
+                    good['advice'] = advice['type']
+            for country in good['countries']:
+                for advice in self.advice['advice']:
+                    if advice['country'] == country['id']:
+                        country['advice'] = advice['type']
+        return super(FinaliseGoodsCountries, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'case': self.case,
+            'advice_types': ['Approve', 'Proviso', 'Refuse', 'No Licence Required', 'Not Applicable']
+        }
+        return render(request, 'cases/case/finalise-open-goods-countries.html', context)
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST.copy()
+        data.pop('csrfmiddlewaretoken')
+        selection = {}
+        selection['good_countries'] = []
+        for data, value in data.items():
+            selection['good_countries'].append(
+                {'good': data.split('.')[0],
+                 'country': data.split('.')[1],
+                 'advice_type': value}
+            )
+
+        post_good_countries_decisions(request, str(kwargs['pk']), selection)
+
+        context = {
+            'case': self.case,
+            'advice': self.advice['advice'],
+            'advice_types': ['Approve', 'Proviso', 'Refuse', 'No Licence Required', 'Not Applicable'],
+            'good_countries': selection['good_countries']
+        }
+
+        return render(request, 'cases/case/finalise-open-goods-countries.html', context)
+
+
 class Finalise(TemplateView):
     """
     Finalise a case and change the case status to finalised
     """
+
     def get(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs['pk']))
         advice, _ = get_final_case_advice(request, str(kwargs['pk']))
