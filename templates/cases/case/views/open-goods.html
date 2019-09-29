@@ -30,6 +30,10 @@
 				<td class="lite-table__cell">
                     {% for country in good.countries %}
                         <span class="app-country-tag">{{ country.id }}</span>
+                    {% empty %}
+                        {% for country in case.application.destinations.data %}
+                            <span class="app-country-tag">{{ country.id }}</span>
+                        {% endfor %}
                     {% endfor %}
                 </td>
 				<td class="lite-table__cell">

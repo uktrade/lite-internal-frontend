@@ -45,10 +45,14 @@
                                     {{ country.id }}
                                 </span>
                                 {% for good in case.application.goods_types %}
-                                    {% if country.id in good.countries %}
-                                        {% if good.control_code %}
-                                            <span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
+                                    {% if good.countries %}
+                                        {% if country in good.countries %}
+                                            {% if good.control_code %}
+                                                <span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
+                                            {% endif %}
                                         {% endif %}
+                                    {% else %}
+                                        <span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
                                     {% endif %}
                                 {% endfor %}
                             </label>
