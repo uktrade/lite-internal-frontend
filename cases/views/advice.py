@@ -3,7 +3,7 @@ from collections import defaultdict
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
-from lite_forms.generators import form_page
+from lite_forms.generators import form_page, error_page
 
 from cases.forms.finalise_case import approve_licence_form, refuse_licence_form
 from cases.services import post_user_case_advice, get_user_case_advice, get_team_case_advice, \
@@ -233,6 +233,9 @@ class FinaliseGoodsCountries(TemplateView):
                         if advice['country'] == country['id']:
                             country['advice'] = advice['type']
         self.data = get_good_countries_decisions(request, str(kwargs['pk']))
+        if 'detail' in self.data:
+            return error_page(request, 'You do not have permission.')
+
         return super(FinaliseGoodsCountries, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
