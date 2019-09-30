@@ -19,8 +19,6 @@ from pages.application_page import ApplicationPage
 from pages.queues_pages import QueuesPages
 from core.builtins.custom_tags import reference_code
 
-# Screenshot in case of any test failure
-
 
 def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
@@ -125,12 +123,6 @@ def go_to_users(driver):
     header.open_users()
 
 
-@then('I see the clc-case previously created') # noqa
-def assert_case_is_present(driver, apply_for_clc_query, context):
-    case_list_page = CaseListPage(driver)
-    assert case_list_page.assert_case_is_present(context.clc_case_id), "clc case ID is not present on page"
-
-
 @when('I create a clc_query') # noqa
 def create_clc_query(driver, apply_for_clc_query, context):
     pass
@@ -197,5 +189,6 @@ def go_to_queues(driver, sign_in_to_internal_sso, internal_url):
 @when('I add case to newly created queue') # noqa
 def move_case_to_new_queue(driver, context):
     ApplicationPage(driver).click_move_case_button()
-    driver.find_element_by_id(context.queue_name).click()
+    if not driver.find_element_by_id(context.queue_name).is_selected():
+        driver.find_element_by_id(context.queue_name).click()
     Shared(driver).click_submit()
