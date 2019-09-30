@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
@@ -6,7 +8,7 @@ from lite_forms.generators import form_page
 from cases.forms.finalise_case import approve_licence_form, refuse_licence_form
 from cases.services import post_user_case_advice, get_user_case_advice, get_team_case_advice, \
     get_final_case_advice, coalesce_user_advice, coalesce_team_advice, post_team_case_advice, \
-    post_final_case_advice, clear_team_advice, clear_final_advice, get_case, put_applications
+    post_final_case_advice, clear_team_advice, clear_final_advice, get_case, put_applications, post_good_countries_decisions, get_good_countries_decisions
 from cases.views_helpers import get_case_advice, render_form_page, post_advice, post_advice_details, \
     give_advice_detail_dispatch, give_advice_dispatch
 
@@ -204,24 +206,40 @@ class GiveFinalAdviceDetail(TemplateView):
 class FinaliseGoodsCountries(TemplateView):
     case = None
     advice = None
+    data = None
+    keys = None
 
     def dispatch(self, request, *args, **kwargs):
         self.case = get_case(request, str(kwargs['pk']))
         self.advice, _ = get_final_case_advice(request, str(kwargs['pk']))
+        self.keys = []
+        # Builds form page data structure
         for good in self.case['application']['goods_types']:
             for advice in self.advice['advice']:
                 if advice['goods_type'] == good['id']:
                     good['advice'] = advice['type']
-            for country in good['countries']:
-                for advice in self.advice['advice']:
-                    if advice['country'] == country['id']:
-                        country['advice'] = advice['type']
+            if good['countries']:
+                for country in good['countries']:
+                    self.keys.append(str(good['id']) + '.' + country['id'])
+                    for advice in self.advice['advice']:
+                        if advice['country'] == country['id']:
+                            country['advice'] = advice['type']
+            else:
+                good['countries'] = []
+                for country in self.case['application']['destinations']['data']:
+                    good['countries'].append(country)
+                    self.keys.append(str(good['id']) + '.' + country['id'])
+                    for advice in self.advice['advice']:
+                        if advice['country'] == country['id']:
+                            country['advice'] = advice['type']
+        self.data = get_good_countries_decisions(request, str(kwargs['pk']))
         return super(FinaliseGoodsCountries, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         context = {
             'case': self.case,
-            'advice_types': ['Approve', 'Proviso', 'Refuse', 'No Licence Required', 'Not Applicable']
+            'good_countries': self.data['data'],
+            'advice_types': ['approve', 'refuse', 'no_licence_required'],
         }
         return render(request, 'cases/case/finalise-open-goods-countries.html', context)
 
@@ -229,24 +247,52 @@ class FinaliseGoodsCountries(TemplateView):
         data = request.POST.copy()
         data.pop('csrfmiddlewaretoken')
         selection = {}
-        selection['good_countries'] = []
-        for data, value in data.items():
-            selection['good_countries'].append(
-                {'good': data.split('.')[0],
-                 'country': data.split('.')[1],
-                 'advice_type': value}
-            )
 
-        post_good_countries_decisions(request, str(kwargs['pk']), selection)
+        selection['good_countries'] = []
+        for key, value in data.items():
+            selection['good_countries'].append(
+                {
+                    'case': str(kwargs['pk']),
+                    'good': key.split('.')[0],
+                    'country': key.split('.')[1],
+                    'advice_type': data.get(key)}
+            )
 
         context = {
             'case': self.case,
-            'advice': self.advice['advice'],
-            'advice_types': ['Approve', 'Proviso', 'Refuse', 'No Licence Required', 'Not Applicable'],
-            'good_countries': selection['good_countries']
+            'advice_types': ['approve', 'refuse', 'no_licence_required'],
+            'good_countries': self.data['data'],
+            'errors': {}
         }
 
-        return render(request, 'cases/case/finalise-open-goods-countries.html', context)
+        post_data = []
+
+        # If errors, do x
+        for key in self.keys:
+            good_pk = key.split('.')[0]
+            country_pk = key.split('.')[1]
+            if key not in data or len(data.getlist(key)) > 1:
+                if good_pk in context['errors']:
+                    context['errors'][good_pk].append(country_pk)
+                else:
+                    context['errors'][good_pk] = [country_pk]
+            else:
+                post_data.append({'good': good_pk,
+                                  'country': country_pk,
+                                  'advice_type': data.get(key)})
+
+        if context['errors']:
+            context['good_countries'] = post_data
+            return render(request, 'cases/case/finalise-open-goods-countries.html', context)
+
+        data, _ = post_good_countries_decisions(request, str(kwargs['pk']), selection)
+
+        if 'errors' in data:
+            context['error'] = data.get('errors')
+
+            return render(request, 'cases/case/finalise-open-goods-countries.html', context)
+
+        return redirect(reverse_lazy('cases:finalise', kwargs={'pk': kwargs['pk']}))
 
 
 class Finalise(TemplateView):
@@ -256,14 +302,22 @@ class Finalise(TemplateView):
 
     def get(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs['pk']))
-        advice, _ = get_final_case_advice(request, str(kwargs['pk']))
+        standard = case['application']['licence_type']['key'] == 'standard_licence'
+        if standard:
+            advice, _ = get_final_case_advice(request, str(kwargs['pk']))
+            data = advice['advice']
+            search_key = 'type'
+        else:
+            data = get_good_countries_decisions(request, str(kwargs['pk']))['data']
+            search_key = 'advice_type'
+
         case_id = case['id']
 
-        for item in advice['advice']:
-            if item['type']['key'] == 'approve' or item['type']['key'] == 'proviso':
-                return form_page(request, approve_licence_form(case_id))
+        for item in data:
+            if item[search_key]['key'] == 'approve' or item[search_key]['key'] == 'proviso':
+                return form_page(request, approve_licence_form(case_id, standard))
 
-        return form_page(request, refuse_licence_form(case_id))
+        return form_page(request, refuse_licence_form(case_id, standard))
 
     def post(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs['pk']))
