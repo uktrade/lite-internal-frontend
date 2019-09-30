@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
@@ -250,9 +248,10 @@ class FinaliseGoodsCountries(TemplateView):
         data = request.POST.copy()
         data.pop('csrfmiddlewaretoken')
         selection = {}
+        action = data.pop('action')[0]
 
         selection['good_countries'] = []
-        for key, value in data.items():
+        for key, _ in data.items():
             selection['good_countries'].append(
                 {
                     'case': str(kwargs['pk']),
@@ -274,7 +273,8 @@ class FinaliseGoodsCountries(TemplateView):
         for key in self.keys:
             good_pk = key.split('.')[0]
             country_pk = key.split('.')[1]
-            if key not in data or len(data.getlist(key)) > 1:
+            missing_keys_and_action_not_save = key not in data and not action == 'save'
+            if missing_keys_and_action_not_save or len(data.getlist(key)) > 1:
                 if good_pk in context['errors']:
                     context['errors'][good_pk].append(country_pk)
                 else:
@@ -290,9 +290,11 @@ class FinaliseGoodsCountries(TemplateView):
 
         data, _ = post_good_countries_decisions(request, str(kwargs['pk']), selection)
 
-        if 'errors' in data:
+        if action == 'save':
+            print(action)
+            return render(request, 'cases/case/finalise-open-goods-countries.html', context)
+        elif 'errors' in data:
             context['error'] = data.get('errors')
-
             return render(request, 'cases/case/finalise-open-goods-countries.html', context)
 
         return redirect(reverse_lazy('cases:finalise', kwargs={'pk': kwargs['pk']}))
