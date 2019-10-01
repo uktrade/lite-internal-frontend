@@ -92,7 +92,7 @@ def create_app(driver, apply_for_standard_application):
 
 
 @given('I create open application or open application has been previously created') # noqa
-def create_app(driver, apply_for_open_application):
+def create_open_app(driver, apply_for_open_application):
     pass
 
 

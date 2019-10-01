@@ -96,8 +96,8 @@ def apply_for_open_application(driver, request, api_url, context):
             "have_you_been_informed": "yes",
             "reference_number_on_information_form": "1234"}
     )
-    lite_client.submit_application()
-    context.open_app_id = lite_client.context['application_id']
-    context.open_case_id = lite_client.context['case_id']
+    lite_client.submit_open_application()
+    context.open_app_id = lite_client.context['open_application_id']
+    context.open_case_id = lite_client.context['open_case_id']
 
     timer.print_time('apply_for_open_application')
