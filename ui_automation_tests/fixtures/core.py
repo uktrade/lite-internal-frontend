@@ -108,8 +108,7 @@ def exporter_info(request):
 @fixture(scope='session')
 def internal_info(request):
     gov_user_email = env('TEST_SSO_EMAIL')
-    gov_user_first_name = env('TEST_SSO_NAME').split(' ')[0]
-    gov_user_last_name = env('TEST_SSO_NAME').split(' ')[1]
+    gov_user_first_name, gov_user_last_name = env('TEST_SSO_NAME').split(' ')
 
     return {
         'email': gov_user_email,
