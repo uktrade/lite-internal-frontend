@@ -19,8 +19,6 @@ def create_request_data(exporter_user, gov_user, test_s3_key):
             'vat_number': 'GB1234567',
             'registration_number': '09876543',
             'user': {
-                'first_name': exporter_user['first_name'],
-                'last_name': exporter_user['last_name'],
                 'email': exporter_user['email']
             },
             'site': {
@@ -42,8 +40,6 @@ def create_request_data(exporter_user, gov_user, test_s3_key):
             'vat_number': 'GB1234567',
             'registration_number': '09876543',
             'user': {
-                'first_name': exporter_user['first_name'],
-                'last_name': exporter_user['last_name'],
                 'email': exporter_user['email']
             },
             'site': {
