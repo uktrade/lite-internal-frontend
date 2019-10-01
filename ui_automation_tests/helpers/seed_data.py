@@ -2,17 +2,12 @@ import json
 
 import requests
 
-from conf.settings import env
 from helpers.wait import wait_for_document, wait_for_ultimate_end_user_document
 from request_data import create_request_data
 
 
 class SeedData:
     base_url = ''
-    gov_user_email = env('TEST_SSO_EMAIL')
-    exporter_user_email = env('TEST_EXPORTER_SSO_EMAIL')
-    gov_user_first_name = env('TEST_SSO_NAME').split(' ')[0]
-    gov_user_last_name = env('TEST_SSO_NAME').split(' ')[1]
     gov_headers = {'content-type': 'application/json'}
     export_headers = {'content-type': 'application/json'}
     context = {}
