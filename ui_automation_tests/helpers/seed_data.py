@@ -16,10 +16,10 @@ class SeedData:
 
     def __init__(self, seed_data_config):
         exporter_user = seed_data_config['exporter']
-        gov_user = seed_data_config['gov']
+        self.gov_user = seed_data_config['gov']
         test_s3_key = seed_data_config['s3_key']
         self.base_url = seed_data_config['api_url'].rstrip('/')
-        self.request_data = create_request_data(exporter_user, gov_user, test_s3_key)
+        self.request_data = create_request_data(exporter_user, self.gov_user, test_s3_key)
 
     def setup_database(self):
         self.auth_gov_user()
@@ -54,8 +54,8 @@ class SeedData:
         org_id = organisation['id']
         self.add_to_context('org_id', org_id)
         self.add_to_context('org_name', self.org_name)
-        self.add_to_context('first_name', self.gov_user_first_name)
-        self.add_to_context('last_name', self.gov_user_last_name)
+        self.add_to_context('first_name', self.gov_user['first_name'])
+        self.add_to_context('last_name', self.gov_user['last_name'])
         self.add_to_context('primary_site_id', self.get_org_primary_site_id(org_id))
 
     def add_org(self):
