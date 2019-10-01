@@ -398,6 +398,15 @@ class SeedData:
         self.add_to_context('application_id', item['id'])
         self.add_to_context('case_id', item['case_id'])
 
+    def submit_open_application(self, draft_id=None):
+        self.log("submitting application: ...")
+        draft_id_to_submit = draft_id if None else self.context['draft_id'] # noqa
+        data = {'id': draft_id_to_submit}
+        response = self.make_request("POST", url='/applications/', headers=self.export_headers, body=data)
+        item = json.loads(response.text)['application']
+        self.add_to_context('open_application_id', item['id'])
+        self.add_to_context('open_case_id', item['case_id'])
+
     def add_queue(self, queue_name):
         self.log("adding queue: ...")
         self.context['queue_name'] = queue_name
