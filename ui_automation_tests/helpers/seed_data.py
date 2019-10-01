@@ -14,6 +14,10 @@ class SeedData:
     gov_user_first_name = env('TEST_SSO_NAME').split(' ')[0]
     gov_user_last_name = env('TEST_SSO_NAME').split(' ')[1]
 
+    gov_user_request_data = {
+        "email": gov_user_email,
+        "first_name": gov_user_first_name,
+        "last_name": gov_user_last_name}
     gov_headers = {'content-type': 'application/json'}
     export_headers = {'content-type': 'application/json'}
     context = {}

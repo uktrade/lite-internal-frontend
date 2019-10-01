@@ -95,9 +95,13 @@ def new_cases_queue_id():
 @fixture(scope="session")
 def exporter_info(request):
     exporter_sso_email = env('TEST_EXPORTER_SSO_EMAIL')
+    first_name = 'Test'
+    last_name = 'Lite'
 
     return {
-        'email': exporter_sso_email
+        'email': exporter_sso_email,
+        'first_name': first_name,
+        'last_name': last_name
     }
 
 
