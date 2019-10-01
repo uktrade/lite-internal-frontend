@@ -159,14 +159,14 @@ def prepare_data_for_advice(json):
     return new_data
 
 
-def post_good_countries_decisions(request, case_pk, json):
-    data = post(request, CASE_URL + case_pk + '/goods-countries-decisions/', json)
-    return data.json(), data.status_code
-
-
 def get_good_countries_decisions(request, case_pk):
     data = get(request, CASE_URL + case_pk + '/goods-countries-decisions/')
     return data.json()
+
+
+def post_good_countries_decisions(request, case_pk, json):
+    data = post(request, CASE_URL + case_pk + '/goods-countries-decisions/', json)
+    return data.json(), data.status_code
 
 
 def post_user_case_advice(request, case_pk, json):

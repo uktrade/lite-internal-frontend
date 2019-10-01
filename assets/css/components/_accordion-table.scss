@@ -11,10 +11,9 @@
 }
 
 .lite-accordian-table__row {
-	cursor: pointer;
-
 	td:last-child a {
 		display: inline-block;
+		cursor: pointer;
 
 		svg {
 			display: inline-block;
@@ -53,13 +52,11 @@
 	box-sizing: border-box;
 	border-collapse: collapse;
 	border-spacing: 0;
-	// border: 0px solid transparent;
 	padding: 0;
 }
 
 .lite-accordian-table__fold {
 	display: none;
-	// border: 0px solid transparent;
 	&.open {
 		display: table-row;
 
