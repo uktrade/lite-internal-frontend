@@ -51,13 +51,13 @@
 							</div>
 						{% endfor %}
 					</td>
-					{% for advice_type in advice_types %}
+					{% for decision in decisions %}
 						<td class="lite-table__cell">
 							{% for country in good.countries %}
 								<div class="govuk-radios govuk-radios--small" style="padding-bottom: 50px">
 									<div class="govuk-radios__item">
-										<input class="govuk-radios__input" type="radio" {% for data in good_countries %}{% if good.id == data.good %}{% if country.id == data.country %}{% if advice_type == data.advice_type %} checked
-										 {% elif advice_type == data.advice_type.key %} checked {% endif %}{% endif %}{% endif %}{% endfor %} name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ advice_type }}">
+										<input class="govuk-radios__input" type="radio" {% for data in good_countries %}{% if good.id == data.good %}{% if country.id == data.country %}{% if decision == data.decision %} checked
+										 {% elif decision == data.decision.key %} checked {% endif %}{% endif %}{% endif %}{% endfor %} name="{{ good.id }}.{{ country.id }}" id="{{ good.id }}.{{ country.id }}" value="{{ decision }}">
 										<label class="govuk-label govuk-radios__label {% if good.id in errors %}{% if country.id in errors|key_value:good.id %}app-radios__label--error{% endif %}{% endif %}" for="{{ good.id }}.{{ country.id }}">
 										</label>
 									</div>

@@ -240,7 +240,7 @@ class FinaliseGoodsCountries(TemplateView):
         context = {
             'case': self.case,
             'good_countries': self.data['data'],
-            'advice_types': ['approve', 'refuse', 'no_licence_required'],
+            'decisions': ['approve', 'refuse', 'no_licence_required'],
         }
         return render(request, 'cases/case/finalise-open-goods-countries.html', context)
 
@@ -257,12 +257,12 @@ class FinaliseGoodsCountries(TemplateView):
                     'case': str(kwargs['pk']),
                     'good': key.split('.')[0],
                     'country': key.split('.')[1],
-                    'advice_type': data.get(key)}
+                    'decision': data.get(key)}
             )
 
         context = {
             'case': self.case,
-            'advice_types': ['approve', 'refuse', 'no_licence_required'],
+            'decisions': ['approve', 'refuse', 'no_licence_required'],
             'good_countries': self.data['data'],
             'errors': {}
         }
@@ -282,7 +282,7 @@ class FinaliseGoodsCountries(TemplateView):
             else:
                 post_data.append({'good': good_pk,
                                   'country': country_pk,
-                                  'advice_type': data.get(key)})
+                                  'decision': data.get(key)})
 
         if context['errors']:
             context['good_countries'] = post_data
@@ -314,7 +314,7 @@ class Finalise(TemplateView):
             search_key = 'type'
         else:
             data = get_good_countries_decisions(request, str(kwargs['pk']))['data']
-            search_key = 'advice_type'
+            search_key = 'decision'
 
         case_id = case['id']
 
