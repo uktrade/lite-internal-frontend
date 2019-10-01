@@ -33,4 +33,6 @@ def get_lite_client(context, seed_data_config):
     """
     Returns the existing LITE API client, or creates a new one
     """
-    return get_or_create_attr(context, 'api', SeedData(seed_data_config=seed_data_config))
+    seed_data = SeedData(seed_data_config=seed_data_config)
+    seed_data.setup_database()
+    return get_or_create_attr(context, 'api', seed_data)
