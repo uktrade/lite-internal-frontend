@@ -81,7 +81,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I create a standard advice picklist
     And I sign in to SSO or am signed into SSO
     When I give myself all permissions
-    And I go to application previously created
+    And I go to open application previously created
     And I click on view advice
     And I select all items in the advice view
     And I choose to 'approve' the licence
