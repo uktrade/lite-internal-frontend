@@ -74,8 +74,8 @@ def invalid_username(request):
     return "invalid@mail.com"
 
 
-def clear_down(context, api_url):
-    lite_client = get_lite_client(context, api_url)
+def clear_down(context, seed_data_config):
+    lite_client = get_lite_client(context, seed_data_config)
     if "Application Bin" not in str(lite_client.get_queues()):
         lite_client.add_queue("Application Bin")
         bin_id = context['queue_id']
@@ -116,6 +116,12 @@ def internal_info(request):
         'first_name': gov_user_first_name,
         'last_name': gov_user_last_name
     }
+
+
+@fixture(scope="session")
+def s3_key(request):
+    s3_key = env('TEST_S3_KEY')
+    return s3_key
 
 
 @fixture(scope="session")
