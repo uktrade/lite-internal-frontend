@@ -6,7 +6,7 @@ from lite_forms.generators import form_page, error_page
 from cases.forms.finalise_case import approve_licence_form, refuse_licence_form
 from cases.services import post_user_case_advice, get_user_case_advice, get_team_case_advice, \
     get_final_case_advice, coalesce_user_advice, coalesce_team_advice, post_team_case_advice, \
-    post_final_case_advice, clear_team_advice, clear_final_advice, get_case, put_applications, post_good_countries_decisions, get_good_countries_decisions
+    post_final_case_advice, clear_team_advice, clear_final_advice, get_case, put_applications, post_good_countries_decisions, get_good_countries_decisions, _generate_data_and_keys, _generate_post_data_and_errors
 from cases.views_helpers import get_case_advice, render_form_page, post_advice, post_advice_details, \
     give_advice_detail_dispatch, give_advice_dispatch
 
@@ -202,67 +202,8 @@ class GiveFinalAdviceDetail(TemplateView):
 
 
 class FinaliseGoodsCountries(TemplateView):
-    @staticmethod
-    def _generate_data(request, pk):
-        case = get_case(request, pk)
-        _advice, _ = get_final_case_advice(request, pk)
-
-        # The keys are each relevant good-country pairing in the format good_id.country_id
-        keys = []
-        # Builds form page data structure
-        # For each good in the case
-        for good in case['application']['goods_types']:
-            # Match the goods with the goods in advice for that case
-            # and attach the advice value to the good
-            for advice in _advice['advice']:
-                if advice['goods_type'] == good['id']:
-                    good['advice'] = advice['type']
-            # If the good has countries attached to it as destinations
-            # We do the same with the countries and their advice
-            if good['countries']:
-                for country in good['countries']:
-                    keys.append(str(good['id']) + '.' + country['id'])
-                    for advice in _advice['advice']:
-                        if advice['country'] == country['id']:
-                            country['advice'] = advice['type']
-            # If the good has no countries:
-            else:
-                good['countries'] = []
-                # We attach all countries from the case
-                # And then attach the advice as before
-                for country in case['application']['destinations']['data']:
-                    good['countries'].append(country)
-                    keys.append(str(good['id']) + '.' + country['id'])
-                    for advice in _advice['advice']:
-                        if advice['country'] == country['id']:
-                            country['advice'] = advice['type']
-        data = get_good_countries_decisions(request, pk)
-        print('data1', data)
-        if 'detail' in data:
-            return error_page(request, 'You do not have permission.')
-
-        return case, data, keys
-
-    @staticmethod
-    def _generate_errors(keys, request_data, action):
-        post_data = []
-        errors = {}
-        for key in keys:
-            good_pk = key.split('.')[0]
-            country_pk = key.split('.')[1]
-            if key not in request_data and not action == 'save':
-                if good_pk in errors:
-                    errors[good_pk].append(country_pk)
-                else:
-                    errors[good_pk] = [country_pk]
-            else:
-                post_data.append({'good': good_pk,
-                                  'country': country_pk,
-                                  'decision': request_data.get(key)})
-        return post_data, errors
-
     def get(self, request, *args, **kwargs):
-        case, data, _ = self._generate_data(request, str(kwargs['pk']))
+        case, data, _ = _generate_data_and_keys(request, str(kwargs['pk']))
         context = {
             'case': case,
             'good_countries': data['data'],
@@ -271,7 +212,7 @@ class FinaliseGoodsCountries(TemplateView):
         return render(request, 'cases/case/finalise-open-goods-countries.html', context)
 
     def post(self, request, *args, **kwargs):
-        case, data, keys = self._generate_data(request, str(kwargs['pk']))
+        case, data, keys = _generate_data_and_keys(request, str(kwargs['pk']))
 
         request_data = request.POST.copy()
         request_data.pop('csrfmiddlewaretoken')
@@ -295,7 +236,7 @@ class FinaliseGoodsCountries(TemplateView):
             'errors': {}
         }
 
-        post_data, errors = self._generate_errors(keys, request_data, action)
+        post_data, errors = _generate_post_data_and_errors(keys, request_data, action)
 
         # If errors, return page
         if errors:
