@@ -90,3 +90,40 @@ def clear_down(context, api_url):
 @fixture(scope="session")
 def new_cases_queue_id():
     return "00000000-0000-0000-0000-000000000001"
+
+
+@fixture(scope="session")
+def exporter_info(request):
+    exporter_sso_email = env('TEST_EXPORTER_SSO_EMAIL')
+    first_name = 'Test'
+    last_name = 'Lite'
+
+    return {
+        'email': exporter_sso_email,
+        'first_name': first_name,
+        'last_name': last_name
+    }
+
+
+@fixture(scope="session")
+def internal_info(request):
+    gov_user_email = env('TEST_SSO_EMAIL')
+    gov_user_first_name = env('TEST_SSO_NAME').split(' ')[0]
+    gov_user_last_name = env('TEST_SSO_NAME').split(' ')[1]
+
+    return {
+        'email': gov_user_email,
+        'first_name': gov_user_first_name,
+        'last_name': gov_user_last_name
+    }
+
+
+@fixture(scope="session")
+def seed_data_config(request, exporter_info, internal_info, s3_key):
+    api_url = request.config.getoption("--lite_api_url")
+    return {
+        'api_url': api_url,
+        'exporter': exporter_info,
+        'gov': internal_info,
+        's3_key': s3_key
+    }

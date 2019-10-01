@@ -4,6 +4,7 @@ import requests
 
 from conf.settings import env
 from helpers.wait import wait_for_document, wait_for_ultimate_end_user_document
+from request_data import create_request_data
 
 
 class SeedData:
@@ -23,149 +24,16 @@ class SeedData:
     logging = True
     org_name = "Test Org"
 
-    request_data = {
-        "organisation": {
-            "name": org_name,
-            "sub_type": "commercial",
-            "eori_number": "1234567890AAA",
-            "sic_number": "2345",
-            "vat_number": "GB1234567",
-            "registration_number": "09876543",
-            "user": {
-                "first_name": "Trinity",
-                "last_name": "Fishburne",
-                "email": exporter_user_email,
-                "password": "password"
-            },
-            "site": {
-                "name": "Headquarters",
-                "address": {
-                    "address_line_1": "42 Question Road",
-                    "postcode": "Islington",
-                    "city": "London",
-                    "region": "London",
-                    "country": "GB"
-                }
-            }
-        },
-        "good": {
-            "description": "MPG 2.",
-            "is_good_controlled": "yes",
-            "control_code": "ML1a",
-            "is_good_end_product": True,
-            "part_number": "1234",
-            "validate_only": False
-        },
-        "ecju_query_picklist": {
-            "name": "Standard question 1",
-            "text": "Why did the chicken cross the road?",
-            "type": "ecju_query"
-        },
-        "proviso_picklist": {
-            "name": "Misc",
-            "text": "My proviso advice would be this.",
-            "proviso": "My proviso would be this.",
-            "type": "proviso"
-        },
-        "standard_advice_picklist": {
-            "name": "More advice",
-            "text": "My standard advice would be this.",
-            "type": "standard_advice"
-        },
-        "report_picklist": {
-            "name": "More advice",
-            "text": "My standard advice would be this.",
-            "type": "report_summary"
-        },
-        "gov_user": {
-            "email": gov_user_email,
-            "first_name": gov_user_first_name,
-            "last_name": gov_user_last_name},
-        "export_user": {
-            "email": exporter_user_email,
-            "password": "password"
-        },
-        "draft": {
-            "name": "application",
-            "licence_type": "standard_licence",
-            "export_type": "permanent",
-            "have_you_been_informed": "yes",
-            "reference_number_on_information_form": "1234"
-        },
-        "end-user": {
-            "name": "Mr Smith",
-            "address": "Westminster, London SW1A 0BB",
-            "country": "GB",
-            "sub_type": "government",
-            "website": "https://www.gov.uk"
-        },
-        "end_user_advisory": {
-            "end_user": {
-              "name": "Person",
-              "address": "Westminster, London SW1A 0AA",
-              "country": "GB",
-              "sub_type": "government",
-              "website": "https://www.gov.uk"
-            },
-            "contact_email": "email@address.com",
-            "contact_telephone": 12345678901,
-            "reasoning": "I'm unsure about them",
-            "note": "note for end user advisory"
-        },
-        "ultimate_end_user": {
-            "name": "Individual",
-            "address": "Bullring, Birmingham SW1A 0AA",
-            "country": "GB",
-            "sub_type": "commercial",
-            "website": "https://www.anothergov.uk"
-        },
-        "consignee": {
-            "name": "Government",
-            "address": "Westminster, London SW1A 0BB",
-            "country": "GB",
-            "sub_type": "government",
-            "website": "https://www.gov.uk"
-        },
-        "third_party": {
-            "name": "Individual",
-            "address": "Ukraine, 01532",
-            "country": "UA",
-            "sub_type": "agent",
-            "website": "https://www.anothergov.uk"
-        },
-        "add_good": {
-            "good_id": "",
-            "quantity": 1234,
-            "unit": "NAR",
-            "value": 123.45
-        },
-        "clc_good": {
-            "description": "Targus",
-            "is_good_controlled": "unsure",
-            "is_good_end_product": True,
-            "part_number": "1234",
-            "validate_only": False,
-        },
-        "document": {
-            'name': 'document 1',
-            's3_key': env('TEST_S3_KEY'),
-            'size': 0,
-            'description': 'document for test setup'
-        },
-        "additional_document": {
-            'name': 'picture',
-            's3_key': env('TEST_S3_KEY'),
-            'size': 0,
-            'description': 'document for additional'
-        }
-    }
-
-    def __init__(self, api_url):
-        self.base_url = api_url.rstrip('/')
+    def __init__(self, seed_data_config):
+        exporter_user = seed_data_config['exporter']
+        gov_user = seed_data_config['gov']
+        test_s3_key = seed_data_config['s3_key']
+        self.base_url = seed_data_config['api_url'].rstrip('/')
         self.auth_gov_user()
         self.setup_org()
         self.auth_export_user()
         self.add_good()
+        self.request_data = create_request_data(exporter_user, gov_user, test_s3_key)
 
     def log(self, text):
         print(text)
