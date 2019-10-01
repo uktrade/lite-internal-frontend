@@ -10,12 +10,13 @@ $govuk-link-active-colour: darken($govuk-brand-colour, 20%);
 @import "../shared/lite-frontend/scss/all"; // Local Assets
 @import "components/all";
 
-.app-checkboxes__label--error {
-	background: red;
+.app-radios__label--error {
 	color: $govuk-error-colour;
+
 	&::before {
 		border-width: $govuk-border-width-form-element-error;
 	}
+
 	&::after {
 		color: govuk-colour("black");
 	}
