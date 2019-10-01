@@ -50,11 +50,15 @@ $govuk-link-active-colour: darken($govuk-brand-colour, 20%);
 }
 
 .app-document-generator__preview {
+	position: relative;
 	border: 4px solid govuk-colour("light-grey");
 	padding: govuk-spacing(6);
 	max-width: 800px;
 	margin: auto;
 	box-sizing: border-box;
+	* {
+		position: relative!important;
+	}
 }
 
 .app-prose-scope {

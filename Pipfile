@@ -31,6 +31,7 @@ prospector = "*"
 lite-forms = "*"
 django-markdownx = "*"
 cairocffi = "*"
+weasyprint = "*"
 
 [requires]
 python_version = "3.7"

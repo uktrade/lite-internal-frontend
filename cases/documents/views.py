@@ -1,11 +1,16 @@
 import os
+
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import engines
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 # from weasyprint import HTML
 from lite_forms.helpers import flatten_data
+from weasyprint import HTML, CSS
 
+from cases.documents.generator import PdfGenerator
 from cases.documents.services import get_letter_templates, get_letter_template
 from cases.services import get_case
 from conf import settings
@@ -62,10 +67,16 @@ class CreateDocument(TemplateView):
             'template_data': template_data,
         }
 
-        print(preview)
-
         if request.POST.get('action') == 'print':
-            return render(request, 'documents/preview.html', context)
+            pdf = PdfGenerator(main_html='<html><body><p>Title</p></body></html>',
+                               header_html='<html><body><p>Title</p></body></html>')
+            pdf.render_pdf()
+
+            fs = FileSystemStorage('/tmp')
+            with fs.open('mypdf.pdf') as pdf:
+                response = HttpResponse(pdf, content_type='application/pdf')
+                response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+                return response
         else:
             return render(request, 'documents/document_generator.html', context)
 
@@ -86,13 +97,13 @@ class Preview(TemplateView):
         }
         preview = template.render(letter_context)
 
-        # html = HTML(string=preview)
-        # html.write_pdf(target='/tmp/mypdf.pdf')
-        # fs = FileSystemStorage('/tmp')
-        # with fs.open('mypdf.pdf') as pdf:
-        #     response = HttpResponse(pdf, content_type='application/pdf')
-        #     response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
-        #     return response
+        html = HTML(string=preview)
+        html.write_pdf(target='/tmp/mypdf.pdf')
+        fs = FileSystemStorage('/tmp')
+        with fs.open('mypdf.pdf') as pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+            return response
 
 
 class Help(TemplateView):
