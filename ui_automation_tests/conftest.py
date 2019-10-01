@@ -4,7 +4,7 @@ from pytest_bdd import given, when, then, parsers
 
 from fixtures.core import context, driver, sso_login_info, invalid_username, new_cases_queue_id, sso_users_name # noqa
 from fixtures.urls import internal_url, sso_sign_in_url, api_url # noqa
-from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_eua_query # noqa
+from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_eua_query, apply_for_open_application # noqa
 from fixtures.sign_in_to_sso import sign_in_to_internal_sso # noqa
 from fixtures.add_a_flag import add_uae_flag, add_suspicious_flag # noqa
 from fixtures.add_queue import add_queue # noqa
@@ -83,6 +83,11 @@ def click_on_created_application(driver, context, internal_url):
 
 @given('I create application or application has been previously created') # noqa
 def create_app(driver, apply_for_standard_application):
+    pass
+
+
+@given('I create open application or open application has been previously created') # noqa
+def create_app(driver, apply_for_open_application):
     pass
 
 
