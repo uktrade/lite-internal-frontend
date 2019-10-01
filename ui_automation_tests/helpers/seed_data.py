@@ -3,7 +3,7 @@ import json
 import requests
 
 from helpers.wait import wait_for_document, wait_for_ultimate_end_user_document
-from request_data import create_request_data
+from helpers.request_data import create_request_data
 
 
 class SeedData:
