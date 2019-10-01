@@ -1,5 +1,6 @@
 import os
 
+import pdfkit
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -68,8 +69,12 @@ class CreateDocument(TemplateView):
         }
 
         if request.POST.get('action') == 'print':
-            pdf = PdfGenerator(preview)
+            # weasyprint
+            pdf = PdfGenerator(preview, base_url=request.build_absolute_uri())
             pdf.render_pdf('/tmp/mypdf.pdf')
+
+            # pdfkit
+            # pdfkit.from_string('Hello!', 'out.pdf')
 
             fs = FileSystemStorage('/tmp')
             with fs.open('mypdf.pdf') as pdf:
