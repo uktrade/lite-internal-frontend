@@ -102,7 +102,7 @@ class PdfGenerator:
             if footer_body:
                 page_body.children += footer_body.all_children()
 
-    def render_pdf(self):
+    def render_pdf(self, target):
         """
         Returns
         -------
@@ -133,7 +133,7 @@ class PdfGenerator:
 
         if self.header_html or self.footer_html:
             self._apply_overlay_on_main(main_doc, header_body, footer_body)
-        pdf = main_doc.write_pdf()
+        pdf = main_doc.write_pdf(target=target)
 
         return pdf
 

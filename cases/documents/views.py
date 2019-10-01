@@ -68,9 +68,8 @@ class CreateDocument(TemplateView):
         }
 
         if request.POST.get('action') == 'print':
-            pdf = PdfGenerator(main_html='<html><body><p>Title</p></body></html>',
-                               header_html='<html><body><p>Title</p></body></html>')
-            pdf.render_pdf()
+            pdf = PdfGenerator(preview)
+            pdf.render_pdf('/tmp/mypdf.pdf')
 
             fs = FileSystemStorage('/tmp')
             with fs.open('mypdf.pdf') as pdf:
