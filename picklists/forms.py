@@ -17,7 +17,6 @@ _picklist_type = Select(name='type',
                         title='Type')
 
 _text = TextArea(title='Add text for picklist item',
-                 description='',
                  name='text',
                  extras={
                      'max_length': 5000,
@@ -28,7 +27,6 @@ _back_link = BackLink('Back to picklists', '#')
 
 def add_picklist_item_form():
     return Form(title=get_string('picklist.create'),
-                description='',
                 questions=[
                     _name,
                     _picklist_type,
@@ -58,7 +56,6 @@ def edit_picklist_item_form(picklist_item):
         button = deactivate_button
 
     return Form(title=get_string('picklist.edit'),
-                description='',
                 questions=[
                     _name,
                     _picklist_type,

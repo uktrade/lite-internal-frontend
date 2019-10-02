@@ -1,0 +1,47 @@
+{% extends 'layouts/base.html' %}
+
+{% block back_link %}{% endblock %}
+
+{% block body %}
+
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h2 class="govuk-heading-l">{% block title %}Letter Templates{% endblock %}</h2>
+		</div>
+		<div class="lite-app-bar__controls">
+			<a href="{% url 'letter_templates:add' %}" class="govuk-button" draggable="false" role="button" id="button-create-a-template">
+				Create a template
+			</a>
+		</div>
+	</div>
+
+	{% if letter_templates|length %}
+		<table class="lite-table">
+			<thead class="lite-table__head">
+				<tr class="lite-table__row">
+					<th class="lite-table__header" scope="col">Name</th>
+					<th class="lite-table__header" scope="col">Name</th>
+					<th class="lite-table__header" scope="col"></th>
+				</tr>
+			</thead>
+			<tbody class="lite-table__body">
+				{% for letter_template in letter_templates %}
+					<tr class="lite-table__row">
+						<td class="lite-table__cell">
+                            {{ letter_template.name }}
+                        </td>
+						<td class="lite-table__cell">
+							SIEL
+						</td>
+						<td class="lite-table__cell">
+							Edit
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		{% include "includes/information-text.html" with text='There are no letter templates currently created' %}
+	{% endif %}
+
+{% endblock %}
