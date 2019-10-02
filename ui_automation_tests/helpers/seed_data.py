@@ -62,7 +62,7 @@ class SeedData:
         self.log("Creating org: ...")
         data = self.request_data['organisation']
         response = self.make_request("POST", url='/organisations/', body=data)
-        organisation = json.loads(response.text)['organisation']
+        organisation = json.loads(response.text)['results']
         return organisation
 
     def add_ecju_query_picklist(self):
@@ -91,7 +91,7 @@ class SeedData:
 
     def find_org_by_name(self):
         response = self.make_request("GET", url='/organisations/')
-        organisations = json.loads(response.text)['organisations']
+        organisations = json.loads(response.text)['results']
         organisation = next((item for item in organisations if item["name"] == self.org_name), None)
         return organisation
 
