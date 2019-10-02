@@ -245,7 +245,7 @@ class SeedData:
             'control_code': 'ML1a',
             'is_good_end_product': True,
             'content_type': 'draft',
-            'object_id': draft_id
+            'application': draft_id
         }
         self.make_request("POST", url='/goodstype/', headers=self.export_headers, body=data)
 
@@ -262,8 +262,7 @@ class SeedData:
     def submit_open_application(self, draft_id=None):
         self.log("submitting application: ...")
         draft_id_to_submit = draft_id if None else self.context['draft_id'] # noqa
-        data = {'id': draft_id_to_submit}
-        response = self.make_request("POST", url='/applications/', headers=self.export_headers, body=data)
+        response = self.make_request("PUT", url='/applications/' + draft_id_to_submit + '/submit/', headers=self.export_headers)
         item = json.loads(response.text)['application']
         self.add_to_context('open_application_id', item['id'])
         self.add_to_context('open_case_id', item['case_id'])
