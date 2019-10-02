@@ -2,7 +2,7 @@ import datetime
 
 from pytest import fixture
 
-from helpers.utils import Timer, get_lite_client
+from shared.tools.utils import Timer, get_lite_client
 
 
 @fixture(scope="module")

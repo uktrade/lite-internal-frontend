@@ -1,6 +1,6 @@
 from pytest_bdd import when, then, parsers, scenarios
 import logging
-import helpers.helpers as utils
+import shared.tools.helpers as utils
 from pages.application_page import ApplicationPage
 from pages.queues_pages import QueuesPages
 from pages.shared import Shared

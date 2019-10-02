@@ -1,6 +1,6 @@
 import time
 
-import helpers.helpers as utils
+import shared.tools.helpers as utils
 from helpers.BasePage import BasePage
 
 

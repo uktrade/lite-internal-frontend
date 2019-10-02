@@ -5,7 +5,7 @@ from pytest import fixture
 from selenium import webdriver
 
 from conf.settings import env
-from helpers.utils import get_lite_client
+from shared.tools.utils import get_lite_client
 
 
 # set_timeouts are for elements that dont exist that dont need a 10 second timeout to return that they dont exist.

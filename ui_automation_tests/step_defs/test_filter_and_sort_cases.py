@@ -1,10 +1,9 @@
 from pytest_bdd import given, when, then, parsers, scenarios
-from helpers.helpers import get_formatted_date_time_m_d_h_s
-from helpers.seed_data import SeedData
-from helpers.utils import get_or_create_attr, get_lite_client
+from shared.tools.helpers import get_formatted_date_time_m_d_h_s
+from shared.tools.utils import get_lite_client
 from pages.shared import Shared
 
-from helpers.wait import wait_until_page_is_loaded
+from shared.tools.wait import wait_until_page_is_loaded
 from ui_automation_tests.pages.case_list_page import CaseListPage
 
 scenarios('../features/filter_and_sort_cases.feature', strict_gherkin=False)
