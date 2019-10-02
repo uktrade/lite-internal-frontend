@@ -229,7 +229,7 @@ class SeedData:
     def submit_application(self, draft_id=None):
         self.log('submitting application: ...')
         draft_id_to_submit = draft_id if None else self.context['draft_id']  # noqa
-        response = self.make_request('PUT', url='/applications/' + draft_id_to_submit + '/submit',
+        response = self.make_request('PUT', url='/applications/' + draft_id_to_submit + '/submit/',
                                      headers=self.export_headers,
                                      body={})
         item = json.loads(response.text)['application']
