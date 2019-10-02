@@ -81,9 +81,9 @@ def apply_for_eua_query(driver, seed_data_config, context):
 
 
 @fixture(scope="module")
-def apply_for_open_application(driver, request, api_url, context):
+def apply_for_open_application(driver, request, seed_data_config, context):
     timer = Timer()
-    lite_client = get_lite_client(context, api_url)
+    lite_client = get_lite_client(context, seed_data_config)
 
     open_app_time_id = datetime.datetime.now().strftime(" %d%H%M%S")
     context.open_app_time_id = open_app_time_id

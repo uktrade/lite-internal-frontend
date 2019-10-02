@@ -11,6 +11,7 @@ from cases.services import post_user_case_advice, get_user_case_advice, get_team
     _generate_post_data_and_errors
 from cases.views_helpers import get_case_advice, render_form_page, post_advice, post_advice_details, \
     give_advice_detail_dispatch, give_advice_dispatch
+from conf.constants import DECISIONS_LIST
 
 
 class ViewUserAdvice(TemplateView):
@@ -214,7 +215,7 @@ class FinaliseGoodsCountries(TemplateView):
             'title': 'Finalise goods and countries',
             'case': case,
             'good_countries': data['data'],
-            'decisions': ['approve', 'refuse', 'no_licence_required'],
+            'decisions': DECISIONS_LIST,
         }
         return render(request, 'cases/case/finalise-open-goods-countries.html', context)
 
@@ -242,7 +243,7 @@ class FinaliseGoodsCountries(TemplateView):
         context = {
             'title': 'Finalise goods and countries',
             'case': case,
-            'decisions': ['approve', 'refuse', 'no_licence_required'],
+            'decisions': DECISIONS_LIST,
             'good_countries': data['data'],
             'errors': {}
         }
