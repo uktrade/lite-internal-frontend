@@ -6,7 +6,9 @@ from lite_forms.generators import form_page, error_page
 from cases.forms.finalise_case import approve_licence_form, refuse_licence_form
 from cases.services import post_user_case_advice, get_user_case_advice, get_team_case_advice, \
     get_final_case_advice, coalesce_user_advice, coalesce_team_advice, post_team_case_advice, \
-    post_final_case_advice, clear_team_advice, clear_final_advice, get_case, put_applications, post_good_countries_decisions, get_good_countries_decisions, _generate_data_and_keys, _generate_post_data_and_errors
+    post_final_case_advice, clear_team_advice, clear_final_advice, get_case, put_applications, \
+    post_good_countries_decisions, get_good_countries_decisions, _generate_data_and_keys, \
+    _generate_post_data_and_errors
 from cases.views_helpers import get_case_advice, render_form_page, post_advice, post_advice_details, \
     give_advice_detail_dispatch, give_advice_dispatch
 
