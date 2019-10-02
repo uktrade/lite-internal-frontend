@@ -228,6 +228,51 @@
 		</tr>
 
 		<tr>
+			<td colspan="4" style="padding: 0;">
+				<table>
+					<tr>
+						<td scope="col">
+							Item
+						</td>
+						<td scope="col">
+							14. Description of goods
+						</td>
+						<td scope="col">
+							16. Control list entry
+						</td>
+						<td scope="col">
+							17. Currency and value
+						</td>
+						<td scope="col">
+							18. Quantity of the goods
+						</td>
+					</tr>
+
+					{% for i in '12312316231736817623816318738671'|make_list %}
+						<tr>
+							<td>
+								1
+							</td>
+							<td>
+								widget
+								Part number: 123
+							</td>
+							<td>
+								ML10a
+							</td>
+							<td>
+								£123
+							</td>
+							<td>
+								1 each
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</td>
+		</tr>
+
+		<tr>
 			<td scope="col" colspan="4">
 				<span class="cell__subheading">Authorisation</span>
 				<span class="cell__body">The Secretary of State authorises the person named in box 1 of this licence ("the licensee") to export or transfer the goods, software and/or technology described in box 14 ("the listed items") to the person named in box 5, before the end of the date shown in box 3, subject to the conditions attached or specified in this licence as set out below.</span>

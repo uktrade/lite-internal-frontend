@@ -1,6 +1,6 @@
 import os
 
-import pdfkit
+# import pdfkit
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
