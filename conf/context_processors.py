@@ -43,6 +43,11 @@ def lite_menu(request):
                 'title': 'Flags',
                 'url': '/flags/',
                 'icon': 'menu/flags'
+            },
+            {
+                'title': 'Letters',
+                'url': '/letter-templates/',
+                'icon': 'menu/letter_templates'
             }
         ]
     }
