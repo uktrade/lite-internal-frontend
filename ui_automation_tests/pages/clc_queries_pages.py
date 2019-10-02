@@ -5,7 +5,7 @@ class ClcQueriesPages(BasePage):
 
     respond_to_query_btn = '.govuk-button[href*="respond-to-query"]'  # css
     control_response = 'is_good_controlled-'  # id
-    control_list_entry = 'control_code'
+    control_list_entry = 'input-control_code'
     report_summary = 'report_summary'  # name
     comment = 'comment'  # id
     case_close = '.lite-info-bar'  # css
