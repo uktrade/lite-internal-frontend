@@ -256,7 +256,6 @@ class FinaliseGoodsCountries(TemplateView):
             context['good_countries'] = post_data
             return render(request, 'cases/case/finalise-open-goods-countries.html', context)
 
-        print(selection)
         data, _ = post_good_countries_decisions(request, str(kwargs['pk']), selection)
 
         if action == 'save':
