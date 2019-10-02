@@ -203,8 +203,13 @@ class GiveFinalAdviceDetail(TemplateView):
 
 class FinaliseGoodsCountries(TemplateView):
     def get(self, request, *args, **kwargs):
-        case, data, _ = _generate_data_and_keys(request, str(kwargs['pk']))
+        try:
+            case, data, _ = _generate_data_and_keys(request, str(kwargs['pk']))
+        except PermissionError:
+            return error_page(request, 'You do not have permission.')
+
         context = {
+            'title': 'Finalise goods and countries',
             'case': case,
             'good_countries': data['data'],
             'decisions': ['approve', 'refuse', 'no_licence_required'],
@@ -212,7 +217,10 @@ class FinaliseGoodsCountries(TemplateView):
         return render(request, 'cases/case/finalise-open-goods-countries.html', context)
 
     def post(self, request, *args, **kwargs):
-        case, data, keys = _generate_data_and_keys(request, str(kwargs['pk']))
+        try:
+            case, data, keys = _generate_data_and_keys(request, str(kwargs['pk']))
+        except PermissionError:
+            return error_page(request, 'You do not have permission.')
 
         request_data = request.POST.copy()
         request_data.pop('csrfmiddlewaretoken')
@@ -230,6 +238,7 @@ class FinaliseGoodsCountries(TemplateView):
             )
 
         context = {
+            'title': 'Finalise goods and countries',
             'case': case,
             'decisions': ['approve', 'refuse', 'no_licence_required'],
             'good_countries': data['data'],
@@ -244,10 +253,11 @@ class FinaliseGoodsCountries(TemplateView):
             context['good_countries'] = post_data
             return render(request, 'cases/case/finalise-open-goods-countries.html', context)
 
+        print(selection)
         data, _ = post_good_countries_decisions(request, str(kwargs['pk']), selection)
 
         if action == 'save':
-            print(action)
+            context['good_countries'] = data['data']
             return render(request, 'cases/case/finalise-open-goods-countries.html', context)
         elif 'errors' in data:
             context['error'] = data.get('errors')

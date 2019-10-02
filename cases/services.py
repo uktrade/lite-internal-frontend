@@ -269,9 +269,8 @@ def _generate_data_and_keys(request, pk):
                         country['advice'] = advice['type']
                         break
     data = get_good_countries_decisions(request, pk)
-    print('data1', data)
     if 'detail' in data:
-        return error_page(request, 'You do not have permission.')
+        raise PermissionError
 
     return case, data, keys
 
