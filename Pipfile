@@ -30,6 +30,9 @@ boto3 = ">=1.9"
 prospector = "*"
 lite-forms = "*"
 django-markdownx = "*"
+cairocffi = "*"
+weasyprint = "*"
+faker = "*"
 
 [requires]
 python_version = "3.7"
