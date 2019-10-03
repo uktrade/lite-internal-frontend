@@ -19,7 +19,7 @@ def create_queue(context, seed_data_config):
 @when('case has been moved to new Queue')
 def assign_case_to_queue(context, seed_data_config):
     lite_client = get_lite_client(context, seed_data_config)
-    lite_client.assign_case_to_queue()
+    lite_client.seed_case.assign_case_to_queue()
 
 
 @then(parsers.parse('"{number}" cases are shown'))
