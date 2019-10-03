@@ -92,7 +92,7 @@ def register_business_forms(individual=False, name='this organisation'):
 
 def register_hmrc_organisation_forms(name='this organisation'):
     return FormGroup([
-        Form(title='Register a HMRC organisation',
+        Form(title='Register an HMRC organisation',
              questions=[
                  HiddenField(name='type',
                              value='hmrc'),
