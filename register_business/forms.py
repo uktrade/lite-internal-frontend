@@ -16,7 +16,7 @@ def conditional(condition: bool, obj, obj_2=None):
         return obj_2
 
 
-def register_business_forms(individual=False):
+def register_business_forms(individual=False, name='this organisation'):
     return FormGroup([
         Form(title=get_string('register_business.commercial_or_private_individual'),
              questions=[
@@ -74,7 +74,7 @@ def register_business_forms(individual=False):
                  *address_questions(get_countries(None, True), 'site.address.'),
              ],
              default_button_name='Continue'),
-        conditional(not individual, Form(title=get_string('register_business.create_admin'),
+        conditional(not individual, Form(title='Create an admin user for ' + name,
                                          questions=[
                                              TextInput(title=get_string('register_business.email'),
                                                        name='user.email'),
@@ -90,7 +90,7 @@ def register_business_forms(individual=False):
         show_progress_indicators=True)
 
 
-def register_hmrc_organisation_forms():
+def register_hmrc_organisation_forms(name='this organisation'):
     return FormGroup([
         Form(title='Register a HMRC organisation',
              questions=[
@@ -105,7 +105,7 @@ def register_hmrc_organisation_forms():
              ],
              default_button_name='Continue',
              ),
-        Form(title='Create an admin for this HMRC organisation',
+        Form(title='Create an admin for ' + name,
              questions=[
                  TextInput(title=get_string('register_business.email'),
                            name='user.email'),
