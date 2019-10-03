@@ -16,7 +16,7 @@ def conditional(condition: bool, obj, obj_2=None):
         return obj_2
 
 
-def register_business_forms(individual=False, name='this organisation'):
+def register_business_forms(individual=False, name=None):
     return FormGroup([
         Form(title=get_string('register_business.commercial_or_private_individual'),
              questions=[
@@ -90,7 +90,7 @@ def register_business_forms(individual=False, name='this organisation'):
         show_progress_indicators=True)
 
 
-def register_hmrc_organisation_forms(name='this organisation'):
+def register_hmrc_organisation_forms(name=None):
     return FormGroup([
         Form(title='Register an HMRC organisation',
              questions=[
