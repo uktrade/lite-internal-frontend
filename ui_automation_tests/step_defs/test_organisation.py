@@ -104,7 +104,8 @@ def fill_out_admin_user_details(driver, email, first_name, last_name, context):
 
 @when(
     parsers.parse(
-        'I provide hmrc registration details of org_name: "{org_name}", site_name: "{site_name}", addres line 1: "{address}", town or city: "{city}", County: "{region}", post code: "{post_code}", country: "{country}"'))
+        'I provide hmrc registration details of org_name: "{org_name}", site_name: "{site_name}", addres line 1: '
+        '"{address}", town or city: "{city}", County: "{region}", post code: "{post_code}", country: "{country}"'))
 def register_hmrc_org(driver, org_name, site_name, address, city, region, post_code, country, context):
     if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
