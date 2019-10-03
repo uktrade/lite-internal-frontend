@@ -6,9 +6,9 @@ app_name = 'organisations'
 
 urlpatterns = [
     # ex: /
-    path('', views.OrganisationList.as_view(), name='organisations'),
+    path('organisations/', views.OrganisationList.as_view(), name='organisations'),
     # ex: /43a88949-5db9-4334-b0cc-044e91827451/
-    path('<uuid:pk>/', views.OrganisationDetail.as_view(), name='organisation'),
+    path('organisations/<uuid:pk>/', views.OrganisationDetail.as_view(), name='organisation'),
     # ex: /hmrc/
-    path('hmrc/', views.HMRCList.as_view(), name='hmrc')
+    path('organisations/hmrc/', views.HMRCList.as_view(), name='hmrc')
 ]
