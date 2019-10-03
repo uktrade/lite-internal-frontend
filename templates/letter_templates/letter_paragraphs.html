@@ -1,0 +1,44 @@
+{% extends 'layouts/base.html' %}
+
+{% block body %}
+
+	<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+        <h1 class="govuk-fieldset__heading">
+            {% block title %}Add letter paragraphs{% endblock %}
+        </h1>
+    </legend>
+    <span class="govuk-hint" style="margin: 30px 0;">
+        Select letter paragraphs to use in your template.
+    </span>
+
+    {% if letter_paragraphs %}
+        <form method="post">
+			
+			{% csrf_token %}
+
+			{% for letter_paragraph in existing_letter_paragraphs %}
+				{% hidden_field 'letter_paragraphs' letter_paragraph %}
+			{% endfor %}
+
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes">
+                    {% for letter_paragraph in letter_paragraphs %}
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="letter_paragraph-{{ letter_paragraph.id }}" name="letter_paragraphs" type="checkbox" value="{{ letter_paragraph.id }}">
+                            <label class="govuk-label govuk-checkboxes__label" for="letter_paragraph-{{ letter_paragraph.id }}">
+                                {{ letter_paragraph.name }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button class="govuk-button" data-module="govuk-button" name="action" value="return_to_preview">
+                Add items
+            </button>
+        </form>
+    {% else %}
+        {% include "includes/information-text.html" with text='There haven\'t been any letter paragraphs added to LITE.' %}
+    {% endif %}
+
+{% endblock %}

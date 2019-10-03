@@ -1,0 +1,31 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block body %}
+
+	<style media="screen">
+		body {
+			background: #f2f2f2!important;
+		}
+		.govuk-header {
+			border-bottom-color: #f2f2f2;
+		}
+	</style>
+
+	<div class="app-letter-preview__container">
+		<div class="lite-app-bar">
+			<div class="lite-app-bar__content">
+				<h2 class="govuk-heading-l">{% block title %}Preview{% endblock %}</h2>
+			</div>
+			<div class="lite-app-bar__controls">
+				<button class="govuk-button" name="action" value="print">Submit</button>
+			</div>
+		</div>
+
+		<div class="app-letter-preview__page">
+			{{ preview|safe }}
+		</div>
+	</div>
+
+{% endblock %}

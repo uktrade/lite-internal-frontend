@@ -20,7 +20,8 @@
 			<thead class="lite-table__head">
 				<tr class="lite-table__row">
 					<th class="lite-table__header" scope="col">Name</th>
-					<th class="lite-table__header" scope="col">Name</th>
+					<th class="lite-table__header" scope="col">Type</th>
+					<th class="lite-table__header" scope="col">Last updated</th>
 					<th class="lite-table__header" scope="col"></th>
 				</tr>
 			</thead>
@@ -31,10 +32,13 @@
                             {{ letter_template.name }}
                         </td>
 						<td class="lite-table__cell">
-							SIEL
+							{{ letter_template.type }}
 						</td>
 						<td class="lite-table__cell">
-							Edit
+							{{ letter_template.last_modified_at }}
+						</td>
+						<td class="lite-table__cell">
+							<a href="#" class="govuk-link">Edit</a>
 						</td>
 					</tr>
 				{% endfor %}

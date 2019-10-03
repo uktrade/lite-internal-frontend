@@ -1,0 +1,84 @@
+.app-letter-generator__container {
+	display: grid;
+	grid-template-columns: 1fr 800px;
+	grid-gap: govuk-spacing(6);
+}
+
+.app-letter-generator__picklist-item {
+	@include govuk-font($size: 19);
+	@include govuk-responsive-margin(3, "bottom");
+	position: relative;
+	background-color: govuk-colour("light-grey");
+	padding: govuk-spacing(3) govuk-spacing(4);
+	transition: box-shadow .2s ease, transform .2s ease, opacity .2s ease;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	cursor: move;
+
+	svg {
+		min-width: 22px;
+		margin-right: govuk-spacing(4);
+
+		* {
+			fill: govuk-colour("mid-grey");
+		}
+	}
+
+	&:hover {
+		svg * {
+			fill: govuk-colour("dark-grey");
+		}
+	}
+
+	&::after {
+		@include fill-pseudo();
+		border: 2px solid rgba(govuk-colour("mid-grey"), 0.1);
+		pointer-events: none;
+	}
+
+	button {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 30px;
+		height: 30px;
+		background-color: red;
+	}
+}
+
+.app-letter-preview__container {
+	width: 804px;
+	margin: auto;
+	margin-top: - govuk-spacing(4);
+}
+
+.app-letter-preview__page {
+	width: 100%;
+	border: 2px solid govuk-colour("mid-grey");
+	margin: auto;
+	background-color: govuk-colour("white");
+	padding: govuk-spacing(7);
+	box-sizing: border-box;
+	font-family: Arial;
+	font-size: 15px;
+}
+
+.app-letter-generator__controls {
+	.govuk-hint {
+		svg {
+			transform: scale(0.9) translateY(2px);
+			margin: 0 3px;
+
+			* {
+				fill: currentColor;
+			}
+		}
+	}
+}
+
+.app-letter-generator__picklist-item-text {
+	margin: 0;
+	padding: 0;
+}
