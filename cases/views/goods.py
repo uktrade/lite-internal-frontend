@@ -19,19 +19,30 @@ class Good(TemplateView):
 
 
 class ReviewGoods(TemplateView):
-    case_id = None
-    objects = None
-    # context = None
+    # case_id = None
+    # objects = None
+    # # context = None
+    #
+    # def dispatch(self, request, *args, **kwargs):
+    #     self.case_id = str(kwargs['pk'])
+    #     self.objects = request.GET.getlist('items', request.GET.getlist('goods'))
+    #
+    #     if not self.objects:
+    #         raise Http404
+    #
+    #     return super(ReviewGoods, self).dispatch(request, *args, **kwargs)
 
-    def dispatch(self, request, *args, **kwargs):
-        self.case_id = str(kwargs['pk'])
-        self.objects = request.GET.getlist('items', request.GET.getlist('goods'))
-
-        if not self.objects:
+    def get(self, request, **kwargs):
+        objects = request.GET.getlist('items', request.GET.getlist('goods'))
+        goods = []
+        if not objects:
             raise Http404
 
-        return super(ReviewGoods, self).dispatch(request, *args, **kwargs)
+        for pk in objects:
+            good, _ = get_good(request, pk)
+            goods.append(good)
 
-    def post(self, request, **kwargs):
-        # return render(request, 'cases/case/review-goods.html', self.objects)
-        pass
+        context = {'title': 'Review Goods', 'case_id': str(kwargs['pk']), 'objects': goods}
+        return render(request, 'cases/case/review-goods.html', context)
+
+

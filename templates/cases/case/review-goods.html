@@ -1,0 +1,78 @@
+{% extends 'layouts/base.html' %}
+
+{% load humanize static %}
+
+{% block back_link %}
+	<a href="{% url 'cases:case' case_id %}" class="govuk-back-link">
+		Back to case
+	</a>
+{% endblock %}
+
+{% load svg %}
+
+{% block body %}
+
+<div class="lite-app-bar">
+	<div class="lite-app-bar__content">
+		<p class="govuk-caption-m" style="margin: 0;">{{ case.application.licence_type.value }}</p>
+		<h2 class="govuk-heading-l">{{ title }}</h2>
+	</div>
+    <div class="lite-app-bar__controls">
+        <button id="button-review-goods" value="goods" class="govuk-button" data-module="govuk-button">
+        Add report summary
+    </button>
+    </div>
+</div>
+
+<div class="app-flags" id="application-case-flags">
+    {% for flag in case.flags %}
+        <div class="app-flag" id="{{ flag.name }}">
+            {{ flag.name }}
+        </div>
+    {% endfor %}
+{#	<a href="{% url 'cases:assign_flags' case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags" class="app-flag app-flag--action">#}
+{#		{% if case.flags %}#}
+{#			{% get_string 'cases.case.edit_case_flags' %}#}
+{#		{% else %}#}
+{#			Set case flags#}
+{#		{% endif %}#}
+	</a>
+</div>
+
+
+<!-- Case flags -->
+{#{% include 'cases/case/views/case-flags.html' %}#}
+
+<!-- Information board -->
+{#{% include 'cases/case/views/application-information-board.html' %}#}
+
+
+
+<!-- Goods -->
+<h3 class="govuk-heading-m">Goods</h3>
+<table class="lite-table" id="goods">
+	<thead class="lite-table__head">
+		<tr class="lite-table__row">
+            <th class="lite-table__header">Item</th>
+			<th class="lite-table__header">Description</th>
+            <th class="lite-table__header">Report summary</th>
+			<th class="lite-table__header">Controlled</th>
+            <th class="lite-table__header">Controlled list entry</th>
+            <th class="lite-table__header">Quantity/Value</th>
+		</tr>
+	</thead>
+	<tbody class="lite-table__body">
+		{% for good in objects %}
+			<tr class="lite-table__row">
+                <td class="lite-table__cell">{{ good.good.description }}</td>
+                <td class="lite-table__cell"> {{ good.good.description }}</td>
+				<td class="lite-table__cell">{{ good.good.report_summary }}</td>
+				<td class="lite-table__cell">{{ good.good.is_good_controlled}}</td>
+                <td class="lite-table__cell">{{ good.good.control_code}}</td>
+                <td class="lite-table__cell">{{ good.good.quantity}}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% endblock %}
