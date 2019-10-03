@@ -12,7 +12,7 @@ class RegisterBusiness(TemplateView):
     forms = None
 
     def dispatch(self, request, *args, **kwargs):
-        individual = request.POST.get('sub_type') == 'individual'
+        individual = request.POST.get('type') == 'individual'
         self.forms = register_business_forms(individual)
 
         return super(RegisterBusiness, self).dispatch(request, *args, **kwargs)
