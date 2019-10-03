@@ -62,7 +62,7 @@ class SeedData:
         self.log("Creating org: ...")
         data = self.request_data['organisation']
         response = self.make_request("POST", url='/organisations/', body=data)
-        organisation = json.loads(response.text)['results']
+        organisation = json.loads(response.text)['organisation']
         return organisation
 
     def add_ecju_query_picklist(self):
