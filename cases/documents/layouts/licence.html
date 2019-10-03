@@ -2,7 +2,7 @@
   @page {
     size: A4;
     margin: 10mm;
-    padding-top: 30mm;
+    padding-top: -50mm;
     counter-increment: page;
     
     background-image: url("/assets/images/dit.png");
@@ -23,6 +23,12 @@
       font-size: 16px;
     }
   }
+  
+  @page subsequent {
+    padding-top: 130mm;
+    padding-left: 10mm;
+  }
+  
 
   @media print {
     * {
@@ -36,19 +42,24 @@
     }
     
   }
-  
-  
+
   #first-page-table {
-    background-color: white;
+    /*background: white;*/
     z-index: 2; /* hide under first page table */
     position: relative; /* positioning required to appear above a fixed element */
+    top: 20mm;
   }
   
   .other-page-header {
     position: fixed;
-    top: 30mm;
-    left: 10mm;
+    top: -107.5mm;
+    width: 185mm;
     z-index: 1; /* hide under first page table */
+  }
+
+  #the-content {
+    page: subsequent;
+    outline: 1px sold green;
   }
 
   table {
@@ -274,7 +285,6 @@
   </tr>
 </table>
 
-<div style="page-break: after;">pagebreak</div>
 
 
 {# {% include "cases/licence/_table_top.html" %} #}
@@ -408,9 +418,12 @@
       <span class="cell__uppercase">TBC</span>
     </td>
   </tr>
+  <tr>
+    <td colspan="11"></td>
+  </tr>
 </table>
 
-<div>
+<div id="the-content">
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
