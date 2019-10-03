@@ -56,4 +56,6 @@ urlpatterns = [
     path('<uuid:pk>/respond-to-query/', clc_query.Respond.as_view(), name='respond_to_clc_query'),
     # ex: /cases/<uuid:pk>/respond-to-query/
     path('<uuid:pk>/respond-to-query/flags/', clc_query.RespondFlags.as_view(), name='respond_to_clc_query_flags'),
+    # ex: /cases/review-goods/
+    path('<uuid:pk>/review-goods/', goods.ReviewGoods.as_view(), name='review_goods')
 ]

@@ -67,10 +67,10 @@
 {% endif %}
 
 <!-- Goods -->
-<form action="{% url 'cases:assign_flags' case.id %}" method="get">
+<form action="{% url 'cases:review_goods' case.id %}" method="get">
     <input type="hidden" name="level" value="goods"/>
-    <button id="button-edit-goods-flags" value="goods" class="govuk-button" data-module="govuk-button">
-        Edit goods flags
+    <button id="button-review-goods" value="goods" class="govuk-button" data-module="govuk-button">
+        Review Goods
     </button>
     {% if case.application.licence_type.key == 'open_licence' %}
         {% include 'cases/case/views/accordion-open-goods.html' with show_checkboxes=True %}

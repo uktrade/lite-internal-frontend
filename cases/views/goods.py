@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
@@ -15,3 +16,22 @@ class Good(TemplateView):
             'good': good['good']
         }
         return render(request, 'cases/case/good.html', context)
+
+
+class ReviewGoods(TemplateView):
+    case_id = None
+    objects = None
+    # context = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.case_id = str(kwargs['pk'])
+        self.objects = request.GET.getlist('items', request.GET.getlist('goods'))
+
+        if not self.objects:
+            raise Http404
+
+        return super(ReviewGoods, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, **kwargs):
+        # return render(request, 'cases/case/review-goods.html', self.objects)
+        pass
