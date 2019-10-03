@@ -76,7 +76,7 @@ class LetterParagraphs(TemplateView):
         if action == 'add_letter_paragraph':
             all_letter_paragraphs = get_picklists(request, 'letter_paragraph')
             context = {
-                'letter_paragraphs': all_letter_paragraphs['picklist_items'],
+                'letter_paragraphs': [x for x in all_letter_paragraphs['picklist_items'] if x['id'] not in existing_letter_paragraphs],
                 'existing_letter_paragraphs': existing_letter_paragraphs
             }
             return render(request, 'letter_templates/letter_paragraphs.html', context)

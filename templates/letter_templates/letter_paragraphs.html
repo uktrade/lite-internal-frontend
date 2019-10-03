@@ -13,7 +13,7 @@
 
     {% if letter_paragraphs %}
         <form method="post">
-			
+
 			{% csrf_token %}
 
 			{% for letter_paragraph in existing_letter_paragraphs %}
@@ -38,7 +38,7 @@
             </button>
         </form>
     {% else %}
-        {% include "includes/information-text.html" with text='There haven\'t been any letter paragraphs added to LITE.' %}
+        {% include "includes/information-text.html" with text='There aren\'t any standard advice items left to add.' %}
     {% endif %}
 
 {% endblock %}
