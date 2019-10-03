@@ -49,7 +49,7 @@ class OrganisationDetail(TemplateView):
 
 class HMRCList(TemplateView):
     def get(self, request, **kwargs):
-        data, _ = get_organisations(request, {'org_type': 'hmrc'})
+        data, _ = get_organisations(request, convert_dict_to_query_params({'org_type': 'hmrc'}))
         context = {
             'data': data,
             'title': 'Organisations',
