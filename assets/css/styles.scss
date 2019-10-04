@@ -286,14 +286,13 @@ $govuk-link-active-colour: darken($govuk-brand-colour, 20%);
 		content: "";
 		position: absolute;
 		right: govuk-spacing(2);
-		top: 0;
-		bottom: 14px;
+		top: 15px;
+		bottom: 0;
 		display: inline-block;
 		width: 20px;
 		background-image: url("/assets/images/chevron.svg");
 		background-size: 20px 10px;
 		background-repeat: no-repeat;
-		transform: scaleY(-1);
 		pointer-events: none;
 	}
 }
