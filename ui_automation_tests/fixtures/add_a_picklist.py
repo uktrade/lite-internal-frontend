@@ -1,22 +1,23 @@
 from pytest import fixture
-from helpers.seed_data import SeedData
+
+from helpers.utils import get_lite_client
 
 
-@fixture(scope="session")
-def add_an_ecju_query_picklist(driver, api_url):
-    return SeedData(api_url=api_url, logging=True).add_ecju_query_picklist()
+@fixture(scope='session')
+def add_an_ecju_query_picklist(context, seed_data_config):
+    return get_lite_client(context, seed_data_config).add_ecju_query_picklist()
 
 
-@fixture(scope="session")
-def add_a_proviso_picklist(driver, api_url):
-    return SeedData(api_url=api_url, logging=True).add_proviso_picklist()
+@fixture(scope='session')
+def add_a_proviso_picklist(context, seed_data_config):
+    return get_lite_client(context, seed_data_config).add_proviso_picklist()
 
 
-@fixture(scope="session")
-def add_a_standard_advice_picklist(driver, api_url):
-    return SeedData(api_url=api_url, logging=True).add_standard_advice_picklist()
+@fixture(scope='session')
+def add_a_standard_advice_picklist(context, seed_data_config):
+    return get_lite_client(context, seed_data_config).add_standard_advice_picklist()
 
 
-@fixture(scope="session")
-def add_a_report_summary_picklist(driver, api_url):
-    return SeedData(api_url=api_url, logging=True).add_report_summary_picklist()
+@fixture(scope='session')
+def add_a_report_summary_picklist(context, seed_data_config):
+    return get_lite_client(context, seed_data_config).add_report_summary_picklist()

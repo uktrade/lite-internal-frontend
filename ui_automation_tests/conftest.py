@@ -2,9 +2,9 @@ import os
 
 from pytest_bdd import given, when, then, parsers
 
-from fixtures.core import context, driver, sso_login_info, invalid_username, new_cases_queue_id, sso_users_name # noqa
+from fixtures.core import context, driver, sso_login_info, invalid_username, new_cases_queue_id, sso_users_name, seed_data_config, exporter_info, internal_info, s3_key # noqa
 from fixtures.urls import internal_url, sso_sign_in_url, api_url # noqa
-from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_eua_query # noqa
+from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_eua_query, apply_for_open_application # noqa
 from fixtures.sign_in_to_sso import sign_in_to_internal_sso # noqa
 from fixtures.add_a_flag import add_uae_flag, add_suspicious_flag # noqa
 from fixtures.add_queue import add_queue # noqa
@@ -19,8 +19,6 @@ from pages.application_page import ApplicationPage
 from pages.queues_pages import QueuesPages
 from core.builtins.custom_tags import reference_code
 
-# Screenshot in case of any test failure
-
 
 def pytest_addoption(parser):
     env = str(os.environ.get('ENVIRONMENT'))
@@ -33,11 +31,6 @@ def pytest_addoption(parser):
     if env.lower() == 'local':
         parser.addoption("--internal_url", action="store", default="http://localhost:8200", help="url")
         parser.addoption("--lite_api_url", action="store", default="http://localhost:8100", help="url")
-    elif env.lower() == 'dev2':
-        parser.addoption("--internal_url", action="store",
-                         default="https://internal2.lite.service.dev.uktrade.io/", help="url")
-        parser.addoption("--lite_api_url", action="store",
-                         default="https://lite-api2-dev.london.cloudapps.digital/", help="url")
     elif env == 'demo':
         raise Exception("This is the demo environment - Try another environment instead")
     else:
@@ -78,6 +71,11 @@ def click_on_created_application(driver, context, internal_url):
     driver.get(internal_url.rstrip('/') + '/cases/' + context.case_id)
 
 
+@when('I go to open application previously created') # noqa
+def click_on_created_application(driver, context, internal_url):
+    driver.get(internal_url.rstrip('/') + '/cases/' + context.open_case_id)
+
+
 @when('I go to end user advisory previously created') # noqa
 def click_on_created_eua(driver, context):
     driver.find_element_by_link_text(reference_code(context.eua_id)).click()
@@ -90,6 +88,11 @@ def click_on_created_application(driver, context, internal_url):
 
 @given('I create application or application has been previously created') # noqa
 def create_app(driver, apply_for_standard_application):
+    pass
+
+
+@given('I create open application or open application has been previously created') # noqa
+def create_open_app(driver, apply_for_open_application):
     pass
 
 
@@ -128,12 +131,6 @@ def go_to_flags(driver, internal_url, sign_in_to_internal_sso):
 def go_to_users(driver):
     header = HeaderPage(driver)
     header.open_users()
-
-
-@then('I see the clc-case previously created') # noqa
-def assert_case_is_present(driver, apply_for_clc_query, context):
-    case_list_page = CaseListPage(driver)
-    assert case_list_page.assert_case_is_present(context.clc_case_id), "clc case ID is not present on page"
 
 
 @when('I create a clc_query') # noqa
@@ -202,5 +199,6 @@ def go_to_queues(driver, sign_in_to_internal_sso, internal_url):
 @when('I add case to newly created queue') # noqa
 def move_case_to_new_queue(driver, context):
     ApplicationPage(driver).click_move_case_button()
-    driver.find_element_by_id(context.queue_name).click()
+    if not driver.find_element_by_id(context.queue_name).is_selected():
+        driver.find_element_by_id(context.queue_name).click()
     Shared(driver).click_submit()
