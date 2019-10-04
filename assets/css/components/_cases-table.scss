@@ -11,11 +11,9 @@ $lite-table-border: 2px solid darken(govuk-colour("light-grey"), 2%);
 	border-bottom: $lite-table-border;
 
 	* {
-		@include govuk-font($size: 14, $weight: bold);
+		@include govuk-font($size: 19, $weight: bold);
 		margin-bottom: govuk-spacing(2);
-		color: govuk-colour("dark-grey");
-		letter-spacing: 1px;
-		text-transform: uppercase;
+		color: govuk-colour("black");
 		margin: 0;
 		padding: 0;
 	}
