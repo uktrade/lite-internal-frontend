@@ -1,4 +1,5 @@
 .app-letter-generator__container {
+	position: relative;
 	display: grid;
 	grid-template-columns: 1fr 800px;
 	grid-gap: govuk-spacing(6);
@@ -12,14 +13,15 @@
 	padding: govuk-spacing(3) govuk-spacing(4);
 	transition: box-shadow .2s ease, transform .2s ease, opacity .2s ease;
 	box-sizing: border-box;
-	display: flex;
-	align-items: center;
-	flex-direction: row;
+	display: grid;
+	grid-template-columns: 1fr auto;
+	grid-gap: govuk-spacing(4);
 	cursor: move;
+	line-height: 30px!important;
 
 	svg {
 		min-width: 22px;
-		margin-right: govuk-spacing(4);
+		margin-top: px;
 
 		* {
 			fill: govuk-colour("mid-grey");
@@ -39,12 +41,24 @@
 	}
 
 	button {
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 30px;
+		@include govuk-font($size: 19);
+		@extend .govuk-link;
+		border: 0;
+		outline: 0;
+		background: 0;
+		cursor: pointer;
+		padding: 0;
 		height: 30px;
-		background-color: red;
+		line-height: 30px;
+
+		&:hover {
+			text-decoration: underline;
+			color: govuk-colour("red");
+		}
+
+		&:active {
+			color: darken(govuk-colour("red"), 20%);
+		}
 	}
 }
 
@@ -63,6 +77,21 @@
 	box-sizing: border-box;
 	font-family: Arial;
 	font-size: 15px;
+}
+
+#preview p {
+	transition: .2s ease;
+}
+
+.fade-out-text {
+	opacity: .3;
+	filter: saturate(0);
+}
+
+.lite-sticky-box {
+	position: -webkit-sticky;
+	position: sticky;
+	top: govuk-spacing(4);
 }
 
 .app-letter-generator__controls {

@@ -10,6 +10,18 @@ $govuk-link-active-colour: darken($govuk-brand-colour, 20%);
 @import "../shared/lite-frontend/scss/all"; // Local Assets
 @import "components/all";
 
+.lite-button--link {
+	@include govuk-font($size: 19);
+	@extend .govuk-link;
+	border: 0;
+	outline: 0;
+	background: 0;
+	color: $govuk-link-colour;
+	cursor: pointer;
+	text-decoration: underline;
+	padding: 0;
+}
+
 .app-radios__label--error {
 	color: $govuk-error-colour;
 

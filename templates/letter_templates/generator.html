@@ -14,50 +14,49 @@
 		</div>
 	</noscript>
 
-	<div class="lite-app-bar">
-		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">{% block title %}What letter paragraph do you want to use?{% endblock %}</h2>
+	<form action="{% url 'letter_templates:letter_paragraphs' %}" method="post">
+		<div class="lite-app-bar">
+			<div class="lite-app-bar__content">
+				<h2 class="govuk-heading-l">{% block title %}What letter paragraphs do you want to use?{% endblock %}</h2>
+			</div>
+			<div class="lite-app-bar__controls">
+				<button class="govuk-button" id="button-preview" name="action" value="preview">Preview</button>
+			</div>
 		</div>
-		<div class="lite-app-bar__controls">
-			<button class="govuk-button" id="button-preview">Preview</button>
-		</div>
-	</div>
 
-	<div class="app-letter-generator__container">
-		<div class="app-letter-generator__controls">
-			<form action="{% url 'letter_templates:letter_paragraphs' %}" method="post">
-				{% csrf_token %}
-				{% if letter_paragraphs %}
-					{% if letter_paragraphs|length > 1 %}
+		<div class="app-letter-generator__container">
+			<div class="app-letter-generator__controls">
+					{% csrf_token %}
+					{% if letter_paragraphs %}
 						<p class="govuk-hint" style="margin-top: 0; margin-bottom: 20px;">
-							Drag and drop letter paragraphs by using {% svg 'draggable' %} to reorder.
+							Drag and drop letter paragraphs to reorder.
 						</p>
+						<div id="standard-advice-list" class="app-sortable">
+							{% for letter_paragraph in letter_paragraphs %}
+								<div class="app-letter-generator__picklist-item" data-id="{{ letter_paragraph.id }}" data-text="{{ letter_paragraph.text }}">
+									{% hidden_field 'letter_paragraphs' letter_paragraph.id %}
+									<p class="app-letter-generator__picklist-item-text">{{ letter_paragraph.name }}</p>
+									<button type="submit" name="action" value="delete.{{ letter_paragraph.id }}">
+										<span class="govuk-visually-hidden">Remove letter paragraph from template</span>
+										✕
+									</button>
+								</div>
+							{% endfor %}
+						</div>
+						<br>
+						<button class="lite-button--link" type="submit" name="action" value="add_letter_paragraph">Add another letter paragraph</button>
+					{% else %}
+						<button class="lite-button--link" type="submit" name="action" value="add_letter_paragraph">Add letter paragraph</button>
 					{% endif %}
-					<div id="standard-advice-list" class="app-sortable">
-						{% for letter_paragraph in letter_paragraphs %}
-							<div class="app-letter-generator__picklist-item" data-text="{{ letter_paragraph.text }}">
-								{% if letter_paragraphs|length > 1 %}
-									{% svg 'draggable' %}
-								{% endif %}
-								{% hidden_field 'letter_paragraphs' letter_paragraph.id %}
-								<p class="app-letter-generator__picklist-item-text">{{ letter_paragraph.name }}</p>
-								<button type="submit" name="action" value="delete.{{ letter_paragraph.id }}">Delete</button>
-							</div>
-						{% endfor %}
-					</div>
-					<br>
-					<button type="submit" name="action" value="add_letter_paragraph">Add another letter paragraph</button>
-				{% else %}
-					<button type="submit" name="action" value="add_letter_paragraph">Add letter paragraph</button>
-				{% endif %}
-			</form>
+			</div>
+			<div id="preview" class="govuk-body">
+				{% for letter_paragraph in letter_paragraphs %}
+					<p id="{{ letter_paragraph.id }}">{{ letter_paragraph.text }}</p>
+				{% endfor %}
+			</div>
 		</div>
-		<div id="preview" class="govuk-body">
-			{% for letter_paragraph in letter_paragraphs %}
-				{{ letter_paragraph.text }}<br><br>
-			{% endfor %}
-		</div>
-	</div>
+	</form>
+
 
 {% endblock %}
 
@@ -70,9 +69,15 @@
 			stop: function(event, ui) {
 				preview.empty();
 		        $('.app-letter-generator__picklist-item-text').each(function() {
-		            preview.append($(this).parent().data('text') + '<br><br>');
+		            preview.append('<p id="' + $(this).parent().data('id') + '">' + $(this).parent().data('text')  + '</p>');
 		        });
 		    }
+		});
+
+		$( '.app-letter-generator__picklist-item' ).hover(function() {
+			$( '#preview p:not(#' + $(this).data('id') + ')' ).addClass('fade-out-text');
+		}, function() {
+			$( '.fade-out-text' ).removeClass('fade-out-text');
 		});
 	</script>
 {% endblock %}

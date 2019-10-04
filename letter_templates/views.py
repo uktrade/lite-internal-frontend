@@ -40,16 +40,26 @@ def return_success(test, test2):
 
 
 def generate_preview(request, letter_paragraphs):
+    letter_paragraphs = get_letter_paragraphs(request, letter_paragraphs)
+
+    print('\n')
+    print(letter_paragraphs)
+    print('\n')
+
     django_engine = engines['django']
     template = django_engine.from_string(
         open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, 'licence.html'), 'r').read())
     letter_context = {
-        'content': request.POST.get('content', ''),
+        'content': '\n'.join([x['text'] for x in letter_paragraphs]),
     }
     preview = template.render(letter_context)
 
-    return render(request, 'letter_templates/generator.html', {'preview': preview,
-                                                               'letter_paragraphs': letter_paragraphs})
+    return render(request, 'letter_templates/preview.html', {'preview': preview})
+
+
+def generate_generator(request, letter_paragraphs):
+    letter_paragraphs = get_letter_paragraphs(request, letter_paragraphs)
+    return render(request, 'letter_templates/generator.html', {'letter_paragraphs': letter_paragraphs})
 
 
 class Add(TemplateView):
@@ -63,7 +73,7 @@ class Add(TemplateView):
         if response:
             return response
 
-        return generate_preview(request, [])
+        return generate_generator(request, letter_paragraphs=[])
 
 
 class LetterParagraphs(TemplateView):
@@ -76,26 +86,31 @@ class LetterParagraphs(TemplateView):
         if action == 'add_letter_paragraph':
             all_letter_paragraphs = get_picklists(request, 'letter_paragraph')
             context = {
-                'letter_paragraphs': [x for x in all_letter_paragraphs['picklist_items'] if x['id'] not in existing_letter_paragraphs],
+                'letter_paragraphs': [x for x in all_letter_paragraphs['picklist_items'] if
+                                      x['id'] not in existing_letter_paragraphs],
                 'existing_letter_paragraphs': existing_letter_paragraphs
             }
             return render(request, 'letter_templates/letter_paragraphs.html', context)
+        elif action == 'preview':
+            return generate_preview(request, existing_letter_paragraphs)
         elif 'delete' in action:
             pk_to_delete = action.split('.')[1]
             existing_letter_paragraphs.remove(pk_to_delete)
 
-        return generate_preview(request, letter_paragraphs=get_letter_paragraphs(request, existing_letter_paragraphs))
+        return generate_generator(request, letter_paragraphs=existing_letter_paragraphs)
 
 
 class Preview(TemplateView):
 
     def get(self, request, **kwargs):
         letter_paragraphs = get_picklists(request, 'letter_paragraph')
-        return render(request, 'letter_templates/letter_paragraphs.html', {'letter_paragraphs': letter_paragraphs['picklist_items']})
+        return render(request, 'letter_templates/letter_paragraphs.html',
+                      {'letter_paragraphs': letter_paragraphs['picklist_items']})
 
     def post(self, request, **kwargs):
         django_engine = engines['django']
-        template = django_engine.from_string(open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, 'licence.html'), 'r').read())
+        template = django_engine.from_string(
+            open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, 'licence.html'), 'r').read())
         letter_context = {
             'content': request.POST.get('content', ''),
         }
