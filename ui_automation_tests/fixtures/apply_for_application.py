@@ -55,7 +55,7 @@ def apply_for_standard_application(driver, request, seed_data_config, context):
         }
 
     )
-    lite_client.submit_application()
+    lite_client.submit_standard_application()
     context.app_id = lite_client.context['application_id']
     context.case_id = lite_client.context['case_id']
     context.end_user = lite_client.context['end_user']
