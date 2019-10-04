@@ -57,9 +57,17 @@ class AssignFlags(TemplateView):
             # Origin is set to tell the form where to return to after submission or when back link is clicked
             if origin == 'good':
                 kwargs = {'pk': case_id, 'good_pk': self.objects[0]}
+                self.url = reverse('cases:' + origin, kwargs=kwargs)
+            elif origin == 'case':
+                self.url = reverse('cases:' + origin, kwargs=kwargs)
+            elif origin == 'review_goods':
+                goods_being_edited = ""
+                for pk in self.objects:
+                    goods_being_edited += '?goods=' + pk
+                self.url = reverse('cases:' + origin, kwargs=kwargs) + goods_being_edited
+                origin = 'review good'
 
         flags = [Option(x['id'], x['name']) for x in flags]
-        self.url = reverse('cases:' + origin, kwargs=kwargs)
 
         self.form = flags_form(
             flags=flags,

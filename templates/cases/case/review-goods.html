@@ -30,12 +30,12 @@
             {{ flag.name }}
         </div>
     {% endfor %}
-{#	<a href="{% url 'cases:assign_flags' case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags" class="app-flag app-flag--action">#}
-{#		{% if case.flags %}#}
-{#			{% get_string 'cases.case.edit_case_flags' %}#}
-{#		{% else %}#}
-{#			Set case flags#}
-{#		{% endif %}#}
+	<a href="{{ edit_flags_url }}" id="application-edit-case-flags" class="app-flag app-flag--action">
+		{% if case.flags %}
+			{% get_string 'cases.case.edit_case_flags' %}
+		{% else %}
+			Set case flags
+		{% endif %}
 	</a>
 </div>
 
@@ -53,7 +53,6 @@
 <table class="lite-table" id="goods">
 	<thead class="lite-table__head">
 		<tr class="lite-table__row">
-            <th class="lite-table__header">Item</th>
 			<th class="lite-table__header">Description</th>
             <th class="lite-table__header">Report summary</th>
 			<th class="lite-table__header">Controlled</th>
@@ -65,11 +64,10 @@
 		{% for good in objects %}
 			<tr class="lite-table__row">
                 <td class="lite-table__cell">{{ good.good.description }}</td>
-                <td class="lite-table__cell"> {{ good.good.description }}</td>
-				<td class="lite-table__cell">{{ good.good.report_summary }}</td>
-				<td class="lite-table__cell">{{ good.good.is_good_controlled}}</td>
+				<td class="lite-table__cell">{{ good.good.report_summary|default_if_none:"N/A" }}</td>
+				<td class="lite-table__cell">{{ good.good.is_good_controlled|capfirst}}</td>
                 <td class="lite-table__cell">{{ good.good.control_code}}</td>
-                <td class="lite-table__cell">{{ good.good.quantity}}</td>
+                <td class="lite-table__cell">{{ good.quantity }} {{ good.unit.value }}/£{{ good.value }}</td>
 			</tr>
 		{% endfor %}
 	</tbody>
