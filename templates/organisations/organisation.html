@@ -1,5 +1,11 @@
 {% extends 'layouts/base.html' %}
 
+{% block back_link %}
+	<a href="{% url 'organisations:organisations' %}" class="govuk-back-link">
+		Back to organisations
+	</a>
+{% endblock %}
+
 {% block body %}
 
     <h2 class="govuk-heading-l">{{ title }}</h2>

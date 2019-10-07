@@ -77,7 +77,6 @@ class ViewCase(TemplateView):
         permissions = get_user_permissions(request)
 
         case['all_flags'] = _get_all_distinct_flags(case)
-        print(case['flags'])
 
         context = {
             'title': 'Case',
