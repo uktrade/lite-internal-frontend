@@ -20,6 +20,8 @@ Feature: I want to add case-level flags to a case and view them
     And I go to flags
     When I add a flag called Suspicious at level Good
     And I go to application previously created
+    And I select goods and click review
     And I click edit goods flags link
     And I select previously created flag
+    And I click back
     Then the previously created goods flag is assigned to the case

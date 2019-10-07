@@ -38,6 +38,6 @@ def review_goods_clc_query_form(request, back_url):
                                  'max_length': 500,
                              })
                 ],
-                default_button_name='Continue to overview',
+                default_button_name='Continue to overview', 
                 back_link=BackLink('Back to case', back_url)
                 )

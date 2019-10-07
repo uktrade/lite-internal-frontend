@@ -18,7 +18,7 @@
 		<h2 class="govuk-heading-l">{{ title }}</h2>
 	</div>
     <div class="lite-app-bar__controls">
-        <a id="button-review-goods" value="goods" class="btn govuk-button" data-module="govuk-button" href="{{ review_goods_clc_url }}">
+        <a id="button-add-report-summary" value="goods" class="btn govuk-button" data-module="govuk-button" href="{{ review_goods_clc_url }}">
             Add report summary
         </a>
     </div>
@@ -30,7 +30,7 @@
             {{ flag.name }}
         </div>
     {% endfor %}
-	<a href="{{ edit_flags_url }}" id="application-edit-case-flags" class="app-flag app-flag--action">
+	<a href="{{ edit_flags_url }}" id="button-edit-goods-flags" class="app-flag app-flag--action">
 		{% if case.flags %}
 			{% get_string 'cases.case.edit_case_flags' %}
 		{% else %}

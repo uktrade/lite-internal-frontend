@@ -1,11 +1,14 @@
+import json
+
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 
 from cases.forms.review_goods_clc import review_goods_clc_query_form
 from cases.services import get_good, get_case
+from conf.client import post
 
 
 class Good(TemplateView):
@@ -62,3 +65,32 @@ class ReviewGoodsClc(TemplateView):
         back_link = reverse_lazy('cases:review_goods', kwargs={'pk': case_id}) + '?' + goods_postfix_url[1:]
         form = review_goods_clc_query_form(request, back_link)
         return form_page(request, form)
+
+    def post(self, request,  **kwargs):
+        objects = request.GET.getlist('items', request.GET.getlist('goods'))
+
+        form_data = {
+            'objects': objects,
+            'comment': request.POST.get('comment'),
+            'report_summary': request.POST.get('report_summary'),
+            'control_code': request.POST.get('control_code', None)
+        }
+
+        if request.POST.get('is_good_controlled') == 'yes':
+            form_data['is_good_controlled'] = True
+        elif request.POST.get('is_good_controlled') == 'no':
+            form_data['is_good_controlled'] = False
+
+        response = post(request, '/goods/controlcode/', form_data)
+
+        goods_postfix_url = "?"
+        for pk in objects:
+            goods_postfix_url += '&goods=' + pk
+
+        back_link = reverse_lazy('cases:review_goods', kwargs={'pk': str(kwargs['pk'])}) +  goods_postfix_url
+
+        if response.status_code == 400:
+            form = review_goods_clc_query_form(request, back_link)
+            return form_page(request, form, data=form_data, errors=response.json().get('errors'))
+
+        return redirect(back_link)

@@ -1,4 +1,5 @@
 import helpers.helpers as utils
+from pages.good_summary_page import GoodSummaryPage
 from pages.shared import Shared
 from pytest_bdd import given, when, then, scenarios, parsers
 from pages.assign_flags_to_case import CaseFlagsPages
@@ -36,11 +37,17 @@ def click_edit_flags_link(driver):
     application_page.click_edit_case_flags()
 
 
-@when("I click edit goods flags link")
+@when("I select goods and click review")
 def click_edit_flags_link(driver):
     application_page = ApplicationPage(driver)
     application_page.select_a_good()
-    application_page.click_edit_good_flags()
+    application_page.click_review_goods()
+
+
+@when("I click edit goods flags link")
+def click_edit_flags_link(driver):
+    goods_summary_page = GoodSummaryPage(driver)
+    goods_summary_page.click_edit_good_flags()
 
 
 @when('I count the number of assigned flags')
