@@ -6,12 +6,13 @@ from fixtures.core import context, driver, sso_login_info, invalid_username, new
 from fixtures.urls import internal_url, sso_sign_in_url, api_url # noqa
 from fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_eua_query, apply_for_open_application # noqa
 from fixtures.sign_in_to_sso import sign_in_to_internal_sso # noqa
-from fixtures.add_a_flag import add_uae_flag, add_suspicious_flag # noqa
+from fixtures.add_a_flag import add_uae_flag, add_suspicious_flag, add_organisation_suspicious_flag # noqa
 from fixtures.add_queue import add_queue # noqa
 from fixtures.add_a_team import add_a_team # noqa
 from fixtures.add_a_picklist import add_an_ecju_query_picklist, add_a_proviso_picklist, add_a_standard_advice_picklist, add_a_report_summary_picklist # noqa
 
 import helpers.helpers as utils
+from pages.assign_flags_to_case import CaseFlagsPages
 from pages.header_page import HeaderPage
 from pages.shared import Shared
 from pages.case_list_page import CaseListPage
@@ -202,3 +203,11 @@ def move_case_to_new_queue(driver, context):
     if not driver.find_element_by_id(context.queue_name).is_selected():
         driver.find_element_by_id(context.queue_name).click()
     Shared(driver).click_submit()
+
+
+@when('I select previously created flag')
+def assign_flags_to_case(driver, context):
+    case_flags_pages = CaseFlagsPages(driver)
+    case_flags_pages.select_flag(context, context.flag_name)
+    shared = Shared(driver)
+    shared.click_submit()

@@ -151,11 +151,12 @@ class AssignFlags(TemplateView):
                 obj = {'case': get_case(request, self.objects[0])}
             elif self.level == 'organisations':
                 obj, _ = get_organisation(request, self.objects[0])
+                print(obj)
                 origin = 'organisation'
                 object_flags = obj.get('flags')
 
             # Fetches existing flags on the object
-            if not object_flags:
+            if self.level != 'organisations':
                 object_flags = obj.get(self.level[:-1]).get('flags')
             flags_list = []
             for flag in flags:
