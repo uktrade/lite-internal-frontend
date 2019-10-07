@@ -294,12 +294,12 @@ def _get_all_distinct_flags(case):
     flags = []
     flags.extend(case['flags'])
     flags.extend(case['application']['organisation']['flags'])
-    if case['application'].get('goods_types'):
+    if 'goods_types' in case['application']:
         for good in case['application']['goods_types']:
             for flag in good['flags']:
                 if flag not in flags:
                     flags.append(flag)
-    elif case['application'].get('goods'):
+    elif 'goods' in case['application']:
         for good in case['application']['goods']:
             for flag in good['good']['flags']:
                 if flag not in flags:
