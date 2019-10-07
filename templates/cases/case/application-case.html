@@ -44,6 +44,16 @@
 	</div>
 </div>
 
+<p class="govuk-caption-m">All flags</p>
+<div class="app-flags">
+    {% for flag in case.all_flags %}
+        <div class="app-flag" id="{{ flag.name }}">
+            {{ flag.name }}{{ flag.type }}
+        </div>
+    {% endfor %}
+</div>
+<br>
+
 <!-- Case flags -->
 {% include 'cases/case/views/case-flags.html' %}
 

@@ -36,8 +36,14 @@
 					{{ organisation.primary_site.address.country.name }}
 				</p>
 			</div>
+            <div class="govuk-grid-column-one-third">
+				<p class="lite-heading-s">Type</p>
+				<p class="govuk-label">{{ organisation.type.value }}</p>
+			</div>
 		</div>
 	</div>
+
+    {% include 'cases/case/views/organisation-flags.html' %}
 
 	<div class="lite-tabs--fade">
 		<div class="lite-tabs">
