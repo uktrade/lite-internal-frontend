@@ -93,8 +93,8 @@ class AssignFlags(TemplateView):
         data = {
                 'level': self.level,
                 'objects': self.objects,
-                 'flags': request.POST.getlist('flags'),
-                 'note': request.POST.get('note')
+                'flags': request.POST.getlist('flags'),
+                'note': request.POST.get('note')
                 }
 
         response, _ = put_flag_assignments(request, data)

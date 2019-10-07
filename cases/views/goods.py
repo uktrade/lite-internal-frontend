@@ -29,8 +29,9 @@ class ReviewGoods(TemplateView):
         case_id = str(kwargs['pk'])
         objects = request.GET.getlist('items', request.GET.getlist('goods'))
         goods = []
+
         if not objects:
-            raise Http404
+            return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}))
 
         case = get_case(request, case_id)
 
@@ -53,24 +54,30 @@ class ReviewGoods(TemplateView):
 
 
 class ReviewGoodsClc(TemplateView):
+    case_id = None
+    goods = None
+    back_link = None
 
-    def get(self, request, **kwargs):
-        case_id = str(kwargs['pk'])
-        objects = request.GET.getlist('items', request.GET.getlist('goods'))
+    def dispatch(self, request, *args, **kwargs):
+        self.case_id = str(kwargs['pk'])
+        self.goods = request.GET.getlist('items', request.GET.getlist('goods'))
 
-        goods_postfix_url = ""
-        for pk in objects:
+        goods_postfix_url = "?"
+        for pk in self.goods:
             goods_postfix_url += '&goods=' + pk
 
-        back_link = reverse_lazy('cases:review_goods', kwargs={'pk': case_id}) + '?' + goods_postfix_url[1:]
-        form = review_goods_clc_query_form(request, back_link)
+        self.back_link = reverse_lazy('cases:review_goods', kwargs={'pk': self.case_id}) + goods_postfix_url
+
+        return super(ReviewGoodsClc, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        form = review_goods_clc_query_form(request, self.back_link)
         return form_page(request, form)
 
-    def post(self, request,  **kwargs):
-        objects = request.GET.getlist('items', request.GET.getlist('goods'))
+    def post(self, request, *args, **kwargs):
 
         form_data = {
-            'objects': objects,
+            'objects': self.goods,
             'comment': request.POST.get('comment'),
             'report_summary': request.POST.get('report_summary'),
             'control_code': request.POST.get('control_code', None)
@@ -83,14 +90,8 @@ class ReviewGoodsClc(TemplateView):
 
         response = post(request, '/goods/controlcode/', form_data)
 
-        goods_postfix_url = "?"
-        for pk in objects:
-            goods_postfix_url += '&goods=' + pk
-
-        back_link = reverse_lazy('cases:review_goods', kwargs={'pk': str(kwargs['pk'])}) +  goods_postfix_url
-
         if response.status_code == 400:
-            form = review_goods_clc_query_form(request, back_link)
+            form = review_goods_clc_query_form(request, self.back_link)
             return form_page(request, form, data=form_data, errors=response.json().get('errors'))
 
-        return redirect(back_link)
+        return redirect(self.back_link)

@@ -1,8 +1,8 @@
 @internal @case_flags
-Feature: I want to add case-level flags to a case and view them
+Feature: I want to review, amend where required and confirm the goods ratings and descriptions on an application
   As a logged in government user
-  I want to toggle one or more flags on and off a case to highlight key features
-  So that all users viewing the case can quickly and easily see the aspects which might require more attention
+  I want to review, amend where required and confirm the goods ratings and descriptions on a standard application
+  So that I can confirm the goods are correctly described
 
   @LT_1300
   Scenario: Add flag to good
