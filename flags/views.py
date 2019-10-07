@@ -140,7 +140,7 @@ class AssignFlags(TemplateView):
 
         if self.level == 'organisations':
             flags = get_organisation_flags(request)
-
+        object_flags = None
         # Perform pre-population of the flags if there is only one object to be flagged
         if len(self.objects) == 1:
             print(self.level)
@@ -153,9 +153,11 @@ class AssignFlags(TemplateView):
             elif self.level == 'organisations':
                 obj, _ = get_organisation(request, self.objects[0])
                 origin = 'organisation'
+                object_flags = obj.get('flags')
 
             # Fetches existing flags on the object
-            object_flags = obj.get(self.level[:-1]).get('flags')
+            if not object_flags:
+                object_flags = obj.get(self.level[:-1]).get('flags')
             self.selected_flags = {'flags': []}
             for flag in flags:
                 for object_flag in object_flags:
