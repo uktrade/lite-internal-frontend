@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect
 from django.template import engines
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from faker import Faker
 from lite_forms.helpers import flatten_data
 from weasyprint import HTML, CSS
 
@@ -31,18 +30,6 @@ class PickATemplate(TemplateView):
         return render(request, 'documents/select_a_template.html', context)
 
 
-def fake_items():
-    fake = Faker()
-    for item in range(0, 10):
-        yield {
-            "item": item,
-            "description": fake.sentence(),
-            "control_list": fake.pystr(min_chars=3, max_chars=7),
-            "value": fake.pydecimal(left_digits=7, right_digits=2, min_value=0),
-            "quantity": fake.pyint(min_value=0, max_value=999),
-        }
-    
-
 class CreateDocument(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
@@ -57,14 +44,13 @@ class CreateDocument(TemplateView):
 
         django_engine = engines['django']
         template = django_engine.from_string(open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, f'{template}.html'), 'r').read())
+
         letter_context = {
             'applicant': case.get('query').get('organisation'),
             'query': case.get('query'),
             'content': request.POST.get('content', ''),
         }
 
-        letter_context["craigs_items"] = fake_items()
-        
         preview = template.render(letter_context)
 
         flattened_letter_context = flatten_data(letter_context)

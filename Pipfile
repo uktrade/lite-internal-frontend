@@ -32,7 +32,6 @@ lite-forms = "*"
 django-markdownx = "*"
 cairocffi = "*"
 weasyprint = "*"
-faker = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,152 +1,237 @@
 <style>
+  .app-document-generator__preview-container {
+    font-size: 11px;
+    font-family: Helvetica, Arial, "Liberation Sans", sans-serif;
+    color: #6f777b;
+  }
+
   @page {
     size: A4;
     margin: 10mm;
-    padding-top: -50mm;
+
+    /* Set up padding so that content of pages appears aligned with #page-header */
+    padding-top: 62.2mm;
+    padding-left: 15mm;
+
     counter-increment: page;
-    
     background-image: url("/assets/images/dit.png");
     background-repeat: no-repeat;
     background-position: right top;
     background-size: auto 15mm;
-    
     @top-left {
       content: "Standard Individual Export Licence";
       font-size: 18px;
       color: #6f777b;
       padding-top: 20mm;
     }
-
     @bottom-center {
       content: "Page " counter(page) " of " counter(pages);
       color: #6f777b;
       font-size: 16px;
     }
   }
-  
-  @page subsequent {
-    padding-top: 130mm;
-    padding-left: 10mm;
-  }
-  
 
   @media print {
+    #first-page-table {
+      background: white; /* white background #page-header can hide behind */
+      z-index: 2; /* be above #page-header so it can hide */
+      position: relative; /* positioning required to appear above a fixed element */
+      top: -34.5mm;
+      left: -15.7mm;
+      width: 187mm;
+    }
+
+    #page-header {
+      position: fixed;
+      top: -32.25mm;
+      left: -13.2mm;
+      width: 185.9mm;
+      z-index: 1; /* hide under #first-page-table */
+    }
+
+    /* No fonts are set in print view, so set them. */
     * {
       font-size: 11px;
       font-family: Helvetica, Arial, "Liberation Sans", sans-serif;
       color: #6f777b;
     }
-    
-    table {
-      page-break-after: always;
+  }
+
+  @media screen {
+    .page-break-after {
+      margin-bottom: 10mm;
     }
-    
-  }
 
-  #first-page-table {
-    /*background: white;*/
-    z-index: 2; /* hide under first page table */
-    position: relative; /* positioning required to appear above a fixed element */
-    top: 20mm;
-  }
-  
-  .other-page-header {
-    position: fixed;
-    top: -107.5mm;
-    width: 185mm;
-    z-index: 1; /* hide under first page table */
-  }
-
-  #the-content {
-    page: subsequent;
-    outline: 1px sold green;
+    #page-header {
+      display: none;
+    }
   }
 
   table {
     border-collapse: collapse;
-    table-layout: fixed;
     width: 100%;
   }
-  
-  table tr.set-width-hack td {
-    width: 8.33%; /* 100% / 12 */
-    height: 0;
-    padding: 0;
-  }
-  
+
   td {
     vertical-align: top;
     margin: 0;
     padding: 5px;
   }
 
+  table.fixed-layout {
+    table-layout: fixed;
+  }
+
+  table.fixed-layout tr.set-width-hack td {
+    width: 8.33%; /* 100% / 12 */
+    height: 0;
+    padding: 0;
+  }
+
+
   .border-black {
     border: 1px solid black;
   }
-  
-  .border-top-black{
+
+  .border-top-black {
     border-top: 1px solid black;
   }
-  
-  .border-bottom-black{
+
+  .border-bottom-black {
     border-bottom: 1px solid black;
   }
-  
-  .border-left-black{
+
+  .border-left-black {
     border-left: 1px solid black;
   }
-  
-  
+
+  .border-right-black {
+    border-right: 1px solid black;
+  }
+
   .cell__heading {
     display: block;
     font-style: italic;
     margin-bottom: 5px;
   }
+
   .cell__uppercase {
     display: block;
     text-transform: uppercase;
     font-weight: bold;
   }
+
   .cell__subheading {
     display: block;
     text-decoration: underline;
     margin-bottom: 5px;
   }
+
   .cell__body {
     display: block;
     margin-bottom: 5px;
   }
-  
+
   .padding-none {
     padding: 0;
   }
-  
+
   .text-large {
     font-size: 18px;
   }
-  
+
   .align-centre {
     text-align: center;
   }
-  
-	.rotate {
-		transform: rotate(270deg);
-	}
-	.uppercase {
-		text-transform: uppercase;
-	}
+
+  .rotate {
+    transform: rotate(270deg);
+  }
+
+  .uppercase {
+    text-transform: uppercase;
+  }
+
   .sidebar-cell {
     padding: 100px 0;
   }
+
   .bold {
     font-weight: bold;
   }
-  
-  
-  
+
+  .italic {
+    font-style: italic;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .padding {
+    padding: 5mm;
+  }
 </style>
 
-{% include "cases/licence/_table_top.html" with first_page=True %}
+<table id="first-page-table" class="fixed-layout page-break-after">
+  <!--
+    Table is broken up into 12 evenly-spaced columns.
+    Cell width is controlled by colspan attributes on cells.
+   -->
+  <tr class="set-width-hack">
+    {% for i in '123456789012'|make_list %}
+      <td></td>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td class="border-top-black padding-none align-centre" rowspan="999">
+      <div class="text-large border-left-black border-bottom-black">1</div>
+      <div class="sidebar-cell text-large border-left-black border-bottom-black bold uppercase">
+        <div class="rotate">Licence</div>
+      </div>
+      <div class="text-large border-left-black border-bottom-black">1</div>
+    </td>
+    <td class="border-black" rowspan="4" colspan="5">
+      <span class="cell__heading">1. Exporter</span>
+      <span class="cell__uppercase">{{ applicant.name }}<br>
+      {{ applicant.primary_site.address.address_line_1 }}<br>
+      {% if applicant.primary_site.address.address_line_2 %}{{ applicant.primary_site.address.address_line_2 }}<br>{% endif %}
+      {{ applicant.primary_site.address.postcode }}<br>
+      {{ applicant.primary_site.address.city }}<br>
+      {{ applicant.primary_site.address.region }}<br>
+      {{ applicant.primary_site.address.country.name }}</span>
+    </td>
+    <td class="border-black" colspan="3">
+      <span class="cell__heading">2. Licence number</span>
+      <span class="cell__uppercase">TBC</span>
+    </td>
+    <td class="border-black" colspan="3">
+      <span class="cell__heading">3a. Commencement date</span>
+      <span class="cell__uppercase">TBC</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="border-black" colspan="3">
+      <span class="cell__heading">2a. Application number</span>
+      <span class="cell__uppercase">TBC</span>
+    </td>
+    <td class="border-black" colspan="3">
+      <span class="cell__heading">3b. Expiry date</span>
+      <span class="cell__uppercase">TBC</span>
+    </td>
+    </tr>
+  <tr>
+    <td class="border-black" colspan="6">
+      <span class="cell__heading">2b. Applicant reference</span>
+      <span class="cell__uppercase">TBC</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="border-black" colspan="6">
+      <span class="cell__heading">4. Exporter contact details</span>
+      <span class="cell__uppercase">TBC</span>
+    </td>
+  </tr>
   <tr>
     <td class="border-black" colspan="5">
       <span class="cell__heading">5. Consignee(s)/Destination(s)</span>
@@ -285,88 +370,7 @@
   </tr>
 </table>
 
-
-
-{# {% include "cases/licence/_table_top.html" %} #}
-{#   <tr> #}
-{#     <td class="border-black">Item</td> #}
-{#     <td colspan="4" class="border-black">14. Description of the items</td> #}
-{#     <td colspan="2" class="border-black">16. Control list no</td> #}
-{#     <td colspan="2" class="border-black">17. Currency and Value</td> #}
-{#     <td colspan="2" class="border-black">18. Quantity of the items</td> #}
-{#   </tr> #}
-{#  #}
-{#   {% for item in craigs_items %} #}
-{#     <tr> #}
-{#       <td class="border-black">{{ item.item }}</td> #}
-{#       <td colspan="4" class="border-black">{{ item.description }}</td> #}
-{#       <td colspan="2" class="border-black">{{ item.control_list }}</td> #}
-{#       <td colspan="2" class="border-black">£{{ item.value }}</td> #}
-{#       <td colspan="2" class="border-black">{{ item.quantity }} each</td> #}
-{#     </tr> #}
-{#   {% endfor %} #}
-{# </table> #}
-{#  #}
-{# {% include "cases/licence/_table_top.html" %} #}
-{#   <tr> #}
-{#     <td class="border-black" colspan="11"> #}
-{#       <span class="cell__subheading">Authorisation</span> #}
-{#       <span class="cell__body">The Secretary of State authorises the person named in box 1 of this licence ("the licensee") to export or transfer the goods, software and/or technology described in box 14 ("the listed items") to the person named in box 5, before the end of the date shown in box 3, subject to the conditions attached or specified in this licence as set out below.</span> #}
-{#       <span class="cell__body">Authorisation of the goods, software and/or technology has been granted under Article 26 of the Export Control Order 2008, as amended.</span> #}
-{#       <span class="cell__subheading">Conditions</span> #}
-{#       <span class="cell__body">1. This condition applies if listed items are being exported from the United Kingdom to a destination outside the territory of the Member States of the European Community. The licensee must quote the number of this licence to the proper officer of HM Revenue and Customs when the listed items are presented to that officer for export or must comply with such alternative arrangements as are agreed with that officer.</span> #}
-{#       <span class="cell__body">2. This condition applies if listed items are being exported from the United Kingdom to a destination in the territory of a Member State of the European Community:</span> #}
-{#       <span class="cell__body">a. The licensee must quote the number of this licence to the proper officer of HM Revenue and Customs at least three working days before the date of the proposed export identifying a location where the listed items will be capable of inspection at any time during those three days, or shall comply with such alternative arrangements as are agreed with an officer of HM Revenue and Customs. This paragraph does not apply where the licensee is exporting firearms covered by EC Directive 91/477/EEC or ammunition for use therewith.</span> #}
-{#       <span class="cell__body">b. The licensee must:</span> #}
-{#       <span class="cell__body">i. maintain records of all transactions carried out under this licence,</span> #}
-{#       <span class="cell__body">ii. present a copy of these records each time the licence is presented to HM Revenue & Customs,</span> #}
-{#       <span class="cell__body">iii. permit these records to be inspected and copied by any person authorised by the Secretary of State or the Commissioners, and iv. inform the Export Control Organisation ("ECO") when the licence becomes exhausted.</span> #}
-{#       <span class="cell__body">3. This condition applies if listed items are being exported or transferred from a Member State of the European Community other than the United Kingdom. The licensee must present a hard copy of this licence, signed and stamped by an official of the Department for Business, Innovation and Skills, to the appropriate authorities in that Member State on request.</span> #}
-{#       <span class="cell__body">4. This condition applies if listed items (being software or technology) have been transferred. The licensee must keep records that contain sufficient detail to allow the following to be identified:</span> #}
-{#       <span class="cell__body">a. A description of the listed items that have been transferred;</span> #}
-{#       <span class="cell__body">b. The date(s) of the transfer(s); and</span> #}
-{#       <span class="cell__body">c. In so far as it is known to the licensee, the name and address of the end-user of the listed items.</span> #}
-{#       <span class="cell__body">The licensee must permit these records to be inspected and copied by any person authorised by the Secretary of State or the Commissioners.</span> #}
-{#       <span class="cell__body">For listed items covered by Regulation (EU) 258/2012, marking details and serial numbers must form part of the supporting commercial documentation accompanying the export.</span> #}
-{#       <span class="cell__subheading">For temporary SIELs</span> #}
-{#       <span class="cell__body">5. The licensee may only export the listed items if he has obtained such permissions from the authorities of the country of destination as are necessary to enable the listed items to be returned to the country from which he is exporting them ( the country of origin ) before the end of the date given in [box 3] of this licence ( the expiry date ).</span> #}
-{#       <span class="cell__body">6. The licensee must make and maintain all necessary arrangements (including all necessary security arrangements) and must at all times retain sufficient control of the listed items to ensure that they are safely returned to the country of origin before the end of the expiry date; the licensee must not transfer to any person ownership of the listed items or any interest in them or take any action which may have the result of impeding or diminishing his power to ensure their safe return to the country of origin before the end of the expiry date.</span> #}
-{#       <span class="cell__body">7. The licensee must ensure that the listed items only pass through a country not specified in this licence where this is necessary for them to reach their final destination and/or to return from that destination to the country of origin.</span> #}
-{#       <span class="cell__body">8. The ECO shall be kept fully and accurately informed of:</span> #}
-{#       <span class="cell__body">a. Each place where the listed items are kept or pass through after export; and</span> #}
-{#       <span class="cell__body">b. Any occurrence which may result in the listed items or any part of them not being returned to the country of origin before the end of the expiry date.</span> #}
-{#       <span class="cell__body">9. As soon as the listed items have been returned to the country of origin, the licensee shall send to ECO notice of their return together with any documentary evidence thereof.</span> #}
-{#     </td> #}
-{#   </tr> #}
-{# </table> #}
-{#  #}
-{# {% include "cases/licence/_table_top.html" %} #}
-{#   <tr> #}
-{#     <td class="border-black" colspan="11"> #}
-{#       <span class="cell__body">10. The licensee shall ensure that the listed items will not be used for any purpose other than that declared in the application form for this licence.</span> #}
-{#       <span class="cell__body">Note: The granting of this temporary export licence sets no precedent in respect of any subsequent applications to permanently export or transfer similar goods, software and/or technology.</span> #}
-{#       <span class="cell__subheading">Standard conditions</span> #}
-{#       <span class="cell__body">1.This licence shall not affect a prohibition or restriction in any legislation other than the legislation under which this licence was issued.</span> #}
-{#       <span class="cell__body">2. This licence is not transferable</span> #}
-{#       <span class="cell__body">3. This licence may be modified or revoked at any time by the Secretary of State</span> #}
-{#       <span class="cell__body">4. This licence is valid when printed only if signed and stamped by an official of the Department for Business, Innovation and Skills.</span> #}
-{#       <span class="cell__subheading">General Notes</span> #}
-{#       <span class="cell__body">Details of any change to export control legislation can be found at</span> #}
-{#       <span class="cell__body">http://www.bis.gov.uk/policies/export-control-organisation</span> #}
-{#       <span class="cell__body">The box numbers used on the licence form follow those in the model annexed to Council Regulation (EC) No. 428/2009.</span> #}
-{#       <span class="cell__body">Unless the context otherwise requires, any expression used in this licence shall have the meaning it bears in the Export Control Order 2008. However, the definition of "transfer" in that Order shall apply as if for the words "except in articles 10 and 11" to the end of the definition there were substituted the words "or a Member State of the European Community specified as a country of origin in box 8 of this licence".</span> #}
-{#       <span class="cell__body">Warning: Failure to comply with any conditions attaching to this licence may lead to forfeiture of the goods and/or to prosecution under the Customs and Excise Management Act 1979, or the legislation under which this licence was issued.</span> #}
-{#       <span class="cell__body">Understanding the Control List Number (Rating Classification)</span> #}
-{#       <span class="cell__body">Control List No. Relevant Control List</span> #}
-{#       <span class="cell__body">ML* UK Military List</span> #}
-{#       <span class="cell__body">For further details on the Control List Number (rating), and how you can use this information, please go to the GOV.UK website and read the guidance about 'Strategic exports: when to request an export licence'.</span> #}
-{#       https://www.gov.uk/do-your-goods-need-an-export-licence #}
-{#     </td> #}
-{#   </tr> #}
-{# </table> #}
-
-
-<table class="other-page-header">
+<table id="page-header" class="fixed-layout">
   <!--
     Table is broken up into 12 evenly-spaced columns.
     Cell width is controlled by colspan attributes on cells.
@@ -377,7 +381,7 @@
     {% endfor %}
   </tr>
   <tr>
-    <td class="border-top-black padding-none align-centre" rowspan="999">
+    <td class="border-top-black border-right-black padding-none align-centre" rowspan="999">
       <div class="text-large border-left-black border-bottom-black">1<br>DIT</div>
       <div class="sidebar-cell text-large border-left-black border-bottom-black bold uppercase">
         <div class="rotate">Licence</div>
@@ -419,68 +423,28 @@
     </td>
   </tr>
   <tr>
-    <td colspan="11"></td>
+    <td></td>
   </tr>
 </table>
 
-<div id="the-content">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</div>
 
+<table class="page-break-after">
+  <tr>
+    <td class="border-black italic">Item</td>
+    <td class="border-black italic">14. Description of the items</td>
+    <td class="border-black italic">16. Control list no</td>
+    <td class="border-black italic">17. Currency and Value</td>
+    <td class="border-black italic">18. Quantity of the items</td>
+  </tr>
+  <tr>
+    <td class="border-black">1</td>
+    <td class="border-black">CoGnac MVB 2301K pentecost</td>
+    <td class="border-black">MEND1</td>
+    <td class="border-black">£2817.44</td>
+    <td class="border-black">1 each</td>
+  </tr>
+</table>
+
+<div class="border-black padding page-break-after">
+  {% markdown_convert %}
+</div>
