@@ -2,6 +2,7 @@ from pytest_bdd import scenarios, when, then
 
 from pages.application_page import ApplicationPage
 from pages.case_list_page import CaseListPage
+from pages.shared import Shared
 
 scenarios('../features/add_goods.feature', strict_gherkin=False)
 
@@ -17,5 +18,5 @@ def click_good(driver):
 
 
 @then("I see good information")
-def good_info():
-    raise NotImplementedError(u'STEP: Then I see good information')
+def good_info(driver):
+    assert Shared(driver).info_board_is_displayed()

@@ -13,5 +13,6 @@ Feature: I want to add a clc-case good to the goods list
     Scenario: Click on good
         Given I create application or application has been previously created
         And I go to internal homepage
-        When I click on good
+        When I go to application previously created
+        And I click on good
         Then I see good information
