@@ -7,6 +7,7 @@ from lite_forms.generators import form_page
 
 from cases.forms.goods_flags import flags_form
 from cases.services import put_flag_assignments, get_good, get_goods_type, get_case
+from core.helpers import convert_dict_to_query_params
 from flags.services import get_cases_flags, get_goods_flags
 
 
@@ -68,10 +69,10 @@ class AssignFlags(TemplateView):
         else:
             if origin == 'review_goods':
                 origin = 'review good'
-                objects_url_suffix = "?"
-
-                for pk in self.objects:
-                    objects_url_suffix += '&goods=' + pk
+                parameters = {
+                    'goods': self.objects
+                }
+                objects_url_suffix = "?" + convert_dict_to_query_params(parameters)
 
                 self.url += objects_url_suffix
 

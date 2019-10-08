@@ -6,6 +6,7 @@ from lite_forms.generators import form_page
 from cases.forms.review_goods_clc import review_goods_clc_query_form
 from cases.services import get_good, get_case
 from conf.client import post
+from core.helpers import convert_dict_to_query_params
 
 
 class Good(TemplateView):
@@ -32,20 +33,25 @@ class ReviewGoods(TemplateView):
 
         case = get_case(request, case_id)
 
-        edit_flags_url = reverse_lazy('cases:assign_flags', kwargs={'pk': case_id}) + '?level=goods&origin=review_goods'
+        edit_flags_url = reverse_lazy('cases:assign_flags', kwargs={'pk': case_id})
         review_goods_clc_url = reverse_lazy('cases:review_goods_clc', kwargs={'pk': case_id})
-        goods_postfix_url = ""
+        parameters = {
+            'level': 'goods',
+            'origin': 'review_goods',
+            'goods': objects
+        }
+        goods_postfix_url = '?' + convert_dict_to_query_params(parameters)
+
         for good in case['application']['goods']:
             if good['good']['id'] in objects:
                 goods.append(good)
-                goods_postfix_url += '&goods=' + good['good']['id']
 
         context = {
             'title': 'Review Goods',
             'case_id': case_id,
             'objects': goods,
             'edit_flags_url': edit_flags_url + goods_postfix_url,
-            'review_goods_clc_url': review_goods_clc_url + '?' + goods_postfix_url[1:]
+            'review_goods_clc_url': review_goods_clc_url + goods_postfix_url
         }
         return render(request, 'cases/case/review-goods.html', context)
 
@@ -59,9 +65,10 @@ class ReviewGoodsClc(TemplateView):
         self.case_id = str(kwargs['pk'])
         self.goods = request.GET.getlist('items', request.GET.getlist('goods'))
 
-        goods_postfix_url = "?"
-        for pk in self.goods:
-            goods_postfix_url += '&goods=' + pk
+        parameters = {
+            'goods': self.goods
+        }
+        goods_postfix_url = "?" + convert_dict_to_query_params(parameters)
 
         self.back_link = reverse_lazy('cases:review_goods', kwargs={'pk': self.case_id}) + goods_postfix_url
 
