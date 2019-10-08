@@ -97,7 +97,7 @@ class SeedData:
 
     def get_org_primary_site_id(self, org_id):
         response = self.make_request("GET", url='/organisations/' + org_id)
-        organisation = json.loads(response.text)
+        organisation = response.json()
         return organisation['primary_site']['id']
 
     def add_good(self):

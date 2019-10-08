@@ -21,8 +21,6 @@ urlpatterns = [
     path('<uuid:pk>/documents/<str:file_pk>/', main.Document.as_view(), name='document'),
     # ex: /<uuid:pk>/goods/<str:good_pk>/
     path('<uuid:pk>/goods/<str:good_pk>/', goods.Good.as_view(), name='good'),
-    # ex: /cases/<uuid:pk>/assign-flags/
-    path('<uuid:pk>/assign-flags/', AssignFlags.as_view(), name='assign_flags'),
     # ex: /cases/<uuid:pk>/user-advice-view/
     path('<uuid:pk>/user-advice-view/', advice.ViewUserAdvice.as_view(), name='user_advice_view'),
     # ex: /cases/<uuid:pk>/team-advice-view/coalesce/
