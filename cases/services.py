@@ -2,7 +2,8 @@ from cases.helpers import clean_advice
 from conf.client import post, get, put, delete
 from conf.constants import CASE_URL, CASE_NOTES_URL, APPLICATIONS_URL, ACTIVITY_URL, CLC_QUERIES_URL, DOCUMENTS_URL, \
     END_USER_ADVISORY_URL, CASE_FLAGS_URL, ECJU_QUERIES_URL, GOOD_URL, FLAGS_URL, ASSIGN_FLAGS_URL, \
-    GOODS_TYPE_URL, USER_ADVICE_URL, TEAM_ADVICE_URL, FINAL_ADVICE_URL, VIEW_TEAM_ADVICE_URL, VIEW_FINAL_ADVICE_URL
+    GOODS_TYPE_URL, USER_ADVICE_URL, TEAM_ADVICE_URL, FINAL_ADVICE_URL, VIEW_TEAM_ADVICE_URL, VIEW_FINAL_ADVICE_URL, \
+    GOOD_CLC_REVIEW_URL
 
 
 def get_case(request, pk):
@@ -211,6 +212,10 @@ def get_goods_type(request, pk):
     data = get(request, GOODS_TYPE_URL + pk)
     return data.json(), data.status_code
 
+def post_goods_control_code(request, json):
+    #this function may return just a status code, so we do not split it into data/statuscode
+    response = post(request, GOOD_CLC_REVIEW_URL, json)
+    return response
 
 # Good Flags
 def get_flags_for_team_of_level(request, level):

@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 
 from cases.forms.review_goods_clc import review_goods_clc_query_form
-from cases.services import get_good, get_case
+from cases.services import get_good, get_case, post_goods_control_code
 from conf.client import post
 from core.helpers import convert_dict_to_query_params
 
@@ -92,10 +92,10 @@ class ReviewGoodsClc(TemplateView):
         elif request.POST.get('is_good_controlled') == 'no':
             form_data['is_good_controlled'] = False
 
-        response = post(request, '/goods/controlcode/', form_data)
+        response = post_goods_control_code(request, form_data)
 
         if response.status_code == 400:
             form = review_goods_clc_query_form(request, self.back_link)
-            return form_page(request, form, data=form_data, errors=response.json().get('errors'))
+            return form_page(request, form, data=request.POST, errors=response.json().get('errors'))
 
         return redirect(self.back_link)
