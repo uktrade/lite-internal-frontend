@@ -4,6 +4,8 @@
 
 {% block body %}
 
+	{% include 'includes/messages.html' %}
+
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h2 class="govuk-heading-l">{% block title %}Letter templates{% endblock %}</h2>
@@ -45,7 +47,7 @@
 			</tbody>
 		</table>
 	{% else %}
-		{% include "includes/information-text.html" with text='There are no letter templates currently created' %}
+		{% include "includes/information-text.html" with text='There aren\'t any letter templates' %}
 	{% endif %}
 
 {% endblock %}

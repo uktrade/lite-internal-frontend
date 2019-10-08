@@ -28,12 +28,9 @@ def add_letter_template():
             Form(title='Select a layout to use for this letter template',
                  questions=[
                      RadioButtons(
-                         name='restricted_to',
+                         name='layout',
                          options=[
-                             Option('standard_licence_applications', 'Standard Licence Applications'),
-                             Option('open_licence_applications', 'Open Licence Applications'),
-                             Option('control_list_classification_queries', 'Control List Classification Queries'),
-                             Option('end_user_advisory_queries', 'End User Advisory Queries'),
+                             Option('licence', 'Licence'),
                          ])
                  ],
                  default_button_name='Continue')

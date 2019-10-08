@@ -23,7 +23,15 @@
 				<h2 class="govuk-heading-l">{% block title %}Preview{% endblock %}</h2>
 			</div>
 			<div class="lite-app-bar__controls">
-				<button class="govuk-button" name="action" value="print">Save</button>
+				<form action="{% url 'letter_templates:preview' %}" method="post">
+					{% csrf_token %}
+					{% hidden_field 'name' name %}
+					{% hidden_field 'layout' layout %}
+					{% for letter_paragraph in letter_paragraphs %}
+						{% hidden_field 'letter_paragraphs' letter_paragraph.id %}
+					{% endfor %}
+					<button class="govuk-button" name="action" value="print">Save</button>
+				</form>
 			</div>
 		</div>
 

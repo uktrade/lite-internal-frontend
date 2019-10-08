@@ -15,12 +15,21 @@
 	</noscript>
 
 	<form action="{% url 'letter_templates:letter_paragraphs' %}" method="post">
+
+		{% hidden_field 'name' name %}
+		{% hidden_field 'layout' layout %}
+
+		{{ name }}
+		{{ layout }}
+
 		<div class="lite-app-bar">
 			<div class="lite-app-bar__content">
 				<h2 class="govuk-heading-l">{% block title %}What letter paragraphs do you want to use?{% endblock %}</h2>
 			</div>
 			<div class="lite-app-bar__controls">
-				<button class="govuk-button" id="button-preview" name="action" value="preview">Preview</button>
+				{% if letter_paragraphs %}
+					<button class="govuk-button" id="button-preview" name="action" value="preview">Preview</button>
+				{% endif %}
 			</div>
 		</div>
 

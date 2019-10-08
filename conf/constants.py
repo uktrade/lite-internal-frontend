@@ -34,6 +34,7 @@ FLAGS_CASE_LEVEL_FOR_TEAM = '/flags/?level=Case&team=True'
 FLAGS_GOOD_LEVEL_FOR_TEAM = '/flags/?level=Good&team=True'
 CLC_QUERIES_URL = '/queries/control-list-classifications/'
 PICKLIST_URL = '/picklist/'
+LETTER_TEMPLATES_URL = '/letter-templates/'
 
 # Static URLs
 STATIC_URL = '/static/'
@@ -41,6 +42,7 @@ DENIAL_REASONS_URL = STATIC_URL + 'denial-reasons/'
 COUNTRIES_URL = STATIC_URL + 'countries/'
 STATUSES_URL = STATIC_URL + 'statuses/'
 CONTROL_LIST_ENTRIES_URL = STATIC_URL + 'control-list-entries/'
+LETTER_LAYOUTS_URL = STATIC_URL + '/letter-layouts/'
 
 # Permissions
 MAKE_FINAL_DECISIONS = 'MAKE_FINAL_DECISIONS'
