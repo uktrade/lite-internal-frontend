@@ -94,6 +94,6 @@ class ReviewGoodsClc(TemplateView):
 
         if response.status_code == 400:
             form = review_goods_clc_query_form(request, self.back_link)
-            return form_page(request, form, data=request.POST.get(), errors=response.json().get('errors'))
+            return form_page(request, form, data=request.POST, errors=response.json().get('errors'))
 
         return redirect(self.back_link)
