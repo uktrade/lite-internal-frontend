@@ -31,7 +31,7 @@ class AssignFlags(TemplateView):
         origin = request.GET.get('origin', 'case')
 
         if origin == 'good':
-            kwargs = {'pk': case_id, 'good_pk': self.objects[0]}
+            kwargs['good_pk'] = self.objects[0]
 
         self.url = reverse('cases:' + origin, kwargs=kwargs)
 
