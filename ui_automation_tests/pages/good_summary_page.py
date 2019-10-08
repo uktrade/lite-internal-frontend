@@ -10,9 +10,8 @@ class GoodSummaryPage(BasePage):
         edit_goods_btn.click()
 
     def click_add_report_summary(self):
-        return self.driver.find_element_by_id(self.add_report_summary).click()
+        self.driver.find_element_by_id(self.add_report_summary).click()
 
-    def check_control_code(self):
+    def get_table_rows(self):
         rows = self.driver.find_elements_by_css_selector('.lite-table__body>.lite-table__row')
-        for row in rows:
-            assert 'ML4b1' in row.find_elements_by_css_selector('.lite-table__cell')[3].text
+        return rows

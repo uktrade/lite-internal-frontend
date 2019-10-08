@@ -25,10 +25,10 @@ class Good(TemplateView):
 class ReviewGoods(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        objects = request.GET.getlist('items', request.GET.getlist('goods'))
+        goods_pk_list = request.GET.getlist('items', request.GET.getlist('goods'))
         goods = []
 
-        if not objects:
+        if not goods_pk_list:
             return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}))
 
         case = get_case(request, case_id)
@@ -38,12 +38,12 @@ class ReviewGoods(TemplateView):
         parameters = {
             'level': 'goods',
             'origin': 'review_goods',
-            'goods': objects
+            'goods': goods_pk_list
         }
         goods_postfix_url = '?' + convert_dict_to_query_params(parameters)
 
         for good in case['application']['goods']:
-            if good['good']['id'] in objects:
+            if good['good']['id'] in goods_pk_list:
                 goods.append(good)
 
         context = {
