@@ -62,19 +62,15 @@ class AssignFlags(TemplateView):
                         self.selected_flags['flags'].append(flag['id'])
                         break
 
-            # Origin is set to tell the form where to return to after submission or when back link is clicked
-            if origin == 'review_goods':
-                origin = 'review good'
-                self.url += '?goods=' + self.objects[0]
-        else:
-            if origin == 'review_goods':
-                origin = 'review good'
-                parameters = {
-                    'goods': self.objects
-                }
-                objects_url_suffix = "?" + convert_dict_to_query_params(parameters)
+        # Origin is set to tell the form where to return to after submission or when back link is clicked
+        if origin == 'review_goods':
+            origin = 'review good'
+            parameters = {
+                'goods': self.objects
+            }
+            objects_url_suffix = "?" + convert_dict_to_query_params(parameters)
 
-                self.url += objects_url_suffix
+            self.url += objects_url_suffix
 
         flags = [Option(flag['id'], flag['name']) for flag in flags]
 
