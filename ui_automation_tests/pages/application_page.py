@@ -42,6 +42,9 @@ class ApplicationPage(BasePage):
     download_additional_document = 'additional_document'  # ID
     organisation = 'applicant_organisation'  # CSS
 
+    goods_description_link = '#goods a'  # CSS
+
+
     def click_visible_to_exporter_checkbox(self):
         time.sleep(.5)
         self.driver.find_element_by_id(self.is_visible_to_exporter_checkbox_id).click()
@@ -190,3 +193,7 @@ class ApplicationPage(BasePage):
     def go_to_organisation(self):
         element = self.driver.find_element_by_id(self.organisation)
         self.driver.execute_script('arguments[0].click();', element)
+
+    def click_good_description_link(self):
+        self.driver.find_element_by_css_selector(self.goods_description_link).click()
+
