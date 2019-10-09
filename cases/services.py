@@ -212,10 +212,12 @@ def get_goods_type(request, pk):
     data = get(request, GOODS_TYPE_URL + pk)
     return data.json(), data.status_code
 
+
 def post_goods_control_code(request, json):
-    #this function may return just a status code, so we do not split it into data/statuscode
+    # Data will only be passed back when a error is thrown with status code of 400, as such it is not split here.
     response = post(request, GOOD_CLC_REVIEW_URL, json)
     return response
+
 
 # Good Flags
 def get_flags_for_team_of_level(request, level):
