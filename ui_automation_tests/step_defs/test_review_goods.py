@@ -39,6 +39,6 @@ def click_continue(driver, controlled, control_list_entry, report, comment):
 @then("the control list is present on goods review page")
 def check_control_list_code(driver):
     good_summary_page = GoodSummaryPage(driver)
-    rows = good_summary_page.get_table_rows()
-    for row in rows:
-        assert 'ML4b1' in row.find_elements_by_css_selector('.lite-table__cell')[3].text
+    cells_text = good_summary_page.get_control_code_cells_text()
+    for cell_text in cells_text:
+        assert 'ML4b1' in cell_text
