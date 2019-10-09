@@ -30,7 +30,6 @@ boto3 = ">=1.9"
 prospector = "*"
 lite-forms = "*"
 django-markdownx = "*"
-cairocffi = "*"
 weasyprint = "*"
 
 [requires]

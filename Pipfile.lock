@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7b2ab7db6f43ad738a8a70df13f08b0aedb33897a70d2d9760646630fbe14650"
+            "sha256": "beee77ebabcbf62a6725cecff4d423b59427ccdddb1b7a08fbbd0e26d1e5ac15"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -42,7 +42,6 @@
             "hashes": [
                 "sha256:f1c0c5878f74ac9ccb5d48b2601fcc75390c881ce476e79f4cfedd288b1b05db"
             ],
-            "index": "pypi",
             "version": "==1.1.0"
         },
         "cairosvg": {
