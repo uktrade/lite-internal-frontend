@@ -135,10 +135,10 @@ class AssignFlags(TemplateView):
         if self.level == 'cases':
             flags = get_cases_flags(request)
 
-        if self.level == 'goods':
+        elif self.level == 'goods':
             flags = get_goods_flags(request)
 
-        if self.level == 'organisations':
+        elif self.level == 'organisations':
             flags = get_organisation_flags(request)
         object_flags = None
         # Perform pre-population of the flags if there is only one object to be flagged
