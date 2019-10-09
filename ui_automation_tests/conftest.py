@@ -11,7 +11,7 @@ from fixtures.add_queue import add_queue # noqa
 from fixtures.add_a_team import add_a_team # noqa
 from fixtures.add_a_picklist import add_an_ecju_query_picklist, add_a_proviso_picklist, add_a_standard_advice_picklist, add_a_report_summary_picklist # noqa
 
-import helpers.helpers as utils
+import shared.tools.helpers as utils
 from pages.header_page import HeaderPage
 from pages.shared import Shared
 from pages.case_list_page import CaseListPage
@@ -32,7 +32,7 @@ def pytest_addoption(parser):
         parser.addoption("--internal_url", action="store", default="http://localhost:8200", help="url")
         parser.addoption("--lite_api_url", action="store", default="http://localhost:8100", help="url")
     elif env == 'demo':
-        raise Exception("This is the demo environment - Try another environment instead")
+        raise NotImplementedError('This is the demo environment - Try another environment instead')
     else:
         parser.addoption("--internal_url", action="store",
                          default="https://internal.lite.service." + env + ".uktrade.io/", help="url")
