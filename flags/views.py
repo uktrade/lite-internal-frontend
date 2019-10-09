@@ -151,7 +151,6 @@ class AssignFlags(TemplateView):
                 obj = {'case': get_case(request, self.objects[0])}
             elif self.level == 'organisations':
                 obj, _ = get_organisation(request, self.objects[0])
-                print(obj)
                 origin = 'organisation'
                 object_flags = obj.get('flags')
 
@@ -176,7 +175,7 @@ class AssignFlags(TemplateView):
         flags = [Option(flag['id'], flag['name']) for flag in flags]
         self.url = reverse('organisations:organisation', kwargs={'pk': self.objects[0]}) \
             if self.level == 'organisations' \
-            else reverse('cases:' + origin, kwargs=kwargs)
+            else reverse('cases:' + origin, kwargs={'pk': str(kwargs['pk'])})
 
         self.form = flags_form(
             flags=flags,
