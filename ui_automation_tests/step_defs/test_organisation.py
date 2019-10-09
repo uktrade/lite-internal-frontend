@@ -1,7 +1,8 @@
 from pytest_bdd import scenarios, when, then, parsers, given
 
-import helpers.helpers as utils
+
 from pages.application_page import ApplicationPage
+import shared.tools.helpers as utils
 from pages.header_page import HeaderPage
 from pages.organisation_page import OrganisationPage
 from pages.organisations_form_page import OrganisationsFormPage

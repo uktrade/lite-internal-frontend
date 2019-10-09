@@ -13,6 +13,7 @@ from fixtures.add_a_picklist import add_an_ecju_query_picklist, add_a_proviso_pi
 
 import helpers.helpers as utils
 from pages.assign_flags_to_case import CaseFlagsPages
+
 from pages.header_page import HeaderPage
 from pages.shared import Shared
 from pages.case_list_page import CaseListPage
