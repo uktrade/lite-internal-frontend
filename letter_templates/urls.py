@@ -7,6 +7,8 @@ app_name = 'letter_templates'
 urlpatterns = [
     # ex: /letter-templates/
     path('', views.LetterTemplates.as_view(), name='letter_templates'),
+    # ex: /letter-templates/
+    path('<uuid:pk>/', views.LetterTemplateDetail.as_view(), name='letter_template'),
 
     # ex: /letter-templates/add/
     path('add/', views.Add.as_view(), name='add'),

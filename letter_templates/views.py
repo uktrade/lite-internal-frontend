@@ -22,6 +22,15 @@ class LetterTemplates(TemplateView):
         return render(request, 'letter_templates/letter_templates.html', context)
 
 
+class LetterTemplateDetail(TemplateView):
+
+    def get(self, request, **kwargs):
+        context = {
+            'letter_templates': get_letter_templates(request)
+        }
+        return render(request, 'letter_templates/letter_templates.html', context)
+
+
 def generate_preview(request, letter_paragraphs, name, layout, restricted_to):
     letter_paragraphs = get_letter_paragraphs(request, letter_paragraphs)
 
