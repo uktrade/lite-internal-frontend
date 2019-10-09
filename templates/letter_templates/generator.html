@@ -17,10 +17,14 @@
 	<form action="{% url 'letter_templates:letter_paragraphs' %}" method="post">
 
 		{% hidden_field 'name' name %}
+		{% for restricted in restricted_to %}
+			{% hidden_field 'restricted_to' restricted %}
+		{% endfor %}
 		{% hidden_field 'layout' layout %}
 
 		{{ name }}
 		{{ layout }}
+		{{ restricted_to }}
 
 		<div class="lite-app-bar">
 			<div class="lite-app-bar__content">

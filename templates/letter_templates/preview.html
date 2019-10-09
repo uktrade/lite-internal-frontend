@@ -26,6 +26,9 @@
 				<form action="{% url 'letter_templates:preview' %}" method="post">
 					{% csrf_token %}
 					{% hidden_field 'name' name %}
+					{% for restricted in restricted_to %}
+						{% hidden_field 'restricted_to' restricted %}
+					{% endfor %}
 					{% hidden_field 'layout' layout %}
 					{% for letter_paragraph in letter_paragraphs %}
 						{% hidden_field 'letter_paragraphs' letter_paragraph.id %}
