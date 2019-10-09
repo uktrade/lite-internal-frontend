@@ -22,7 +22,7 @@ class LetterTemplates(TemplateView):
         return render(request, 'letter_templates/letter_templates.html', context)
 
 
-def generate_preview(request, letter_paragraphs, name, layout):
+def generate_preview(request, letter_paragraphs, name, layout, restricted_to):
     letter_paragraphs = get_letter_paragraphs(request, letter_paragraphs)
 
     print('\n')
@@ -41,15 +41,17 @@ def generate_preview(request, letter_paragraphs, name, layout):
         'preview': preview,
         'name': name,
         'layout': layout,
+        'restricted_to': restricted_to,
         'letter_paragraphs': letter_paragraphs
     })
 
 
-def generate_generator(request, letter_paragraphs, name, layout):
+def generate_generator(request, letter_paragraphs, name, layout, restricted_to):
     letter_paragraphs = get_letter_paragraphs(request, letter_paragraphs)
     return render(request, 'letter_templates/generator.html', {'letter_paragraphs': letter_paragraphs,
                                                                'name': name,
-                                                               'layout': layout})
+                                                               'layout': layout,
+                                                               'restricted_to': restricted_to})
 
 
 class Add(TemplateView):
@@ -66,7 +68,8 @@ class Add(TemplateView):
         return generate_generator(request,
                                   letter_paragraphs=[],
                                   name=request.POST.get('name'),
-                                  layout=request.POST.get('layout'))
+                                  layout=request.POST.get('layout'),
+                                  restricted_to=request.POST.getlist('restricted_to'))
 
 
 class LetterParagraphs(TemplateView):
@@ -75,6 +78,7 @@ class LetterParagraphs(TemplateView):
         data = request.POST.copy()
         name = data.get('name')
         layout = data.get('layout')
+        restricted_to = data.getlist('restricted_to')
         action = data.get('action')
         existing_letter_paragraphs = data.getlist('letter_paragraphs')
 
@@ -83,6 +87,7 @@ class LetterParagraphs(TemplateView):
             context = {
                 'name': name,
                 'layout': layout,
+                'restricted_to': restricted_to,
                 'letter_paragraphs': [x for x in all_letter_paragraphs['picklist_items'] if
                                       x['id'] not in existing_letter_paragraphs],
                 'existing_letter_paragraphs': existing_letter_paragraphs
@@ -92,7 +97,8 @@ class LetterParagraphs(TemplateView):
             return generate_preview(request,
                                     existing_letter_paragraphs,
                                     name=name,
-                                    layout=layout)
+                                    layout=layout,
+                                    restricted_to=restricted_to)
         elif 'delete' in action:
             pk_to_delete = action.split('.')[1]
             existing_letter_paragraphs.remove(pk_to_delete)
@@ -100,7 +106,8 @@ class LetterParagraphs(TemplateView):
         return generate_generator(request,
                                   letter_paragraphs=existing_letter_paragraphs,
                                   name=name,
-                                  layout=layout)
+                                  layout=layout,
+                                  restricted_to=restricted_to)
 
 
 class Preview(TemplateView):

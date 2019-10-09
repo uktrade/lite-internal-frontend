@@ -18,10 +18,9 @@ def add_letter_template():
                      Checkboxes(
                          name='restricted_to',
                          options=[
-                             Option('standard_licence_applications', 'Standard Licence Applications'),
-                             Option('open_licence_applications', 'Open Licence Applications'),
-                             Option('control_list_classification_queries', 'Control List Classification Queries'),
-                             Option('end_user_advisory_queries', 'End User Advisory Queries'),
+                             Option('application', 'Applications'),
+                             Option('clc_query', 'Control List Classification Queries'),
+                             Option('end_user_advisory_query', 'End User Advisory Queries'),
                          ])
                  ],
                  default_button_name='Continue'),

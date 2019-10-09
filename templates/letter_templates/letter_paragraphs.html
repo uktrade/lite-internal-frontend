@@ -13,6 +13,7 @@
 
 	{{ name }}
 	{{ layout }}
+    {{ restricted_to }}
 
     {% if letter_paragraphs %}
         <form method="post">
@@ -20,6 +21,9 @@
 			{% csrf_token %}
 
 			{% hidden_field 'name' name %}
+            {% for restricted in restricted_to %}
+			    {% hidden_field 'restricted_to' restricted_to %}
+            {% endfor %}
 			{% hidden_field 'layout' layout %}
 
 			{% for letter_paragraph in existing_letter_paragraphs %}
