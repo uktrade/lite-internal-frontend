@@ -33,5 +33,4 @@ def add_letter_template():
                          ])
                  ],
                  default_button_name='Continue')
-        ],
-        show_progress_indicators=True)
+        ])

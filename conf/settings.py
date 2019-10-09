@@ -228,4 +228,4 @@ LOGGING = {
 }
 
 
-LETTER_TEMPLATES_DIRECTORY = os.path.join(BASE_DIR, "templates")
+LETTER_TEMPLATES_DIRECTORY = os.path.join(BASE_DIR, 'letter_templates', 'layouts')
