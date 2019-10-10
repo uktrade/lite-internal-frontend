@@ -154,31 +154,7 @@ class AssignFlags(TemplateView):
         object_flags = None
         # Perform pre-population of the flags if there is only one object to be flagged
         if len(self.objects) == 1:
-            if self.level == 'goods':
-                obj, status_code = get_good(request, self.objects[0])
-                if status_code == 404:
-                    obj, _ = get_goods_type(request, self.objects[0])
-            elif self.level == 'cases':
-                obj = {'case': get_case(request, self.objects[0])}
-            elif self.level == 'organisations':
-                obj, _ = get_organisation(request, self.objects[0])
-                origin = 'organisation'
-                object_flags = obj.get('flags')
-
-            # Fetches existing flags on the object
-            if self.level != 'organisations':
-                object_flags = obj.get(self.level[:-1]).get('flags')
-
-            flags_list = []
-            for flag in flags:
-                for object_flag in object_flags:
-
-                    # If flag is both on the object and available to the user, show that it is already set
-                    if flag['id'] in object_flag['id']:
-                        flags_list.append(flag['id'])
-                        break
-
-            self.selected_flags = {'flags': flags_list}
+            self._single_item_processing(request, flags)
 
         if origin == 'review_goods':
             origin = 'review good'
@@ -199,6 +175,33 @@ class AssignFlags(TemplateView):
         )
 
         return super(AssignFlags, self).dispatch(request, *args, **kwargs)
+
+    def _single_item_processing(self, request, flags):
+        if self.level == 'goods':
+            obj, status_code = get_good(request, self.objects[0])
+            if status_code == 404:
+                obj, _ = get_goods_type(request, self.objects[0])
+        elif self.level == 'cases':
+            obj = {'case': get_case(request, self.objects[0])}
+        elif self.level == 'organisations':
+            obj, _ = get_organisation(request, self.objects[0])
+            origin = 'organisation'
+            object_flags = obj.get('flags')
+
+        # Fetches existing flags on the object
+        if self.level != 'organisations':
+            object_flags = obj.get(self.level[:-1]).get('flags')
+
+        flags_list = []
+        for flag in flags:
+            for object_flag in object_flags:
+
+                # If flag is both on the object and available to the user, show that it is already set
+                if flag['id'] in object_flag['id']:
+                    flags_list.append(flag['id'])
+                    break
+
+        self.selected_flags = {'flags': flags_list}
 
     def get(self, request, **kwargs):
         return form_page(request, self.form, data=self.selected_flags)
