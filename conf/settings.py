@@ -230,6 +230,9 @@ LOGGING = {
 
 # Security settings
 
+SECURE_BROWSER_XSS_FILTER = False
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
 if DEBUG:
     # Disable security features in local environment.
     SECURE_BROWSER_XSS_FILTER = False
@@ -237,6 +240,6 @@ if DEBUG:
     CSRF_COOKIE_SECURE = False
 else:
     # Enable security features in hosted environments.
-    SECURE_BROWSER_XSS_FILTER = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = not DEBUG
+    SESSION_COOKIE_SECURE = not DEBUG
+    CSRF_COOKIE_SECURE = not DEBUG
