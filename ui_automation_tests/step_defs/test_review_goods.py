@@ -1,4 +1,4 @@
-import helpers.helpers as utils
+import shared.tools.helpers as utils
 from pages.clc_queries_pages import ClcQueriesPages
 from pages.shared import Shared
 from pytest_bdd import given, when, then, scenarios, parsers

@@ -132,8 +132,8 @@ class AssignFlags(TemplateView):
 
         self.level = request.GET.get('level')
 
-        case_id = str(kwargs['pk'])
-        kwargs = {'pk': case_id}
+        kwargs = {'pk': self.objects[0]} if self.level == 'organisations' \
+            else {'pk': str(kwargs['pk'])}
         origin = request.GET.get('origin', 'case')
 
         if origin == 'good':
@@ -146,9 +146,10 @@ class AssignFlags(TemplateView):
             flags = get_goods_flags(request)
         elif self.level == 'organisations':
             flags = get_organisation_flags(request)
-            kwargs = {'pk': self.objects[0]}
 
-        self.url = reverse('cases:' + origin, kwargs=kwargs)
+        self.url = reverse('organisations:organisation', kwargs=kwargs) \
+            if self.level == 'organisations' \
+            else reverse('cases:' + origin, kwargs=kwargs)
 
         object_flags = None
         # Perform pre-population of the flags if there is only one object to be flagged
