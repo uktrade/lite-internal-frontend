@@ -146,12 +146,12 @@ class AssignFlags(TemplateView):
             flags = get_goods_flags(request)
         elif self.level == 'organisations':
             flags = get_organisation_flags(request)
+            origin = 'organisation'
 
         self.url = reverse('organisations:organisation', kwargs=kwargs) \
             if self.level == 'organisations' \
             else reverse('cases:' + origin, kwargs=kwargs)
 
-        object_flags = None
         # Perform pre-population of the flags if there is only one object to be flagged
         if len(self.objects) == 1:
             self._single_item_processing(request, flags)
@@ -177,6 +177,7 @@ class AssignFlags(TemplateView):
         return super(AssignFlags, self).dispatch(request, *args, **kwargs)
 
     def _single_item_processing(self, request, flags):
+        object_flags = None
         if self.level == 'goods':
             obj, status_code = get_good(request, self.objects[0])
             if status_code == 404:
@@ -185,7 +186,6 @@ class AssignFlags(TemplateView):
             obj = {'case': get_case(request, self.objects[0])}
         elif self.level == 'organisations':
             obj, _ = get_organisation(request, self.objects[0])
-            origin = 'organisation'
             object_flags = obj.get('flags')
 
         # Fetches existing flags on the object
