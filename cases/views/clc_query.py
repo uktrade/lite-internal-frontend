@@ -64,11 +64,16 @@ class Respond(TemplateView):
         data = request.POST.copy()
         del data['validate_only']
 
+        if data.get('validate_only'):
+            report_summary = get_picklist_item(request, data['report_summary'])
+        else:
+            report_summary = {'text': ''}
+
         context = {
             'title': 'Response Overview',
             'data': data,
             'case': self.case,
-            'report_summary': get_picklist_item(request, data['report_summary'])
+            'report_summary': report_summary
         }
         return render(request, 'cases/case/clc_query_overview.html', context)
 

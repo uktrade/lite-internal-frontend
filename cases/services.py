@@ -213,9 +213,9 @@ def get_goods_type(request, pk):
     return data.json(), data.status_code
 
 
-def post_goods_control_code(request, json):
+def post_goods_control_code(request, case_id, json):
     # Data will only be passed back when a error is thrown with status code of 400, as such it is not split here.
-    response = post(request, GOOD_CLC_REVIEW_URL, json)
+    response = post(request, GOOD_CLC_REVIEW_URL + case_id + '/', json)
     return response
 
 

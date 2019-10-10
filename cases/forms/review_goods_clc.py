@@ -1,5 +1,6 @@
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import Form, BackLink, RadioButtons, Option, TextArea
+
 from core.services import get_control_list_entries
 from picklists.services import get_picklists
 
@@ -25,13 +26,16 @@ def review_goods_clc_query_form(request, back_url):
                     RadioButtons(title='Which report summary would you like to use?',
                                  name='report_summary',
                                  options=get_picklists(request, 'report_summary', convert_to_options=True),
+                                 optional=True,
+                                 description='You only need to do this if your item is controlled',
                                  classes=['test']),
                     TextArea(title='Good\'s comment',
                              name='comment',
+                             optional=True,
                              extras={
                                  'max_length': 500,
                              })
                 ],
-                default_button_name='Continue to overview', 
+                default_button_name='Add to case',
                 back_link=BackLink('Back to case', back_url)
                 )

@@ -31,16 +31,11 @@
         </div>
     {% endfor %}
 	<a href="{{ edit_flags_url }}" id="button-edit-goods-flags" class="app-flag app-flag--action">
-		{% if case.flags %}
-			{% get_string 'cases.case.edit_case_flags' %}
-		{% else %}
-			Set case flags
-		{% endif %}
+        Set goods flags
 	</a>
 </div>
 
 <!-- Goods -->
-<h3 class="govuk-heading-m">Goods</h3>
 <table class="lite-table" id="goods">
 	<thead class="lite-table__head">
 		<tr class="lite-table__row">

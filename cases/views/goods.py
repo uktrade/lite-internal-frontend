@@ -82,15 +82,11 @@ class ReviewGoodsClc(TemplateView):
             'objects': self.goods,
             'comment': request.POST.get('comment'),
             'report_summary': request.POST.get('report_summary'),
-            'control_code': request.POST.get('control_code', None)
+            'control_code': request.POST.get('control_code', None),
+            'is_good_controlled': request.POST.get('is_good_controlled')
         }
 
-        if request.POST.get('is_good_controlled') == 'yes':
-            form_data['is_good_controlled'] = True
-        elif request.POST.get('is_good_controlled') == 'no':
-            form_data['is_good_controlled'] = False
-
-        response = post_goods_control_code(request, form_data)
+        response = post_goods_control_code(request, self.case_id, form_data)
 
         if response.status_code == 400:
             form = review_goods_clc_query_form(request, self.back_link)

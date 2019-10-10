@@ -1,4 +1,4 @@
-var buttonGiveAdvice = $("#button-edit-goods-flags")
+var buttonGiveAdvice = $("#button-review-goods")
 
 function setEditGoodsFlagsAbility() {
 	// Disable the edit goods flags button unless a goods checkbox is selected

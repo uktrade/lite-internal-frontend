@@ -43,6 +43,8 @@ def respond_to_clc_query_form(request, case):
                     RadioButtons(title='Which report summary would you like to use?',
                                  name='report_summary',
                                  options=get_picklists(request, 'report_summary', convert_to_options=True),
+                                 optional=True,
+                                 description='You only need to do this if your item is controlled',
                                  classes=['test']),
                     TextArea(title='Good\'s comment',
                              name='comment',
