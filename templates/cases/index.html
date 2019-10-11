@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% load humanize svg %}
+{% load static humanize svg %}
 
 {% block back_link %}{% endblock %}
 
@@ -34,15 +34,13 @@
     </div>
 </div>
 
-
-
 <div class="lite-js-only">
-    <a href="#" onclick="toggleFilters()" id="show-filters-link" class="govuk-link govuk-link--no-visited-state lite-show-filters-link">
-		{% svg 'filter_show' %}
+	<a href="#" id="show-filters-link" class="govuk-link govuk-link--no-visited-state lite-filter-toggle-link">
+		{% svg 'plus' %}
 		Show filters
 	</a>
-    <a href="#" onclick="toggleFilters()" id="hide-filters-link" class="govuk-link govuk-link--no-visited-state lite-hide-filters-link">
-		{% svg 'filter_hide' %}
+	<a href="#" id="hide-filters-link" class="govuk-link govuk-link--no-visited-state lite-filter-toggle-link">
+		{% svg 'minus' %}
 		Hide filters
 	</a>
 </div>
@@ -50,32 +48,28 @@
 <form id="filters" action="{% url 'cases:cases'%}" method="get">
     <input hidden name="queue" value="{{ current_queue.id }}">
 
-    <div class="govuk-grid-row lite-filter-bar--horizontal">
+    <div class="govuk-grid-row lite-filter-bar">
         <div class="govuk-grid-column-one-quarter">
             <label class="govuk-label" for="case_type">
                 Filter by case type
             </label>
-            <div class="lite-select-wrapper">
-                <select class="govuk-select" id="case_type" name="case_type">
-                    <option {% if params.case_type == None %}selected{% endif %} value="">Select</option>
-                    <option {% if params.case_type == "application" %}selected{% endif %} value="application">Licence application</option>
-					<option {% if params.case_type == "clc_query" %}selected{% endif %} value="clc_query">CLC Query</option>
-                    <option {% if params.case_type == "end_user_advisory_query" %}selected{% endif %} value="end_user_advisory_query">End User Advisory Query</option>
-                </select>
-            </div>
+            <select class="govuk-select" id="case_type" name="case_type">
+                <option {% if params.case_type == None %}selected{% endif %} value="">Select</option>
+                <option {% if params.case_type == "application" %}selected{% endif %} value="application">Licence application</option>
+				<option {% if params.case_type == "clc_query" %}selected{% endif %} value="clc_query">CLC Query</option>
+                <option {% if params.case_type == "end_user_advisory_query" %}selected{% endif %} value="end_user_advisory_query">End User Advisory Query</option>
+            </select>
         </div>
         <div class="govuk-grid-column-one-quarter">
             <label class="govuk-label" for="status">
                 Filter by case status
             </label>
-            <div class="lite-select-wrapper">
-                <select class="govuk-select" id="status" name="status">
-                    <option {% if params.status == None %}selected{% endif %} value="">Select</option>
-                    {% for case_status in statuses.statuses %}
-				        <option value="{{ case_status.status }}" {% if case_status.status == params.status %}selected{% endif %}>{{ case_status.status|default:"Untitled"|sentence_case }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            <select class="govuk-select" id="status" name="status">
+                <option {% if params.status == None %}selected{% endif %} value="">Select</option>
+                {% for case_status in statuses.statuses %}
+			        <option value="{{ case_status.status }}" {% if case_status.status == params.status %}selected{% endif %}>{{ case_status.status|default:"Untitled"|sentence_case }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="govuk-grid-column-one-half">
             <label class="govuk-label" for="filter" style="visibility: collapse;">
@@ -85,7 +79,7 @@
                 <button type="submit" form="filters" class="govuk-button" style="margin: 0;" id="button-apply-filters">
                     Apply filters
                 </button>
-                <a href="{% url 'cases:cases' %}?queue={{ current_queue.id }}" class="govuk-button govuk-button--secondary" style="margin-bottom: 0;" id="button-clear-filters">
+                <a href="{% url 'cases:cases' %}?queue={{ current_queue.id }}" class="govuk-button govuk-button--secondary govuk-button--secondary-white" style="margin-bottom: 0;" id="button-clear-filters">
                     Clear filters
                 </a>
             </div>
@@ -279,4 +273,8 @@
 		$("#select-all-checkbox").prop("indeterminate", $("input[name='cases']:checked").length > 0 && $("input[name='cases']:checked").length < $("input[name='cases']").length);
 	});
 </script>
+{% endblock %}
+
+{% block javascript %}
+	<script src="{% static 'javascripts/filter-bar.js' %}"></script>
 {% endblock %}
