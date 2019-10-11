@@ -63,7 +63,7 @@ class Respond(TemplateView):
         # Remove validate only key and go to overview page
         data = request.POST.copy()
 
-        if data.get('validate_only'):
+        if data.get('validate_only') and data.get('report_summary'):
             report_summary = get_picklist_item(request, data['report_summary'])
         else:
             report_summary = {'text': ''}
