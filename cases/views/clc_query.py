@@ -44,14 +44,14 @@ class Respond(TemplateView):
             return form_page(request, form, data={'flags': self.case['query']['good']['flags']})
 
         if request.POST.get('action') != 'change':
-            response, data = submit_single_form(request,
+            response, response_data = submit_single_form(request,
                                                 self.form,
                                                 put_control_list_classification_query,
                                                 pk=str(self.case['query']['id']))
 
             if response:
                 return response
-
+            response_data = response_data['control_list_classification_query']
         # If validate only is removed (therefore the user is on the overview page
         # already) go back to the case and show a success message
         if not request.POST.get('validate_only'):
@@ -62,16 +62,17 @@ class Respond(TemplateView):
 
         # Remove validate only key and go to overview page
         data = request.POST.copy()
-        del data['validate_only']
 
         if data.get('validate_only'):
             report_summary = get_picklist_item(request, data['report_summary'])
         else:
             report_summary = {'text': ''}
 
+        del data['validate_only']
+
         context = {
             'title': 'Response Overview',
-            'data': data,
+            'data': response_data,
             'case': self.case,
             'report_summary': report_summary
         }
