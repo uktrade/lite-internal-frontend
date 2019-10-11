@@ -1,0 +1,148 @@
+<html>
+<head>
+  <style>
+    html {
+      font-size: 4mm;
+      font-family: Helvetica, Arial, "Liberation Sans", sans-serif;
+      color: #6d6d6d;
+      line-height: 1.3;
+    }
+    
+    body {
+      margin: 0;
+    }
+
+    @page {
+      size: A4;
+      margin: 20mm 29mm;
+
+      padding-top: 23mm;
+
+      counter-increment: page;
+      background-image: url("dit.png");
+      background-repeat: no-repeat;
+      background-position: right top;
+      background-size: auto 12mm;
+      @bottom-center {
+        content: "Page " counter(page) " of " counter(pages);
+        color: #6d6d6d;
+        font-size: 16px;
+      }
+    }
+    
+    #references {
+      position: fixed;
+      top: -23mm;
+      left: 0mm;
+    }
+    
+    #addresses {
+      display: flex;
+      flex-direction: row;
+    }
+    
+    #recipient-address {
+      width: 90mm;
+    }
+    
+    #sender-address {
+      width: 60mm;
+    }
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      vertical-align: top;
+      border: 1px solid #6d6d6d;
+      padding: 2mm;
+    }
+    
+    td:first-of-type {
+      width: 45mm;
+    }
+    
+    h1 {
+      page-break-before: always;
+      font-size: 5mm;
+    }
+  </style>
+</head>
+<body>
+  <p id="references">
+    Our Ref:AEU2015/000966<br>
+    Your Ref: Signor Decstation GN<br>
+    SPIRE Doc Ref:PREVIEW
+  </p>
+  
+  <div id="addresses">
+    <div id="recipient-address">
+      <p>
+        Mr Gustie<br>
+        SIGNOR HERBART<br>
+        GÖTEBORG HIGH DECSTATION PAULIE<br>
+        BEALLE<br>
+        ADRIATIC<br>
+        ES53 4QG
+      </p>
+      <p>Date: [[LETTER_DATE]]</p>
+    </div>
+    <div id="sender-address">
+      <p>Export Control Organisation</p>
+      <p>
+        3 Whitehall Place<br>
+        London<br>
+        SW1A 2AW
+      </p>
+      <p>
+        Tel +44 (0)20 7215 4594<br>
+        Enquiries +44 (0)20 7215 5000
+      </p>
+      <p>
+        www.trade.gov.uk<br>
+        exportcontrol.help@trade.gov.uk
+      </p>
+    </div>
+  </div>
+  <p>Dear Mr Gustie,</p>
+  <p>Thank you for your enquiry of 8 June 2015 to the ECO End User Advice Service. We are pleased to let you know that we have no Weapons of Mass Destruction (WMD) end use concerns on the end user and other entities that you have specified in your request.</p>
+  <p>Please note that this advice:</p>
+  <ul>
+    <li>
+      is based on information available to us at the date specified in this letter. It could change in the light of information received in the future by ECO, and/or if you receive information that leads you to know, or suspect, that what you intend to export is, in it's entirety or part, intended for use in, or to contribute to illicit Military or WMD programmes, this advice will be null and void and you have a legal responsibility to notify ECO immediately.
+    </li>
+    <li>
+      does not provide any assessment of the goods or technology you are supplying to this end user - that is it does not confirm whether or not the goods are included in any of the control lists specified in the legislation. In the absence of the Control List Classification CLC Service you should refer to the guidance on determining the rating of the goods on the ECO website.
+      <br>
+      https://www.gov.uk/do-your-goods-need-an-export-licence
+    </li>
+    <li>
+      is based on the information you have given to us. You will remain liable for any legal breach if you have provided incorrect information with your request or otherwise misinformed us about the end use of your goods. You are reminded that a penalty of 10 years can apply in cases where a person knowingly engages in an activity with an intent to evade export controls.
+    </li>
+    <li>cannot guarantee that HMRC will not conduct further export control compliance checks when the goods are presented for export.</li>
+  </ul>
+  <p>You are advised to seek advice again if your export takes place more than 12 weeks after the date of this letter.</p>
+
+  <p>Yours sincerely</p>
+  
+  <div id="signature" class="page-break-after">
+    [[SIGNATORY_NAME]]<br>
+    Export Control Organisation
+  </div>
+  <h1>Schedule of Entities Assessed</h1>
+  <table>
+    <tr>
+      <th scope="col">Name and Address</th>
+      <th scope="col">Destination</th>
+    </tr>
+    <tr>
+      <td>EZ DMD & ZVB vid PARIS DIFFERENT PLATTEVILLE & THANKSGIVING GLASTONBURY (ADOLF)
+        ADOLF-BK MOLOTOV MOLOTOV DMD ALDEN
+        JONATHON KEEN KEEN</td>
+      <td>Iraq</td>
+    </tr>
+  </table>
+</body>
+</html>
