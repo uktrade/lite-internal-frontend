@@ -112,19 +112,17 @@
 			</tbody>
 		</table>
         {% if data.total_pages > 1 %}
-		        <br>
+	        <br>
 
-		        <div class="lite-pagination__container ">
-		            {% for i in data.total_pages|times %}
-		                <a href="{% url 'organisations:organisations' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
-		                    {{ i }}
-		                </a>
-		            {% endfor %}
-		        </div>
-		    {% endif %}
-			<br><br>
-	{% else %}
-		<p class="govuk-caption-l">There are no registered organisations at the moment.</p>
+	        <div class="lite-pagination__container ">
+	            {% for i in data.total_pages|times %}
+	                <a href="{% url 'organisations:organisations' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
+	                    {{ i }}
+	                </a>
+	            {% endfor %}
+	        </div>
+	    {% endif %}
+		<br><br>
 	{% endif %}
 
 {% endblock %}
