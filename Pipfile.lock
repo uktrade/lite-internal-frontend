@@ -25,18 +25,18 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:2efd0a9647ef8fd7bf9fbbfdeb77007050258aa39914569c689bdf9cc288cdc1",
-                "sha256:331b82e878f524be11c10d866a68b123b1c5e892d218a8250de10bf11cb14402"
+                "sha256:13d90ebe4d41e1717d7cc015e983370aadba2995a2af30695f29b69f196e82fc",
+                "sha256:e50edae8ccb630dc1950332764c6b462a9550663a3d71c00f898280f1446f107"
             ],
             "index": "pypi",
-            "version": "==1.9.244"
+            "version": "==1.9.247"
         },
         "botocore": {
             "hashes": [
-                "sha256:7b75482156ef93e7a463f80411dc76fc868cd9fb1dedf03250cec98f8459d765",
-                "sha256:e43e7d19f203d572f78c18a6a16cb87bbea10bc0543e0285f7b6a35d0c825bb6"
+                "sha256:76ff516cfbe5c9f2ac4eb8bb5d8945bc7354d4898f2609ad32080efc9ecea751",
+                "sha256:fa425f3e24bb17a357a297532b253a7353a496f2be7b7a5c3fc1dd7419de259d"
             ],
-            "version": "==1.12.244"
+            "version": "==1.12.247"
         },
         "certifi": {
             "hashes": [
@@ -201,11 +201,10 @@
         },
         "lite-forms": {
             "hashes": [
-                "sha256:3c85ea2fe3098103f82ce784d733de42e397a42b25de05c8094c2904627acc62",
-                "sha256:91a1ed3dc760a26e28143f762ae0db17e2b12524c1a82da33f8e2725a4f8f243"
+                "sha256:630e47e24d57100c00986a8786a1ff00fd5fe5caa705e4120f3f61e7000cee92"
             ],
             "index": "pypi",
-            "version": "==0.20.1"
+            "version": "==0.20.2"
         },
         "mccabe": {
             "hashes": [
