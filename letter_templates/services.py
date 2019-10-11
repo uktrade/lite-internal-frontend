@@ -1,4 +1,4 @@
-from conf.client import get, post
+from conf.client import get, post, put
 from conf.constants import PICKLIST_URL, LETTER_TEMPLATES_URL
 
 
@@ -12,6 +12,16 @@ def get_letter_paragraphs(request, ids: list):
     return data.json()['picklist_items']
 
 
+def get_letter_template(request, pk):
+    data = get(request, LETTER_TEMPLATES_URL + pk)
+    return data.json()
+
+
+def put_letter_template(request, pk, json):
+    data = put(request, LETTER_TEMPLATES_URL + pk, json)
+    return data.json(), data.status_code
+
+
 def get_letter_templates(request):
     data = get(request, LETTER_TEMPLATES_URL)
     return data.json()['results']
@@ -19,12 +29,8 @@ def get_letter_templates(request):
 
 def post_letter_templates(request, json):
     if isinstance(json.get('letter_paragraphs'), str):
+        json = json.copy()
         json['letter_paragraphs'] = [json['letter_paragraphs']]
 
     data = post(request, LETTER_TEMPLATES_URL, json)
     return data.json(), data.status_code
-
-
-def get_letter_template(request, pk):
-    data = get(request, LETTER_TEMPLATES_URL + pk)
-    return data.json()

@@ -8,43 +8,16 @@ from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 
 from conf import settings
+from letter_templates import helpers
 from letter_templates.forms import add_letter_template
-from letter_templates.services import get_letter_paragraphs, get_letter_templates, post_letter_templates
+from letter_templates.services import get_letter_paragraphs, post_letter_templates
 from picklists.services import get_picklists
-
-
-class LetterTemplates(TemplateView):
-
-    def get(self, request, **kwargs):
-        context = {
-            'letter_templates': get_letter_templates(request)
-        }
-        return render(request, 'letter_templates/letter_templates.html', context)
-
-
-class LetterTemplateDetail(TemplateView):
-
-    def get(self, request, **kwargs):
-        context = {
-            'letter_templates': get_letter_templates(request)
-        }
-        return render(request, 'letter_templates/letter_templates.html', context)
 
 
 def generate_preview(request, letter_paragraphs, name, layout, restricted_to):
     letter_paragraphs = get_letter_paragraphs(request, letter_paragraphs)
 
-    print('\n')
-    print(letter_paragraphs)
-    print('\n')
-
-    django_engine = engines['django']
-    template = django_engine.from_string(
-        open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, 'licence.html'), 'r').read())
-    letter_context = {
-        'content': '\n'.join([x['text'] for x in letter_paragraphs]),
-    }
-    preview = template.render(letter_context)
+    preview = helpers.generate_preview(layout, letter_paragraphs)
 
     return render(request, 'letter_templates/preview.html', {
         'preview': preview,
@@ -121,11 +94,7 @@ class LetterParagraphs(TemplateView):
 
 class Preview(TemplateView):
     def post(self, request, **kwargs):
-        post_letter_templates(request, request.POST.copy())
-
-        print('\n')
-        print(request.POST)
-        print('\n')
+        post_letter_templates(request, request.POST)
 
         messages.success(request, 'The letter template was created successfully')
         return redirect('letter_templates:letter_templates')

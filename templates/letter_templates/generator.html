@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% load svg %}
+{% load static %}
 
 {% block body %}
 
@@ -70,27 +70,9 @@
 		</div>
 	</form>
 
-
 {% endblock %}
 
 {% block javascript %}
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script type="text/javascript">
-		preview = $( '#preview' )
-
-		$( '#standard-advice-list' ).sortable({
-			stop: function(event, ui) {
-				preview.empty();
-		        $('.app-letter-generator__picklist-item-text').each(function() {
-		            preview.append('<p id="' + $(this).parent().data('id') + '">' + $(this).parent().data('text')  + '</p>');
-		        });
-		    }
-		});
-
-		$( '.app-letter-generator__picklist-item' ).hover(function() {
-			$( '#preview p:not(#' + $(this).data('id') + ')' ).addClass('fade-out-text');
-		}, function() {
-			$( '.fade-out-text' ).removeClass('fade-out-text');
-		});
-	</script>
+	<script src="{% static 'javascripts/letter-template-generator.js' %}"></script>
 {% endblock %}

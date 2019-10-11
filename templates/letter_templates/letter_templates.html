@@ -25,14 +25,13 @@
 					<th class="govuk-table__header" scope="col">Layout</th>
 					<th class="govuk-table__header" scope="col">Restricted to</th>
 					<th class="govuk-table__header" scope="col">Last updated</th>
-					<th class="govuk-table__header" scope="col"></th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for letter_template in letter_templates %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
-                            <a href="#" class="govuk-link">{{ letter_template.name }}</a>
+                            <a href="{% url 'letter_templates:letter_template' letter_template.id %}" class="govuk-link">{{ letter_template.name }}</a>
                         </td>
 						<td class="govuk-table__cell">
 							{{ letter_template.layout.name }}
@@ -44,9 +43,6 @@
 						</td>
 						<td class="govuk-table__cell">
 							{{ letter_template.last_modified_at|str_date }}
-						</td>
-						<td class="govuk-table__cell">
-							<a href="#" class="govuk-link">Edit</a>
 						</td>
 					</tr>
 				{% endfor %}

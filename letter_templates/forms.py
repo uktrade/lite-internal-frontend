@@ -34,3 +34,28 @@ def add_letter_template():
                  ],
                  default_button_name='Continue')
         ])
+
+
+def edit_letter_template(letter_template):
+    return Form(title='Edit ' + letter_template['name'],
+                questions=[
+                    TextInput(title='Letter template name',
+                              description='This makes it easier to find your letter template in the future',
+                              name='name'),
+                    Checkboxes(
+                        title='What types of case can this template apply to?',
+                        name='restricted_to',
+                        options=[
+                            Option('application', 'Applications'),
+                            Option('clc_query', 'Control List Classification Queries'),
+                            Option('end_user_advisory_query', 'End User Advisory Queries'),
+                        ]),
+                    RadioButtons(
+                        title='Select a layout to use for this letter template',
+                        name='layout',
+                        options=[
+                            Option('licence', 'Licence'),
+                        ])
+                ],
+                back_link=BackLink('Back to ' + letter_template['name'], reverse_lazy('letter_templates:letter_template', kwargs={'pk': letter_template['id']})),
+                default_button_name='Save')
