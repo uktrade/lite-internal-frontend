@@ -228,11 +228,13 @@ LOGGING = {
     }
 }
 
-
 # Security settings
 
-SECURE_BROWSER_XSS_FILTER = True
-
+# Enable security features in hosted environments.
+SECURE_BROWSER_XSS_FILTER = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_CONTENT_TYPE_NOSNIFF = not DEBUG
 
 # Content Security Policy
 CSP_DEFAULT_SRC = ("'self'",)
