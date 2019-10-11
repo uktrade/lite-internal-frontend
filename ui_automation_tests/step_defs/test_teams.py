@@ -16,7 +16,7 @@ def go_to_teams_via_menu(driver):
 
 
 @given('I go to teams')
-def go_to_teams(driver, sign_in_to_internal_sso, internal_url):
+def go_to_teams(driver, sso_sign_in, internal_url):
     driver.get(internal_url.rstrip('/') + '/teams/')
 
 
