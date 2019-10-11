@@ -234,15 +234,7 @@ LOGGING = {
 SECURE_BROWSER_XSS_FILTER = True
 
 
-# CSP Security settings
-
-# CSP_DEFAULT_SRC = ("'none'",)
-# CSP_STYLE_SRC = ("'self'",)
-# CSP_SCRIPT_SRC = ("'self'",)
-# CSP_FONT_SRC = ("'self'",)
-# CSP_IMG_SRC = ("'self'",)
-# CSP Security settings
-
+# Content Security Policy
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 CSP_SCRIPT_SRC = ("'self'", 'https://www.googletagmanager.com', 'https://script.hotjar.com', 'ajax.googleapis.com', 'https://www.google-analytics.com')
