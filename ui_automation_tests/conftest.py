@@ -9,7 +9,7 @@ from fixtures.sign_in_to_sso import sign_in_to_internal_sso  # noqa
 from fixtures.add_a_flag import add_uae_flag, add_suspicious_flag, add_organisation_suspicious_flag  # noqa
 from fixtures.add_queue import add_queue  # noqa
 from fixtures.add_a_team import add_a_team  # noqa
-from fixtures.add_a_picklist import add_an_ecju_query_picklist, add_a_proviso_picklist, add_a_standard_advice_picklist, add_a_report_summary_picklist  # noqa
+from fixtures.add_a_picklist import add_an_ecju_query_picklist, add_a_proviso_picklist, add_a_standard_advice_picklist, add_a_report_summary_picklist, add_a_letter_paragraph_picklist  # noqa
 
 import shared.tools.helpers as utils
 from pages.assign_flags_to_case import CaseFlagsPages
