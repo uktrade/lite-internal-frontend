@@ -2,8 +2,8 @@ import os
 
 from pytest_bdd import given, when, then, parsers
 
-from ui_automation_tests.fixtures.core import context, sso_login_info, invalid_username, new_cases_queue_id, sso_users_name, seed_data_config, exporter_info, internal_info, s3_key # noqa
 from ui_automation_tests.fixtures.urls import internal_url, sso_sign_in_url, api_url # noqa
+from ui_automation_tests.fixtures.env import environment # noqa
 from ui_automation_tests.fixtures.add_a_flag import add_uae_flag, add_suspicious_flag, add_organisation_suspicious_flag # noqa
 from ui_automation_tests.fixtures.add_queue import add_queue # noqa
 from ui_automation_tests.fixtures.add_a_team import add_a_team # noqa
@@ -12,6 +12,7 @@ from ui_automation_tests.fixtures.add_a_picklist import add_an_ecju_query_pickli
 from ui_automation_tests.shared.fixtures.apply_for_application import apply_for_standard_application, apply_for_clc_query, apply_for_eua_query, apply_for_open_application # noqa
 from ui_automation_tests.shared.fixtures.driver import driver # noqa
 from ui_automation_tests.shared.fixtures.sso_sign_in import sso_sign_in # noqa
+from ui_automation_tests.shared.fixtures.core import context, invalid_username, seed_data_config, exporter_info, internal_info, s3_key # noqa
 
 import shared.tools.helpers as utils
 from pages.assign_flags_to_case import CaseFlagsPages
