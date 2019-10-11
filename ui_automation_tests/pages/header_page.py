@@ -1,4 +1,4 @@
-from helpers.wait import wait_until_page_is_loaded, wait_until_menu_is_visible
+from shared.tools.wait import wait_until_page_is_loaded, wait_until_menu_is_visible
 
 
 class HeaderPage():
@@ -14,6 +14,9 @@ class HeaderPage():
 
     def click_organisations(self):
         self.driver.find_element_by_css_selector("a[href*='/organisations/']").click()
+
+    def click_hmrc(self):
+        self.driver.find_element_by_css_selector("a[href*='/hmrc/']").click()
 
     def click_teams(self):
         self.driver.find_element_by_css_selector("a[href*='/teams/']").click()

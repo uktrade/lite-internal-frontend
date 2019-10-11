@@ -229,3 +229,10 @@ LOGGING = {
 
 
 LETTER_TEMPLATES_DIRECTORY = os.path.join(BASE_DIR, 'letter_templates', 'layouts')
+
+# Security settings
+# Enable security features in hosted environments.
+SECURE_BROWSER_XSS_FILTER = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_CONTENT_TYPE_NOSNIFF = not DEBUG

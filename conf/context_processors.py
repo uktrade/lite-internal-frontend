@@ -48,6 +48,11 @@ def lite_menu(request):
                 'title': 'Letters',
                 'url': '/letter-templates/',
                 'icon': 'menu/letter_templates'
-            }
+            },
+			{
+                'title': 'HMRC',
+                'url': '/organisations/hmrc/',
+                'icon': 'menu/businesses'
+            },
         ]
     }
