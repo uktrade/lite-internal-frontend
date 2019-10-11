@@ -1,13 +1,9 @@
-import os
-
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from django.template import engines
 from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 
-from conf import settings
 from letter_templates import helpers
 from letter_templates.forms import add_letter_template
 from letter_templates.services import get_letter_paragraphs, post_letter_templates
@@ -42,7 +38,7 @@ class Add(TemplateView):
         return form_page(request, add_letter_template().forms[0])
 
     def post(self, request, **kwargs):
-        response, validated_data = submit_paged_form(request, add_letter_template(), post_letter_templates)
+        response, _ = submit_paged_form(request, add_letter_template(), post_letter_templates)
 
         if response:
             return response

@@ -57,5 +57,6 @@ def edit_letter_template(letter_template):
                             Option('licence', 'Licence'),
                         ])
                 ],
-                back_link=BackLink('Back to ' + letter_template['name'], reverse_lazy('letter_templates:letter_template', kwargs={'pk': letter_template['id']})),
+                back_link=BackLink('Back to ' + letter_template['name'],
+                                   reverse_lazy('letter_templates:letter_template', kwargs={'pk': letter_template['id']})),
                 default_button_name='Save')

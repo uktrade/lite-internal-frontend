@@ -51,11 +51,11 @@ class LetterTemplateEdit(TemplateView):
         override_data = request.POST.copy()
         override_data['restricted_to'] = override_data.getlist('restricted_to')
 
-        response, data = submit_single_form(request,
-                                            edit_letter_template(letter_template),
-                                            put_letter_template,
-                                            pk=letter_template_id,
-                                            override_data=override_data)
+        response, _ = submit_single_form(request,
+                                         edit_letter_template(letter_template),
+                                         put_letter_template,
+                                         pk=letter_template_id,
+                                         override_data=override_data)
 
         if response:
             return response
@@ -103,5 +103,6 @@ class LetterTemplateEditLetterParagraphs(TemplateView):
 
             return self.get(request, override_paragraphs=existing_letter_paragraphs, **kwargs)
 
-        put_letter_template(request, letter_template_id, {'letter_paragraphs': request.POST.getlist('letter_paragraphs')})
+        put_letter_template(request, letter_template_id,
+                            {'letter_paragraphs': request.POST.getlist('letter_paragraphs')})
         return redirect(reverse('letter_templates:letter_template', kwargs={'pk': letter_template_id}))
