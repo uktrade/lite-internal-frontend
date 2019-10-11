@@ -4,7 +4,7 @@ from pytest_bdd import given, when, then, parsers
 
 from ui_automation_tests.fixtures.core import context, sso_login_info, invalid_username, new_cases_queue_id, sso_users_name, seed_data_config, exporter_info, internal_info, s3_key # noqa
 from ui_automation_tests.fixtures.urls import internal_url, sso_sign_in_url, api_url # noqa
-from ui_automation_tests.fixtures.add_a_flag import add_uae_flag, add_suspicious_flag # noqa
+from ui_automation_tests.fixtures.add_a_flag import add_uae_flag, add_suspicious_flag, add_organisation_suspicious_flag # noqa
 from ui_automation_tests.fixtures.add_queue import add_queue # noqa
 from ui_automation_tests.fixtures.add_a_team import add_a_team # noqa
 from ui_automation_tests.fixtures.add_a_picklist import add_an_ecju_query_picklist, add_a_proviso_picklist, add_a_standard_advice_picklist, add_a_report_summary_picklist # noqa
