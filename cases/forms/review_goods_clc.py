@@ -23,15 +23,13 @@ def review_goods_clc_query_form(request, back_url):
                         title='What\'s the good\'s actual control list entry?',
                         name='control_code',
                         inset_text=False),
-                    RadioButtons(title='Which report summary would you like to use?',
+                    RadioButtons(title='Which report summary would you like to use? (optional)',
                                  name='report_summary',
                                  options=get_picklists(request, 'report_summary', convert_to_options=True),
-                                 optional=True,
                                  description='You only need to do this if the item is controlled',
                                  classes=['test']),
-                    TextArea(title='Good\'s comment',
+                    TextArea(title='Good\'s comment (optional)',
                              name='comment',
-                             optional=True,
                              extras={
                                  'max_length': 500,
                              })
