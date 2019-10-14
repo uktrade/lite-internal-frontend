@@ -10,7 +10,7 @@
   <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
   <strong class="govuk-warning-text__text">
     <span class="govuk-warning-text__assistive">Warning</span>
-    Some of this text will appear on the licence.
+    Some of this text will appear on the generated documentation.
   </strong>
 </div>
 
@@ -153,9 +153,6 @@
 					<span class="govuk-visually-hidden">Error:</span> {{ errors|key_value:'note'|first }}
 				</span>
 			{% endif %}
-      <span class="govuk-hint" for="{{ question.name }}">
-        Optional
-      </span>
       <span class="govuk-hint" for="{{ question.name }}">
         {% get_string 'cases.advice.text_on_licence' %}
       </span>
