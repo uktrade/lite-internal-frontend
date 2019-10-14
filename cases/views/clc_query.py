@@ -44,10 +44,16 @@ class Respond(TemplateView):
             return form_page(request, form, data={'flags': self.case['query']['good']['flags']})
 
         if request.POST.get('action') != 'change':
+            form_data = request.POST.copy()
+
+            if request.POST.get('report_summary') == 'None':
+                del form_data['report_summary']
+
             response, response_data = submit_single_form(request,
                                                 self.form,
                                                 put_control_list_classification_query,
-                                                pk=str(self.case['query']['id']))
+                                                pk=str(self.case['query']['id']),
+                                                override_data=form_data)
 
             if response:
                 return response

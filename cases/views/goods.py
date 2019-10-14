@@ -24,6 +24,15 @@ class Good(TemplateView):
 class ReviewGoods(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
+
+        action = request.GET.get('action')
+        if action == 'edit-flags':
+            params = dict()
+            params['goods'] = request.GET.getlist('goods')
+            params['level'] = 'goods'
+            post_url = '?' + convert_dict_to_query_params(params)
+            return redirect(reverse_lazy('cases:assign_flags', kwargs={'pk': case_id}) + post_url)
+
         goods_pk_list = request.GET.getlist('items', request.GET.getlist('goods'))
         goods = []
 
@@ -98,6 +107,9 @@ class ReviewGoodsClc(TemplateView):
             'control_code': request.POST.get('control_code', None),
             'is_good_controlled': request.POST.get('is_good_controlled')
         }
+
+        if request.POST.get('report_summary') == 'None':
+            del form_data['report_summary']
 
         response = post_goods_control_code(request, self.case_id, form_data)
 
