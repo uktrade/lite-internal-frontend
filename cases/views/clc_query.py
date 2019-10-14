@@ -68,7 +68,8 @@ class Respond(TemplateView):
         else:
             report_summary = {'text': ''}
 
-        del data['validate_only']
+        if response_data['is_good_controlled'] == 'no':
+            response_data.pop('control_code')
 
         context = {
             'title': 'Response Overview',

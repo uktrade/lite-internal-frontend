@@ -20,7 +20,7 @@ def review_goods_clc_query_form(request, back_url):
                                  classes=['govuk-radios--inline']),
                     control_list_entry_question(
                         control_list_entries=get_control_list_entries(None, convert_to_options=True),
-                        title='What\'s the good\'s actual control list entry?',
+                        title='What is the correct control list entry?',
                         name='control_code',
                         inset_text=False),
                     RadioButtons(title='Which report summary would you like to use? (optional)',
