@@ -224,7 +224,7 @@ pipeline
         error.message
       }
     }
-        // Send Slack notification function
+    // Send Slack notification function
     def sendSlackNotification()
     {
       // build status of null means successful
