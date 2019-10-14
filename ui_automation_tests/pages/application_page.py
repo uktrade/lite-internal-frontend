@@ -41,6 +41,7 @@ class ApplicationPage(BasePage):
     download_end_user_document = 'end_user_document'  # ID
     download_additional_document = 'additional_document'  # ID
     organisation = 'applicant_organisation'  # CSS
+    edit_goods_flags = 'button-edit-goods-flags'  # ID
 
     goods_description_link = '#goods a'  # CSS
 
@@ -113,6 +114,10 @@ class ApplicationPage(BasePage):
 
     def click_review_goods(self):
         self.driver.find_element_by_id(self.review_goods).click()
+
+    def click_edit_good_flags(self):
+        edit_goods_btn = self.driver.find_element_by_id(self.edit_goods_flags)
+        edit_goods_btn.click()
 
     def click_edit_case_flags(self):
         edit_cases_btn = self.driver.find_element_by_id(self.edit_case_flags)

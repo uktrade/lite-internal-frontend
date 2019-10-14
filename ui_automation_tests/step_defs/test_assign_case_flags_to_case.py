@@ -32,22 +32,16 @@ def case_flags_have_been_created(driver):
 
 
 @when("I click edit flags link")
-def click_edit_flags_link(driver):
+def click_edit_case_flags_link(driver):
     application_page = ApplicationPage(driver)
     application_page.click_edit_case_flags()
 
 
-@when("I select goods and click review")
-def click_edit_flags_link(driver):
+@when("I click edit goods flags link")
+def click_edit_goods_flags_link(driver):
     application_page = ApplicationPage(driver)
     application_page.select_a_good()
-    application_page.click_review_goods()
-
-
-@when("I click edit goods flags link")
-def click_edit_flags_link(driver):
-    goods_summary_page = GoodSummaryPage(driver)
-    goods_summary_page.click_edit_good_flags()
+    application_page.click_edit_good_flags()
 
 
 @when('I count the number of assigned flags')
