@@ -44,10 +44,11 @@ def respond_to_clc_query_form(request, case):
                                  name='report_summary',
                                  options=get_picklists(request, 'report_summary', convert_to_options=True),
                                  optional=True,
-                                 description='You only need to do this if your item is controlled',
+                                 description='You only need to do this if the item is controlled',
                                  classes=['test']),
                     TextArea(title='Good\'s comment',
                              name='comment',
+                             optional=True,
                              extras={
                                  'max_length': 500,
                              }),

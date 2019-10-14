@@ -27,7 +27,7 @@ def review_goods_clc_query_form(request, back_url):
                                  name='report_summary',
                                  options=get_picklists(request, 'report_summary', convert_to_options=True),
                                  optional=True,
-                                 description='You only need to do this if your item is controlled',
+                                 description='You only need to do this if the item is controlled',
                                  classes=['test']),
                     TextArea(title='Good\'s comment',
                              name='comment',

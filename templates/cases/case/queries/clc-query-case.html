@@ -59,11 +59,11 @@
 				<h4 class="govuk-heading-s">What's the good's actual control list entry?</h4>
 				<p class="govuk-body-m">{{ good.control_code|default:'N/A' }}</p>
 
-				<h4 class="govuk-heading-s">Report Summary</h4>
-				<p class="govuk-body-m">{{ case.query.good.report_summary }}</p>
+				<h4 class="govuk-heading-s">Report Summary (optional)</h4>
+				<p class="govuk-body-m">{{ case.query.good.report_summary|default:'N/A' }}</p>
 
-				<h4 class="govuk-heading-s">Why was this outcome chosen?</h4>
-				<p class="govuk-body-m">{{ case.query.good.comment }}</p>
+				<h4 class="govuk-heading-s">Why was this outcome chosen? (optional)</h4>
+				<p class="govuk-body-m">{{ case.query.good.comment|default:'N/A' }}</p>
 			</div>
 		</div>
 
