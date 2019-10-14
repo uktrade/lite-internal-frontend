@@ -69,7 +69,7 @@
 						</a>
 					</div>
           <span class="govuk-hint" for="{{ question.name }}">
-            This will appear on the licence
+            {% get_string 'cases.advice.text_on_licence' %}
           </span>
 					{% if errors|key_value:'proviso' %}
 						<span class="govuk-error-message">
@@ -157,7 +157,7 @@
         Optional
       </span>
       <span class="govuk-hint" for="{{ question.name }}">
-        This will appear on the licence
+        {% get_string 'cases.advice.text_on_licence' %}
       </span>
 			<textarea class="govuk-textarea govuk-js-character-count " id="textarea-note" name="note" rows="5" aria-describedby="textarea-note-info textarea-note-hint">{{ data.note }}</textarea>
 		</div>
