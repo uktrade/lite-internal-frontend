@@ -43,7 +43,9 @@
             <th class="lite-table__header">Report summary</th>
 			<th class="lite-table__header">Controlled</th>
             <th class="lite-table__header">Controlled list entry</th>
+            <th class="lite-table__header">Goods Comment</th>
             <th class="lite-table__header">Quantity/Value</th>
+            <th class="lite-table__header">Flags</th>
 		</tr>
 	</thead>
 	<tbody class="lite-table__body">
@@ -53,7 +55,13 @@
 				<td class="lite-table__cell">{{ good.good.report_summary|default_if_none:"N/A" }}</td>
 				<td class="lite-table__cell">{{ good.good.is_good_controlled|capfirst}}</td>
                 <td class="lite-table__cell">{{ good.good.control_code}}</td>
+                <td class="lite-table__cell">{{ good.good.comment}}</td>
                 <td class="lite-table__cell">{{ good.quantity }} {{ good.unit.value }}/£{{ good.value }}</td>
+                <td class="lite-table__cell">
+                    {% for flag in good.good.flags %}
+                        {{ flag.name}} <br>
+                    {% endfor %}
+                </td>
 			</tr>
 		{% endfor %}
 	</tbody>

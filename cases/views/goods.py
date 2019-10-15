@@ -85,18 +85,17 @@ class ReviewGoodsClc(TemplateView):
     def get(self, request, *args, **kwargs):
         form = review_goods_clc_query_form(request, self.back_link)
         if len(self.goods) == 1:
-            good = get_good(request, self.goods[0])[0]['good']
-            data = {'is_good_controlled': good['is_good_controlled'],
-                    'control_code': good['control_code']}
+            data = get_good(request, self.goods[0])[0]['good']
         else:
             initial_good = get_good(request, self.goods[0])[0]['good']
             for good in self.goods[1:]:
                 good_data = get_good(request, good)[0]['good']
                 if initial_good['control_code'] != good_data['control_code'] \
-                    and initial_good['is_good_controlled'] != good_data['is_good_controlled']:
+                    and initial_good['is_good_controlled'] != good_data['is_good_controlled'] \
+                        and initial_good['comment'] != good_data['comment'] \
+                        and initial_good['report_summary'] != good_data['report_summary']:
                     return form_page(request, form)
-            data = {'is_good_controlled': initial_good['is_good_controlled'],
-                    'control_code': initial_good['control_code']}
+            data = initial_good
         return form_page(request, form, data=data)
 
     def post(self, request, *args, **kwargs):
