@@ -86,19 +86,31 @@
 					Controlled
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ good.is_good_controlled|friendly_boolean }}
+					{{ good.is_good_controlled|capfirst }}
 				</dd>
 			</div>
-			{% if good.is_good_controlled == 'True' %}
 			<div class="govuk-summary-list__row">
+			{% if good.is_good_controlled != 'Unsure' %}
 				<dt class="govuk-summary-list__key">
 					Control list entry
 				</dt>
+            {% else %}
+                <dt class="govuk-summary-list__key">
+					Expected Control list entry
+				</dt>
+			{% endif %}
 				<dd class="govuk-summary-list__value">
 					{{ good.control_code|default:"N/A" }}
 				</dd>
 			</div>
-			{% endif %}
+            <div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Reason
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ case.query.details|default:'N/A' }}
+				</dd>
+			</div>
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
 					Part Number
