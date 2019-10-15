@@ -55,7 +55,6 @@ class ReviewGoods(TemplateView):
                 goods.append(good)
 
         context = {
-            'title': 'Review Goods',
             'case_id': case_id,
             'objects': goods,
             'edit_flags_url': edit_flags_url + goods_postfix_url,

@@ -3,10 +3,11 @@ from lite_forms.components import Form, BackLink, RadioButtons, Option, TextArea
 
 from core.services import get_control_list_entries
 from picklists.services import get_picklists
+from core.builtins.custom_tags import get_string
 
 
 def review_goods_clc_query_form(request, back_url):
-    return Form(title='Check control list classification and add report summary',
+    return Form(title=get_string('cases.review_goods_form.heading'),
                 questions=[
                     RadioButtons(title='Is this good controlled?',
                                  name='is_good_controlled',
@@ -37,6 +38,6 @@ def review_goods_clc_query_form(request, back_url):
                                  'max_length': 500,
                              })
                 ],
-                default_button_name='Add to case',
-                back_link=BackLink('Back to case', back_url)
+                default_button_name=get_string('cases.review_goods_form.confirm_button'),
+                back_link=BackLink(get_string('cases.review_goods_form.back_link'), back_url)
                 )
