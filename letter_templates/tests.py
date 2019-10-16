@@ -11,8 +11,9 @@ class LetterTemplateEditLetterParagraphsTestCase(TestCase):
                 {"id": "abc", "label": "first"},
                 {"id": "uvw", "label": "third"},
                 {"id": "def", "label": "second"},
+                {"id": "klm", "label": "not in result"},
             ],
-            ids,
+            ids + ["nop"],
         )
         result_ids = [r["id"] for r in result]
         self.assertEqual(ids, result_ids)

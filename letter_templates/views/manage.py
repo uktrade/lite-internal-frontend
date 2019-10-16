@@ -84,7 +84,7 @@ class LetterTemplateEditLetterParagraphs(TemplateView):
     def sort_letter_paragraphs(paragraphs, ids):
         """Order a list of letter paragraphs in the same order as a list of IDs."""
         paragraphs_by_id = {p["id"]: p for p in paragraphs}
-        return [paragraphs_by_id[id] for id in ids]
+        return [paragraphs_by_id[id] for id in ids if id in paragraphs_by_id]
 
     def post(self, request, **kwargs):
         letter_template_id = str(kwargs['pk'])
