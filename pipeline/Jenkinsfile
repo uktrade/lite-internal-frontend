@@ -159,6 +159,10 @@ pipeline
                 value: ""
               - name: AWS_REGION
                 value: "eu-west-2"
+              - name: PROXY_IP_PORT
+                value: "${params.PROXY_IP_PORT}"
+              - name: ZAP_TARGET_URL
+                value: "${params.ZAP_TARGET_URL}"
         """) {
           node(POD_LABEL) {
             container(name: 'selenium-internal-frontend', shell: '/bin/bash') {
@@ -179,13 +183,13 @@ pipeline
                   try {
                     sh "cd ${env.WORKSPACE} && /docker-entry.sh ${params.TESTS_TO_RUN}"
                   } catch (error) {
-                    archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*"
+                    archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*, ui_automation_tests/zap/results/**.*"
                     error error.message
                   }
                 }
               }
             }
-            archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*"
+            archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*, ui_automation_tests/zap/results/**.*"
           }
         }
       }
@@ -196,10 +200,11 @@ pipeline
     always
     {
       script {
-        unarchive mapping: ['ui_automation_tests/allure-results/**.*': '.']
+        unarchive mapping: ['ui_automation_tests/allure-results/**.*': '.', 'ui_automation_tests/zap/results/**.*': '.']
       }
       // Generate Allure Report
       generateAllureReport()
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ui_automation_tests/zap/results/', reportFiles: 'report.html', reportName: 'zap', reportTitles: ''])
       // Send Slack notification
       sendSlackNotification()
     }
@@ -254,4 +259,3 @@ pipeline
       // Send notifications
       slackSend (color: colorCode, message: summary, channel: "#${channel}" )
     }
-

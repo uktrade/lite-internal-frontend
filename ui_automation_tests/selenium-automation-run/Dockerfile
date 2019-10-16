@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -yq \
     libxml2-dev=2.9.4+dfsg1-2.2+deb9u2 \
     libxslt-dev \
     libz-dev \
-    xclip=0.12+svn84-4+b1
+    xclip=0.12+svn84-4+b1 \
+    jq
 
 # GeckoDriver v0.19.1
 RUN wget -q "https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz" -O /tmp/geckodriver.tgz \
@@ -34,6 +35,13 @@ RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome \
 RUN ln -s /usr/bin/geckodriver /usr/bin/chromium-browser \
     && chmod 777 /usr/bin/geckodriver \
     && chmod 777 /usr/bin/chromium-browser
+
+# install zap-proxy
+RUN echo 'deb http://download.opensuse.org/repositories/home:/cabelo/Debian_9.0/ /' > /etc/apt/sources.list.d/home:cabelo.list \
+    && wget -nv https://download.opensuse.org/repositories/home:cabelo/Debian_9.0/Release.key -O Release.key \
+    && apt-key add - < Release.key \
+    && apt-get update \
+    && apt-get install -yq owasp-zap
 
 FROM selenium_base
 
