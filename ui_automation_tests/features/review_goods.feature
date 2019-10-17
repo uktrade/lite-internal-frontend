@@ -17,7 +17,6 @@ Feature: I want to review, amend where required and confirm the goods ratings an
     Then I reset the permissions
 
   @LT_1580_assess_goods_permission
-    @MSTG
   Scenario: Can view button if permission correct
     Given I sign in to SSO or am signed into SSO
     And I create application or application has been previously created
