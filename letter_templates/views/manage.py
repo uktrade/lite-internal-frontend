@@ -72,12 +72,19 @@ class LetterTemplateEditLetterParagraphs(TemplateView):
             letter_template['letter_paragraphs'] = kwargs.get('override_paragraphs')
 
         letter_paragraphs = get_letter_paragraphs(request, letter_template['letter_paragraphs'])
+        letter_paragraphs = self.sort_letter_paragraphs(letter_paragraphs, letter_template['letter_paragraphs'])
 
         context = {
             'letter_template': letter_template,
             'letter_paragraphs': letter_paragraphs
         }
         return render(request, 'letter_templates/edit_letter_paragraphs.html', context)
+
+    @staticmethod
+    def sort_letter_paragraphs(paragraphs, ids):
+        """Order a list of letter paragraphs in the same order as a list of IDs."""
+        paragraphs_by_id = {p["id"]: p for p in paragraphs}
+        return [paragraphs_by_id[id] for id in ids if id in paragraphs_by_id]
 
     def post(self, request, **kwargs):
         letter_template_id = str(kwargs['pk'])
