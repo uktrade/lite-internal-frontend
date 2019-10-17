@@ -219,7 +219,7 @@ def assign_flags_to_case(driver, context):
     shared.click_submit()
 
 
-@when("I give myself all permissions")
+@when("I give myself all permissions") # noqa
 def get_required_permissions(driver):
     roles_page = RolesPages(driver)
     HeaderPage(driver).open_users()
@@ -229,7 +229,7 @@ def get_required_permissions(driver):
     Shared(driver).click_submit()
 
 
-@then("I reset the permissions")
+@then("I reset the permissions") # noqa
 def reset_permissions(driver):
     roles_page = RolesPages(driver)
     HeaderPage(driver).open_users()

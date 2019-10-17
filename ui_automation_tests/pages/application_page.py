@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import Select
 import time
 
 from helpers.BasePage import BasePage
+from selenium.common.exceptions import NoSuchElementException
 
 
 class ApplicationPage(BasePage):
@@ -119,7 +120,7 @@ class ApplicationPage(BasePage):
         try:
             self.driver.find_element_by_id(self.review_goods)
             return True
-        except Exception:
+        except NoSuchElementException:
             return False
 
     def click_edit_good_flags(self):

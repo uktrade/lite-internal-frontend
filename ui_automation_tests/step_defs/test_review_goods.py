@@ -52,4 +52,3 @@ def no_respond_to_query_button(driver):
 @then('I see review goods button')
 def no_respond_to_query_button(driver):
     assert ApplicationPage(driver).is_review_goods_button_present()
-
