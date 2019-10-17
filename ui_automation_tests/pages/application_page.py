@@ -115,6 +115,13 @@ class ApplicationPage(BasePage):
     def click_review_goods(self):
         self.driver.find_element_by_id(self.review_goods).click()
 
+    def is_review_goods_button_present(self):
+        try:
+            self.driver.find_element_by_id(self.review_goods)
+            return True
+        except Exception:
+            return False
+
     def click_edit_good_flags(self):
         edit_goods_btn = self.driver.find_element_by_id(self.edit_goods_flags)
         edit_goods_btn.click()

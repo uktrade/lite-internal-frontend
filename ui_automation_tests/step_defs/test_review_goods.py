@@ -42,3 +42,14 @@ def check_control_list_code(driver):
     rows = shared.get_rows_in_lite_table()
     for row in rows:
         assert 'ML4b1' in row.text
+
+
+@then('I do not see the review goods button')
+def no_respond_to_query_button(driver):
+    assert not ApplicationPage(driver).is_review_goods_button_present()
+
+
+@then('I see review goods button')
+def no_respond_to_query_button(driver):
+    assert ApplicationPage(driver).is_review_goods_button_present()
+
