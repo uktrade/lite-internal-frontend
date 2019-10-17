@@ -74,7 +74,7 @@ class ViewCase(TemplateView):
         queue, _ = get_queue(request, queue_id)
         case = get_case(request, case_id)
         activity = get_activity(request, case_id)
-        permissions, user_team = get_user_permissions(request, True)
+        permissions = get_user_permissions(request, True)[0]
 
         case['all_flags'] = _get_all_distinct_flags(case)
 

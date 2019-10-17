@@ -27,7 +27,7 @@ class ReviewGoods(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
 
-        permissions, user_team = get_user_permissions(request, True)
+        permissions = get_user_permissions(request, True)[0]
         if 'ASSESS_GOODS' not in permissions:
             return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}))
 
@@ -78,7 +78,7 @@ class ReviewGoodsClc(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.case_id = str(kwargs['pk'])
 
-        permissions, user_team = get_user_permissions(request, True)
+        permissions = get_user_permissions(request, True)[0]
         if 'ASSESS_GOODS' not in permissions:
             return redirect(reverse_lazy('cases:case', kwargs={'pk': self.case_id}))
 
