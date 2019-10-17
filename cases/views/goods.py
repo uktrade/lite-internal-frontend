@@ -27,10 +27,6 @@ class ReviewGoods(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
 
-        permissions = get_user_permissions(request)
-        if 'ASSESS_GOODS' not in permissions:
-            return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}))
-
         action = request.GET.get('action')
         if action == 'edit-flags':
             params = dict()
@@ -38,6 +34,10 @@ class ReviewGoods(TemplateView):
             params['level'] = 'goods'
             post_url = '?' + convert_dict_to_query_params(params)
             return redirect(reverse_lazy('cases:assign_flags', kwargs={'pk': case_id}) + post_url)
+
+        permissions = get_user_permissions(request)
+        if 'ASSESS_GOODS' not in permissions:
+            return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}))
 
         goods_pk_list = request.GET.getlist('items', request.GET.getlist('goods'))
         goods = []
