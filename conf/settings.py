@@ -87,7 +87,7 @@ TEMPLATES = [
                 'conf.context_processors.export_vars',
                 'conf.context_processors.lite_menu',
             ],
-            'builtins': ['core.builtins.custom_tags', 'letter_templates.templatetags.markdown_convert'],
+            'builtins': ['core.builtins.custom_tags', 'letter_templates.templatetags.markdown_to_html'],
         },
     },
 ]
