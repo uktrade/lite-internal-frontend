@@ -97,7 +97,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I reset the permissions
 
 
-  @LT_1334_finalise_goods_countries_matrix @AT
+  @LT_1334_finalise_goods_countries_matrix
   Scenario: Finalise goods and countries
     Given I create open application or open application has been previously created
     And I create a proviso picklist
