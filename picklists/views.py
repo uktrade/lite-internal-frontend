@@ -46,13 +46,13 @@ class AddPicklistItem(TemplateView):
             'type': picklist_type
         }
 
-        return form_page(request, add_picklist_item_form(), data=data)
+        return form_page(request, add_picklist_item_form(request), data=data)
 
     def post(self, request, **kwargs):
         response, status_code = post_picklist_item(request, request.POST)
 
         if status_code != 201:
-            return form_page(request, add_picklist_item_form(), data=request.POST, errors=response.get('errors'))
+            return form_page(request, add_picklist_item_form(request), data=request.POST, errors=response.get('errors'))
 
         picklist_type = request.POST['type']
 

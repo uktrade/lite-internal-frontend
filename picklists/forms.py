@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from lite_forms.components import TextInput, Select, Option, TextArea, BackLink, Form, Button
+from lite_forms.components import TextInput, Select, Option, TextArea, BackLink, Form, Button, MarkdownArea
 from lite_forms.styles import ButtonStyle
 
 from core.builtins.custom_tags import get_string
@@ -22,16 +22,36 @@ _text = TextArea(title='Add text for picklist item',
                      'max_length': 5000,
                  })
 
+_context_variables = [
+    {'key': 'application.name', 'value': 'Application 1234'},
+    {'key': 'organisation.name', 'value': 'My Organisation LTD.'},
+    {'key': 'application.recipient', 'value': 'John Smith'}
+]
+
+_paragraph = MarkdownArea(title='Add text for paragraph',
+                          name='text',
+                          variables=_context_variables,
+                          extras={
+                              'max_length': 5000,
+                          })
+
 _back_link = BackLink('Back to picklists', '#')
 
 
-def add_picklist_item_form():
+def add_picklist_item_form(request):
+    picklist_type = request.GET.get('type')
+    paragraph = False
+    if picklist_type.lower() == 'letter_paragraph':
+        paragraph = True
+
+    questions = [_name, _picklist_type]
+    if paragraph:
+        questions.append(_paragraph)
+    else:
+        questions.append(_text)
+
     return Form(title=get_string('picklist.create'),
-                questions=[
-                    _name,
-                    _picklist_type,
-                    _text,
-                ],
+                questions=questions,
                 back_link=_back_link,
                 default_button_name='Save')
 
