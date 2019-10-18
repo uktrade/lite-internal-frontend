@@ -44,7 +44,7 @@ DENIAL_REASONS_URL = STATIC_URL + 'denial-reasons/'
 COUNTRIES_URL = STATIC_URL + 'countries/'
 STATUSES_URL = STATIC_URL + 'statuses/'
 CONTROL_LIST_ENTRIES_URL = STATIC_URL + 'control-list-entries/'
-LETTER_LAYOUTS_URL = STATIC_URL + '/letter-layouts/'
+LETTER_LAYOUTS_URL = STATIC_URL + 'letter-layouts/'
 
 # Permissions
 MAKE_FINAL_DECISIONS = 'MAKE_FINAL_DECISIONS'
