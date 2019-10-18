@@ -124,7 +124,7 @@
                     </div>
                 {% endif %}
 				<div>
-					<a href="{% url 'cases:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" class="lite-cases-table__heading {{ 'status'|table_sort:params }}">
+					<a href="{% url 'cases:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" class="lite-cases-table__heading {{ 'status'|table_sort:params }}" id="sort-status">
 						Status
 						{% svg 'chevron' %}
 					</a>
