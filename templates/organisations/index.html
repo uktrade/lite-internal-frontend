@@ -127,6 +127,29 @@
 
 {% endblock %}
 
+<script nonce="{{ request.csp_nonce }}">
+	$("#filters").hide();
+	$("#show-filters-link").show();
+	$("#hide-filters-link").hide();
+
+	{% if params.org_type or params.name %}
+		$("#filters").show();
+		$("#show-filters-link").hide();
+		$("#hide-filters-link").show();
+	{% endif %}
+
+	function toggleFilters() {
+		$("#filters").toggle();
+		if ($("#filters").is(':visible')) {
+			$("#show-filters-link").hide();
+			$("#hide-filters-link").show();
+		} else {
+			$("#show-filters-link").show();
+			$("#hide-filters-link").hide();
+		}
+	}
+</script>
+
 {% block javascript %}
 	<script src="{% static 'javascripts/filter-bar.js' %}"></script>
 {% endblock %}

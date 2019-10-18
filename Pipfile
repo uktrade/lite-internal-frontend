@@ -31,6 +31,8 @@ prospector = "*"
 lite-forms = "*"
 django-markdownx = "*"
 weasyprint = "*"
+django-csp = "*"
+bandit = "*"
 
 [requires]
 python_version = "3.7"

@@ -16,6 +16,15 @@ env = Env(
     ALLOWED_HOSTS=(str, ''),
     DEBUG=(bool, False),
     LOG_LEVEL=(str, 'INFO'),
+    CSP_DEFAULT_SRC=(list, []),
+    CSP_STYLE_SRC=(list, []),
+    CSP_SCRIPT_SRC=(list, []),
+    CSP_FONT_SRC=(list, []),
+    CSP_IMG_SRC=(list, []),
+    CSP_FRAME_SRC=(list, []),
+    CSP_CONNECT_SRC=(list, []),
+    CSP_INCLUDE_NONCE_IN=(list, []),
+    CSP_REPORT_ONLY=(bool, True)
 )
 
 # Quick-start development settings - unsuitable for production
@@ -49,6 +58,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'csp.middleware.CSPMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -231,8 +241,22 @@ LOGGING = {
 LETTER_TEMPLATES_DIRECTORY = os.path.join(BASE_DIR, 'letter_templates', 'layouts')
 
 # Security settings
+
 # Enable security features in hosted environments.
 SECURE_BROWSER_XSS_FILTER = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 SECURE_CONTENT_TYPE_NOSNIFF = not DEBUG
+
+# Content Security Policy
+
+
+CSP_DEFAULT_SRC = env('CSP_DEFAULT_SRC')
+CSP_STYLE_SRC = env('CSP_STYLE_SRC')
+CSP_SCRIPT_SRC = env('CSP_SCRIPT_SRC')
+CSP_FONT_SRC = env('CSP_FONT_SRC')
+CSP_IMG_SRC = env('CSP_IMG_SRC')
+CSP_FRAME_SRC = env('CSP_FRAME_SRC')
+CSP_CONNECT_SRC = env('CSP_CONNECT_SRC')
+CSP_INCLUDE_NONCE_IN = env('CSP_INCLUDE_NONCE_IN')
+CSP_REPORT_ONLY = env('CSP_REPORT_ONLY')
