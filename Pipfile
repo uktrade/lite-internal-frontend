@@ -30,6 +30,10 @@ s3chunkuploader = "*"
 boto3 = ">=1.9"
 prospector = "*"
 lite-forms = "*"
+django-csp = "*"
+bandit = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.7"
