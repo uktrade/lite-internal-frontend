@@ -159,8 +159,8 @@ pipeline
                 value: ""
               - name: AWS_REGION
                 value: "eu-west-2"
-              - name: PROXY_IP_PORT
-                value: "${params.PROXY_IP_PORT}"
+              - name: RUN_ZAP
+                value: "${params.RUN_ZAP}"
               - name: ZAP_TARGET_URL
                 value: "${params.ZAP_TARGET_URL}"
         """) {
