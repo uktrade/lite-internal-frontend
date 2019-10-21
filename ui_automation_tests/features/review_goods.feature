@@ -12,7 +12,7 @@ Feature: I want to review, amend where required and confirm the goods ratings an
     And I go to application previously created
     And I select goods and click review
     And I click on add report summary
-    And  I respond "yes", "ML4b1", "0", "Because the good is controlled" and click continue
+    And I respond "yes", "ML4b1", "1", "Because the good is controlled" and click continue
     Then the control list is present on goods review page
     When I reset the permissions
     Then I see permissions are cleared
