@@ -8,6 +8,10 @@
 </p>
 <div class="app-picklist-item__text">
 	<p class="govuk-body-m">
-		{{ picklist_item.text|linebreaksbr }}
+		{% if picklist_item.type.key == "letter_paragraph" %}
+			{{ picklist_item.text|variable_highlight|linebreaksbr }}
+		{% else %}
+			{{ picklist_item.text|linebreaksbr }}
+		{% endif %}
 	</p>
 </div>
