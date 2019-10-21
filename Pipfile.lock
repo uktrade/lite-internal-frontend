@@ -302,11 +302,11 @@
         },
         "lite-forms": {
             "hashes": [
-                "sha256:04c382559a6dccb65fddc5f20c045ac65439177a3f610a48e0ff185963ef5e1d",
-                "sha256:ae0d9937ef48c9de24e1aeb159464f51ff18282a6c30da9ad8f6decb392ff72c"
+                "sha256:2b601fe8fbe15818371e83d09480d6e2a12a799facd2bc9f37aa9dcc34257962",
+                "sha256:dd17356d407fb6f11777125291541c4165737e19d4932799e0a5cc5b256d1c06"
             ],
             "index": "pypi",
-            "version": "==0.20.9"
+            "version": "==0.21"
         },
         "markdown": {
             "hashes": [
