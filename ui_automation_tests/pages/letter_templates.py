@@ -5,6 +5,7 @@ class LetterTemplates():
         self.create_template_button = 'button-create-a-template'  # ID
         self.template_name = 'name'  # ID
         self.letter_paragraph = 'letter_paragraphs'  # NAME
+        self.letter_paragraph_name = 'letter_paragraph_name'  # NAME
         self.add_letter_paragraph_button = '[value="add_letter_paragraph"]'  # CSS
         self.add_letter_paragraphs_button = '[value="return_to_preview"]'  # CSS
         self.preview_button = 'button-preview'  # ID
@@ -30,8 +31,9 @@ class LetterTemplates():
     def select_which_type_of_case_template_can_apply_to(self, id_selector):
         self.driver.find_element_by_id(id_selector).click()
 
-    def add_letter_paragraph(self, no):
-        self.driver.find_elements_by_name(self.letter_paragraph)[int(no)].click()
+    def add_letter_paragraph(self):
+        self.driver.find_element_by_name(self.letter_paragraph).click()
+        return self.driver.find_element_by_name(self.letter_paragraph_name).text
 
     def click_save_button(self):
         self.driver.find_element_by_name(self.save_button).click()
@@ -50,3 +52,6 @@ class LetterTemplates():
 
     def get_class_name_of_drag_and_drop_list(self):
         return self.driver.find_element_by_id(self.drag_drop_list).get_attribute('class')
+
+    def get_drag_and_drop_list_name(self):
+        return self.driver.find_element_by_id(self.drag_drop_list).text

@@ -36,7 +36,7 @@ class CaseListPage(BasePage):
     dropdown_item_class = 'app-dropdown__item'  # Class_Name
 
     # Sort headings
-    sort_status = 'sort-status'
+    sort_status = 'sort-status'  # ID
 
     def search_pages_for_id(self, id):
         is_present = len(self.driver.find_elements_by_link_text(id))
