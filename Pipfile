@@ -33,6 +33,7 @@ django-markdownx = "*"
 weasyprint = "*"
 django-csp = "*"
 bandit = "*"
+bleach = "*"
 
 [requires]
 python_version = "3.7"
