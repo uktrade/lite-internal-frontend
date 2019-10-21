@@ -14,7 +14,7 @@ Feature: I want to review, amend where required and confirm the goods ratings an
     And I click on add report summary
     And  I respond "yes", "ML4b1", "0", "Because the good is controlled" and click continue
     Then the control list is present on goods review page
-    Then I reset the permissions
+    When I reset the permissions
 
   @LT_1580_assess_goods_permission
   Scenario: Can view button if permission correct
@@ -23,6 +23,6 @@ Feature: I want to review, amend where required and confirm the goods ratings an
     When I give myself all permissions
     And I go to application previously created
     Then I see review goods button
-    And I reset the permissions
-    When I go to application previously created
+    When I reset the permissions
+    And I go to application previously created
     Then I do not see the review goods button

@@ -229,7 +229,7 @@ def get_required_permissions(driver):
     Shared(driver).click_submit()
 
 
-@then("I reset the permissions") # noqa
+@when("I reset the permissions") # noqa
 def reset_permissions(driver):
     roles_page = RolesPages(driver)
     HeaderPage(driver).open_users()
