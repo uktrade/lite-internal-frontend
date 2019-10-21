@@ -7,7 +7,7 @@ from lite_forms.styles import ButtonStyle
 _name = TextInput(title='Name',
                   name='name')
 
-_text = TextArea(title='Add text for picklist item',
+_text = TextArea(title='Text',
                  name='text',
                  extras={
                      'max_length': 5000,
@@ -19,7 +19,7 @@ _context_variables = [
     {'key': 'application.recipient', 'value': 'John Smith'}
 ]
 
-_paragraph = MarkdownArea(title='Add text for paragraph',
+_paragraph = MarkdownArea(title='Paragraph Text',
                           name='text',
                           variables=_context_variables,
                           extras={
