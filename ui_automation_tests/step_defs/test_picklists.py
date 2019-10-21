@@ -105,11 +105,11 @@ def type_context_variable_start(driver, context):
 
 @then("I am given context variable suggestions")
 def context_variable_overlay(driver):
-    assert driver.find_element_by_id("context_suggestion").is_displayed(), "Context variable suggestion list didn't appear"
+    assert PicklistPages(driver).context_suggestions_are_displayed(), "Context variable suggestion list didn't appear"
 
 
 @when("I click a suggested context variable")
 def context_variable_option(driver, context):
-    suggestion = driver.find_element_by_id("context_suggestion")
-    context.prompted_context_variable = suggestion.text.split(" ")[0]
-    suggestion.click()
+    picklist_page = PicklistPages(driver)
+    context.prompted_context_variable = picklist_page.get_context_suggestion_variable_name()
+    picklist_page.click_context_suggestion()

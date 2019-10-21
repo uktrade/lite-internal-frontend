@@ -33,10 +33,11 @@ def create_letter_template(driver, context):
 
 
 @when("I add a letter paragraph to template")
-def add_two_letter_paragraphs(driver):
-    LetterTemplates(driver).click_add_letter_paragraph()
-    LetterTemplates(driver).add_letter_paragraph(0)
-    LetterTemplates(driver).click_add_letter_paragraphs()
+def add_two_letter_paragraphs(driver, context):
+    letter_template = LetterTemplates(driver)
+    letter_template.click_add_letter_paragraph()
+    x = letter_template.add_letter_paragraph()
+    letter_template.click_add_letter_paragraphs()
 
 
 @when("I preview template")
@@ -73,4 +74,4 @@ def edit_template(driver, context):
 def see_drag_and_drop_page(driver, context):
     context.picklist_text = context.api.request_data['letter_paragraph_picklist']['text']
     assert 'app-sortable ui-sortable' in LetterTemplates(driver).get_class_name_of_drag_and_drop_list()
-    assert context.picklist_text in LetterTemplates(driver).get_text_of_paragraphs_in_preview()
+    assert context.letter_paragraph_name in LetterTemplates(driver).get_text_of_paragraphs_in_preview()

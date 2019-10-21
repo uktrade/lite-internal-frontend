@@ -29,6 +29,7 @@ Feature: I want standard picklists
     And I go to picklists tab
     And I go to "report_summary" picklist
     And I add a new picklist item with "name" and "description"
+    And I click continue
     And I click on my picklist item
     And I deactivate my picklist
     Then I see my picklist page with status as "Deactivated"
