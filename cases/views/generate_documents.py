@@ -19,4 +19,20 @@ class GenerateDocuments(TemplateView):
             'case': case,
             # 'case_documents': case_documents['documents'],
         }
-        return render(request, 'cases/case/documents.html', context)
+        return render(request, 'cases/case/generate-documents/generated-documents.html', context)
+
+
+class GenerateADocument(TemplateView):
+    def get(self, request, **kwargs):
+        """
+        List all documents belonging to a case
+        """
+        case_id = str(kwargs['pk'])
+        case = get_case(request, case_id)
+
+        context = {
+            'title': get_string('cases.generate_documents.templates_title'),
+            'case': case,
+            'templates': []
+        }
+        return render(request, 'cases/case/generate-documents/templates.html', context)

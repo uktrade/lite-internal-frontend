@@ -17,6 +17,8 @@ urlpatterns = [
     path('<uuid:pk>/documents/', main.Documents.as_view(), name='documents'),
     # ex: /<uuid:pk>/generate-documents/
     path('<uuid:pk>/generate-documents/', generate_documents.GenerateDocuments.as_view(), name='generate_documents'),
+    # ex: /<uuid:pk>/generate-documents/
+    path('<uuid:pk>/generate-documents/add/', generate_documents.GenerateADocument.as_view(), name='generate_a_document'),
     # ex: /<uuid:pk>/documents/attach/
     path('<uuid:pk>/attach/', main.AttachDocuments.as_view(), name='attach_documents'),
     # ex: /<uuid:pk>/documents/<str:file_id>/
