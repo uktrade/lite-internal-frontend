@@ -35,28 +35,28 @@
 
 		<div class="app-letter-generator__container">
 			<div class="app-letter-generator__controls">
-					{% csrf_token %}
-					{% if letter_paragraphs %}
-						<p class="govuk-hint" style="margin-top: 0; margin-bottom: 20px;">
-							Drag and drop letter paragraphs to reorder.
-						</p>
-						<div id="standard-advice-list" class="app-sortable">
-							{% for letter_paragraph in letter_paragraphs %}
-								<div class="app-letter-generator__picklist-item" data-id="{{ letter_paragraph.id }}" data-text="{{ letter_paragraph.text }}">
-									{% hidden_field 'letter_paragraphs' letter_paragraph.id %}
-									<p class="app-letter-generator__picklist-item-text">{{ letter_paragraph.name }}</p>
-									<button type="submit" name="action" value="delete.{{ letter_paragraph.id }}">
-										<span class="govuk-visually-hidden">Remove letter paragraph from template</span>
-										✕
-									</button>
-								</div>
-							{% endfor %}
-						</div>
-						<br>
-						<button class="lite-button--link" type="submit" name="action" value="add_letter_paragraph">Add another letter paragraph</button>
-					{% else %}
-						<button class="lite-button--link" type="submit" name="action" value="add_letter_paragraph">Add letter paragraph</button>
-					{% endif %}
+				{% csrf_token %}
+				{% if letter_paragraphs %}
+					<p class="govuk-hint" style="margin-top: 0; margin-bottom: 20px;">
+						Drag and drop letter paragraphs to reorder.
+					</p>
+					<div id="standard-advice-list" class="app-sortable">
+						{% for letter_paragraph in letter_paragraphs %}
+							<div class="app-letter-generator__picklist-item" data-id="{{ letter_paragraph.id }}" data-text="{{ letter_paragraph.text }}">
+								{% hidden_field 'letter_paragraphs' letter_paragraph.id %}
+								<p class="app-letter-generator__picklist-item-text">{{ letter_paragraph.name }}</p>
+								<button type="submit" name="action" value="delete.{{ letter_paragraph.id }}">
+									<span class="govuk-visually-hidden">Remove letter paragraph from template</span>
+									✕
+								</button>
+							</div>
+						{% endfor %}
+					</div>
+					<br>
+					<button class="lite-button--link" type="submit" name="action" value="add_letter_paragraph">Add another letter paragraph</button>
+				{% else %}
+					<button class="lite-button--link" type="submit" name="action" value="add_letter_paragraph">Add letter paragraph</button>
+				{% endif %}
 			</div>
 			<div id="preview" class="govuk-body">
 				{% for letter_paragraph in letter_paragraphs %}
