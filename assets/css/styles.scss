@@ -40,29 +40,6 @@ $govuk-font-family: Arial, Sans-Serif;
 	}
 }
 
-.test {
-	position: relative;
-	background: govuk-colour("light-grey");
-	padding: govuk-spacing(4);
-	max-height: 285px;
-	overflow-y: scroll;
-	margin-top: govuk-spacing(3);
-	margin-bottom: govuk-spacing(6);
-	box-shadow: 0 0 0 2px rgba(govuk-colour("black"), 0.1);
-
-	.govuk-radios__item {
-		margin-bottom: govuk-spacing(4);
-
-		&:last-of-type {
-			margin-bottom: 0;
-		}
-	}
-
-	.govuk-radios__label::before {
-		background: white;
-	}
-}
-
 .govuk-summary-list__key {
 	border-bottom: 2px solid darken(govuk-colour("light-grey"), 2%);
 }
