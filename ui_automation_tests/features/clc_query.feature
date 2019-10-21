@@ -16,6 +16,7 @@ Feature: I want to respond to clc queries
     And I submit response
     Then I see case is closed
     When I reset the permissions
+    Then I see permissions are cleared
 
   @LT_1580_test_assess_goods_permission
   Scenario: respond to a clc type case
@@ -26,6 +27,7 @@ Feature: I want to respond to clc queries
     And I go to clc query previously created
     Then I see the respond to query button
     When I reset the permissions
-    And I go to clc query previously created
+    Then I see permissions are cleared
+    When I go to clc query previously created
     Then I do not see the respond to query button
 

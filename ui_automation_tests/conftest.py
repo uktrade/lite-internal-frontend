@@ -237,3 +237,9 @@ def reset_permissions(driver):
     roles_page.click_edit_for_default_role()
     roles_page.remove_all_permissions_from_default_role()
     Shared(driver).click_submit()
+
+
+@then("I see permissions are cleared") # noqa
+def no_permissions(driver):
+    roles_page = RolesPages(driver)
+    assert roles_page.current_permissions_count_for_default() == 0

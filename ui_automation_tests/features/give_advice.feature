@@ -95,6 +95,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I finalise the licence
     Then Todays date is filled in
     When I reset the permissions
+    Then I see permissions are cleared
 
 
   @LT_1334_finalise_goods_countries_matrix
@@ -121,3 +122,4 @@ Feature: I want to record my user advice and any comments and conditions relatin
     When I select approve for all combinations of goods and countries
     And I click continue
     And I reset the permissions
+    Then I see permissions are cleared
