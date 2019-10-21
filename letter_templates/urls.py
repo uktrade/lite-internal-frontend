@@ -7,13 +7,13 @@ app_name = 'letter_templates'
 urlpatterns = [
     # Manage letter templates
 
-    # ex: /letter-templates/
+    # ex: /<uuid:pk>/letter-templates/
     path('', manage.LetterTemplatesList.as_view(), name='letter_templates'),
-    # ex: /letter-templates/
+    # ex: /<uuid:pk>/letter-templates/
     path('<uuid:pk>/', manage.LetterTemplateDetail.as_view(), name='letter_template'),
-    # ex: /letter-templates/edit/
+    # ex: /<uuid:pk>/letter-templates/edit/
     path('<uuid:pk>/edit/', manage.LetterTemplateEdit.as_view(), name='edit'),
-    # ex: /letter-templates/edit/
+    # ex: /<uuid:pk>/letter-templates/edit/
     path('<uuid:pk>/edit-letter-paragraphs/', manage.LetterTemplateEditLetterParagraphs.as_view(), name='edit_letter_paragraphs'),
 
     # Create letter templates
