@@ -4,6 +4,8 @@ from lite_forms.components import TextInput, TextArea, BackLink, Form, Button, M
 from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
+from core.builtins.custom_tags import get_string
+
 _name = TextInput(title='Name',
                   name='name')
 
@@ -30,22 +32,7 @@ _paragraph = MarkdownArea(title='Paragraph Text',
 def add_picklist_item_form(request):
     picklist_type = request.GET.get('type')
 
-    if picklist_type == 'proviso':
-        title = 'Create a proviso'
-    elif picklist_type == 'ecju_query':
-        title = 'Create an ECJU Query'
-    elif picklist_type == 'letter_paragraph':
-        title = 'Create a letter paragraph'
-    elif picklist_type == 'report_summary':
-        title = 'Create a report summary'
-    elif picklist_type == 'standard_advice':
-        title = 'Create standard advice'
-    elif picklist_type == 'footnotes':
-        title = 'Create a footnote'
-    else:
-        raise Http404
-
-    return Form(title=title,
+    return Form(title=get_string(f'picklist.create.{picklist_type}'),
                 questions=[
                     _name,
                     HiddenField('type', picklist_type),
