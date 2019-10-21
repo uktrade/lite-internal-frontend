@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from cases.services import get_case, get_case_documents
+from cases.services import get_case
 from core.builtins.custom_tags import get_string
 
 
