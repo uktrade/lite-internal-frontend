@@ -1,6 +1,6 @@
 from django.urls import path
 
-from cases.views import main, advice, goods, clc_query, ecju
+from cases.views import main, advice, goods, clc_query, ecju, generate_documents
 from flags.views import AssignFlags
 
 app_name = 'cases'
@@ -15,6 +15,8 @@ urlpatterns = [
     path('<uuid:pk>/move/', main.MoveCase.as_view(), name='move'),
     # ex: /<uuid:pk>/documents/
     path('<uuid:pk>/documents/', main.Documents.as_view(), name='documents'),
+    # ex: /<uuid:pk>/generate-documents/
+    path('<uuid:pk>/generate-documents/', generate_documents.GenerateDocuments.as_view(), name='generate_documents'),
     # ex: /<uuid:pk>/documents/attach/
     path('<uuid:pk>/attach/', main.AttachDocuments.as_view(), name='attach_documents'),
     # ex: /<uuid:pk>/documents/<str:file_id>/
