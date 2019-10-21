@@ -27,4 +27,4 @@ class LetterTemplateEditLetterParagraphsTestCase(TestCase):
         expected_output = (ALT_OPEN_TAG + '{% if True %}' + CLOSE_TAG + OPEN_TAG +
                            '{{ applicant.name }}' + CLOSE_TAG + ALT_OPEN_TAG + '{% endif %}' + CLOSE_TAG) * 2
 
-        assert variable_highlight(test_input) == expected_output
+        self.assertEqual(variable_highlight(test_input), expected_output)
