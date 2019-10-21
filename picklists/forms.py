@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from lite_forms.components import TextInput, Select, Option, TextArea, BackLink, Form, Button, MarkdownArea
+from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
 from core.builtins.custom_tags import get_string
@@ -40,18 +41,12 @@ _back_link = BackLink('Back to picklists', '#')
 
 def add_picklist_item_form(request):
     picklist_type = request.GET.get('type')
-    paragraph = False
-    if picklist_type.lower() == 'letter_paragraph':
-        paragraph = True
-
-    questions = [_name, _picklist_type]
-    if paragraph:
-        questions.append(_paragraph)
-    else:
-        questions.append(_text)
-
     return Form(title=get_string('picklist.create'),
-                questions=questions,
+                questions=[
+                    _name,
+                    _picklist_type,
+                    conditional(picklist_type == 'letter_paragraph', _paragraph, _text)
+                ],
                 back_link=_back_link,
                 default_button_name='Save')
 
@@ -70,23 +65,18 @@ def edit_picklist_item_form(picklist_item):
                                                kwargs={'pk': picklist_item['id']}),
                              float_right=True)
 
-    if picklist_item['status']['key'] == 'deactivated':
-        button = activate_button
-    else:
-        button = deactivate_button
-
     return Form(title=get_string('picklist.edit'),
                 questions=[
                     _name,
                     _picklist_type,
-                    _text,
+                    conditional(picklist_item['type']['key'] == 'letter_paragraph', _paragraph, _text),
                 ],
                 back_link=BackLink('Back to ' + picklist_item['name'],
                                    reverse_lazy('picklists:picklist_item',
                                                 kwargs={'pk': picklist_item['id']})),
                 buttons=[
                     Button('Save', 'submit', ButtonStyle.DEFAULT),
-                    button,
+                    conditional(picklist_item['status']['key'] == 'deactivated', activate_button, deactivate_button),
                 ])
 
 
