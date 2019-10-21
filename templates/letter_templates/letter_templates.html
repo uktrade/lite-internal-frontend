@@ -37,9 +37,7 @@
 							{{ letter_template.layout.name }}
 						</td>
 						<td class="govuk-table__cell">
-							{% for restriction in letter_template.restricted_to %}
-								{% if not forloop.first %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{{ restriction.value }}
-							{% endfor %}
+							{% for restriction in letter_template.restricted_to %}{% if not forloop.first %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{{ restriction.value }}{% endfor %}
 						</td>
 						<td class="govuk-table__cell">
 							{{ letter_template.last_modified_at|str_date }}
