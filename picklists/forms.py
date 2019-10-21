@@ -1,21 +1,11 @@
+from django.http import Http404
 from django.urls import reverse_lazy
-from lite_forms.components import TextInput, Select, Option, TextArea, BackLink, Form, Button, MarkdownArea
+from lite_forms.components import TextInput, TextArea, BackLink, Form, Button, MarkdownArea, HiddenField
 from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
-from core.builtins.custom_tags import get_string
-
 _name = TextInput(title='Name',
                   name='name')
-
-_picklist_type = Select(name='type',
-                        options=[Option('proviso', 'Proviso'),
-                                 Option('ecju_query', 'ECJU Query'),
-                                 Option('letter_paragraph', 'Letter Paragraph'),
-                                 Option('report_summary', 'Report Summary'),
-                                 Option('standard_advice', 'Standard Advice'),
-                                 Option('footnotes', 'Footnote')],
-                        title='Type')
 
 _text = TextArea(title='Add text for picklist item',
                  name='text',
@@ -36,18 +26,32 @@ _paragraph = MarkdownArea(title='Add text for paragraph',
                               'max_length': 5000,
                           })
 
-_back_link = BackLink('Back to picklists', '#')
-
 
 def add_picklist_item_form(request):
     picklist_type = request.GET.get('type')
-    return Form(title=get_string('picklist.create'),
+
+    if picklist_type == 'proviso':
+        title = 'Create a proviso'
+    elif picklist_type == 'ecju_query':
+        title = 'Create an ECJU Query'
+    elif picklist_type == 'letter_paragraph':
+        title = 'Create a letter paragraph'
+    elif picklist_type == 'report_summary':
+        title = 'Create a report summary'
+    elif picklist_type == 'standard_advice':
+        title = 'Create standard advice'
+    elif picklist_type == 'footnotes':
+        title = 'Create a footnote'
+    else:
+        raise Http404
+
+    return Form(title=title,
                 questions=[
                     _name,
-                    _picklist_type,
+                    HiddenField('type', picklist_type),
                     conditional(picklist_type == 'letter_paragraph', _paragraph, _text)
                 ],
-                back_link=_back_link,
+                back_link=BackLink('Back to picklists', reverse_lazy('picklists:picklists') + f'?type={picklist_type}'),
                 default_button_name='Save')
 
 
@@ -65,10 +69,9 @@ def edit_picklist_item_form(picklist_item):
                                                kwargs={'pk': picklist_item['id']}),
                              float_right=True)
 
-    return Form(title=get_string('picklist.edit'),
+    return Form(title='Edit ' + picklist_item['name'],
                 questions=[
                     _name,
-                    _picklist_type,
                     conditional(picklist_item['type']['key'] == 'letter_paragraph', _paragraph, _text),
                 ],
                 back_link=BackLink('Back to ' + picklist_item['name'],
