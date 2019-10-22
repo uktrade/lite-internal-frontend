@@ -13,7 +13,7 @@ class HeaderPage:
         self.users_link = "a[href*='/users/']"  # CSS
         self.flags_link = "a[href*='/flags/']"  # CSS
         self.queues_link = "a[href*='/queues/']"  # CSS
-        self.teams_link = "a[href='/team']"  # CSS
+        self.my_team_link = "a[href='/team']"  # CSS
         self.user_profile = ".lite-user-menu-button--user"  # CSS
 
     def click_lite_menu(self):
@@ -50,4 +50,4 @@ class HeaderPage:
         self.driver.find_element_by_css_selector(self.queues_link).click()
 
     def click_my_team(self):
-        self.driver.find_element_by_css_selector(self.teams_link).click()
+        self.driver.find_element_by_css_selector(self.my_team_link).click()

@@ -39,10 +39,10 @@ class PicklistPages():
         return self.driver.find_element_by_css_selector(self.picklist_page_body).text
 
     def get_latest_picklist_name(self):
-        return self.driver.find_elements_by_css_selector(self.picklist_list_name)[-1].text
+        return self.driver.find_elements_by_css_selector(self.picklist_list_name)[0].text
 
     def get_latest_picklist_description(self):
-        return self.driver.find_elements_by_css_selector(self.picklist_list_description)[-1].text
+        return self.driver.find_elements_by_css_selector(self.picklist_list_description)[0].text
 
     def type_into_picklist_name(self, name):
         self.driver.find_element_by_name(self.picklist_name_field).send_keys(name)
