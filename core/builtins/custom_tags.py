@@ -14,6 +14,11 @@ from core import strings
 register = template.Library()
 
 
+class StringNotFoundError(Exception):
+    def __init__(self, key):
+        super().__init__(f"String not found for key \"{key}\"")
+
+
 @register.simple_tag
 def get_string(value):
     """
@@ -26,12 +31,17 @@ def get_string(value):
         with open('lite-content/lite-internal-frontend/strings.json') as json_file:
             strings.constants = json.load(json_file)
 
-    def get(d, keys):
+    def get(d, keys, original_string=None):
+        if not original_string:
+            original_string = keys
         if "." in keys:
             key, rest = keys.split(".", 1)
-            return get(d[key], rest)
+            return get(d[key], rest, original_string)
         else:
-            return d[keys]
+            try:
+                return d[keys]
+            except (KeyError, TypeError):
+                raise StringNotFoundError(original_string)
 
     return get(strings.constants, value)
 
