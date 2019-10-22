@@ -45,7 +45,7 @@ def lite_menu(request):
                 'icon': 'menu/flags'
             },
             {
-                'title': 'Letters',
+                'title': 'Letter Templates',
                 'url': '/letter-templates/',
                 'icon': 'menu/letter_templates'
             },
