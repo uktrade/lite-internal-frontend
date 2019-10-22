@@ -14,28 +14,36 @@
 		</div>
 	</noscript>
 
-	<form action="{% url 'letter_templates:letter_paragraphs' %}" method="post">
+    <div class="lite-app-bar">
+        <div class="lite-app-bar__content">
+            <h2 class="govuk-heading-l">{% block title %}What letter paragraphs do you want to use?{% endblock %}</h2>
+        </div>
+        <div class="lite-app-bar__controls">
+            {% if letter_paragraphs %}
+                <form action="{% url 'letter_templates:preview' %}" method="post">
+                    {% csrf_token %}
+                    {% hidden_field 'name' name %}
+                    {% for restricted in restricted_to %}
+                        {% hidden_field 'restricted_to' restricted %}
+                    {% endfor %}
+                    {% hidden_field 'layout' layout %}
+                    {% hidden_field 'letter_paragraphs' letter_paragraph.id %}
+                    <button class="govuk-button" id="button-preview" type="submit">Preview</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
 
-		{% hidden_field 'name' name %}
+    <form action="{% url 'letter_templates:letter_paragraphs' %}" method="post">
+        {% csrf_token %}
+        {% hidden_field 'name' name %}
 		{% for restricted in restricted_to %}
 			{% hidden_field 'restricted_to' restricted %}
 		{% endfor %}
 		{% hidden_field 'layout' layout %}
 
-		<div class="lite-app-bar">
-			<div class="lite-app-bar__content">
-				<h2 class="govuk-heading-l">{% block title %}What letter paragraphs do you want to use?{% endblock %}</h2>
-			</div>
-			<div class="lite-app-bar__controls">
-				{% if letter_paragraphs %}
-					<button class="govuk-button" id="button-preview" name="action" value="preview">Preview</button>
-				{% endif %}
-			</div>
-		</div>
-
 		<div class="app-letter-generator__container">
 			<div class="app-letter-generator__controls">
-					{% csrf_token %}
 					{% if letter_paragraphs %}
 						<p class="govuk-hint" style="margin-top: 0; margin-bottom: 20px;">
 							Drag and drop letter paragraphs to reorder.
