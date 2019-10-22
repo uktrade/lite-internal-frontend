@@ -81,6 +81,7 @@ class Preview(TemplateView):
 
 class Create(TemplateView):
     def post(self, request):
-        post_letter_templates(request, request.POST)
+        letter_paragraphs = request.POST.getlist('letter_paragraphs')
+        post_letter_templates(request, request.POST, letter_paragraphs)
         messages.success(request, 'The letter template was created successfully')
         return redirect('letter_templates:letter_templates')

@@ -27,7 +27,9 @@
                         {% hidden_field 'restricted_to' restricted %}
                     {% endfor %}
                     {% hidden_field 'layout' layout %}
-                    {% hidden_field 'letter_paragraphs' letter_paragraph.id %}
+                    {% for letter_paragraph in letter_paragraphs %}
+                        {% hidden_field 'letter_paragraphs' letter_paragraph.id %}
+                    {% endfor %}
                     <button class="govuk-button" id="button-preview" type="submit">Preview</button>
                 </form>
             {% endif %}

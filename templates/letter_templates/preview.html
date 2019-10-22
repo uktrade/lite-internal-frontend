@@ -31,7 +31,7 @@
 					{% endfor %}
 					{% hidden_field 'layout' layout %}
 					{% for letter_paragraph in letter_paragraphs %}
-						{% hidden_field 'letter_paragraphs' letter_paragraph.id %}
+						{% hidden_field 'letter_paragraphs' letter_paragraph %}
 					{% endfor %}
 					<button class="govuk-button" name="action" value="print">Save</button>
 				</form>

@@ -25,10 +25,10 @@ def get_letter_templates(request):
     return data.json()['results']
 
 
-def post_letter_templates(request, json):
-    if isinstance(json.get('letter_paragraphs'), str):
+def post_letter_templates(request, json, letter_paragraphs=None):
+    if letter_paragraphs:
         json = json.copy()
-        json['letter_paragraphs'] = [json['letter_paragraphs']]
+        json['letter_paragraphs'] = letter_paragraphs
 
     data = post(request, LETTER_TEMPLATES_URL, json)
     return data.json(), data.status_code
