@@ -19,6 +19,7 @@ class ClcQueriesPages(BasePage):
         self.driver.find_element_by_id(self.control_response + answer).click()
 
     def type_in_to_control_list_entry(self, code):
+        self.driver.find_element_by_id(self.control_list_entry).clear()
         self.driver.find_element_by_id(self.control_list_entry).send_keys(code)
 
     def choose_report_summary(self, num):
@@ -30,3 +31,6 @@ class ClcQueriesPages(BasePage):
 
     def is_clc_query_case_closed(self):
         return len(self.driver.find_elements_by_css_selector(self.case_close)) == 1
+
+    def is_respond_to_query_button_present(self):
+        return len(self.driver.find_elements_by_css_selector(self.respond_to_query_btn)) > 0
