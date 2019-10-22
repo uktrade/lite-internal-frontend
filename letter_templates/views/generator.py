@@ -58,10 +58,10 @@ class LetterParagraphs(TemplateView):
             template_content['letter_paragraphs'].remove(pk_to_delete)
 
         return helpers.generate_generator(request,
-                                          letter_paragraphs=existing_letter_paragraphs,
-                                          name=name,
-                                          layout=layout,
-                                          restricted_to=restricted_to)
+                                          letter_paragraphs=template_content['letter_paragraphs'],
+                                          name=template_content['name'],
+                                          layout=template_content['layout'],
+                                          restricted_to=template_content['restricted_to'])
 
 
 class Preview(TemplateView):
