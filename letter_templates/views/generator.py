@@ -10,14 +10,6 @@ from letter_templates.services import get_letter_paragraphs, post_letter_templat
 from picklists.services import get_picklists
 
 
-def generate_generator(request, letter_paragraphs, name, layout, restricted_to):
-    letter_paragraphs = get_letter_paragraphs(request, letter_paragraphs)
-    return render(request, 'letter_templates/generator.html', {'letter_paragraphs': letter_paragraphs,
-                                                               'name': name,
-                                                               'layout': layout,
-                                                               'restricted_to': restricted_to})
-
-
 class Add(TemplateView):
 
     def get(self, request, **kwargs):
@@ -29,11 +21,11 @@ class Add(TemplateView):
         if response:
             return response
 
-        return generate_generator(request,
-                                  letter_paragraphs=[],
-                                  name=request.POST.get('name'),
-                                  layout=request.POST.get('layout'),
-                                  restricted_to=request.POST.getlist('restricted_to'))
+        return helpers.generate_generator(request,
+                                          letter_paragraphs=[],
+                                          name=request.POST.get('name'),
+                                          layout=request.POST.get('layout'),
+                                          restricted_to=request.POST.getlist('restricted_to'))
 
 
 def get_template_content(request):
@@ -65,11 +57,11 @@ class LetterParagraphs(TemplateView):
             pk_to_delete = template_content['action'].split('.')[1]
             template_content['letter_paragraphs'].remove(pk_to_delete)
 
-        return generate_generator(request,
-                                  letter_paragraphs=template_content['letter_paragraphs'],
-                                  name=template_content['name'],
-                                  layout=template_content['layout'],
-                                  restricted_to=template_content['restricted_to'])
+        return helpers.generate_generator(request,
+                                          letter_paragraphs=existing_letter_paragraphs,
+                                          name=name,
+                                          layout=layout,
+                                          restricted_to=restricted_to)
 
 
 class Preview(TemplateView):
