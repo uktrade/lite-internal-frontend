@@ -34,6 +34,8 @@ weasyprint = "*"
 django-csp = "*"
 bandit = "*"
 bleach = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.7"
