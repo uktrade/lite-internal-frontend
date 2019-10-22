@@ -13,7 +13,7 @@ def generate_preview(layout, letter_paragraphs: list):
         open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, f'{layout}.html'), 'r').read())
 
     letter_context = {
-        'content': '\n\n'.join([x['text'] for x in letter_paragraphs]),
+        'content': '<br><br>'.join([x['text'] for x in letter_paragraphs]),
         'applicant': {
             'name': '{{ applicant.name }}',
             'primary_site': {
