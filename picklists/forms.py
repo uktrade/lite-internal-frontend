@@ -4,6 +4,7 @@ from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
 from core.builtins.custom_tags import get_string
+from letter_templates.context_variables import get_sample_context_variables
 
 _name = TextInput(title='Name',
                   name='name')
@@ -14,15 +15,9 @@ _text = TextArea(title='Text',
                      'max_length': 5000,
                  })
 
-_context_variables = [
-    {'key': 'application.name', 'value': 'Application 1234'},
-    {'key': 'organisation.name', 'value': 'My Organisation LTD.'},
-    {'key': 'application.recipient', 'value': 'John Smith'}
-]
-
 _paragraph = MarkdownArea(title='Paragraph Text',
                           name='text',
-                          variables=_context_variables,
+                          variables=get_sample_context_variables(),
                           extras={
                               'max_length': 5000,
                           })
