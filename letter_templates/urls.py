@@ -22,8 +22,6 @@ urlpatterns = [
     path('add/', generator.Add.as_view(), name='add'),
     # ex: /letter-templates/add/letter-paragraphs/
     path('add/letter-paragraphs/', generator.LetterParagraphs.as_view(), name='letter_paragraphs'),
-    # ex: /letter-templates/preview/
-    path('preview/', generator.Preview.as_view(), name='preview'),
     # ex: /letter-templates/create/
     path('create/', generator.Create.as_view(), name='create'),
 ]

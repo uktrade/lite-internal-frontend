@@ -6,6 +6,7 @@ from lite_forms.submitters import submit_paged_form
 
 from letter_templates import helpers
 from letter_templates.forms import add_letter_template
+from letter_templates.helpers import sort_letter_paragraphs
 from letter_templates.services import get_letter_paragraphs, post_letter_templates
 from picklists.services import get_picklists
 
@@ -53,6 +54,8 @@ class LetterParagraphs(TemplateView):
                 'existing_letter_paragraphs': template_content['letter_paragraphs']
             }
             return render(request, 'letter_templates/letter_paragraphs.html', context)
+        elif template_content['action'] == 'preview':
+            return self._preview(request, template_content)
         elif 'delete' in template_content['action']:
             pk_to_delete = template_content['action'].split('.')[1]
             template_content['letter_paragraphs'].remove(pk_to_delete)
@@ -63,11 +66,13 @@ class LetterParagraphs(TemplateView):
                                           layout=template_content['layout'],
                                           restricted_to=template_content['restricted_to'])
 
-
-class Preview(TemplateView):
-    def post(self, request):
-        template_content = get_template_content(request)
+    def _preview(self, request, template_content):
         letter_paragraphs = get_letter_paragraphs(request, template_content['letter_paragraphs'])
+        letter_paragraphs = sort_letter_paragraphs(
+            letter_paragraphs,
+            request.POST.getlist('letter_paragraphs'),
+        )
+
         preview = helpers.generate_preview(template_content['layout'], letter_paragraphs)
 
         return render(request, 'letter_templates/preview.html', {
