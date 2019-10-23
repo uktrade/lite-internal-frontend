@@ -22,6 +22,10 @@ $govuk-link-active-colour: darken($govuk-brand-colour, 20%);
 	}
 }
 
+.app-expanded-row__item {
+    display: none;
+}
+
 .app-panel {
 	background-color: govuk-colour("light-grey");
 	padding: govuk-spacing(6);
