@@ -19,7 +19,7 @@ from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from core.helpers import convert_dict_to_query_params
 from core.services import get_user_permissions, get_statuses
-from queues.services import get_queue, get_queues, get_queue_cases
+from queues.services import get_queue, get_cases_search_data
 
 
 class Cases(TemplateView):
@@ -27,35 +27,48 @@ class Cases(TemplateView):
         """
         Show a list of cases pertaining to that queue
         """
+        from datetime import datetime
+        then = datetime.now()
         case_type = request.GET.get('case_type')
         status = request.GET.get('status')
-        statuses, _ = get_statuses(request)
         sort = request.GET.get('sort')
-        queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
-        queues, _ = get_queues(request, include_system_queues=True)
-        queue, _ = get_queue(request, queue_id, case_type, status, sort)
+        queue_id = request.GET.get('queue')
+        team = request.GET.get('team')
+        # queues, _ = get_queues(request, include_system_queues=True)
+        # queue, _ = get_queue(request, queue_id, case_type, None, sort)
 
         # Page parameters
-        params = {'queue': queue_id, 'page': int(request.GET.get('page', 1))}
+        params = {'page': int(request.GET.get('page', 1))}
+        if queue_id:
+            params['queue_id'] = queue_id
         if sort:
             params['sort'] = sort
         if status:
             params['status'] = status
         if case_type:
             params['case_type'] = case_type
+        if team:
+            params['team'] = team
 
-        cases = get_queue_cases(request, queue_id, convert_dict_to_query_params(params))
+        data = get_cases_search_data(request, convert_dict_to_query_params(params))['data']
 
         context = {
-            'title': queue['queue'].get('name'),
-            'queues': queues['queues'],
-            'current_queue': queue['queue'],
-            'cases': cases,
+            'title': 'All cases',
+            'filters': {
+                'statuses': data['filters']['statuses'],
+                'case_types': data['filters']['case_types']
+            },
+            'queues': data['queues'],
+            'current_queue_id': queue_id,
+            'cases': data['cases'],
             'page': params.pop('page'),
-            'statuses': statuses,
             'params': params,
             'params_str': convert_dict_to_query_params(params)
         }
+        now = datetime.now()
+
+        print(f'TIME TAKEN = {now-then}')
+
         return render(request, 'cases/index.html', context)
 
     def post(self, request, **kwargs):
@@ -63,6 +76,7 @@ class Cases(TemplateView):
         Assign users depending on what cases were selected
         """
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
+        print('#####')
         return redirect(reverse('queues:case_assignments', kwargs={'pk': queue_id}) + '?cases=' + ','.join(
             request.POST.getlist('cases')))
 
@@ -315,3 +329,7 @@ class Document(TemplateView):
 #             'page': 'cases/case/modals/delete_document.html',
 #         }
 #         return render(request, 'core/static.html', context)
+
+
+class TestException(RuntimeError):
+    pass

@@ -19,6 +19,10 @@ $govuk-font-family: Arial, Sans-Serif;
 	}
 }
 
+.app-expanded-row__item {
+    display: none;
+}
+
 .app-panel {
 	background-color: govuk-colour("light-grey");
 	padding: govuk-spacing(6);

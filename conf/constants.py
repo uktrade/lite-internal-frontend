@@ -47,3 +47,5 @@ CONTROL_LIST_ENTRIES_URL = STATIC_URL + 'control-list-entries/'
 # Permissions
 MAKE_FINAL_DECISIONS = 'MAKE_FINAL_DECISIONS'
 DECISIONS_LIST = ['approve', 'refuse', 'no_licence_required']
+
+from timeit import timeit
