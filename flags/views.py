@@ -9,6 +9,7 @@ from lite_forms.generators import form_page
 
 from cases.forms.goods_flags import flags_form
 from cases.services import put_flag_assignments, get_good, get_goods_type, get_case
+from conf.decorators import process_queue_params
 from core.builtins.custom_tags import get_string
 from core.helpers import convert_dict_to_query_params
 from flags.forms import add_flag_form, edit_flag_form
@@ -124,8 +125,10 @@ class AssignFlags(TemplateView):
     url = None
     level = None
 
+    @process_queue_params()
     def dispatch(self, request, *args, **kwargs):
         self.objects = request.GET.getlist('items', request.GET.getlist('goods'))
+        queue_params = kwargs['queue_params']
 
         if not self.objects:
             raise Http404
@@ -148,9 +151,9 @@ class AssignFlags(TemplateView):
             flags = get_organisation_flags(request)
             origin = 'organisation'
 
-        self.url = reverse('organisations:organisation', kwargs=kwargs) \
+        self.url = reverse('organisations:organisation', kwargs=kwargs) + queue_params \
             if self.level == 'organisations' \
-            else reverse('cases:' + origin, kwargs=kwargs)
+            else reverse('cases:' + origin, kwargs=kwargs) + queue_params
 
         # Perform pre-population of the flags if there is only one object to be flagged
         if len(self.objects) == 1:
@@ -161,7 +164,7 @@ class AssignFlags(TemplateView):
             parameters = {
                 'goods': self.objects
             }
-            objects_url_suffix = "?" + convert_dict_to_query_params(parameters)
+            objects_url_suffix = "&" + convert_dict_to_query_params(parameters)
 
             self.url += objects_url_suffix
 

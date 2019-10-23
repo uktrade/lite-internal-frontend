@@ -3,7 +3,7 @@
 {% load humanize %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">Back</a>
+	<a href="{% url 'cases:case' case.id %}{{ queue_params }}" class="govuk-back-link">Back</a>
 {% endblock %}
 
 {% block body %}
@@ -12,6 +12,7 @@
 
 	<form method="post">
 		{% csrf_token %}
+        <input type="hidden" name="queue" value="{{ queue_params }}"/>
 		<div class="govuk-form-group">
             {% if title == 'Manage CLC query case' %}
     			<label class="govuk-label" for="status">

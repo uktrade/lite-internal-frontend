@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">Back to case</a>
+	<a href="{% url 'cases:case' case.id %}{{ queue_params }}" class="govuk-back-link">Back to case</a>
 {% endblock %}
 
 {% block body %}
@@ -20,9 +20,9 @@
 		<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
 			<div class="lite-tabs--fade">
 				<div class="lite-tabs">
-					<a href="{% url 'cases:user_advice_view' case.id %}" class="lite-tabs__tab" id="user_advice">User Advice</a>
-                    <a href="{% url 'cases:team_advice_view' case.id %}" class="lite-tabs__tab" id="team_advice">Team Advice</a>
-                    <a href="{% url 'cases:final_advice_view' case.id %}" class="lite-tabs__tab lite-tabs__tab--selected" id="final_advice">Final Advice</a>
+					<a href="{% url 'cases:user_advice_view' case.id %}{{ queue_params }}" class="lite-tabs__tab" id="user_advice">User Advice</a>
+                    <a href="{% url 'cases:team_advice_view' case.id %}{{ queue_params }}" class="lite-tabs__tab" id="team_advice">Team Advice</a>
+                    <a href="{% url 'cases:final_advice_view' case.id %}{{ queue_params }}" class="lite-tabs__tab lite-tabs__tab--selected" id="final_advice">Final Advice</a>
 				</div>
 			</div>
             {% if case.application.status != 'finalised' %}
@@ -49,7 +49,7 @@
                                 {% endif %}
                             </div>
                         {% else %}
-                            <a class="govuk-button" href="{% url 'cases:coalesce_team_advice' case.id %}" class="lite-tabs__tab" id="combine_advice_button">
+                            <a class="govuk-button" href="{% url 'cases:coalesce_team_advice' case.id %}{{ queue_params }}" class="lite-tabs__tab" id="combine_advice_button">
                                 Combine all team advice
                             </a>
                         {% endif %}

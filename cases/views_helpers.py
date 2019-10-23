@@ -7,6 +7,7 @@ from lite_forms.generators import error_page, form_page
 from cases.forms.advice import advice_recommendation_form
 from cases.helpers import check_matching_advice, add_hidden_advice_data, clean_advice
 from cases.services import get_case
+from conf.constants import DEFAULT_QUEUE_ID
 from core.services import get_denial_reasons, get_user_permissions
 from picklists.services import get_picklists
 from teams.services import get_teams
@@ -32,7 +33,8 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
         'case': case,
         'title': case.get('application').get('name'),
         'all_advice': advice['advice'],
-        'permissions': permissions
+        'permissions': permissions,
+        'queue_params': '?queues=' + request.GET.get('queue', DEFAULT_QUEUE_ID)
     }
 
     if team:
@@ -127,7 +129,8 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
         'third_parties': selected_advice_data.get('third_parties'),
         'consignee': selected_advice_data.get('consignee'),
         'data': pre_data,
-        'level': user_team_final
+        'level': user_team_final,
+        'queue_params': '?queues=' + request.GET.get('queue', DEFAULT_QUEUE_ID)
     }
     return render(request, form, context)
 
@@ -167,14 +170,16 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final):
             'consignee': data.get('consignee'),
             'errors': response['errors'][0],
             'data': data,
-            'level': user_team_final
+            'level': user_team_final,
+            'queue_params': '?queues=' + request.GET.get('queue', DEFAULT_QUEUE_ID)
         }
         return render(request, form, context)
 
     # Add success message
     messages.success(request, 'Your advice has been posted successfully')
 
-    return redirect(reverse_lazy('cases:' + user_team_final + '_advice_view', kwargs={'pk': case.get('id')}))
+    return redirect(reverse_lazy('cases:' + user_team_final + '_advice_view', kwargs={'pk': case.get('id')})
+                    + '?queues=' + request.GET.get('queue', DEFAULT_QUEUE_ID))
 
 
 def give_advice_dispatch(user_team_final, request, **kwargs):
@@ -182,7 +187,9 @@ def give_advice_dispatch(user_team_final, request, **kwargs):
     Returns the case and the form for the level of the advice to be used in the end points
     """
     case = get_case(request, str(kwargs['pk']))
-    form = advice_recommendation_form(reverse_lazy('cases:give_' + user_team_final + '_advice', kwargs={'pk': str(kwargs['pk'])}))
+    form = advice_recommendation_form(reverse_lazy('cases:give_' + user_team_final + '_advice',
+                                                   kwargs={'pk': str(kwargs['pk'])}) +
+                                                           '?queues=' + request.GET.get('queue', DEFAULT_QUEUE_ID))
 
     if user_team_final == 'team':
         user, _ = get_gov_user(request)

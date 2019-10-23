@@ -5,6 +5,7 @@ from lite_forms.generators import form_page
 
 from cases.forms.review_goods_clc import review_goods_clc_query_form
 from cases.services import get_good, get_case, post_goods_control_code
+from conf.decorators import process_queue_params
 from core.builtins.custom_tags import get_string
 from core.helpers import convert_dict_to_query_params
 from core.services import get_user_permissions
@@ -24,6 +25,8 @@ class Good(TemplateView):
 
 
 class ReviewGoods(TemplateView):
+
+    @process_queue_params()
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
 
@@ -32,29 +35,30 @@ class ReviewGoods(TemplateView):
             params = dict()
             params['goods'] = request.GET.getlist('goods')
             params['level'] = 'goods'
-            post_url = '?' + convert_dict_to_query_params(params)
-            return redirect(reverse_lazy('cases:assign_flags', kwargs={'pk': case_id}) + post_url)
+            post_url = '&' + convert_dict_to_query_params(params)
+            return redirect(reverse_lazy('cases:assign_flags', kwargs={'pk': case_id}) +
+                            kwargs['queue_params'] + post_url)
 
         permissions = get_user_permissions(request)
         if 'REVIEW_GOODS' not in permissions:
-            return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}))
+            return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}) + kwargs['queue_params'])
 
         goods_pk_list = request.GET.getlist('items', request.GET.getlist('goods'))
         goods = []
 
         if not goods_pk_list:
-            return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}))
+            return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}) + kwargs['queue_params'])
 
         case = get_case(request, case_id)
 
-        edit_flags_url = reverse_lazy('cases:assign_flags', kwargs={'pk': case_id})
-        review_goods_clc_url = reverse_lazy('cases:review_goods_clc', kwargs={'pk': case_id})
+        edit_flags_url = reverse_lazy('cases:assign_flags', kwargs={'pk': case_id}) + kwargs['queue_params']
+        review_goods_clc_url = reverse_lazy('cases:review_goods_clc', kwargs={'pk': case_id}) + kwargs['queue_params']
         parameters = {
             'level': 'goods',
             'origin': 'review_goods',
             'goods': goods_pk_list
         }
-        goods_postfix_url = '?' + convert_dict_to_query_params(parameters)
+        goods_postfix_url = '&' + convert_dict_to_query_params(parameters)
 
         for good in case['application']['goods']:
             if good['good']['id'] in goods_pk_list:
@@ -65,7 +69,8 @@ class ReviewGoods(TemplateView):
             'case_id': case_id,
             'objects': goods,
             'edit_flags_url': edit_flags_url + goods_postfix_url,
-            'review_goods_clc_url': review_goods_clc_url + goods_postfix_url
+            'review_goods_clc_url': review_goods_clc_url + goods_postfix_url,
+            'queue_params': kwargs['queue_params']
         }
         return render(request, 'cases/case/review-goods.html', context)
 
@@ -75,21 +80,23 @@ class ReviewGoodsClc(TemplateView):
     goods = None
     back_link = None
 
+    @process_queue_params()
     def dispatch(self, request, *args, **kwargs):
         self.case_id = str(kwargs['pk'])
 
         permissions = get_user_permissions(request)
         if 'REVIEW_GOODS' not in permissions:
-            return redirect(reverse_lazy('cases:case', kwargs={'pk': self.case_id}))
+            return redirect(reverse_lazy('cases:case', kwargs={'pk': self.case_id}) + kwargs['queue_params'])
 
         self.goods = request.GET.getlist('items', request.GET.getlist('goods'))
 
         parameters = {
             'goods': self.goods
         }
-        goods_postfix_url = "?" + convert_dict_to_query_params(parameters)
+        goods_postfix_url = '&' + convert_dict_to_query_params(parameters)
 
-        self.back_link = reverse_lazy('cases:review_goods', kwargs={'pk': self.case_id}) + goods_postfix_url
+        self.back_link = reverse_lazy('cases:review_goods', kwargs={'pk': self.case_id}) \
+            + kwargs['queue_params'] + goods_postfix_url
 
         return super(ReviewGoodsClc, self).dispatch(request, *args, **kwargs)
 

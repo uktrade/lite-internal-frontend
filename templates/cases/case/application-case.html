@@ -3,7 +3,7 @@
 {% load humanize static %}
 
 {% block back_link %}
-	<a href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}" class="govuk-back-link">
+	<a href="{% url 'cases:cases' %}{{ queue_params }}" class="govuk-back-link">
 		Back to {{ queue.queue.name }}
 	</a>
 {% endblock %}
@@ -20,24 +20,24 @@
 	</div>
 	<div class="lite-app-bar__controls">
 		<div class="app-more-actions__container">
-			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
+			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}{{ queue_params }}">
 	        	{% get_string 'cases.manage.documents.button' %}
 	        </a>
-	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:ecju_queries' case.id %}">
+	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:ecju_queries' case.id %}{{ queue_params }}">
 	            {% get_string 'cases.ecju_queries.title' %}
 			</a>
-	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
+	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}{{ queue_params }}">
 				{% get_string 'cases.manage.move_case.button' %}
 			</a>
-			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' case.id %}">
+			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' case.id %}{{ queue_params }}">
 				Change Status
 			</a>
 			{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
-				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' case.id %}">
+				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' case.id %}{{ queue_params }}">
 					Record Decision
 				</a>
 			{% endif %}
-	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:user_advice_view' case.id %}">
+	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:user_advice_view' case.id %}{{ queue_params }}">
 				View Advice
 			</a>
 		</div>
@@ -82,6 +82,7 @@
 {% if case.application.licence_type.key == 'open_licence' %}
     <form action="{% url 'cases:assign_flags' case.id %}" method="get">
         <input type="hidden" name="level" value="goods"/>
+        <input type="hidden" name="queue" value="{{ queue.queue.id }}"/>
         <button id="button-edit-goods-flags" value="goods" class="govuk-button" data-module="govuk-button">
             {% get_string 'cases.case.edit_goods_flags' %}
         </button>
@@ -89,6 +90,7 @@
     </form>
 {% elif case.application.licence_type.key == 'standard_licence' %}
     <form action="{% url 'cases:review_goods' case.id %}" method="get">
+    <input type="hidden" name="queue" value="{{ queue.queue.id }}"/>
     {% if 'REVIEW_GOODS' in permissions %}
         <button id="button-review-goods" name="action" value="review-goods" class="govuk-button" data-module="govuk-button">
             {% get_string 'cases.case.review_goods' %}

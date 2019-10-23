@@ -3,7 +3,7 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">{% get_string 'cases.back_to_case' %}</a>
+	<a href="{% url 'cases:case' case.id %}{{ queue_params }}" class="govuk-back-link">{% get_string 'cases.back_to_case' %}</a>
 {% endblock %}
 
 
@@ -12,7 +12,7 @@
 <div class="lite-app-bar">
 	<h1 class="govuk-heading-l">{{ title }}</h1>
 	<div class="lite-app-bar--right">
-		<a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:attach_documents' case.id %}">
+		<a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:attach_documents' case.id %}{{ queue_params }}">
 			{% get_string 'cases.manage.documents.attach_documents.button' %}
 		</a>
 	</div>

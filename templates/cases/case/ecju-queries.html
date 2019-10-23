@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case_id %}" class="govuk-back-link">{% get_string 'cases.back_to_case' %}</a>
+	<a href="{% url 'cases:case' case_id %}{{ queue_params }}" class="govuk-back-link">{% get_string 'cases.back_to_case' %}</a>
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 	<div class="lite-app-bar">
 		<h2 class="govuk-heading-l">{{ title }}</h2>
 		<div class="lite-app-bar--right">
-			<a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:ecju_queries_add' case_id %}">
+			<a role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:ecju_queries_add' case_id %}{{ queue_params }}">
 				{% get_string 'cases.ecju_queries.add_query.add_button_label' %}
 			</a>
 		</div>

@@ -15,6 +15,7 @@ from cases.services import get_case, post_case_notes, put_applications, get_acti
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
 from conf.constants import DEFAULT_QUEUE_ID
+from conf.decorators import process_queue_params
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from core.helpers import convert_dict_to_query_params
@@ -29,11 +30,11 @@ class Cases(TemplateView):
         """
         case_type = request.GET.get('case_type')
         status = request.GET.get('status')
-        statuses, _ = get_statuses(request)
+        statuses = get_statuses(request)[0]
         sort = request.GET.get('sort')
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
-        queues, _ = get_queues(request, include_system_queues=True)
-        queue, _ = get_queue(request, queue_id, case_type, status, sort)
+        queues = get_queues(request, include_system_queues=True)[0]
+        queue = get_queue(request, queue_id, case_type, status, sort)[0]
 
         # Page parameters
         params = {'queue': queue_id, 'page': int(request.GET.get('page', 1))}
@@ -68,10 +69,12 @@ class Cases(TemplateView):
 
 
 class ViewCase(TemplateView):
+
+    @process_queue_params()
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         queue_id = request.GET.get('return_to', DEFAULT_QUEUE_ID)
-        queue, _ = get_queue(request, queue_id)
+        queue = get_queue(request, queue_id)[0]
         case = get_case(request, case_id)
         activity = get_activity(request, case_id)
         permissions = get_user_permissions(request)
@@ -84,6 +87,7 @@ class ViewCase(TemplateView):
             'queue': queue,
             'activity': activity,
             'permissions': permissions,
+            'queue_params': kwargs['queue_params']
         }
 
         if case['type']['key'] == 'end_user_advisory_query':
@@ -95,6 +99,7 @@ class ViewCase(TemplateView):
             context['title'] = case.get('application').get('name')
             return render(request, 'cases/case/application-case.html', context)
 
+    @process_queue_params()
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         response, status_code = post_case_notes(request, case_id, request.POST)
@@ -114,7 +119,7 @@ class ViewCase(TemplateView):
                 error = '\n'.join(error_list)
             return error_page(request, error)
 
-        return redirect(reverse('cases:case', kwargs={'pk': case_id}) + '#case_notes')
+        return redirect(reverse('cases:case', kwargs={'pk': case_id}) + kwargs['queue_params'])
 
 
 class ViewAdvice(TemplateView):
@@ -135,6 +140,8 @@ class ViewAdvice(TemplateView):
 
 
 class ManageCase(TemplateView):
+
+    @process_queue_params()
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case = get_case(request, case_id)
@@ -153,10 +160,12 @@ class ManageCase(TemplateView):
         context = {
             'case': case,
             'title': title,
-            'statuses': reduced_statuses
+            'statuses': reduced_statuses,
+            'queue_params': kwargs['queue_params']
         }
         return render(request, 'cases/case/change-status.html', context)
 
+    @process_queue_params()
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case = get_case(request, case_id)
@@ -170,18 +179,21 @@ class ManageCase(TemplateView):
         else:
             raise Http404
 
-        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+        return redirect(reverse('cases:case', kwargs={'pk': case_id}) + kwargs['queue_params'])
 
 
 class MoveCase(TemplateView):
+    @process_queue_params()
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         case = get_case(request, case_id)
 
         return form_page(request,
-                         move_case_form(request, reverse('cases:case', kwargs={'pk': case_id})),
+                         move_case_form(request,
+                                        reverse('cases:case', kwargs={'pk': case_id}) + kwargs['queue_params']),
                          data=case)
 
+    @process_queue_params()
     def post(self, request, **kwargs):
         case_id = str(kwargs['pk'])
 
@@ -189,8 +201,10 @@ class MoveCase(TemplateView):
             'queues': request.POST.getlist('queues'),
         }
 
+        case_url = reverse('cases:case', kwargs={'pk': case_id}) + kwargs['queue_params']
+
         response, data = submit_single_form(request,
-                                            move_case_form(request, reverse('cases:case', kwargs={'pk': case_id})),
+                                            move_case_form(request, case_url),
                                             put_case,
                                             pk=case_id,
                                             override_data=data)
@@ -198,10 +212,12 @@ class MoveCase(TemplateView):
         if response:
             return response
 
-        return redirect(reverse('cases:case', kwargs={'pk': case_id}))
+        return redirect(case_url)
 
 
 class Documents(TemplateView):
+
+    @process_queue_params()
     def get(self, request, **kwargs):
         """
         List all documents belonging to a case
@@ -214,21 +230,25 @@ class Documents(TemplateView):
             'title': get_string('cases.manage.documents.title'),
             'case': case,
             'case_documents': case_documents['documents'],
+            'queue_params': kwargs['queue_params']
         }
         return render(request, 'cases/case/documents.html', context)
 
 
 @method_decorator(csrf_exempt, 'dispatch')
 class AttachDocuments(TemplateView):
+
+    @process_queue_params()
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         get_case(request, case_id)
 
-        form = attach_documents_form(reverse('cases:documents', kwargs={'pk': case_id}))
+        form = attach_documents_form(reverse('cases:documents', kwargs={'pk': case_id}) + kwargs['queue_params'])
 
         return form_page(request, form, extra_data={'case_id': case_id})
 
     @csrf_exempt
+    @process_queue_params()
     def post(self, request, **kwargs):
         self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
 
@@ -252,7 +272,7 @@ class AttachDocuments(TemplateView):
         if 'errors' in case_documents:
             return error_page(None, 'We had an issue uploading your files. Try again later.')
 
-        return redirect(reverse('cases:documents', kwargs={'pk': case_id}))
+        return redirect(reverse('cases:documents', kwargs={'pk': case_id}) + kwargs['queue_params'])
 
 
 class Document(TemplateView):

@@ -1,6 +1,7 @@
 from django.http import Http404
 from django.utils.functional import wraps
 
+from conf.constants import DEFAULT_QUEUE_ID
 from core.services import get_user_permissions
 
 
@@ -17,5 +18,19 @@ def has_permission(permission: str):
             raise Http404()
 
         return wraps(func)(inner_decorator)
+
+    return decorator
+
+
+def process_queue_params():
+    def decorator(func):
+        def inner(request, *args, **kwargs):
+            queue_id = request.request.GET.get('queue', DEFAULT_QUEUE_ID)
+
+            kwargs['queue_params'] = '?queue=' + str(queue_id)
+
+            return func(request, *args, **kwargs)
+
+        return inner
 
     return decorator

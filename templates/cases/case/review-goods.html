@@ -3,7 +3,7 @@
 {% load humanize static %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case_id %}" class="govuk-back-link">
+	<a href="{% url 'cases:case' case_id %}{{ queue_params }}" class="govuk-back-link">
 		{% get_string 'cases.review_goods_summary.back_link' %}
 	</a>
 {% endblock %}
@@ -18,7 +18,7 @@
 		<h2 class="govuk-heading-l">{% get_string 'cases.review_goods_summary.heading' %}</h2>
 	</div>
     <div class="lite-app-bar__controls">
-        <a id="button-add-report-summary" value="goods" class="btn govuk-button" data-module="govuk-button" href="{{ review_goods_clc_url }}">
+        <a id="button-add-report-summary" value="goods" class="btn govuk-button" data-module="govuk-button" href="{{ review_goods_clc_url }}{{ queue_params }}">
 			{% get_string 'cases.review_goods_summary.review_button' %}
         </a>
     </div>
