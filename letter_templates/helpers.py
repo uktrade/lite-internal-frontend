@@ -20,11 +20,3 @@ def generate_preview(layout, letter_paragraphs: list):
         'content': '<br><br>'.join([paragraph['text'] for paragraph in letter_paragraphs])
     })
     return template.render(letter_context)
-
-
-def generate_generator(request, letter_paragraphs, name, layout, restricted_to):
-    letter_paragraphs = get_letter_paragraphs(request, letter_paragraphs)
-    return render(request, 'letter_templates/order_letter_paragraphs.html', {'letter_paragraphs': letter_paragraphs,
-                                                               'name': name,
-                                                               'layout': layout,
-                                                               'restricted_to': restricted_to})

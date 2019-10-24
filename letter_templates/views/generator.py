@@ -10,22 +10,31 @@ from letter_templates.services import get_letter_paragraphs, post_letter_templat
 from picklists.services import get_picklists
 
 
+def get_order_paragraphs_page(request, template_content):
+    letter_paragraphs = get_letter_paragraphs(request, template_content['letter_paragraphs'])
+    return render(request,
+                  'letter_templates/order_letter_paragraphs.html',
+                  {
+                      'letter_paragraphs': letter_paragraphs,
+                      'name': template_content['name'],
+                      'layout': template_content['layout'],
+                      'restricted_to': template_content['restricted_to']
+                  })
+
+
 class Add(TemplateView):
 
     def get(self, request, **kwargs):
         return form_page(request, add_letter_template().forms[0])
 
     def post(self, request, **kwargs):
-        response, _ = submit_paged_form(request, add_letter_template(), post_letter_templates)
+        response = submit_paged_form(request, add_letter_template(), post_letter_templates)[0]
 
         if response:
             return response
 
-        return helpers.generate_generator(request,
-                                          letter_paragraphs=[],
-                                          name=request.POST.get('name'),
-                                          layout=request.POST.get('layout'),
-                                          restricted_to=request.POST.getlist('restricted_to'))
+        template_content = get_template_content(request)
+        return get_order_paragraphs_page(request, template_content)
 
 
 def get_template_content(request):
@@ -57,11 +66,7 @@ class LetterParagraphs(TemplateView):
             pk_to_delete = template_content['action'].split('.')[1]
             template_content['letter_paragraphs'].remove(pk_to_delete)
 
-        return helpers.generate_generator(request,
-                                          letter_paragraphs=template_content['letter_paragraphs'],
-                                          name=template_content['name'],
-                                          layout=template_content['layout'],
-                                          restricted_to=template_content['restricted_to'])
+        return get_order_paragraphs_page(request, template_content)
 
 
 class Preview(TemplateView):
