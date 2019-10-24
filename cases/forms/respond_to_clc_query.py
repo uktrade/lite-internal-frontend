@@ -10,7 +10,7 @@ from core.services import get_control_list_entries
 from picklists.services import get_picklists
 
 
-def respond_to_clc_query_form(request, case):
+def respond_to_clc_query_form(request, case, queue_params):
     return Form(title='Respond to CLC Query',
                 questions=[
                     Heading(reference_code(case['query']['id']), HeadingStyle.S),
@@ -57,4 +57,5 @@ def respond_to_clc_query_form(request, case):
                     HiddenField('validate_only', True)
                 ],
                 default_button_name='Continue to overview',
-                back_link=BackLink('Back to case', reverse_lazy('cases:case', kwargs={'pk': case['id']})))
+                back_link=BackLink('Back to case',
+                                   reverse_lazy('cases:case', kwargs={'pk': case['id']}) + queue_params))

@@ -32,7 +32,7 @@
 					</div>
 				</td>
                 <td class="lite-table__cell">
-                    <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:good' case.id good.good.id %}">
+                    <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:good' case.id good.good.id %}{{ queue_params }}">
                           {{ good.good.description }}
                       </a>
                 </td>

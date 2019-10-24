@@ -10,7 +10,7 @@
 
 	<br>
 
-	<form action="{% url 'cases:respond_to_clc_query' case.id %}" method="post">
+	<form action="{% url 'cases:respond_to_clc_query' case.id %}{{ queue_params }}" method="post">
 
 		{% hidden_field 'is_good_controlled' data.is_good_controlled %}
 		{% hidden_field 'control_code' data.control_code%}

@@ -73,7 +73,7 @@ class ViewCase(TemplateView):
     @process_queue_params()
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        queue_id = request.GET.get('return_to', DEFAULT_QUEUE_ID)
+        queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
         queue = get_queue(request, queue_id)[0]
         case = get_case(request, case_id)
         activity = get_activity(request, case_id)

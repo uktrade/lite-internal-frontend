@@ -5,7 +5,7 @@
 {% load humanize static %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">Back to Case</a>
+	<a href="{% url 'cases:case' case.id %}{{ queue_params }}" class="govuk-back-link">Back to Case</a>
 {% endblock %}
 
 {% block body %}

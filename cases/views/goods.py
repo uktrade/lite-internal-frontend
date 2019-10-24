@@ -12,14 +12,16 @@ from core.services import get_user_permissions
 
 
 class Good(TemplateView):
+    @process_queue_params()
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
         good_pk = str(kwargs['good_pk'])
-        good, _ = get_good(request, good_pk)
+        good = get_good(request, good_pk)[0]
 
         context = {
             'case': {'id': case_id},
-            'good': good['good']
+            'good': good['good'],
+            'queue_params': kwargs['queue_params']
         }
         return render(request, 'cases/case/good.html', context)
 

@@ -147,7 +147,7 @@
                 <div>
                     {% if 'query' in case.type.key %}
                         <div>
-                            <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?return_to={{ current_queue.id }}" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
+                            <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue={{ current_queue.id }}" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
                                 {{ case.query.id|reference_code }}
                             </a>
                         </div>

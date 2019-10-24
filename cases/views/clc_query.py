@@ -8,6 +8,7 @@ from lite_forms.submitters import submit_single_form
 from cases.forms.goods_flags import flags_form
 from cases.forms.respond_to_clc_query import respond_to_clc_query_form
 from cases.services import get_case, put_control_list_classification_query, put_flag_assignments
+from conf.decorators import process_queue_params
 from core.services import get_user_permissions
 from flags.services import get_goods_flags
 from picklists.services import get_picklist_item
@@ -17,14 +18,15 @@ class Respond(TemplateView):
     case = None
     form = None
 
+    @process_queue_params()
     def dispatch(self, request, *args, **kwargs):
         case_id = str(kwargs['pk'])
         self.case = get_case(request, case_id)
-        self.form = respond_to_clc_query_form(request, self.case)
+        self.form = respond_to_clc_query_form(request, self.case, kwargs['queue_params'])
 
         permissions = get_user_permissions(request)
         if 'REVIEW_GOODS' not in permissions:
-            return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}))
+            return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}) + kwargs['queue_params'])
 
         return super(Respond, self).dispatch(request, *args, **kwargs)
 
@@ -38,7 +40,7 @@ class Respond(TemplateView):
                 flags=get_goods_flags(request, True),
                 level='goods',
                 origin='response',
-                url='#'
+                url='#'+ kwargs['queue_params']
             )
 
             form.questions.append(HiddenField('is_good_controlled', request.POST['is_good_controlled']))
@@ -46,7 +48,8 @@ class Respond(TemplateView):
             form.questions.append(HiddenField('report_summary', request.POST['report_summary']))
             form.questions.append(HiddenField('comment', request.POST['comment']))
 
-            form.post_url = reverse_lazy('cases:respond_to_clc_query_flags', kwargs={'pk': self.case['id']})
+            form.post_url = reverse_lazy('cases:respond_to_clc_query_flags', kwargs={'pk': self.case['id']}) \
+                            + kwargs['queue_params']
             return form_page(request, form, data={'flags': self.case['query']['good']['flags']})
 
         if request.POST.get('action') != 'change':
@@ -70,7 +73,7 @@ class Respond(TemplateView):
             if request.POST.get('action') == 'change':
                 return form_page(request, self.form, data=request.POST)
 
-            return redirect(reverse_lazy('cases:case', kwargs={'pk': self.case['id']}))
+            return redirect(reverse_lazy('cases:case', kwargs={'pk': self.case['id']}) + kwargs['queue_params'])
 
         # Remove validate only key and go to overview page
         data = request.POST.copy()
@@ -87,7 +90,8 @@ class Respond(TemplateView):
             'title': 'Response Overview',
             'data': response_data,
             'case': self.case,
-            'report_summary': report_summary
+            'report_summary': report_summary,
+            'queue_params': kwargs['queue_params']
         }
         return render(request, 'cases/case/clc_query_overview.html', context)
 
@@ -96,6 +100,7 @@ class RespondFlags(TemplateView):
     case = None
     form = None
 
+    @process_queue_params()
     def dispatch(self, request, *args, **kwargs):
         self.case = get_case(request, str(kwargs['pk']))
         self.form = flags_form(
@@ -104,7 +109,8 @@ class RespondFlags(TemplateView):
             origin='response',
             url='#'
         )
-        self.form.post_url = reverse_lazy('cases:respond_to_clc_query_flags', kwargs={'pk': self.case['id']})
+        self.form.post_url = reverse_lazy('cases:respond_to_clc_query_flags', kwargs={'pk': self.case['id']}) \
+                             + kwargs['queue_params']
 
         return super(RespondFlags, self).dispatch(request, *args, **kwargs)
 
@@ -117,10 +123,18 @@ class RespondFlags(TemplateView):
                                  'note': request.POST.get('note')
                              })
 
+        data = request.POST.copy()
+
+        if data.get('validate_only') and data.get('report_summary'):
+            report_summary = get_picklist_item(request, data['report_summary'])
+        else:
+            report_summary = {'text': ''}
+
         context = {
             'title': 'Response Overview',
-            'data': request.POST,
+            'data': data,
             'case': get_case(request, str(kwargs['pk'])),  # Do another pull of case as case flags have changed
-            'report_summary': get_picklist_item(request, request.POST['report_summary'])
+            'report_summary': report_summary,
+            'queue_params': kwargs['queue_params']
         }
         return render(request, 'cases/case/clc_query_overview.html', context)
