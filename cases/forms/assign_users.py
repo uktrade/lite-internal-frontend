@@ -1,5 +1,6 @@
 from django.http import HttpRequest
-from lite_forms.components import Checkboxes, Filter, Form
+from django.urls import reverse
+from lite_forms.components import Checkboxes, Filter, Form, BackLink
 
 from core.builtins.custom_tags import get_string
 from users.services import get_gov_users
@@ -15,4 +16,5 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
                 ],
                 caption=queue['name'],
                 default_button_name='Submit',
-                javascript_imports=['/assets/javascripts/filter-checkbox-list.js'])
+                javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
+                back_link=BackLink('Back to Cases', reverse('cases:cases') + '?queue=' + queue['id']))
