@@ -129,13 +129,13 @@
                     <div>
                     {% if 'query' in case.type.key %}
                         <div>
-                            <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?return_to={{ current_queue.id }}" style="text-decoration: none; margin-bottom: 5px!important; position: relative;">
+                            <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}" style="text-decoration: none; margin-bottom: 5px!important; position: relative;">
                                 {{ case.query.id|reference_code }}
                             </a>
                         </div>
                     {% else %}
                         <div>
-                            <a href="{% url 'cases:case' case.id %}?return_to={{ current_queue.id }}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; position: relative;">
+                            <a href="{% url 'cases:case' case.id %}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; position: relative;">
                                 case_{{ case.id|slice:"-5:" }}
                             </a>
                         </div>

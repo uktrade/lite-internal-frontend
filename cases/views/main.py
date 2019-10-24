@@ -19,7 +19,7 @@ from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from core.helpers import convert_dict_to_query_params
 from core.services import get_user_permissions, get_statuses
-from queues.services import get_queue, get_cases_search_data
+from queues.services import get_cases_search_data
 
 
 class Cases(TemplateView):
@@ -79,8 +79,6 @@ class Cases(TemplateView):
 class ViewCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs['pk'])
-        queue_id = request.GET.get('return_to', DEFAULT_QUEUE_ID)
-        queue, _ = get_queue(request, queue_id)
         case = get_case(request, case_id)
         activity = get_activity(request, case_id)
         permissions = get_user_permissions(request)
@@ -90,7 +88,6 @@ class ViewCase(TemplateView):
         context = {
             'title': 'Case',
             'case': case,
-            'queue': queue,
             'activity': activity,
             'permissions': permissions,
         }
@@ -324,7 +321,3 @@ class Document(TemplateView):
 #             'page': 'cases/case/modals/delete_document.html',
 #         }
 #         return render(request, 'core/static.html', context)
-
-
-class TestException(RuntimeError):
-    pass

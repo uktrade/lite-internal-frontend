@@ -11,7 +11,7 @@ def get_flags(request):
     return data.json(), data.status_code
 
 
-def _get_team_flags(request, level, convert_to_options=False):
+def _get_team_flags(level, request, convert_to_options=False):
     data = get(request, f'{FLAGS_URL}?level={level}&team=True').json()['flags']
     if convert_to_options:
         return [Option(key=flag['id'], value=flag['name']) for flag in data]
@@ -19,9 +19,9 @@ def _get_team_flags(request, level, convert_to_options=False):
     return data
 
 
-get_cases_flags = functools.partial(_get_team_flags, level='Case')
-get_goods_flags = functools.partial(_get_team_flags, level='Good')
-get_organisation_flags = functools.partial(_get_team_flags, level='Organisation')
+get_cases_flags = functools.partial(_get_team_flags, 'Case')
+get_goods_flags = functools.partial(_get_team_flags, 'Good')
+get_organisation_flags = functools.partial(_get_team_flags, 'Organisation')
 
 
 def post_flags(request, json):

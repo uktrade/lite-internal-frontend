@@ -3,8 +3,8 @@
 {% load humanize static %}
 
 {% block back_link %}
-	<a href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}" class="govuk-back-link">
-		Back to {{ queue.queue.name }}
+	<a href="{% url 'cases:cases' %}" class="govuk-back-link">
+		Back to search
 	</a>
 {% endblock %}
 
