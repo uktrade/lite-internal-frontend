@@ -52,7 +52,7 @@ class LetterParagraphs(TemplateView):
                                       x['id'] not in template_content['letter_paragraphs']],
                 'existing_letter_paragraphs': template_content['letter_paragraphs']
             }
-            return render(request, 'letter_templates/letter_paragraphs.html', context)
+            return render(request, 'letter_templates/add_letter_paragraphs.html', context)
         elif 'delete' in template_content['action']:
             pk_to_delete = template_content['action'].split('.')[1]
             template_content['letter_paragraphs'].remove(pk_to_delete)

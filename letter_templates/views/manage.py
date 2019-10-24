@@ -99,7 +99,7 @@ class LetterTemplateEditLetterParagraphs(TemplateView):
                                       x['id'] not in existing_letter_paragraphs],
                 'existing_letter_paragraphs': existing_letter_paragraphs
             }
-            return render(request, 'letter_templates/letter_paragraphs.html', context)
+            return render(request, 'letter_templates/add_letter_paragraphs.html', context)
 
         elif action == 'return_to_preview':
             return self.get(request, override_paragraphs=request.POST.getlist('letter_paragraphs'), **kwargs)
