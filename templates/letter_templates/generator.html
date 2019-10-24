@@ -6,14 +6,10 @@
     <div class="lite-app-bar">
         <div class="lite-app-bar__content">
             <h2 class="govuk-heading-l">{% block title %}What letter paragraphs do you want to use?{% endblock %}</h2>
-            <h4 class="govuk-heading-s govuk-hint lite-js-only">
-                <span class="">Drag and drop letter paragraphs to reorder.</span>
+            <h4 class="govuk-heading-s govuk-hint">
+                <noscript>To re-order paragraphs, you will need to remove and re-add them in the correct order</noscript>
+                <span class="lite-js-only">Drag and drop letter paragraphs to reorder.</span>
             </h4>
-            <noscript>
-                 <h4 class="govuk-heading-s govuk-hint">
-                     To re-order paragraphs, you will need to remove and re-add them in the correct order
-                 </h4>
-            </noscript>
         </div>
         <div class="lite-app-bar__controls">
             {% if letter_paragraphs %}
