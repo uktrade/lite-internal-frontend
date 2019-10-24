@@ -8,12 +8,16 @@ from letter_templates.services import get_letter_paragraphs
 
 
 def generate_preview(layout, letter_paragraphs: list):
-    django_engine = Engine(string_if_invalid='{{ %s }}')
-    with open(os.path.join(settings.LETTER_TEMPLATES_DIRECTORY, f'{layout}.html'), 'r') as html_file:
-        template = django_engine.from_string(html_file.read())
+    django_engine = Engine(
+        string_if_invalid='{{ %s }}',
+        dirs=[os.path.join(settings.LETTER_TEMPLATES_DIRECTORY)],
+        libraries={'sass_tags': 'sass_processor.templatetags.sass_tags'}
+    )
+
+    template = django_engine.get_template(f'{layout}.html')
 
     letter_context = Context({
-        'content': '<br><br>'.join([x['text'] for x in letter_paragraphs])
+        'content': '<br><br>'.join([paragraph['text'] for paragraph in letter_paragraphs])
     })
     return template.render(letter_context)
 
