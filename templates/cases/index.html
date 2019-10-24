@@ -5,7 +5,7 @@
 {% block back_link %}{% endblock %}
 
 {% block body %}
-<p>{{current_queue_id}}</p>
+
 <div class="lite-app-bar">
 	<form method="get" class="app-dropdown__select">
 		<select class="govuk-select" name="queue">
@@ -17,7 +17,7 @@
 	</form>
     <a id="queue-title" href="#" class="govuk-heading-l app-dropdown__heading" onclick="toggleDropdown()">{{ title }}</a>
     <div class="lite-app-bar__controls">
-		{% if not current_queue.is_system_queue %}
+		{% if not is_system_queue %}
         	<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">Assign users</button>
 		{% endif %}
     </div>
@@ -26,7 +26,7 @@
 <div class="app-dropdown__container" id="queues">
     <div class="app-dropdown__list">
         {% for queue in queues %}
-            <a href="{{ queue.href }}" class="app-dropdown__item {% if params.status %}app-dropdown__item--selected{% endif %}">
+            <a href="{{ queue.href }}&title={{queue.name}}" class="app-dropdown__item {% if params.status %}app-dropdown__item--selected{% endif %}">
                 {{ queue.name }}
                 <span class="app-dropdown__item__count">{{ queue.case_count }}</span>
             </a>

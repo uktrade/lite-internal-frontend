@@ -27,15 +27,13 @@ class Cases(TemplateView):
         """
         Show a list of cases pertaining to that queue
         """
-        from datetime import datetime
-        then = datetime.now()
         case_type = request.GET.get('case_type')
         status = request.GET.get('status')
         sort = request.GET.get('sort')
         queue_id = request.GET.get('queue')
         team = request.GET.get('team')
-        # queues, _ = get_queues(request, include_system_queues=True)
-        # queue, _ = get_queue(request, queue_id, case_type, None, sort)
+        title = request.GET.get('title', 'All cases')
+        is_system_queue = request.GET.get('is_system_queue')
 
         # Page parameters
         params = {'page': int(request.GET.get('page', 1))}
@@ -53,21 +51,19 @@ class Cases(TemplateView):
         data = get_cases_search_data(request, convert_dict_to_query_params(params))['data']
 
         context = {
-            'title': 'All cases',
+            'title': title,
             'filters': {
                 'statuses': data['filters']['statuses'],
                 'case_types': data['filters']['case_types']
             },
             'queues': data['queues'],
             'current_queue_id': queue_id,
+            'is_system_queue': is_system_queue,
             'cases': data['cases'],
             'page': params.pop('page'),
             'params': params,
             'params_str': convert_dict_to_query_params(params)
         }
-        now = datetime.now()
-
-        print(f'TIME TAKEN = {now-then}')
 
         return render(request, 'cases/index.html', context)
 
@@ -76,7 +72,6 @@ class Cases(TemplateView):
         Assign users depending on what cases were selected
         """
         queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
-        print('#####')
         return redirect(reverse('queues:case_assignments', kwargs={'pk': queue_id}) + '?cases=' + ','.join(
             request.POST.getlist('cases')))
 
