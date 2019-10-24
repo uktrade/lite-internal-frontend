@@ -3,20 +3,17 @@
 {% load static %}
 
 {% block body %}
-
-	<noscript>
-		<div class="govuk-warning-text">
-			<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-			<strong class="govuk-warning-text__text">
-				<span class="govuk-warning-text__assistive">Warning</span>
-				This page works best with Javascript enabled - ask a coworker for assistance if you need it.
-			</strong>
-		</div>
-	</noscript>
-
     <div class="lite-app-bar">
         <div class="lite-app-bar__content">
             <h2 class="govuk-heading-l">{% block title %}What letter paragraphs do you want to use?{% endblock %}</h2>
+            <h4 class="govuk-heading-s govuk-hint lite-js-only">
+                <span class="">Drag and drop letter paragraphs to reorder.</span>
+            </h4>
+            <noscript>
+                 <h4 class="govuk-heading-s govuk-hint">
+                     To re-order paragraphs, you will need to remove and re-add them in the correct order
+                 </h4>
+            </noscript>
         </div>
         <div class="lite-app-bar__controls">
             {% if letter_paragraphs %}
@@ -47,9 +44,6 @@
 		<div class="app-letter-generator__container">
 			<div class="app-letter-generator__controls">
 				{% if letter_paragraphs %}
-					<p class="govuk-hint" style="margin-top: 0; margin-bottom: 20px;">
-						Drag and drop letter paragraphs to reorder.
-					</p>
 					<div id="standard-advice-list" class="app-sortable">
 						{% for letter_paragraph in letter_paragraphs %}
 							<div class="app-letter-generator__picklist-item" data-id="{{ letter_paragraph.id }}" data-text="{{ letter_paragraph.text }}">
