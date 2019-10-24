@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from lite_forms.components import Form, FormGroup, TextInput, BackLink, Checkboxes, Option, RadioButtons
+from lite_forms.components import Form, FormGroup, TextInput, BackLink, Checkboxes, Option, RadioButtonsImage
 
 
 def add_letter_template():
@@ -26,7 +26,7 @@ def add_letter_template():
                  default_button_name='Continue'),
             Form(title='Select a layout to use for this letter template',
                  questions=[
-                     RadioButtons(
+                     RadioButtonsImage(
                          name='layout',
                          options=[
                              Option('licence', 'Licence'),
@@ -50,7 +50,7 @@ def edit_letter_template(letter_template):
                             Option('clc_query', 'Control List Classification Queries'),
                             Option('end_user_advisory_query', 'End User Advisory Queries'),
                         ]),
-                    RadioButtons(
+                    RadioButtonsImage(
                         title='Select a layout to use for this letter template',
                         name='layout',
                         options=[
