@@ -1,10 +1,8 @@
 import os
 
-from django.shortcuts import render
 from django.template import Engine, Context
 
 from conf import settings
-from letter_templates.services import get_letter_paragraphs
 
 
 def generate_preview(layout, letter_paragraphs: list):
