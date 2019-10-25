@@ -8,11 +8,11 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">{% block title %}Letter templates{% endblock %}</h2>
+			<h2 class="govuk-heading-l">{% block title %}{% get_string 'letter_templates.letter_templates.title' %}{% endblock %}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'letter_templates:add' %}" class="govuk-button" draggable="false" role="button" id="button-create-a-template">
-				Create a template
+				{% get_string 'letter_templates.letter_templates.create_button' %}
 			</a>
 		</div>
 	</div>
@@ -21,10 +21,10 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">Name</th>
-					<th class="govuk-table__header" scope="col">Layout</th>
-					<th class="govuk-table__header" scope="col">Restricted to</th>
-					<th class="govuk-table__header" scope="col">Last updated</th>
+					<th class="govuk-table__header" scope="col">{% get_string 'letter_templates.letter_templates.name_column_title' %}</th>
+					<th class="govuk-table__header" scope="col">{% get_string 'letter_templates.letter_templates.layout_column_title' %}</th>
+					<th class="govuk-table__header" scope="col">{% get_string 'letter_templates.letter_templates.restricted_column_title' %}</th>
+					<th class="govuk-table__header" scope="col">{% get_string 'letter_templates.letter_templates.updated_column_title' %}</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
