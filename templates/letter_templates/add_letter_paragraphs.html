@@ -4,11 +4,11 @@
 
 	<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
         <h1 class="govuk-fieldset__heading">
-            {% block title %}Add letter paragraphs{% endblock %}
+            {% block title %}{% get_string 'letter_templates.add_paragraph.title' %}{% endblock %}
         </h1>
     </legend>
     <span class="govuk-hint" style="margin: 30px 0;">
-        Select letter paragraphs to use in your template.
+        {% get_string 'letter_templates.add_paragraph.hint' %}
     </span>
 
     {% if letter_paragraphs %}
@@ -39,7 +39,7 @@
             </div>
 
             <button class="govuk-button" data-module="govuk-button" name="action" value="return_to_preview">
-                Add items
+                {% get_string 'letter_templates.add_paragraph.add_button' %}
             </button>
         </form>
     {% else %}
