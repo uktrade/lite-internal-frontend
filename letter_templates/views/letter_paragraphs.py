@@ -18,7 +18,8 @@ def get_order_paragraphs_page(request, template_content):
 
 
 class LetterParagraphs(TemplateView):
-    def _add_letter_paragraph(self, request, template_content):
+    @staticmethod
+    def _add_letter_paragraph(request, template_content):
         all_letter_paragraphs = get_picklists(request, 'letter_paragraph')
         context = {
             'name': template_content['name'],
@@ -30,7 +31,8 @@ class LetterParagraphs(TemplateView):
         }
         return render(request, 'letter_templates/add_letter_paragraphs.html', context)
 
-    def _remove_letter_paragraph(self, template_content):
+    @staticmethod
+    def _remove_letter_paragraph(template_content):
         pk_to_delete = template_content['action'].split('.')[1]
         template_content['letter_paragraphs'].remove(pk_to_delete)
 

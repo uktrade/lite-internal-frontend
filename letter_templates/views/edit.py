@@ -63,29 +63,31 @@ class LetterTemplateEditLetterParagraphs(TemplateView):
         paragraphs_by_id = {p["id"]: p for p in paragraphs}
         return [paragraphs_by_id[id] for id in ids if id in paragraphs_by_id]
 
+    @staticmethod
+    def _add_letter_paragraph(request, existing_paragraphs):
+        all_letter_paragraphs = get_picklists(request, 'letter_paragraph')
+        context = {
+            'letter_paragraphs': [x for x in all_letter_paragraphs['picklist_items'] if
+                                  x['id'] not in existing_paragraphs],
+            'existing_letter_paragraphs': existing_paragraphs
+        }
+        return render(request, 'letter_templates/add_letter_paragraphs.html', context)
+
     def post(self, request, **kwargs):
         letter_template_id = str(kwargs['pk'])
         action = request.POST.get('action')
-        existing_letter_paragraphs = request.POST.getlist('letter_paragraphs')
+        existing_paragraphs = request.POST.getlist('letter_paragraphs')
 
         if action == 'add_letter_paragraph':
-            all_letter_paragraphs = get_picklists(request, 'letter_paragraph')
-
-            context = {
-                'letter_paragraphs': [x for x in all_letter_paragraphs['picklist_items'] if
-                                      x['id'] not in existing_letter_paragraphs],
-                'existing_letter_paragraphs': existing_letter_paragraphs
-            }
-            return render(request, 'letter_templates/add_letter_paragraphs.html', context)
+            self._add_letter_paragraph(request, existing_paragraphs)
 
         elif action == 'return_to_preview':
             return self.get(request, override_paragraphs=request.POST.getlist('letter_paragraphs'), **kwargs)
 
         elif 'delete' in action:
             pk_to_delete = action.split('.')[1]
-            existing_letter_paragraphs.remove(pk_to_delete)
-
-            return self.get(request, override_paragraphs=existing_letter_paragraphs, **kwargs)
+            existing_paragraphs.remove(pk_to_delete)
+            return self.get(request, override_paragraphs=existing_paragraphs, **kwargs)
 
         put_letter_template(request, letter_template_id,
                             {'letter_paragraphs': request.POST.getlist('letter_paragraphs')})
