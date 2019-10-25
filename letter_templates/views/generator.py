@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 
+from core.builtins.custom_tags import get_string
 from letter_templates import helpers
 from letter_templates.forms import add_letter_template
 from letter_templates.services import get_letter_paragraphs, post_letter_templates
@@ -88,5 +89,5 @@ class Create(TemplateView):
     def post(self, request):
         letter_paragraphs = request.POST.getlist('letter_paragraphs')
         post_letter_templates(request, request.POST, letter_paragraphs)
-        messages.success(request, 'The letter template was created successfully')
+        messages.success(request, get_string('letter_templates.letter_templates.successfully_created_banner'))
         return redirect('letter_templates:letter_templates')
