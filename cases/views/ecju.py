@@ -86,9 +86,8 @@ class CreateEcjuQuery(TemplateView):
         else:
             picklist_item_text = ''
 
-        form = create_ecju_query_write_or_edit_form(reverse('cases:ecju_queries_add',
-                                                            kwargs={'pk': case_id}) + queue_params
-                                                    )
+        url = reverse('cases:ecju_queries_add', kwargs={'pk': case_id}) + queue_params
+        form = create_ecju_query_write_or_edit_form(url)
         data = {'question': picklist_item_text}
 
         return form_page(request, form, data=data)

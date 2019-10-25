@@ -85,7 +85,7 @@
                 <button type="submit" form="filters" class="govuk-button" style="margin: 0;" id="button-apply-filters">
                     Apply filters
                 </button>
-                <a href="{% url 'cases:cases' %}?queue={{ current_queue.id }}" class="govuk-button govuk-button--secondary" style="margin-bottom: 0;" id="button-clear-filters">
+                <a href="{% url 'cases:cases' %}{{queue_params}}" class="govuk-button govuk-button--secondary" style="margin-bottom: 0;" id="button-clear-filters">
                     Clear filters
                 </a>
             </div>
@@ -147,13 +147,13 @@
                 <div>
                     {% if 'query' in case.type.key %}
                         <div>
-                            <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue={{ current_queue.id }}" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
+                            <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}{{ queue_params }}" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
                                 {{ case.query.id|reference_code }}
                             </a>
                         </div>
                     {% else %}
                         <div>
-                            <a href="{% url 'cases:case' case.id %}?queue={{ current_queue.id }}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
+                            <a href="{% url 'cases:case' case.id %}{{ queue_params }}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; display: inline-block;">
                                 {{ case.id }}
                             </a>
                         </div>
@@ -218,7 +218,7 @@
 		{% include "includes/information-text.html" with text=no_cases_text %}
 		<br><br>
 		{% if params.case_type or params.status %}
-			<a href="{% url 'cases:cases' %}?queue={{ current_queue.id }}" class="govuk-link govuk-link--no-visited-state govuk-body">Clear filters</a>
+			<a href="{% url 'cases:cases' %}{{ queue_params }}" class="govuk-link govuk-link--no-visited-state govuk-body">Clear filters</a>
 		{% endif %}
 	{% endif %}
 

@@ -1,4 +1,4 @@
-def convert_dict_to_query_params(dictionary):
+def convert_dict_to_query_params(dictionary, start=''):
     items = []
     for key, value in dictionary.items():
         if isinstance(value, list):
@@ -6,4 +6,4 @@ def convert_dict_to_query_params(dictionary):
                 items.append(key + '=' + str(val))
         else:
             items.append(key + '=' + str(value))
-    return '&'.join((items))
+    return start+'&'.join(items)

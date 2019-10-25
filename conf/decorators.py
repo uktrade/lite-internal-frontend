@@ -24,12 +24,12 @@ def has_permission(permission: str):
 
 def process_queue_params():
     def decorator(func):
-        def inner(request, *args, **kwargs):
-            queue_id = request.request.GET.get('queue', DEFAULT_QUEUE_ID)
+        def inner(view_object, *args, **kwargs):
+            queue_id = view_object.request.GET.get('queue', DEFAULT_QUEUE_ID)
 
             kwargs['queue_params'] = '?queue=' + str(queue_id)
 
-            return func(request, *args, **kwargs)
+            return func(view_object, *args, **kwargs)
 
         return inner
 

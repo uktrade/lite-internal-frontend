@@ -164,7 +164,7 @@ class AssignFlags(TemplateView):
             parameters = {
                 'goods': self.objects
             }
-            objects_url_suffix = "&" + convert_dict_to_query_params(parameters)
+            objects_url_suffix = convert_dict_to_query_params(parameters, '&')
 
             self.url += objects_url_suffix
 

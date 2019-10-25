@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 from lite_forms.components import HiddenField
 from lite_forms.generators import form_page
@@ -40,7 +40,7 @@ class Respond(TemplateView):
                 flags=get_goods_flags(request, True),
                 level='goods',
                 origin='response',
-                url='#'+ kwargs['queue_params']
+                url=reverse('cases:case', kwargs={'pk': self.case['id']}) + kwargs['queue_params']
             )
 
             form.questions.append(HiddenField('is_good_controlled', request.POST['is_good_controlled']))
@@ -48,8 +48,8 @@ class Respond(TemplateView):
             form.questions.append(HiddenField('report_summary', request.POST['report_summary']))
             form.questions.append(HiddenField('comment', request.POST['comment']))
 
-            form.post_url = reverse_lazy('cases:respond_to_clc_query_flags', kwargs={'pk': self.case['id']}) \
-                            + kwargs['queue_params']
+            form.post_url = reverse_lazy('cases:respond_to_clc_query_flags', kwargs={'pk': self.case['id']})
+            form.post_url += kwargs['queue_params']
             return form_page(request, form, data={'flags': self.case['query']['good']['flags']})
 
         if request.POST.get('action') != 'change':
@@ -78,11 +78,6 @@ class Respond(TemplateView):
         # Remove validate only key and go to overview page
         data = request.POST.copy()
 
-        if data.get('validate_only') and data.get('report_summary'):
-            report_summary = get_picklist_item(request, data['report_summary'])
-        else:
-            report_summary = {'text': ''}
-
         if response_data['is_good_controlled'] == 'no':
             response_data.pop('control_code')
 
@@ -90,9 +85,12 @@ class Respond(TemplateView):
             'title': 'Response Overview',
             'data': response_data,
             'case': self.case,
-            'report_summary': report_summary,
             'queue_params': kwargs['queue_params']
         }
+
+        if data.get('validate_only') and data.get('report_summary'):
+            context['report_summary'] = get_picklist_item(request, data['report_summary'])
+
         return render(request, 'cases/case/clc_query_overview.html', context)
 
 
@@ -109,8 +107,8 @@ class RespondFlags(TemplateView):
             origin='response',
             url='#'
         )
-        self.form.post_url = reverse_lazy('cases:respond_to_clc_query_flags', kwargs={'pk': self.case['id']}) \
-                             + kwargs['queue_params']
+        self.form.post_url = reverse_lazy('cases:respond_to_clc_query_flags', kwargs={'pk': self.case['id']})
+        self.form.post_url += kwargs['queue_params']
 
         return super(RespondFlags, self).dispatch(request, *args, **kwargs)
 
@@ -125,16 +123,14 @@ class RespondFlags(TemplateView):
 
         data = request.POST.copy()
 
-        if data.get('validate_only') and data.get('report_summary'):
-            report_summary = get_picklist_item(request, data['report_summary'])
-        else:
-            report_summary = {'text': ''}
-
         context = {
             'title': 'Response Overview',
             'data': data,
             'case': get_case(request, str(kwargs['pk'])),  # Do another pull of case as case flags have changed
-            'report_summary': report_summary,
             'queue_params': kwargs['queue_params']
         }
+
+        if data.get('validate_only') and data.get('report_summary'):
+            context['report_summary'] = get_picklist_item(request, data['report_summary'])
+
         return render(request, 'cases/case/clc_query_overview.html', context)

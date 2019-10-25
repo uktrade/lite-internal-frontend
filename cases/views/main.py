@@ -24,6 +24,8 @@ from queues.services import get_queue, get_queues, get_queue_cases
 
 
 class Cases(TemplateView):
+
+    @process_queue_params()
     def get(self, request, **kwargs):
         """
         Show a list of cases pertaining to that queue
@@ -55,7 +57,8 @@ class Cases(TemplateView):
             'page': params.pop('page'),
             'statuses': statuses,
             'params': params,
-            'params_str': convert_dict_to_query_params(params)
+            'params_str': convert_dict_to_query_params(params),
+            'queue_params': kwargs['queue_params']
         }
         return render(request, 'cases/index.html', context)
 
@@ -81,13 +84,20 @@ class ViewCase(TemplateView):
 
         case['all_flags'] = _get_all_distinct_flags(case)
 
+        case_flags_url = reverse('cases:assign_flags', kwargs={'pk': case_id})
+        params = dict()
+        params['items'] = case_id
+        params['level'] = 'cases'
+        case_flags_url += kwargs['queue_params'] + convert_dict_to_query_params(params, '&')
+
         context = {
             'title': 'Case',
             'case': case,
             'queue': queue,
             'activity': activity,
             'permissions': permissions,
-            'queue_params': kwargs['queue_params']
+            'queue_params': kwargs['queue_params'],
+            'case_flag_url': case_flags_url
         }
 
         if case['type']['key'] == 'end_user_advisory_query':

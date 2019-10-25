@@ -17,4 +17,4 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
                 caption=queue['name'],
                 default_button_name='Submit',
                 javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
-                back_link=BackLink('Back to Cases', reverse('cases:cases') + '?queue=' + queue['id']))
+                back_link=BackLink(get_string('cases.case.back_to_cases_link'), reverse('cases:cases') + '?queue=' + queue['id']))

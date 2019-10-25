@@ -5,7 +5,7 @@ from lite_forms.components import Form, BackLink, RadioButtons, Option, TextArea
     HiddenField
 from lite_forms.styles import HeadingStyle
 
-from core.builtins.custom_tags import reference_code
+from core.builtins.custom_tags import reference_code, get_string
 from core.services import get_control_list_entries
 from picklists.services import get_picklists
 
@@ -57,5 +57,5 @@ def respond_to_clc_query_form(request, case, queue_params):
                     HiddenField('validate_only', True)
                 ],
                 default_button_name='Continue to overview',
-                back_link=BackLink('Back to case',
+                back_link=BackLink(get_string('cases.back_to_case'),
                                    reverse_lazy('cases:case', kwargs={'pk': case['id']}) + queue_params))

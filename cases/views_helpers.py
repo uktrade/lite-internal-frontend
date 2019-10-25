@@ -8,6 +8,7 @@ from cases.forms.advice import advice_recommendation_form
 from cases.helpers import check_matching_advice, add_hidden_advice_data, clean_advice
 from cases.services import get_case
 from conf.constants import DEFAULT_QUEUE_ID
+from core.helpers import convert_dict_to_query_params
 from core.services import get_denial_reasons, get_user_permissions
 from picklists.services import get_picklists
 from teams.services import get_teams
@@ -29,12 +30,16 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
 
     permissions, user_team = get_user_permissions(request, True)
 
+    params = dict()
+    params['queue'] = request.GET.getlist('queue')
+    post_url = convert_dict_to_query_params(params, '?')
+
     context = {
         'case': case,
         'title': case.get('application').get('name'),
         'all_advice': advice['advice'],
         'permissions': permissions,
-        'queue_params': '?queues=' + request.GET.get('queue', DEFAULT_QUEUE_ID)
+        'queue_params': post_url
     }
 
     if team:

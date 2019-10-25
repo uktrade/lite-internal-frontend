@@ -13,4 +13,4 @@ def move_case_form(request: HttpRequest, case_url: str):
                     Checkboxes('queues', get_queues(request, True)),
                 ],
                 javascript_imports=['/assets/javascripts/filter-checkbox-list.js'],
-                back_link=BackLink('Back to Case', case_url))
+                back_link=BackLink(get_string('cases.back_to_case'), case_url))
