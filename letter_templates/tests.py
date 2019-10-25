@@ -1,13 +1,13 @@
 from unittest import TestCase
 
 from letter_templates.templatetags.variable_highlight import ALT_OPEN_TAG, CLOSE_TAG, OPEN_TAG, variable_highlight
-from letter_templates.views.edit import LetterTemplateEditLetterParagraphs
+from letter_templates.views.edit import EditParagraphs
 
 
 class LetterTemplateEditLetterParagraphsTestCase(TestCase):
     def test_sort_letter_paragraphs(self):
         ids = ["abc", "def", "uvw", "xyz"]
-        result = LetterTemplateEditLetterParagraphs.sort_letter_paragraphs([
+        result = EditParagraphs.sort_letter_paragraphs([
                 {"id": "xyz", "label": "last"},
                 {"id": "abc", "label": "first"},
                 {"id": "uvw", "label": "third"},

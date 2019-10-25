@@ -14,9 +14,9 @@ urlpatterns = [
     # ex: /<uuid:pk>/letter-templates/
     path('<uuid:pk>/', view.LetterTemplateDetail.as_view(), name='letter_template'),
     # ex: /<uuid:pk>/letter-templates/edit/
-    path('<uuid:pk>/edit/', letter_templates.views.edit.LetterTemplateEdit.as_view(), name='edit'),
+    path('<uuid:pk>/edit/', letter_templates.views.edit.EditTemplate.as_view(), name='edit'),
     # ex: /<uuid:pk>/letter-templates/edit/
-    path('<uuid:pk>/edit-letter-paragraphs/', letter_templates.views.edit.LetterTemplateEditLetterParagraphs.as_view(), name='edit_letter_paragraphs'),
+    path('<uuid:pk>/edit-letter-paragraphs/', letter_templates.views.edit.EditParagraphs.as_view(), name='edit_letter_paragraphs'),
 
     # Create letter templates
 

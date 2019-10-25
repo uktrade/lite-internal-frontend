@@ -16,7 +16,8 @@ class Add(TemplateView):
     def get(self, request, **kwargs):
         return form_page(request, add_letter_template().forms[0])
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         response = submit_paged_form(request, add_letter_template(), post_letter_template)[0]
 
         if response:
@@ -27,10 +28,11 @@ class Add(TemplateView):
 
 
 class Preview(TemplateView):
-    def post(self, request):
+    @staticmethod
+    def post(request):
         template_content = get_template_content(request)
-        letter_paragraphs = get_letter_paragraphs(request, template_content['letter_paragraphs'])
-        preview = helpers.generate_preview(template_content['layout'], letter_paragraphs)
+        preview = helpers.generate_preview(template_content['layout'],
+                                           get_letter_paragraphs(request, template_content['letter_paragraphs']))
 
         return render(request, 'letter_templates/preview.html', {
             'preview': preview,
@@ -42,7 +44,8 @@ class Preview(TemplateView):
 
 
 class Create(TemplateView):
-    def post(self, request):
+    @staticmethod
+    def post(request):
         letter_paragraphs = request.POST.getlist('letter_paragraphs')
         post_letter_template(request, request.POST, letter_paragraphs)
         messages.success(request, get_string('letter_templates.letter_templates.successfully_created_banner'))

@@ -17,10 +17,10 @@ class LetterTemplateDetail(TemplateView):
     def get(self, request, **kwargs):
         letter_template_id = str(kwargs['pk'])
         letter_template = get_letter_template(request, letter_template_id)
-        letter_paragraphs = get_letter_paragraphs(request, letter_template['letter_paragraphs'])
 
         context = {
             'letter_template': letter_template,
-            'preview': helpers.generate_preview(letter_template['layout']['id'], letter_paragraphs)
+            'preview': helpers.generate_preview(letter_template['layout']['id'],
+                                                get_letter_paragraphs(request, letter_template['letter_paragraphs']))
         }
         return render(request, 'letter_templates/letter_template.html', context)

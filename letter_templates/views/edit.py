@@ -9,30 +9,31 @@ from letter_templates.services import get_letter_template, put_letter_template, 
 from picklists.services import get_picklists
 
 
-class LetterTemplateEdit(TemplateView):
+class EditTemplate(TemplateView):
     def get(self, request, **kwargs):
-        letter_template_id = str(kwargs['pk'])
-        letter_template = get_letter_template(request, letter_template_id)
+        letter_template = get_letter_template(request, str(kwargs['pk']))
 
-        # Manipulate data from API to make it work with forms
+        # Manipulate letter template data to pre-select checkboxes matching the case types that have already
+        # been selected
         existing_form_data = letter_template
-        existing_form_data['restricted_to'] = [x['key'] for x in existing_form_data['restricted_to']]
+        existing_form_data['restricted_to'] = [case_type['key'] for case_type in existing_form_data['restricted_to']]
 
         return form_page(request, edit_letter_template(letter_template), data=existing_form_data)
 
-    def post(self, request, **kwargs):
+    @staticmethod
+    def post(request, **kwargs):
         letter_template_id = str(kwargs['pk'])
         letter_template = get_letter_template(request, letter_template_id)
 
         # Override case restrictions to use getlist
-        override_data = request.POST.copy()
-        override_data['restricted_to'] = override_data.getlist('restricted_to')
+        edited_letter_template_data = request.POST.copy()
+        edited_letter_template_data['restricted_to'] = edited_letter_template_data.getlist('restricted_to')
 
-        response, _ = submit_single_form(request,
-                                         edit_letter_template(letter_template),
-                                         put_letter_template,
-                                         pk=letter_template_id,
-                                         override_data=override_data)
+        response = submit_single_form(request,
+                                      edit_letter_template(letter_template),
+                                      put_letter_template,
+                                      pk=letter_template_id,
+                                      override_data=edited_letter_template_data)[0]
 
         if response:
             return response
@@ -40,10 +41,9 @@ class LetterTemplateEdit(TemplateView):
         return redirect(reverse('letter_templates:letter_template', kwargs={'pk': letter_template_id}))
 
 
-class LetterTemplateEditLetterParagraphs(TemplateView):
+class EditParagraphs(TemplateView):
     def get(self, request, **kwargs):
-        letter_template_id = str(kwargs['pk'])
-        letter_template = get_letter_template(request, letter_template_id)
+        letter_template = get_letter_template(request,  str(kwargs['pk']))
 
         if kwargs.get('override_paragraphs'):
             letter_template['letter_paragraphs'] = kwargs.get('override_paragraphs')
@@ -67,8 +67,8 @@ class LetterTemplateEditLetterParagraphs(TemplateView):
     def _add_letter_paragraph(request, existing_paragraphs):
         all_letter_paragraphs = get_picklists(request, 'letter_paragraph')
         context = {
-            'letter_paragraphs': [x for x in all_letter_paragraphs['picklist_items'] if
-                                  x['id'] not in existing_paragraphs],
+            'letter_paragraphs': [paragraph for paragraph in all_letter_paragraphs['picklist_items'] if
+                                  paragraph['id'] not in existing_paragraphs],
             'existing_letter_paragraphs': existing_paragraphs
         }
         return render(request, 'letter_templates/add_letter_paragraphs.html', context)

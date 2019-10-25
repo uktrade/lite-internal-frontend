@@ -25,8 +25,8 @@ class LetterParagraphs(TemplateView):
             'name': template_content['name'],
             'layout': template_content['layout'],
             'restricted_to': template_content['restricted_to'],
-            'letter_paragraphs': [x for x in all_letter_paragraphs['picklist_items'] if
-                                  x['id'] not in template_content['letter_paragraphs']],
+            'letter_paragraphs': [paragraph for paragraph in all_letter_paragraphs['picklist_items'] if
+                                  paragraph['id'] not in template_content['letter_paragraphs']],
             'existing_letter_paragraphs': template_content['letter_paragraphs']
         }
         return render(request, 'letter_templates/add_letter_paragraphs.html', context)
@@ -38,8 +38,8 @@ class LetterParagraphs(TemplateView):
 
     def post(self, request):
         template_content = get_template_content(request)
-        if template_content['action'] == 'add_letter_paragraph':
-            self._add_letter_paragraph(request, template_content)
-        elif 'delete' in template_content['action']:
+        if template_content['action'].lower() == 'add_letter_paragraph':
+            return self._add_letter_paragraph(request, template_content)
+        elif 'delete' in template_content['action'].lower():
             self._remove_letter_paragraph(template_content)
         return get_order_paragraphs_page(request, template_content)
