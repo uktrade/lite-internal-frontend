@@ -41,18 +41,18 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:2904bfb928116fea3a83247de6c3687eb9bf942d764e361f5574d5ac11be2ad3",
-                "sha256:77806f23320554b5d3175f4ef864e4ca6eb04d97a95ad6d2b3e3ef7736472c35"
+                "sha256:7fc97cb2c9cdff905e950750c8e8b23b872a84696158a28852355dc4b712ba3a",
+                "sha256:818c56a317c176142dbf1dca3f5b4366c80460c6cc3c4efe22f0bde736571283"
             ],
             "index": "pypi",
-            "version": "==1.10.1"
+            "version": "==1.10.2"
         },
         "botocore": {
             "hashes": [
-                "sha256:05d42876001fe6513742edcdb550f0aeabff2b123678a6b661cfeb6c26066b8e",
-                "sha256:acceec0b79df7e5f8b15eab3033f6a7c7f69d0bc27aa01d65aa5ba4d90742787"
+                "sha256:8223485841ef4731a5d4943a733295ba69d0005c4ae64c468308cc07f6960d39",
+                "sha256:f8e12dc6e536ea512f0ad25b74e7eecdf5d9e09ae92b5de236b535bee7804d5b"
             ],
-            "version": "==1.13.1"
+            "version": "==1.13.2"
         },
         "cairocffi": {
             "hashes": [
@@ -316,11 +316,11 @@
         },
         "lite-forms": {
             "hashes": [
-                "sha256:64c19ac2ef470dfbafdb9b1f1606a1fd8a2e6da9695b88ed598e8c8bcdd507f8",
-                "sha256:b3cdca864754910da9333208e51b46bc486c2a7faa3b68852883bd43e92cf63b"
+                "sha256:279a0eb1ebc04e0b49fdedcc6ad89d528a6e342cc92f7ee41c165a977da42d13",
+                "sha256:ebd7900537fae38074ca8af79a23af4cd6860f0fec84e66df7264b95e822ca31"
             ],
             "index": "pypi",
-            "version": "==0.24.2"
+            "version": "==0.24.3"
         },
         "markdown": {
             "hashes": [
