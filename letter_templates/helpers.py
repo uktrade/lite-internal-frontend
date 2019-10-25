@@ -18,3 +18,14 @@ def generate_preview(layout, letter_paragraphs: list):
         'content': '<br><br>'.join([paragraph['text'] for paragraph in letter_paragraphs])
     })
     return template.render(letter_context)
+
+
+def get_template_content(request):
+    data = request.POST.copy()
+    return {
+        "name": data.get('name'),
+        "layout": data.get('layout'),
+        "restricted_to": data.getlist('restricted_to'),
+        "action": data.get('action'),
+        "letter_paragraphs": data.getlist('letter_paragraphs')
+    }

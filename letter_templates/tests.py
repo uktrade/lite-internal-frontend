@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from letter_templates.templatetags.variable_highlight import ALT_OPEN_TAG, CLOSE_TAG, OPEN_TAG, variable_highlight
-from letter_templates.views.manage import LetterTemplateEditLetterParagraphs
+from letter_templates.views.edit import LetterTemplateEditLetterParagraphs
 
 
 class LetterTemplateEditLetterParagraphsTestCase(TestCase):

@@ -25,7 +25,7 @@ def get_letter_templates(request):
     return data.json()['results']
 
 
-def post_letter_templates(request, json, letter_paragraphs=None):
+def post_letter_template(request, json, letter_paragraphs=None):
     if letter_paragraphs:
         json = json.copy()
         json['letter_paragraphs'] = letter_paragraphs
