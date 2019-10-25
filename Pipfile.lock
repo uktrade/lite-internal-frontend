@@ -316,11 +316,11 @@
         },
         "lite-forms": {
             "hashes": [
-                "sha256:279a0eb1ebc04e0b49fdedcc6ad89d528a6e342cc92f7ee41c165a977da42d13",
-                "sha256:ebd7900537fae38074ca8af79a23af4cd6860f0fec84e66df7264b95e822ca31"
+                "sha256:9fd1d48668b634d66852ad69a63e293fb10a43dc7e0749c68d7e422dff704c0d",
+                "sha256:b6bc854ed1324c8c7802e9ee9ae58ed2890c18e9ee8af1a694385fc2ce4e324e"
             ],
             "index": "pypi",
-            "version": "==0.24.3"
+            "version": "==0.24.4"
         },
         "markdown": {
             "hashes": [

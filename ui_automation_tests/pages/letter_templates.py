@@ -14,6 +14,7 @@ class LetterTemplates():
         self.edit_details_button = '.lite-app-bar__controls .govuk-button'  # CSS
         self.drag_drop_list = 'standard-advice-list'  # ID
         self.preview_paragraphs = 'preview'  # ID
+        self.licence_layout = 'licence'  # ID
 
     def click_create_a_template(self):
         self.driver.find_element_by_id(self.create_template_button).click()
@@ -30,6 +31,9 @@ class LetterTemplates():
 
     def select_which_type_of_case_template_can_apply_to(self, id_selector):
         self.driver.find_element_by_id(id_selector).click()
+
+    def click_licence_layout(self):
+        self.driver.find_element_by_id(self.licence_layout).click()
 
     def add_letter_paragraph(self):
         self.driver.find_element_by_name(self.letter_paragraph).click()
