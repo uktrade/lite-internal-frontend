@@ -110,7 +110,11 @@
             <th class="govuk-table__header" scope="col">Type</th>
             <th class="govuk-table__header" scope="col">Queue</th>
             <th class="govuk-table__header" scope="col">Flags</th>
-            <th class="govuk-table__header" scope="col">Status</th>
+            <th class="govuk-table__header" scope="col">
+                <a href="{% url 'cases:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" class="lite-cases-table__heading {{ 'status'|table_sort:params }}">
+                    Status
+                </a>
+            </th>
             <th class="govuk-table__header" scope="col"></th>
         </tr>
     </thead>
