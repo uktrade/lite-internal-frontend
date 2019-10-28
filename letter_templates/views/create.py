@@ -46,7 +46,9 @@ class Preview(TemplateView):
 class Create(TemplateView):
     @staticmethod
     def post(request):
-        letter_paragraphs = request.POST.getlist('letter_paragraphs')
-        post_letter_template(request, request.POST, letter_paragraphs)
+        json = request.POST.copy()
+        json['letter_paragraphs'] = request.POST.getlist('letter_paragraphs')
+        json['restricted_to'] = request.POST.getlist('restricted_to')
+        post_letter_template(request, json)
         messages.success(request, get_string('letter_templates.letter_templates.successfully_created_banner'))
         return redirect('letter_templates:letter_templates')
