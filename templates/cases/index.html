@@ -96,12 +96,10 @@
 <table class="govuk-table">
     <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-            <th class="govuk-table__header" style="width: 25px">
-                <div class="govuk-checkboxes govuk-checkboxes--small">
-                    <div class="govuk-checkboxes__item">
-                        <input id="select-all-checkbox" class="govuk-checkboxes__input" type="checkbox">
-                        <label class="govuk-label govuk-checkboxes__label"></label>
-                    </div>
+            <th class="govuk-table__header govuk-table__cell--checkbox" style="width: 25px">
+                <div class="govuk-checkboxes__item">
+                    <input id="select-all-checkbox" class="govuk-checkboxes__input" type="checkbox">
+                    <label class="govuk-label govuk-checkboxes__label"></label>
                 </div>
             </th>
             <th class="govuk-table__header" scope="col">Case</th>
@@ -120,35 +118,25 @@
     <tbody class="govuk-table__body">
         {% for case in cases %}
             <tr class="govuk-table__row lite-accordian-table__row">
-                <td class="govuk-table__cell">
-                    <div class="govuk-checkboxes govuk-checkboxes--small">
+                <td class="govuk-table__cell govuk-table__cell--checkbox">
                     <div class="govuk-checkboxes__item">
                         <input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}">
                         <label class="govuk-label govuk-checkboxes__label"></label>
                     </div>
-                </div>
                 </td>
                 <td class="govuk-table__cell">
-                    <div>
-                    {% if 'query' in case.type.key %}
-                        <div>
-                            <a class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}" style="text-decoration: none; margin-bottom: 5px!important; position: relative;">
-                                {{ case.query.id|reference_code }}
-                            </a>
-                        </div>
-                    {% else %}
-                        <div>
-                            <a href="{% url 'cases:case' case.id %}" class="govuk-link govuk-!-font-size-19 govuk-link--no-visited-state govuk-!-font-weight-bold" style="text-decoration: none; margin-bottom: 5px!important; position: relative;">
-                                case_{{ case.id|slice:"-5:" }}
-                            </a>
-                        </div>
-                    {% endif %}
-                    </div>
+                    <a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}">
+						{% if 'query' in case.type.key %}
+                            {{ case.query.id|reference_code }}
+                    	{% else %}
+                            case_{{ case.id|slice:"-5:" }}
+	                    {% endif %}
+                    </a>
                 </td>
                 <td class="govuk-table__cell">
                     {% for queue in case.users %}
                         {% if current_queue.is_system_queue and queue.users|length %}
-                            <p class="govuk-body" style="margin-bottom: 0; opacity: .7;">{{ queue.queue }}</p>
+                            <span class="lite-hint">{{ queue.queue }}</span>
                         {% endif %}
                         {% for user in queue.users %}
                             <p class="govuk-body user" style="margin-bottom: 6px;">
@@ -160,11 +148,11 @@
                             </p>
                         {% empty %}
                             {% if not current_queue.is_system_queue %}
-                                <p class="govuk-body" style="margin-bottom: 0; opacity: .7;">No users assigned</p>
+                                <span class="lite-hint">No users assigned</span>
                             {% endif %}
                         {% endfor %}
                     {% empty %}
-                        <p class="govuk-body" style="margin-bottom: 0; opacity: .7;">No users assigned</p>
+                        <span class="lite-hint">No users assigned</span>
                     {% endfor %}
                 </td>
                 <td class="govuk-table__cell">
@@ -172,41 +160,35 @@
                 </td>
                 <td class="govuk-table__cell">
                     {% for queue_name in case.queue_names|slice:":3" %}
-                        <div class="govuk-body">
+                        <div>
                             {{ queue_name }}
-                            <span class="app-expanded-row__item--invert">
+                            <span class="lite-hint app-expanded-row__item--invert">
                                 {% if case.queue_names|length > 3 and forloop.counter == 3 %} (3 of {{case.queue_names|length}}){% endif %}
                             </span>
                         </div>
                     {% endfor %}
                     {% for queue_name in case.queue_names|slice:"3:" %}
-                        <div class="govuk-body app-expanded-row__item">{{ queue_name }}</div>
+                        <div class="app-expanded-row__item">{{ queue_name }}</div>
                     {% endfor %}
                 </td>
                 <td class="govuk-table__cell">
                     {% for flag in case.flags|slice:":3" %}
-                        <div class="govuk-body">
+                        <div>
                             {{ flag.name }}
-                            <span class="app-expanded-row__item--invert">
+                            <span class="lite-hint app-expanded-row__item--invert">
                                 {% if case.flags|length > 3 and forloop.counter == 3 %} (3 of {{case.flags|length}}){% endif %}
                             </span>
                         </div>
                     {% endfor %}
 
                     {% for flag in case.flags|slice:"3:" %}
-                        <div class="govuk-body app-expanded-row__item">{{ flag.name }}</div>
+                        <div class="app-expanded-row__item">{{ flag.name }}</div>
                     {% endfor %}
                 </td>
                 <td class="govuk-table__cell">
-                    <p class="govuk-body">
-                        {% if case.type.key == 'clc_query' %}
-                            {{ case.status|default:"Untitled"|sentence_case }}
-                        {% else %}
-                            {{ case.status|default:"Untitled"|sentence_case }}
-                        {% endif %}
-                    </p>
+                    {{ case.status|default:"Untitled"|sentence_case }}
                 </td>
-                <td class="govuk-table__cell">
+                <td class="govuk-table__cell govuk-table__cell--numeric">
                     <a class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
                         {% svg 'chevron' %}
                     </a>
