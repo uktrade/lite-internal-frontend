@@ -7,12 +7,6 @@ from conf import settings
 from letter_templates.services import get_letter_paragraphs
 
 
-def sort_letter_paragraphs(paragraphs, ids):
-    """Order a list of letter paragraphs in the same order as a list of IDs."""
-    paragraphs_by_id = {p["id"]: p for p in paragraphs}
-    return [paragraphs_by_id[id] for id in ids if id in paragraphs_by_id]
-
-
 def generate_preview(layout, letter_paragraphs: list):
     django_engine = engines['django']
     template = django_engine.from_string(
@@ -39,10 +33,8 @@ def generate_preview(layout, letter_paragraphs: list):
     return template.render(letter_context)
 
 
-def generate_generator(request, letter_paragraph_ids, name, layout, restricted_to):
-    letter_paragraphs = get_letter_paragraphs(request, letter_paragraph_ids)
-    letter_paragraphs = sort_letter_paragraphs(letter_paragraphs,
-                                               request.POST.getlist("letter_paragraphs"))
+def generate_generator(request, letter_paragraphs, name, layout, restricted_to):
+    letter_paragraphs = get_letter_paragraphs(request, letter_paragraphs)
     return render(request, 'letter_templates/generator.html', {'letter_paragraphs': letter_paragraphs,
                                                                'name': name,
                                                                'layout': layout,

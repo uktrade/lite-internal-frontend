@@ -2,12 +2,20 @@ from conf.client import get, post, put
 from conf.constants import PICKLIST_URL, LETTER_TEMPLATES_URL
 
 
+def sort_letter_paragraphs(paragraphs, ids):
+    """Order a list of letter paragraphs in the same order as a list of IDs."""
+    paragraphs_by_id = {p["id"]: p for p in paragraphs}
+    return [paragraphs_by_id[id] for id in ids if id in paragraphs_by_id]
+
+
 def get_letter_paragraphs(request, ids: list):
     if not ids:
         return []
 
     data = get(request, PICKLIST_URL + '?type=letter_paragraph' + '&ids=' + ','.join(ids))
-    return data.json()['picklist_items']
+    letter_paragraphs = data.json()['picklist_items']
+    letter_paragraphs = sort_letter_paragraphs(letter_paragraphs, ids)
+    return letter_paragraphs
 
 
 def get_letter_template(request, pk):
@@ -25,10 +33,6 @@ def get_letter_templates(request):
     return data.json()['results']
 
 
-def post_letter_templates(request, json, letter_paragraphs=None):
-    if letter_paragraphs:
-        json = json.copy()
-        json['letter_paragraphs'] = letter_paragraphs
-
+def post_letter_templates(request, json):
     data = post(request, LETTER_TEMPLATES_URL, json)
     return data.json(), data.status_code

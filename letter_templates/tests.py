@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from letter_templates.helpers import sort_letter_paragraphs
+from letter_templates.services import sort_letter_paragraphs
 from letter_templates.templatetags.variable_highlight import ALT_OPEN_TAG, CLOSE_TAG, OPEN_TAG, variable_highlight
 
 

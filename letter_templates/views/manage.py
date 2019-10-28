@@ -8,7 +8,6 @@ from letter_templates import helpers
 from letter_templates.forms import edit_letter_template
 from letter_templates.services import get_letter_paragraphs, get_letter_templates, get_letter_template, \
     put_letter_template
-from letter_templates.helpers import sort_letter_paragraphs
 from picklists.services import get_picklists
 
 
@@ -73,7 +72,6 @@ class LetterTemplateEditLetterParagraphs(TemplateView):
             letter_template['letter_paragraphs'] = kwargs.get('override_paragraphs')
 
         letter_paragraphs = get_letter_paragraphs(request, letter_template['letter_paragraphs'])
-        letter_paragraphs = sort_letter_paragraphs(letter_paragraphs, letter_template['letter_paragraphs'])
 
         context = {
             'letter_template': letter_template,

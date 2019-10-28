@@ -12,5 +12,6 @@ RUN apt-get install -y libpq-dev gcc \
 
 RUN pip3 install pipenv
 ADD Pipfile* /app/
+ADD lite-forms /app/lite-forms
 RUN pipenv sync
 ADD . /app

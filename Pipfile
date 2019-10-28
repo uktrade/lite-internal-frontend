@@ -28,7 +28,6 @@ requests-oauthlib = "*"
 s3chunkuploader = "*"
 boto3 = ">=1.9"
 prospector = "*"
-lite-forms = "*"
 django-markdownx = "*"
 weasyprint = "*"
 django-csp = "*"
@@ -36,6 +35,7 @@ bandit = "*"
 bleach = "*"
 gunicorn = "*"
 whitenoise = "*"
+lite-forms = {editable = true,path = "./lite-forms"}
 
 [requires]
 python_version = "3.7"

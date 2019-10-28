@@ -1,12 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from lite_forms.generators import form_page
+from lite_forms.generators import error_page, form_page
 from lite_forms.submitters import submit_paged_form
 
 from letter_templates import helpers
 from letter_templates.forms import add_letter_template
-from letter_templates.helpers import sort_letter_paragraphs
 from letter_templates.services import get_letter_paragraphs, post_letter_templates
 from picklists.services import get_picklists
 
@@ -17,7 +16,10 @@ class Add(TemplateView):
         return form_page(request, add_letter_template().forms[0])
 
     def post(self, request, **kwargs):
-        response, _ = submit_paged_form(request, add_letter_template(), post_letter_templates)
+        response, _ = submit_paged_form(request,
+                                        add_letter_template(),
+                                        post_letter_templates,
+                                        expect_many_values=["restricted_to"])
 
         if response:
             return response
@@ -67,12 +69,10 @@ class LetterParagraphs(TemplateView):
                                           restricted_to=template_content['restricted_to'])
 
     def _preview(self, request, template_content):
+        """
+        Display a preview once letter paragraphs have been selected and sorted.
+        """
         letter_paragraphs = get_letter_paragraphs(request, template_content['letter_paragraphs'])
-        letter_paragraphs = sort_letter_paragraphs(
-            letter_paragraphs,
-            request.POST.getlist('letter_paragraphs'),
-        )
-
         preview = helpers.generate_preview(template_content['layout'], letter_paragraphs)
 
         return render(request, 'letter_templates/preview.html', {
@@ -86,7 +86,19 @@ class LetterParagraphs(TemplateView):
 
 class Create(TemplateView):
     def post(self, request):
-        letter_paragraphs = request.POST.getlist('letter_paragraphs')
-        post_letter_templates(request, request.POST, letter_paragraphs)
-        messages.success(request, 'The letter template was created successfully')
-        return redirect('letter_templates:letter_templates')
+        letter_template_data = request.POST.copy()
+        letter_template_data["letter_paragraphs"] = request.POST.getlist('letter_paragraphs')
+        letter_template_data["restricted_to"] = request.POST.getlist('restricted_to')
+        response, status = post_letter_templates(request, letter_template_data)
+
+        if 200 <= status < 300:
+            messages.success(request, 'The letter template was created successfully')
+            return redirect('letter_templates:letter_templates')
+        else:
+            error_messages = []
+            errors = response["errors"]
+            for field, field_errors in errors.items():
+                for field_error in field_errors:
+                    error_messages.append(field_error)
+
+            return error_page(None, "; ".join(error_messages))
