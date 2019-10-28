@@ -95,7 +95,7 @@
 
 <table class="govuk-table">
     <thead class="govuk-table__head">
-        <tr>
+        <tr class="govuk-table__row">
             <th class="govuk-table__header" style="width: 25px">
                 <div class="govuk-checkboxes govuk-checkboxes--small">
                     <div class="govuk-checkboxes__item">
@@ -117,7 +117,7 @@
             <th class="govuk-table__header" scope="col"></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="govuk-table__body">
         {% for case in cases %}
             <tr class="govuk-table__row lite-accordian-table__row">
                 <td class="govuk-table__cell">
@@ -207,7 +207,7 @@
                     </p>
                 </td>
                 <td class="govuk-table__cell">
-                    <a onclick="return openTableFold(this);">
+                    <a class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
                         {% svg 'chevron' %}
                     </a>
                 </td>
