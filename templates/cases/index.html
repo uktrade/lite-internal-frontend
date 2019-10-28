@@ -169,7 +169,12 @@
                 </td>
                 <td class="govuk-table__cell">
                     {% for queue_name in case.queue_names|slice:":3" %}
-                        <div class="govuk-body">{{ queue_name }}</div>
+                        <div class="govuk-body">
+                            {{ queue_name }}
+                            <span class="app-expanded-row__item--invert">
+                                {% if case.queue_names|length > 3 and forloop.counter == 3 %} (3 of {{case.queue_names|length}}){% endif %}
+                            </span>
+                        </div>
                     {% endfor %}
                     {% for queue_name in case.queue_names|slice:"3:" %}
                         <div class="govuk-body app-expanded-row__item">{{ queue_name }}</div>
@@ -177,8 +182,14 @@
                 </td>
                 <td class="govuk-table__cell">
                     {% for flag in case.flags|slice:":3" %}
-                        <div class="govuk-body">{{ flag.name }}</div>
+                        <div class="govuk-body">
+                            {{ flag.name }}
+                            <span class="app-expanded-row__item--invert">
+                                {% if case.flags|length > 3 and forloop.counter == 3 %} (3 of {{case.flags|length}}){% endif %}
+                            </span>
+                        </div>
                     {% endfor %}
+
                     {% for flag in case.flags|slice:"3:" %}
                         <div class="govuk-body app-expanded-row__item">{{ flag.name }}</div>
                     {% endfor %}
@@ -259,6 +270,9 @@
 
     function openTableFold(element) {
         $(element).parent().parent().find(".app-expanded-row__item").toggle();
+        $(element).parent().parent().find(".app-expanded-row__item--invert").toggle();
+
+
         return false;
     }
     </script>

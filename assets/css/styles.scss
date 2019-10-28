@@ -23,6 +23,10 @@ $govuk-font-family: Arial, Sans-Serif;
     display: none;
 }
 
+.app-expanded-row__item--invert {
+    display: inline-block;
+}
+
 .app-panel {
 	background-color: govuk-colour("light-grey");
 	padding: govuk-spacing(6);
