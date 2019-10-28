@@ -68,7 +68,7 @@ jobs:
       # Linting: dodgy, mccabe, pep8, profile-validator, pyflakes, pylint
       - run:
           name: Run Linting
-          command: pipenv run prospector
+          command: pipenv run prospector --ignore-paths lite-forms
 
       - run:
           name: Run Bandit
