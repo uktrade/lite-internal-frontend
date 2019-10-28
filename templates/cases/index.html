@@ -108,8 +108,9 @@
             <th class="govuk-table__header" scope="col">Queue</th>
             <th class="govuk-table__header" scope="col">Flags</th>
             <th class="govuk-table__header" scope="col">
-                <a href="{% url 'cases:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" class="lite-cases-table__heading {{ 'status'|table_sort:params }}">
+                <a href="{% url 'cases:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" class="app-table__sortable-header {{ 'status'|table_sort:params }}">
                     Status
+					{% svg 'chevron' %}
                 </a>
             </th>
             <th class="govuk-table__header" scope="col"></th>
@@ -186,7 +187,7 @@
                     {% endfor %}
                 </td>
                 <td class="govuk-table__cell">
-                    {{ case.status|default:"Untitled"|sentence_case }}
+                    {{ case.status|sentence_case }}
                 </td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">
                     <a class="lite-accordian-table__chevron" onclick="return openTableFold(this);">

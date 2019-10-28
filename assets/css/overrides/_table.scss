@@ -21,3 +21,68 @@
 		padding: 0!important;
 	}
 }
+
+.app-table__sortable-header {
+	color: govuk-colour("black")!important;
+	text-decoration: none!important;
+
+	&:hover {
+		border-bottom: 2px solid currentColor;
+
+		svg {
+			opacity: 1;
+		}
+	}
+
+	&:active {
+		color: govuk-colour("black");
+	}
+
+	&:focus {
+		@include govuk-focused-text;
+	}
+
+	svg {
+		color: inherit;
+		fill: currentColor;
+		max-width: 14px;
+		opacity: 0;
+
+		* {
+			fill: inherit;
+		}
+	}
+
+	&--active {
+		color: $govuk-link-colour;
+
+		&:hover {
+			color: darken($govuk-link-colour, 10%);
+		}
+
+		&:active {
+			color: darken($govuk-link-colour, 20%);
+		}
+
+		svg {
+			opacity: 1;
+		}
+	}
+
+	&--active-desc {
+		color: $govuk-link-colour;
+
+		&:hover {
+			color: darken($govuk-link-colour, 10%);
+		}
+
+		&:active {
+			color: darken($govuk-link-colour, 20%);
+		}
+
+		svg {
+			opacity: 1;
+			transform: scaleY(-1);
+		}
+	}
+}
