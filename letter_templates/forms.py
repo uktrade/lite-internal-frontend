@@ -1,19 +1,21 @@
 from django.urls import reverse_lazy
-from lite_forms.components import Form, FormGroup, TextInput, BackLink, Checkboxes, Option, RadioButtons
+from lite_forms.components import Form, FormGroup, TextInput, BackLink, Checkboxes, Option, RadioButtonsImage
+
+from core.builtins.custom_tags import get_string
 
 
 def add_letter_template():
     return FormGroup(
         forms=[
-            Form(title='Enter a name for your letter template',
-                 description='This will make it easier to find in the future.',
+            Form(title=get_string('letter_templates.add_letter_template.name.title'),
+                 description=get_string('letter_templates.add_letter_template.name.hint'),
                  questions=[
                      TextInput(name='name')
                  ],
-                 back_link=BackLink('Back to letter templates', reverse_lazy('letter_templates:letter_templates')),
-                 default_button_name='Continue'),
-            Form(title='What types of case can this template apply to?',
-                 description='Select all case types that apply.',
+                 back_link=BackLink(get_string('letter_templates.add_letter_template.name.back_link'),
+                                    reverse_lazy('letter_templates:letter_templates')),
+                 default_button_name=get_string('letter_templates.add_letter_template.name.continue_button')),
+            Form(title=get_string('letter_templates.add_letter_template.case_types.title'),
                  questions=[
                      Checkboxes(
                          name='restricted_to',
@@ -23,40 +25,41 @@ def add_letter_template():
                              Option('end_user_advisory_query', 'End User Advisory Queries'),
                          ])
                  ],
-                 default_button_name='Continue'),
-            Form(title='Select a layout to use for this letter template',
+                 default_button_name=get_string('letter_templates.add_letter_template.case_types.continue_button')),
+            Form(title=get_string('letter_templates.add_letter_template.layout.title'),
                  questions=[
-                     RadioButtons(
+                     RadioButtonsImage(
                          name='layout',
                          options=[
                              Option('licence', 'Licence'),
                          ])
                  ],
-                 default_button_name='Continue')
+                 default_button_name=get_string('letter_templates.add_letter_template.layout.continue_button'))
         ])
 
 
 def edit_letter_template(letter_template):
-    return Form(title='Edit ' + letter_template['name'],
+    return Form(title=get_string('letter_templates.edit_letter_template.title') % letter_template['name'],
                 questions=[
-                    TextInput(title='Letter template name',
-                              description='This makes it easier to find your letter template in the future',
+                    TextInput(title=get_string('letter_templates.edit_letter_template.name.title'),
+                              description=get_string('letter_templates.edit_letter_template.name.hint'),
                               name='name'),
                     Checkboxes(
-                        title='What types of case can this template apply to?',
+                        title=get_string('letter_templates.edit_letter_template.case_types.title'),
                         name='restricted_to',
                         options=[
                             Option('application', 'Applications'),
                             Option('clc_query', 'Control List Classification Queries'),
                             Option('end_user_advisory_query', 'End User Advisory Queries'),
                         ]),
-                    RadioButtons(
-                        title='Select a layout to use for this letter template',
+                    RadioButtonsImage(
+                        title=get_string('letter_templates.edit_letter_template.layout.title'),
                         name='layout',
                         options=[
                             Option('licence', 'Licence'),
                         ])
                 ],
                 back_link=BackLink('Back to ' + letter_template['name'],
-                                   reverse_lazy('letter_templates:letter_template', kwargs={'pk': letter_template['id']})),
-                default_button_name='Save')
+                                   reverse_lazy('letter_templates:letter_template',
+                                                kwargs={'pk': letter_template['id']})),
+                default_button_name=get_string('letter_templates.edit_letter_template.button_name'))

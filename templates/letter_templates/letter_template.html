@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	<a href="{% url 'letter_templates:letter_templates' %}" class="govuk-back-link">Back to letter templates</a>
+	<a href="{% url 'letter_templates:letter_templates' %}" class="govuk-back-link">{% get_string 'letter_templates.letter_template.back_link' %}</a>
 {% endblock %}
 
 {% block body %}
@@ -19,33 +19,33 @@
 				<h2 class="govuk-heading-l">{% block title %}{{ letter_template.name }}{% endblock %}</h2>
 			</div>
 			<div class="lite-app-bar__controls">
-				<a href="{% url 'letter_templates:edit' letter_template.id %}" class="govuk-button govuk-button--secondary">Edit details</a>
-				<a href="{% url 'letter_templates:edit_letter_paragraphs' letter_template.id %}" class="govuk-button govuk-button--secondary">Edit letter paragraphs</a>
+				<a href="{% url 'letter_templates:edit' letter_template.id %}" class="govuk-button govuk-button--secondary">{% get_string 'letter_templates.letter_template.edit_button' %}</a>
+				<a href="{% url 'letter_templates:edit_letter_paragraphs' letter_template.id %}" class="govuk-button govuk-button--secondary">{% get_string 'letter_templates.letter_template.edit_paragraph_button' %}</a>
 			</div>
 		</div>
 
 		<div class="lite-information-board">
 			<div class="govuk-grid-row">
 				<div class="govuk-grid-column-one-third">
-					<h4 class="govuk-heading-s">Layout</h4>
+					<h4 class="govuk-heading-s">{% get_string 'letter_templates.letter_template.layout_title' %}</h4>
 					<p class="govuk-label">
 						{{ letter_template.layout.name }}
 					</p>
 				</div>
 				<div class="govuk-grid-column-one-third">
-					<h4 class="govuk-heading-s">Restricted to</h4>
+					<h4 class="govuk-heading-s">{% get_string 'letter_templates.letter_template.restricted_title' %}</h4>
 					<p class="govuk-label">
-						{% for restriction in letter_template.restricted_to %}{% if not forloop.first %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{{ restriction.value }}{% endfor %}
+						{% for restriction in letter_template.restricted_to_display %}{% if not forloop.first %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{{ restriction }}{% endfor %}
 					</p>
 				</div>
 				<div class="govuk-grid-column-one-third">
-					<h4 class="govuk-heading-s">Last updated</h4>
+					<h4 class="govuk-heading-s">{% get_string 'letter_templates.letter_template.last_update_title' %}</h4>
 					<p class="govuk-label">{{ letter_template.last_modified_at|str_date }}</p>
 				</div>
 			</div>
 			<div class="govuk-grid-row">
 				<div class="govuk-grid-column-one-third">
-					<h4 class="govuk-heading-s">Created at</h4>
+					<h4 class="govuk-heading-s">{% get_string 'letter_templates.letter_template.created_title' %}</h4>
 					<p class="govuk-label">{{ letter_template.created_at|str_date }}</p>
 				</div>
 			</div>

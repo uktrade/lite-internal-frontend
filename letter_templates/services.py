@@ -33,6 +33,6 @@ def get_letter_templates(request):
     return data.json()['results']
 
 
-def post_letter_templates(request, json):
+def post_letter_template(request, json):
     data = post(request, LETTER_TEMPLATES_URL, json)
     return data.json(), data.status_code

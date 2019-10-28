@@ -4,16 +4,6 @@
 
 {% block body %}
 
-	<noscript>
-		<div class="govuk-warning-text">
-			<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-			<strong class="govuk-warning-text__text">
-				<span class="govuk-warning-text__assistive">Warning</span>
-				This page works best with Javascript enabled - ask a coworker for assistance if you need it.
-			</strong>
-		</div>
-	</noscript>
-
     <form action="{% url 'letter_templates:letter_paragraphs' %}" method="post">
         {% csrf_token %}
         {% hidden_field 'name' name %}
@@ -23,36 +13,35 @@
         {% hidden_field 'layout' layout %}
         <div class="lite-app-bar">
             <div class="lite-app-bar__content">
-                <h2 class="govuk-heading-l">{% block title %}What letter paragraphs do you want to use?{% endblock %}</h2>
+                <h2 class="govuk-heading-l">{% block title %}{% get_string 'letter_templates.order_paragraph.title' %}{% endblock %}</h2>
+                <h4 class="govuk-heading-s govuk-hint">
+                    <noscript>{% get_string 'letter_templates.order_paragraph.no_js_hint' %}</noscript>
+                    <span class="lite-js-only">{% get_string 'letter_templates.order_paragraph.js_hint' %}</span>
+                </h4>
             </div>
             <div class="lite-app-bar__controls">
-                <button class="govuk-button" id="button-preview" type="submit" name="action" value="preview">Preview</button>
+                <button class="govuk-button" id="button-preview" type="submit" name="action" value="preview">{% get_string 'letter_templates.order_paragraph.preview_button' %}</button>
             </div>
         </div>
 
 		<div class="app-letter-generator__container">
 			<div class="app-letter-generator__controls">
 				{% if letter_paragraphs %}
-					<p class="govuk-hint" style="margin-top: 0; margin-bottom: 20px;">
-						Drag and drop letter paragraphs to reorder.
-					</p>
 					<div id="standard-advice-list" class="app-sortable">
 						{% for letter_paragraph in letter_paragraphs %}
 							<div class="app-letter-generator__picklist-item" data-id="{{ letter_paragraph.id }}" data-text="{{ letter_paragraph.text }}">
 								{% hidden_field 'letter_paragraphs' letter_paragraph.id %}
 								<p class="app-letter-generator__picklist-item-text">{{ letter_paragraph.name }}</p>
 								<button type="submit" name="action" value="delete.{{ letter_paragraph.id }}">
-									<span class="govuk-visually-hidden">Remove letter paragraph from template</span>
+									<span class="govuk-visually-hidden">{% get_string 'letter_templates.order_paragraph.remove_button' %}</span>
 									✕
 								</button>
 							</div>
 						{% endfor %}
 					</div>
 					<br>
-					<button class="lite-button--link" type="submit" name="action" value="add_letter_paragraph">Add another letter paragraph</button>
-				{% else %}
-					<button class="lite-button--link" type="submit" name="action" value="add_letter_paragraph">Add letter paragraph</button>
 				{% endif %}
+                <button class="lite-button--link" type="submit" name="action" value="add_letter_paragraph">{% get_string 'letter_templates.order_paragraph.add_paragraph' %}</button>
 			</div>
 			<div id="preview" class="govuk-body">
 				{% for letter_paragraph in letter_paragraphs %}

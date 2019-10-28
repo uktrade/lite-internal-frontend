@@ -28,7 +28,7 @@ def create_letter_template(driver, context):
     Shared(driver).click_submit()
     LetterTemplates(driver).select_which_type_of_case_template_can_apply_to('Applications')
     Shared(driver).click_submit()
-    LetterTemplates(driver).select_which_type_of_case_template_can_apply_to('layout-licence')
+    LetterTemplates(driver).click_licence_layout()
     Shared(driver).click_submit()
 
 
