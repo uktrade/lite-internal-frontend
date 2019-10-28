@@ -4,8 +4,11 @@ from conf.constants import PICKLIST_URL, LETTER_TEMPLATES_URL
 
 def sort_letter_paragraphs(paragraphs, ids):
     """Order a list of letter paragraphs in the same order as a list of IDs."""
-    paragraphs_by_id = {p["id"]: p for p in paragraphs}
-    return [paragraphs_by_id[id] for id in ids if id in paragraphs_by_id]
+    for id in ids:
+        for paragraph in paragraphs:
+            if id == paragraph["id"]:
+                yield paragraph
+                continue
 
 
 def get_letter_paragraphs(request, ids: list):
