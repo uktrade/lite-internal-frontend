@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% load humanize svg %}
+{% load svg static %}
 
 {% block back_link %}{% endblock %}
 
@@ -33,7 +33,6 @@
         {% endfor %}
     </div>
 </div>
-
 
 <div class="lite-js-only">
     <a href="#" onclick="toggleFilters()" id="show-filters-link" class="govuk-link govuk-link--no-visited-state lite-show-filters-link">
@@ -120,7 +119,7 @@
     </thead>
     <tbody>
         {% for case in cases %}
-            <tr class="govuk-table__row view">
+            <tr class="govuk-table__row lite-accordian-table__row">
                 <td class="govuk-table__cell">
                     <div class="govuk-checkboxes govuk-checkboxes--small">
                     <div class="govuk-checkboxes__item">
@@ -271,14 +270,10 @@
 		$("#select-all-checkbox").prop('checked', $("input[name='cases']:checked").length == $("input[name='cases']").length);
 		$("#select-all-checkbox").prop("indeterminate", $("input[name='cases']:checked").length > 0 && $("input[name='cases']:checked").length < $("input[name='cases']").length);
 	});
-
-    function openTableFold(element) {
-        $(element).parent().parent().find(".app-expanded-row__item").toggle();
-        $(element).parent().parent().find(".app-expanded-row__item--invert").toggle();
-
-
-        return false;
-    }
     </script>
 </script>
+{% endblock %}
+
+{% block javascript %}
+	<script src="{% static 'javascripts/cases.js' %}"></script>
 {% endblock %}
