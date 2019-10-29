@@ -5,6 +5,7 @@ from pytest_bdd import given, when, then, parsers
 from pages.roles_pages import RolesPages
 from pages.users_page import UsersPage
 from ui_automation_tests.fixtures.env import environment # noqa
+from ui_automation_tests.fixtures.add_a_document_template import add_a_document_template # noqa
 from ui_automation_tests.fixtures.add_a_flag import add_uae_flag, add_suspicious_flag, add_organisation_suspicious_flag # noqa
 from ui_automation_tests.fixtures.add_queue import add_queue # noqa
 from ui_automation_tests.fixtures.add_a_team import add_a_team # noqa
