@@ -36,7 +36,6 @@ bandit = "*"
 bleach = "*"
 gunicorn = "*"
 whitenoise = "*"
-lite-forms = {editable = true,path = "./lite-forms"}
 
 [requires]
 python_version = "3.7"
