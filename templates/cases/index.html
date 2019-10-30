@@ -17,9 +17,7 @@
 	</form>
     <a id="queue-title" href="#" class="govuk-heading-l app-dropdown__heading" onclick="toggleDropdown()">{{ title }}</a>
     <div class="lite-app-bar__controls">
-		{% if not is_system_queue %}
-        	<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">Assign users</button>
-		{% endif %}
+        <button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">Assign users</button>
     </div>
 </div>
 <div class="app-dropdown__background" onclick="toggleDropdown()"></div>
@@ -136,7 +134,7 @@
                 </td>
                 <td class="govuk-table__cell">
                     {% for queue in case.users %}
-                        {% if current_queue.is_system_queue and queue.users|length %}
+                        {% if queue.users|length %}
                             <span class="lite-hint">{{ queue.queue }}</span>
                         {% endif %}
                         {% for user in queue.users %}
@@ -148,9 +146,7 @@
                                 {% endif %}
                             </p>
                         {% empty %}
-                            {% if not current_queue.is_system_queue %}
-                                <span class="lite-hint">No users assigned</span>
-                            {% endif %}
+                            <span class="lite-hint">No users assigned</span>
                         {% endfor %}
                     {% empty %}
                         <span class="lite-hint">No users assigned</span>

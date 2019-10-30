@@ -33,7 +33,6 @@ class Cases(TemplateView):
         queue_id = request.GET.get('queue')
         team = request.GET.get('team')
         title = request.GET.get('title', 'All cases')
-        is_system_queue = request.GET.get('is_system_queue')
 
         # Page parameters
         params = {'page': int(request.GET.get('page', 1))}
@@ -58,7 +57,6 @@ class Cases(TemplateView):
             },
             'queues': data['queues'],
             'current_queue_id': queue_id,
-            'is_system_queue': is_system_queue,
             'cases': data['cases'],
             'page': params.pop('page'),
             'params': params,
