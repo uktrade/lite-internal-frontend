@@ -12,7 +12,7 @@
 
 {% block body %}
 {% if notification %}
-<a href="#case-activity-{{ notification.case_activity }}" style="text-decoration: none">
+<a id="case-notification" href="#case-activity-{{ notification.case_activity }}" style="text-decoration: none">
     <div class="lite-info-bar lite-info-bar--no-animation">
         See what has changed
     </div>
