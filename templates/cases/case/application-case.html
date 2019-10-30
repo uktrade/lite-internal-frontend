@@ -11,7 +11,7 @@
 {% load svg %}
 
 {% block body %}
-<a href="#case-activity-{{ notification.case_activity }}">Case has been updated</a>
+{% if notification %}<a href="#case-activity-{{ notification.case_activity }}">Case has been updated</a>{% endif %}
 <div class="lite-app-bar">
 	<div class="lite-app-bar__content">
 		<p class="govuk-caption-m" style="margin: 0;">{{ case.application.licence_type.value }}</p>
