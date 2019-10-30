@@ -260,5 +260,5 @@ def no_permissions(driver):
 
 
 @given("I create report summary picklist")
-def add_report_summary_picklist(add_a_report_summary_picklist):
+def add_report_summary_picklist(add_a_report_summary_picklist):  # noqa
     pass
