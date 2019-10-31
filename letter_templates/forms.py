@@ -48,9 +48,9 @@ def edit_letter_template(letter_template):
                         title=get_string('letter_templates.edit_letter_template.case_types.title'),
                         name='restricted_to',
                         options=[
-                            Option('application', 'Applications'),
-                            Option('clc_query', 'Control List Classification Queries'),
-                            Option('end_user_advisory_query', 'End User Advisory Queries'),
+                            Option('application', 'Application'),
+                            Option('clc_query', 'CLC Query'),
+                            Option('end_user_advisory_query', 'End User Advisory Query'),
                         ]),
                     RadioButtonsImage(
                         title=get_string('letter_templates.edit_letter_template.layout.title'),

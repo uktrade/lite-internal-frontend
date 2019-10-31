@@ -1,25 +1,22 @@
 from django.urls import path
 
-import letter_templates.views.edit
-import letter_templates.views.letter_paragraphs
-from letter_templates.views import view, create
+from letter_templates.views import edit, letter_paragraphs, view, create
 
 app_name = 'letter_templates'
 
 urlpatterns = [
     # Manage letter templates
 
-    # ex: /<uuid:pk>/letter-templates/
+    # ex: /letter-templates/
     path('', view.LetterTemplatesList.as_view(), name='letter_templates'),
-    # ex: /<uuid:pk>/letter-templates/
+    # ex: /letter-templates/<uuid:pk>/
     path('<uuid:pk>/', view.LetterTemplateDetail.as_view(), name='letter_template'),
-    # ex: /<uuid:pk>/letter-templates/edit/
-    path('<uuid:pk>/edit/', letter_templates.views.edit.EditTemplate.as_view(), name='edit'),
-    # ex: /<uuid:pk>/letter-templates/edit/
-    path('<uuid:pk>/edit-letter-paragraphs/', letter_templates.views.edit.EditParagraphs.as_view(), name='edit_letter_paragraphs'),
+    # ex: /letter-templates/<uuid:pk>/edit/
+    path('<uuid:pk>/edit/', edit.EditTemplate.as_view(), name='edit'),
+    # ex: /letter-templates/<uuid:pk>/edit-paragraphs/
+    path('<uuid:pk>/edit-paragraphs/', edit.EditParagraphs.as_view(), name='edit_letter_paragraphs'),
 
     # Create letter templates
-
     # ex: /letter-templates/add/
     path('add/', create.Add.as_view(), name='add'),
     # ex: /letter-templates/add/letter-paragraphs/

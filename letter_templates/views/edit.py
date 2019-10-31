@@ -73,7 +73,7 @@ class EditParagraphs(TemplateView):
         existing_paragraphs = request.POST.getlist('letter_paragraphs')
 
         if action == 'add_letter_paragraph':
-            self._add_letter_paragraph(request, existing_paragraphs)
+            return self._add_letter_paragraph(request, existing_paragraphs)
 
         elif action == 'return_to_preview':
             return self.get(request, override_paragraphs=request.POST.getlist('letter_paragraphs'), **kwargs)
