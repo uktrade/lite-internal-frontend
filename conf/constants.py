@@ -37,6 +37,7 @@ CLC_QUERIES_URL = '/queries/control-list-classifications/'
 PICKLIST_URL = '/picklist/'
 LETTER_TEMPLATES_URL = '/letter-templates/'
 GOOD_CLC_REVIEW_URL = '/goods/controlcode/'
+MANAGE_STATUS_URL = '/status/'
 
 # Static URLs
 STATIC_URL = '/static/'

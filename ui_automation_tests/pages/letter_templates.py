@@ -1,4 +1,4 @@
-class LetterTemplates():
+class LetterTemplates:
 
     def __init__(self, driver):
         self.driver = driver
@@ -15,6 +15,17 @@ class LetterTemplates():
         self.drag_drop_list = 'standard-advice-list'  # ID
         self.preview_paragraphs = 'preview'  # ID
         self.licence_layout = 'licence'  # ID
+
+        # Template page
+        self.template_title = 'title'  # ID
+        self.template_layout = 'layout'  # ID
+        self.template_restricted_to = 'restricted_to'  # ID
+        self.template_paragraphs = 'paragraph_content'  # ID
+        self.edit_template_button = 'edit_template'  # ID
+        self.edit_paragraphs_button = 'edit_template_paragraphs'  # ID
+        self.add_paragraph_link = 'add_paragraph'  # ID
+        self.paragraph_checkboxes_list = '.govuk-checkboxes__input'  # CSS
+        self.paragraph_text_list = 'paragraph-list'  # ID
 
     def click_create_a_template(self):
         self.driver.find_element_by_id(self.create_template_button).click()
@@ -59,3 +70,36 @@ class LetterTemplates():
 
     def get_drag_and_drop_list_name(self):
         return self.driver.find_element_by_id(self.drag_drop_list).text
+
+    def click_letter_template(self, document_template_name):
+        self.driver.find_element_by_id(document_template_name).click()
+
+    def get_template_title(self):
+        return self.driver.find_element_by_id(self.template_title).text
+
+    def get_template_layout(self):
+        return self.driver.find_element_by_id(self.template_layout).text
+
+    def get_template_restricted_to(self):
+        return self.driver.find_element_by_id(self.template_restricted_to).text
+
+    def get_template_paragraphs(self):
+        return self.driver.find_element_by_id(self.template_paragraphs).text
+
+    def click_edit_template_button(self):
+        self.driver.find_element_by_id(self.edit_template_button).click()
+
+    def click_edit_paragraphs_button(self):
+        self.driver.find_element_by_id(self.edit_paragraphs_button).click()
+
+    def click_add_paragraph_link(self):
+        self.driver.find_element_by_id(self.add_paragraph_link).click()
+
+    def get_add_paragraph_button(self):
+        paragraph = self.driver.find_element_by_css_selector(self.paragraph_checkboxes_list)
+        id = paragraph.get_attribute("id")
+        paragraph.click()
+        return id
+
+    def get_list_of_letter_paragraphs(self):
+        return self.driver.find_element_by_id(self.paragraph_text_list).text
