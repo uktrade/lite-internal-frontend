@@ -30,9 +30,7 @@ class Cases(TemplateView):
         case_type = request.GET.get('case_type')
         status = request.GET.get('status')
         sort = request.GET.get('sort')
-        queue_id = request.GET.get('queue')
-        team = request.GET.get('team')
-        title = request.GET.get('title', 'All cases')
+        queue_id = request.GET.get('queue_id')
 
         # Page parameters
         params = {'page': int(request.GET.get('page', 1))}
@@ -44,20 +42,12 @@ class Cases(TemplateView):
             params['status'] = status
         if case_type:
             params['case_type'] = case_type
-        if team:
-            params['team'] = team
 
         data = get_cases_search_data(request, convert_dict_to_query_params(params))['data']
 
         context = {
-            'title': title,
-            'filters': {
-                'statuses': data['filters']['statuses'],
-                'case_types': data['filters']['case_types']
-            },
-            'queues': data['queues'],
+            'data': data,
             'current_queue_id': queue_id,
-            'cases': data['cases'],
             'page': params.pop('page'),
             'params': params,
             'params_str': convert_dict_to_query_params(params)
@@ -69,7 +59,7 @@ class Cases(TemplateView):
         """
         Assign users depending on what cases were selected
         """
-        queue_id = request.GET.get('queue', DEFAULT_QUEUE_ID)
+        queue_id = request.GET.get('queue_id', DEFAULT_QUEUE_ID)
         return redirect(reverse('queues:case_assignments', kwargs={'pk': queue_id}) + '?cases=' + ','.join(
             request.POST.getlist('cases')))
 
