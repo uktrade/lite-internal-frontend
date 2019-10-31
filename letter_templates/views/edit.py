@@ -12,13 +12,7 @@ from picklists.services import get_picklists
 class EditTemplate(TemplateView):
     def get(self, request, **kwargs):
         letter_template = get_letter_template(request, str(kwargs['pk']))
-
-        # Manipulate letter template data to pre-select checkboxes matching the case types that have already
-        # been selected
-        existing_form_data = letter_template
-        existing_form_data['restricted_to'] = [case_type['key'] for case_type in existing_form_data['restricted_to']]
-
-        return form_page(request, edit_letter_template(letter_template), data=existing_form_data)
+        return form_page(request, edit_letter_template(letter_template), data=letter_template)
 
     @staticmethod
     def post(request, **kwargs):
