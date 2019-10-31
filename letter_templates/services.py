@@ -39,4 +39,4 @@ def get_letter_templates(request):
 
 def post_letter_template(request, json):
     data = post(request, LETTER_TEMPLATES_URL, json)
-    return data.json(), data.status_code
+    return data.status_code

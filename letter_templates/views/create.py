@@ -35,7 +35,7 @@ class Create(TemplateView):
         json = request.POST.copy()
         json['letter_paragraphs'] = request.POST.getlist('letter_paragraphs')
         json['restricted_to'] = request.POST.getlist('restricted_to')
-        data, status_code = post_letter_template(request, json)
+        status_code = post_letter_template(request, json)
         if status_code == 201:
             messages.success(request, get_string('letter_templates.letter_templates.successfully_created_banner'))
         else:
