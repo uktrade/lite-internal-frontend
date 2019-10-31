@@ -12,9 +12,11 @@
 
 {% block body %}
 
-<a id="case-notification" class="lite-info-bar app-info-bar--link lite-info-bar--no-animation" href="#case-activity-{{ notification.case_activity }}">
-    See what has changed
-</a>
+{% if notification %}
+    <a id="case-notification" class="lite-info-bar app-info-bar--link lite-info-bar--no-animation" href="#case-activity-{{ notification.case_activity }}">
+        See what has changed
+    </a>
+{% endif %}
 
 <div class="lite-app-bar">
 	<div class="lite-app-bar__content">
