@@ -7,7 +7,7 @@ from letter_templates.templatetags.variable_highlight import ALT_OPEN_TAG, CLOSE
 class SortLetterParagraphsTestCase(TestCase):
     def test_sort_letter_paragraphs(self):
         ids = ["abc", "def", "uvw", "xyz"]
-        result = sort_letter_paragraphs([
+        sorted_letter_paragraphs = sort_letter_paragraphs([
                 {"id": "xyz", "label": "last"},
                 {"id": "abc", "label": "first"},
                 {"id": "uvw", "label": "third"},
@@ -16,7 +16,7 @@ class SortLetterParagraphsTestCase(TestCase):
             ],
             ids + ["nop"],
         )
-        result_ids = [r["id"] for r in result]
+        result_ids = [paragraph["id"] for paragraph in sorted_letter_paragraphs]
         self.assertEqual(ids, result_ids)
 
 
