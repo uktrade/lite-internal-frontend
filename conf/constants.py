@@ -37,8 +37,7 @@ CLC_QUERIES_URL = '/queries/control-list-classifications/'
 PICKLIST_URL = '/picklist/'
 GOOD_CLC_REVIEW_URL = '/goods/controlcode/'
 MANAGE_STATUS_URL = '/status/'
-USERS_URL = '/users/'
-CASE_NOTIFICATIONS_URL = USERS_URL + 'case-notification/'
+CASE_NOTIFICATIONS_URL = '/users/case-notification/'
 
 # Static URLs
 STATIC_URL = '/static/'
