@@ -17,8 +17,6 @@ So that I can create standard letters used by case workers and they can be updat
     Then my picklist is in template
     When I click save
     Then I see my template in the table
-    When I edit my template
-    Then I see my template in the table
 
   @LT_1029_view_and_edit_template
   Scenario: View and edit a created template

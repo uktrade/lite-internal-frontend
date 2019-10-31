@@ -9,7 +9,7 @@ def sort_letter_paragraphs(paragraphs, ids):
         for paragraph in paragraphs:
             if id == paragraph["id"]:
                 sorted_paragraphs.append(paragraph)
-
+                break
     return sorted_paragraphs
 
 
@@ -19,8 +19,7 @@ def get_letter_paragraphs(request, ids: list):
 
     data = get(request, PICKLIST_URL + '?type=letter_paragraph' + '&ids=' + ','.join(ids))
     letter_paragraphs = data.json()['picklist_items']
-    letter_paragraphs = sort_letter_paragraphs(letter_paragraphs, ids)
-    return letter_paragraphs
+    return sort_letter_paragraphs(letter_paragraphs, ids)
 
 
 def get_letter_template(request, pk):
