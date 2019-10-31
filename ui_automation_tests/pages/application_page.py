@@ -164,10 +164,10 @@ class ApplicationPage(BasePage):
     def get_case_notification_anchor(self):
         return self.driver.find_element_by_id(self.case_notification_anchor)
 
-    def get_last_exporter_edited_activity(self, exporter_name):
+    def get_case_activity_id_by_audit_text(self, audit_text):
         audits = self.driver.find_elements_by_css_selector(self.audit_id)
         for audit in audits:
-            if exporter_name in audit.text:
+            if audit_text in audit.text:
                 return audit.get_attribute("id")
 
         return None

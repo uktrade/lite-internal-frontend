@@ -24,13 +24,20 @@ class ViewCaseDetails:
         lite_client.seed_case.edit_case(context.app_id)
 
     @then('I see that changes have been made to the case')
-    def changes_have_been_made_to_case(driver, exporter_info):
+    def changes_have_been_made_to_case(driver, context, exporter_info, seed_data_config):
         app_page = ApplicationPage(driver)
         case_notification_anchor = app_page.get_case_notification_anchor()
+
+        lite_client = get_lite_client(context, seed_data_config)
         exporter_name = exporter_info['first_name'] + ' ' + exporter_info['last_name']
-        last_exporter_edited_activity_id = app_page.get_last_exporter_edited_activity(exporter_name)
-        assert case_notification_anchor.get_attribute("href") == \
-               driver.current_url + '#' + last_exporter_edited_activity_id
+
+        audit_text = exporter_name + ' updated the application name from "' + context.app_name + '" to "' + \
+            lite_client.context['edit_case_app']['name'] + '".'
+
+        last_exporter_case_activity_id = app_page.get_case_activity_id_by_audit_text(audit_text)
+        expected_anchor_href = driver.current_url + '#' + last_exporter_case_activity_id
+
+        assert case_notification_anchor.get_attribute("href") == expected_anchor_href
 
     @then("I see an end user")
     def i_see_end_user_on_page(driver, context):

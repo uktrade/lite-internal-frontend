@@ -14,7 +14,7 @@ Feature: I want to view the case details of a case
     And I see a third party
     And I see a consignee
 
-  @LT_982_exporter_edited_case_anchor @AT
+  @LT_982_exporter_edited_case_anchor
   Scenario: Gov user can see exporter has made changes to case
     Given I create application or application has been previously created
     And I sign in to SSO or am signed into SSO
