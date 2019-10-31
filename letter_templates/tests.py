@@ -1,13 +1,13 @@
 from unittest import TestCase
 
+from letter_templates.services import sort_letter_paragraphs
 from letter_templates.templatetags.variable_highlight import ALT_OPEN_TAG, CLOSE_TAG, OPEN_TAG, variable_highlight
-from letter_templates.views.edit import EditParagraphs
 
 
-class LetterTemplateEditLetterParagraphsTestCase(TestCase):
+class SortLetterParagraphsTestCase(TestCase):
     def test_sort_letter_paragraphs(self):
         ids = ["abc", "def", "uvw", "xyz"]
-        result = EditParagraphs.sort_letter_paragraphs([
+        sorted_letter_paragraphs = sort_letter_paragraphs([
                 {"id": "xyz", "label": "last"},
                 {"id": "abc", "label": "first"},
                 {"id": "uvw", "label": "third"},
@@ -16,8 +16,11 @@ class LetterTemplateEditLetterParagraphsTestCase(TestCase):
             ],
             ids + ["nop"],
         )
-        result_ids = [r["id"] for r in result]
+        result_ids = [paragraph["id"] for paragraph in sorted_letter_paragraphs]
         self.assertEqual(ids, result_ids)
+
+
+class LetterTemplateEditLetterParagraphsTestCase(TestCase):
 
     def test_variable_highlight(self):
         """
