@@ -41,8 +41,7 @@ class Create(TemplateView):
         else:
             error_messages = []
             errors = response["errors"]
-            for field, field_errors in errors.items():
-                for field_error in field_errors:
-                    error_messages.append(field_error)
+            for field_error in errors.values():
+                error_messages.append(field_error)
             return error_page(None, "; ".join(error_messages))
         return redirect('letter_templates:letter_templates')
