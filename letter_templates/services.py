@@ -4,11 +4,13 @@ from conf.constants import PICKLIST_URL, LETTER_TEMPLATES_URL
 
 def sort_letter_paragraphs(paragraphs, ids):
     """Order a list of letter paragraphs in the same order as a list of IDs."""
+    sorted_paragraphs = []
     for id in ids:
         for paragraph in paragraphs:
             if id == paragraph["id"]:
-                yield paragraph
-                continue
+                sorted_paragraphs.append(paragraph)
+                break
+    return sorted_paragraphs
 
 
 def get_letter_paragraphs(request, ids: list):
@@ -17,8 +19,7 @@ def get_letter_paragraphs(request, ids: list):
 
     data = get(request, PICKLIST_URL + '?type=letter_paragraph' + '&ids=' + ','.join(ids))
     letter_paragraphs = data.json()['picklist_items']
-    letter_paragraphs = sort_letter_paragraphs(letter_paragraphs, ids)
-    return letter_paragraphs
+    return sort_letter_paragraphs(letter_paragraphs, ids)
 
 
 def get_letter_template(request, pk):

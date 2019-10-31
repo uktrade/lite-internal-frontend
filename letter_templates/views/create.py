@@ -17,10 +17,10 @@ class Add(TemplateView):
 
     @staticmethod
     def post(request):
-        response, _ = submit_paged_form(request,
-                                        add_letter_template(),
-                                        post_letter_template,
-                                        expect_many_values=["restricted_to"])
+        response = submit_paged_form(request,
+                                     add_letter_template(),
+                                     post_letter_template,
+                                     expect_many_values=["restricted_to"])[0]
 
         if response:
             return response
@@ -35,6 +35,9 @@ class Create(TemplateView):
         json = request.POST.copy()
         json['letter_paragraphs'] = request.POST.getlist('letter_paragraphs')
         json['restricted_to'] = request.POST.getlist('restricted_to')
-        post_letter_template(request, json)
-        messages.success(request, get_string('letter_templates.letter_templates.successfully_created_banner'))
+        data, status_code = post_letter_template(request, json)
+        if status_code == 201:
+            messages.success(request, get_string('letter_templates.letter_templates.successfully_created_banner'))
+        else:
+            messages.error(request, get_string('letter_templates.letter_templates.error_banner'))
         return redirect('letter_templates:letter_templates')

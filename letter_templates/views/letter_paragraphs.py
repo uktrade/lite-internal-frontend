@@ -53,7 +53,7 @@ class LetterParagraphs(TemplateView):
     def post(self, request):
         template_content = get_template_content(request)
         if template_content['action'].lower() == 'add_letter_paragraph':
-            return self._preview(request, template_content)
+            return self._add_letter_paragraph(request, template_content)
         elif template_content['action'].lower() == 'preview':
             return self._preview(request, template_content)
         elif 'delete' in template_content['action'].lower():
