@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
-from lite_forms.generators import error_page, form_page
+from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 
 from core.builtins.custom_tags import get_string
@@ -39,14 +39,5 @@ class Create(TemplateView):
         if status_code == 201:
             messages.success(request, get_string('letter_templates.letter_templates.successfully_created_banner'))
         else:
-            messages.success(request, get_string('letter_templates.letter_templates.error_banner'))
+            messages.error(request, get_string('letter_templates.letter_templates.error_banner'))
         return redirect('letter_templates:letter_templates')
-
-        else:
-            error_messages = []
-            errors = response["errors"]
-            for field, field_errors in errors.items():
-                for field_error in field_errors:
-                    error_messages.append(field_error)
-
-            return error_page(None, "; ".join(error_messages))
