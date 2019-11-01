@@ -5,12 +5,19 @@ from django.template import Engine, Context
 from conf import settings
 
 
-def generate_preview(layout, letter_paragraphs: list):
-    django_engine = Engine(
+def template_engine_factory():
+    """
+    Create a template engine configured for use with letter templates.
+    """
+    return Engine(
         string_if_invalid='{{ %s }}',
         dirs=[os.path.join(settings.LETTER_TEMPLATES_DIRECTORY)],
         libraries={'sass_tags': 'sass_processor.templatetags.sass_tags'}
     )
+
+
+def generate_preview(layout, letter_paragraphs: list):
+    django_engine = template_engine_factory()
 
     template = django_engine.get_template(f'{layout}.html')
 
