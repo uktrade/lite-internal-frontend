@@ -70,6 +70,7 @@ class ViewCase(TemplateView):
         case = get_case(request, case_id)
         activity = get_activity(request, case_id)
         permissions = get_user_permissions(request)
+        queue_id = request.GET.get('queue_id')
 
         case['all_flags'] = _get_all_distinct_flags(case)
 
@@ -79,6 +80,8 @@ class ViewCase(TemplateView):
             'activity': activity,
             'permissions': permissions,
         }
+        if queue_id:
+            context['queue_id'] = queue_id
 
         if case['type']['key'] == 'end_user_advisory_query':
             return render(request, 'cases/case/queries/end_user_advisory.html', context)

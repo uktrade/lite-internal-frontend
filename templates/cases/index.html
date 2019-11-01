@@ -138,7 +138,7 @@
                             </div>
                         </td>
                         <td class="govuk-table__cell">
-                            <a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}">
+                            <a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue_id={{current_queue_id}}">
                                 {% if 'query' in case.type.key %}
                                     {{ case.query.id|reference_code }}
                                 {% else %}
