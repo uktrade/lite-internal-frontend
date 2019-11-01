@@ -9,7 +9,7 @@
 <div class="lite-app-bar">
 	<form method="get" class="app-dropdown__select">
 		<select class="govuk-select" name="queue">
-			{% for queue in data.queues %}
+			{% for queue in data.results.queues %}
 				<option value="{{ queue.id }}" {% if queue.id == current_queue_id %}selected{% endif %}>{{ queue.name }}</option>
 			{% endfor %}
 		</select>
@@ -19,14 +19,14 @@
         {% if not current_queue_id %}
             All queues
         {% else %}
-            {% for queue in data.queues %}
+            {% for queue in data.results.queues %}
                 {% if queue.id == current_queue_id %}
                     {{ queue.name }}
                 {% endif %}
             {% endfor %}
         {% endif %}
     </a>
-    {% if not data.is_system_queue %}
+    {% if not data.results.is_system_queue %}
     <div class="lite-app-bar__controls">
         <button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">Assign users</button>
     </div>
@@ -35,8 +35,8 @@
 <div class="app-dropdown__background" onclick="toggleDropdown()"></div>
 <div class="app-dropdown__container" id="queues">
     <div class="app-dropdown__list">
-        {% for queue in data.queues %}
-            <a href="?queue_id={{queue.id}}" class="app-dropdown__item">
+        {% for queue in data.results.queues %}
+            <a href="?queue_id={{queue.id}}" class="app-dropdown__item {% if queue.id == current_queue_id %}app-dropdown__item--selected{% endif %}">
                 {{ queue.name }}
                 <span class="app-dropdown__item__count">{{ queue.case_count }}</span>
             </a>
@@ -66,7 +66,7 @@
             <div class="lite-select-wrapper">
                 <select class="govuk-select" id="case_type" name="case_type">
                     <option {% if params.case_type == None %}selected{% endif %} value="">Select</option>
-                    {% for case_type in data.filters.case_types %}
+                    {% for case_type in data.results.filters.case_types %}
                         <option value="{{ case_type.value }}" {% if case_type.value == params.case_type %}selected{% endif %}>{{case_type.title}}</option>
                     {% endfor %}
                 </select>
@@ -79,14 +79,14 @@
             <div class="lite-select-wrapper">
                 <select class="govuk-select" id="status" name="status">
                     <option {% if params.status == None %}selected{% endif %} value="">Select</option>
-                    {% for case_status in data.filters.statuses %}
+                    {% for case_status in data.results.filters.statuses %}
 				        <option value="{{ case_status.status }}" {% if case_status.status == params.status %}selected{% endif %}>{{ case_status.status|default:"Untitled"|sentence_case }}</option>
                     {% endfor %}
                 </select>
             </div>
         </div>
         <div class="govuk-grid-column-one-half">
-            <label class="govuk-label" for="filters" style="visibility: collapse;">
+            <label class="govuk-label" for="filter" style="visibility: collapse;">
                 --
             </label>
             <div class="lite-buttons-row">
@@ -104,22 +104,22 @@
 
 <form id="cases-form" method="post">
     {% csrf_token %}
-    {% if data.cases|length %}
+    {% if data.results.cases|length %}
         <table class="govuk-table">
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                    <th class="govuk-table__header govuk-table__cell--checkbox" style="width: 25px">
+                    <th class="govuk-table__header govuk-table__cell--checkbox">
                         <div class="govuk-checkboxes__item">
                             <input id="select-all-checkbox" class="govuk-checkboxes__input" type="checkbox">
                             <label class="govuk-label govuk-checkboxes__label"></label>
                         </div>
                     </th>
-                    <th class="govuk-table__header" scope="col">Case</th>
-                    <th class="govuk-table__header" scope="col">Assignees</th>
-                    <th class="govuk-table__header" scope="col">Type</th>
-                    <th class="govuk-table__header" scope="col">Queue</th>
-                    <th class="govuk-table__header" scope="col">Flags</th>
-                    <th class="govuk-table__header" scope="col">
+                    <th class="govuk-table__header" style="width: 225px;" scope="col">Case</th>
+                    <th class="govuk-table__header" style="width: 1fr;" scope="col">Assignees</th>
+                    <th class="govuk-table__header" style="width: 125px;" scope="col">Type</th>
+                    <th class="govuk-table__header" style="width: 125px;" scope="col">Queue</th>
+                    <th class="govuk-table__header" style="width: 200px;" scope="col">Flags</th>
+                    <th class="govuk-table__header" style="width: 125px;" scope="col">
                         <a href="{% url 'cases:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" class="app-table__sortable-header {{ 'status'|table_sort:params }}">
                             Status
                             {% svg 'chevron' %}
@@ -129,7 +129,7 @@
                 </tr>
             </thead>
             <tbody class="govuk-table__body">
-                {% for case in data.cases %}
+                {% for case in data.results.cases %}
                     <tr class="govuk-table__row lite-accordian-table__row">
                         <td class="govuk-table__cell govuk-table__cell--checkbox">
                             <div class="govuk-checkboxes__item">
@@ -142,14 +142,17 @@
                                 {% if 'query' in case.type.key %}
                                     {{ case.query.id|reference_code }}
                                 {% else %}
-                                    case_{{ case.id|slice:"-5:" }}
+                                    {{ case.id|reference_code }}
                                 {% endif %}
                             </a>
+                            <p class="govuk-body" style="opacity: .7; magin: 0;">
+                                {{ case.organisation }}
+                            </p>
                         </td>
                         <td class="govuk-table__cell">
                             {% for user in case.users|slice:":3" %}
                                 <div>
-                                    {% if data.is_system_queue %}
+                                    {% if data.results.is_system_queue %}
                                         <span style="opacity: 0.6;">{{ user.queue }}:</span>
                                     {% endif %}
                                     {% if user.first_name %}
@@ -166,7 +169,7 @@
                             {% endfor %}
                             {% for user in case.users|slice:"3:" %}
                                 <div class="app-expanded-row__item">
-                                    {% if data.is_system_queue %}
+                                    {% if data.results.is_system_queue %}
                                         <span style="opacity: 0.6;">{{ user.queue }}:</span>
                                     {% endif %}
                                     {% if user.first_name %}
@@ -196,6 +199,7 @@
                         <td class="govuk-table__cell">
                             {% for flag in case.flags|slice:":3" %}
                                 <div>
+                                    <span style="opacity: 0.6;">{{ flag.team.name }}:</span>
                                     {{ flag.name }}
                                     <span class="lite-hint app-expanded-row__item--invert">
                                         {% if case.flags|length > 3 and forloop.counter == 3 %} (3 of {{case.flags|length}}){% endif %}
@@ -204,7 +208,10 @@
                             {% endfor %}
 
                             {% for flag in case.flags|slice:"3:" %}
-                                <div class="app-expanded-row__item">{{ flag.name }}</div>
+                                <div class="app-expanded-row__item">
+                                    <span style="opacity: 0.6;">{{ flag.team.name }}:</span>
+                                    {{ flag.name }}
+                                </div>
                             {% endfor %}
                         </td>
                         <td class="govuk-table__cell">
@@ -219,18 +226,16 @@
                 {% endfor %}
             </tbody>
         </table>
-    {% if total_pages > 1 %}
+    {% if data.total_pages > 1 %}
         <br>
-
         <div class="lite-pagination__container ">
-            {% for i in data.cases.total_pages|times %}
+            {% for i in data.total_pages|times %}
                 <a href="{% url 'cases:cases' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
                     {{ i }}
                 </a>
             {% endfor %}
         </div>
     {% endif %}
-
 	{% else %}
 		{% get_string 'cases.no_cases' as no_cases_text %}
 		{% include "includes/information-text.html" with text=no_cases_text %}

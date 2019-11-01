@@ -43,7 +43,7 @@ class Cases(TemplateView):
         if case_type:
             params['case_type'] = case_type
 
-        data = get_cases_search_data(request, convert_dict_to_query_params(params))['data']
+        data = get_cases_search_data(request, convert_dict_to_query_params(params))
 
         context = {
             'data': data,
