@@ -29,7 +29,7 @@
                 <div class="govuk-checkboxes">
                     {% for letter_paragraph in letter_paragraphs %}
                         <div class="govuk-checkboxes__item">
-                            <input class="govuk-checkboxes__input" id="{{ letter_paragraph.id }}" name="letter_paragraphs" type="checkbox" value="{{ letter_paragraph.id }}">
+                            <input class="govuk-checkboxes__input" id="letter_paragraph-{{ letter_paragraph.id }}" name="letter_paragraphs" type="checkbox" value="{{ letter_paragraph.id }}">
                             <label class="govuk-label govuk-checkboxes__label" name="letter_paragraph_name" for="letter_paragraph-{{ letter_paragraph.id }}">
                                 {{ letter_paragraph.name }}
                             </label>
