@@ -20,7 +20,7 @@ class LetterTemplateDetail(TemplateView):
 
         context = {
             'letter_template': letter_template,
-            'preview': helpers.generate_preview(letter_template['layout']['id'],
+            'preview': helpers.generate_preview(letter_template['layout']['filename'],
                                                 get_letter_paragraphs(request, letter_template['letter_paragraphs']))
         }
         return render(request, 'letter_templates/letter_template.html', context)
