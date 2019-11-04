@@ -1,12 +1,12 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
-from django.template import TemplateSyntaxError
+from django.template import TemplateSyntaxError, Context
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from letter_templates.context_variables import context_variables
+from letter_templates.helpers import template_engine_factory, InvalidVarException
 from lite_forms.generators import form_page
-
-from letter_templates.helpers import template_engine_factory
 from picklists.forms import add_picklist_item_form, edit_picklist_item_form, deactivate_picklist_item, \
     reactivate_picklist_item
 from picklists.services import get_picklists, get_picklist_item, post_picklist_item, put_picklist_item
@@ -92,11 +92,13 @@ class EditPicklistItem(TemplateView):
         # Letter paragraphs are passed through the Django template engine, so we need
         # to make sure they're valid.
         if request.POST.get("type") == "letter_paragraph":
-            template_engine = template_engine_factory()
+            template_engine = template_engine_factory(allow_missing_variables=False)
             try:
-                template_engine.from_string(request.POST["text"])
+                template = template_engine.from_string(request.POST["text"])
+                context = Context(context_variables)
+                template.render(context)
                 # Template is valid! :)
-            except TemplateSyntaxError as err:
+            except (TemplateSyntaxError, InvalidVarException) as err:
                 # Template is invalid! :(
                 return form_page(
                     request,
