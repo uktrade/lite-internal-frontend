@@ -12,7 +12,7 @@ class InvalidVarException(Exception):
     template may use an invalid variable (user entered variables)
     """
     def __mod__(self, missing):
-        raise InvalidVarException('Invalid template variable {{%s}}' % missing)
+        raise InvalidVarException('Invalid template variable {{ %s }}' % missing)
 
     def __contains__(self, search):
         if search == '%s':
