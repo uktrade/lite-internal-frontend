@@ -7,6 +7,7 @@ from pages.header_page import HeaderPage
 from pages.organisation_page import OrganisationPage
 from pages.organisations_form_page import OrganisationsFormPage
 from pages.organisations_page import OrganisationsPage
+from pages.shared import Shared
 
 scenarios('../features/organisation.feature', strict_gherkin=False)
 
@@ -14,9 +15,8 @@ scenarios('../features/organisation.feature', strict_gherkin=False)
 @then('organisation is registered')
 def verify_registered_organisation(driver, context):
     if not context.org_registered_status:
-        pass
-        # assert context.organisation_name in Shared(driver).get_text_of_panel_body()
-        # assert Shared(driver).get_text_of_h1() == "Organisation Registered"
+        assert context.organisation_name in Shared(driver).get_text_of_panel_body()
+        assert Shared(driver).get_text_of_h1() == "Organisation Registered"
 
 
 @when('I go to organisations')
