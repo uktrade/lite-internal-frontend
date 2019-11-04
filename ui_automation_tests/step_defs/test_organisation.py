@@ -15,8 +15,22 @@ scenarios('../features/organisation.feature', strict_gherkin=False)
 @then('organisation is registered')
 def verify_registered_organisation(driver, context):
     if not context.org_registered_status:
-        assert context.organisation_name in Shared(driver).get_text_of_panel_body()
-        assert Shared(driver).get_text_of_h1() == "Organisation Registered"
+        driver.find_element_by_id("show-filters-link").click()
+        driver.find_element_by_id("filter-box").send_keys(context.organisation_name)
+        driver.find_element_by_id("button-apply-filters").click()
+        assert context.organisation_name in Shared(driver).get_text_of_lite_table_body()
+        #assert context.organisation_name in Shared(driver).get_text_of_panel_body()
+        #assert Shared(driver).get_text_of_h1() == "Organisation Registered"
+
+
+@then('HMRC organisation is registered')
+def verify_hmrc_registered_organisation(driver, context):
+    driver.find_element_by_id("show-filters-link").click()
+    driver.find_element_by_id("filter-box").send_keys(context.hrmc_org_name)
+    driver.find_element_by_id("button-apply-filters").click()
+    assert context.hmrc_org_name in Shared(driver).get_text_of_lite_table_body()
+    #assert context.organisation_name in Shared(driver).get_text_of_panel_body()
+    #assert Shared(driver).get_text_of_h1() == "Organisation Registered"
 
 
 @when('I go to organisations')
@@ -113,6 +127,7 @@ def register_hmrc_org(driver, org_name, site_name, address, city, region, post_c
     if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
         organisations_form_page.enter_name(org_name)
+        context.hmrc_org_name = org_name
         organisations_form_page.enter_site_name(site_name)
         context.site_name = site_name
         organisations_form_page.enter_address_line_1(address)
