@@ -6,7 +6,7 @@ context_variables = {
         'name': 'Jane Smith'
     }
 }
-flattened = {}
+flattened_context_variables = {}
 
 
 def flatten_dict(dictionary, path):
@@ -16,11 +16,10 @@ def flatten_dict(dictionary, path):
         if isinstance(value, dict):
             flatten_dict(value, path+key)
         else:
-            flattened[path + key] = value
-    return flattened
+            flattened_context_variables[path + key] = value
 
 
-flattened_context_variables = flatten_dict(context_variables, '')
+flatten_dict(context_variables, '')
 
 
 def get_sample_context_variables():
