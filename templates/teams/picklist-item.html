@@ -1,6 +1,6 @@
-{% load variable_highlight %}
-
 {% extends 'layouts/base.html' %}
+
+{% load variable_highlight %}
 
 {% block back_link %}
 	<a href="{% url 'picklists:picklists' %}?type={{ picklist_item.type.key }}" class="govuk-back-link">Back to picklist</a>
