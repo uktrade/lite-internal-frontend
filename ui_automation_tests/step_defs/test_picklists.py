@@ -41,7 +41,6 @@ def go_to_picklist_list(driver, picklist_type, context):
 
 @when(parsers.parse('I add a new picklist item with "{picklist_name}" and "{picklist_description}"'))
 def add_to_picklist_item(driver, picklist_name, picklist_description, context):
-    PicklistPages(driver).click_on_picklist_add_button()
     time = utils.get_formatted_date_time_m_d_h_s()
     context.picklist_name = picklist_name + time
     context.picklist_description = picklist_description + time
@@ -113,3 +112,18 @@ def context_variable_option(driver, context):
     picklist_page = PicklistPages(driver)
     context.prompted_context_variable = picklist_page.get_context_suggestion_variable_name()
     picklist_page.click_context_suggestion()
+
+
+@when("I click add a new picklist")
+def click_add_picklist(driver):
+    PicklistPages(driver).click_on_picklist_add_button()
+
+
+@then(parsers.parse('An invalid variable error for "{variable_name}" is shown'))
+def context_variable_error(driver, variable_name):
+    assert variable_name in PicklistPages(driver).get_errors()
+
+
+@when("I clear the picklist name and description")
+def clear_picklist_name_and_description(driver):
+    PicklistPages(driver).clear_picklist_name_and_description()
