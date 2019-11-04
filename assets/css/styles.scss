@@ -167,3 +167,8 @@ $govuk-font-family: Arial, Sans-Serif;
 .lite-tabs__tab {
 	text-decoration: none;
 }
+
+.app-letter-preview__page {
+	font-family: $govuk-font-family;
+	font-size: 18px;
+}
