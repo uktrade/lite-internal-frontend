@@ -54,6 +54,7 @@ def edit_picklist_item_form(picklist_item):
                 questions=[
                     _name,
                     conditional(picklist_item['type']['key'] == 'letter_paragraph', _paragraph, _text),
+                    HiddenField('type', picklist_item['type']['key'])
                 ],
                 back_link=BackLink('Back to ' + picklist_item['name'],
                                    reverse_lazy('picklists:picklist_item',

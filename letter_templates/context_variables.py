@@ -1,11 +1,30 @@
-sample_values = {
-    'applicant.name': 'John Smith',
-    'consignee.name': 'Jane Smith'
+context_variables = {
+    'applicant': {
+        'name': 'John Smith'
+    },
+    'consignee': {
+        'name': 'Jane Smith'
+    }
 }
+flattened = {}
+
+
+def flatten_dict(dictionary, path):
+    if path != '':
+        path += '.'
+    for key, value in dictionary.items():
+        if isinstance(value, dict):
+            flatten_dict(value, path+key)
+        else:
+            flattened[path + key] = value
+    return flattened
+
+
+flattened_context_variables = flatten_dict(context_variables, '')
 
 
 def get_sample_context_variables():
-    return get_key_value_pair(sample_values)
+    return get_key_value_pair(flattened_context_variables)
 
 
 def get_key_value_pair(data):
