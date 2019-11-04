@@ -3,22 +3,23 @@
 
 <body>
   <p id="references">
-    Our Ref:AEU2015/000966<br>
-    Your Ref: Signor Decstation GN<br>
+    Our Ref: TBC<br>
+    Your Ref: TBC<br>
     SPIRE Doc Ref:PREVIEW
   </p>
   
   <div id="addresses">
     <div id="recipient-address">
       <p>
-        Mr Gustie<br>
-        SIGNOR HERBART<br>
-        GÖTEBORG HIGH DECSTATION PAULIE<br>
-        BEALLE<br>
-        ADRIATIC<br>
-        ES53 4QG
+        {{ end_user.name }}<br>
+        {{ end_user.address.address_line_1 }}<br>
+        {{ end_user.address.address_line_2 }}<br>
+        {{ end_user.address.postcode }}<br>
+        {{ end_user.address.city }}<br>
+        {{ end_user.address.region }}<br>
+        {{ end_user.address.country.name }}
       </p>
-      <p>Date: [[LETTER_DATE]]</p>
+      <p>Date: TBC</p>
     </div>
     <div id="sender-address">
       <p>Export Control Organisation</p>
@@ -37,29 +38,15 @@
       </p>
     </div>
   </div>
-  <p>Dear Mr Gustie,</p>
-  <p>Thank you for your enquiry of 8 June 2015 to the ECO End User Advice Service. We are pleased to let you know that we have no Weapons of Mass Destruction (WMD) end use concerns on the end user and other entities that you have specified in your request.</p>
-  <p>Please note that this advice:</p>
-  <ul>
-    <li>
-      is based on information available to us at the date specified in this letter. It could change in the light of information received in the future by ECO, and/or if you receive information that leads you to know, or suspect, that what you intend to export is, in it's entirety or part, intended for use in, or to contribute to illicit Military or WMD programmes, this advice will be null and void and you have a legal responsibility to notify ECO immediately.
-    </li>
-    <li>
-      does not provide any assessment of the goods or technology you are supplying to this end user - that is it does not confirm whether or not the goods are included in any of the control lists specified in the legislation. In the absence of the Control List Classification CLC Service you should refer to the guidance on determining the rating of the goods on the ECO website.
-      <br>
-      https://www.gov.uk/do-your-goods-need-an-export-licence
-    </li>
-    <li>
-      is based on the information you have given to us. You will remain liable for any legal breach if you have provided incorrect information with your request or otherwise misinformed us about the end use of your goods. You are reminded that a penalty of 10 years can apply in cases where a person knowingly engages in an activity with an intent to evade export controls.
-    </li>
-    <li>cannot guarantee that HMRC will not conduct further export control compliance checks when the goods are presented for export.</li>
-  </ul>
-  <p>You are advised to seek advice again if your export takes place more than 12 weeks after the date of this letter.</p>
+
+  <div class="border-black padding page-break-after" id="paragraph_content">
+      {{ content|safe }}
+  </div>
 
   <p>Yours sincerely</p>
   
   <div id="signature" class="page-break-after">
-    [[SIGNATORY_NAME]]<br>
+    TBC<br>
     Export Control Organisation
   </div>
   <h1>Schedule of Entities Assessed</h1>
@@ -69,10 +56,8 @@
       <th scope="col">Destination</th>
     </tr>
     <tr>
-      <td>EZ DMD & ZVB vid PARIS DIFFERENT PLATTEVILLE & THANKSGIVING GLASTONBURY (ADOLF)
-        ADOLF-BK MOLOTOV MOLOTOV DMD ALDEN
-        JONATHON KEEN KEEN</td>
-      <td>Iraq</td>
+      <td>TBC</td>
+      <td>TBC</td>
     </tr>
   </table>
 </body>
