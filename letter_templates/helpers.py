@@ -6,6 +6,11 @@ from conf import settings
 
 
 class InvalidVarException(Exception):
+    """
+    InvalidVarException is triggered by the django template engine when it cannot
+    find a context variable. This exception should be handled in places where the
+    template may use an invalid variable (user entered variables)
+    """
     def __mod__(self, missing):
         raise InvalidVarException('Invalid template variable {{%s}}' % missing)
 
@@ -19,6 +24,7 @@ def template_engine_factory(allow_missing_variables=False):
     """
     Create a template engine configured for use with letter templates.
     """
+    # Put the variable name in if missing variables. Else trigger an InvalidVarException.
     string_if_invalid = '{{ %s }}' if allow_missing_variables else InvalidVarException()
     return Engine(
         string_if_invalid=string_if_invalid,
