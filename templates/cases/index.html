@@ -17,7 +17,7 @@
 	</form>
     <a id="queue-title" href="#" class="govuk-heading-l app-dropdown__heading" onclick="toggleDropdown()">
         {% if not current_queue_id %}
-            All queues
+            All cases
         {% else %}
             {% for queue in data.results.queues %}
                 {% if queue.id == current_queue_id %}

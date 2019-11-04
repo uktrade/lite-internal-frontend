@@ -45,7 +45,15 @@ class Cases(TemplateView):
 
         data = get_cases_search_data(request, convert_dict_to_query_params(params))
 
+        title = ''
+
+        for queue in data['results'].get('queues', []):
+            if queue['id'] == queue_id:
+                title = queue['name']
+                break
+
         context = {
+            'title': title,
             'data': data,
             'current_queue_id': queue_id,
             'page': params.pop('page'),
