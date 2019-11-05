@@ -1,4 +1,4 @@
-$govuk-table-border: 2px solid darken(govuk-colour("light-grey"), 2%);
+$lite-table-border: 2px solid darken(govuk-colour("light-grey"), 2%);
 
 @mixin table-display {
 	display: grid;
@@ -8,7 +8,7 @@ $govuk-table-border: 2px solid darken(govuk-colour("light-grey"), 2%);
 
 .lite-cases-table-header {
 	@include table-display;
-	border-bottom: $govuk-table-border;
+	border-bottom: $lite-table-border;
 
 	* {
 		@include govuk-font($size: 14, $weight: bold);
@@ -29,7 +29,7 @@ $govuk-table-border: 2px solid darken(govuk-colour("light-grey"), 2%);
 	@include table-display;
 	transition: 0.3s ease;
 	padding: govuk-spacing(3) 0;
-	border-bottom: $govuk-table-border;
+	border-bottom: $lite-table-border;
 
 	.govuk-checkboxes--small .govuk-checkboxes__label::before {
 		top: 0;
