@@ -14,7 +14,6 @@ class LetterTemplates:
         self.edit_details_button = '.lite-app-bar__controls .govuk-button'  # CSS
         self.drag_drop_list = 'standard-advice-list'  # ID
         self.preview_paragraphs = 'preview'  # ID
-        self.licence_layout = 'licence'  # ID
 
         # Template page
         self.template_title = 'title'  # ID
@@ -43,8 +42,8 @@ class LetterTemplates:
     def select_which_type_of_case_template_can_apply_to(self, id_selector):
         self.driver.find_element_by_id(id_selector).click()
 
-    def click_licence_layout(self):
-        self.driver.find_element_by_id(self.licence_layout).click()
+    def click_licence_layout(self, template_id):
+        self.driver.find_element_by_id(template_id).click()
 
     def add_letter_paragraph(self):
         self.driver.find_element_by_name(self.letter_paragraph).click()
@@ -97,7 +96,7 @@ class LetterTemplates:
 
     def get_add_paragraph_button(self):
         paragraph = self.driver.find_element_by_css_selector(self.paragraph_checkboxes_list)
-        id = paragraph.get_attribute("id")
+        id = paragraph.get_attribute("value")
         paragraph.click()
         return id
 
