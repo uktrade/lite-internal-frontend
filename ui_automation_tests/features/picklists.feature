@@ -11,6 +11,11 @@ Feature: I want standard picklists
     When I go to My Team
     And I go to picklists tab
     And I go to "letter_paragraph" picklist
+    And I click add a new picklist
+    And I add a new picklist item with "name" and "description {{ fake_variable }}"
+    And I click continue
+    Then An invalid variable error for "fake_variable" is shown
+    When I clear the picklist name and description
     And I add a new picklist item with "name" and "description"
     And I type {{ into the description
     Then I am given context variable suggestions

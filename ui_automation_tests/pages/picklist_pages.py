@@ -14,6 +14,7 @@ class PicklistPages():
         self.picklist_names_in_list = 'h4 a' #css
         self.picklist_list_name = '.govuk-heading-s' #css
         self.picklist_list_description = '.app-picklist-item__text' #css
+        self.errors = '.govuk-error-summary__list' #css
 
         self.context_suggestions_overlay = 'context_suggestion'  # ID
 
@@ -50,6 +51,10 @@ class PicklistPages():
     def type_into_picklist_description(self, description):
         self.driver.find_element_by_name(self.picklist_description_field).send_keys(description)
 
+    def clear_picklist_name_and_description(self):
+        self.driver.find_element_by_name(self.picklist_name_field).clear()
+        self.driver.find_element_by_name(self.picklist_description_field).clear()
+
     def get_elements_of_picklist_names_in_list(self):
         return self.driver.find_elements_by_css_selector(self.picklist_names_in_list)
 
@@ -61,3 +66,6 @@ class PicklistPages():
 
     def click_context_suggestion(self):
         self.driver.find_element_by_id(self.context_suggestions_overlay).click()
+
+    def get_errors(self):
+        return self.driver.find_element_by_css_selector(self.errors).text
