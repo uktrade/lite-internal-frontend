@@ -2,6 +2,20 @@ from django.urls import reverse_lazy
 from lite_forms.components import Form, FormGroup, TextInput, BackLink, Checkboxes, Option, RadioButtonsImage
 
 from core.builtins.custom_tags import get_string
+from letter_templates.services import get_letter_layouts
+
+
+def _letter_layout_options():
+    options = []
+    for letter_layout in get_letter_layouts():
+        filename = letter_layout['filename']
+        options.append(Option(
+            letter_layout["id"],
+            letter_layout["name"],
+            img_url=f"/assets/images/letter_templates/{ filename }.png"
+        ))
+
+    return options
 
 
 def add_letter_template():
@@ -30,9 +44,8 @@ def add_letter_template():
                  questions=[
                      RadioButtonsImage(
                          name='layout',
-                         options=[
-                             Option('licence', 'Licence'),
-                         ])
+                         options=_letter_layout_options(),
+                     )
                  ],
                  default_button_name=get_string('letter_templates.add_letter_template.layout.continue_button'))
         ])
@@ -55,9 +68,8 @@ def edit_letter_template(letter_template):
                     RadioButtonsImage(
                         title=get_string('letter_templates.edit_letter_template.layout.title'),
                         name='layout',
-                        options=[
-                            Option('licence', 'Licence'),
-                        ])
+                        options=_letter_layout_options(),
+                    )
                 ],
                 back_link=BackLink('Back to ' + letter_template['name'],
                                    reverse_lazy('letter_templates:letter_template',

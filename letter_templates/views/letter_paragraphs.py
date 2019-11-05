@@ -36,7 +36,7 @@ class LetterParagraphs(TemplateView):
         Display a preview once letter paragraphs have been selected and sorted.
         """
         letter_paragraphs = get_letter_paragraphs(request, template_content['letter_paragraphs'])
-        preview = generate_preview(template_content['layout'], letter_paragraphs)
+        preview = generate_preview(template_content['layout']['filename'], letter_paragraphs)
         return render(request, 'letter_templates/preview.html', {
             'preview': preview,
             'name': template_content['name'],
