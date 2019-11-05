@@ -36,12 +36,17 @@ class Create(TemplateView):
         json['letter_paragraphs'] = request.POST.getlist('letter_paragraphs')
         json['restricted_to'] = request.POST.getlist('restricted_to')
         response, status_code = post_letter_template(request, json)
+
         if status_code == 201:
             messages.success(request, get_string('letter_templates.letter_templates.successfully_created_banner'))
+
         else:
             error_messages = []
             errors = response["errors"]
-            for field_error in errors.values():
-                error_messages.append(field_error)
+            for field_errors in errors.values():
+                for field_error in field_errors:
+                    error_messages.append(field_error)
+
             return error_page(None, "; ".join(error_messages))
+
         return redirect('letter_templates:letter_templates')

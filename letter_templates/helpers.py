@@ -3,6 +3,7 @@ import os
 from django.template import Engine, Context
 
 from conf import settings
+from letter_templates.services import get_letter_layout
 
 
 class InvalidVarException(Exception):
@@ -46,9 +47,16 @@ def generate_preview(layout, letter_paragraphs: list):
 
 def get_template_content(request):
     data = request.POST.copy()
+
+    layout = None
+    if data.get('layout'):
+        layout, status = get_letter_layout(request, data['layout'])
+        if status != 200:
+            raise RuntimeError(f"Letter layout endpoint returned { status }.")
+
     return {
         "name": data.get('name'),
-        "layout": data.get('layout'),
+        "layout": layout,
         "restricted_to": data.getlist('restricted_to'),
         "action": data.get('action'),
         "letter_paragraphs": data.getlist('letter_paragraphs')

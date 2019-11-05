@@ -15,7 +15,7 @@
 					{% for restricted in restricted_to %}
 						{% hidden_field 'restricted_to' restricted %}
 					{% endfor %}
-					{% hidden_field 'layout' layout %}
+					{% hidden_field 'layout' layout.id %}
 					{% for letter_paragraph in letter_paragraphs %}
 						{% hidden_field 'letter_paragraphs' letter_paragraph %}
 					{% endfor %}

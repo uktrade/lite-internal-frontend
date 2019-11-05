@@ -1,5 +1,5 @@
 from conf.client import get, post, put
-from conf.constants import PICKLIST_URL, LETTER_TEMPLATES_URL
+from conf.constants import PICKLIST_URL, LETTER_TEMPLATES_URL, LETTER_LAYOUTS_URL
 
 
 def sort_letter_paragraphs(paragraphs, ids):
@@ -39,4 +39,14 @@ def get_letter_templates(request):
 
 def post_letter_template(request, json):
     data = post(request, LETTER_TEMPLATES_URL, json)
+    return data.json(), data.status_code
+
+
+def get_letter_layouts(request=None):
+    data = get(request, LETTER_LAYOUTS_URL)
+    return data.json()['results']
+
+
+def get_letter_layout(request, pk):
+    data = get(request, LETTER_LAYOUTS_URL + pk)
     return data.json(), data.status_code
