@@ -33,6 +33,7 @@ Feature: I want standard picklists
     When I go to My Team
     And I go to picklists tab
     And I go to "report_summary" picklist
+    And I click add a new picklist
     And I add a new picklist item with "name" and "description"
     And I click continue
     And I click on my picklist item
