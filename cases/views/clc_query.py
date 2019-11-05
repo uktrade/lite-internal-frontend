@@ -8,6 +8,7 @@ from lite_forms.submitters import submit_single_form
 from cases.forms.goods_flags import flags_form
 from cases.forms.respond_to_clc_query import respond_to_clc_query_form
 from cases.services import get_case, put_control_list_classification_query, put_flag_assignments
+from core.services import get_user_permissions
 from flags.services import get_goods_flags
 from picklists.services import get_picklist_item
 
@@ -17,8 +18,13 @@ class Respond(TemplateView):
     form = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.case = get_case(request, str(kwargs['pk']))
+        case_id = str(kwargs['pk'])
+        self.case = get_case(request, case_id)
         self.form = respond_to_clc_query_form(request, self.case)
+
+        permissions = get_user_permissions(request)
+        if 'REVIEW_GOODS' not in permissions:
+            return redirect(reverse_lazy('cases:case', kwargs={'pk': case_id}))
 
         return super(Respond, self).dispatch(request, *args, **kwargs)
 
@@ -67,13 +73,6 @@ class Respond(TemplateView):
             return redirect(reverse_lazy('cases:case', kwargs={'pk': self.case['id']}))
 
         # Remove validate only key and go to overview page
-        data = request.POST.copy()
-
-        if data.get('validate_only') and data.get('report_summary'):
-            report_summary = get_picklist_item(request, data['report_summary'])
-        else:
-            report_summary = {'text': ''}
-
         if response_data['is_good_controlled'] == 'no':
             response_data.pop('control_code')
 
@@ -81,8 +80,11 @@ class Respond(TemplateView):
             'title': 'Response Overview',
             'data': response_data,
             'case': self.case,
-            'report_summary': report_summary
         }
+
+        if response_data.get('report_summary'):
+            context['report_summary'] = get_picklist_item(request, response_data['report_summary'])
+
         return render(request, 'cases/case/clc_query_overview.html', context)
 
 

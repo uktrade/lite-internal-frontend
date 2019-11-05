@@ -2,11 +2,14 @@ from selenium.webdriver.support.ui import Select
 import time
 
 from helpers.BasePage import BasePage
+from selenium.common.exceptions import NoSuchElementException
 
 
 class ApplicationPage(BasePage):
 
     actions_dropdown = ".app-more-actions__button"  # CSS
+    case_notification_anchor = "case-notification"  # ID
+    audit_id = "[id^=case-activity-]"  # CSS
     case_note_field = "case_note"  # id
     post_note_btn = "button-post-note"  # id
     cancel_note_btn = "case-note-cancel-button"  # id
@@ -115,6 +118,13 @@ class ApplicationPage(BasePage):
     def click_review_goods(self):
         self.driver.find_element_by_id(self.review_goods).click()
 
+    def is_review_goods_button_present(self):
+        try:
+            self.driver.find_element_by_id(self.review_goods)
+            return True
+        except NoSuchElementException:
+            return False
+
     def click_edit_good_flags(self):
         edit_goods_btn = self.driver.find_element_by_id(self.edit_goods_flags)
         edit_goods_btn.click()
@@ -150,6 +160,17 @@ class ApplicationPage(BasePage):
 
     def get_text_of_eu_table(self):
         return self.driver.find_element_by_id(self.eu_table).text
+
+    def get_case_notification_anchor(self):
+        return self.driver.find_element_by_id(self.case_notification_anchor)
+
+    def get_case_activity_id_by_audit_text(self, audit_text):
+        audits = self.driver.find_elements_by_css_selector(self.audit_id)
+        for audit in audits:
+            if audit_text in audit.text:
+                return audit.get_attribute("id")
+
+        return None
 
     def get_text_of_ueu_table(self):
         return self.driver.find_element_by_id(self.ueu_table).text

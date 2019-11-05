@@ -11,26 +11,6 @@ from datetime import date
 scenarios('../features/give_advice.feature', strict_gherkin=False)
 
 
-@when("I give myself all permissions")
-def get_required_permissions(driver):
-    roles_page = RolesPages(driver)
-    HeaderPage(driver).open_users()
-    UsersPage(driver).click_on_manage_roles()
-    roles_page.click_edit_for_default_role()
-    roles_page.edit_default_role_to_have_all_permissions()
-    Shared(driver).click_submit()
-
-
-@then("I reset the permissions")
-def reset_permissions(driver):
-    roles_page = RolesPages(driver)
-    HeaderPage(driver).open_users()
-    UsersPage(driver).click_on_manage_roles()
-    roles_page.click_edit_for_default_role()
-    roles_page.remove_all_permissions_from_default_role()
-    Shared(driver).click_submit()
-
-
 @given("I create a proviso picklist")
 def i_create_an_proviso_picklist(context, add_a_proviso_picklist):
     context.proviso_picklist_name = add_a_proviso_picklist['name']
@@ -133,6 +113,12 @@ def finalise(driver):
 def finalise_goods_and_countries(driver):
     page = GiveAdvicePages(driver)
     page.finalise_goods_and_countries()
+
+
+@then("I see country error message")
+def i_see_country_error_message(driver, context):
+    shared = Shared(driver)
+    assert context.country['name'] in shared.get_text_of_error_message(0), "expected error message is not displayed"
 
 
 @when("I select approve for all combinations of goods and countries")

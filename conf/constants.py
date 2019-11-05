@@ -36,6 +36,8 @@ FLAGS_ORGANISATION_LEVEL_FOR_TEAM = '/flags/?level=Organisation&team=True'
 CLC_QUERIES_URL = '/queries/control-list-classifications/'
 PICKLIST_URL = '/picklist/'
 GOOD_CLC_REVIEW_URL = '/goods/controlcode/'
+MANAGE_STATUS_URL = '/status/'
+CASE_NOTIFICATIONS_URL = '/users/case-notification/'
 
 # Static URLs
 STATIC_URL = '/static/'

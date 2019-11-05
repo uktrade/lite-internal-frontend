@@ -1,7 +1,8 @@
 from lite_forms.components import Option, Checkboxes
 
 from conf.client import get
-from conf.constants import DENIAL_REASONS_URL, COUNTRIES_URL, STATUSES_URL, CONTROL_LIST_ENTRIES_URL
+from conf.constants import DENIAL_REASONS_URL, COUNTRIES_URL, STATUSES_URL, CONTROL_LIST_ENTRIES_URL, \
+    CASE_NOTIFICATIONS_URL
 from users.services import get_gov_user
 
 
@@ -64,6 +65,13 @@ def get_user_permissions(request, with_team=False):
     user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
     if with_team:
         return user['user']['role']['permissions'], user['user']['team']
+    return user['user']['role']['permissions']
+
+
+# Case Notification
+def get_user_case_notification(request, case_id):
+    data = get(request, CASE_NOTIFICATIONS_URL + '?case=' + case_id)
+    return data.json()['notification']
 
 
 # Control List Entries
