@@ -10,7 +10,7 @@
         {% for restricted in restricted_to %}
             {% hidden_field 'restricted_to' restricted %}
         {% endfor %}
-        {% hidden_field 'layout' layout %}
+        {% hidden_field 'layout' layout.id %}
         <div class="lite-app-bar">
             <div class="lite-app-bar__content">
                 <h2 class="govuk-heading-l">{% block title %}{% get_string 'letter_templates.order_paragraph.title' %}{% endblock %}</h2>
