@@ -39,11 +39,6 @@ def see_edited_queue_in_queue_list(driver, context):
     assert context.edited_queue_name in Shared(driver).get_text_of_body()
 
 
-@then('I see previously created application')
-def see_queue_in_queue_list(driver, context):
-    assert QueuesPages(driver).is_case_on_the_list(context.case_id) == 1, "previously created application is not displayed " + context.case_id
-
-
 @then('I dont see previously created application')
 def dont_see_queue_in_queue_list(driver, context):
     driver.set_timeout_to(0)

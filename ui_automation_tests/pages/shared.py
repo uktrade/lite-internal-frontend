@@ -75,6 +75,9 @@ class Shared(BasePage):
     def get_rows_in_lite_table(self):
         return self.driver.find_elements_by_css_selector(self.lite_table_row)
 
+    def get_first_row_of_gov_uk_table(self):
+        return self.driver.find_elements_by_css_selector(self.lite_table_row)[0]
+
     def get_links_in_lite_table(self):
         return self.driver.find_elements_by_css_selector(self.links_in_lite_table)
 

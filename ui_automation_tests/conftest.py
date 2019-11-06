@@ -2,11 +2,12 @@ import os
 
 from pytest_bdd import given, when, then, parsers
 
+from pages.organisation_page import OrganisationPage
 from pages.roles_pages import RolesPages
 from pages.users_page import UsersPage
 
 from ui_automation_tests.fixtures.env import environment # noqa
-from ui_automation_tests.fixtures.add_a_flag import add_uae_flag, add_suspicious_flag, add_organisation_suspicious_flag # noqa
+from ui_automation_tests.fixtures.add_a_flag import add_uae_flag, add_suspicious_flag, add_organisation_suspicious_flag, add_new_flag # noqa
 from ui_automation_tests.fixtures.add_queue import add_queue # noqa
 from ui_automation_tests.fixtures.add_a_team import add_a_team # noqa
 from ui_automation_tests.fixtures.add_a_picklist import add_an_ecju_query_picklist, add_a_proviso_picklist, add_a_standard_advice_picklist, add_a_report_summary_picklist # noqa
@@ -147,6 +148,12 @@ def go_to_flags(driver, internal_url, sso_sign_in):
     driver.get(internal_url.rstrip("/")+"/flags")
 
 
+@when('I go to flags via menu')
+def go_to_flags_menu(driver):
+    header = HeaderPage(driver)
+    header.click_lite_menu()
+    header.click_flags()
+
 @when('I go to users')  # noqa
 def go_to_users(driver):
     header = HeaderPage(driver)
@@ -262,3 +269,33 @@ def no_permissions(driver):
 @given("I create report summary picklist") # noqa
 def add_report_summary_picklist(add_a_report_summary_picklist):
     pass
+
+
+@then("I see the added flags on the queue")
+def added_flags_on_queue(driver, context):
+    assert context.flag_name in Shared(driver).get_text_of_table()
+
+
+@then('I see previously created application')
+def see_queue_in_queue_list(driver, context):
+    assert QueuesPages(driver).is_case_on_the_list(context.case_id) == 1, "previously created application is not displayed " + context.case_id
+
+
+@when('I add a flag called Suspicious at level Organisation')
+def add_a_suspicious_flag(driver, add_organisation_suspicious_flag):
+    pass
+
+
+@when('I go to the organisation which submitted the case')
+def go_to_the_organisation_which_submitted_the_case(driver):
+    ApplicationPage(driver).go_to_organisation()
+
+
+@when('I click the edit flags link')
+def go_to_edit_flags(driver):
+    OrganisationPage(driver).click_edit_organisation_flags()
+
+
+@then('the previously created organisations flag is assigned')
+def assert_flag_is_assigned(driver, context):
+    assert OrganisationPage(driver).is_organisation_flag_applied(context.flag_name)

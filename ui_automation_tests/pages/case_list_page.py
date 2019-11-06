@@ -36,6 +36,8 @@ class CaseListPage(BasePage):
     dropdown_item = '.app-dropdown__item' # CSS
     dropdown_item_class = 'app-dropdown__item'  # Class_Name
 
+    chevron = 'chevron'  # ID
+
     def search_pages_for_id(self, id):
         is_present = len(self.driver.find_elements_by_link_text(id))
         number_of_pages = len(self.driver.find_elements_by_css_selector(".lite-pagination__item"))
@@ -106,6 +108,11 @@ class CaseListPage(BasePage):
     def click_on_queue_title(self):
         self.driver.find_element_by_id(self.queue_dropdown_title).click()
 
+    def click_chevron_based_on_context_case_id(self, context):
+        elements = Shared(self.driver).get_rows_in_lite_table()
+        no = utils.get_element_index_by_text(elements, context.case_id)
+        elements[no].find_element_by_css_selector(self.chevron).click()
+
     def click_on_queue_name(self, queue_name):
         self.click_on_queue_title()
         time.sleep(0.5)
@@ -117,3 +124,6 @@ class CaseListPage(BasePage):
 
     def select_filter_case_type_from_dropdown(self, status):
         utils.select_visible_text_from_dropdown(self.driver.find_element_by_id(self.CASE_TYPE_DROPDOWN), status)
+
+    def get_chevron_id_selector(self):
+        return self.chevron
