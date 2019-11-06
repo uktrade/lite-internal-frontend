@@ -5,7 +5,6 @@
 {% block back_link %}{% endblock %}
 
 {% block body %}
-
 <div class="lite-app-bar">
 	<form method="get" class="app-dropdown__select">
 		<select class="govuk-select" name="queue">
@@ -215,7 +214,9 @@
                         </td>
                         <td class="govuk-table__cell govuk-table__cell--numeric">
                             <a class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
-                                {% svg 'chevron' %}
+                                {% if case.flags|length > 3 or case.users|length > 3 or case.queue_names|length > 3 %}
+                                    {% svg 'chevron' %}
+                                {% endif %}
                             </a>
                         </td>
                     </tr>
