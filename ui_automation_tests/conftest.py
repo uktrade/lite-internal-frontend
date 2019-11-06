@@ -271,37 +271,37 @@ def add_report_summary_picklist(add_a_report_summary_picklist):
     pass
 
 
-@then("I see the added flags on the queue")
+@then("I see the added flags on the queue") # noqa
 def added_flags_on_queue(driver, context):
     assert context.flag_name in Shared(driver).get_text_of_table()
 
 
-@then('I see previously created application')
+@then('I see previously created application') # noqa
 def see_queue_in_queue_list(driver, context):
     assert QueuesPages(driver).is_case_on_the_list(context.case_id) == 1, "previously created application is not displayed " + context.case_id
 
 
-@when('I add a flag called Suspicious at level Organisation')
+@when('I add a flag called Suspicious at level Organisation') # noqa
 def add_a_suspicious_flag(driver, add_organisation_suspicious_flag):
     pass
 
 
-@when('I go to the organisation which submitted the case')
+@when('I go to the organisation which submitted the case') # noqa
 def go_to_the_organisation_which_submitted_the_case(driver):
     ApplicationPage(driver).go_to_organisation()
 
 
-@when('I click the edit flags link')
+@when('I click the edit flags link') # noqa
 def go_to_edit_flags(driver):
     OrganisationPage(driver).click_edit_organisation_flags()
 
 
-@then('the previously created organisations flag is assigned')
+@then('the previously created organisations flag is assigned') # noqa
 def assert_flag_is_assigned(driver, context):
     assert OrganisationPage(driver).is_organisation_flag_applied(context.flag_name)
 
 
-@when("I click chevron")
+@when("I click chevron") # noqa
 def click_chevron(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
     no = utils.get_element_index_by_text(elements, context.case_id)
