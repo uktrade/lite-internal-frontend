@@ -299,3 +299,11 @@ def go_to_edit_flags(driver):
 @then('the previously created organisations flag is assigned')
 def assert_flag_is_assigned(driver, context):
     assert OrganisationPage(driver).is_organisation_flag_applied(context.flag_name)
+
+
+@when("I click chevron")
+def click_chevron(driver, context):
+    elements = Shared(driver).get_rows_in_lite_table()
+    no = utils.get_element_index_by_text(elements, context.case_id)
+    element = elements[no].find_element_by_css_selector('.lite-accordian-table__chevron')
+    element.click()

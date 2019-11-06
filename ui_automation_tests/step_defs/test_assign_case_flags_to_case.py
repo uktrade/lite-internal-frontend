@@ -120,12 +120,3 @@ def dont_see_three_out_of(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
     no = utils.get_element_index_by_text(elements, context.case_id)
     assert "(3 of " not in elements[no].text
-
-
-@when("I click chevron")
-def click_chevron(driver, context):
-    elements = Shared(driver).get_rows_in_lite_table()
-    case = CaseListPage(driver)
-    no = utils.get_element_index_by_text(elements, context.case_id)
-    element = elements[no].find_element_by_css_selector('.lite-accordian-table__chevron')
-    element.click()

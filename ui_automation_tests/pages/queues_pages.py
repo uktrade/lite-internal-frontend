@@ -23,7 +23,7 @@ class QueuesPages():
         page_number = 1
         while no == 0:
             page_number += 1
-            next_page = url + '&page=' + str(page_number)
+            next_page = url + '?queue_id=00000000-0000-0000-0000-000000000001&page=' + str(page_number)
             self.driver.get(next_page)
             no = len(self.driver.find_elements_by_css_selector("[href*='" + app_id + "']"))
 
