@@ -4,14 +4,13 @@
 
 {% block back_link %}
 	<a href="{% url 'cases:cases' %}{% if queue_id %}?queue_id={{queue_id}}{% endif %}" class="govuk-back-link">
-		Back to search
+		Back to {{queue_name}}
 	</a>
 {% endblock %}
 
 {% load svg %}
 
 {% block body %}
-
 <div class="lite-app-bar">
 	<div class="lite-app-bar__content">
 		<p class="govuk-caption-m" style="margin: 0;">{{ case.application.licence_type.value }}</p>

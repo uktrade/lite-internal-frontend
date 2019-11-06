@@ -30,7 +30,7 @@ class Cases(TemplateView):
         case_type = request.GET.get('case_type')
         status = request.GET.get('status')
         sort = request.GET.get('sort')
-        queue_id = request.GET.get('queue_id')
+        queue_id = request.GET.get('queue_id', '00000000-0000-0000-0000-000000000001')
 
         # Page parameters
         params = {'page': int(request.GET.get('page', 1))}
@@ -79,6 +79,7 @@ class ViewCase(TemplateView):
         activity = get_activity(request, case_id)
         permissions = get_user_permissions(request)
         queue_id = request.GET.get('queue_id')
+        queue_name = request.GET.get('queue_name')
 
         case['all_flags'] = _get_all_distinct_flags(case)
 
@@ -90,6 +91,8 @@ class ViewCase(TemplateView):
         }
         if queue_id:
             context['queue_id'] = queue_id
+        if queue_name:
+            context['queue_name'] = queue_name
 
         if case['type']['key'] == 'end_user_advisory_query':
             return render(request, 'cases/case/queries/end_user_advisory.html', context)

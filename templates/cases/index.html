@@ -19,11 +19,7 @@
         {% if not current_queue_id %}
             All cases
         {% else %}
-            {% for queue in data.results.queues %}
-                {% if queue.id == current_queue_id %}
-                    {{ queue.name }}
-                {% endif %}
-            {% endfor %}
+            {{ title }}
         {% endif %}
     </a>
     {% if not data.results.is_system_queue %}
@@ -54,8 +50,8 @@
 		Hide filters
 	</a>
 </div>
-
 <form id="filters" action="{% url 'cases:cases'%}" method="get">
+
     <input hidden name="queue_id" value="{{ current_queue_id }}">
 
     <div class="govuk-grid-row lite-filter-bar--horizontal">
@@ -138,7 +134,7 @@
                             </div>
                         </td>
                         <td class="govuk-table__cell">
-                            <a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue_id={{current_queue_id}}">
+                            <a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue_id={{current_queue_id}}&queue_name={{title}}">
                                 {% if 'query' in case.type.key %}
                                     {{ case.query.id|reference_code }}
                                 {% else %}
