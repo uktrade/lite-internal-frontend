@@ -2,13 +2,14 @@ import time
 
 import shared.tools.helpers as utils
 from helpers.BasePage import BasePage
+from pages.shared import Shared
 
 
 class CaseListPage(BasePage):
 
     # Table
-    CASES_TABLE_ROW = '.lite-cases-table-row'  # CSS
-    CASES_TABLE = '.lite-cases-table'  # CSS
+    CASES_TABLE_ROW = '.govuk-table__row'  # CSS
+    CASES_TABLE = '.govuk-table'  # CSS
     CHECKBOX_CASE = ".govuk-checkboxes__input[value='"  # CSS
     CHECKBOX_TEXT = ".govuk-checkboxes"  # CSS
     CHECKBOX_SELECT_ALL = "select-all-checkbox"  # ID
@@ -59,11 +60,13 @@ class CaseListPage(BasePage):
     def click_on_assign_users_button(self):
         self.driver.find_element_by_id(self.BUTTON_ASSIGN_USERS).click()
 
-    def get_text_of_assignees(self, case_id):
+    def get_text_of_assignees(self, driver, case_id):
         self.driver.set_timeout_to(1)
         self.search_pages_for_id(case_id)
         self.driver.set_timeout_to_10_seconds()
-        return self.driver.find_element_by_xpath("//*[text()[contains(.,'" + case_id + "')]]/following::p/following::p").text
+        elements = Shared(driver).get_rows_in_lite_table()
+        no = utils.get_element_index_by_text(elements, case_id)
+        return elements[no].text
 
     def click_select_all_checkbox(self):
         self.driver.find_element_by_id(self.CHECKBOX_SELECT_ALL).click()

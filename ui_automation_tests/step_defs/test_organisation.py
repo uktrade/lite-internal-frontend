@@ -16,6 +16,7 @@ scenarios('../features/organisation.feature', strict_gherkin=False)
 def verify_registered_organisation(driver, context):
     if not context.org_registered_status:
         driver.find_element_by_id("show-filters-link").click()
+        driver.find_element_by_id("filter-box").click()
         driver.find_element_by_id("filter-box").send_keys(context.organisation_name)
         driver.find_element_by_id("button-apply-filters").click()
         assert context.organisation_name in Shared(driver).get_text_of_lite_table_body()
