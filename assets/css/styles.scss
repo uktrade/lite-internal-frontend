@@ -10,6 +10,23 @@ $govuk-font-family: Arial, Sans-Serif;
 @import "components/all";
 @import "overrides/all";
 
+.app-info-bar--link {
+	display: block;
+	background-color: govuk-colour("blue");
+
+	&::before {
+		color: govuk-colour("blue");
+	}
+
+	&:hover {
+		background-color: govuk-shade(govuk-colour("blue"), 25%);
+	}
+
+	&:active {
+		background-color: govuk-shade(govuk-colour("blue"), 50%);
+	}
+}
+
 .app-radios__label--error {
 	color: $govuk-error-colour;
 
