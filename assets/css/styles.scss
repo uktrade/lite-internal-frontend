@@ -8,7 +8,6 @@ $govuk-font-family: Arial, Sans-Serif;
 @import "../shared/lite-frontend/scss/all"; // LITE Shared Assets
 
 @import "components/all";
-@import "overrides/all";
 
 .app-info-bar--link {
 	display: block;

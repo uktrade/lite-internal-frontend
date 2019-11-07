@@ -103,36 +103,36 @@
         <table class="govuk-table">
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                    <th class="govuk-table__header govuk-table__cell--checkbox">
+                    <th class="cases-table__header cases-table__cell--checkbox">
                         <div class="govuk-checkboxes__item">
                             <input id="select-all-checkbox" class="govuk-checkboxes__input" type="checkbox">
                             <label class="govuk-label govuk-checkboxes__label"></label>
                         </div>
                     </th>
-                    <th class="govuk-table__header" style="width: 225px;" scope="col">Case</th>
-                    <th class="govuk-table__header" style="width: 1fr;" scope="col">Assignees</th>
-                    <th class="govuk-table__header" style="width: 125px;" scope="col">Type</th>
-                    <th class="govuk-table__header" style="width: 125px;" scope="col">Queue</th>
-                    <th class="govuk-table__header" style="width: 200px;" scope="col">Flags</th>
-                    <th class="govuk-table__header" style="width: 125px;" scope="col">
+                    <th class="cases-table__header" style="width: 225px;" scope="col">Case</th>
+                    <th class="cases-table__header" style="width: 1fr;" scope="col">Assignees</th>
+                    <th class="cases-table__header" style="width: 125px;" scope="col">Type</th>
+                    <th class="cases-table__header" style="width: 125px;" scope="col">Queue</th>
+                    <th class="cases-table__header" style="width: 200px;" scope="col">Flags</th>
+                    <th class="cases-table__header" style="width: 125px;" scope="col">
                         <a href="{% url 'cases:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" class="app-table__sortable-header {{ 'status'|table_sort:params }}">
                             Status
                             {% svg 'chevron' %}
                         </a>
                     </th>
-                    <th class="govuk-table__header" scope="col"></th>
+                    <th class="cases-table__header" scope="col"></th>
                 </tr>
             </thead>
             <tbody class="govuk-table__body">
                 {% for case in data.results.cases %}
                     <tr class="govuk-table__row lite-accordian-table__row">
-                        <td class="govuk-table__cell govuk-table__cell--checkbox">
+                        <td class="cases-table__cell cases-table__cell--checkbox">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}">
                                 <label class="govuk-label govuk-checkboxes__label"></label>
                             </div>
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="cases-table__cell">
                             <a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue_id={{current_queue_id}}&queue_name={{title}}">
                                 {% if 'query' in case.type.key %}
                                     {{ case.query.id }}
@@ -144,7 +144,7 @@
                                 {{ case.organisation }}
                             </p>
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="cases-table__cell">
                             {% for user in case.users|slice:":3" %}
                                 <div>
                                     {% if data.results.is_system_queue %}
@@ -175,10 +175,10 @@
                                 </div>
                             {% endfor %}
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="cases-table__cell">
                             {{ case.type.value }}
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="cases-table__cell">
                             {% for queue_name in case.queue_names|slice:":3" %}
                                 <div>
                                     {{ queue_name }}
@@ -191,7 +191,7 @@
                                 <div class="app-expanded-row__item">{{ queue_name }}</div>
                             {% endfor %}
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="cases-table__cell">
                             {% for flag in case.flags|slice:":3" %}
                                 <div>
                                     {{ flag.name }}
@@ -207,10 +207,10 @@
                                 </div>
                             {% endfor %}
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="cases-table__cell">
                             {{ case.status|sentence_case }}
                         </td>
-                        <td class="govuk-table__cell govuk-table__cell--numeric">
+                        <td class="cases-table__cell govuk-table__cell--numeric">
                             <a class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
                                 {% if case.flags|length > 3 or case.users|length > 3 or case.queue_names|length > 3 %}
                                     {% svg 'chevron' %}
