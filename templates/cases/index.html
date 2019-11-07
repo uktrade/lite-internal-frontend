@@ -5,6 +5,11 @@
 {% block back_link %}{% endblock %}
 
 {% block body %}
+<noscript>
+    <style>
+        #noscript_hide {display:none;}
+    </style>
+</noscript>
 <div class="lite-app-bar">
 	<form method="get" class="app-dropdown__select">
 		<select class="govuk-select" name="queue">
@@ -211,7 +216,7 @@
                             {{ case.status|sentence_case }}
                         </td>
                         <td class="cases-table__cell govuk-table__cell--numeric">
-                            <a class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
+                            <a id="noscript_hide" class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
                                 {% if case.flags|length > 3 or case.users|length > 3 or case.queue_names|length > 3 %}
                                     {% svg 'chevron' %}
                                 {% endif %}
