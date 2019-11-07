@@ -1,6 +1,7 @@
 import os
 
 from pytest_bdd import given, when, then, parsers
+from selenium.common.exceptions import NoSuchElementException
 
 from pages.organisation_page import OrganisationPage
 from pages.roles_pages import RolesPages
@@ -276,9 +277,12 @@ def added_flags_on_queue(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
     no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
     driver.set_timeout_to(0)
-    if len(elements[no].find_elements_by_css_selector('.lite-accordian-table__chevron')) == 1:
-        element = elements[no].find_element_by_css_selector('.lite-accordian-table__chevron')
-        element.click()
+    try:
+        if elements[no].find_element_by_id('chevron').is_displayed():
+            element = elements[no].find_element_by_css_selector('.lite-accordian-table__chevron')
+            element.click()
+    except NoSuchElementException:
+        pass
     driver.set_timeout_to(10)
     assert context.flag_name in elements[no].text
 
