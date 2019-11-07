@@ -43,7 +43,7 @@
 				{% endif %}
                 <button class="lite-button--link" type="submit" name="action" value="add_letter_paragraph">{% get_string 'letter_templates.order_paragraph.add_paragraph' %}</button>
 			</div>
-			<div id="preview" class="govuk-body">
+			<div id="paragraph-list" class="govuk-body">
 				{% for letter_paragraph in letter_paragraphs %}
 					<p id="{{ letter_paragraph.id }}">{{ letter_paragraph.text }}</p>
 				{% endfor %}

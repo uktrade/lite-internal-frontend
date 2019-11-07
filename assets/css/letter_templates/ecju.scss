@@ -25,12 +25,10 @@ $font_family_1: Helvetica, Arial, "Liberation Sans", sans-serif;
 		margin: 0;
 	}
 }
-{
-	#references {
-		position: fixed;
-		top: -23mm;
-		left: 0mm;
-	}
+#references {
+	position: fixed;
+	top: -23mm;
+	left: 0mm;
 }
 #addresses {
 	display: flex;

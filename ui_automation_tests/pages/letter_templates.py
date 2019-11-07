@@ -13,7 +13,7 @@ class LetterTemplates:
         self.save_button = 'action'  # NAME
         self.edit_details_button = '.lite-app-bar__controls .govuk-button'  # CSS
         self.drag_drop_list = 'standard-advice-list'  # ID
-        self.preview_paragraphs = 'preview'  # ID
+        self.preview_paragraphs = 'paragraph-list'  # ID
 
         # Template page
         self.template_title = 'title'  # ID
