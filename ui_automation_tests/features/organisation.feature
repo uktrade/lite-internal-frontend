@@ -50,5 +50,4 @@ Feature: I want to add a company to LITE
     Then the previously created organisations flag is assigned
     When I go to the internal homepage
     Then I see previously created application
-    When I click chevron
-    Then I see the added flags on the queue
+    And I see the added flags on the queue
