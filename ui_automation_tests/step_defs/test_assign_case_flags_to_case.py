@@ -111,12 +111,12 @@ def add_a_suspicious_flag(driver, add_new_flag):
 @then("I see 3 out of text")
 def three_out_of_text(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
-    no = utils.get_element_index_by_text(elements, context.case_id)
+    no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
     assert "(3 of " in elements[no].text
 
 
 @then("I dont see 3 out of text")
 def dont_see_three_out_of(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
-    no = utils.get_element_index_by_text(elements, context.case_id)
+    no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
     assert "(3 of " not in elements[no].text

@@ -53,7 +53,7 @@ Feature: I want to add case-level flags to a case and view them
     And I select previously created flag
     And I go to flags via menu
     And I add a flag called Suspicious at level Organisation
-    And I go to open application previously created
+    And I go to application previously created
     And I go to the organisation which submitted the case
     And I click the edit flags link
     And I select previously created flag

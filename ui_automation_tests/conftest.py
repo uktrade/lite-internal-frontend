@@ -287,7 +287,7 @@ def added_flags_on_queue(driver, context):
     assert context.flag_name in elements[no].text
 
 
-@then('I see previously created application') # noqa
+@then('I see previously created application')  # noqa
 def see_queue_in_queue_list(driver, context):
     assert QueuesPages(driver).is_case_on_the_list(context.case_id) == 1, "previously created application is not displayed " + context.case_id
 
@@ -315,6 +315,11 @@ def assert_flag_is_assigned(driver, context):
 @when("I click chevron") # noqa
 def click_chevron(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
-    no = utils.get_element_index_by_text(elements, context.case_id)
-    element = elements[no].find_element_by_css_selector('.lite-accordian-table__chevron')
-    element.click()
+    no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
+    try:
+        if elements[no].find_element_by_id('chevron').is_displayed():
+            element = elements[no].find_element_by_css_selector('.lite-accordian-table__chevron')
+            element.click()
+    except NoSuchElementException:
+        pass
+    driver.set_timeout_to(10)
