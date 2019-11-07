@@ -1,4 +1,4 @@
-preview = $( '#preview' )
+preview = $( '#paragraph-list' )
 
 $( '#standard-advice-list' ).sortable({
 	stop: function(event, ui) {
@@ -10,7 +10,7 @@ $( '#standard-advice-list' ).sortable({
 });
 
 $( '.app-letter-generator__picklist-item' ).hover(function() {
-	$( '#preview p:not(#' + $(this).data('id') + ')' ).addClass('fade-out-text');
+	$( '#paragraph-list p:not(#' + $(this).data('id') + ')' ).addClass('fade-out-text');
 }, function() {
 	$( '.fade-out-text' ).removeClass('fade-out-text');
 });
