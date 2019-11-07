@@ -18,7 +18,7 @@
     <a id="queue-title" href="#" class="govuk-heading-l app-dropdown__heading" onclick="toggleDropdown()">{{ title }}</a>
     <div class="lite-app-bar__controls">
 		{% if not current_queue.is_system_queue %}
-        	<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">Assign users</button>
+        	<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">{% lcs 'CASES_ASSIGN_USERS' %}</button>
 		{% endif %}
     </div>
 </div>
