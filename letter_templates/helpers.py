@@ -1,6 +1,7 @@
 import os
 
 from django.template import Engine, Context
+from markdown import Markdown
 
 from conf import settings
 from letter_templates.services import get_letter_layout
@@ -34,13 +35,17 @@ def template_engine_factory(allow_missing_variables=False):
     )
 
 
+def markdown_to_html(text):
+    return Markdown().convert(text)
+
+
 def generate_preview(layout, letter_paragraphs: list):
     django_engine = template_engine_factory(allow_missing_variables=True)
 
     template = django_engine.get_template(f'{layout}.html')
 
     letter_context = Context({
-        'content': '<br><br>'.join([paragraph['text'] for paragraph in letter_paragraphs])
+        'content': '<br><br>'.join([markdown_to_html(paragraph['text']) for paragraph in letter_paragraphs])
     })
     return template.render(letter_context)
 
