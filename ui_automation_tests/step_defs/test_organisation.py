@@ -1,10 +1,9 @@
-from pytest_bdd import scenarios, when, then, parsers, given
+import time
 
+from pytest_bdd import scenarios, when, then, parsers
 
-from pages.application_page import ApplicationPage
 import shared.tools.helpers as utils
 from pages.header_page import HeaderPage
-from pages.organisation_page import OrganisationPage
 from pages.organisations_form_page import OrganisationsFormPage
 from pages.organisations_page import OrganisationsPage
 from pages.shared import Shared
@@ -16,6 +15,7 @@ scenarios('../features/organisation.feature', strict_gherkin=False)
 def verify_registered_organisation(driver, context):
     if not context.org_registered_status:
         driver.find_element_by_id("show-filters-link").click()
+        time.sleep(.5)
         driver.find_element_by_id("filter-box").click()
         driver.find_element_by_id("filter-box").send_keys(context.organisation_name)
         driver.find_element_by_id("button-apply-filters").click()

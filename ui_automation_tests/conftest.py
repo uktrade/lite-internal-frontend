@@ -99,7 +99,7 @@ def click_on_created_application(driver, context, internal_url):
 
 @when('I go to end user advisory previously created')  # noqa
 def click_on_created_eua(driver, context):
-    driver.find_element_by_link_text(reference_code(context.eua_id)).click()
+    driver.find_element_by_link_text(context.eua_id).click()
 
 
 @when('I go to clc query previously created')  # noqa
@@ -273,7 +273,14 @@ def add_report_summary_picklist(add_a_report_summary_picklist):
 
 @then("I see the added flags on the queue") # noqa
 def added_flags_on_queue(driver, context):
-    assert context.flag_name in Shared(driver).get_text_of_table()
+    elements = Shared(driver).get_rows_in_lite_table()
+    no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
+    driver.set_timeout_to(0)
+    if len(elements[no].find_elements_by_css_selector('.lite-accordian-table__chevron')) == 1:
+        element = elements[no].find_element_by_css_selector('.lite-accordian-table__chevron')
+        element.click()
+    driver.set_timeout_to(10)
+    assert context.flag_name in elements[no].text
 
 
 @then('I see previously created application') # noqa
