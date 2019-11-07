@@ -16,6 +16,7 @@ scenarios('../features/organisation.feature', strict_gherkin=False)
 def verify_registered_organisation(driver, context):
     if not context.org_registered_status:
         driver.find_element_by_id("show-filters-link").click()
+        driver.find_element_by_id("filter-box").click()
         driver.find_element_by_id("filter-box").send_keys(context.organisation_name)
         driver.find_element_by_id("button-apply-filters").click()
         assert context.organisation_name in Shared(driver).get_text_of_lite_table_body()
@@ -136,23 +137,3 @@ def register_hmrc_org(driver, org_name, site_name, address, city, region, post_c
         organisations_form_page.enter_city(city)
         organisations_form_page.enter_country(country)
         organisations_form_page.click_submit()
-
-
-@given('I add a flag called Suspicious at level Organisation')
-def add_a_suspicious_flag(driver, add_organisation_suspicious_flag):
-    pass
-
-
-@when('I go to the organisation which submitted the case')
-def go_to_the_organisation_which_submitted_the_case(driver):
-    ApplicationPage(driver).go_to_organisation()
-
-
-@when('I click the edit flags link')
-def go_to_edit_flags(driver):
-    OrganisationPage(driver).click_edit_organisation_flags()
-
-
-@then('the previously created organisations flag is assigned')
-def assert_flag_is_assigned(driver, context):
-    assert OrganisationPage(driver).is_organisation_flag_applied(context.flag_name)

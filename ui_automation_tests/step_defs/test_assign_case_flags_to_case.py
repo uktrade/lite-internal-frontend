@@ -1,3 +1,4 @@
+from pages.case_list_page import CaseListPage
 from pages.good_summary_page import GoodSummaryPage
 import shared.tools.helpers as utils
 from pages.shared import Shared
@@ -100,3 +101,22 @@ def add_a_flag(driver, add_uae_flag):
 @when('I add a flag called Suspicious at level Good')
 def add_a_suspicious_flag(driver, add_suspicious_flag):
     pass
+
+
+@when('I add a flag called New at level Case')
+def add_a_suspicious_flag(driver, add_new_flag):
+    pass
+
+
+@then("I see 3 out of text")
+def three_out_of_text(driver, context):
+    elements = Shared(driver).get_rows_in_lite_table()
+    no = utils.get_element_index_by_text(elements, context.case_id)
+    assert "(3 of " in elements[no].text
+
+
+@then("I dont see 3 out of text")
+def dont_see_three_out_of(driver, context):
+    elements = Shared(driver).get_rows_in_lite_table()
+    no = utils.get_element_index_by_text(elements, context.case_id)
+    assert "(3 of " not in elements[no].text

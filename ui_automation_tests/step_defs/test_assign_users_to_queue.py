@@ -26,7 +26,7 @@ def assign_user_to_case(driver, internal_info, context):
 
 @then('user is assignee on case list')
 def user_is_on_case_list(driver, context):
-    assert context.user_name in CaseListPage(driver).get_text_of_assignees(context.case_id), "user name " + context.user_name + " is not an assignee on case list"
+    assert context.user_name in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), "user name " + context.user_name + " is not an assignee on case list"
 
 
 @then('only SSO users name is displayed in user list for assign cases')
@@ -38,7 +38,7 @@ def user_is_on_case_list(driver, internal_info):
 
 @then('user is not assignee on case list')
 def user_is_not_on_case_list(driver, context):
-    assert "No users assigned" in CaseListPage(driver).get_text_of_assignees(context.case_id), "No users assigned text is not displayed"
+    assert "No users assigned" in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), "No users assigned text is not displayed"
 
 
 @when("I click select all cases checkbox")
