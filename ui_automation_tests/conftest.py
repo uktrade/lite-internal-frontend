@@ -26,7 +26,6 @@ from pages.shared import Shared
 from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
 from pages.queues_pages import QueuesPages
-from core.builtins.custom_tags import reference_code
 
 
 def pytest_addoption(parser):
@@ -148,11 +147,12 @@ def go_to_flags(driver, internal_url, sso_sign_in):
     driver.get(internal_url.rstrip("/")+"/flags")
 
 
-@when('I go to flags via menu')
+@when('I go to flags via menu')  # noqa
 def go_to_flags_menu(driver):
     header = HeaderPage(driver)
     header.click_lite_menu()
     header.click_flags()
+
 
 @when('I go to users')  # noqa
 def go_to_users(driver):
