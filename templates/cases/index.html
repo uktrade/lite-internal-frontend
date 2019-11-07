@@ -194,7 +194,6 @@
                         <td class="govuk-table__cell">
                             {% for flag in case.flags|slice:":3" %}
                                 <div>
-                                    <span style="opacity: 0.6;">{{ flag.team.name }}:</span>
                                     {{ flag.name }}
                                     <span class="lite-hint app-expanded-row__item--invert">
                                         {% if case.flags|length > 3 and forloop.counter == 3 %} (3 of {{case.flags|length}}){% endif %}
@@ -204,7 +203,6 @@
 
                             {% for flag in case.flags|slice:"3:" %}
                                 <div class="app-expanded-row__item">
-                                    <span style="opacity: 0.6;">{{ flag.team.name }}:</span>
                                     {{ flag.name }}
                                 </div>
                             {% endfor %}
