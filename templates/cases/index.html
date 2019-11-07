@@ -135,9 +135,9 @@
                         <td class="govuk-table__cell">
                             <a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue_id={{current_queue_id}}&queue_name={{title}}">
                                 {% if 'query' in case.type.key %}
-                                    {{ case.query.id|reference_code }}
+                                    {{ case.query.id }}
                                 {% else %}
-                                    {{ case.id|reference_code }}
+                                    {{ case.id }}
                                 {% endif %}
                             </a>
                             <p class="govuk-body" style="opacity: .7; magin: 0;">
