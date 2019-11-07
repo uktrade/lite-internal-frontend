@@ -46,9 +46,9 @@ class Cases(TemplateView):
         data = get_cases_search_data(request, convert_dict_to_query_params(params))
 
         context = {
-            'title': data['results']['queue_name'],
+            'title': data['results']['queue']['name'],
             'data': data,
-            'current_queue_id': data['results']['queue_id'],
+            'queue': data['results']['queue'],
             'page': params.pop('page'),
             'params': params,
             'params_str': convert_dict_to_query_params(params)

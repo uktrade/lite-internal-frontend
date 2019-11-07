@@ -14,17 +14,13 @@
 	<form method="get" class="app-dropdown__select">
 		<select class="govuk-select" name="queue">
 			{% for queue in data.results.queues %}
-				<option value="{{ queue.id }}" {% if queue.id == current_queue_id %}selected{% endif %}>{{ queue.name }}</option>
+				<option value="{{ queue.id }}" {% if queue.id == data.results.queue.id %}selected{% endif %}>{{ queue.name }}</option>
 			{% endfor %}
 		</select>
 		<button type="submit" class="govuk-button">{% get_string 'cases.go_to_queue' %}</button>
 	</form>
     <a id="queue-title" href="#" class="govuk-heading-l app-dropdown__heading" onclick="toggleDropdown()">
-        {% if not current_queue_id %}
-            All cases
-        {% else %}
-            {{ title }}
-        {% endif %}
+            {{ data.results.queue.name }}
     </a>
     {% if not data.results.is_system_queue %}
     <div class="lite-app-bar__controls">
@@ -36,7 +32,7 @@
 <div class="app-dropdown__container" id="queues">
     <div class="app-dropdown__list">
         {% for queue in data.results.queues %}
-            <a href="?queue_id={{queue.id}}" id="{{ queue.name }}" class="app-dropdown__item {% if queue.id == current_queue_id %}app-dropdown__item--selected{% endif %}">
+            <a href="?queue_id={{queue.id}}" id="{{ queue.name }}" class="app-dropdown__item {% if queue.id == data.results.queue.id %}app-dropdown__item--selected{% endif %}">
                 {{ queue.name }}
                 <span class="app-dropdown__item__count">{{ queue.case_count }}</span>
             </a>
@@ -56,7 +52,7 @@
 </div>
 <form id="filters" action="{% url 'cases:cases'%}" method="get">
 
-    <input hidden name="queue_id" value="{{ current_queue_id }}">
+    <input hidden name="queue_id" value="{{ data.results.queue.id }}">
 
     <div class="govuk-grid-row lite-filter-bar--horizontal">
         <div class="govuk-grid-column-one-quarter">
@@ -93,7 +89,7 @@
                 <button type="submit" form="filters" class="govuk-button" style="margin: 0;" id="button-apply-filters">
                     Apply filters
                 </button>
-                <a href="{% url 'cases:cases' %}?queue_id={{ current_queue_id }}" class="govuk-button govuk-button--secondary" style="margin-bottom: 0;" id="button-clear-filters">
+                <a href="{% url 'cases:cases' %}?queue_id={{ data.results.queue.id }}" class="govuk-button govuk-button--secondary" style="margin-bottom: 0;" id="button-clear-filters">
                     Clear filters
                 </a>
             </div>
@@ -138,7 +134,7 @@
                             </div>
                         </td>
                         <td class="cases-table__cell">
-                            <a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue_id={{current_queue_id}}&queue_name={{title}}">
+                            <a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue_id={{data.results.queue.id}}&queue_name={{data.results.queue.name}}">
                                 {% if 'query' in case.type.key %}
                                     {{ case.query.id }}
                                 {% else %}
@@ -241,7 +237,7 @@
 		{% include "includes/information-text.html" with text=no_cases_text %}
 		<br><br>
 		{% if params.case_type or params.status %}
-			<a href="{% url 'cases:cases' %}?queue={{ current_queue.id }}" class="govuk-link govuk-link--no-visited-state govuk-body">Clear filters</a>
+			<a href="{% url 'cases:cases' %}?queue={{ data.results.queue.id }}" class="govuk-link govuk-link--no-visited-state govuk-body">Clear filters</a>
 		{% endif %}
     {% endif %}
 </form>
