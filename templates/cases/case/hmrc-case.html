@@ -30,9 +30,6 @@
 			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
 	        	{% get_string 'cases.manage.documents.button' %}
 	        </a>
-	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:ecju_queries' case.id %}">
-	            {% get_string 'cases.ecju_queries.title' %}
-			</a>
 	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
 				{% get_string 'cases.manage.move_case.button' %}
 			</a>
@@ -44,9 +41,6 @@
 					Record Decision
 				</a>
 			{% endif %}
-	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:user_advice_view' case.id %}">
-				View Advice
-			</a>
 		</div>
 	</div>
 </div>
@@ -86,6 +80,7 @@
 {% endif %}
 
 <!-- Goods -->
+
 {% with show_checkboxes=True %}
 <form action="{% url 'cases:assign_flags' case.id %}" method="get">
     <input type="hidden" name="level" value="goods"/>
