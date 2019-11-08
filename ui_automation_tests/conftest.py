@@ -272,7 +272,7 @@ def add_report_summary_picklist(add_a_report_summary_picklist):
     pass
 
 
-@then("I see the added flags on the queue") # noqa
+@then('I see the added flags on the queue') # noqa
 def added_flags_on_queue(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
     no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
@@ -312,7 +312,7 @@ def assert_flag_is_assigned(driver, context):
     assert OrganisationPage(driver).is_organisation_flag_applied(context.flag_name)
 
 
-@when("I click chevron") # noqa
+@when('I click chevron') # noqa
 def click_chevron(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
     no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)

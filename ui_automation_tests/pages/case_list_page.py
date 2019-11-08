@@ -27,7 +27,7 @@ class CaseListPage(BasePage):
     CASE_TYPE_DROPDOWN = 'case_type'  # ID
 
     # Deprecated
-    FILTER_SEARCH_BOX = "filter-box"  # ID
+    FILTER_SEARCH_BOX = 'filter-box'  # ID
     assignee = "[style='margin-bottom: 6px;']"  # CSS
     no_assignee = "[style='margin-bottom: 0; opacity: .7;']"  # CSS
 

@@ -18,7 +18,7 @@ class QueuesPages():
 
     def is_case_on_the_list(self, app_id):
         self.driver.set_timeout_to(0)
-        no = len(self.driver.find_elements_by_css_selector("[href*='" + app_id + "']"))
+        no = len(self.driver.find_elements_by_css_selector('[href*="' + app_id + '"]'))
         url = self.driver.current_url
         page_number = 1
         while no == 0:
