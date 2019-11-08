@@ -99,7 +99,7 @@ def i_see_my_picklist_page(driver, context, status):
 
 @when("I type {{ into the description")
 def type_context_variable_start(driver, context):
-    PicklistPages(driver).type_into_picklist_description(' {{')
+    PicklistPages(driver).type_into_picklist_description(' {')
 
 
 @then("I am given context variable suggestions")
