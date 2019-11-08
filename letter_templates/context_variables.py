@@ -1,7 +1,7 @@
 import json
 
 JSON_PATH = 'lite-content/lite-internal-frontend/context_variables.json'
-flattened_context_variables = {}
+flattened_context_variables = []
 
 
 def _get_valid_class_types(variables):
@@ -12,24 +12,32 @@ def _get_valid_class_types(variables):
     return valid_variables
 
 
-def _add_base_class_variables(raw_json, build_order):
-    for class_name in build_order:
-        for base_name in raw_json[class_name]['base']:
-            raw_json[class_name].update({base_name: raw_json[base_name]})
-    return raw_json
+def _get_build_order(json):
+    keys = []
+    for key, value in json.items():
+        if "base" in value:
+            keys.append(key)
+    return keys
+
+
+def _add_base_class_variables(json):
+    for class_name in _get_build_order(json):
+        for base_name in json[class_name]['base']:
+            json[class_name].update({base_name: json[base_name]})
+    return json
 
 
 def load_context_variables():
     with open(JSON_PATH, 'r') as f:
-        raw_json = json.load(f)
+        variables = json.load(f)
 
     # Populate classes with any base class variables
-    raw_json = _add_base_class_variables(raw_json, raw_json['build_order']['order'])
+    variables = _add_base_class_variables(variables)
 
     # Extract all object types we want to give to the user (using 'valid' key)
-    valid_variables = _get_valid_class_types(raw_json)
+    variables = _get_valid_class_types(variables)
 
-    return valid_variables
+    return variables
 
 
 def flatten_dict(dictionary, path):
@@ -40,7 +48,7 @@ def flatten_dict(dictionary, path):
             flatten_dict(value, path+key)
         elif key == 'variables':
             for variable in value:
-                flattened_context_variables[path + variable] = variable
+                flattened_context_variables.append(path + variable)
 
 
 context_variables = load_context_variables()
@@ -52,4 +60,4 @@ def get_sample_context_variables():
 
 
 def get_key_value_pair(data):
-    return [{'key': key, 'value': value, 'representation': '{'+key+'}}'} for (key, value) in data.items()]
+    return [{'key': item, 'representation': '{' + item + '}}'} for item in data]
