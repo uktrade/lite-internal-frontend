@@ -91,6 +91,8 @@ class ViewCase(TemplateView):
         elif case['type']['key'] == 'clc_query':
             context['good'] = case['query']['good']
             return render(request, 'cases/case/queries/clc-query-case.html', context)
+        elif case.get('application').get('application_type').get('key') == 'hmrc_query':
+            return render(request, 'cases/case/hmrc-case.html', context)
         elif case['type']['key'] == 'application':
             context['title'] = case.get('application').get('name')
             context['notification'] = get_user_case_notification(request, case_id)
