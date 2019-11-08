@@ -30,7 +30,7 @@ class Cases(TemplateView):
         case_type = request.GET.get('case_type')
         status = request.GET.get('status')
         sort = request.GET.get('sort')
-        queue_id = request.GET.get('queue_id', '00000000-0000-0000-0000-000000000001')
+        queue_id = request.GET.get('queue_id')
 
         # Page parameters
         params = {'page': int(request.GET.get('page', 1))}
@@ -45,17 +45,10 @@ class Cases(TemplateView):
 
         data = get_cases_search_data(request, convert_dict_to_query_params(params))
 
-        title = ''
-
-        for queue in data['results'].get('queues', []):
-            if queue['id'] == queue_id:
-                title = queue['name']
-                break
-
         context = {
-            'title': title,
+            'title': data['results']['queue']['name'],
             'data': data,
-            'current_queue_id': queue_id,
+            'queue': data['results']['queue'],
             'page': params.pop('page'),
             'params': params,
             'params_str': convert_dict_to_query_params(params)
