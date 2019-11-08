@@ -14,11 +14,11 @@ scenarios('../features/organisation.feature', strict_gherkin=False)
 @then('organisation is registered')
 def verify_registered_organisation(driver, context):
     if not context.org_registered_status:
-        driver.find_element_by_id("show-filters-link").click()
+        driver.find_element_by_id('show-filters-link').click()
         time.sleep(.5)
-        driver.find_element_by_id("filter-box").click()
-        driver.find_element_by_id("filter-box").send_keys(context.organisation_name)
-        driver.find_element_by_id("button-apply-filters").click()
+        driver.find_element_by_id('filter-box').click()
+        driver.find_element_by_id('filter-box').send_keys(context.organisation_name)
+        driver.find_element_by_id('button-apply-filters').click()
         assert context.organisation_name in Shared(driver).get_text_of_lite_table_body()
         #assert context.organisation_name in Shared(driver).get_text_of_panel_body()
         #assert Shared(driver).get_text_of_h1() == "Organisation Registered"
@@ -26,9 +26,9 @@ def verify_registered_organisation(driver, context):
 
 @then('HMRC organisation is registered')
 def verify_hmrc_registered_organisation(driver, context):
-    driver.find_element_by_id("show-filters-link").click()
-    driver.find_element_by_id("filter-box").send_keys(context.hmrc_org_name)
-    driver.find_element_by_id("button-apply-filters").click()
+    driver.find_element_by_id('show-filters-link').click()
+    driver.find_element_by_id('filter-box').send_keys(context.hmrc_org_name)
+    driver.find_element_by_id('button-apply-filters').click()
     assert context.hmrc_org_name in Shared(driver).get_text_of_lite_table_body()
     #assert context.organisation_name in Shared(driver).get_text_of_panel_body()
     #assert Shared(driver).get_text_of_h1() == "Organisation Registered"
