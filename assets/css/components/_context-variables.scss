@@ -1,72 +1,38 @@
-$color_1: black;
-$color_2: #6f8092;
-$color_3: white;
-$color_4: #3366FF;
-$color_5: #777;
-
-.atwho-view {
+.tribute-container {
+	@extend .govuk-label;
 	position: absolute;
 	top: 0;
 	left: 0;
-	display: none;
-	margin-top: 18px;
-	background: white;
-	color: $color_1;
-	border: 1px solid #DDD;
-	border-radius: 3px;
-	box-shadow: 0 0 5px rgba(0,0,0,0.1);
-	min-width: 120px;
-	z-index: 11110 !important;
-	.atwho-header {
-		padding: 5px;
-		margin: 5px;
-		cursor: pointer;
-		border-bottom: solid 1px #eaeff1;
-		color: $color_2;
-		font-size: 11px;
-		font-weight: bold;
-		.small {
-			color: $color_2;
-			float: right;
-			padding-top: 2px;
-			margin-right: -5px;
-			font-size: 12px;
-			font-weight: normal;
-		}
-		&:hover {
-			cursor: default;
-		}
-	}
-	.cur {
-		background: #3366FF;
-		color: $color_3;
-		small {
-			color: $color_3;
-		}
-		strong {
-			color: $color_3;
-			font: bold;
-		}
-	}
-	strong {
-		color: $color_4;
-	}
+	height: auto;
+	max-height: 300px;
+	max-width: 500px;
+	overflow: auto;
+	display: block;
+	z-index: 999999;
+	border-style: solid;
+    border-width: 2px;
 	ul {
-		list-style: none;
+		margin: 0;
+		margin-top: 2px;
 		padding: 0;
-		margin: auto;
-		max-height: 200px;
-		overflow-y: auto;
-		li {
-			display: block;
-			padding: 5px 10px;
-			border-bottom: 1px solid #DDD;
-			cursor: pointer;
+		list-style: none;
+		background: white;
+	}
+	li {
+		padding: 5px 5px;
+		cursor: pointer;
+		span {
+			font-weight: bold;
 		}
 	}
-	small {
-		font-size: smaller;
-		color: $color_5;
-		font-weight: normal;
+	li.highlight {
+		background: govuk-colour("blue");
+		color: white;
+	}
+	li.no-match {
+		cursor: default;
+	}
+	.menu-highlighted {
+		font-weight: bold;
 	}
 }
