@@ -1,6 +1,7 @@
 import json
 
 JSON_PATH = 'lite-content/lite-internal-frontend/context_variables.json'
+HIDDEN_VARS = ['valid', 'extends']
 flattened_context_variables = []
 
 
@@ -27,6 +28,25 @@ def _add_base_class_variables(json):
     return json
 
 
+def _remove_hidden_variables(dictionary):
+    for var in HIDDEN_VARS:
+        if var in dictionary:
+            del dictionary[var]
+    return dictionary
+
+
+def _clean_dict(dictionary):
+    dictionary = _remove_hidden_variables(dictionary)
+    if 'variables' in dictionary:
+        for var in dictionary['variables']:
+            dictionary[var] = ''
+        del dictionary['variables']
+    for key, value in dictionary.items():
+        if isinstance(value, dict):
+            dictionary[key] = _clean_dict(value)
+    return dictionary
+
+
 def load_context_variables():
     with open(JSON_PATH, 'r') as f:
         variables = json.load(f)
@@ -37,6 +57,10 @@ def load_context_variables():
     # Extract all object types we want to give to the user (using 'valid' key)
     variables = _get_valid_class_types(variables)
 
+    # Remove all hidden variables and format as fully nested dict
+    for key, value in variables.items():
+        variables[key] = _clean_dict(value)
+
     return variables
 
 
@@ -45,9 +69,9 @@ def flatten_dict(dictionary, path):
         path += '.'
     for key, value in dictionary.items():
         if isinstance(value, dict):
-            flatten_dict(value, path+key)
-        elif key == 'variables':
-            for variable in value:
+            flatten_dict(value, path + key)
+        else:
+            for variable in dictionary:
                 flattened_context_variables.append(path + variable)
 
 
