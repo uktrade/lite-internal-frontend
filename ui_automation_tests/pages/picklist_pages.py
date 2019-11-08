@@ -17,6 +17,7 @@ class PicklistPages():
         self.errors = '.govuk-error-summary__list' #css
 
         self.context_suggestions_overlay = '.tribute-container'  # css
+        self.context_suggestion = '.tribute-container .highlight'  # css
 
     def click_on_picklist_tab(self):
         self.driver.find_element_by_css_selector(self.picklist_tab).click()
@@ -65,7 +66,7 @@ class PicklistPages():
         return self.driver.find_element_by_css_selector(self.context_suggestions_overlay).text
 
     def click_context_suggestion(self):
-        self.driver.find_element_by_css_selector(self.context_suggestions_overlay).click()
+        self.driver.find_element_by_css_selector(self.context_suggestion).click()
 
     def get_errors(self):
         return self.driver.find_element_by_css_selector(self.errors).text

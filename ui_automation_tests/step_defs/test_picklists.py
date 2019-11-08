@@ -110,7 +110,7 @@ def context_variable_overlay(driver):
 @when("I click a suggested context variable")
 def context_variable_option(driver, context):
     picklist_page = PicklistPages(driver)
-    context.prompted_context_variable = picklist_page.get_context_suggestion_variable_name()
+    context.prompted_context_variable = picklist_page.get_context_suggestion_variable_name().split('\n')[0]
     picklist_page.click_context_suggestion()
 
 
