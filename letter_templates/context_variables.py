@@ -15,14 +15,14 @@ def _get_valid_class_types(variables):
 def _get_build_order(json):
     keys = []
     for key, value in json.items():
-        if "base" in value:
+        if 'extends' in value:
             keys.append(key)
     return keys
 
 
 def _add_base_class_variables(json):
     for class_name in _get_build_order(json):
-        for base_name in json[class_name]['base']:
+        for base_name in json[class_name]['extends']:
             json[class_name].update({base_name: json[base_name]})
     return json
 
