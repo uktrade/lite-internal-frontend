@@ -77,6 +77,7 @@ def flatten_dict(dictionary, path):
 
 context_variables = load_context_variables()
 flatten_dict(context_variables, '')
+flattened_context_variables = set(flattened_context_variables)
 
 
 def get_sample_context_variables():
