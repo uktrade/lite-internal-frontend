@@ -83,7 +83,6 @@ class CaseAssignments(TemplateView):
         """
         Assign users to cases
         """
-
         queue_id = str(kwargs['pk'])
         queue, _ = get_queue(request, queue_id)
         case_assignments, _ = get_queue_case_assignments(request, queue_id)
@@ -97,7 +96,6 @@ class CaseAssignments(TemplateView):
 
         # Get assigned users
         assigned_users = get_assigned_users_from_cases(case_ids, case_assignments['case_assignments'])
-
         return form_page(request,
                          assign_users_form(request,
                                            user_data['user']['team']['id'],
@@ -109,7 +107,6 @@ class CaseAssignments(TemplateView):
         """
         Update the queue's case assignments
         """
-
         queue_id = str(kwargs['pk'])
         queue, _ = get_queue(request, queue_id)
         case_ids = request.GET.get('cases').split(',')
@@ -129,7 +126,6 @@ class CaseAssignments(TemplateView):
             )
 
         response, _ = put_queue_case_assignments(request, queue_id, data)
-
         if 'errors' in response:
             return form_page(request, assign_users_form(request,
                                                         user_data['user']['team']['id'],
