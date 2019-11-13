@@ -123,3 +123,53 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I click continue
     And I reset the permissions
     Then I see permissions are cleared
+
+  @LT_966_refusal_flags
+  Scenario: Test tha† refusal advice is given correctly
+    Given I create application or application has been previously created
+    And I sign in to SSO or am signed into SSO
+    When I give myself all permissions
+    And I go to application previously created
+    And I click on view advice
+    And I select all items in the advice view
+    And I choose to 'refuse' the licence
+    And I select decision "1a"
+    And I select decision "2b"
+    And I import text from the 'advice' picklist
+    And I write 'We will get back to you in three weeks' in the note text field
+    And I click continue
+    And I go to the team advice
+    And I combine all advice
+    And I go to application previously created
+    Then I see refusal flag is attached
+    When I click on view advice
+    And I go to the team advice
+    And I select all items in the advice view
+    And I choose to 'approve' the licence
+    And I import text from the 'advice' picklist
+    And I write 'We will get back to you in three weeks' in the note text field
+    And I click continue
+    And I go to application previously created
+    Then I see refusal flag is not attached
+    When I click on view advice
+    And I go to the team advice
+    And I select all items in the advice view
+    And I choose to 'refuse' the licence
+    And I select decision "1a"
+    And I select decision "2b"
+    And I import text from the 'advice' picklist
+    And I write 'We will get back to you in three weeks' in the note text field
+    And I click continue
+    And I go to application previously created
+    Then I see refusal flag is attached
+    When I click on view advice
+    And I go to the team advice
+    And I clear advice
+    And I go to application previously created
+    Then I see refusal flag is not attached
+    When I reset the permissions
+    Then I see permissions are cleared
+
+
+
+
