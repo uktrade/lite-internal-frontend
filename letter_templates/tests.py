@@ -50,6 +50,11 @@ class ContextVariablesTestCase(TestCase):
             self.variables = json.load(f)
 
     def _validate_variable_dict(self, dictionary):
+        """
+        Get each item in each containing dict and validate that the variable
+        is inside the dict of variables we have about a given object.
+        This happens recursively until all dicts have been checked.
+        """
         for key, value in dictionary.items():
             if isinstance(value, dict):
                 expected = self.variables_in_json[key]
@@ -58,6 +63,13 @@ class ContextVariablesTestCase(TestCase):
                 self._validate_variable_dict(value)
 
     def _validate_flattened_variables(self, dictionary, path):
+        """
+        Append the current key to the path if the item is a dict to build up the
+        full path to a variable i.e. `application.user.id`
+        When the flattened variable path is complete (no longer is a dict) it will assert
+        that the item is in flattened context variables.
+        This happens recursively until each flattened variable is found and verified.
+        """
         for key, value in dictionary.items():
             if isinstance(value, dict):
                 if path:
