@@ -58,7 +58,7 @@ class Respond(TemplateView):
             response, response_data = submit_single_form(request,
                                                          self.form,
                                                          put_control_list_classification_query,
-                                                         object_pk=str(self.case['query']['id']),
+                                                         pk=str(self.case['query']['id']),
                                                          override_data=form_data)
 
             if response:

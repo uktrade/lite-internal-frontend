@@ -194,7 +194,7 @@ class MoveCase(TemplateView):
         response, data = submit_single_form(request,
                                             move_case_form(request, reverse('cases:case', kwargs={'pk': case_id})),
                                             put_case,
-                                            object_pk=case_id,
+                                            pk=case_id,
                                             override_data=data)
 
         if response:
