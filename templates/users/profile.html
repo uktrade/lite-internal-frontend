@@ -15,14 +15,20 @@
 			</h2>
 		</div>
 		<div class="lite-app-bar__controls">
-			<a href="{% url 'users:edit' data.user.id %}" type="submit" class="govuk-button">Edit</a>
-			{% if request.user.lite_api_user_id|stringformat:"s" != data.user.id|stringformat:"s" %}
-				{% if data.user.status == 'Active' %}
-					<a href="{% url 'users:change_status' data.user.id 'deactivate' %}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-right-2">Deactivate</a>
-				{% elif data.user.status == 'Deactivated' %}
-					<a href="{% url 'users:change_status' data.user.id 'reactivate' %}" role="button" draggable="false" class="govuk-button govuk-!-margin-right-2">Reactivate</a>
-				{% endif %}
-			{% endif %}
+            {% if super_user %}
+                <a href="{% url 'users:edit' data.user.id %}" type="submit" class="govuk-button">Edit</a>
+            {% elif not data.user.role.name == 'Super User' %}
+                <a href="{% url 'users:edit' data.user.id %}" type="submit" class="govuk-button">Edit</a>
+            {% endif %}
+            {% if not data.user.role.name == 'Super User' %}
+                {% if request.user.lite_api_user_id|stringformat:"s" != data.user.id|stringformat:"s" %}
+                    {% if data.user.status == 'Active' %}
+                        <a href="{% url 'users:change_status' data.user.id 'deactivate' %}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-right-2">Deactivate</a>
+                    {% elif data.user.status == 'Deactivated' %}
+                        <a href="{% url 'users:change_status' data.user.id 'reactivate' %}" role="button" draggable="false" class="govuk-button govuk-!-margin-right-2">Reactivate</a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
 		</div>
 	</div>
 

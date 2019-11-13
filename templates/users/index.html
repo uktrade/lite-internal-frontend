@@ -55,7 +55,11 @@
                     <td class="govuk-table__cell">{{ user.role.name }}</td>
                     <td class="govuk-table__cell">{{ user.status }}</td>
                     <td class="govuk-table__cell">
-                        <a href="{% url 'users:edit' user.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">Edit</a>
+                        {% if super_user %}
+                            <a href="{% url 'users:edit' user.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">Edit</a>
+                        {% elif not user.role.name == 'Super User' %}
+                            <a href="{% url 'users:edit' user.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">Edit</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

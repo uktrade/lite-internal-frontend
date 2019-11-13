@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
+
+from core.services import get_user_permissions
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_single_form
 
@@ -13,11 +15,13 @@ class Roles(TemplateView):
     def get(self, request, **kwargs):
         roles, _ = get_roles(request)
         all_permissions, _ = get_permissions(request)
+        permissions = get_user_permissions(request)
 
         context = {
             'all_permissions': all_permissions['permissions'],
             'roles': roles['roles'],
             'title': get_string('roles.title'),
+            'user_permissions': permissions
         }
         return render(request, 'users/roles.html', context)
 

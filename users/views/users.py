@@ -2,9 +2,9 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from lite_forms.generators import form_page
 
 from core.builtins.custom_tags import get_string
+from lite_forms.generators import form_page
 from users.forms.users import add_user_form, edit_user_form
 from users.services import get_gov_users, post_gov_users, put_gov_user, get_gov_user
 
@@ -12,10 +12,13 @@ from users.services import get_gov_users, post_gov_users, put_gov_user, get_gov_
 class UsersList(TemplateView):
     def get(self, request, **kwargs):
         data, _ = get_gov_users(request)
+        user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
+        super_user = user['user']['role']['name'] == 'Super User'
 
         context = {
             'data': data,
             'title': 'Users',
+            'super_user': super_user
         }
         return render(request, 'users/index.html', context)
 
@@ -37,10 +40,13 @@ class ViewUser(TemplateView):
     def get(self, request, **kwargs):
         data, _ = get_gov_user(request, str(kwargs['pk']))
         user = data.get('user')
+        request_user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
+        super_user = request_user['user']['role']['name'] == 'Super User'
 
         context = {
             'data': data,
-            'title': user.get('first_name') + ' ' + user.get('last_name')
+            'title': user.get('first_name') + ' ' + user.get('last_name'),
+            'super_user': super_user
         }
         return render(request, 'users/profile.html', context)
 
