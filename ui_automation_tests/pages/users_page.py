@@ -4,7 +4,6 @@ import time
 
 
 class UsersPage:
-
     def __init__(self, driver):
         self.driver = driver
         self.submit_button = "button[type*='submit']"
@@ -38,14 +37,19 @@ class UsersPage:
 
     def click_edit_for_user(self, user_name):
         element = self.driver.find_element_by_xpath(
-            "//*[text()[contains(.,'" + user_name + "')]]/following-sibling::td[last()]/a")
+            "//*[text()[contains(.,'"
+            + user_name
+            + "')]]/following-sibling::td[last()]/a"
+        )
         actions = ActionChains(self.driver)
         actions.move_to_element(element).perform()
         time.sleep(1)
         element.click()
 
     def click_user_name_link(self, user_name):
-        element = self.driver.find_element_by_xpath("//*[text()[contains(.,'" + user_name + "')]]")
+        element = self.driver.find_element_by_xpath(
+            "//*[text()[contains(.,'" + user_name + "')]]"
+        )
         actions = ActionChains(self.driver)
         actions.move_to_element(element).perform()
         time.sleep(1)
@@ -86,4 +90,6 @@ class UsersPage:
         self.driver.find_element_by_id(self.manage_roles_button).click()
 
     def click_edit_button_by_index(self, index):
-        self.driver.find_elements_by_css_selector(self.edit_buttons_in_table)[index].click()
+        self.driver.find_elements_by_css_selector(self.edit_buttons_in_table)[
+            index
+        ].click()

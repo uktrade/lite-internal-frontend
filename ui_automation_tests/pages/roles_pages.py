@@ -45,6 +45,6 @@ class RolesPages:
         permissions = elements.find_elements_by_css_selector(self.ticks)
         role_permissions = 0
         for permission in permissions:
-            if 'can' in permission.text:
+            if "can" in permission.text:
                 role_permissions += 1
         return role_permissions

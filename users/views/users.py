@@ -14,10 +14,10 @@ class UsersList(TemplateView):
         data, _ = get_gov_users(request)
 
         context = {
-            'data': data,
-            'title': 'Users',
+            "data": data,
+            "title": "Users",
         }
-        return render(request, 'users/index.html', context)
+        return render(request, "users/index.html", context)
 
 
 class AddUser(TemplateView):
@@ -28,71 +28,85 @@ class AddUser(TemplateView):
         response, status_code = post_gov_users(request, request.POST)
 
         if status_code != 201:
-            return form_page(request, add_user_form(request), data=request.POST, errors=response.get('errors'))
+            return form_page(
+                request,
+                add_user_form(request),
+                data=request.POST,
+                errors=response.get("errors"),
+            )
 
-        return redirect(reverse_lazy('users:users'))
+        return redirect(reverse_lazy("users:users"))
 
 
 class ViewUser(TemplateView):
     def get(self, request, **kwargs):
-        data, _ = get_gov_user(request, str(kwargs['pk']))
-        user = data.get('user')
+        data, _ = get_gov_user(request, str(kwargs["pk"]))
+        user = data.get("user")
 
         context = {
-            'data': data,
-            'title': user.get('first_name') + ' ' + user.get('last_name')
+            "data": data,
+            "title": user.get("first_name") + " " + user.get("last_name"),
         }
-        return render(request, 'users/profile.html', context)
+        return render(request, "users/profile.html", context)
 
 
 class ViewProfile(TemplateView):
     def get(self, request, **kwargs):
         user = request.user
-        return redirect(reverse_lazy('users:user', kwargs={'pk': user.id}))
+        return redirect(reverse_lazy("users:user", kwargs={"pk": user.id}))
 
 
 class EditUser(TemplateView):
     def get(self, request, **kwargs):
-        user, _ = get_gov_user(request, str(kwargs['pk']))
-        return form_page(request, edit_user_form(request, str(kwargs['pk'])), data=user['user'])
+        user, _ = get_gov_user(request, str(kwargs["pk"]))
+        return form_page(
+            request, edit_user_form(request, str(kwargs["pk"])), data=user["user"]
+        )
 
     def post(self, request, **kwargs):
-        response, status_code = put_gov_user(request, str(kwargs['pk']), request.POST)
+        response, status_code = put_gov_user(request, str(kwargs["pk"]), request.POST)
 
         if status_code != 200:
-            return form_page(request, edit_user_form(request, str(kwargs['pk'])), data=request.POST, errors=response.get('errors'))
+            return form_page(
+                request,
+                edit_user_form(request, str(kwargs["pk"])),
+                data=request.POST,
+                errors=response.get("errors"),
+            )
 
-        return redirect(reverse_lazy('users:users'))
+        return redirect(reverse_lazy("users:users"))
 
 
 class ChangeUserStatus(TemplateView):
     def get(self, request, **kwargs):
-        status = kwargs['status']
-        description = ''
+        status = kwargs["status"]
+        description = ""
 
-        if status != 'deactivate' and status != 'reactivate':
+        if status != "deactivate" and status != "reactivate":
             raise Http404
 
-        if status == 'deactivate':
-            description = get_string('update_user.status.deactivate_warning')
+        if status == "deactivate":
+            description = get_string("update_user.status.deactivate_warning")
 
-        if status == 'reactivate':
-            description = get_string('update_user.status.reactivate_warning')
+        if status == "reactivate":
+            description = get_string("update_user.status.reactivate_warning")
 
         context = {
-            'title': 'Are you sure you want to {} this flag?'.format(status),
-            'description': description,
-            'user_id': str(kwargs['pk']),
-            'status': status,
+            "title": "Are you sure you want to {} this flag?".format(status),
+            "description": description,
+            "user_id": str(kwargs["pk"]),
+            "status": status,
         }
-        return render(request, 'users/change_status.html', context)
+        return render(request, "users/change_status.html", context)
 
     def post(self, request, **kwargs):
-        status = kwargs['status']
+        status = kwargs["status"]
 
-        if status != 'deactivate' and status != 'reactivate':
+        if status != "deactivate" and status != "reactivate":
             raise Http404
 
-        put_gov_user(request, str(kwargs['pk']), json={'status': request.POST['status']})
+        put_gov_user(
+            request, str(kwargs["pk"]), json={"status": request.POST["status"]}
+        )
 
-        return redirect('/users/')
+        return redirect("/users/")
