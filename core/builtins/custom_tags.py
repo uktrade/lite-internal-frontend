@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 from conf.constants import ISO8601_FMT
 from conf.settings import env
 from core import strings
-from lite_content.lite_internal_frontend import strings
+from lite_content.lite_internal_frontend import strings as lite_strings
 
 register = template.Library()
 
@@ -18,7 +18,7 @@ register = template.Library()
 @register.simple_tag(name='lcs')
 def get_const_string(value):
     try:
-        return getattr(strings, value)
+        return getattr(lite_strings, value)
     except AttributeError:
         return ''
 
