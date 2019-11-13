@@ -11,14 +11,18 @@
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h2 class="govuk-heading-l">
-				{{ title }}
+				{% block title %}{{ data.user.first_name }} {{ data.user.last_name }}{% endblock %}
 			</h2>
 		</div>
 		<div class="lite-app-bar__controls">
             {% if super_user %}
-                <a href="{% url 'users:edit' data.user.id %}" type="submit" class="govuk-button">Edit</a>
+                <a href="{% url 'users:edit' data.user.id %}" type="submit" class="govuk-button">
+                    {% lcs 'USER_PROFILE_PAGE_EDIT' %}
+                </a>
             {% elif not data.user.role.name == 'Super User' %}
-                <a href="{% url 'users:edit' data.user.id %}" type="submit" class="govuk-button">Edit</a>
+                <a href="{% url 'users:edit' data.user.id %}" type="submit" class="govuk-button">
+                    {% lcs 'USER_PROFILE_PAGE_EDIT' %}
+                </a>
             {% endif %}
             {% if not data.user.role.name == 'Super User' %}
                 {% if request.user.lite_api_user_id|stringformat:"s" != data.user.id|stringformat:"s" %}
