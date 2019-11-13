@@ -47,7 +47,7 @@ class ContextVariablesTestCase(TestCase):
         self.context_variables = context_variables
         self.flattened_context_variables = flattened_context_variables
         with open(JSON_PATH, 'r') as f:
-            self.variables = json.load(f)
+            self.context_variables_json = json.load(f)
 
     def _validate_variable_dict(self, dictionary):
         """
@@ -82,7 +82,7 @@ class ContextVariablesTestCase(TestCase):
 
     def test_build_context_variable_json(self):
         self.variables_in_json = {}
-        for key, value in self.variables.items():
+        for key, value in self.context_variables_json.items():
             if 'variables' in value:
                 self.variables_in_json[key] = value['variables']
             else:
