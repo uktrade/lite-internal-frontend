@@ -24,36 +24,38 @@ class ApplicationPage(BasePage):
     activity_case_note_subject = ".govuk-body"
     activity_dates = ".app-activity__item .govuk-hint"
     activity_user = ".user"
-    is_visible_to_exporter_checkbox_id = 'is_visible_to_exporter'
+    is_visible_to_exporter_checkbox_id = "is_visible_to_exporter"
     review_goods = "button-review-goods"
-    edit_case_flags = 'application-edit-case-flags'  # ID
+    edit_case_flags = "application-edit-case-flags"  # ID
     checkbox_input = ".govuk-checkboxes__input"
     view_advice = 'a[href*="/user-advice-view/"]'
-    case_flags = 'application-case-flags'
-    move_case_button = '[href*="move"]' # CSS
-    status = 'status'  # ID
-    audit_trail_item = '.app-activity__item'  # CSS
-    application_summary_board = '.govuk-summary-list'  # CSS
-    eu_table = 'end-user'  # ID
-    ueu_table = 'ultimate-end-users'  # ID
-    consignee_table = 'consignee'  # ID
-    third_parties_table = 'third-parties'  # ID
-    give_advice_button = 'button-give-advice'  # ID
+    case_flags = "application-case-flags"
+    move_case_button = '[href*="move"]'  # CSS
+    status = "status"  # ID
+    audit_trail_item = ".app-activity__item"  # CSS
+    application_summary_board = ".govuk-summary-list"  # CSS
+    eu_table = "end-user"  # ID
+    ueu_table = "ultimate-end-users"  # ID
+    consignee_table = "consignee"  # ID
+    third_parties_table = "third-parties"  # ID
+    give_advice_button = "button-give-advice"  # ID
     checkbox = '[type="checkbox"]'  # CSS
-    download_good_document = 'good_document'  # ID
-    download_end_user_document = 'end_user_document'  # ID
-    download_additional_document = 'additional_document'  # ID
-    organisation = 'applicant_organisation'  # CSS
-    edit_goods_flags = 'button-edit-goods-flags'  # ID
+    download_good_document = "good_document"  # ID
+    download_end_user_document = "end_user_document"  # ID
+    download_additional_document = "additional_document"  # ID
+    organisation = "applicant_organisation"  # CSS
+    edit_goods_flags = "button-edit-goods-flags"  # ID
 
-    goods_description_link = '#goods a'  # CSS
+    goods_description_link = "#goods a"  # CSS
 
     def click_visible_to_exporter_checkbox(self):
-        time.sleep(.5)
+        time.sleep(0.5)
         self.driver.find_element_by_id(self.is_visible_to_exporter_checkbox_id).click()
 
     def enter_case_note(self, text):
-        self.driver.execute_script(f'document.getElementById("{self.case_note_field}").value = "{text[:-1]}"')
+        self.driver.execute_script(
+            f'document.getElementById("{self.case_note_field}").value = "{text[:-1]}"'
+        )
         self.driver.find_element_by_id(self.case_note_field).send_keys(text[-1:])
 
     def get_text_of_case_note_field(self):
@@ -63,21 +65,25 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_id(self.post_note_btn).click()
 
     def click_cancel_btn(self):
-        time.sleep(.5)
+        time.sleep(0.5)
         self.driver.find_element_by_id(self.cancel_note_btn).click()
 
     def get_text_of_case_note(self, no):
         return self.driver.find_elements_by_css_selector(self.case_notes_text)[no].text
 
     def get_text_of_case_note_date_time(self, no):
-        return self.driver.find_elements_by_css_selector(self.case_note_date_time)[no].text
+        return self.driver.find_elements_by_css_selector(self.case_note_date_time)[
+            no
+        ].text
 
     def get_text_of_case_note_warning(self):
         time.sleep(1)
         return self.driver.find_element_by_id(self.case_note_character_warning).text
 
     def get_disabled_attribute_of_post_note(self):
-        return self.driver.find_element_by_id(self.post_note_btn).get_attribute("disabled")
+        return self.driver.find_element_by_id(self.post_note_btn).get_attribute(
+            "disabled"
+        )
 
     def get_class_name_of_post_note(self):
         return self.driver.find_element_by_id(self.post_note_btn).get_attribute("class")
@@ -106,7 +112,9 @@ class ApplicationPage(BasePage):
         case_status_dropdown.select_by_visible_text(status)
 
     def get_text_of_case_note_subject(self, no):
-        return self.driver.find_elements_by_css_selector(self.activity_case_note_subject)[no].text
+        return self.driver.find_elements_by_css_selector(
+            self.activity_case_note_subject
+        )[no].text
 
     def get_text_of_activity_dates(self, no):
         return self.driver.find_elements_by_css_selector(self.activity_dates)[no].text
@@ -134,7 +142,7 @@ class ApplicationPage(BasePage):
 
     def select_a_good(self):
         element = self.driver.find_element_by_css_selector(self.checkbox_input)
-        self.driver.execute_script('arguments[0].click();', element)
+        self.driver.execute_script("arguments[0].click();", element)
 
     def click_view_advice(self):
         self.driver.find_element_by_css_selector(self.actions_dropdown).click()
@@ -155,7 +163,9 @@ class ApplicationPage(BasePage):
         return self.driver.find_elements_by_css_selector(self.audit_trail_item)[no].text
 
     def get_text_of_application_summary_board(self):
-        return self.driver.find_element_by_css_selector(self.application_summary_board).text
+        return self.driver.find_element_by_css_selector(
+            self.application_summary_board
+        ).text
 
     def get_text_of_eu_table(self):
         return self.driver.find_element_by_id(self.eu_table).text
@@ -184,7 +194,7 @@ class ApplicationPage(BasePage):
         elements = self.driver.find_elements_by_css_selector(self.checkbox)
         num = 0
         for element in elements:
-            self.driver.execute_script('arguments[0].click();', element)
+            self.driver.execute_script("arguments[0].click();", element)
             num += 1
         self.driver.find_element_by_id(self.give_advice_button).click()
         return num
@@ -193,7 +203,9 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.download_good_document).is_enabled()
 
     def end_user_document_link_is_enabled(self):
-        return self.driver.find_element_by_id(self.download_end_user_document).is_enabled()
+        return self.driver.find_element_by_id(
+            self.download_end_user_document
+        ).is_enabled()
 
     def get_case_flag_element(self):
         return self.driver.find_element_by_id(self.case_flags)
@@ -209,15 +221,19 @@ class ApplicationPage(BasePage):
 
     def is_change_status_available(self):
         # this should equal 2 as there is a 'manage' in the link of the footer image
-        return len(self.driver.find_elements_by_css_selector(self.progress_app_btn)) == 2
+        return (
+            len(self.driver.find_elements_by_css_selector(self.progress_app_btn)) == 2
+        )
 
     def additional_document_link_is_enabled(self):
-        return self.driver.find_element_by_id(self.download_additional_document).is_enabled()
+        return self.driver.find_element_by_id(
+            self.download_additional_document
+        ).is_enabled()
 
     def go_to_organisation(self):
         element = self.driver.find_element_by_id(self.organisation)
-        self.driver.execute_script('arguments[0].click();', element)
+        self.driver.execute_script("arguments[0].click();", element)
 
     def click_good_description_link(self):
         element = self.driver.find_element_by_css_selector(self.goods_description_link)
-        self.driver.execute_script('arguments[0].click();', element)
+        self.driver.execute_script("arguments[0].click();", element)

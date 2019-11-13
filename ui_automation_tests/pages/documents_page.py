@@ -1,5 +1,4 @@
-class DocumentsPage():
-
+class DocumentsPage:
     def __init__(self, driver):
         self.driver = driver
         self.attach_docs_btn = '.govuk-button[href*="cases"]'  # css

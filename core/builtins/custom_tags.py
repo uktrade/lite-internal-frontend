@@ -15,12 +15,12 @@ from lite_content.lite_internal_frontend import constants
 register = template.Library()
 
 
-@register.simple_tag(name='lcs')
+@register.simple_tag(name="lcs")
 def get_const_string(value):
     try:
         return getattr(constants, value)
     except AttributeError:
-        return ''
+        return ""
 
 
 @register.simple_tag
@@ -31,8 +31,8 @@ def get_string(value):
     """
 
     # Pull the latest changes from strings.json for faster debugging
-    if env('DEBUG'):
-        with open('lite_content/lite-internal-frontend/strings.json') as json_file:
+    if env("DEBUG"):
+        with open("lite_content/lite-internal-frontend/strings.json") as json_file:
             strings.constants = json.load(json_file)
 
     def get(d, keys):
@@ -48,9 +48,15 @@ def get_string(value):
 @register.filter
 @stringfilter
 def str_date(value):
-    return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), 'Europe/London')
-    return return_value.strftime('%-I:%M') + return_value.strftime('%p').lower() + ' ' + return_value.strftime('%d %B '
-                                                                                                               '%Y')
+    return_value = do_timezone(
+        datetime.datetime.strptime(value, ISO8601_FMT), "Europe/London"
+    )
+    return (
+        return_value.strftime("%-I:%M")
+        + return_value.strftime("%p").lower()
+        + " "
+        + return_value.strftime("%d %B " "%Y")
+    )
 
 
 @register.filter()
@@ -61,51 +67,51 @@ def sentence_case(value):
 @register.filter()
 def reference_code(value):
     value = str(value)
-    return value[:5] + '-' + value[5:]
+    return value[:5] + "-" + value[5:]
 
 
 @register.filter()
 def add_selected_class(key, url):
     if key == url:
-        return 'lite-menu-item--selected'
+        return "lite-menu-item--selected"
 
-    return ''
+    return ""
 
 
 @register.filter()
 def table_sort(key, actual_sort):
-    actual_sort = actual_sort.get('sort')
+    actual_sort = actual_sort.get("sort")
 
     if not actual_sort:
-        return ''
+        return ""
 
     if actual_sort == key:
-        return 'lite-cases-table__heading--active'
+        return "lite-cases-table__heading--active"
 
-    if '-' + key in actual_sort:
-        return 'lite-cases-table__heading--active-desc'
+    if "-" + key in actual_sort:
+        return "lite-cases-table__heading--active-desc"
 
 
 @register.filter()
 def table_sort_text(key, actual_sort):
-    actual_sort = actual_sort.get('sort')
+    actual_sort = actual_sort.get("sort")
 
     if not actual_sort:
         return key
 
-    if '-' + key in actual_sort:
-        return ''
+    if "-" + key in actual_sort:
+        return ""
 
     if key in actual_sort:
-        return '-' + key
+        return "-" + key
 
 
 @register.filter()
 def add_subnav_selected_class(key, url):
     if key in url:
-        return 'lite-subnav__link--selected'
+        return "lite-subnav__link--selected"
 
-    return ''
+    return ""
 
 
 @register.filter()
@@ -113,7 +119,7 @@ def group_list(items, split):
     """
     Groups items in a list based on a specified size
     """
-    return [items[x:x + split] for x in range(0, len(items), split)]
+    return [items[x : x + split] for x in range(0, len(items), split)]
 
 
 @register.filter
@@ -122,10 +128,10 @@ def pretty_json(value):
     """
     Pretty print JSON - for development purposes only.
     """
-    return '<pre>' + json.dumps(value, indent=4) + '</pre>'
+    return "<pre>" + json.dumps(value, indent=4) + "</pre>"
 
 
-@register.filter(name='times')
+@register.filter(name="times")
 def times(number):
     return [x + 1 for x in range(number)]
 
@@ -136,14 +142,14 @@ def replace_all(text, old, new):
     return text
 
 
-@register.filter(name='old_character')
+@register.filter(name="old_character")
 def old_character(text, old_char):
-    return replace_all(text, old_char, '$$')
+    return replace_all(text, old_char, "$$")
 
 
-@register.filter(name='new_character')
+@register.filter(name="new_character")
 def new_character(text, new_char):
-    return replace_all(text, '$$', new_char)
+    return replace_all(text, "$$", new_char)
 
 
 @register.simple_tag
@@ -160,10 +166,10 @@ def friendly_boolean(boolean):
     """
     Returns 'Yes' if a boolean is equal to True, else 'No'
     """
-    if boolean is True or boolean == 'true' or boolean == 'True':
-        return 'Yes'
+    if boolean is True or boolean == "true" or boolean == "True":
+        return "Yes"
     else:
-        return 'No'
+        return "No"
 
 
 @register.filter()
@@ -171,4 +177,4 @@ def get_first_country_from_first_good(dictionary: dict):
     """
     Returns the first key in a dictionary
     """
-    return list(dictionary)[0] + '.' + next(iter(dictionary.values()))[0]
+    return list(dictionary)[0] + "." + next(iter(dictionary.values()))[0]
