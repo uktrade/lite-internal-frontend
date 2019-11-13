@@ -1,8 +1,7 @@
 import json
-import os
-import sys
 from unittest import TestCase
 
+from letter_templates.context_variables import context_variables, flattened_context_variables, JSON_PATH
 from letter_templates.services import sort_letter_paragraphs
 from letter_templates.templatetags.variable_highlight import ALT_OPEN_TAG, CLOSE_TAG, OPEN_TAG, variable_highlight
 
@@ -37,15 +36,6 @@ class LetterTemplateEditLetterParagraphsTestCase(TestCase):
 
 class ContextVariablesTestCase(TestCase):
     def setUp(self):
-        # Parent directory appended to access JSON file in lite-content
-        if "letter_templates" in os.getcwd():
-            os.chdir('../')
-            sys.path.insert(0, os.getcwd())
-
-        from letter_templates.context_variables import context_variables, flattened_context_variables, JSON_PATH
-
-        self.context_variables = context_variables
-        self.flattened_context_variables = flattened_context_variables
         with open(JSON_PATH, 'r') as f:
             self.context_variables_json = json.load(f)
 
@@ -78,7 +68,7 @@ class ContextVariablesTestCase(TestCase):
                     self._validate_flattened_variables(value, path + key)
             else:
                 flattened_variable = path + '.' + key
-                self.assertTrue(flattened_variable in self.flattened_context_variables)
+                self.assertTrue(flattened_variable in flattened_context_variables)
 
     def test_build_context_variable_json(self):
         self.variables_in_json = {}
@@ -88,7 +78,7 @@ class ContextVariablesTestCase(TestCase):
             else:
                 self.variables_in_json[key] = {}
 
-        self._validate_variable_dict(self.context_variables)
+        self._validate_variable_dict(context_variables)
 
     def test_flatten_context_variables(self):
-        self._validate_flattened_variables(self.context_variables, '')
+        self._validate_flattened_variables(context_variables, '')

@@ -1,6 +1,8 @@
 import json
 
-JSON_PATH = 'lite_content/lite-internal-frontend/context_variables.json'
+from conf.settings import BASE_DIR
+
+JSON_PATH = BASE_DIR+'/lite_content/lite-internal-frontend/context_variables.json'
 HIDDEN_VARS = ['valid', 'extends']
 flattened_context_variables = []
 
