@@ -125,7 +125,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     Then I see permissions are cleared
 
   @LT_966_refusal_flags
-  Scenario: Test tha† refusal advice is given correctly
+  Scenario: Test that refusal advice is given correctly
     Given I create application or application has been previously created
     And I sign in to SSO or am signed into SSO
     When I give myself all permissions
