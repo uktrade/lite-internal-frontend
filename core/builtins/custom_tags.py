@@ -12,7 +12,7 @@ from conf.constants import ISO8601_FMT
 from conf.settings import env
 from core import lite_strings
 
-from lite_content.lite_exporter_frontend import strings
+from lite_content.lite_internal_frontend import strings
 
 register = template.Library()
 
