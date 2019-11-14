@@ -14,14 +14,3 @@ Feature: I want to respond to clc queries
     And I respond "yes", "ML1a", "1", "Because the good is controlled" and click continue
     And I submit response
     Then I see case is closed
-
-  @LT_1580_test_assess_goods_permission
-  Scenario: Respond to query not visible
-    Given I create clc query or clc query has been previously created
-    And I sign in to SSO or am signed into SSO
-    And I create report summary picklist
-    And I go to clc query previously created
-    Then I see the respond to query button
-    When I go to clc query previously created
-    Then I do not see the respond to query button
-
