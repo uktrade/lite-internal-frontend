@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 
+from conf.constants import SUPER_USER_ROLE_ID
 from core.services import get_user_permissions
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_single_form
@@ -22,7 +23,7 @@ class Roles(TemplateView):
             'roles': roles['roles'],
             'title': get_string('roles.title'),
             'user_permissions': permissions,
-            'super_user_role_id': '00000000-0000-0000-0000-000000000002'
+            'super_user_role_id': SUPER_USER_ROLE_ID
         }
         return render(request, 'users/roles.html', context)
 
