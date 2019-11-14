@@ -1,4 +1,6 @@
 from django.urls import reverse_lazy
+
+from lite_content.lite_internal_frontend import strings
 from lite_forms.components import Form, Select, TextInput, BackLink
 
 from core.builtins.custom_tags import get_string
@@ -32,7 +34,7 @@ def edit_user_form(request, user_id, super_user):
                            options=get_teams(request, True)),
                     conditional(not super_user, Select(name='role',
                                                        options=get_roles(request, True),
-                                                       title='What role should this user have?'), )
+                                                       title=strings.USER_ROLE_QUESTION), )
                 ],
                 back_link=BackLink('Back to User', reverse_lazy('users:user', kwargs={'pk': user_id})),
                 default_button_name='Save')
