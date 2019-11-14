@@ -19,7 +19,7 @@
                 <a href="{% url 'users:edit' data.user.id %}" type="submit" class="govuk-button">
                     {% lcs 'USER_PROFILE_PAGE_EDIT' %}
                 </a>
-            {% elif not data.user.role.name == 'Super User' %}
+            {% elif not data.user.role.id == super_user_role_id %}
                 <a href="{% url 'users:edit' data.user.id %}" type="submit" class="govuk-button">
                     {% lcs 'USER_PROFILE_PAGE_EDIT' %}
                 </a>

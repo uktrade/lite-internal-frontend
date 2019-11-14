@@ -47,6 +47,7 @@ class ViewUser(TemplateView):
         context = {
             'data': data,
             'super_user': super_user,
+            'super_user_role_id': SUPER_USER_ROLE_ID,
             'can_deactivate': can_deactivate
         }
         return render(request, 'users/profile.html', context)
