@@ -106,7 +106,7 @@ def get_permissions(request, convert_to_options=False):
 
         return converted
 
-    return data.json(), data.status_code
+    return data.json()['permissions']
 
 
 def is_super_user(user):
