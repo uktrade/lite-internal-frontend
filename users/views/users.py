@@ -41,7 +41,7 @@ class ViewUser(TemplateView):
     def get(self, request, **kwargs):
         data, _ = get_gov_user(request, str(kwargs['pk']))
         request_user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
-        super_user = request_user['user']['role']['name'] == 'Super User'
+        super_user = request_user['user']['role']['id'] == SUPER_USER_ROLE_ID
         can_deactivate = SUPER_USER_ROLE_ID != data['user']['role']['id']
 
         context = {
