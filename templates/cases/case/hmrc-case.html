@@ -135,6 +135,7 @@
 {% include 'cases/case/views/standard-destinations.html' %}
 
 <!--TODO: Fix this JF-->
+{% if case.application.supporting_documentation %}
 <h3 class="govuk-heading-m">Supporting documentation</h3>
 	<table class="govuk-table" id="supporting-documentation">
 		<thead class="govuk-table__head">
@@ -165,6 +166,7 @@
         {% endfor %}
 		</tbody>
 	</table>
+{% endif %}
 
 {% include "cases/case/views/activity.html" %}
 
