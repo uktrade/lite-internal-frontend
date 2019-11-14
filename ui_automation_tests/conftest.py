@@ -241,32 +241,6 @@ def assign_flags_to_case(driver, context):
     shared.click_submit()
 
 
-@when('I give myself all permissions')  # noqa
-def get_required_permissions(driver):
-    roles_page = RolesPages(driver)
-    HeaderPage(driver).open_users()
-    UsersPage(driver).click_on_manage_roles()
-    roles_page.click_edit_for_default_role()
-    roles_page.edit_default_role_to_have_all_permissions()
-    Shared(driver).click_submit()
-
-
-@when('I reset the permissions')  # noqa
-def reset_permissions(driver):
-    roles_page = RolesPages(driver)
-    HeaderPage(driver).open_users()
-    UsersPage(driver).click_on_manage_roles()
-    roles_page.click_edit_for_default_role()
-    roles_page.remove_all_permissions_from_default_role()
-    Shared(driver).click_submit()
-
-
-@then('I see permissions are cleared')  # noqa
-def no_permissions(driver):
-    roles_page = RolesPages(driver)
-    assert roles_page.current_permissions_count_for_default() == 0
-
-
 @given('I create report summary picklist') # noqa
 def add_report_summary_picklist(add_a_report_summary_picklist):
     pass
