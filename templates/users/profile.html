@@ -24,7 +24,7 @@
                     {% lcs 'USER_PROFILE_PAGE_EDIT' %}
                 </a>
             {% endif %}
-            {% if not data.user.role.name == 'Super User' %}
+            {% if can_deactivate %}
                 {% if request.user.lite_api_user_id|stringformat:"s" != data.user.id|stringformat:"s" %}
                     {% if data.user.status == 'Active' %}
                         <a href="{% url 'users:change_status' data.user.id 'deactivate' %}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-right-2">

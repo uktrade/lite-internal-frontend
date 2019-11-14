@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from conf.constants import SUPER_USER_ROLE_ID
 from core.builtins.custom_tags import get_string
 from lite_forms.generators import form_page
 from users.forms.users import add_user_form, edit_user_form
@@ -39,14 +40,14 @@ class AddUser(TemplateView):
 class ViewUser(TemplateView):
     def get(self, request, **kwargs):
         data, _ = get_gov_user(request, str(kwargs['pk']))
-        user = data.get('user')
         request_user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
         super_user = request_user['user']['role']['name'] == 'Super User'
+        can_deactivate = SUPER_USER_ROLE_ID != data['user']['role']['id']
 
         context = {
             'data': data,
-            'title': user.get('first_name') + ' ' + user.get('last_name'),
-            'super_user': super_user
+            'super_user': super_user,
+            'can_deactivate': can_deactivate
         }
         return render(request, 'users/profile.html', context)
 
@@ -60,13 +61,15 @@ class ViewProfile(TemplateView):
 class EditUser(TemplateView):
     def get(self, request, **kwargs):
         user, _ = get_gov_user(request, str(kwargs['pk']))
-        super_user = user['user']['role']['name'] == 'Super User' and request.user.lite_api_user_id == str(kwargs['pk'])
+        super_user = user['user']['role']['id'] == SUPER_USER_ROLE_ID \
+            and request.user.lite_api_user_id == str(kwargs['pk'])
         return form_page(request, edit_user_form(request, str(kwargs['pk']), super_user), data=user['user'])
 
     def post(self, request, **kwargs):
         response, status_code = put_gov_user(request, str(kwargs['pk']), request.POST)
         user, _ = get_gov_user(request, str(kwargs['pk']))
-        super_user = user['user']['role']['name'] == 'Super User' and request.user.lite_api_user_id == str(kwargs['pk'])
+        super_user = user['user']['role']['id'] == SUPER_USER_ROLE_ID \
+            and request.user.lite_api_user_id == str(kwargs['pk'])
         if status_code != 200:
             return form_page(request, edit_user_form(request, str(kwargs['pk']), super_user), data=request.POST, errors=response.get('errors'))
 
