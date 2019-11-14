@@ -4,8 +4,6 @@ from pytest_bdd import given, when, then, parsers
 from selenium.common.exceptions import NoSuchElementException
 
 from pages.organisation_page import OrganisationPage
-from pages.roles_pages import RolesPages
-from pages.users_page import UsersPage
 
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.add_a_flag import add_uae_flag, add_suspicious_flag, add_organisation_suspicious_flag, add_new_flag  # noqa

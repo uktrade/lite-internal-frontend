@@ -14,12 +14,3 @@ Feature: I want to review, amend where required and confirm the goods ratings an
     And I click on add report summary
     And I respond "yes", "ML4b1", "1", "Because the good is controlled" and click continue
     Then the control list is present on goods review page
-
-  @LT_1580_assess_goods_permission
-  Scenario: Can view button if permission correct
-    Given I sign in to SSO or am signed into SSO
-    And I create application or application has been previously created
-    And I go to application previously created
-    Then I see review goods button
-    When I go to application previously created
-    Then I do not see the review goods button
