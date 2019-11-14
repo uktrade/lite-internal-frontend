@@ -17,4 +17,3 @@ Feature: I want to respond to clc queries
     Then I see case is closed
     When I reset the permissions
     Then I see permissions are cleared
-    
