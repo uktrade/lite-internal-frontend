@@ -8,45 +8,45 @@ from pages.roles_pages import RolesPages
 from pages.users_page import UsersPage
 
 from ui_automation_tests.fixtures.env import environment  # noqa
-from ui_automation_tests.fixtures.add_a_flag import (
+from ui_automation_tests.fixtures.add_a_flag import (  # noqa
     add_uae_flag,
     add_suspicious_flag,
     add_organisation_suspicious_flag,
     add_new_flag,
-)  # noqa
+)
 from ui_automation_tests.fixtures.add_queue import add_queue  # noqa
 from ui_automation_tests.fixtures.add_a_team import add_a_team  # noqa
-from ui_automation_tests.fixtures.add_a_document_template import (
+from ui_automation_tests.fixtures.add_a_document_template import (  # noqa
     add_a_document_template,
     get_template_id,
-)  # noqa
-from ui_automation_tests.fixtures.add_a_picklist import (
+)
+from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
     add_a_letter_paragraph_picklist,
     add_an_ecju_query_picklist,
     add_a_proviso_picklist,
     add_a_standard_advice_picklist,
     add_a_report_summary_picklist,
-)  # noqa
-from ui_automation_tests.shared.fixtures.apply_for_application import (
+)
+from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_standard_application,
     apply_for_clc_query,
     apply_for_eua_query,
     apply_for_open_application,
-)  # noqa
+)
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.sso_sign_in import sso_sign_in  # noqa
-from ui_automation_tests.shared.fixtures.core import (
+from ui_automation_tests.shared.fixtures.core import (  # noqa
     context,
     invalid_username,
     seed_data_config,
     exporter_info,
     internal_info,
-)  # noqa
-from ui_automation_tests.shared.fixtures.urls import (
+)
+from ui_automation_tests.shared.fixtures.urls import (  # noqa
     internal_url,
     sso_sign_in_url,
     api_url,
-)  # noqa
+)
 
 import shared.tools.helpers as utils
 from pages.assign_flags_to_case import CaseFlagsPages
@@ -159,9 +159,9 @@ def create_app(driver, apply_for_standard_application):
     pass
 
 
-@given(
+@given(  # noqa
     "I create open application or open application has been previously created"
-)  # noqa
+)
 def create_open_app(driver, apply_for_open_application):
     pass
 
