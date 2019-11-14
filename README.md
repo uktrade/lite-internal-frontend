@@ -5,6 +5,7 @@
 
 Application for handling internal information in LITE.
 
+If you find any of this documentation to be out of date, feel free to add a Pull Request to improve further.
 ## Download and setup the project:
   * `git clone https://github.com/uktrade/lite-internal-frontend.git`
   * `cd lite-internal-frontend`
