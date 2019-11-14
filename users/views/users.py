@@ -14,7 +14,7 @@ class UsersList(TemplateView):
     def get(self, request, **kwargs):
         data, _ = get_gov_users(request)
         user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
-        super_user = user['user']['role']['name'] == 'Super User'
+        super_user = is_super_user(user)
 
         context = {
             'data': data,
@@ -62,15 +62,14 @@ class ViewProfile(TemplateView):
 class EditUser(TemplateView):
     def get(self, request, **kwargs):
         user, _ = get_gov_user(request, str(kwargs['pk']))
-        super_user = is_super_user(user) \
-            and request.user.lite_api_user_id == str(kwargs['pk'])
+        super_user = is_super_user(user) and request.user.lite_api_user_id == str(kwargs['pk'])
         return form_page(request, edit_user_form(request, str(kwargs['pk']), super_user), data=user['user'])
 
     def post(self, request, **kwargs):
         response, status_code = put_gov_user(request, str(kwargs['pk']), request.POST)
         user, _ = get_gov_user(request, str(kwargs['pk']))
-        super_user = is_super_user(user) \
-            and request.user.lite_api_user_id == str(kwargs['pk'])
+        super_user = is_super_user(user) and request.user.lite_api_user_id == str(kwargs['pk'])
+
         if status_code != 200:
             return form_page(request, edit_user_form(request, str(kwargs['pk']), super_user), data=request.POST, errors=response.get('errors'))
 
