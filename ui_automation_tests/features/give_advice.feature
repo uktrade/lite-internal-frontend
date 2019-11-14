@@ -74,7 +74,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     Then I see the fields pre-populated with the proviso and advice picklist items
 
 
-  @LT_1115_grant @hello
+  @LT_1115_grant
   Scenario: Finalise a licence
     Given I create application or application has been previously created
     And I create a proviso picklist
@@ -95,7 +95,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     Then Todays date is filled in
 
 
-  @LT_1334_finalise_goods_countries_matrix @hello
+  @LT_1334_finalise_goods_countries_matrix
   Scenario: Finalise goods and countries
     Given I create open application or open application has been previously created
     And I create a proviso picklist

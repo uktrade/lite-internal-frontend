@@ -5,7 +5,7 @@ Feature: I want to review, amend where required and confirm the goods ratings an
   So that I can confirm the goods are correctly described
 
 
-  @LT_1300 @hello
+  @LT_1300
   Scenario: Review goods
     Given I sign in to SSO or am signed into SSO
     And I create application or application has been previously created
