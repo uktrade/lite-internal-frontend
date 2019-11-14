@@ -3,7 +3,7 @@ from urllib.parse import urlencode
 from lite_forms.components import Option
 
 from conf.client import get, post, put
-from conf.constants import GOV_USERS_URL, GOV_USERS_ROLES_URL, GOV_USERS_PERMISSIONS_URL
+from conf.constants import GOV_USERS_URL, GOV_USERS_ROLES_URL, GOV_USERS_PERMISSIONS_URL, SUPER_USER_ROLE_ID
 
 
 def get_gov_users(request, params=None, convert_to_options=False):
@@ -107,3 +107,7 @@ def get_permissions(request, convert_to_options=False):
         return converted
 
     return data.json(), data.status_code
+
+
+def is_super_user(user):
+    return user['user']['role']['id'] == SUPER_USER_ROLE_ID
