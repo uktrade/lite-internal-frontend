@@ -10,8 +10,8 @@ from pages.header_page import HeaderPage
 from pages.users_page import UsersPage
 
 
-sso_email=env('TEST_SSO_EMAIL')
-sso_password=env('TEST_SSO_PASSWORD')
+sso_email = env('TEST_SSO_EMAIL')
+sso_password = env('TEST_SSO_PASSWORD')
 
 
 @pytest.fixture(scope="function")
