@@ -150,7 +150,7 @@ class ManageCase(TemplateView):
         reduced_statuses = {'statuses': [x for x in statuses['statuses'] if
                                          (x['status'] != 'finalised' and x['status'] != 'applicant_editing')]}
 
-        if case['type']['key'] == 'application':
+        if case['type']['key'] == APPLICATION:
             title = 'Manage ' + case.get('application').get('name')
         elif case['type']['key'] == HMRC_QUERY:
             title = 'Manage HMRC query'
@@ -170,7 +170,7 @@ class ManageCase(TemplateView):
         case_id = str(kwargs['pk'])
         case = get_case(request, case_id)
 
-        if case['type']['key'] == 'application' or case['type']['key'] == HMRC_QUERY:
+        if case['type']['key'] == APPLICATION or case['type']['key'] == HMRC_QUERY:
             application_id = case.get('application').get('id')
             put_application_status(request, application_id, request.POST)
         elif case['type']['key'] == END_USER_ADVISORY_QUERY:
