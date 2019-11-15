@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+
+from cases.constants import HMRC_QUERY
 from lite_forms.generators import error_page, form_page
 from lite_forms.submitters import submit_single_form
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
@@ -92,7 +94,7 @@ class ViewCase(TemplateView):
         elif case['type']['key'] == 'clc_query':
             context['good'] = case['query']['good']
             return render(request, 'cases/case/queries/clc-query-case.html', context)
-        elif case.get('application').get('application_type').get('key') == 'hmrc_query':
+        elif case.get('application').get('application_type').get('key') == HMRC_QUERY:
             return render(request, 'cases/case/hmrc-case.html', context)
         elif case['type']['key'] == 'application':
             context['title'] = case.get('application').get('name')
@@ -150,7 +152,7 @@ class ManageCase(TemplateView):
 
         if case['type']['key'] == 'application':
             title = 'Manage ' + case.get('application').get('name')
-        elif case['type']['key'] == 'hmrc_query':
+        elif case['type']['key'] == HMRC_QUERY:
             title = 'Manage HMRC query'
         elif case['query']['end_user']:
             title = 'Manage End User Advisory'
@@ -168,7 +170,7 @@ class ManageCase(TemplateView):
         case_id = str(kwargs['pk'])
         case = get_case(request, case_id)
 
-        if case['type']['key'] == 'application' or case['type']['key'] == 'hmrc_query':
+        if case['type']['key'] == 'application' or case['type']['key'] == HMRC_QUERY:
             application_id = case.get('application').get('id')
             put_application_status(request, application_id, request.POST)
         elif case['type']['key'] == 'end_user_advisory_query':
