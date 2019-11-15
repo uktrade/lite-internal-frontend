@@ -99,7 +99,6 @@ class ViewCase(TemplateView):
         elif case['type']['key'] == APPLICATION:
             context['title'] = case.get('application').get('name')
             context['notification'] = get_user_case_notification(request, case_id)
-            context['total_goods_value'] = _get_total_goods_value(case)
             return render(request, 'cases/case/application-case.html', context)
 
     def post(self, request, **kwargs):
