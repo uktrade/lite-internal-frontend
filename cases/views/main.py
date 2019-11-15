@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
-from cases.constants import HMRC_QUERY
+from cases.constants import HMRC_QUERY, END_USER_ADVISORY_QUERY, APPLICATION, CLC_QUERY
 from lite_forms.generators import error_page, form_page
 from lite_forms.submitters import submit_single_form
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
@@ -89,14 +89,14 @@ class ViewCase(TemplateView):
         if queue_name:
             context['queue_name'] = queue_name
 
-        if case['type']['key'] == 'end_user_advisory_query':
+        if case['type']['key'] == END_USER_ADVISORY_QUERY:
             return render(request, 'cases/case/queries/end_user_advisory.html', context)
-        elif case['type']['key'] == 'clc_query':
+        elif case['type']['key'] == CLC_QUERY:
             context['good'] = case['query']['good']
             return render(request, 'cases/case/queries/clc-query-case.html', context)
         elif case.get('application').get('application_type').get('key') == HMRC_QUERY:
             return render(request, 'cases/case/hmrc-case.html', context)
-        elif case['type']['key'] == 'application':
+        elif case['type']['key'] == APPLICATION:
             context['title'] = case.get('application').get('name')
             context['notification'] = get_user_case_notification(request, case_id)
             context['total_goods_value'] = _get_total_goods_value(case)
@@ -173,7 +173,7 @@ class ManageCase(TemplateView):
         if case['type']['key'] == 'application' or case['type']['key'] == HMRC_QUERY:
             application_id = case.get('application').get('id')
             put_application_status(request, application_id, request.POST)
-        elif case['type']['key'] == 'end_user_advisory_query':
+        elif case['type']['key'] == END_USER_ADVISORY_QUERY:
             query_id = case.get('query').get('id')
             put_end_user_advisory_query(request, query_id, request.POST)
         else:
