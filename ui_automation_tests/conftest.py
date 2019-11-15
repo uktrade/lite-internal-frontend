@@ -4,49 +4,47 @@ from pytest_bdd import given, when, then, parsers
 from selenium.common.exceptions import NoSuchElementException
 
 from pages.organisation_page import OrganisationPage
-from pages.roles_pages import RolesPages
-from pages.users_page import UsersPage
 
 from ui_automation_tests.fixtures.env import environment  # noqa
-from ui_automation_tests.fixtures.add_a_flag import (  # noqa
+from ui_automation_tests.fixtures.add_a_flag import (
     add_uae_flag,
     add_suspicious_flag,
     add_organisation_suspicious_flag,
     add_new_flag,
-)
+)  # noqa
 from ui_automation_tests.fixtures.add_queue import add_queue  # noqa
 from ui_automation_tests.fixtures.add_a_team import add_a_team  # noqa
-from ui_automation_tests.fixtures.add_a_document_template import (  # noqa
+from ui_automation_tests.fixtures.add_a_document_template import (
     add_a_document_template,
     get_template_id,
-)
-from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
+)  # noqa
+from ui_automation_tests.fixtures.add_a_picklist import (
     add_a_letter_paragraph_picklist,
     add_an_ecju_query_picklist,
     add_a_proviso_picklist,
     add_a_standard_advice_picklist,
     add_a_report_summary_picklist,
-)
-from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
+)  # noqa
+from ui_automation_tests.shared.fixtures.apply_for_application import (
     apply_for_standard_application,
     apply_for_clc_query,
     apply_for_eua_query,
     apply_for_open_application,
-)
+)  # noqa
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.sso_sign_in import sso_sign_in  # noqa
-from ui_automation_tests.shared.fixtures.core import (  # noqa
+from ui_automation_tests.shared.fixtures.core import (
     context,
     invalid_username,
     seed_data_config,
     exporter_info,
     internal_info,
-)
-from ui_automation_tests.shared.fixtures.urls import (  # noqa
+)  # noqa
+from ui_automation_tests.shared.fixtures.urls import (
     internal_url,
     sso_sign_in_url,
     api_url,
-)
+)  # noqa
 
 import shared.tools.helpers as utils
 from pages.assign_flags_to_case import CaseFlagsPages
@@ -159,9 +157,9 @@ def create_app(driver, apply_for_standard_application):
     pass
 
 
-@given(  # noqa
+@given(
     "I create open application or open application has been previously created"
-)
+)  # noqa
 def create_open_app(driver, apply_for_open_application):
     pass
 
@@ -291,32 +289,6 @@ def assign_flags_to_case(driver, context):
     case_flags_pages.select_flag(context, context.flag_name)
     shared = Shared(driver)
     shared.click_submit()
-
-
-@when("I give myself all permissions")  # noqa
-def get_required_permissions(driver):
-    roles_page = RolesPages(driver)
-    HeaderPage(driver).open_users()
-    UsersPage(driver).click_on_manage_roles()
-    roles_page.click_edit_for_default_role()
-    roles_page.edit_default_role_to_have_all_permissions()
-    Shared(driver).click_submit()
-
-
-@when("I reset the permissions")  # noqa
-def reset_permissions(driver):
-    roles_page = RolesPages(driver)
-    HeaderPage(driver).open_users()
-    UsersPage(driver).click_on_manage_roles()
-    roles_page.click_edit_for_default_role()
-    roles_page.remove_all_permissions_from_default_role()
-    Shared(driver).click_submit()
-
-
-@then("I see permissions are cleared")  # noqa
-def no_permissions(driver):
-    roles_page = RolesPages(driver)
-    assert roles_page.current_permissions_count_for_default() == 0
 
 
 @given("I create report summary picklist")  # noqa

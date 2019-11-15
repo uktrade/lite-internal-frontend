@@ -1,3 +1,5 @@
+from _decimal import Decimal
+
 from cases.helpers import clean_advice
 from conf.client import post, get, put, delete
 from conf.constants import (
@@ -341,3 +343,10 @@ def _get_all_distinct_flags(case):
     except AttributeError:
         return flags
     return flags
+
+
+def _get_total_goods_value(case):
+    total_value = 0
+    for good in case.get("application").get("goods"):
+        total_value += Decimal(good["value"]).quantize(Decimal(".01"))
+    return total_value
