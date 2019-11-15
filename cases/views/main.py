@@ -93,7 +93,6 @@ class ViewCase(TemplateView):
             context['good'] = case['query']['good']
             return render(request, 'cases/case/queries/clc-query-case.html', context)
         elif case.get('application').get('application_type').get('key') == 'hmrc_query':
-            context['total_goods_value'] = _get_total_goods_value(case)
             return render(request, 'cases/case/hmrc-case.html', context)
         elif case['type']['key'] == 'application':
             context['title'] = case.get('application').get('name')
