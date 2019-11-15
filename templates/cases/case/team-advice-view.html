@@ -29,9 +29,11 @@
                 {% if not case.has_advice.final %}
                     {% if all_advice|length %}
                         <div>
-                            <button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-                                Give or change advice
-                            </button>
+                            {% if able_to_create_and_edit_advice %}
+                                <button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+                                    Give or change advice
+                                </button>
+                             {% endif %}
                             <button id="button-clear-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
                                 Clear advice
                             </button>
