@@ -12,8 +12,8 @@ class RegisterBusiness(TemplateView):
     forms = None
 
     def dispatch(self, request, *args, **kwargs):
-        individual = request.POST.get('type') == 'individual'
-        name = request.POST.get('name')
+        individual = request.POST.get("type") == "individual"
+        name = request.POST.get("name")
         self.forms = register_business_forms(individual, name) if name else register_business_forms(individual)
 
         return super(RegisterBusiness, self).dispatch(request, *args, **kwargs)
@@ -27,15 +27,15 @@ class RegisterBusiness(TemplateView):
         if response:
             return response
 
-        messages.success(request, 'The organisation was created successfully')
-        return redirect('organisations:organisations')
+        messages.success(request, "The organisation was created successfully")
+        return redirect("organisations:organisations")
 
 
 class RegisterHMRC(TemplateView):
     forms = None
 
     def dispatch(self, request, *args, **kwargs):
-        name = request.POST.get('name')
+        name = request.POST.get("name")
         self.forms = register_hmrc_organisation_forms(name) if name else register_hmrc_organisation_forms()
 
         return super(RegisterHMRC, self).dispatch(request, *args, **kwargs)
@@ -49,5 +49,5 @@ class RegisterHMRC(TemplateView):
         if response:
             return response
 
-        messages.success(request, 'The HMRC organisation was created successfully')
-        return redirect('organisations:hmrc')
+        messages.success(request, "The HMRC organisation was created successfully")
+        return redirect("organisations:hmrc")
