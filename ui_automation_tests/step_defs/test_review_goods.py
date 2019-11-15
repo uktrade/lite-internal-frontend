@@ -10,7 +10,7 @@ from pages.shared import Shared
 
 from pages.header_page import HeaderPage
 
-scenarios('../features/review_goods.feature', strict_gherkin=False)
+scenarios("../features/review_goods.feature", strict_gherkin=False)
 
 
 @when("I select goods and click review")
@@ -26,7 +26,11 @@ def click_edit_flags_link(driver):
     good_summary_page.click_add_report_summary()
 
 
-@when(parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'))
+@when(
+    parsers.parse(
+        'I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'
+    )
+)
 def click_continue(driver, controlled, control_list_entry, report, comment, context):
     query_page = ClcQueriesPages(driver)
     query_page.click_is_good_controlled(controlled)
@@ -47,6 +51,6 @@ def check_control_list_code(driver, context):
         assert context.goods_control_list_entry in row.text
 
 
-@then('I see review goods button')
+@then("I see review goods button")
 def no_respond_to_query_button(driver):
     assert ApplicationPage(driver).is_review_goods_button_present()

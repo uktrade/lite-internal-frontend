@@ -5,15 +5,15 @@ from pytest_bdd import when, then, scenarios, given
 from pages.application_page import ApplicationPage
 from pages.ecju_queries_pages import EcjuQueriesPages
 
-scenarios('../features/ecju_query.feature', strict_gherkin=False)
+scenarios("../features/ecju_query.feature", strict_gherkin=False)
 
-NEW_QUESTION_DROP_DOWN_TEXT = 'Write a new question'
+NEW_QUESTION_DROP_DOWN_TEXT = "Write a new question"
 
 
 @given("I create an ecju query picklist")
 def i_create_an_ecju_query_picklist(context, add_an_ecju_query_picklist):
-    context.ecju_query_picklist_name = add_an_ecju_query_picklist['name']
-    context.ecju_query_picklist_question_text = add_an_ecju_query_picklist['text']
+    context.ecju_query_picklist_name = add_an_ecju_query_picklist["name"]
+    context.ecju_query_picklist_question_text = add_an_ecju_query_picklist["text"]
 
 
 @when("I click the ECJU Queries button")
@@ -36,7 +36,10 @@ def i_select_standard_picklist_question(driver, context):
 
 @then("the question text area contains expected text")
 def the_question_text_area_contains_expected_text(driver, context):
-    assert context.ecju_query_picklist_question_text == EcjuQueriesPages(driver).get_question_text()
+    assert (
+        context.ecju_query_picklist_question_text
+        == EcjuQueriesPages(driver).get_question_text()
+    )
 
 
 @when("I Select Write a new question")
@@ -89,7 +92,9 @@ def the_ecju_query_creation_is_visible_in_the_case_timeline(driver, context):
 @when("I create a response to the ECJU query")
 def i_create_a_response_to_an_ecju(driver, context):
     context.ecju_response = str(uuid4())
-    context.api.seed_ecju.add_ecju_response(question=context.ecju_question, response=context.ecju_response)
+    context.api.seed_ecju.add_ecju_response(
+        question=context.ecju_question, response=context.ecju_response
+    )
     driver.refresh()
 
 

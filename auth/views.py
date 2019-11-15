@@ -1,5 +1,10 @@
-from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_URL, \
-    TOKEN_SESSION_KEY, get_profile
+from authbroker_client.utils import (
+    get_client,
+    AUTHORISATION_URL,
+    TOKEN_URL,
+    TOKEN_SESSION_KEY,
+    get_profile,
+)
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponseServerError
@@ -19,9 +24,11 @@ class AuthView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
 
-        authorization_url, state = get_client(self.request).authorization_url(AUTHORISATION_URL)
+        authorization_url, state = get_client(self.request).authorization_url(
+            AUTHORISATION_URL
+        )
 
-        self.request.session[TOKEN_SESSION_KEY + '_oauth_state'] = state
+        self.request.session[TOKEN_SESSION_KEY + "_oauth_state"] = state
 
         return authorization_url
 
@@ -29,12 +36,12 @@ class AuthView(RedirectView):
 class AuthCallbackView(View):
     def get(self, request, *args, **kwargs):
 
-        auth_code = request.GET.get('code', None)
+        auth_code = request.GET.get("code", None)
 
         if not auth_code:
             return HttpResponseBadRequest()
 
-        state = self.request.session.get(TOKEN_SESSION_KEY + '_oauth_state', None)
+        state = self.request.session.get(TOKEN_SESSION_KEY + "_oauth_state", None)
 
         if not state:
             return HttpResponseServerError()
@@ -43,11 +50,12 @@ class AuthCallbackView(View):
             token = get_client(self.request).fetch_token(
                 TOKEN_URL,
                 client_secret=settings.AUTHBROKER_CLIENT_SECRET,
-                code=auth_code)
+                code=auth_code,
+            )
 
             self.request.session[TOKEN_SESSION_KEY] = dict(token)
 
-            del self.request.session[TOKEN_SESSION_KEY + '_oauth_state']
+            del self.request.session[TOKEN_SESSION_KEY + "_oauth_state"]
 
         # NOTE: the BaseException will be removed or narrowed at a later date. The try/except block is
         # here due to reports of the app raising a 500 if the url is copied.  Current theory is that
@@ -61,26 +69,28 @@ class AuthCallbackView(View):
 
         response, status_code = authenticate_gov_user(profile)
         if status_code != 200:
-            return error_page(None,
-                              title=get_string('authentication.user_does_not_exist.title'),
-                              description=get_string('authentication.user_does_not_exist.description'),
-                              show_back_link=False)
+            return error_page(
+                None,
+                title=get_string("authentication.user_does_not_exist.title"),
+                description=get_string(
+                    "authentication.user_does_not_exist.description"
+                ),
+                show_back_link=False,
+            )
 
         # create the user
         user = authenticate(request)
-        user.user_token = response['token']
-        user.lite_api_user_id = response['lite_api_user_id']
+        user.user_token = response["token"]
+        user.lite_api_user_id = response["lite_api_user_id"]
         user.save()
         if user is not None:
             login(request, user)
 
-        return redirect(getattr(settings, 'LOGIN_REDIRECT_URL', '/'))
+        return redirect(getattr(settings, "LOGIN_REDIRECT_URL", "/"))
 
 
 class AuthLogoutView(TemplateView):
     def get(self, request, **kwargs):
         User.objects.get(id=request.user.id).delete()
         logout(request)
-        return redirect(env("AUTHBROKER_URL") + '/logout/')
-
-
+        return redirect(env("AUTHBROKER_URL") + "/logout/")

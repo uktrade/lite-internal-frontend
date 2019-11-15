@@ -2,22 +2,22 @@ from helpers.BasePage import BasePage
 
 
 class GiveAdvicePages(BasePage):
-    advice_checkbox_option = 'type-'  # ID
-    import_advice_link = 'link-import-'  # ID
-    picklist_item = 'app-picklist-picker__item'  # CSS
-    picklist_item_text = '.app-picklist-picker__item p'  # CSS
-    additional_notes = 'textarea-note'  # ID
-    back_to_advice = 'Go back to the advice screen'  # link text
-    user_advice = 'user_advice'
-    team_advice = 'team_advice'
-    final_advice = 'final_advice'
-    combine_advice_button = 'combine_advice_button'
-    finalise_button = 'finalise_button'
-    finalise_goods_and_countries_button = 'finalise_button'
+    advice_checkbox_option = "type-"  # ID
+    import_advice_link = "link-import-"  # ID
+    picklist_item = "app-picklist-picker__item"  # CSS
+    picklist_item_text = ".app-picklist-picker__item p"  # CSS
+    additional_notes = "textarea-note"  # ID
+    back_to_advice = "Go back to the advice screen"  # link text
+    user_advice = "user_advice"
+    team_advice = "team_advice"
+    final_advice = "final_advice"
+    combine_advice_button = "combine_advice_button"
+    finalise_button = "finalise_button"
+    finalise_goods_and_countries_button = "finalise_button"
     radio_input_approve = '.govuk-radios input[value="approve"]'
-    day = 'day'
-    month = 'month'
-    year = 'year'
+    day = "day"
+    month = "month"
+    year = "year"
 
     def click_on_advice_option(self, option):
         self.driver.find_element_by_id(self.advice_checkbox_option + option).click()
@@ -26,8 +26,12 @@ class GiveAdvicePages(BasePage):
         self.driver.find_element_by_id(self.import_advice_link + option).click()
 
     def click_on_picklist_item(self, option):
-        self.driver.execute_script('document.getElementById("picklist-' + option + '").children[0].click()')
-        self.driver.execute_script('document.getElementById("button-submit-' + option + '").click()')
+        self.driver.execute_script(
+            'document.getElementById("picklist-' + option + '").children[0].click()'
+        )
+        self.driver.execute_script(
+            'document.getElementById("button-submit-' + option + '").click()'
+        )
 
     def get_text_of_picklist_item(self):
         return self.driver.find_element_by_css_selector(self.picklist_item_text).text
@@ -56,11 +60,11 @@ class GiveAdvicePages(BasePage):
     def select_approve_for_all(self):
         elements = self.driver.find_elements_by_css_selector(self.radio_input_approve)
         for element in elements:
-            self.driver.execute_script('arguments[0].click();', element)
+            self.driver.execute_script("arguments[0].click();", element)
 
     def get_date_in_date_entry(self):
         return {
             "day": self.driver.find_element_by_id(self.day).get_attribute("value"),
             "month": self.driver.find_element_by_id(self.month).get_attribute("value"),
-            "year": self.driver.find_element_by_id(self.year).get_attribute("value")
+            "year": self.driver.find_element_by_id(self.year).get_attribute("value"),
         }
