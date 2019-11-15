@@ -13,10 +13,7 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
         description=get_string("cases.manage.assign_users.description"),
         questions=[
             Filter(),
-            Checkboxes(
-                "users",
-                get_gov_users(request, {"teams": team_id}, convert_to_options=True),
-            ),
+            Checkboxes("users", get_gov_users(request, {"teams": team_id}, convert_to_options=True),),
         ],
         caption=queue["name"],
         default_button_name="Submit",

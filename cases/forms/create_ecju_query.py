@@ -8,18 +8,14 @@ def choose_ecju_query_type_form(case_url, picklists):
         title=get_string("cases.ecju_queries.add_query.dropdown_title"),
         questions=[
             Select(
-                description=get_string(
-                    "cases.ecju_queries.add_query.dropdown_description"
-                ),
+                description=get_string("cases.ecju_queries.add_query.dropdown_description"),
                 name="picklist",
                 options=picklists,
                 include_default_select=False,
             ),
             HiddenField(name="form_name", value="ecju_query_type_select"),
         ],
-        back_link=BackLink(
-            "Back to " + get_string("cases.ecju_queries.title"), case_url
-        ),
+        back_link=BackLink("Back to " + get_string("cases.ecju_queries.title"), case_url),
         default_button_name="Continue",
     )
 
@@ -37,8 +33,7 @@ def create_ecju_query_write_or_edit_form(choose_picklist_url):
             HiddenField(name="form_name", value="ecju_query_write_or_edit_question"),
         ],
         back_link=BackLink(
-            "Back to " + get_string("cases.ecju_queries.add_query.dropdown_title"),
-            choose_picklist_url,
+            "Back to " + get_string("cases.ecju_queries.add_query.dropdown_title"), choose_picklist_url,
         ),
         default_button_name="Continue",
     )

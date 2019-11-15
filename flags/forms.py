@@ -29,9 +29,4 @@ def add_flag_form():
 
 
 def edit_flag_form():
-    return Form(
-        title="Edit Flag",
-        questions=[_name, _level,],
-        back_link=_back_link,
-        default_button_name="Save",
-    )
+    return Form(title="Edit Flag", questions=[_name, _level,], back_link=_back_link, default_button_name="Save",)

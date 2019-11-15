@@ -24,9 +24,7 @@ def assign_case_to_queue(context, seed_data_config):
 
 @then(parsers.parse('"{number}" cases are shown'))
 def num_cases_appear(driver, context, number):
-    assert (
-        int(number) == Shared(driver).get_number_of_rows_in_lite_table()
-    ), "incorrect number of cases are shown"
+    assert int(number) == Shared(driver).get_number_of_rows_in_lite_table(), "incorrect number of cases are shown"
 
 
 @when(parsers.parse('filter status has been changed to "{status}"'))
@@ -64,9 +62,7 @@ def i_sort_cases_by(driver, context):
 
 @then(parsers.parse('the case at index "{index}" has the status of "{status}"'))
 def the_cases_are_in_order_of(driver, index, status):
-    assert status in Shared(driver).get_lite_row_text_by_index(index), (
-        status + " is not in the correct order"
-    )
+    assert status in Shared(driver).get_lite_row_text_by_index(index), status + " is not in the correct order"
 
 
 @then("the filters are shown")

@@ -14,11 +14,7 @@ urlpatterns = [
     path("<uuid:pk>/edit/", users.EditUser.as_view(), name="edit"),
     # ex: /users/<uuid:pk>/edit/deactivate/
     # ex: /users/<uuid:pk>/edit/reactivate/
-    path(
-        "<uuid:pk>/edit/<str:status>/",
-        users.ChangeUserStatus.as_view(),
-        name="change_status",
-    ),
+    path("<uuid:pk>/edit/<str:status>/", users.ChangeUserStatus.as_view(), name="change_status",),
     # ex: /users/profile/ - Go to signed in user's profile
     path("profile/", users.ViewProfile.as_view(), name="profile"),
     # Roles

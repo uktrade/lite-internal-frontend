@@ -34,16 +34,8 @@ class Picklists(TemplateView):
         team, _ = get_team(request, user["user"]["team"]["id"])
         picklist_items = get_picklists(request, picklist_type, True)
 
-        active_picklist_items = [
-            x
-            for x in picklist_items["picklist_items"]
-            if x["status"]["key"] == "active"
-        ]
-        deactivated_picklist_items = [
-            x
-            for x in picklist_items["picklist_items"]
-            if x["status"]["key"] != "active"
-        ]
+        active_picklist_items = [x for x in picklist_items["picklist_items"] if x["status"]["key"] == "active"]
+        deactivated_picklist_items = [x for x in picklist_items["picklist_items"] if x["status"]["key"] != "active"]
 
         context = {
             "title": "Picklists - " + team["team"]["name"],
@@ -69,21 +61,13 @@ class AddPicklistItem(TemplateView):
         if request.POST.get("type") == "letter_paragraph":
             errors = picklist_paragraph_errors(request)
             if errors:
-                return form_page(
-                    request,
-                    add_picklist_item_form(request),
-                    data=request.POST,
-                    errors=errors,
-                )
+                return form_page(request, add_picklist_item_form(request), data=request.POST, errors=errors,)
 
         response, status_code = post_picklist_item(request, request.POST)
 
         if status_code != 201:
             return form_page(
-                request,
-                add_picklist_item_form(request),
-                data=request.POST,
-                errors=response.get("errors"),
+                request, add_picklist_item_form(request), data=request.POST, errors=response.get("errors"),
             )
 
         picklist_type = request.POST["type"]
@@ -125,21 +109,12 @@ class EditPicklistItem(TemplateView):
             if errors:
                 return form_page(request, self.form, data=request.POST, errors=errors)
 
-        response, status_code = put_picklist_item(
-            request, self.picklist_item_id, request.POST
-        )
+        response, status_code = put_picklist_item(request, self.picklist_item_id, request.POST)
 
         if status_code != 200:
-            return form_page(
-                request, self.form, data=request.POST, errors=response.get("errors")
-            )
+            return form_page(request, self.form, data=request.POST, errors=response.get("errors"))
 
-        return redirect(
-            reverse_lazy(
-                "picklists:picklist_item",
-                kwargs={"pk": response["picklist_item"]["id"]},
-            )
-        )
+        return redirect(reverse_lazy("picklists:picklist_item", kwargs={"pk": response["picklist_item"]["id"]},))
 
 
 class DeactivatePicklistItem(TemplateView):
@@ -164,11 +139,7 @@ class DeactivatePicklistItem(TemplateView):
         data = {"status": "deactivated"}
 
         put_picklist_item(request, self.picklist_item_id, data)
-        return redirect(
-            reverse_lazy(
-                "picklists:picklist_item", kwargs={"pk": self.picklist_item["id"]}
-            )
-        )
+        return redirect(reverse_lazy("picklists:picklist_item", kwargs={"pk": self.picklist_item["id"]}))
 
 
 class ReactivatePicklistItem(TemplateView):
@@ -193,8 +164,4 @@ class ReactivatePicklistItem(TemplateView):
         data = {"status": "active"}
 
         put_picklist_item(request, self.picklist_item_id, data)
-        return redirect(
-            reverse_lazy(
-                "picklists:picklist_item", kwargs={"pk": self.picklist_item["id"]}
-            )
-        )
+        return redirect(reverse_lazy("picklists:picklist_item", kwargs={"pk": self.picklist_item["id"]}))

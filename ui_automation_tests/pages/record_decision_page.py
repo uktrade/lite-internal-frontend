@@ -20,11 +20,7 @@ class RecordDecision:
         self.driver.find_element_by_name(self.optional_text).send_keys(text)
 
     def get_text_of_denial_reasons_headers(self, no):
-        return self.driver.find_elements_by_css_selector(self.denial_reasons_header)[
-            no
-        ].text
+        return self.driver.find_elements_by_css_selector(self.denial_reasons_header)[no].text
 
     def get_text_of_denial_reasons_listed(self, no):
-        return self.driver.find_elements_by_css_selector(self.denial_reasons_listed)[
-            no
-        ].text
+        return self.driver.find_elements_by_css_selector(self.denial_reasons_listed)[no].text

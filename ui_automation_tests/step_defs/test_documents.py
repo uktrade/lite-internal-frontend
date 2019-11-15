@@ -26,29 +26,20 @@ def upload_a_file(driver, filename, description):
     attach_document_page = AttachDocumentPage(driver)
 
     # Path gymnastics to get the absolute path for $PWD/../resources/(file_to_upload_x) that works everywhere
-    file_to_upload_abs_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), os.pardir, "resources", filename)
-    )
+    file_to_upload_abs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, "resources", filename))
 
     attach_document_page.choose_file(file_to_upload_abs_path)
     attach_document_page.enter_description(description)
     attach_document_page.click_submit_btn()
 
 
-@then(
-    parsers.parse(
-        'file "{filename}" with description "{description}" is on position "{position}"'
-    )
-)
+@then(parsers.parse('file "{filename}" with description "{description}" is on position "{position}"'))
 def check_file2_is_uploaded(driver, filename, description, position):
     documents_page = DocumentsPage(driver)
-    assert (
-        documents_page.get_document_filename_at_position(int(position)) == filename
-    ), (filename + " is not uploaded")
-    assert (
-        documents_page.get_document_description_at_position(int(position))
-        == description
-    ), (description + " is not uploaded")
+    assert documents_page.get_document_filename_at_position(int(position)) == filename, filename + " is not uploaded"
+    assert documents_page.get_document_description_at_position(int(position)) == description, (
+        description + " is not uploaded"
+    )
 
 
 @then("I can click on the good document download link")

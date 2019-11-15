@@ -18,10 +18,7 @@ class Add(TemplateView):
     @staticmethod
     def post(request):
         response = submit_paged_form(
-            request,
-            add_letter_template(),
-            post_letter_template,
-            expect_many_values=["restricted_to"],
+            request, add_letter_template(), post_letter_template, expect_many_values=["restricted_to"],
         )[0]
 
         if response:
@@ -41,10 +38,7 @@ class Create(TemplateView):
 
         if status_code == 201:
             messages.success(
-                request,
-                get_string(
-                    "letter_templates.letter_templates.successfully_created_banner"
-                ),
+                request, get_string("letter_templates.letter_templates.successfully_created_banner"),
             )
 
         else:

@@ -11,11 +11,7 @@ def wrap_default_headers(func):
     @wraps(func)
     def default_headers(*args, **kwargs):
         # patch wsgi.Response.default_headers to remove the 'Server: ' header from all server responses
-        return [
-            header
-            for header in func(*args, **kwargs)
-            if not header.startswith("Server: ")
-        ]
+        return [header for header in func(*args, **kwargs) if not header.startswith("Server: ")]
 
     return default_headers
 

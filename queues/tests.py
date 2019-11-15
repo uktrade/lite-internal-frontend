@@ -39,9 +39,7 @@ class QueuesTests(TestCase):
             }
         ]
 
-        self.assertEqual(
-            correct_outcome, get_assigned_users_from_cases(case_ids, case_assignments)
-        )
+        self.assertEqual(correct_outcome, get_assigned_users_from_cases(case_ids, case_assignments))
 
     def tests_add_assigned_users_to_cases(self):
         case_ids = [
@@ -99,6 +97,4 @@ class QueuesTests(TestCase):
             {"id": "45655711-7fd4-43e1-8e3c-eef84057a846"},
         ]
 
-        self.assertEqual(
-            correct_outcome, add_assigned_users_to_cases(case_ids, case_assignments)
-        )
+        self.assertEqual(correct_outcome, add_assigned_users_to_cases(case_ids, case_assignments))

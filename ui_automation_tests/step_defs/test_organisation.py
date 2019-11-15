@@ -68,9 +68,7 @@ def select_organisation_type(driver, individual_or_commercial):
         'I provide company registration details of name: "{name}", EORI: "{eori}", SIC: "{sic}", VAT: "{vat}", CRN: "{registration}"'
     )
 )
-def fill_out_company_details_page_and_continue(
-    driver, name, eori, sic, vat, registration, context
-):
+def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, registration, context):
     if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
         if name == " ":
@@ -104,9 +102,7 @@ def fill_out_individual_registration_page(driver, first_name, last_name, email, 
         'I setup an initial site with name: "{name}", addres line 1: "{address_line_1}", town or city: "{city}", County: "{region}", post code: "{post_code}", country: "{country}"'
     )
 )
-def fill_out_site_details(
-    driver, name, address_line_1, city, region, post_code, country, context
-):
+def fill_out_site_details(driver, name, address_line_1, city, region, post_code, country, context):
     if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
         organisations_form_page.enter_site_name(name)
@@ -120,9 +116,7 @@ def fill_out_site_details(
 
 
 @when(
-    parsers.parse(
-        'I setup the admin user with email: "{email}", first name: "{first_name}", last name: "{last_name}"'
-    )
+    parsers.parse('I setup the admin user with email: "{email}", first name: "{first_name}", last name: "{last_name}"')
 )
 def fill_out_admin_user_details(driver, email, first_name, last_name, context):
     if not context.org_registered_status:
@@ -143,9 +137,7 @@ def fill_out_admin_user_details(driver, email, first_name, last_name, context):
         '"{address}", town or city: "{city}", County: "{region}", post code: "{post_code}", country: "{country}"'
     )
 )
-def register_hmrc_org(
-    driver, org_name, site_name, address, city, region, post_code, country, context
-):
+def register_hmrc_org(driver, org_name, site_name, address, city, region, post_code, country, context):
     if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
         context.hmrc_org_name = org_name + utils.get_formatted_date_time_m_d_h_s()

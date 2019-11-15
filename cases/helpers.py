@@ -35,9 +35,7 @@ def add_hidden_advice_data(questions_list, data):
     questions_list.append(HiddenField("countries", data.getlist("countries")))
     questions_list.append(HiddenField("end_user", data.get("end_user", "")))
     questions_list.append(HiddenField("consignee", data.get("consignee", "")))
-    questions_list.append(
-        HiddenField("ultimate_end_users", data.getlist("ultimate_end_users"))
-    )
+    questions_list.append(HiddenField("ultimate_end_users", data.getlist("ultimate_end_users")))
     questions_list.append(HiddenField("third_parties", data.getlist("third_parties")))
     return questions_list
 
@@ -63,19 +61,13 @@ def check_matching_advice(user_id, advice, goods_or_destinations):
 
     # Pre-populate data only in the instance that all the data contained within all selected advice matches
     for item in [
-        x
-        for x in advice
-        if x["user"]["id"] == user_id
-        and is_in_goods_or_destinations(x, goods_or_destinations)
+        x for x in advice if x["user"]["id"] == user_id and is_in_goods_or_destinations(x, goods_or_destinations)
     ]:
         # Sets up the first piece of advice to compare against then skips to the next cycle of the loop
         if first_advice is None:
             first_advice = item
             pre_data = {
-                "type": {
-                    "key": first_advice["type"]["key"],
-                    "value": first_advice["type"]["value"],
-                },
+                "type": {"key": first_advice["type"]["key"], "value": first_advice["type"]["value"],},
                 "proviso": first_advice.get("proviso"),
                 "denial_reasons": first_advice.get("denial_reasons"),
                 "advice": first_advice.get("text"),

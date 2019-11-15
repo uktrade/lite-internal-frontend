@@ -61,36 +61,24 @@ def pytest_addoption(parser):
     if env == "None":
         env = "dev"
 
+    parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
     parser.addoption(
-        "--driver", action="store", default="chrome", help="Type in browser type"
-    )
-    parser.addoption(
-        "--sso_sign_in_url",
-        action="store",
-        default="https://sso.trade.uat.uktrade.io/login/",
-        help="url",
+        "--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url",
     )
 
     if env.lower() == "local":
         parser.addoption(
-            "--internal_url",
-            action="store",
-            default="http://localhost:" + str(os.environ.get("PORT")),
-            help="url",
+            "--internal_url", action="store", default="http://localhost:" + str(os.environ.get("PORT")), help="url",
         )
 
         # Get LITE API URL.
-        lite_api_url = os.environ.get(
-            "LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"),
-        )
+        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"),)
         parser.addoption(
             "--lite_api_url", action="store", default=lite_api_url, help="url",
         )
 
     elif env == "demo":
-        raise NotImplementedError(
-            "This is the demo environment - Try another environment instead"
-        )
+        raise NotImplementedError("This is the demo environment - Try another environment instead")
     else:
         parser.addoption(
             "--internal_url",
@@ -157,9 +145,7 @@ def create_app(driver, apply_for_standard_application):
     pass
 
 
-@given(  # noqa
-    "I create open application or open application has been previously created"
-)
+@given("I create open application or open application has been previously created")  # noqa
 def create_open_app(driver, apply_for_open_application):
     pass
 
@@ -177,9 +163,7 @@ def create_eua(driver, apply_for_eua_query):
 @then(parsers.parse('I see error message "{expected_error}"'))  # noqa
 def error_message_shared(driver, expected_error):
     shared = Shared(driver)
-    assert expected_error in shared.get_text_of_error_message(
-        0
-    ), "expected error message is not displayed"
+    assert expected_error in shared.get_text_of_error_message(0), "expected error message is not displayed"
 
 
 @when("I click continue")  # noqa
@@ -299,15 +283,11 @@ def add_report_summary_picklist(add_a_report_summary_picklist):
 @then("I see the added flags on the queue")  # noqa
 def added_flags_on_queue(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
-    no = utils.get_element_index_by_text(
-        elements, context.case_id, complete_match=False
-    )
+    no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
     driver.set_timeout_to(0)
     try:
         if elements[no].find_element_by_id("chevron").is_displayed():
-            element = elements[no].find_element_by_css_selector(
-                ".lite-accordian-table__chevron"
-            )
+            element = elements[no].find_element_by_css_selector(".lite-accordian-table__chevron")
             element.click()
     except NoSuchElementException:
         pass
@@ -345,14 +325,10 @@ def assert_flag_is_assigned(driver, context):
 @when("I click chevron")  # noqa
 def click_chevron(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
-    no = utils.get_element_index_by_text(
-        elements, context.case_id, complete_match=False
-    )
+    no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
     try:
         if elements[no].find_element_by_id("chevron").is_displayed():
-            element = elements[no].find_element_by_css_selector(
-                ".lite-accordian-table__chevron"
-            )
+            element = elements[no].find_element_by_css_selector(".lite-accordian-table__chevron")
             element.click()
     except NoSuchElementException:
         pass

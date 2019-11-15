@@ -26,11 +26,7 @@ def click_edit_flags_link(driver):
     good_summary_page.click_add_report_summary()
 
 
-@when(
-    parsers.parse(
-        'I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'
-    )
-)
+@when(parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'))
 def click_continue(driver, controlled, control_list_entry, report, comment, context):
     query_page = ClcQueriesPages(driver)
     query_page.click_is_good_controlled(controlled)

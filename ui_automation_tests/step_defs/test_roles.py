@@ -14,11 +14,7 @@ def go_to_manage_roles(driver):
     user_page.click_on_manage_roles()
 
 
-@when(
-    parsers.parse(
-        'I add a new role called "{role_name}" with permission to "{permissions}"'
-    )
-)
+@when(parsers.parse('I add a new role called "{role_name}" with permission to "{permissions}"'))
 def add_a_role(driver, role_name, permissions, context):
     roles_page = RolesPages(driver)
     roles_page.click_add_a_role_button()

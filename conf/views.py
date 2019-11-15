@@ -13,9 +13,7 @@ class AuthView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
 
-        authorization_url, state = get_client(self.request).authorization_url(
-            AUTHORISATION_URL
-        )
+        authorization_url, state = get_client(self.request).authorization_url(AUTHORISATION_URL)
 
         self.request.session[TOKEN_SESSION_KEY + "_oauth_state"] = state
 
@@ -37,9 +35,7 @@ class AuthCallbackView(View):
 
         try:
             token = get_client(self.request).fetch_token(
-                TOKEN_URL,
-                client_secret=settings.AUTHBROKER_CLIENT_SECRET,
-                code=auth_code,
+                TOKEN_URL, client_secret=settings.AUTHBROKER_CLIENT_SECRET, code=auth_code,
             )
 
             self.request.session[TOKEN_SESSION_KEY] = dict(token)

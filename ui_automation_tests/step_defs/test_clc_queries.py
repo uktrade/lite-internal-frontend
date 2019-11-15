@@ -10,11 +10,7 @@ def respond_to_query(driver):
     ClcQueriesPages(driver).click_respond_to_query()
 
 
-@when(
-    parsers.parse(
-        'I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'
-    )
-)
+@when(parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'))
 def enter_response(driver, controlled, control_list_entry, report, comment):
     clc_query_page = ClcQueriesPages(driver)
     clc_query_page.click_is_good_controlled(controlled)

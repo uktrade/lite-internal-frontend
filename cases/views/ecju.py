@@ -31,9 +31,7 @@ class ViewEcjuQueries(TemplateView):
         Get all ECJU queries for the given case, divided into open and close
         """
         case_id = str(kwargs["pk"])
-        open_ecju_queries, closed_ecju_queries = self._get_ecju_queries(
-            request, case_id
-        )
+        open_ecju_queries, closed_ecju_queries = self._get_ecju_queries(request, case_id)
         context = {
             "case_id": case_id,
             "open_ecju_queries": open_ecju_queries,
@@ -53,12 +51,10 @@ class CreateEcjuQuery(TemplateView):
         case_id = str(kwargs["pk"])
         picklists = get_picklists(request, "ecju_query", False)
         picklists = picklists.get("picklist_items")
-        picklist_choices = [
-            Option(self.NEW_QUESTION_DDL_ID, "Write a new question")
-        ] + [Option(picklist.get("id"), picklist.get("name")) for picklist in picklists]
-        form = choose_ecju_query_type_form(
-            reverse("cases:ecju_queries", kwargs={"pk": case_id}), picklist_choices
-        )
+        picklist_choices = [Option(self.NEW_QUESTION_DDL_ID, "Write a new question")] + [
+            Option(picklist.get("id"), picklist.get("name")) for picklist in picklists
+        ]
+        form = choose_ecju_query_type_form(reverse("cases:ecju_queries", kwargs={"pk": case_id}), picklist_choices)
 
         return form_page(request, form, extra_data={"case_id": case_id})
 
@@ -76,9 +72,7 @@ class CreateEcjuQuery(TemplateView):
             return self._handle_ecju_query_confirmation_post(case_id, request)
         else:
             # Submitted data does not contain an expected form field - return an error
-            return error_page(
-                None, "We had an issue creating your question. Try again later."
-            )
+            return error_page(None, "We had an issue creating your question. Try again later.")
 
     def _handle_ecju_query_type_select_post(self, request, case_id):
         picklist_selection = request.POST.get("picklist")
@@ -88,9 +82,7 @@ class CreateEcjuQuery(TemplateView):
         else:
             picklist_item_text = ""
 
-        form = create_ecju_query_write_or_edit_form(
-            reverse("cases:ecju_queries_add", kwargs={"pk": case_id})
-        )
+        form = create_ecju_query_write_or_edit_form(reverse("cases:ecju_queries_add", kwargs={"pk": case_id}))
         data = {"question": picklist_item_text}
 
         return form_page(request, form, data=data)
@@ -118,9 +110,7 @@ class CreateEcjuQuery(TemplateView):
             else:
                 return redirect(reverse("cases:ecju_queries", kwargs={"pk": case_id}))
         elif request.POST.get("ecju_query_confirmation").lower() == "no":
-            form = create_ecju_query_write_or_edit_form(
-                reverse("cases:ecju_queries_add", kwargs={"pk": case_id})
-            )
+            form = create_ecju_query_write_or_edit_form(reverse("cases:ecju_queries_add", kwargs={"pk": case_id}))
 
             return form_page(request, form, data=data)
         else:
@@ -133,8 +123,6 @@ class CreateEcjuQuery(TemplateView):
     def _handle_ecju_query_form_errors(self, case_id, ecju_query, request):
         errors = ecju_query.get("errors")
         errors = {error: message for error, message in errors.items()}
-        form = create_ecju_query_write_or_edit_form(
-            reverse("cases:ecju_queries_add", kwargs={"pk": case_id})
-        )
+        form = create_ecju_query_write_or_edit_form(reverse("cases:ecju_queries_add", kwargs={"pk": case_id}))
         data = {"question": request.POST.get("question")}
         return form_page(request, form, data=data, errors=errors)

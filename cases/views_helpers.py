@@ -49,9 +49,7 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
 
     context["able_to_finalize"] = able_to_finalize
 
-    return render(
-        request, "cases/case/" + user_team_final + "-advice-view.html", context
-    )
+    return render(request, "cases/case/" + user_team_final + "-advice-view.html", context)
 
 
 def render_form_page(get_advice, request, case, form, team=None):
@@ -68,15 +66,11 @@ def render_form_page(get_advice, request, case, form, team=None):
         advice, _ = get_advice(request, case.get("id"))
 
     selected_advice_data = request.POST
-    pre_data = check_matching_advice(
-        request.user.lite_api_user_id, advice["advice"], selected_advice_data
-    )
+    pre_data = check_matching_advice(request.user.lite_api_user_id, advice["advice"], selected_advice_data)
 
     # Validate at least one checkbox is checked
     if not len(selected_advice_data) > 0:
-        return error_page(
-            request, "Select at least one good or destination to give advice on"
-        )
+        return error_page(request, "Select at least one good or destination to give advice on")
 
     # Add data to the form as hidden fields
     form.questions = add_hidden_advice_data(form.questions, selected_advice_data)
@@ -98,9 +92,7 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
         advice, _ = get_advice(request, case.get("id"), team.get("id"))
     else:
         advice, _ = get_advice(request, case.get("id"))
-    pre_data = check_matching_advice(
-        request.user.lite_api_user_id, advice["advice"], selected_advice_data
-    )
+    pre_data = check_matching_advice(request.user.lite_api_user_id, advice["advice"], selected_advice_data)
 
     if pre_data and not str(selected_advice_data["type"]) in str(pre_data["type"]):
         pre_data = None
@@ -182,11 +174,7 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final):
     # Add success message
     messages.success(request, "Your advice has been posted successfully")
 
-    return redirect(
-        reverse_lazy(
-            "cases:" + user_team_final + "_advice_view", kwargs={"pk": case.get("id")}
-        )
-    )
+    return redirect(reverse_lazy("cases:" + user_team_final + "_advice_view", kwargs={"pk": case.get("id")}))
 
 
 def give_advice_dispatch(user_team_final, request, **kwargs):
@@ -194,12 +182,8 @@ def give_advice_dispatch(user_team_final, request, **kwargs):
     Returns the case and the form for the level of the advice to be used in the end points
     """
     case = get_case(request, str(kwargs["pk"]))
-    post_endpoint = reverse_lazy(
-        "cases:give_" + user_team_final + "_advice", kwargs={"pk": str(kwargs["pk"])}
-    )
-    back_endpoint = reverse_lazy(
-        "cases:" + user_team_final + "_advice_view", kwargs={"pk": str(kwargs["pk"])}
-    )
+    post_endpoint = reverse_lazy("cases:give_" + user_team_final + "_advice", kwargs={"pk": str(kwargs["pk"])})
+    back_endpoint = reverse_lazy("cases:" + user_team_final + "_advice_view", kwargs={"pk": str(kwargs["pk"])})
     form = advice_recommendation_form(post_endpoint, back_endpoint)
 
     if user_team_final == "team":

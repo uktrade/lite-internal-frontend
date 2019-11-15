@@ -54,12 +54,7 @@ class AddFlag(TemplateView):
     def post(self, request, **kwargs):
         response, status_code = post_flags(request, request.POST)
         if status_code != 201:
-            return form_page(
-                request,
-                add_flag_form(),
-                data=request.POST,
-                errors=response.get("errors"),
-            )
+            return form_page(request, add_flag_form(), data=request.POST, errors=response.get("errors"),)
 
         return redirect(reverse_lazy("flags:flags"))
 
@@ -72,12 +67,7 @@ class EditFlag(TemplateView):
     def post(self, request, **kwargs):
         response, status_code = put_flag(request, str(kwargs["pk"]), request.POST)
         if status_code != 200:
-            return form_page(
-                request,
-                edit_flag_form(),
-                data=request.POST,
-                errors=response.get("errors"),
-            )
+            return form_page(request, edit_flag_form(), data=request.POST, errors=response.get("errors"),)
 
         return redirect(reverse_lazy("flags:flags"))
 
@@ -138,11 +128,7 @@ class AssignFlags(TemplateView):
 
         self.level = request.GET.get("level")
 
-        kwargs = (
-            {"pk": self.objects[0]}
-            if self.level == "organisations"
-            else {"pk": str(kwargs["pk"])}
-        )
+        kwargs = {"pk": self.objects[0]} if self.level == "organisations" else {"pk": str(kwargs["pk"])}
         origin = request.GET.get("origin", "case")
 
         if origin == "good":
@@ -176,9 +162,7 @@ class AssignFlags(TemplateView):
 
         flags = [Option(flag["id"], flag["name"]) for flag in flags]
 
-        self.form = flags_form(
-            flags=flags, level=self.level, origin=origin, url=self.url
-        )
+        self.form = flags_form(flags=flags, level=self.level, origin=origin, url=self.url)
 
         return super(AssignFlags, self).dispatch(request, *args, **kwargs)
 
@@ -223,8 +207,6 @@ class AssignFlags(TemplateView):
         response, _ = put_flag_assignments(request, data)
 
         if "errors" in response:
-            return form_page(
-                request, self.form, data=request.POST, errors=response["errors"]
-            )
+            return form_page(request, self.form, data=request.POST, errors=response["errors"])
 
         return redirect(self.url)

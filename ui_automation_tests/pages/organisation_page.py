@@ -5,9 +5,7 @@ class OrganisationPage:
         self.flags_area = ".app-flag"
 
     def click_edit_organisation_flags(self):
-        edit_flags_btn = self.driver.find_element_by_css_selector(
-            self.edit_organisation_flags
-        )
+        edit_flags_btn = self.driver.find_element_by_css_selector(self.edit_organisation_flags)
         edit_flags_btn.click()
 
     def is_organisation_flag_applied(self, flag_name):

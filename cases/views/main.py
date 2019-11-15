@@ -122,16 +122,12 @@ class ViewCase(TemplateView):
             if errors.get("text"):
                 error = errors.get("text")[0]
                 error = error.replace("This field", "Case note")
-                error = error.replace(
-                    "this field", "the case note"
-                )  # TODO: Move to API
+                error = error.replace("this field", "the case note")  # TODO: Move to API
 
             else:
                 error_list = []
                 for key in errors:
-                    error_list.append(
-                        "{field}: {error}".format(field=key, error=errors[key][0])
-                    )
+                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
                 error = "\n".join(error_list)
             return error_page(request, error)
 
@@ -163,9 +159,7 @@ class ManageCase(TemplateView):
 
         reduced_statuses = {
             "statuses": [
-                x
-                for x in statuses["statuses"]
-                if (x["status"] != "finalised" and x["status"] != "applicant_editing")
+                x for x in statuses["statuses"] if (x["status"] != "finalised" and x["status"] != "applicant_editing")
             ]
         }
 
@@ -202,11 +196,7 @@ class MoveCase(TemplateView):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
 
-        return form_page(
-            request,
-            move_case_form(request, reverse("cases:case", kwargs={"pk": case_id})),
-            data=case,
-        )
+        return form_page(request, move_case_form(request, reverse("cases:case", kwargs={"pk": case_id})), data=case,)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
@@ -265,9 +255,7 @@ class AttachDocuments(TemplateView):
 
         files = request.FILES.getlist("file")
         if len(files) is not 1:
-            return error_page(
-                None, "We had an issue uploading your files. Try again later."
-            )
+            return error_page(None, "We had an issue uploading your files. Try again later.")
         file = files[0]
         data.append(
             {
@@ -282,9 +270,7 @@ class AttachDocuments(TemplateView):
         case_documents, _ = post_case_documents(request, case_id, data)
 
         if "errors" in case_documents:
-            return error_page(
-                None, "We had an issue uploading your files. Try again later."
-            )
+            return error_page(None, "We had an issue uploading your files. Try again later.")
 
         return redirect(reverse("cases:documents", kwargs={"pk": case_id}))
 
@@ -298,9 +284,7 @@ class Document(TemplateView):
 
         # Stream file
         def generate_file(result):
-            for chunk in iter(
-                lambda: result["Body"].read(settings.STREAMING_CHUNK_SIZE), b""
-            ):
+            for chunk in iter(lambda: result["Body"].read(settings.STREAMING_CHUNK_SIZE), b""):
                 yield chunk
 
         s3 = s3_client()

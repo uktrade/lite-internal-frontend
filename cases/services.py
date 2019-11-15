@@ -169,16 +169,12 @@ def prepare_data_for_advice(json):
 
     for entity_name in single_cases:
         if json.get(entity_name):
-            new_data.append(
-                build_case_advice(entity_name, json.get(entity_name), base_data)
-            )
+            new_data.append(build_case_advice(entity_name, json.get(entity_name), base_data))
 
     for entity_name, entity_name_singular in multiple_cases.items():
         if json.get(entity_name):
             for entity in json.get(entity_name, []):
-                new_data.append(
-                    build_case_advice(entity_name_singular, entity, base_data)
-                )
+                new_data.append(build_case_advice(entity_name_singular, entity, base_data))
 
     return new_data
 
@@ -316,11 +312,7 @@ def _generate_post_data_and_errors(keys, request_data, action):
                 errors[good_pk] = [country_pk]
         else:
             post_data.append(
-                {
-                    "good": good_pk,
-                    "country": country_pk,
-                    "decision": request_data.get(key),
-                }
+                {"good": good_pk, "country": country_pk, "decision": request_data.get(key),}
             )
     return post_data, errors
 

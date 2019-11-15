@@ -39,11 +39,7 @@ def go_to_picklist_list(driver, picklist_type, context):
     PicklistPages(driver).click_on_picklist_type_sub_nav(picklist_type)
 
 
-@when(
-    parsers.parse(
-        'I add a new picklist item with "{picklist_name}" and "{picklist_description}"'
-    )
-)
+@when(parsers.parse('I add a new picklist item with "{picklist_name}" and "{picklist_description}"'))
 def add_to_picklist_item(driver, picklist_name, picklist_description, context):
     time = utils.get_formatted_date_time_m_d_h_s()
     context.picklist_name = picklist_name + time
@@ -57,25 +53,19 @@ def see_new_picklist(driver, context):
     picklist_page = PicklistPages(driver)
     latest_picklist_name = picklist_page.get_latest_picklist_name()
     latest_picklist_description = picklist_page.get_latest_picklist_description()
-    assert (
-        context.picklist_name in latest_picklist_name
-    ), "picklist name is not in column"
-    assert (
-        context.picklist_description in latest_picklist_description
-    ), "picklist description is not in column"
-    assert (
-        context.prompted_context_variable in latest_picklist_description
-    ), "picklist context variable not in column"
+    assert context.picklist_name in latest_picklist_name, "picklist name is not in column"
+    assert context.picklist_description in latest_picklist_description, "picklist description is not in column"
+    assert context.prompted_context_variable in latest_picklist_description, "picklist context variable not in column"
 
 
 @then("I see picklist error messages")
 def i_see_picklist_error_messages(driver, context):
-    assert "Enter a name that best describes this template" in Shared(
-        driver
-    ).get_text_of_error_message(0), "picklist error message is not displayed"
-    assert "Enter some text to use as a template" in Shared(
-        driver
-    ).get_text_of_error_message(1), "picklist error message is not displayed"
+    assert "Enter a name that best describes this template" in Shared(driver).get_text_of_error_message(
+        0
+    ), "picklist error message is not displayed"
+    assert "Enter some text to use as a template" in Shared(driver).get_text_of_error_message(
+        1
+    ), "picklist error message is not displayed"
 
 
 @when("I click on my picklist item")
@@ -85,11 +75,7 @@ def click_on_picklist_item(driver, context):
     elements[no].click()
 
 
-@when(
-    parsers.parse(
-        'I edit my picklist to "{picklist_name}" and "{picklist_description}"'
-    )
-)
+@when(parsers.parse('I edit my picklist to "{picklist_name}" and "{picklist_description}"'))
 def edit_picklist_item(driver, context, picklist_name, picklist_description):
     context.picklist_name = picklist_name
     context.picklist_description = picklist_description
@@ -124,21 +110,13 @@ def type_context_variable_start(driver, context):
 
 @then("I am given context variable suggestions")
 def context_variable_overlay(driver):
-    assert PicklistPages(
-        driver
-    ).context_suggestions_are_displayed(), (
-        "Context variable suggestion list didn't appear"
-    )
+    assert PicklistPages(driver).context_suggestions_are_displayed(), "Context variable suggestion list didn't appear"
 
 
 @when("I click a suggested context variable")
 def context_variable_option(driver, context):
     picklist_page = PicklistPages(driver)
-    context.prompted_context_variable = picklist_page.get_context_suggestion_variable_name().split(
-        "\n"
-    )[
-        0
-    ]
+    context.prompted_context_variable = picklist_page.get_context_suggestion_variable_name().split("\n")[0]
     picklist_page.click_context_suggestion()
 
 

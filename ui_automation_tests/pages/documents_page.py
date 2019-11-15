@@ -9,11 +9,7 @@ class DocumentsPage:
         return self.driver.find_element_by_id(self.attach_docs_button).click()
 
     def get_document_description_at_position(self, position: int):
-        return self.driver.find_elements_by_css_selector(self.doc_description)[
-            position
-        ].text
+        return self.driver.find_elements_by_css_selector(self.doc_description)[position].text
 
     def get_document_filename_at_position(self, position: int):
-        return self.driver.find_elements_by_css_selector(self.doc_filename)[
-            position
-        ].text
+        return self.driver.find_elements_by_css_selector(self.doc_filename)[position].text

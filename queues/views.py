@@ -40,9 +40,7 @@ class AddQueue(TemplateView):
 
     def post(self, request, **kwargs):
         # including the user's team details in the post request
-        user_data, status_code = get_gov_user(
-            request, str(request.user.lite_api_user_id)
-        )
+        user_data, status_code = get_gov_user(request, str(request.user.lite_api_user_id))
         post_data = request.POST.copy()
         post_data["team"] = user_data["user"]["team"]["id"]
         data, status_code = post_queues(request, post_data)
@@ -103,17 +101,10 @@ class CaseAssignments(TemplateView):
             return error_page(request, "Invalid case selection")
 
         # Get assigned users
-        assigned_users = get_assigned_users_from_cases(
-            case_ids, case_assignments["case_assignments"]
-        )
+        assigned_users = get_assigned_users_from_cases(case_ids, case_assignments["case_assignments"])
         return form_page(
             request,
-            assign_users_form(
-                request,
-                user_data["user"]["team"]["id"],
-                queue["queue"],
-                len(case_ids) > 1,
-            ),
+            assign_users_form(request, user_data["user"]["team"]["id"], queue["queue"], len(case_ids) > 1,),
             data={"users": assigned_users},
         )
 
@@ -130,20 +121,13 @@ class CaseAssignments(TemplateView):
 
         # Append case and users to case assignments
         for case_id in case_ids:
-            data["case_assignments"].append(
-                {"case_id": case_id, "users": request.POST.getlist("users")}
-            )
+            data["case_assignments"].append({"case_id": case_id, "users": request.POST.getlist("users")})
 
         response, _ = put_queue_case_assignments(request, queue_id, data)
         if "errors" in response:
             return form_page(
                 request,
-                assign_users_form(
-                    request,
-                    user_data["user"]["team"]["id"],
-                    queue["queue"],
-                    len(case_ids) > 1,
-                ),
+                assign_users_form(request, user_data["user"]["team"]["id"], queue["queue"], len(case_ids) > 1,),
                 data=request.POST,
                 errors=response["errors"],
             )

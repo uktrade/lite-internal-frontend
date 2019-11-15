@@ -62,17 +62,13 @@ def unassign_flags_from_case(driver, context):
 @then("Number of assigned flags is original value")
 def assert_number_of_flags(driver, context):
     number_of_assigned_flags = FlagsPages(driver).get_size_of_number_of_assigned_flags()
-    assert (
-        number_of_assigned_flags == context.number_of_assigned_flags
-    ), "number of assigned flags has changed"
+    assert number_of_assigned_flags == context.number_of_assigned_flags, "number of assigned flags has changed"
 
 
 @then(parsers.parse('Number of assigned flags is "{flagcount}"'))
 def assert_number_of_flags_has_increased(driver, context, flagcount):
     number_of_assigned_flags = FlagsPages(driver).get_size_of_number_of_assigned_flags()
-    assert str(number_of_assigned_flags) == flagcount, (
-        "number of assigned flags is not " + flagcount
-    )
+    assert str(number_of_assigned_flags) == flagcount, "number of assigned flags is not " + flagcount
 
 
 @then("The previously created flag is assigned to the case")
@@ -115,16 +111,12 @@ def add_a_suspicious_flag(driver, add_new_flag):
 @then("I see 3 out of text")
 def three_out_of_text(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
-    no = utils.get_element_index_by_text(
-        elements, context.case_id, complete_match=False
-    )
+    no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
     assert "(3 of " in elements[no].text
 
 
 @then("I dont see 3 out of text")
 def dont_see_three_out_of(driver, context):
     elements = Shared(driver).get_rows_in_lite_table()
-    no = utils.get_element_index_by_text(
-        elements, context.case_id, complete_match=False
-    )
+    no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
     assert "(3 of " not in elements[no].text

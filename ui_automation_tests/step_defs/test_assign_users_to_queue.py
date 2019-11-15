@@ -12,9 +12,7 @@ log.addHandler(console)
 
 
 @when("I select the checkbox for previously created case to be assigned")
-def click_checkbox_for_application(
-    driver, internal_url, apply_for_standard_application, context
-):
+def click_checkbox_for_application(driver, internal_url, apply_for_standard_application, context):
     CaseListPage(driver).click_on_case_checkbox(context.case_id)
     CaseListPage(driver).click_on_assign_users_button()
 
@@ -28,18 +26,16 @@ def assign_user_to_case(driver, internal_info, context):
 
 @then("user is assignee on case list")
 def user_is_on_case_list(driver, context):
-    assert context.user_name in CaseListPage(driver).get_text_of_assignees(
-        driver, context.case_id
-    ), ("user name " + context.user_name + " is not an assignee on case list")
+    assert context.user_name in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
+        "user name " + context.user_name + " is not an assignee on case list"
+    )
 
 
 @then("only SSO users name is displayed in user list for assign cases")
 def user_is_on_case_list(driver, internal_info):
     elements = CaseListPage(driver).get_text_checkbox_elements()
     for element in elements:
-        assert internal_info["name"] in element.text, (
-            internal_info["name"] + "is not displayed in user list"
-        )
+        assert internal_info["name"] in element.text, internal_info["name"] + "is not displayed in user list"
 
 
 @then("user is not assignee on case list")
@@ -63,8 +59,7 @@ def filter_search_for_assign_users(driver, internal_info):
 def assign_user_to_case(driver, enabled_disabled):
     if enabled_disabled == "enabled":
         assert (
-            "disabled"
-            not in CaseListPage(driver).get_class_name_of_assign_users_button()
+            "disabled" not in CaseListPage(driver).get_class_name_of_assign_users_button()
         ), "assign users button is not enabled"
     elif enabled_disabled == "disabled":
         assert (

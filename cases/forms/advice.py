@@ -12,10 +12,7 @@ def advice_recommendation_form(post_url, back_url):
                     Option("approve", "Grant the licence"),
                     Option("proviso", "Add a proviso"),
                     Option("refuse", "Refuse the licence"),
-                    Option(
-                        "no_licence_required",
-                        "Tell the applicant they do not need a licence",
-                    ),
+                    Option("no_licence_required", "Tell the applicant they do not need a licence",),
                     Option("not_applicable", "Not applicable", show_or=True),
                 ],
             ),

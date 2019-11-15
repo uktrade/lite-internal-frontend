@@ -19,10 +19,7 @@ _name = TextInput(title="Name", name="name")
 _text = TextArea(title="Text", name="text", extras={"max_length": 5000,})
 
 _paragraph = MarkdownArea(
-    title="Paragraph Text",
-    name="text",
-    variables=get_sample_context_variables(),
-    extras={"max_length": 5000,},
+    title="Paragraph Text", name="text", variables=get_sample_context_variables(), extras={"max_length": 5000,},
 )
 
 
@@ -36,10 +33,7 @@ def add_picklist_item_form(request):
             HiddenField("type", picklist_type),
             conditional(picklist_type == "letter_paragraph", _paragraph, _text),
         ],
-        back_link=BackLink(
-            "Back to picklists",
-            reverse_lazy("picklists:picklists") + f"?type={picklist_type}",
-        ),
+        back_link=BackLink("Back to picklists", reverse_lazy("picklists:picklists") + f"?type={picklist_type}",),
         default_button_name="Save",
     )
 
@@ -64,9 +58,7 @@ def edit_picklist_item_form(picklist_item):
         title="Edit " + picklist_item["name"],
         questions=[
             _name,
-            conditional(
-                picklist_item["type"]["key"] == "letter_paragraph", _paragraph, _text
-            ),
+            conditional(picklist_item["type"]["key"] == "letter_paragraph", _paragraph, _text),
             HiddenField("type", picklist_item["type"]["key"]),
         ],
         back_link=BackLink(
@@ -75,11 +67,7 @@ def edit_picklist_item_form(picklist_item):
         ),
         buttons=[
             Button("Save", "submit", ButtonStyle.DEFAULT),
-            conditional(
-                picklist_item["status"]["key"] == "deactivated",
-                activate_button,
-                deactivate_button,
-            ),
+            conditional(picklist_item["status"]["key"] == "deactivated", activate_button, deactivate_button,),
         ],
     )
 
@@ -89,9 +77,7 @@ def deactivate_picklist_item(picklist_item):
         title="Are you sure you want to deactivate " + picklist_item["name"] + "?",
         description="You can always reactivate it later if need be.",
         questions=[],
-        back_link=BackLink(
-            "Back", reverse_lazy("picklists:edit", kwargs={"pk": picklist_item["id"]})
-        ),
+        back_link=BackLink("Back", reverse_lazy("picklists:edit", kwargs={"pk": picklist_item["id"]})),
         buttons=[
             Button("Deactivate", "submit", ButtonStyle.WARNING),
             Button(
@@ -109,9 +95,7 @@ def reactivate_picklist_item(picklist_item):
         title="Are you sure you want to reactivate " + picklist_item["name"] + "?",
         description="You can always deactivate it later if need be.",
         questions=[],
-        back_link=BackLink(
-            "Back", reverse_lazy("picklists:edit", kwargs={"pk": picklist_item["id"]})
-        ),
+        back_link=BackLink("Back", reverse_lazy("picklists:edit", kwargs={"pk": picklist_item["id"]})),
         buttons=[
             Button("Reactivate", "submit", ButtonStyle.DEFAULT),
             Button(

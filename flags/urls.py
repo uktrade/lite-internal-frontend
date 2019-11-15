@@ -17,9 +17,5 @@ urlpatterns = [
     # ex: /flags/<uuid:pk>/edit - edit a flag
     path("<uuid:pk>/edit/", views.EditFlag.as_view(), name="edit"),
     # ex: /flags/<uuid:pk>/edit/deactivate - deactivate or reactivate a flag
-    path(
-        "<uuid:pk>/edit/<str:status>/",
-        views.ChangeFlagStatus.as_view(),
-        name="change_status",
-    ),
+    path("<uuid:pk>/edit/<str:status>/", views.ChangeFlagStatus.as_view(), name="change_status",),
 ]

@@ -10,20 +10,11 @@ def attach_documents_form(case_url):
         [
             FileUpload("documents"),
             TextArea(
-                title=get_string(
-                    "cases.manage.documents.attach_documents.description_field_title"
-                ),
-                description=get_string(
-                    "cases.manage.documents.attach_documents.description_field_details"
-                ),
+                title=get_string("cases.manage.documents.attach_documents.description_field_title"),
+                description=get_string("cases.manage.documents.attach_documents.description_field_details"),
                 name="description",
                 extras={"max_length": 280,},
             ),
         ],
-        back_link=BackLink(
-            get_string(
-                "cases.manage.documents.attach_documents.back_to_case_documents"
-            ),
-            case_url,
-        ),
+        back_link=BackLink(get_string("cases.manage.documents.attach_documents.back_to_case_documents"), case_url,),
     )

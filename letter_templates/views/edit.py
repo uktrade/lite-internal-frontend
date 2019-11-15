@@ -16,9 +16,7 @@ from picklists.services import get_picklists
 class EditTemplate(TemplateView):
     def get(self, request, **kwargs):
         letter_template = get_letter_template(request, str(kwargs["pk"]))
-        return form_page(
-            request, edit_letter_template(letter_template), data=letter_template
-        )
+        return form_page(request, edit_letter_template(letter_template), data=letter_template)
 
     @staticmethod
     def post(request, **kwargs):
@@ -27,9 +25,7 @@ class EditTemplate(TemplateView):
 
         # Override case restrictions to use getlist
         edited_letter_template_data = request.POST.copy()
-        edited_letter_template_data[
-            "restricted_to"
-        ] = edited_letter_template_data.getlist("restricted_to")
+        edited_letter_template_data["restricted_to"] = edited_letter_template_data.getlist("restricted_to")
 
         response = submit_single_form(
             request,
@@ -42,11 +38,7 @@ class EditTemplate(TemplateView):
         if response:
             return response
 
-        return redirect(
-            reverse(
-                "letter_templates:letter_template", kwargs={"pk": letter_template_id}
-            )
-        )
+        return redirect(reverse("letter_templates:letter_template", kwargs={"pk": letter_template_id}))
 
 
 class EditParagraphs(TemplateView):
@@ -56,12 +48,8 @@ class EditParagraphs(TemplateView):
         if kwargs.get("override_paragraphs"):
             letter_template["letter_paragraphs"] = kwargs.get("override_paragraphs")
 
-        letter_paragraphs = get_letter_paragraphs(
-            request, letter_template["letter_paragraphs"]
-        )
-        letter_paragraphs = self.sort_letter_paragraphs(
-            letter_paragraphs, letter_template["letter_paragraphs"]
-        )
+        letter_paragraphs = get_letter_paragraphs(request, letter_template["letter_paragraphs"])
+        letter_paragraphs = self.sort_letter_paragraphs(letter_paragraphs, letter_template["letter_paragraphs"])
 
         context = {
             "letter_template": letter_template,
@@ -97,11 +85,7 @@ class EditParagraphs(TemplateView):
             return self._add_letter_paragraph(request, existing_paragraphs)
 
         elif action == "return_to_preview":
-            return self.get(
-                request,
-                override_paragraphs=request.POST.getlist("letter_paragraphs"),
-                **kwargs
-            )
+            return self.get(request, override_paragraphs=request.POST.getlist("letter_paragraphs"), **kwargs)
 
         elif "delete" in action:
             pk_to_delete = action.split(".")[1]
@@ -109,12 +93,6 @@ class EditParagraphs(TemplateView):
             return self.get(request, override_paragraphs=existing_paragraphs, **kwargs)
 
         put_letter_template(
-            request,
-            letter_template_id,
-            {"letter_paragraphs": request.POST.getlist("letter_paragraphs")},
+            request, letter_template_id, {"letter_paragraphs": request.POST.getlist("letter_paragraphs")},
         )
-        return redirect(
-            reverse(
-                "letter_templates:letter_template", kwargs={"pk": letter_template_id}
-            )
-        )
+        return redirect(reverse("letter_templates:letter_template", kwargs={"pk": letter_template_id}))

@@ -39,9 +39,7 @@ class AddRole(TemplateView):
             "permissions": request.POST.getlist("permissions"),
         }
 
-        response, data = submit_single_form(
-            request, add_role(request), post_role, override_data=data
-        )
+        response, data = submit_single_form(request, add_role(request), post_role, override_data=data)
 
         if response:
             return response

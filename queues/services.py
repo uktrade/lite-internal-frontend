@@ -7,20 +7,12 @@ from conf.constants import QUEUES_URL
 
 
 def get_queues(request, convert_to_options=False, include_system_queues=False):
-    data = get(
-        request, QUEUES_URL + "?include_system_queues=" + str(include_system_queues)
-    )
+    data = get(request, QUEUES_URL + "?include_system_queues=" + str(include_system_queues))
     if convert_to_options:
         converted = []
 
         for queue in data.json().get("queues"):
-            converted.append(
-                Option(
-                    queue.get("id"),
-                    queue.get("name"),
-                    description=queue.get("team").get("name"),
-                )
-            )
+            converted.append(Option(queue.get("id"), queue.get("name"), description=queue.get("team").get("name"),))
 
         return converted
 
@@ -47,9 +39,7 @@ def get_queue(request, pk, case_type=None, status=None, sort=None):
             sort = json.dumps({sort_json[0]: sort_json[1]})
             filter_and_sort.append("sort=" + sort)
 
-    filter_and_sort = (
-        "?" + "&".join(filter_and_sort) if len(filter_and_sort) > 0 else ""
-    )
+    filter_and_sort = "?" + "&".join(filter_and_sort) if len(filter_and_sort) > 0 else ""
 
     data = get(request, QUEUES_URL + pk + filter_and_sort)
 

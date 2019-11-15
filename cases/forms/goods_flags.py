@@ -6,9 +6,7 @@ def flags_form(flags, level, origin, url):
         title="Edit " + level + " flags",
         questions=[
             Filter(placeholder="Filter flags"),
-            Checkboxes(
-                title="Select all flags that apply", name="flags", options=flags
-            ),
+            Checkboxes(title="Select all flags that apply", name="flags", options=flags),
             TextArea(
                 name="note",
                 title="Notes",

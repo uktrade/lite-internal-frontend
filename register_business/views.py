@@ -17,11 +17,7 @@ class RegisterBusiness(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         individual = request.POST.get("type") == "individual"
         name = request.POST.get("name")
-        self.forms = (
-            register_business_forms(individual, name)
-            if name
-            else register_business_forms(individual)
-        )
+        self.forms = register_business_forms(individual, name) if name else register_business_forms(individual)
 
         return super(RegisterBusiness, self).dispatch(request, *args, **kwargs)
 
@@ -43,11 +39,7 @@ class RegisterHMRC(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         name = request.POST.get("name")
-        self.forms = (
-            register_hmrc_organisation_forms(name)
-            if name
-            else register_hmrc_organisation_forms()
-        )
+        self.forms = register_hmrc_organisation_forms(name) if name else register_hmrc_organisation_forms()
 
         return super(RegisterHMRC, self).dispatch(request, *args, **kwargs)
 

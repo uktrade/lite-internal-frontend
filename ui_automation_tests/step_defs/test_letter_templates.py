@@ -29,9 +29,7 @@ def create_letter_template(driver, context, get_template_id):
     context.template_name = "Template " + utils.get_formatted_date_time_m_d_h_s()
     LetterTemplates(driver).enter_template_name(context.template_name)
     Shared(driver).click_submit()
-    LetterTemplates(driver).select_which_type_of_case_template_can_apply_to(
-        "Applications"
-    )
+    LetterTemplates(driver).select_which_type_of_case_template_can_apply_to("Applications")
     Shared(driver).click_submit()
     LetterTemplates(driver).click_licence_layout(get_template_id)
     Shared(driver).click_submit()
@@ -52,10 +50,7 @@ def preview_template(driver):
 
 @then("my picklist is in template")
 def picklist_in_template(driver, context):
-    assert (
-        context.picklist_text
-        in LetterTemplates(driver).get_text_of_paragraphs_in_template()
-    )
+    assert context.picklist_text in LetterTemplates(driver).get_text_of_paragraphs_in_template()
 
 
 @when("I click save")
@@ -82,13 +77,8 @@ def edit_template(driver, context):
 def see_drag_and_drop_page(driver, context):
     letter_template = LetterTemplates(driver)
     context.picklist_text = letter_template.get_text_of_paragraphs_in_preview()
-    assert (
-        "app-sortable ui-sortable"
-        in letter_template.get_class_name_of_drag_and_drop_list()
-    )
-    assert (
-        context.letter_paragraph_name in letter_template.get_drag_and_drop_list_name()
-    )
+    assert "app-sortable ui-sortable" in letter_template.get_class_name_of_drag_and_drop_list()
+    assert context.letter_paragraph_name in letter_template.get_drag_and_drop_list_name()
 
 
 @given("I create a document template")
@@ -135,9 +125,7 @@ def edit_template_paragraphs(driver, context, seed_data_config):
     letter_template.click_edit_paragraphs_button()
     letter_template.click_add_paragraph_link()
     paragraph_id = letter_template.get_add_paragraph_button()
-    context.document_template_paragraph_text.append(
-        get_paragraph_text(context, seed_data_config, paragraph_id)
-    )
+    context.document_template_paragraph_text.append(get_paragraph_text(context, seed_data_config, paragraph_id))
     Shared(driver).click_submit()
 
 

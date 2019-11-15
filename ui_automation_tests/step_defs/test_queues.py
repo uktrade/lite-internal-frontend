@@ -16,9 +16,7 @@ log.addHandler(console)
 def click_on_edit_queue(driver, context):
     queues = QueuesPages(driver)
     no = utils.get_element_index_by_text(
-        Shared(driver).get_rows_in_lite_table(),
-        context.queue_name,
-        complete_match=False,
+        Shared(driver).get_rows_in_lite_table(), context.queue_name, complete_match=False,
     )
     queues.click_queue_edit_button(no)
     context.edited_queue_name = str(context.queue_name)[:12] + "edited"
@@ -47,14 +45,8 @@ def see_edited_queue_in_queue_list(driver, context):
 def dont_see_queue_in_queue_list(driver, context):
     driver.set_timeout_to(0)
     if len(driver.find_elements_by_css_selector(".lite-information-text__text")) != 1:
-        assert (
-            context.app_id
-            not in driver.find_element_by_css_selector(".govuk-table").text
-        )
-        assert (
-            context.case_id
-            not in driver.find_element_by_css_selector(".govuk-table").text
-        )
+        assert context.app_id not in driver.find_element_by_css_selector(".govuk-table").text
+        assert context.case_id not in driver.find_element_by_css_selector(".govuk-table").text
     driver.set_timeout_to_10_seconds()
 
 
@@ -64,10 +56,7 @@ def dont_see_queue_in_queue_list(driver, context):
     if len(driver.find_elements_by_css_selector(".lite-information-text__text")) == 1:
         assert True
     else:
-        assert (
-            context.case_id
-            not in driver.find_element_by_css_selector(".govuk-table").text
-        )
+        assert context.case_id not in driver.find_element_by_css_selector(".govuk-table").text
     driver.set_timeout_to_10_seconds()
 
 
@@ -87,6 +76,4 @@ def deselect_all_queues(driver):
 
 @then("queue change is in audit trail")
 def queue_change_in_audit(driver, context):
-    assert "moved the case to: " + context.queue_name in ApplicationPage(
-        driver
-    ).get_text_of_audit_trail_item(0)
+    assert "moved the case to: " + context.queue_name in ApplicationPage(driver).get_text_of_audit_trail_item(0)

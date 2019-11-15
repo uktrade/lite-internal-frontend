@@ -7,9 +7,7 @@ from picklists.services import get_picklists
 
 
 def get_order_paragraphs_page(request, template_content):
-    letter_paragraphs = get_letter_paragraphs(
-        request, template_content["letter_paragraphs"]
-    )
+    letter_paragraphs = get_letter_paragraphs(request, template_content["letter_paragraphs"])
     return render(
         request,
         "letter_templates/order_letter_paragraphs.html",
@@ -43,12 +41,8 @@ class LetterParagraphs(TemplateView):
         """
         Display a preview once letter paragraphs have been selected and sorted.
         """
-        letter_paragraphs = get_letter_paragraphs(
-            request, template_content["letter_paragraphs"]
-        )
-        preview = generate_preview(
-            template_content["layout"]["filename"], letter_paragraphs
-        )
+        letter_paragraphs = get_letter_paragraphs(request, template_content["letter_paragraphs"])
+        preview = generate_preview(template_content["layout"]["filename"], letter_paragraphs)
         return render(
             request,
             "letter_templates/preview.html",

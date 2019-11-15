@@ -9,9 +9,7 @@ scenarios("../features/add_goods.feature", strict_gherkin=False)
 
 @then("I see the clc-case previously created")  # noqa
 def assert_case_is_present(driver, apply_for_clc_query, context):
-    assert CaseListPage(driver).assert_case_is_present(
-        context.clc_case_id
-    ), "clc case ID is not present on page"
+    assert CaseListPage(driver).assert_case_is_present(context.clc_case_id), "clc case ID is not present on page"
 
 
 @when("I click on good")

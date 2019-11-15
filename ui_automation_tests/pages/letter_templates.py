@@ -52,27 +52,19 @@ class LetterTemplates:
         self.driver.find_element_by_name(self.save_button).click()
 
     def click_add_letter_paragraph(self):
-        self.driver.find_element_by_css_selector(
-            self.add_letter_paragraph_button
-        ).click()
+        self.driver.find_element_by_css_selector(self.add_letter_paragraph_button).click()
 
     def click_add_letter_paragraphs(self):
-        self.driver.find_element_by_css_selector(
-            self.add_letter_paragraphs_button
-        ).click()
+        self.driver.find_element_by_css_selector(self.add_letter_paragraphs_button).click()
 
     def get_text_of_paragraphs_in_template(self):
-        return self.driver.find_element_by_css_selector(
-            self.preview_template_paragraphs
-        ).text
+        return self.driver.find_element_by_css_selector(self.preview_template_paragraphs).text
 
     def get_text_of_paragraphs_in_preview(self):
         return self.driver.find_element_by_id(self.preview_paragraphs).text
 
     def get_class_name_of_drag_and_drop_list(self):
-        return self.driver.find_element_by_id(self.drag_drop_list).get_attribute(
-            "class"
-        )
+        return self.driver.find_element_by_id(self.drag_drop_list).get_attribute("class")
 
     def get_drag_and_drop_list_name(self):
         return self.driver.find_element_by_id(self.drag_drop_list).text
@@ -102,9 +94,7 @@ class LetterTemplates:
         self.driver.find_element_by_id(self.add_paragraph_link).click()
 
     def get_add_paragraph_button(self):
-        paragraph = self.driver.find_element_by_css_selector(
-            self.paragraph_checkboxes_list
-        )
+        paragraph = self.driver.find_element_by_css_selector(self.paragraph_checkboxes_list)
         id = paragraph.get_attribute("value")
         paragraph.click()
         return id

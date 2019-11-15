@@ -46,11 +46,7 @@ def generate_preview(layout, letter_paragraphs: list):
     template = django_engine.get_template(f"{layout}.html")
 
     letter_context = Context(
-        {
-            "content": "\n\n".join(
-                [markdown_to_html(paragraph["text"]) for paragraph in letter_paragraphs]
-            )
-        }
+        {"content": "\n\n".join([markdown_to_html(paragraph["text"]) for paragraph in letter_paragraphs])}
     )
     return template.render(letter_context)
 

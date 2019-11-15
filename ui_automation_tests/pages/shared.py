@@ -68,9 +68,7 @@ class Shared(BasePage):
         return len(self.driver.find_elements_by_css_selector(self.rows_in_cases_table))
 
     def get_lite_row_text_by_index(self, index):
-        return self.driver.find_elements_by_css_selector(self.rows_in_cases_table)[
-            int(index)
-        ].text
+        return self.driver.find_elements_by_css_selector(self.rows_in_cases_table)[int(index)].text
 
     def get_cells_in_lite_table(self):
         return self.driver.find_elements_by_css_selector(self.lite_table_cell)

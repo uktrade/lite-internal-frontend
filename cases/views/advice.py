@@ -85,9 +85,7 @@ class GiveUserAdviceDetail(TemplateView):
         return super(GiveUserAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice_details(
-            post_user_case_advice, request, self.case, self.form, "user"
-        )
+        return post_advice_details(post_user_case_advice, request, self.case, self.form, "user")
 
 
 class CoalesceUserAdvice(TemplateView):
@@ -111,39 +109,25 @@ class ViewTeamAdvice(TemplateView):
     team = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.case, self.form, self.team = give_advice_dispatch(
-            "team", request, **kwargs
-        )
+        self.case, self.form, self.team = give_advice_dispatch("team", request, **kwargs)
         return super(ViewTeamAdvice, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
         """
         Show all team advice given for a case
         """
-        return get_case_advice(
-            get_team_case_advice, request, self.case, "team", self.team
-        )
+        return get_case_advice(get_team_case_advice, request, self.case, "team", self.team)
 
     def post(self, request, **kwargs):
         if request.POST.get("action") == "delete":
             clear_team_advice(request, self.case.get("id"))
 
-            return redirect(
-                reverse("cases:team_advice_view", kwargs={"pk": self.case.get("id")})
-            )
+            return redirect(reverse("cases:team_advice_view", kwargs={"pk": self.case.get("id")}))
 
         elif request.POST.get("action") == "team":
-            return get_case_advice(
-                get_team_case_advice,
-                request,
-                self.case,
-                "team",
-                {"id": request.POST.get("team")},
-            )
+            return get_case_advice(get_team_case_advice, request, self.case, "team", {"id": request.POST.get("team")},)
 
-        return render_form_page(
-            get_team_case_advice, request, self.case, self.form, self.team
-        )
+        return render_form_page(get_team_case_advice, request, self.case, self.form, self.team)
 
 
 class GiveTeamAdvice(TemplateView):
@@ -156,15 +140,11 @@ class GiveTeamAdvice(TemplateView):
     team = None
 
     def dispatch(self, request, *args, **kwargs):
-        self.case, self.form, self.team = give_advice_dispatch(
-            "team", request, **kwargs
-        )
+        self.case, self.form, self.team = give_advice_dispatch("team", request, **kwargs)
         return super(GiveTeamAdvice, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice(
-            get_team_case_advice, request, self.case, self.form, "team", self.team
-        )
+        return post_advice(get_team_case_advice, request, self.case, self.form, "team", self.team)
 
 
 class GiveTeamAdviceDetail(TemplateView):
@@ -180,9 +160,7 @@ class GiveTeamAdviceDetail(TemplateView):
         return super(GiveTeamAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice_details(
-            post_team_case_advice, request, self.case, self.form, "team"
-        )
+        return post_advice_details(post_team_case_advice, request, self.case, self.form, "team")
 
 
 class CoalesceTeamAdvice(TemplateView):
@@ -218,9 +196,7 @@ class ViewFinalAdvice(TemplateView):
         if request.POST.get("action") == "delete":
             clear_final_advice(request, self.case.get("id"))
 
-            return redirect(
-                reverse("cases:final_advice_view", kwargs={"pk": self.case.get("id")})
-            )
+            return redirect(reverse("cases:final_advice_view", kwargs={"pk": self.case.get("id")}))
 
         return render_form_page(get_final_case_advice, request, self.case, self.form)
 
@@ -238,9 +214,7 @@ class GiveFinalAdvice(TemplateView):
         return super(GiveFinalAdvice, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice(
-            get_final_case_advice, request, self.case, self.form, "final"
-        )
+        return post_advice(get_final_case_advice, request, self.case, self.form, "final")
 
 
 class GiveFinalAdviceDetail(TemplateView):
@@ -256,9 +230,7 @@ class GiveFinalAdviceDetail(TemplateView):
         return super(GiveFinalAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice_details(
-            post_final_case_advice, request, self.case, self.form, "final"
-        )
+        return post_advice_details(post_final_case_advice, request, self.case, self.form, "final")
 
 
 class FinaliseGoodsCountries(TemplateView):
@@ -290,12 +262,7 @@ class FinaliseGoodsCountries(TemplateView):
         selection["good_countries"] = []
         for key, value in request_data.items():
             selection["good_countries"].append(
-                {
-                    "case": str(kwargs["pk"]),
-                    "good": key.split(".")[0],
-                    "country": key.split(".")[1],
-                    "decision": value,
-                }
+                {"case": str(kwargs["pk"]), "good": key.split(".")[0], "country": key.split(".")[1], "decision": value,}
             )
 
         context = {
@@ -312,22 +279,16 @@ class FinaliseGoodsCountries(TemplateView):
         if errors:
             context["errors"] = errors
             context["good_countries"] = post_data
-            return render(
-                request, "cases/case/finalise-open-goods-countries.html", context
-            )
+            return render(request, "cases/case/finalise-open-goods-countries.html", context)
 
         data, _ = post_good_countries_decisions(request, str(kwargs["pk"]), selection)
 
         if action == "save":
             context["good_countries"] = data["data"]
-            return render(
-                request, "cases/case/finalise-open-goods-countries.html", context
-            )
+            return render(request, "cases/case/finalise-open-goods-countries.html", context)
         elif "errors" in data:
             context["error"] = data.get("errors")
-            return render(
-                request, "cases/case/finalise-open-goods-countries.html", context
-            )
+            return render(request, "cases/case/finalise-open-goods-countries.html", context)
 
         return redirect(reverse_lazy("cases:finalise", kwargs={"pk": kwargs["pk"]}))
 
@@ -351,15 +312,10 @@ class Finalise(TemplateView):
         case_id = case["id"]
 
         for item in data:
-            if (
-                item[search_key]["key"] == "approve"
-                or item[search_key]["key"] == "proviso"
-            ):
+            if item[search_key]["key"] == "approve" or item[search_key]["key"] == "proviso":
                 today = date.today()
                 date_dict = {"day": today.day, "month": today.month, "year": today.year}
-                return form_page(
-                    request, approve_licence_form(case_id, standard), data=date_dict
-                )
+                return form_page(request, approve_licence_form(case_id, standard), data=date_dict)
 
         return form_page(request, refuse_licence_form(case_id, standard))
 

@@ -41,12 +41,8 @@ def edit_existing_flag(driver, context):
 
 @when("I count the number of active flags")
 def count_active_flags(driver, context):
-    context.original_number_of_active_flags = FlagsPages(
-        driver
-    ).get_size_of_active_flags()
-    context.original_number_of_deactivated_flags = FlagsPages(
-        driver
-    ).get_size_of_inactive_flags()
+    context.original_number_of_active_flags = FlagsPages(driver).get_size_of_active_flags()
+    context.original_number_of_deactivated_flags = FlagsPages(driver).get_size_of_inactive_flags()
 
 
 @when("I deactivate the first active flag")
@@ -79,9 +75,7 @@ def i_see_one_less_active_flag(driver, context):
     number_of_active_flags = flags.get_size_of_active_flags()
     number_of_deactivated_flags = flags.get_size_of_inactive_flags()
 
-    assert (
-        context.original_number_of_active_flags - number_of_active_flags == 1
-    ), "There is not one less flag"
+    assert context.original_number_of_active_flags - number_of_active_flags == 1, "There is not one less flag"
     assert (
         context.original_number_of_deactivated_flags - number_of_deactivated_flags == -1
     ), "There is not one less deactivated flag"
@@ -99,9 +93,7 @@ def i_see_the_original_number_of_active_flags(driver, context):
     number_of_active_flags = flags.get_size_of_active_flags()
     number_of_deactivated_flags = flags.get_size_of_inactive_flags()
 
-    assert (
-        context.original_number_of_active_flags == number_of_active_flags
-    ), "There is not equal flags to before"
+    assert context.original_number_of_active_flags == number_of_active_flags, "There is not equal flags to before"
     assert (
         context.original_number_of_deactivated_flags == number_of_deactivated_flags
     ), "There is not equal deactivated flags to before"

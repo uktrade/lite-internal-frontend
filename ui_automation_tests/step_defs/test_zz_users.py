@@ -46,11 +46,7 @@ def test_manage_users(driver, open_internal_hub, context):
     ), "Failed to return to Users list page after Adding user"
 
     assert utils.is_element_present(
-        driver,
-        By.XPATH,
-        "//td[text()='"
-        + context.email_to_search
-        + "']/following-sibling::td[text()='Active']",
+        driver, By.XPATH, "//td[text()='" + context.email_to_search + "']/following-sibling::td[text()='Active']",
     )
 
     email_edited = "edited" + email
@@ -59,10 +55,7 @@ def test_manage_users(driver, open_internal_hub, context):
     user_page.enter_email(sso_email)
     user_page.select_option_from_team_drop_down_by_visible_text("Admin")
     user_page.click_save_and_continue()
-    assert (
-        "This field must be unique."
-        in driver.find_element_by_css_selector(".govuk-error-message").text
-    )
+    assert "This field must be unique." in driver.find_element_by_css_selector(".govuk-error-message").text
     user_page.enter_email("invalidemail")
     user_page.click_save_and_continue()
     assert (
@@ -78,14 +71,10 @@ def test_manage_users(driver, open_internal_hub, context):
     # When I Save
     user_page.click_save_and_continue()
 
-    assert utils.is_element_present(
-        driver, By.XPATH, "//*[text()[contains(.,'" + email_edited + "')]]"
-    )
+    assert utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'" + email_edited + "')]]")
     assert (
         "Admin"
-        not in driver.find_element_by_xpath(
-            "//td[text()='" + email_edited + "']/following-sibling::td[text()]"
-        ).text
+        not in driver.find_element_by_xpath("//td[text()='" + email_edited + "']/following-sibling::td[text()]").text
     )
 
 
@@ -93,9 +82,7 @@ def test_inability_to_deactivate_oneself(driver, open_internal_hub):
     header = HeaderPage(driver)
     header.click_user_profile()
     driver.set_timeout_to(0)
-    deactivate = utils.is_element_present(
-        driver, By.XPATH, "//*[text()[contains(.,'Deactivate')]]"
-    )
+    deactivate = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Deactivate')]]")
     assert not deactivate
     driver.set_timeout_to_10_seconds()
 
@@ -110,10 +97,7 @@ def test_invalid(driver, open_internal_hub):
     user_page.select_option_from_team_drop_down_by_visible_text("Admin")
     user_page.select_option_from_role_drop_down_by_visible_text("Default")
     user_page.click_save_and_continue()
-    assert (
-        "This field must be unique."
-        in driver.find_element_by_css_selector(".govuk-error-message").text
-    )
+    assert "This field must be unique." in driver.find_element_by_css_selector(".govuk-error-message").text
     user_page.enter_email("invalidemail")
     user_page.click_save_and_continue()
     assert (

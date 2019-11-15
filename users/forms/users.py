@@ -14,16 +14,8 @@ def add_user_form(request):
         title=get_string("users.invite"),
         questions=[
             TextInput(title="What's the user's email?", name="email"),
-            Select(
-                name="team",
-                title="What team will the user belong to?",
-                options=get_teams(request, True),
-            ),
-            Select(
-                name="role",
-                options=get_roles(request, True),
-                title="What role should this user have?",
-            ),
+            Select(name="team", title="What team will the user belong to?", options=get_teams(request, True),),
+            Select(name="role", options=get_roles(request, True), title="What role should this user have?",),
         ],
         back_link=BackLink("Back to Users", reverse_lazy("users:users")),
     )
@@ -34,22 +26,12 @@ def edit_user_form(request, user_id, super_user):
         title="Edit User",
         questions=[
             TextInput(title="Email", name="email"),
-            Select(
-                name="team",
-                title="What team will the user belong to?",
-                options=get_teams(request, True),
-            ),
+            Select(name="team", title="What team will the user belong to?", options=get_teams(request, True),),
             conditional(
                 not super_user,
-                Select(
-                    name="role",
-                    options=get_roles(request, True),
-                    title=strings.USER_ROLE_QUESTION,
-                ),
+                Select(name="role", options=get_roles(request, True), title=strings.USER_ROLE_QUESTION,),
             ),
         ],
-        back_link=BackLink(
-            "Back to User", reverse_lazy("users:user", kwargs={"pk": user_id})
-        ),
+        back_link=BackLink("Back to User", reverse_lazy("users:user", kwargs={"pk": user_id})),
         default_button_name="Save",
     )

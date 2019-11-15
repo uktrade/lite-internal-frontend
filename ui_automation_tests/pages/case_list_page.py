@@ -42,17 +42,13 @@ class CaseListPage(BasePage):
 
     def search_pages_for_id(self, id):
         is_present = len(self.driver.find_elements_by_link_text(id))
-        number_of_pages = len(
-            self.driver.find_elements_by_css_selector(".lite-pagination__item")
-        )
+        number_of_pages = len(self.driver.find_elements_by_css_selector(".lite-pagination__item"))
         page_number = number_of_pages
         if number_of_pages != 0:
             while is_present == 0:
                 url = self.driver.current_url
                 if "page" not in url:
-                    self.driver.find_element_by_id(
-                        "page-" + str(number_of_pages)
-                    ).click()
+                    self.driver.find_element_by_id("page-" + str(number_of_pages)).click()
                 else:
                     next_page = url + "&page=" + str(page_number)
                     self.driver.get(next_page)
@@ -63,9 +59,7 @@ class CaseListPage(BasePage):
         self.driver.set_timeout_to(1)
         self.search_pages_for_id(case_id)
         self.driver.set_timeout_to_10_seconds()
-        self.driver.find_element_by_css_selector(
-            self.CHECKBOX_CASE + case_id + "']"
-        ).click()
+        self.driver.find_element_by_css_selector(self.CHECKBOX_CASE + case_id + "']").click()
 
     def click_on_assign_users_button(self):
         self.driver.find_element_by_id(self.BUTTON_ASSIGN_USERS).click()
@@ -82,9 +76,7 @@ class CaseListPage(BasePage):
         self.driver.find_element_by_id(self.CHECKBOX_SELECT_ALL).click()
 
     def get_class_name_of_assign_users_button(self):
-        return self.driver.find_element_by_id(self.BUTTON_ASSIGN_USERS).get_attribute(
-            "class"
-        )
+        return self.driver.find_element_by_id(self.BUTTON_ASSIGN_USERS).get_attribute("class")
 
     def enter_name_to_filter_search_box(self, name):
         return self.driver.find_element_by_id(self.FILTER_SEARCH_BOX).send_keys(name)
@@ -113,9 +105,7 @@ class CaseListPage(BasePage):
         return self.driver.find_element_by_class_name(self.FILTER_BAR).is_displayed()
 
     def click_on_href_within_cases_table(self, href):
-        self.driver.find_element_by_css_selector(
-            self.CASES_TABLE + ' [href*="' + href + '"]'
-        ).click()
+        self.driver.find_element_by_css_selector(self.CASES_TABLE + ' [href*="' + href + '"]').click()
 
     def click_on_queue_title(self):
         self.driver.find_element_by_id(self.queue_dropdown_title).click()
@@ -132,14 +122,10 @@ class CaseListPage(BasePage):
         self.driver.find_element_by_id(queue_name).click()
 
     def select_filter_status_from_dropdown(self, status):
-        utils.select_visible_text_from_dropdown(
-            self.driver.find_element_by_id(self.STATUS_DROPDOWN), status
-        )
+        utils.select_visible_text_from_dropdown(self.driver.find_element_by_id(self.STATUS_DROPDOWN), status)
 
     def select_filter_case_type_from_dropdown(self, status):
-        utils.select_visible_text_from_dropdown(
-            self.driver.find_element_by_id(self.CASE_TYPE_DROPDOWN), status
-        )
+        utils.select_visible_text_from_dropdown(self.driver.find_element_by_id(self.CASE_TYPE_DROPDOWN), status)
 
     def sort_by_status(self):
         self.driver.find_element_by_id(self.sort_status).click()

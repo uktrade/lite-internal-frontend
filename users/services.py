@@ -33,9 +33,7 @@ def get_gov_users(request, params=None, convert_to_options=False):
                 value = email
                 description = None
 
-            converted.append(
-                Option(key=user.get("id"), value=value, description=description)
-            )
+            converted.append(Option(key=user.get("id"), value=value, description=description))
 
         return converted
 
