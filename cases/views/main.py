@@ -86,15 +86,8 @@ class ViewCase(TemplateView):
         queue_name = request.GET.get("queue_name")
 
         case["all_flags"] = _get_all_distinct_flags(case)
-        total_goods_value = _get_total_goods_value(case)
 
-        context = {
-            "title": "Case",
-            "case": case,
-            "activity": activity,
-            "permissions": permissions,
-            "total_goods_value": total_goods_value,
-        }
+        context = {"title": "Case", "case": case, "activity": activity, "permissions": permissions}
         if queue_id:
             context["queue_id"] = queue_id
         if queue_name:
@@ -106,10 +99,12 @@ class ViewCase(TemplateView):
             context["good"] = case["query"]["good"]
             return render(request, "cases/case/queries/clc-query-case.html", context)
         elif case.get("application").get("application_type").get("key") == "hmrc_query":
+            context["total_goods_value"] = _get_total_goods_value(case)
             return render(request, "cases/case/hmrc-case.html", context)
         elif case["type"]["key"] == "application":
             context["title"] = case.get("application").get("name")
             context["notification"] = get_user_case_notification(request, case_id)
+            context["total_goods_value"] = _get_total_goods_value(case)
             return render(request, "cases/case/application-case.html", context)
 
     def post(self, request, **kwargs):
@@ -196,7 +191,7 @@ class MoveCase(TemplateView):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
 
-        return form_page(request, move_case_form(request, reverse("cases:case", kwargs={"pk": case_id})), data=case,)
+        return form_page(request, move_case_form(request, reverse("cases:case", kwargs={"pk": case_id})), data=case)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])

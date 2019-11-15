@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             name="User",
             fields=[
                 ("password", models.CharField(max_length=128, verbose_name="password")),
-                ("last_login", models.DateTimeField(blank=True, null=True, verbose_name="last login"),),
+                ("last_login", models.DateTimeField(blank=True, null=True, verbose_name="last login")),
                 (
                     "is_superuser",
                     models.BooleanField(
@@ -44,11 +44,11 @@ class Migration(migrations.Migration):
                         verbose_name="active",
                     ),
                 ),
-                ("date_joined", models.DateTimeField(default=django.utils.timezone.now, verbose_name="date joined"),),
-                ("id", models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False,),),
-                ("email", models.EmailField(blank=True, default=None, max_length=254, unique=True),),
-                ("first_name", models.CharField(blank=True, default=None, max_length=30, null=True),),
-                ("last_name", models.CharField(blank=True, default=None, max_length=150, null=True),),
+                ("date_joined", models.DateTimeField(default=django.utils.timezone.now, verbose_name="date joined")),
+                ("id", models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ("email", models.EmailField(blank=True, default=None, max_length=254, unique=True)),
+                ("first_name", models.CharField(blank=True, default=None, max_length=30, null=True)),
+                ("last_name", models.CharField(blank=True, default=None, max_length=150, null=True)),
                 (
                     "groups",
                     models.ManyToManyField(

@@ -51,10 +51,7 @@ class EditParagraphs(TemplateView):
         letter_paragraphs = get_letter_paragraphs(request, letter_template["letter_paragraphs"])
         letter_paragraphs = self.sort_letter_paragraphs(letter_paragraphs, letter_template["letter_paragraphs"])
 
-        context = {
-            "letter_template": letter_template,
-            "letter_paragraphs": letter_paragraphs,
-        }
+        context = {"letter_template": letter_template, "letter_paragraphs": letter_paragraphs}
         return render(request, "letter_templates/edit_letter_paragraphs.html", context)
 
     @staticmethod
@@ -93,6 +90,6 @@ class EditParagraphs(TemplateView):
             return self.get(request, override_paragraphs=existing_paragraphs, **kwargs)
 
         put_letter_template(
-            request, letter_template_id, {"letter_paragraphs": request.POST.getlist("letter_paragraphs")},
+            request, letter_template_id, {"letter_paragraphs": request.POST.getlist("letter_paragraphs")}
         )
         return redirect(reverse("letter_templates:letter_template", kwargs={"pk": letter_template_id}))

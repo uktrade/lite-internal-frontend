@@ -36,8 +36,7 @@ def get_string(value):
     from the strings.json file
     """
     warnings.warn(
-        'get_string is deprecated. Use "lcs" instead, or reference constants from strings directly.',
-        DeprecationWarning,
+        'get_string is deprecated. Use "lcs" instead, or reference constants from strings directly.', DeprecationWarning
     )
 
     # Pull the latest changes from strings.json for faster debugging

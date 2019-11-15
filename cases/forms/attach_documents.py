@@ -16,5 +16,5 @@ def attach_documents_form(case_url):
                 extras={"max_length": 280,},
             ),
         ],
-        back_link=BackLink(get_string("cases.manage.documents.attach_documents.back_to_case_documents"), case_url,),
+        back_link=BackLink(get_string("cases.manage.documents.attach_documents.back_to_case_documents"), case_url),
     )

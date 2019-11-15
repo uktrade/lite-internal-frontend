@@ -6,45 +6,38 @@ from selenium.common.exceptions import NoSuchElementException
 from pages.organisation_page import OrganisationPage
 
 from ui_automation_tests.fixtures.env import environment  # noqa
-from ui_automation_tests.fixtures.add_a_flag import (  # noqa
+from ui_automation_tests.fixtures.add_a_flag import (
     add_uae_flag,
     add_suspicious_flag,
     add_organisation_suspicious_flag,
     add_new_flag,
-)
+)  # noqa
 from ui_automation_tests.fixtures.add_queue import add_queue  # noqa
 from ui_automation_tests.fixtures.add_a_team import add_a_team  # noqa
-from ui_automation_tests.fixtures.add_a_document_template import (  # noqa
-    add_a_document_template,
-    get_template_id,
-)
-from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
+from ui_automation_tests.fixtures.add_a_document_template import add_a_document_template, get_template_id  # noqa
+from ui_automation_tests.fixtures.add_a_picklist import (
     add_a_letter_paragraph_picklist,
     add_an_ecju_query_picklist,
     add_a_proviso_picklist,
     add_a_standard_advice_picklist,
     add_a_report_summary_picklist,
-)
-from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
+)  # noqa
+from ui_automation_tests.shared.fixtures.apply_for_application import (
     apply_for_standard_application,
     apply_for_clc_query,
     apply_for_eua_query,
     apply_for_open_application,
-)
+)  # noqa
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.sso_sign_in import sso_sign_in  # noqa
-from ui_automation_tests.shared.fixtures.core import (  # noqa
+from ui_automation_tests.shared.fixtures.core import (
     context,
     invalid_username,
     seed_data_config,
     exporter_info,
     internal_info,
-)
-from ui_automation_tests.shared.fixtures.urls import (  # noqa
-    internal_url,
-    sso_sign_in_url,
-    api_url,
-)
+)  # noqa
+from ui_automation_tests.shared.fixtures.urls import internal_url, sso_sign_in_url, api_url  # noqa
 
 import shared.tools.helpers as utils
 from pages.assign_flags_to_case import CaseFlagsPages
@@ -62,13 +55,11 @@ def pytest_addoption(parser):
         env = "dev"
 
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption(
-        "--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url",
-    )
+    parser.addoption("--sso_sign_in_url", action="store", default="https://sso.trade.uat.uktrade.io/login/", help="url")
 
     if env.lower() == "local":
         parser.addoption(
-            "--internal_url", action="store", default="http://localhost:" + str(os.environ.get("PORT")), help="url",
+            "--internal_url", action="store", default="http://localhost:" + str(os.environ.get("PORT")), help="url"
         )
 
         # Get LITE API URL.

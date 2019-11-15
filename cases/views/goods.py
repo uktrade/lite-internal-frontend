@@ -46,11 +46,7 @@ class ReviewGoods(TemplateView):
 
         edit_flags_url = reverse_lazy("cases:assign_flags", kwargs={"pk": case_id})
         review_goods_clc_url = reverse_lazy("cases:review_goods_clc", kwargs={"pk": case_id})
-        parameters = {
-            "level": "goods",
-            "origin": "review_goods",
-            "goods": goods_pk_list,
-        }
+        parameters = {"level": "goods", "origin": "review_goods", "goods": goods_pk_list}
         goods_postfix_url = "?" + convert_dict_to_query_params(parameters)
 
         for good in case["application"]["goods"]:

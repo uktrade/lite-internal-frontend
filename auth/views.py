@@ -1,10 +1,4 @@
-from authbroker_client.utils import (
-    get_client,
-    AUTHORISATION_URL,
-    TOKEN_URL,
-    TOKEN_SESSION_KEY,
-    get_profile,
-)
+from authbroker_client.utils import get_client, AUTHORISATION_URL, TOKEN_URL, TOKEN_SESSION_KEY, get_profile
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseBadRequest, HttpResponseServerError
@@ -46,7 +40,7 @@ class AuthCallbackView(View):
 
         try:
             token = get_client(self.request).fetch_token(
-                TOKEN_URL, client_secret=settings.AUTHBROKER_CLIENT_SECRET, code=auth_code,
+                TOKEN_URL, client_secret=settings.AUTHBROKER_CLIENT_SECRET, code=auth_code
             )
 
             self.request.session[TOKEN_SESSION_KEY] = dict(token)

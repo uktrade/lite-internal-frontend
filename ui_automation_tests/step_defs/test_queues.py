@@ -16,7 +16,7 @@ log.addHandler(console)
 def click_on_edit_queue(driver, context):
     queues = QueuesPages(driver)
     no = utils.get_element_index_by_text(
-        Shared(driver).get_rows_in_lite_table(), context.queue_name, complete_match=False,
+        Shared(driver).get_rows_in_lite_table(), context.queue_name, complete_match=False
     )
     queues.click_queue_edit_button(no)
     context.edited_queue_name = str(context.queue_name)[:12] + "edited"

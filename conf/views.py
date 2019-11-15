@@ -35,7 +35,7 @@ class AuthCallbackView(View):
 
         try:
             token = get_client(self.request).fetch_token(
-                TOKEN_URL, client_secret=settings.AUTHBROKER_CLIENT_SECRET, code=auth_code,
+                TOKEN_URL, client_secret=settings.AUTHBROKER_CLIENT_SECRET, code=auth_code
             )
 
             self.request.session[TOKEN_SESSION_KEY] = dict(token)

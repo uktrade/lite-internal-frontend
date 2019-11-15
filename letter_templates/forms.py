@@ -19,7 +19,7 @@ def _letter_layout_options():
         filename = letter_layout["filename"]
         options.append(
             Option(
-                letter_layout["id"], letter_layout["name"], img_url=f"/assets/images/letter_templates/{ filename }.png",
+                letter_layout["id"], letter_layout["name"], img_url=f"/assets/images/letter_templates/{ filename }.png"
             )
         )
 

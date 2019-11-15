@@ -1,10 +1,4 @@
-from teams.services import (
-    get_team,
-    get_teams,
-    post_teams,
-    update_team,
-    get_users_by_team,
-)
+from teams.services import get_team, get_teams, post_teams, update_team, get_users_by_team
 from teams import forms
 
 from django.shortcuts import render, redirect
@@ -54,12 +48,7 @@ class AddTeam(TemplateView):
         data, status_code = post_teams(request, request.POST)
 
         if status_code == 400:
-            context = {
-                "title": "Add Team",
-                "page": forms.form,
-                "data": request.POST,
-                "errors": data.get("errors"),
-            }
+            context = {"title": "Add Team", "page": forms.form, "data": request.POST, "errors": data.get("errors")}
             return render(request, "form.html", context)
 
         return redirect(reverse_lazy("teams:teams"))
@@ -90,12 +79,7 @@ class EditTeam(TemplateView):
     def post(self, request, **kwargs):
         data, status_code = update_team(request, str(kwargs["pk"]), request.POST)
         if status_code == 400:
-            context = {
-                "title": "Add Team",
-                "page": forms.form,
-                "data": request.POST,
-                "errors": data.get("errors"),
-            }
+            context = {"title": "Add Team", "page": forms.form, "data": request.POST, "errors": data.get("errors")}
             return render(request, "form.html", context)
 
         return redirect(reverse_lazy("teams:teams"))

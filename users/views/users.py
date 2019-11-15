@@ -34,7 +34,7 @@ class AddUser(TemplateView):
         response, status_code = post_gov_users(request, request.POST)
 
         if status_code != 201:
-            return form_page(request, add_user_form(request), data=request.POST, errors=response.get("errors"),)
+            return form_page(request, add_user_form(request), data=request.POST, errors=response.get("errors"))
 
         return redirect(reverse_lazy("users:users"))
 
@@ -65,7 +65,7 @@ class EditUser(TemplateView):
     def get(self, request, **kwargs):
         user, _ = get_gov_user(request, str(kwargs["pk"]))
         super_user = is_super_user(user) and request.user.lite_api_user_id == str(kwargs["pk"])
-        return form_page(request, edit_user_form(request, str(kwargs["pk"]), super_user), data=user["user"],)
+        return form_page(request, edit_user_form(request, str(kwargs["pk"]), super_user), data=user["user"])
 
     def post(self, request, **kwargs):
         response, status_code = put_gov_user(request, str(kwargs["pk"]), request.POST)

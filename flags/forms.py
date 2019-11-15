@@ -21,12 +21,9 @@ _back_link = BackLink("Back to Flags", reverse_lazy("flags:flags"))
 
 def add_flag_form():
     return Form(
-        title=get_string("flags.create"),
-        questions=[_name, _level,],
-        back_link=_back_link,
-        default_button_name="Create",
+        title=get_string("flags.create"), questions=[_name, _level,], back_link=_back_link, default_button_name="Create"
     )
 
 
 def edit_flag_form():
-    return Form(title="Edit Flag", questions=[_name, _level,], back_link=_back_link, default_button_name="Save",)
+    return Form(title="Edit Flag", questions=[_name, _level,], back_link=_back_link, default_button_name="Save")

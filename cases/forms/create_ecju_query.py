@@ -32,9 +32,7 @@ def create_ecju_query_write_or_edit_form(choose_picklist_url):
             ),
             HiddenField(name="form_name", value="ecju_query_write_or_edit_question"),
         ],
-        back_link=BackLink(
-            "Back to " + get_string("cases.ecju_queries.add_query.dropdown_title"), choose_picklist_url,
-        ),
+        back_link=BackLink("Back to " + get_string("cases.ecju_queries.add_query.dropdown_title"), choose_picklist_url),
         default_button_name="Continue",
     )
 

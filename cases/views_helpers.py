@@ -202,13 +202,7 @@ def give_advice_detail_dispatch(request, **kwargs):
 
     # If the advice type is not valid, raise a 404
     advice_type = kwargs["type"]
-    if advice_type not in [
-        "approve",
-        "proviso",
-        "refuse",
-        "no_licence_required",
-        "not_applicable",
-    ]:
+    if advice_type not in ["approve", "proviso", "refuse", "no_licence_required", "not_applicable"]:
         raise Http404
 
     return case

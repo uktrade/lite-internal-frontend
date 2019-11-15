@@ -67,7 +67,7 @@ def check_matching_advice(user_id, advice, goods_or_destinations):
         if first_advice is None:
             first_advice = item
             pre_data = {
-                "type": {"key": first_advice["type"]["key"], "value": first_advice["type"]["value"],},
+                "type": {"key": first_advice["type"]["key"], "value": first_advice["type"]["value"]},
                 "proviso": first_advice.get("proviso"),
                 "denial_reasons": first_advice.get("denial_reasons"),
                 "advice": first_advice.get("text"),

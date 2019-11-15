@@ -1,16 +1,7 @@
 from django.template.defaultfilters import default
 from django.urls import reverse_lazy
 from lite_forms.common import control_list_entry_question
-from lite_forms.components import (
-    Form,
-    BackLink,
-    RadioButtons,
-    Option,
-    TextArea,
-    HTMLBlock,
-    Heading,
-    HiddenField,
-)
+from lite_forms.components import Form, BackLink, RadioButtons, Option, TextArea, HTMLBlock, Heading, HiddenField
 from lite_forms.styles import HeadingStyle
 
 from core.builtins.custom_tags import reference_code
@@ -39,7 +30,7 @@ def respond_to_clc_query_form(request, case):
             RadioButtons(
                 title="Is this good controlled?",
                 name="is_good_controlled",
-                options=[Option(key="yes", value="Yes", show_pane="pane_control_code"), Option(key="no", value="No"),],
+                options=[Option(key="yes", value="Yes", show_pane="pane_control_code"), Option(key="no", value="No")],
                 classes=["govuk-radios--inline"],
             ),
             control_list_entry_question(
@@ -51,11 +42,11 @@ def respond_to_clc_query_form(request, case):
             RadioButtons(
                 title="Which report summary would you like to use? (optional)",
                 name="report_summary",
-                options=get_picklists(request, "report_summary", convert_to_options=True, include_none=True,),
+                options=get_picklists(request, "report_summary", convert_to_options=True, include_none=True),
                 description="You only need to do this if the item is controlled",
                 classes=["test"],
             ),
-            TextArea(title="Good's comment (optional)", name="comment", optional=True, extras={"max_length": 500,},),
+            TextArea(title="Good's comment (optional)", name="comment", optional=True, extras={"max_length": 500,}),
             HiddenField("validate_only", True),
         ],
         default_button_name="Continue to overview",

@@ -19,7 +19,7 @@ _name = TextInput(title="Name", name="name")
 _text = TextArea(title="Text", name="text", extras={"max_length": 5000,})
 
 _paragraph = MarkdownArea(
-    title="Paragraph Text", name="text", variables=get_sample_context_variables(), extras={"max_length": 5000,},
+    title="Paragraph Text", name="text", variables=get_sample_context_variables(), extras={"max_length": 5000,}
 )
 
 
@@ -33,7 +33,7 @@ def add_picklist_item_form(request):
             HiddenField("type", picklist_type),
             conditional(picklist_type == "letter_paragraph", _paragraph, _text),
         ],
-        back_link=BackLink("Back to picklists", reverse_lazy("picklists:picklists") + f"?type={picklist_type}",),
+        back_link=BackLink("Back to picklists", reverse_lazy("picklists:picklists") + f"?type={picklist_type}"),
         default_button_name="Save",
     )
 
@@ -67,7 +67,7 @@ def edit_picklist_item_form(picklist_item):
         ),
         buttons=[
             Button("Save", "submit", ButtonStyle.DEFAULT),
-            conditional(picklist_item["status"]["key"] == "deactivated", activate_button, deactivate_button,),
+            conditional(picklist_item["status"]["key"] == "deactivated", activate_button, deactivate_button),
         ],
     )
 

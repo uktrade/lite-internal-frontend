@@ -46,7 +46,7 @@ def test_manage_users(driver, open_internal_hub, context):
     ), "Failed to return to Users list page after Adding user"
 
     assert utils.is_element_present(
-        driver, By.XPATH, "//td[text()='" + context.email_to_search + "']/following-sibling::td[text()='Active']",
+        driver, By.XPATH, "//td[text()='" + context.email_to_search + "']/following-sibling::td[text()='Active']"
     )
 
     email_edited = "edited" + email

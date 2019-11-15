@@ -13,7 +13,7 @@ urlpatterns = [
     # ex: /picklists/<uuid:pk>/edit/ - Edit a picklist item
     path("<uuid:pk>/edit/", views.EditPicklistItem.as_view(), name="edit"),
     # ex: /picklists/<uuid:pk>/edit/deactivate/ - Deactivate a picklist item
-    path("<uuid:pk>/edit/deactivate/", views.DeactivatePicklistItem.as_view(), name="deactivate",),
+    path("<uuid:pk>/edit/deactivate/", views.DeactivatePicklistItem.as_view(), name="deactivate"),
     # ex: /picklists/<uuid:pk>/edit/reactivate/ - Reactivate a picklist item
-    path("<uuid:pk>/edit/reactivate/", views.ReactivatePicklistItem.as_view(), name="reactivate",),
+    path("<uuid:pk>/edit/reactivate/", views.ReactivatePicklistItem.as_view(), name="reactivate"),
 ]

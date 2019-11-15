@@ -35,7 +35,7 @@ class UploadFailedMiddleware:
         if not isinstance(exception, UploadFailed):
             return None
 
-        return error_page(request, get_string("cases.manage.documents.attach_documents.file_too_large"),)
+        return error_page(request, get_string("cases.manage.documents.attach_documents.file_too_large"))
 
 
 class LoggingMiddleware:

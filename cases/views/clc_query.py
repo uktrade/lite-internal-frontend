@@ -38,7 +38,7 @@ class Respond(TemplateView):
     def post(self, request, **kwargs):
         # If 'set-flags' take them to the goods flags page
         if request.POST.get("action") == "set-flags":
-            form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#",)
+            form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#")
 
             form.questions.append(HiddenField("is_good_controlled", request.POST["is_good_controlled"]))
             form.questions.append(HiddenField("control_code", request.POST.get("control_code")))
@@ -95,7 +95,7 @@ class RespondFlags(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.case = get_case(request, str(kwargs["pk"]))
-        self.form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#",)
+        self.form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#")
         self.form.post_url = reverse_lazy("cases:respond_to_clc_query_flags", kwargs={"pk": self.case["id"]})
 
         return super(RespondFlags, self).dispatch(request, *args, **kwargs)

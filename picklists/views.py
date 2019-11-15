@@ -66,9 +66,7 @@ class AddPicklistItem(TemplateView):
         response, status_code = post_picklist_item(request, request.POST)
 
         if status_code != 201:
-            return form_page(
-                request, add_picklist_item_form(request), data=request.POST, errors=response.get("errors"),
-            )
+            return form_page(request, add_picklist_item_form(request), data=request.POST, errors=response.get("errors"))
 
         picklist_type = request.POST["type"]
 
@@ -114,7 +112,7 @@ class EditPicklistItem(TemplateView):
         if status_code != 200:
             return form_page(request, self.form, data=request.POST, errors=response.get("errors"))
 
-        return redirect(reverse_lazy("picklists:picklist_item", kwargs={"pk": response["picklist_item"]["id"]},))
+        return redirect(reverse_lazy("picklists:picklist_item", kwargs={"pk": response["picklist_item"]["id"]}))
 
 
 class DeactivatePicklistItem(TemplateView):

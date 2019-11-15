@@ -311,9 +311,7 @@ def _generate_post_data_and_errors(keys, request_data, action):
             else:
                 errors[good_pk] = [country_pk]
         else:
-            post_data.append(
-                {"good": good_pk, "country": country_pk, "decision": request_data.get(key),}
-            )
+            post_data.append({"good": good_pk, "country": country_pk, "decision": request_data.get(key)})
     return post_data, errors
 
 

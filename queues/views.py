@@ -46,12 +46,7 @@ class AddQueue(TemplateView):
         data, status_code = post_queues(request, post_data)
 
         if status_code == 400:
-            context = {
-                "title": "Add Queue",
-                "page": forms.form,
-                "data": request.POST,
-                "errors": data.get("errors"),
-            }
+            context = {"title": "Add Queue", "page": forms.form, "data": request.POST, "errors": data.get("errors")}
             return render(request, "form.html", context)
 
         return redirect(reverse_lazy("queues:queues"))
@@ -61,12 +56,7 @@ class EditQueue(TemplateView):
     def get(self, request, **kwargs):
         queue_id = str(kwargs["pk"])
         data, _ = get_queue(request, queue_id)
-        context = {
-            "data": data.get("queue"),
-            "title": "Edit Queue",
-            "page": forms.edit_form,
-            "form_pk": 0,
-        }
+        context = {"data": data.get("queue"), "title": "Edit Queue", "page": forms.edit_form, "form_pk": 0}
         return render(request, "form.html", context)
 
     def post(self, request, **kwargs):
@@ -104,7 +94,7 @@ class CaseAssignments(TemplateView):
         assigned_users = get_assigned_users_from_cases(case_ids, case_assignments["case_assignments"])
         return form_page(
             request,
-            assign_users_form(request, user_data["user"]["team"]["id"], queue["queue"], len(case_ids) > 1,),
+            assign_users_form(request, user_data["user"]["team"]["id"], queue["queue"], len(case_ids) > 1),
             data={"users": assigned_users},
         )
 
@@ -127,7 +117,7 @@ class CaseAssignments(TemplateView):
         if "errors" in response:
             return form_page(
                 request,
-                assign_users_form(request, user_data["user"]["team"]["id"], queue["queue"], len(case_ids) > 1,),
+                assign_users_form(request, user_data["user"]["team"]["id"], queue["queue"], len(case_ids) > 1),
                 data=request.POST,
                 errors=response["errors"],
             )
