@@ -75,4 +75,7 @@ urlpatterns = [
     path("<uuid:pk>/review-goods/", goods.ReviewGoods.as_view(), name="review_goods"),
     # ex: /cases/<uuid:pk>/review-goods-clc/
     path("<uuid:pk>/review-goods-clc/", goods.ReviewGoodsClc.as_view(), name="review_goods_clc"),
+
+    # ex: /cases/<uuid:pk>/generate-document/
+    path("<uuid:pk>/generate-document/", main.Cases.as_view(), name="generate_document"),
 ]
