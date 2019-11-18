@@ -93,7 +93,6 @@ class ViewCase(TemplateView):
         if queue_id:
             context["queue_id"] = queue_id
         if queue_name:
-
             context["queue_name"] = queue_name
 
         if case["type"]["key"] == END_USER_ADVISORY_QUERY:
@@ -159,7 +158,6 @@ class ManageCase(TemplateView):
                 x for x in statuses["statuses"] if (x["status"] != "finalised" and x["status"] != "applicant_editing")
             ]
         }
-
 
         if case["type"]["key"] == APPLICATION:
             title = "Manage " + case.get("application").get("name")
