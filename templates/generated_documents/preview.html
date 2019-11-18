@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block body %}
+	<div class="app-letter-preview__container">
+		<div class="lite-app-bar">
+			<div class="lite-app-bar__content">
+				<h2 class="govuk-heading-l">{% block title %}{% lcs 'PREVIEW_DOCUMENT_TITLE' %}{% endblock %}</h2>
+			</div>
+		</div>
+		<div class="app-letter-preview__page">
+			{{ preview|safe }}
+		</div>
+	</div>
+{% endblock %}

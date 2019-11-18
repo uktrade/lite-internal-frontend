@@ -1,9 +1,11 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.forms.generate_document import select_template_form
-from letter_templates.services import get_letter_templates
+from cases.services import get_case
+from letter_templates.helpers import generate_preview, paragraphs_to_markdown
+from letter_templates.services import get_letter_templates, get_letter_template, get_letter_paragraphs
 from lite_forms.generators import form_page
 
 
@@ -12,14 +14,25 @@ class SelectTemplate(TemplateView):
         return form_page(request, select_template_form(get_letter_templates(request)))
 
     def post(self, request, **kwargs):
-        template_id = request.POST.get('template')
+        template_id = request.POST.get("template")
         if template_id:
-            return redirect(reverse_lazy('cases:generate_document_preview',
-                                         kwargs={'pk': str(kwargs["pk"]), 'tpk': template_id}))
+            return redirect(
+                reverse_lazy("cases:generate_document_preview", kwargs={"pk": str(kwargs["pk"]), "tpk": template_id})
+            )
         else:
-            return redirect(reverse_lazy('cases:generate_document', kwargs={'pk': str(kwargs["pk"])}))
+            return redirect(reverse_lazy("cases:generate_document", kwargs={"pk": str(kwargs["pk"])}))
 
 
 class PreviewDocument(TemplateView):
     def get(self, request, **kwargs):
-        return form_page(request, select_template_form(get_letter_templates(request)))
+        template_id = str(kwargs["tpk"])
+        case_id = str(kwargs["pk"])
+        template = get_letter_template(request, template_id)
+        case = get_case(request, case_id)
+
+        content = {
+            "content": paragraphs_to_markdown(get_letter_paragraphs(request, template["letter_paragraphs"])),
+            "case": case,
+        }
+        preview = generate_preview(template["layout"]["filename"], content)
+        return render(request, "letter_templates/preview.html", {"preview": preview})

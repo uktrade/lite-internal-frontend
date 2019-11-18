@@ -80,7 +80,7 @@ urlpatterns = [
     # ex: /cases/<uuid:pk>/generate-document/<uuid:tpk>/preview
     path(
         "<uuid:pk>/generate-document/<uuid:tpk>/preview/",
-        generate_document.SelectTemplate.as_view(),
+        generate_document.PreviewDocument.as_view(),
         name="generate_document_preview",
     ),
 ]

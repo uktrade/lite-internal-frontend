@@ -23,7 +23,7 @@ class InvalidVarException(Exception):
         return False
 
 
-def template_engine_factory(allow_missing_variables=False):
+def template_engine_factory(allow_missing_variables):
     """
     Create a template engine configured for use with letter templates.
     """
@@ -40,15 +40,14 @@ def markdown_to_html(text):
     return Markdown().convert(text)
 
 
-def generate_preview(layout, letter_paragraphs: list):
-    django_engine = template_engine_factory(allow_missing_variables=True)
+def paragraphs_to_markdown(letter_paragraphs: list):
+    return "\n\n".join([markdown_to_html(paragraph["text"]) for paragraph in letter_paragraphs])
 
+
+def generate_preview(layout, content: dict, allow_missing_variables=True):
+    django_engine = template_engine_factory(allow_missing_variables)
     template = django_engine.get_template(f"{layout}.html")
-
-    letter_context = Context(
-        {"content": "\n\n".join([markdown_to_html(paragraph["text"]) for paragraph in letter_paragraphs])}
-    )
-    return template.render(letter_context)
+    return template.render(Context(content))
 
 
 def get_template_content(request):
