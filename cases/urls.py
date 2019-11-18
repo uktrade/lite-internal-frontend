@@ -1,6 +1,6 @@
 from django.urls import path
 
-from cases.views import main, advice, goods, clc_query, ecju
+from cases.views import main, advice, goods, clc_query, ecju, generate_document
 from flags.views import AssignFlags
 
 app_name = "cases"
@@ -75,7 +75,12 @@ urlpatterns = [
     path("<uuid:pk>/review-goods/", goods.ReviewGoods.as_view(), name="review_goods"),
     # ex: /cases/<uuid:pk>/review-goods-clc/
     path("<uuid:pk>/review-goods-clc/", goods.ReviewGoodsClc.as_view(), name="review_goods_clc"),
-
     # ex: /cases/<uuid:pk>/generate-document/
-    path("<uuid:pk>/generate-document/", main.Cases.as_view(), name="generate_document"),
+    path("<uuid:pk>/generate-document/", generate_document.SelectTemplate.as_view(), name="generate_document"),
+    # ex: /cases/<uuid:pk>/generate-document/<uuid:tpk>/preview
+    path(
+        "<uuid:pk>/generate-document/<uuid:tpk>/preview/",
+        generate_document.SelectTemplate.as_view(),
+        name="generate_document_preview",
+    ),
 ]
