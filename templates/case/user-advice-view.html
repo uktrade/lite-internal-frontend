@@ -36,9 +36,9 @@
 
 		<!-- Conditional error wrapper -->
         {% if case.has_advice.my_team or case.has_advice.final %}
-            {% include 'cases/case/views/advice-view.html' with show_advice=True %}
+            {% include 'case/views/advice-view.html' with show_advice=True %}
         {% else %}
-            {% include 'cases/case/views/advice-view.html' with show_checkboxes=True show_advice=True %}
+            {% include 'case/views/advice-view.html' with show_checkboxes=True show_advice=True %}
         {% endif %}
 
 	</form>

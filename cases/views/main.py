@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
+
+from cases import case_types
 from lite_forms.generators import error_page, form_page
 from lite_forms.submitters import submit_single_form
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
@@ -87,25 +89,29 @@ class ViewCase(TemplateView):
 
         case["all_flags"] = _get_all_distinct_flags(case)
 
-        context = {"title": "Case", "case": case, "activity": activity, "permissions": permissions}
-        if queue_id:
-            context["queue_id"] = queue_id
-        if queue_name:
-            context["queue_name"] = queue_name
+        context = {
+            "case": case,
+            "activity": activity,
+            "permissions": permissions,
+            "queue_id": queue_id,
+            "queue_name": queue_name,
+        }
 
-        if case["type"]["key"] == "end_user_advisory_query":
-            return render(request, "cases/case/queries/end_user_advisory.html", context)
-        elif case["type"]["key"] == "clc_query":
+        if case["type"]["key"] == case_types.END_USER_ADVISORY_QUERY:
+            return render(request, "case/queries/end_user_advisory.html", context)
+        elif case["type"]["key"] == case_types.CLC_QUERY:
             context["good"] = case["query"]["good"]
-            return render(request, "cases/case/queries/clc-query-case.html", context)
-        elif case.get("application").get("application_type").get("key") == "hmrc_query":
-            context["total_goods_value"] = _get_total_goods_value(case)
-            return render(request, "cases/case/hmrc-case.html", context)
+            return render(request, "case/queries/clc-query-case.html", context)
+        elif case.get("application").get("application_type").get("key") == case_types.HMRC_QUERY:
+            return render(request, "case/hmrc-case.html", context)
         elif case["type"]["key"] == "application":
-            context["title"] = case.get("application").get("name")
             context["notification"] = get_user_case_notification(request, case_id)
             context["total_goods_value"] = _get_total_goods_value(case)
-            return render(request, "cases/case/application-case.html", context)
+
+            if case['application']['application_type']['key'] == case_types.OPEN_LICENCE:
+                return render(request, "case/open-licence-case.html", context)
+            else:
+                return render(request, "case/standard-licence-case.html", context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
@@ -143,7 +149,7 @@ class ViewAdvice(TemplateView):
             "permissions": permissions,
             "edit_case_flags": get_string("cases.case.edit_case_flags"),
         }
-        return render(request, "cases/case/user-advice-view.html", context)
+        return render(request, "case/user-advice-view.html", context)
 
 
 class ManageCase(TemplateView):
@@ -168,7 +174,7 @@ class ManageCase(TemplateView):
             title = "Manage CLC query case"
 
         context = {"case": case, "title": title, "statuses": reduced_statuses}
-        return render(request, "cases/case/change-status.html", context)
+        return render(request, "case/change-status.html", context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
@@ -228,7 +234,7 @@ class Documents(TemplateView):
             "case": case,
             "case_documents": case_documents["documents"],
         }
-        return render(request, "cases/case/documents.html", context)
+        return render(request, "case/documents.html", context)
 
 
 @method_decorator(csrf_exempt, "dispatch")
@@ -292,7 +298,6 @@ class Document(TemplateView):
         response["Content-Disposition"] = f'attachment; filename="{original_file_name}"'
         return response
 
-
 # May be added to a future story, so don't delete :)
 # class DeleteDocument(TemplateView):
 #     def get(self, request, **kwargs):
@@ -308,7 +313,7 @@ class Document(TemplateView):
 #             'description': original_file_name,
 #             'case': case,
 #             'document': document['document'],
-#             'page': 'cases/case/modals/delete_document.html',
+#             'page': 'case/modals/delete_document.html',
 #         }
 #         return render(request, 'core/static.html', context)
 #
@@ -328,6 +333,6 @@ class Document(TemplateView):
 #             'description': original_file_name,
 #             'case': case,
 #             'document': document['document'],
-#             'page': 'cases/case/modals/delete_document.html',
+#             'page': 'case/modals/delete_document.html',
 #         }
 #         return render(request, 'core/static.html', context)

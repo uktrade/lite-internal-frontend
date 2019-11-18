@@ -13,7 +13,7 @@
 {% block body %}
 
 {% if notification %}
-    <a id="case-notification" class="lite-info-bar app-info-bar--link lite-info-bar--no-animation" href="#case-activity-{{ notification.case_activity }}">
+    <a id="case-notification" class="lite-info-bar lite-info-bar--link lite-info-bar--no-animation" href="#case-activity-{{ notification.case_activity }}">
         See what has changed
     </a>
 {% endif %}
@@ -58,10 +58,10 @@
 {% endif %}
 
 <!-- Case flags -->
-{% include 'cases/case/views/case-flags.html' %}
+{% include 'case/views/case-flags.html' %}
 
 <!-- Information board -->
-{% include 'cases/case/views/application-information-board.html' %}
+{% include 'case/views/application-information-board.html' %}
 
 {% if case.application.application_denial_reason %}
 <h3 class="govuk-heading-m">Denial Reasons</h3>
@@ -132,7 +132,7 @@
 </form>
 
 <!-- Destinations/End-User -->
-{% include 'cases/case/views/standard-destinations.html' %}
+{% include 'case/views/standard-destinations.html' %}
 
 <!--TODO: Fix this JF-->
 {% if case.application.supporting_documentation %}
@@ -168,7 +168,7 @@
 	</table>
 {% endif %}
 
-{% include "cases/case/views/activity.html" %}
+{% include "case/views/activity.html" %}
 
 {% endblock %}
 

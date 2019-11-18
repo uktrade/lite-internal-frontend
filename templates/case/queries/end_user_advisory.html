@@ -13,7 +13,7 @@
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<p class="govuk-caption-m" style="margin: 0;">{{ case.type.value }} by <a class="govuk-link govuk-link--no-visited-state" style="display: inline-block;" href="{% url 'organisations:organisation' case.query.organisation.id %}">{{ case.query.organisation.name }}</a></p>
-			<h2 class="govuk-heading-l app-reference-code">{{ case.query.id|reference_code }}</h2>
+			<h2 class="govuk-heading-l">{{ case.query.id|reference_code }}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
 			<div class="app-more-actions__container">
@@ -33,7 +33,7 @@
 		</div>
 	</div>
 	<!-- Case flags -->
-	{% include 'cases/case/views/case-flags.html' %}
+	{% include 'case/views/case-flags.html' %}
 
 	<br><br>
 
@@ -143,7 +143,7 @@
 					Reasoning behind query
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ case.query.reasoning|default:'N/A' }}
+					{{ case.query.reasoning|default_na }}
 				</dd>
 			</div>
 			<div class="govuk-summary-list__row">
@@ -151,7 +151,7 @@
 					Notes about end user
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ case.query.note|default:'N/A' }}
+					{{ case.query.note|default_na }}
 				</dd>
 			</div>
             {% if case.query.copy_of %}
@@ -168,7 +168,7 @@
 
 		<br><br>
 
-		{% include "cases/case/views/activity.html" %}
+		{% include "case/views/activity.html" %}
 
 	</div>
 

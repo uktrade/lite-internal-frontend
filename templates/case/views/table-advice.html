@@ -13,7 +13,7 @@
         <div class="app-advice__details">
             {% if advice.type.key == 'proviso' %}
                 <p class="govuk-heading-s">Proviso</p>
-                <p class="govuk-body-s">{{ advice.proviso|default:'N/A' }}</p>
+                <p class="govuk-body-s">{{ advice.proviso|default_na }}</p>
             {% endif %}
 
             {% if advice.type.key == 'refuse' %}
@@ -26,7 +26,7 @@
             {% if advice.type.key == 'conflicting' %}
                 {% if advice.proviso|length %}
                     <p class="govuk-heading-s">Proviso</p>
-                    <p class="govuk-body-s">{{ advice.proviso|default:'N/A' }}</p>
+                    <p class="govuk-body-s">{{ advice.proviso|default_na }}</p>
                 {% endif %}
                 {% if advice.denial_reasons|length %}
                 <p class="govuk-heading-s">Denial reasons</p>
@@ -37,10 +37,10 @@
             {% endif %}
 
             <p class="govuk-heading-s">Reason for this advice</p>
-            <p class="govuk-body-s">{{ advice.text|default:'N/A' }}</p>
+            <p class="govuk-body-s">{{ advice.text|default_na }}</p>
 
             <p class="govuk-heading-s">Note to applicant</p>
-            <p class="govuk-body-s" style="margin-bottom: 0;">{{ advice.note|default:'N/A' }}</p>
+            <p class="govuk-body-s" style="margin-bottom: 0;">{{ advice.note|default_na }}</p>
         </div>
     </div>
 </div>

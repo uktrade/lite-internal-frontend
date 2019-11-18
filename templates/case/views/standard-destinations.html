@@ -32,13 +32,12 @@
 					{{ end_user.address }}, {{ end_user.country.name }}
 				</td>
 				<td class="govuk-table__cell">
-					{{ end_user.website|default:'Not set' }}
+					{{ end_user.website|default_na }}
 				</td>
                 <td class="govuk-table__cell">
                 {% if end_user.document.safe == True %}
-                    <a class="govuk-link govuk-link--no-visited-state" id="end_user_document" href="{% url 'cases:document' case.id end_user.document.id %}">
-                        <span class="govuk-visually-hidden">{% get_string 'cases.manage.documents.download_document' %}</span>
-                        {{ end_user.document.name }}<br>
+                    <a class="govuk-link" id="end_user_document" href="{% url 'cases:document' case.id end_user.document.id %}">
+						{% get_string 'cases.manage.documents.download_document' %}
                     </a>
                 {% endif %}
                 </td>
@@ -46,7 +45,7 @@
 					<td class="govuk-table__cell">
 						{% for advice in all_advice %}
 							{% if advice.end_user == end_user.id %}
-								{% include 'cases/case/views/table-advice.html' %}
+								{% include 'case/views/table-advice.html' %}
 							{% endif %}
 						{% endfor %}
 					</td>
@@ -89,13 +88,12 @@
                         {{ consignee.address }}, {{ consignee.country.name }}
                     </td>
                     <td class="govuk-table__cell">
-                        {{ consignee.website|default:'Not set' }}
+                        {{ consignee.website|default_na }}
                     </td>
                     <td class="govuk-table__cell">
                     {% if consignee.document.safe == True %}
-                        <a class="govuk-link govuk-link--no-visited-state" id="consignee_document" href="{% url 'cases:document' case.id consignee.document.id %}">
-                            <span class="govuk-visually-hidden">{% get_string 'cases.manage.documents.download_document' %}</span>
-                            {{ consignee.document.name }}<br>
+                        <a class="govuk-link" id="consignee_document" href="{% url 'cases:document' case.id consignee.document.id %}">
+                            {% get_string 'cases.manage.documents.download_document' %}
                         </a>
                     {% endif %}
                     </td>
@@ -103,7 +101,7 @@
                         <td class="govuk-table__cell">
                             {% for advice in all_advice %}
                                 {% if advice.consignee == consignee.id %}
-                                    {% include 'cases/case/views/table-advice.html' %}
+                                    {% include 'case/views/table-advice.html' %}
                                 {% endif %}
                             {% endfor %}
                         </td>
@@ -149,7 +147,7 @@
 							{{ ultimate_end_user.address }}, {{ ultimate_end_user.country.name }}
 						</td>
 						<td class="govuk-table__cell">
-							{{ ultimate_end_user.website|default:'Not set' }}
+							{{ ultimate_end_user.website|default_na }}
 						</td>
                         <td class="govuk-table__cell">
                         {% if ultimate_end_user.document.safe == True %}
@@ -163,7 +161,7 @@
 							<td class="govuk-table__cell">
 								{% for advice in all_advice %}
 									{% if advice.ultimate_end_user == ultimate_end_user.id %}
-										{% include 'cases/case/views/table-advice.html' %}
+										{% include 'case/views/table-advice.html' %}
 									{% endif %}
 								{% endfor %}
 							</td>
@@ -223,7 +221,7 @@
 							<td class="govuk-table__cell">
 								{% for advice in all_advice %}
 									{% if advice.third_party == third_party.id %}
-										{% include 'cases/case/views/table-advice.html' %}
+										{% include 'case/views/table-advice.html' %}
 									{% endif %}
 								{% endfor %}
 							</td>

@@ -1,3 +1,4 @@
+from lite_content.lite_internal_frontend import strings
 from lite_forms.common import address_questions
 from lite_forms.components import (
     Form,
@@ -9,20 +10,11 @@ from lite_forms.components import (
     RadioButtons,
     HiddenField,
 )
+from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
 
 from core.builtins.custom_tags import get_string
 from core.services import get_countries
-
-
-def conditional(condition: bool, obj, obj_2=None):
-    """
-    Returns the object depending on a condition
-    """
-    if condition:
-        return obj
-    elif obj_2:
-        return obj_2
 
 
 def register_business_forms(individual=False, name=""):
@@ -39,6 +31,7 @@ def register_business_forms(individual=False, name=""):
                         ],
                     )
                 ],
+                default_button_name=strings.CONTINUE,
             ),
             conditional(
                 individual,
@@ -56,7 +49,7 @@ def register_business_forms(individual=False, name=""):
                             name="vat_number",
                         ),
                     ],
-                    default_button_name="Continue",
+                    default_button_name=strings.CONTINUE,
                 ),
                 Form(
                     title=get_string("register_business.register_commercial_title"),
@@ -79,7 +72,7 @@ def register_business_forms(individual=False, name=""):
                             name="registration_number",
                         ),
                     ],
-                    default_button_name="Continue",
+                    default_button_name=strings.CONTINUE,
                 ),
             ),
             Form(
@@ -89,7 +82,7 @@ def register_business_forms(individual=False, name=""):
                     Heading(get_string("register_business.where_is_the_exporter_based"), HeadingStyle.M),
                     *address_questions(get_countries(None, True), "site.address."),
                 ],
-                default_button_name="Continue",
+                default_button_name=strings.CONTINUE,
             ),
             conditional(
                 not individual,

@@ -1,0 +1,284 @@
+{% extends 'layouts/base.html' %}
+
+{% load static svg %}
+
+{% block back_link %}
+	<div class="govuk-breadcrumbs">
+		<ol class="govuk-breadcrumbs__list">
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">{% if queue_name %}{{ queue_name }}{% else %}All cases{% endif %}</a>
+			</li>
+			<!-- TODO -->
+			<li class="govuk-breadcrumbs__list-item" aria-current="page">&nbsp;</li>
+		</ol>
+	</div>
+{% endblock %}
+
+{% block body %}
+	<div class="lite-app-bar" style="margin-top: -20px;">
+		<div class="lite-app-bar__content">
+			<h2 class="govuk-heading-l">
+				{% block title %}ABC-123{% endblock %}
+			</h2>
+		</div>
+		<div class="lite-app-bar__controls">
+			<div class="app-more-actions__container">
+				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
+					{% get_string 'cases.manage.documents.button' %}
+				</a>
+				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
+					{% get_string 'cases.manage.move_case.button' %}
+				</a>
+				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' case.id %}">
+					Change Status
+				</a>
+				{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
+					<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' case.id %}">
+						Record Decision
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<div class="app-flags" id="application-case-flags">
+		{% for flag in case.flags %}
+			<div class="app-flag" id="{{ flag.name }}">
+				{{ flag.name }}
+			</div>
+		{% endfor %}
+		<a href="{% url 'cases:assign_flags' case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags" class="app-flag app-flag--action">
+			{% if case.flags %}
+				{% get_string 'cases.case.edit_case_flags' %}
+			{% else %}
+				Set case flags
+			{% endif %}
+		</a>
+	</div>
+
+	<div class="app-case-board">
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">Organisation</p>
+				<a id="link-organisation" class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' case.application.organisation.id %}">
+					{{ case.application.organisation.name }}
+				</a>
+			</div>
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">Status</p>
+				<p>{{ case.application.status.value }}</p>
+			</div>
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">Activity</p>
+				<p>{{ case.application.activity }}</p>
+			</div>
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">Submitted at</p>
+				<p>{{ case.application.submitted_at|str_date }}</p>
+			</div>
+		</div>
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">Licence type</p>
+				<p>{{ case.application.application_type.value }}</p>
+			</div>
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">Export type</p>
+				<p>{{ case.application.export_type.value }}</p>
+			</div>
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">Usage</p>
+				<p>{{ case.application.usage|default_na }}</p>
+			</div>
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">Last updated</p>
+				<p>{{ case.application.last_modified_at|str_date }}</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="govuk-accordion app-accordion" data-module="govuk-accordion" id="accordion-default">
+		<!-- Goods Types -->
+		<div class="govuk-accordion__section">
+			<div class="govuk-accordion__section-header">
+				<h2 class="govuk-accordion__section-heading">
+					<span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+						{{ case.application.goods_types|length }} Goods
+					</span>
+				</h2>
+			</div>
+			<div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+				<form action="{% url 'cases:assign_flags' case.id %}" method="get">
+				    <input type="hidden" name="level" value="goods"/>
+				    <div class="lite-horizontal-align-right">
+						<button id="button-edit-goods-flags" value="goods" class="govuk-button" data-module="govuk-button">
+					        Set flags
+					    </button>
+				    </div>
+					<table class="govuk-table">
+						<thead class="govuk-table__head">
+							<tr class="govuk-table__row">
+								<th scope="col" class="govuk-table__header">
+									<button type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
+								</th>
+								<th scope="col" class="govuk-table__header govuk-!-width-one-half">Description</th>
+								<th scope="col" class="govuk-table__header">Controlled</th>
+								<th scope="col" class="govuk-table__header">Control list entry</th>
+								<th scope="col" class="govuk-table__header"></th>
+							</tr>
+						</thead>
+						<tbody class="govuk-table__body">
+							{% for good in case.application.goods_types %}
+								<tr class="govuk-table__row">
+									<td class="govuk-table__cell govuk-table__cell--checkbox">
+										<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.id }}" id="{{ good.id }}">
+										<label class="govuk-checkboxes__label" for="{{ good.id }}"></label>
+									</td>
+									<td class="govuk-table__cell">{{ good.description }}</td>
+									<td class="govuk-table__cell">{{ good.is_good_controlled|friendly_boolean }}</td>
+									<td class="govuk-table__cell">{{ good.control_code|default_na }}</td>
+									<td class="govuk-table__cell">
+										<a onclick="return openTableFold(this);">
+											{% svg 'chevron' %}
+										</a>
+									</td>
+								</tr>
+								{% if good.flags %}
+								<tr class="govuk-table__row govuk-table__row-asd">
+									<td class="govuk-table__cell"></td>
+									<td class="govuk-table__cell" colspan="5">
+										<div class="app-flags app-flags--alt" style="margin-bottom: -10px;">
+											{% for flag in good.flags %}
+												<div class="app-flag" id="{{ flag.name }}">
+													{{ flag.name }}
+												</div>
+											{% endfor %}
+										</div>
+									</td>
+								</tr>
+								{% endif %}
+								<tr class="lite-accordian-table__fold">
+									<td class="lite-accordian-table__fold-wrapper" colspan="7">
+										<div class="lite-accordian-table__fold-content">
+											<p class="govuk-body">
+												Destinations:
+												{% for country in good.countries %}
+													<span class="app-country-tag">{{ country.name }}</span>
+												{% empty %}
+													{% for country in case.application.destinations.data %}
+														<span class="app-country-tag">{{ country.name }}</span>
+													{% endfor %}
+												{% endfor %}
+											</p>
+										</div>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</div>
+
+		<!-- Countries -->
+		<div class="govuk-accordion__section">
+			<div class="govuk-accordion__section-header">
+				<h2 class="govuk-accordion__section-heading">
+					<span class="govuk-accordion__section-button" id="accordion-default-heading-2">
+						{{ case.application.destinations.data|length }} Countries
+					</span>
+				</h2>
+			</div>
+			<div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
+				<table class="govuk-table">
+					<thead class="govuk-table__head">
+						<tr class="govuk-table__row">
+							<th scope="col" class="govuk-table__header">Green list</th>
+							<th scope="col" class="govuk-table__header">Grey list</th>
+							<th scope="col" class="govuk-table__header">Red list</th>
+							<th scope="col" class="govuk-table__header">Range 8 referral</th>
+							<th scope="col" class="govuk-table__header">Sanctioned</th>
+						</tr>
+					</thead>
+					<tbody class="govuk-table__body">
+						{% for country in case.application.destinations.data %}
+							<tr class="govuk-table__row">
+								<td class="govuk-table__cell">{{ country.name }}</td>
+								<td class="govuk-table__cell"></td>
+								<td class="govuk-table__cell"></td>
+								<td class="govuk-table__cell"></td>
+								<td class="govuk-table__cell"></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Supporting documentation -->
+		<div class="govuk-accordion__section">
+			<div class="govuk-accordion__section-header">
+				<h2 class="govuk-accordion__section-heading">
+					<span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+						Supporting documentation
+					</span>
+				</h2>
+			</div>
+			<div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
+				{% if case.application.additional_documents %}
+					<table class="govuk-table">
+						<thead class="govuk-table__head">
+							<tr class="govuk-table__row">
+								<th scope="col" class="govuk-table__header">File name</th>
+							</tr>
+						</thead>
+						<tbody class="govuk-table__body">
+							{% for document in case.application.additional_documents %}
+								<tr class="govuk-table__row">
+									<th scope="row" class="govuk-table__header">{{ document.name }}</th>
+									<td class="govuk-table__cell"></td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<p class="govuk-body">No supporting documentation</p>
+				{% endif %}
+			</div>
+		</div>
+
+		<!-- Activity -->
+		<div class="govuk-accordion__section">
+			<div class="govuk-accordion__section-header">
+				<h2 class="govuk-accordion__section-heading">
+					<span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+						Activity
+					</span>
+				</h2>
+			</div>
+			<div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
+				{% include "case/views/activity.html" %}
+			</div>
+		</div>
+	</div>
+
+	<!-- Modals -->
+	{% include 'case/includes/modal-organisation.html' %}
+
+{% endblock %}
+
+{% block javascript %}
+	<script nonce="{{ request.csp_nonce }}" type="text/javascript">
+		function openTableFold(element) {
+			$(element).parent().parent().next(".lite-accordian-table__fold").toggleClass("open");
+			$(element).parent().parent().next().next(".lite-accordian-table__fold").toggleClass("open");
+			return false;
+		}
+	</script>
+
+	<script src="{% static 'javascripts/more-actions.js' %}"></script>
+	<script src="{% static 'javascripts/edit-good-flags.js' %}"></script>
+	<script src="{% static 'javascripts/modal.js' %}"></script>
+	<script src="{% static 'javascripts/case.js' %}"></script>
+	<script src="{% static 'javascripts/select-buttons.js' %}"></script>
+{% endblock %}

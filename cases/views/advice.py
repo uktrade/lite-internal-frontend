@@ -78,7 +78,7 @@ class GiveUserAdviceDetail(TemplateView):
     """
 
     case = None
-    form = "cases/case/give-advice.html"
+    form = "case/give-advice.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.case = give_advice_detail_dispatch(request, **kwargs)
@@ -153,7 +153,7 @@ class GiveTeamAdviceDetail(TemplateView):
     """
 
     case = None
-    form = "cases/case/give-advice.html"
+    form = "case/give-advice.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.case = give_advice_detail_dispatch(request, **kwargs)
@@ -223,7 +223,7 @@ class GiveFinalAdviceDetail(TemplateView):
     """
 
     case = None
-    form = "cases/case/give-advice.html"
+    form = "case/give-advice.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.case = give_advice_detail_dispatch(request, **kwargs)
@@ -246,7 +246,7 @@ class FinaliseGoodsCountries(TemplateView):
             "good_countries": data["data"],
             "decisions": DECISIONS_LIST,
         }
-        return render(request, "cases/case/finalise-open-goods-countries.html", context)
+        return render(request, "case/finalise-open-goods-countries.html", context)
 
     def post(self, request, *args, **kwargs):
         try:
@@ -279,16 +279,16 @@ class FinaliseGoodsCountries(TemplateView):
         if errors:
             context["errors"] = errors
             context["good_countries"] = post_data
-            return render(request, "cases/case/finalise-open-goods-countries.html", context)
+            return render(request, "case/finalise-open-goods-countries.html", context)
 
         data, _ = post_good_countries_decisions(request, str(kwargs["pk"]), selection)
 
         if action == "save":
             context["good_countries"] = data["data"]
-            return render(request, "cases/case/finalise-open-goods-countries.html", context)
+            return render(request, "case/finalise-open-goods-countries.html", context)
         elif "errors" in data:
             context["error"] = data.get("errors")
-            return render(request, "cases/case/finalise-open-goods-countries.html", context)
+            return render(request, "case/finalise-open-goods-countries.html", context)
 
         return redirect(reverse_lazy("cases:finalise", kwargs={"pk": kwargs["pk"]}))
 

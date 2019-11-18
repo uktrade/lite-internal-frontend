@@ -57,15 +57,15 @@
 
 		<!-- Conditional error wrapper -->
 		{% if case.has_advice.final %}
-            {% include 'cases/case/views/advice-view.html' with show_advice=True %}
+            {% include 'case/views/advice-view.html' with show_advice=True %}
         {% elif all_advice|length and 'MANAGE_TEAM_ADVICE' in permissions %}
             {% if is_user_team %}
-                {% include 'cases/case/views/advice-view.html' with show_checkboxes=True show_advice=True %}
+                {% include 'case/views/advice-view.html' with show_checkboxes=True show_advice=True %}
             {% else %}
-                {% include 'cases/case/views/advice-view.html' with show_advice=True %}
+                {% include 'case/views/advice-view.html' with show_advice=True %}
             {% endif %}
         {% else %}
-            {% include 'cases/case/views/advice-view.html' with show_advice=True %}
+            {% include 'case/views/advice-view.html' with show_advice=True %}
         {% endif %}
 
 	</form>

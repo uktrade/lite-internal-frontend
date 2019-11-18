@@ -59,10 +59,10 @@ def get_string(value):
 def str_date(value):
     return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), "Europe/London")
     return (
-        return_value.strftime("%-I:%M")
-        + return_value.strftime("%p").lower()
-        + " "
-        + return_value.strftime("%d %B " "%Y")
+            return_value.strftime("%-I:%M")
+            + return_value.strftime("%p").lower()
+            + " "
+            + return_value.strftime("%d %B " "%Y")
     )
 
 
@@ -126,7 +126,7 @@ def group_list(items, split):
     """
     Groups items in a list based on a specified size
     """
-    return [items[x : x + split] for x in range(0, len(items), split)]
+    return [items[x: x + split] for x in range(0, len(items), split)]
 
 
 @register.filter
@@ -192,3 +192,38 @@ def get_end_user(application: dict):
     if application.get("end_user"):
         return application.get("end_user")
     return application.get("destinations").get("data")
+
+
+@register.filter()
+def default_na(value):
+    """
+    Returns N/A if the parameter given is none
+    """
+    if value:
+        return value
+    else:
+        return mark_safe('<span class="lite-hint">N/A</span>')  # nosec
+
+
+@register.filter()
+def get_address(data):
+    """
+    Returns a correctly formatted address
+    such as 10 Downing St, London, Westminster, SW1A 2AA, United Kingdom
+    from {'address': {'address_line_1': '10 Downing St', ...}
+    or {'address': '10 Downing St ...', 'country': {'name': United Kingdom'}}
+    """
+    address = data['address']
+
+    if isinstance(address, str):
+        return address + ', ' + data['country']['name']
+
+    address = [
+        address['address_line_1'],
+        address['address_line_2'],
+        address['city'],
+        address['region'],
+        address['postcode'],
+        address['country']['name']
+    ]
+    return ", ".join([x for x in address if x is not None])

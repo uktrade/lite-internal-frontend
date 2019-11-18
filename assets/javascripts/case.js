@@ -1,4 +1,4 @@
-function showFlagsModal() {
-	LITECommon.Modal.showModal("Set flags on this case", $("#flags-modal").html(), false);
-	return false;
-};
+$( '#link-organisation' ).click(function(e) {
+	e.preventDefault();
+	LITECommon.Modal.showModal('', $( '#modal-organisation' ).html(), false);
+});

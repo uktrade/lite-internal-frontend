@@ -60,13 +60,13 @@
 
 		<!-- Conditional error wrapper -->
         {% if not case.has_advice.team %}
-            {% include 'cases/case/views/advice-view.html' with show_advice=True %}
+            {% include 'case/views/advice-view.html' with show_advice=True %}
         {% elif case.application.status == 'finalised' %}
-            {% include 'cases/case/views/advice-view.html' with show_advice=True %}
+            {% include 'case/views/advice-view.html' with show_advice=True %}
         {% elif all_advice|length and 'MANAGE_FINAL_ADVICE' in permissions %}
-            {% include 'cases/case/views/advice-view.html' with show_checkboxes=True show_advice=True %}
+            {% include 'case/views/advice-view.html' with show_checkboxes=True show_advice=True %}
         {% else %}
-            {% include 'cases/case/views/advice-view.html' with show_advice=True %}
+            {% include 'case/views/advice-view.html' with show_advice=True %}
         {% endif %}
 
 	</form>

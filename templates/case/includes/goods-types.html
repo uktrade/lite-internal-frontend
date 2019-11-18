@@ -1,0 +1,49 @@
+<form action="{% url 'cases:assign_flags' case.id %}" method="get">
+	<input type="hidden" name="level" value="goods"/>
+	<button id="button-edit-goods-flags" value="goods" class="govuk-button" data-module="govuk-button">
+		{% get_string 'cases.case.edit_goods_flags' %}
+	</button>
+	<table class="govuk-table">
+		<thead class="govuk-table__header">
+			<tr>
+				<th class="govuk-table__header" scope="col">Description</th>
+				<th class="govuk-table__header" scope="col">Control list entry</th>
+				<th class="govuk-table__header" scope="col">Is good controlled</th>
+				<th class="govuk-table__header" scope="col">Flags</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for good in case.application.goods_types %}
+				<tr class="govuk-table__row">
+					<td class="govuk-table__cell">
+						<div class="govuk-checkboxes--small govuk-checkboxes__item">
+							<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.id }}" id="{{ good.id }}">
+							<label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}">{{ good.description }}</label>
+						</div>
+					</td>
+					<td class="govuk-table__cell">
+						{% if good.control_code %}
+							<span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
+						{% else %}
+							None
+						{% endif %}
+					</td>
+					<td class="govuk-table__cell">
+						{% if good.is_good_controlled %}
+							Yes
+						{% else %}
+							No
+						{% endif %}
+					</td>
+					<td class="govuk-table__cell">
+						{% if good.flags %}
+							{% for flag in good.flags %}
+								{{ flag.name }}<br>
+							{% endfor %}
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</form>

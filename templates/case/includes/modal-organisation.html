@@ -1,0 +1,79 @@
+<div id="modal-organisation" style="display: none;">
+	<h3 class="govuk-heading-m">{{ case.application.organisation.name }}</h3>
+	<dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-margin-0">
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Type
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ case.application.organisation.type.value }}
+			</dd>
+		</div>
+		{% if case.application.organisation.eori_number %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					EORI number
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ case.application.organisation.eori_number }}
+				</dd>
+			</div>
+		{% endif %}
+		{% if case.application.organisation.sic_number %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					SIC number
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ case.application.organisation.sic_number }}
+				</dd>
+			</div>
+		{% endif %}
+		{% if case.application.organisation.vat_number %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					VAT number
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ case.application.organisation.vat_number }}
+				</dd>
+			</div>
+		{% endif %}
+		{% if case.application.organisation.registration_number %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					Company registration number
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ case.application.organisation.registration_number }}
+				</dd>
+			</div>
+		{% endif %}
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Address
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ case.application.organisation.primary_site.address.address_line_1 }}<br/>
+					{% if case.application.organisation.primary_site.address.address_line_2 %}
+						{{ case.application.organisation.primary_site.address.address_line_2 }}<br/>
+					{% endif %}
+					{{ case.application.organisation.primary_site.address.city }}<br/>
+					{{ case.application.organisation.primary_site.address.postcode }}<br/>
+					{{ case.application.organisation.primary_site.address.country.name }}
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Created at
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ case.application.organisation.created_at|str_date }}
+			</dd>
+		</div>
+	</dl>
+	<hr class="lite-horizontal-separator govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+	<a class="govuk-link govuk-link--no-visited-state" target="_blank" href="{% url 'organisations:organisation' case.application.organisation.id %}">
+		Open organisation in new tab
+	</a>
+</div>

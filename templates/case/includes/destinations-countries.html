@@ -1,4 +1,4 @@
-<h3 class="govuk-heading-m">Destinations</h3>
+<h3 class="govuk-heading-m">{{ case.application.destinations.data|length }} Countries</h3>
 {% if show_advice %}
 	<table class="govuk-table" id="countries">
 		<thead class="govuk-table__head">
@@ -36,7 +36,7 @@
 					<td class="govuk-table__cell">
 						{% for advice in all_advice %}
 							{% if advice.country == country.id %}
-								{% include 'cases/case/views/table-advice.html' %}
+								{% include 'case/views/table-advice.html' %}
 							{% endif %}
 						{% endfor %}
 					</td>
