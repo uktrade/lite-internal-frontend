@@ -301,8 +301,6 @@ class Finalise(TemplateView):
     """
 
     def get(self, request, *args, **kwargs):
-        case = get_case(request, str(kwargs['pk']))
-        standard = case['application']['application_type']['key'] == 
         case = get_case(request, str(kwargs["pk"]))
         standard = case["application"]["application_type"]["key"] == STANDARD_LICENCE
         if standard:
