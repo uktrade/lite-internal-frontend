@@ -57,5 +57,5 @@ class PreviewDocument(TemplateView):
     def post(self, request, **kwargs):
         html = HTML(string=self.preview)
         css = CSS(filename=BASE_DIR+CSS_LOCATION)
-        html.write_pdf(f'/tmp/{uuid.uuid4()}.pdf', stylesheets=[css])
+        pdf = html.write_pdf(stylesheets=[css])
         return redirect(reverse_lazy("cases:case", kwargs={"pk": self.case_id}))
