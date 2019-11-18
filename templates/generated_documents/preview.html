@@ -8,6 +8,12 @@
 			<div class="lite-app-bar__content">
 				<h2 class="govuk-heading-l">{% block title %}{% lcs 'PREVIEW_DOCUMENT_TITLE' %}{% endblock %}</h2>
 			</div>
+            <div class="lite-app-bar__controls">
+				<form action="{% url 'cases:generate_document_preview' pk tpk %}" method="post">
+                    {% csrf_token %}
+					<button class="govuk-button" type="submit">{% lcs 'PREVIEW_DOCUMENT_BUTTON' %}</button>
+				</form>
+			</div>
 		</div>
 		<div class="app-letter-preview__page">
 			{{ preview|safe }}
