@@ -47,7 +47,7 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
             able_to_finalize = False
             break
 
-    able_to_create_and_edit_advice = 'CONFIRM_OWN_ADVICE' in permissions or not case['has_advice']['own_user']
+    able_to_create_and_edit_advice = "CONFIRM_OWN_ADVICE" in permissions or not case["has_advice"]["own_user"]
 
     context["able_to_finalize"] = able_to_finalize
     context["able_to_create_and_edit_advice"] = able_to_create_and_edit_advice
