@@ -37,6 +37,9 @@
                 <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
 					{% get_string 'cases.manage.move_case.button' %}
 				</a>
+                <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:generate_document' case.id %}">
+                    {% lcs 'CASE_GENERATE_DOCUMENT' %}
+                </a>
 			</div>
 		</div>
 	</div>
