@@ -1,17 +1,12 @@
-import uuid
-
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from weasyprint import HTML, CSS
 
 from cases.forms.generate_document import select_template_form
-from cases.services import get_case
-from conf.settings import BASE_DIR
+from cases.services import get_case, post_generated_document
 from letter_templates.helpers import generate_preview, paragraphs_to_markdown
 from letter_templates.services import get_letter_templates, get_letter_template, get_letter_paragraphs
 from lite_forms.generators import form_page
-
 
 CSS_LOCATION = '/assets/css/styles.css'
 
@@ -55,7 +50,5 @@ class PreviewDocument(TemplateView):
                       {"preview": self.preview, "pk": self.case_id, "tpk": self.template_id})
 
     def post(self, request, **kwargs):
-        html = HTML(string=self.preview)
-        css = CSS(filename=BASE_DIR+CSS_LOCATION)
-        pdf = html.write_pdf(stylesheets=[css])
+        post_generated_document(request, self.case_id, {"template": self.template_id})
         return redirect(reverse_lazy("cases:case", kwargs={"pk": self.case_id}))
