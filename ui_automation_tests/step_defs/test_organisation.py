@@ -99,7 +99,7 @@ def fill_out_individual_registration_page(driver, first_name, last_name, email, 
 
 @when(
     parsers.parse(
-        'I setup an initial site with name: "{name}", addres line 1: "{address_line_1}", town or city: "{city}", County: "{region}", post code: "{post_code}", country: "{country}"'
+        'I setup an initial site with name: "{name}", address line 1: "{address_line_1}", town or city: "{city}", County: "{region}", post code: "{post_code}", country: "{country}"'
     )
 )
 def fill_out_site_details(driver, name, address_line_1, city, region, post_code, country, context):
