@@ -25,7 +25,7 @@
 					<a href="{% url 'cases:final_advice_view' case.id %}" class="lite-tabs__tab" id="final_advice">Final Advice</a>
 				</div>
 			</div>
-            {% if able_to_create_and_edit_advice and is_user_team and not case.has_advice.final%}
+            {% if able_to_create_and_edit_advice and is_user_team and not case.has_advice.final %}
                 {% if all_advice|length %}
                     <div>
                         <button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
