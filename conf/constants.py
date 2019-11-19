@@ -39,6 +39,7 @@ LETTER_TEMPLATES_URL = "/letter-templates/"
 GOOD_CLC_REVIEW_URL = "/goods/controlcode/"
 MANAGE_STATUS_URL = "/status/"
 CASE_NOTIFICATIONS_URL = "/users/case-notification/"
+GENERATED_DOCUMENTS_URL = "/generated-documents/"
 
 # Static URLs
 STATIC_URL = "/static/"
