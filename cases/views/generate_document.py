@@ -8,7 +8,7 @@ from letter_templates.helpers import generate_preview, paragraphs_to_markdown
 from letter_templates.services import get_letter_templates, get_letter_template, get_letter_paragraphs
 from lite_forms.generators import form_page
 
-CSS_LOCATION = '/assets/css/styles.css'
+CSS_LOCATION = "/assets/css/styles.css"
 
 
 class SelectTemplate(TemplateView):
@@ -46,8 +46,11 @@ class PreviewDocument(TemplateView):
         return super(PreviewDocument, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        return render(request, "generated_documents/preview.html",
-                      {"preview": self.preview, "pk": self.case_id, "tpk": self.template_id})
+        return render(
+            request,
+            "generated_documents/preview.html",
+            {"preview": self.preview, "pk": self.case_id, "tpk": self.template_id},
+        )
 
     def post(self, request, **kwargs):
         post_generated_document(request, self.case_id, {"template": self.template_id})

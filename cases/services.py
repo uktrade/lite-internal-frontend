@@ -23,7 +23,8 @@ from conf.constants import (
     VIEW_FINAL_ADVICE_URL,
     GOOD_CLC_REVIEW_URL,
     MANAGE_STATUS_URL,
-    GENERATED_DOCUMENTS_URL)
+    GENERATED_DOCUMENTS_URL,
+)
 
 
 def get_case(request, pk):
