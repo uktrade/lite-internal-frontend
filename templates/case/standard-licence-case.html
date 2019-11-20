@@ -198,7 +198,7 @@
 							<td class="govuk-table__cell">{{ case.application.end_user|get_address }}</td>
 							<td class="govuk-table__cell">{{ case.application.end_user.sub_type.value }}</td>
 							<td class="govuk-table__cell">{{ case.application.end_user.website|linkify }}</td>
-							<td class="govuk-table__cell">
+							<td id="end_user_document" class="govuk-table__cell">
 								<a href="{% url 'cases:document' case.id case.application.end_user.document.id %}">
 									{{ case.application.end_user.document.name }}
 								</a>

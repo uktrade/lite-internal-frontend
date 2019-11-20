@@ -151,7 +151,7 @@
 						</td>
                         <td class="govuk-table__cell">
                         {% if ultimate_end_user.document.safe == True %}
-                            <a class="govuk-link govuk-link--no-visited-state" id="end_user_document" href="{% url 'cases:document' case.id ultimate_end_user.document.id %}">
+                            <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:document' case.id ultimate_end_user.document.id %}">
                                 <span class="govuk-visually-hidden">{% get_string 'cases.manage.documents.download_document' %}</span>
                                 {{ ultimate_end_user.document.name }}<br>
                             </a>
