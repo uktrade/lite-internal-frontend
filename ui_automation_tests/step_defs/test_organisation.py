@@ -21,8 +21,6 @@ def verify_registered_organisation(driver, context):
         driver.find_element_by_id("filter-box").send_keys(context.organisation_name)
         driver.find_element_by_id("button-apply-filters").click()
         assert context.organisation_name in Shared(driver).get_text_of_lite_table_body()
-        # assert context.organisation_name in Shared(driver).get_text_of_panel_body()
-        # assert Shared(driver).get_text_of_h1() == "Organisation Registered"
 
 
 @then("HMRC organisation is registered")
@@ -31,8 +29,6 @@ def verify_hmrc_registered_organisation(driver, context):
     driver.find_element_by_id("filter-box").send_keys(context.hmrc_org_name)
     driver.find_element_by_id("button-apply-filters").click()
     assert context.hmrc_org_name in Shared(driver).get_text_of_lite_table_body()
-    # assert context.organisation_name in Shared(driver).get_text_of_panel_body()
-    # assert Shared(driver).get_text_of_h1() == "Organisation Registered"
 
 
 @when("I go to organisations")
@@ -89,9 +85,10 @@ def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, reg
         'I provide individual registration details of first name: "{first_name}", last name: "{last_name}", EORI: "{eori}" and email: "{email}"'
     )
 )
-def fill_out_individual_registration_page(driver, first_name, last_name, email, eori):
+def fill_out_individual_registration_page(driver, first_name, last_name, email, eori, context):
     organisations_form_page = OrganisationsFormPage(driver)
     organisations_form_page.enter_email(email)
+    context.organisation_name = first_name
     organisations_form_page.enter_first_name(first_name)
     organisations_form_page.enter_last_name(last_name)
     organisations_form_page.enter_eori_number(eori)
