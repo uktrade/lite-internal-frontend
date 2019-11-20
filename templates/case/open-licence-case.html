@@ -62,6 +62,14 @@
 		</a>
 	</div>
 
+	<div class="app-flags" id="application-all-flags">
+		{% for flag in case.all_flags %}
+			<div class="app-flag" id="{{ flag.name }}">
+				{{ flag.name }}
+			</div>
+		{% endfor %}
+	</div>
+
 	<div class="app-case-board">
 		<div class="govuk-grid-row">
 			<div class="govuk-grid-column-one-quarter">

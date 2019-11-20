@@ -1,7 +1,7 @@
 from selenium.webdriver.support.ui import Select
 import time
 
-from helpers.BasePage import BasePage
+from shared.BasePage import BasePage
 from selenium.common.exceptions import NoSuchElementException
 
 
