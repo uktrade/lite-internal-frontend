@@ -51,4 +51,4 @@ class PreviewDocument(TemplateView):
 
     def post(self, request, **kwargs):
         post_generated_document(request, self.case_id, {"template": self.template_id})
-        return redirect(reverse_lazy("cases:case", kwargs={"pk": self.case_id}))
+        return redirect(reverse_lazy("cases:documents", kwargs={"pk": self.case_id}))
