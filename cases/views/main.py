@@ -164,9 +164,9 @@ class ManageCase(TemplateView):
             ]
         }
 
-        if case["type"]["key"] == "application":
+        if case["type"]["key"] == APPLICATION:
             title = "Manage " + case.get("application").get("name")
-        elif case["type"]["key"] == "hmrc_query":
+        elif case["type"]["key"] == HMRC_QUERY:
             title = "Manage HMRC query"
         elif case["query"]["end_user"]:
             title = "Manage End User Advisory"
@@ -180,10 +180,10 @@ class ManageCase(TemplateView):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
 
-        if case["type"]["key"] == "application" or case["type"]["key"] == "hmrc_query":
+        if case["type"]["key"] == APPLICATION or case["type"]["key"] == HMRC_QUERY:
             application_id = case.get("application").get("id")
             put_application_status(request, application_id, request.POST)
-        elif case["type"]["key"] == "end_user_advisory_query":
+        elif case["type"]["key"] == END_USER_ADVISORY_QUERY:
             query_id = case.get("query").get("id")
             put_end_user_advisory_query(request, query_id, request.POST)
         else:
