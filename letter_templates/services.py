@@ -24,7 +24,7 @@ def get_letter_paragraphs(request, ids: list):
 
 def get_letter_template(request, pk):
     data = get(request, LETTER_TEMPLATES_URL + pk)
-    return data.json()
+    return data.json(), data.status_code
 
 
 def put_letter_template(request, pk, json):
@@ -49,9 +49,4 @@ def get_letter_layouts(request=None):
 
 def get_letter_layout(request, pk):
     data = get(request, LETTER_LAYOUTS_URL + pk)
-    return data.json(), data.status_code
-
-
-def get_template_preview(request, pk):
-    data = get(request, LETTER_TEMPLATES_URL + pk + PREVIEW_URL)
     return data.json(), data.status_code
