@@ -20,7 +20,7 @@ env = Env(
     CSP_STYLE_SRC=(tuple, ("'self'",)),
     CSP_SCRIPT_SRC=(tuple, ("'self'",)),
     CSP_FONT_SRC=(tuple, ("'self'",)),
-    CSP_REPORT_ONLY=(bool, True),
+    CSP_REPORT_ONLY=(bool, False),
 )
 
 # Quick-start development settings - unsuitable for production
