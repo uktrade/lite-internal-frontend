@@ -108,7 +108,7 @@ class ViewCase(TemplateView):
             context["notification"] = get_user_case_notification(request, case_id)
             context["total_goods_value"] = _get_total_goods_value(case)
 
-            if case['application']['application_type']['key'] == case_types.OPEN_LICENCE:
+            if case["application"]["application_type"]["key"] == case_types.OPEN_LICENCE:
                 return render(request, "case/open-licence-case.html", context)
             else:
                 return render(request, "case/standard-licence-case.html", context)
@@ -297,6 +297,7 @@ class Document(TemplateView):
         response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
         response["Content-Disposition"] = f'attachment; filename="{original_file_name}"'
         return response
+
 
 # May be added to a future story, so don't delete :)
 # class DeleteDocument(TemplateView):

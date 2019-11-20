@@ -37,7 +37,7 @@ def status_has_been_changed_in_header(driver, context, internal_info):
         application_page.get_text_of_activity_dates(0)
     ), "date is not displayed after status change"
     assert (
-            application_page.get_text_of_activity_users(0) == internal_info["name"]
+        application_page.get_text_of_activity_users(0) == internal_info["name"]
     ), "user who has made the status change has not been displayed correctly"
 
 

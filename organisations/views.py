@@ -6,11 +6,7 @@ from core.helpers import convert_dict_to_query_params
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 from organisations.forms import register_business_forms, register_hmrc_organisation_forms
-from organisations.services import (
-    get_organisations,
-    get_organisations_sites,
-    get_organisation,
-    post_organisations)
+from organisations.services import get_organisations, get_organisations_sites, get_organisation, post_organisations
 
 
 class OrganisationList(TemplateView):

@@ -60,10 +60,10 @@ def get_string(value):
 def str_date(value):
     return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), "Europe/London")
     return (
-            return_value.strftime("%-I:%M")
-            + return_value.strftime("%p").lower()
-            + " "
-            + return_value.strftime("%d %B " "%Y")
+        return_value.strftime("%-I:%M")
+        + return_value.strftime("%p").lower()
+        + " "
+        + return_value.strftime("%d %B " "%Y")
     )
 
 
@@ -127,7 +127,7 @@ def group_list(items, split):
     """
     Groups items in a list based on a specified size
     """
-    return [items[x: x + split] for x in range(0, len(items), split)]
+    return [items[x : x + split] for x in range(0, len(items), split)]
 
 
 @register.filter
@@ -214,18 +214,18 @@ def get_address(data):
     from {'address': {'address_line_1': '10 Downing St', ...}
     or {'address': '10 Downing St ...', 'country': {'name': United Kingdom'}}
     """
-    address = data['address']
+    address = data["address"]
 
     if isinstance(address, str):
-        return address + ', ' + data['country']['name']
+        return address + ", " + data["country"]["name"]
 
     address = [
-        address['address_line_1'],
-        address['address_line_2'],
-        address['city'],
-        address['region'],
-        address['postcode'],
-        address['country']['name']
+        address["address_line_1"],
+        address["address_line_2"],
+        address["city"],
+        address["region"],
+        address["postcode"],
+        address["country"]["name"],
     ]
     return ", ".join([x for x in address if len(x) is not 0 and x is not None])
 
