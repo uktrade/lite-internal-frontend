@@ -105,7 +105,7 @@
 	            <thead class="govuk-table__head">
 	                <tr class="govuk-table__row">
 	                    <th class="cases-table__header cases-table__cell--checkbox">
-							<button type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
+							<button id="button-select-all" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
 	                    </th>
 	                    <th class="cases-table__header" style="width: 225px;" scope="col">Case</th>
 	                    <th class="cases-table__header" style="width: 1fr;" scope="col">Assignees</th>
@@ -241,6 +241,9 @@
 {% endblock %}
 
 {% block javascript %}
+	<script src="{% static 'javascripts/cases.js' %}"></script>
+	<script src="{% static 'javascripts/select-buttons.js' %}"></script>
+	<script src="{% static 'javascripts/filter-bar.js' %}"></script>
 	<script nonce="{{ request.csp_nonce }}">
 		$("#filters").hide();
 		$("#show-filters-link").show();
@@ -272,21 +275,15 @@
 		function setAssignUsersAbility() {
 			// Disable the assign users button unless a checkbox is selected
 			if ($("input[name='cases']:checked").length == 0) {
-				$("#assign-users-button").prop('disabled', true).addClass("govuk-button--disabled");
+				disableButton("#assign-users-button");
 			} else {
-				$("#assign-users-button").prop('disabled', false).removeClass("govuk-button--disabled");
+				enableButton("#assign-users-button");
 			}
 		}
 
 		setAssignUsersAbility();
 
-		$("#select-all-checkbox").click(function() {
-			if ($("input[name='cases']:checked").length == $("input[name='cases']").length) {
-				$("input[name='cases']").prop('checked', false);
-		   } else {
-			   $("input[name='cases']").prop('checked', true);
-		   }
-
+		$("#button-select-all").click(function() {
 			setAssignUsersAbility();
 		});
 
@@ -296,8 +293,4 @@
 			$("#select-all-checkbox").prop("indeterminate", $("input[name='cases']:checked").length > 0 && $("input[name='cases']:checked").length < $("input[name='cases']").length);
 		});
     </script>
-
-	<script src="{% static 'javascripts/cases.js' %}"></script>
-	<script src="{% static 'javascripts/select-buttons.js' %}"></script>
-    <script src="{% static 'javascripts/filter-bar.js' %}"></script>
 {% endblock %}
