@@ -1,10 +1,11 @@
 import datetime
 import json
 import warnings
+from html import escape
 
 import stringcase
 from django import template
-from django.template.defaultfilters import stringfilter
+from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
@@ -226,4 +227,22 @@ def get_address(data):
         address['postcode'],
         address['country']['name']
     ]
-    return ", ".join([x for x in address if x is not None])
+    return ", ".join([x for x in address if len(x) is not 0 and x is not None])
+
+
+@register.filter()
+def linkify(address, name=None):
+    """
+    Returns a correctly formatted, safe link to an address
+    Returns default_na if no address is provided
+    """
+    if not address:
+        return default_na(None)
+
+    if not name:
+        name = address
+
+    address = escape(address)
+    name = escape(name)
+
+    return safe(f'<a href="{address}" class="govuk-link govuk-link--no-visited-state">{name}</a>')

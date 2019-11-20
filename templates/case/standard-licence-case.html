@@ -184,26 +184,37 @@
 						</tr>
 					</thead>
 					<tbody class="govuk-table__body">
-						<!-- <tr class="govuk-table__row">
+						<tr class="govuk-table__row">
 							<th scope="row" class="govuk-table__header">Licencee</th>
 							<td class="govuk-table__cell">{{ case.application.organisation.name }}</td>
-							<td class="govuk-table__cell">{{ case.application.organisation.primary_site.address.address_line_1 }}, {{ case.application.organisation.primary_site.address.address_line_2 }}, {{ case.application.organisation.primary_site.address.city }}, {{ case.application.organisation.primary_site.address.region }}, {{ case.application.organisation.primary_site.address.postcode }}, {{ case.application.organisation.primary_site.address.country.name }}</td>
-						</tr> -->
+							<td class="govuk-table__cell">{{ case.application.organisation.primary_site|get_address }}</td>
+							<td class="govuk-table__cell">{{ none|default_na }}</td>
+							<td class="govuk-table__cell">{{ none|default_na }}</td>
+							<td class="govuk-table__cell">{{ none|default_na }}</td>
+						</tr>
 						<tr class="govuk-table__row">
 							<th scope="row" class="govuk-table__header">End user</th>
 							<td class="govuk-table__cell">{{ case.application.end_user.name }}</td>
 							<td class="govuk-table__cell">{{ case.application.end_user|get_address }}</td>
 							<td class="govuk-table__cell">{{ case.application.end_user.sub_type.value }}</td>
-							<td class="govuk-table__cell">{{ case.application.end_user.website|default_na }}</td>
-							<td class="govuk-table__cell">{{ case.application.end_user.document.name }}</td>
+							<td class="govuk-table__cell">{{ case.application.end_user.website|linkify }}</td>
+							<td class="govuk-table__cell">
+								<a href="{% url 'cases:document' case.id case.application.end_user.document.id %}">
+									{{ case.application.end_user.document.name }}
+								</a>
+							</td>
 						</tr>
 						<tr class="govuk-table__row">
 							<th scope="row" class="govuk-table__header">Consignee</th>
 							<td class="govuk-table__cell">{{ case.application.consignee.name }}</td>
 							<td class="govuk-table__cell">{{ case.application.consignee|get_address }}</td>
 							<td class="govuk-table__cell">{{ case.application.consignee.sub_type.value }}</td>
-							<td class="govuk-table__cell">{{ case.application.consignee.website|default_na }}</td>
-							<td class="govuk-table__cell">{{ case.application.consignee.document.name }}</td>
+							<td class="govuk-table__cell">{{ case.application.consignee.website|linkify }}</td>
+							<td class="govuk-table__cell">
+								<a href="{% url 'cases:document' case.id case.application.consignee.document.id %}">
+									{{ case.application.consignee.document.name }}
+								</a>
+							</td>
 						</tr>
 						{% for ultimate_end_user in case.application.ultimate_end_users %}
 							<tr class="govuk-table__row">
@@ -211,22 +222,44 @@
 								<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
 								<td class="govuk-table__cell">{{ ultimate_end_user|get_address }}</td>
 								<td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value }}</td>
-								<td class="govuk-table__cell">{{ ultimate_end_user.website|default_na }}</td>
-								<td class="govuk-table__cell">{{ ultimate_end_user.document.name }}</td>
+								<td class="govuk-table__cell">{{ ultimate_end_user.website|linkify }}</td>
+								<td class="govuk-table__cell">
+									<a href="{% url 'cases:document' case.id ultimate_end_user.document.id %}">
+										{{ ultimate_end_user.document.name }}
+									</a>
+								</td>
 							</tr>
 						{% endfor %}
-						{% for ultimate_end_user in case.application.third_parties %}
+						{% for party in case.application.third_parties %}
 							<tr class="govuk-table__row">
 								<th scope="row" class="govuk-table__header">Third party</th>
-								<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
-								<td class="govuk-table__cell">{{ ultimate_end_user|get_address }}</td>
-								<td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value }}</td>
-								<td class="govuk-table__cell">{{ ultimate_end_user.website|default_na }}</td>
-								<td class="govuk-table__cell">{{ ultimate_end_user.document.name }}</td>
+								<td class="govuk-table__cell">{{ party.name }}</td>
+								<td class="govuk-table__cell">{{ party|get_address }}</td>
+								<td class="govuk-table__cell">{{ party.sub_type.value }}</td>
+								<td class="govuk-table__cell">{{ party.website|linkify }}</td>
+								<td class="govuk-table__cell">
+									<a href="{% url 'cases:document' case.id party.document.id %}">
+										{{ party.document.name }}
+									</a>
+								</td>
 							</tr>
 						{% endfor %}
 					</tbody>
 				</table>
+			</div>
+		</div>
+
+		<!-- Other Documents -->
+		<div class="govuk-accordion__section">
+			<div class="govuk-accordion__section-header">
+				<h2 class="govuk-accordion__section-heading">
+					<span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+						Supporting documentation
+					</span>
+				</h2>
+			</div>
+			<div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
+				{% include 'case/includes/other-documents.html' %}
 			</div>
 		</div>
 
@@ -247,8 +280,6 @@
 
 	<!-- Modals -->
 	{% include 'case/includes/modal-organisation.html' %}
-
-	{% include 'case/views/other-documents.html' %}
 
 {% endblock %}
 

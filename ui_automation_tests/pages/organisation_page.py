@@ -1,12 +1,16 @@
-class OrganisationPage:
-    def __init__(self, driver):
-        self.driver = driver
-        self.edit_organisation_flags = 'a[href*="/assign-flags/"]'
-        self.flags_area = ".app-flag"
+from helpers.BasePage import BasePage
+from shared.tools.helpers import scroll_to_element_by_id, scroll_to_bottom_of_page
+
+
+class OrganisationPage(BasePage):
+
+    LINK_ORGANISATION_FLAGS_ID = "link-organisation-flags"
+    flags_area = ".app-flag"
 
     def click_edit_organisation_flags(self):
-        edit_flags_btn = self.driver.find_element_by_css_selector(self.edit_organisation_flags)
-        edit_flags_btn.click()
+        # scroll_to_element_by_id(self.driver, self.LINK_ORGANISATION_FLAGS_ID)
+        scroll_to_bottom_of_page(self.driver)
+        self.driver.find_element_by_id(self.LINK_ORGANISATION_FLAGS_ID).click()
 
     def is_organisation_flag_applied(self, flag_name):
         elements = self.driver.find_elements_by_css_selector(self.flags_area)

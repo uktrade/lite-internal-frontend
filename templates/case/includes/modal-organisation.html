@@ -71,9 +71,30 @@
 				{{ case.application.organisation.created_at|str_date }}
 			</dd>
 		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Flags
+			</dt>
+			<dd class="govuk-summary-list__value">
+				<div class="app-flags">
+					{% for flag in case.application.organisation.flags %}
+						<div class="app-flag" id="{{ flag.name }}">
+							{{ flag.name }}
+						</div>
+					{% endfor %}
+					<a id="link-organisation-flags" class="app-flag app-flag--action" href="{% url 'flags:assign_flags' %}?level=organisations&items={{ case.application.organisation.id }}">
+						{% if good.flags %}
+							Edit flags
+						{% else %}
+							Set a flag on this organisation
+						{% endif %}
+					</a>
+				</div>
+			</dd>
+		</div>
 	</dl>
 	<hr class="lite-horizontal-separator govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-	<a class="govuk-link govuk-link--no-visited-state" target="_blank" href="{% url 'organisations:organisation' case.application.organisation.id %}">
+	<a id="link-open-organisation-in-new-tab" class="govuk-link govuk-link--no-visited-state" target="_blank" href="{% url 'organisations:organisation' case.application.organisation.id %}">
 		Open organisation in new tab
 	</a>
 </div>

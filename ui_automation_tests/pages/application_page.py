@@ -43,7 +43,7 @@ class ApplicationPage(BasePage):
     download_good_document = "good_document"  # ID
     download_end_user_document = "end_user_document"  # ID
     download_additional_document = "additional_document"  # ID
-    organisation = "applicant_organisation"  # CSS
+    LINK_ORGANISATION_ID = "link-organisation"
     edit_goods_flags = "button-edit-goods-flags"  # ID
 
     goods_description_link = "#goods a"  # CSS
@@ -215,8 +215,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.download_additional_document).is_enabled()
 
     def go_to_organisation(self):
-        element = self.driver.find_element_by_id(self.organisation)
-        self.driver.execute_script("arguments[0].click();", element)
+        self.driver.find_element_by_id(self.LINK_ORGANISATION_ID).click()
 
     def click_good_description_link(self):
         element = self.driver.find_element_by_css_selector(self.goods_description_link)

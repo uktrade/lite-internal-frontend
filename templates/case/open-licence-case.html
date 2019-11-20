@@ -231,25 +231,7 @@
 				</h2>
 			</div>
 			<div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
-				{% if case.application.additional_documents %}
-					<table class="govuk-table">
-						<thead class="govuk-table__head">
-							<tr class="govuk-table__row">
-								<th scope="col" class="govuk-table__header">File name</th>
-							</tr>
-						</thead>
-						<tbody class="govuk-table__body">
-							{% for document in case.application.additional_documents %}
-								<tr class="govuk-table__row">
-									<th scope="row" class="govuk-table__header">{{ document.name }}</th>
-									<td class="govuk-table__cell"></td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				{% else %}
-					<p class="govuk-body">No supporting documentation</p>
-				{% endif %}
+				{% include 'case/includes/other-documents.html' %}
 			</div>
 		</div>
 
