@@ -99,8 +99,8 @@
 		</div>
 		<div class="govuk-grid-row">
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">Licence type</p>
-				<p>{{ case.application.application_type.value }}</p>
+				<p class="app-case-board__heading">Reference number</p>
+				<p>{{ case.application.reference_number_on_information_form|default_na }}</p>
 			</div>
 			<div class="govuk-grid-column-one-quarter">
 				<p class="app-case-board__heading">Export type</p>

@@ -33,7 +33,7 @@ class ApplicationPage(BasePage):
     move_case_button = '[href*="move"]'  # CSS
     status = "status"  # ID
     audit_trail_item = ".app-activity__item"  # CSS
-    application_summary_board = ".govuk-summary-list"  # CSS
+    application_summary_board = ".app-case-board"  # CSS
     eu_table = "end-user"  # ID
     ueu_table = "ultimate-end-users"  # ID
     consignee_table = "consignee"  # ID
