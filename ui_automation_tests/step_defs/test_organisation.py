@@ -4,6 +4,7 @@ from pytest_bdd import scenarios, when, then, parsers
 
 import shared.tools.helpers as utils
 from pages.header_page import HeaderPage
+from pages.organisation_page import OrganisationPage
 from pages.organisations_form_page import OrganisationsFormPage
 from pages.organisations_page import OrganisationsPage
 from pages.shared import Shared
@@ -150,3 +151,8 @@ def register_hmrc_org(driver, org_name, site_name, address, city, region, post_c
         organisations_form_page.enter_city(city)
         organisations_form_page.enter_country(country)
         organisations_form_page.click_submit()
+
+
+@then("the previously created organisations flag is assigned")  # noqa
+def assert_flag_is_assigned(driver, context):
+    assert OrganisationPage(driver).is_organisation_flag_applied(context.flag_name)
