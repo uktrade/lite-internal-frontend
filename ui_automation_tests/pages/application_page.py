@@ -42,7 +42,7 @@ class ApplicationPage(BasePage):
     checkbox = '[type="checkbox"]'  # CSS
     download_good_document = "good_document"  # ID
     download_end_user_document = "end_user_document"  # ID
-    download_additional_document = "additional_document"  # ID
+    download_additional_document = "supporting-documentation"  # ID
     LINK_ORGANISATION_ID = "link-organisation"
     edit_goods_flags = "button-edit-goods-flags"  # ID
 
