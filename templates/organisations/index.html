@@ -88,7 +88,7 @@
 				{% for organisation in data.results %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
-							<a class="govuk-link" href="{% url 'organisations:organisation' organisation.id %}">{{ organisation.name|default:"Untitled" }}</a>
+							<a class="govuk-link" href="{% url 'organisations:organisation' organisation.id %}">{{ organisation.name }}</a>
 						</td>
                         <td class="govuk-table__cell">
 							{{ organisation.type.value|default:"Untitled" }}
