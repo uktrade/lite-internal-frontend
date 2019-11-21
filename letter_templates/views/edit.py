@@ -15,13 +15,13 @@ from picklists.services import get_picklists
 
 class EditTemplate(TemplateView):
     def get(self, request, **kwargs):
-        letter_template = get_letter_template(request, str(kwargs["pk"]))
+        letter_template = get_letter_template(request, str(kwargs["pk"]))[0]["template"]
         return form_page(request, edit_letter_template(letter_template), data=letter_template)
 
     @staticmethod
     def post(request, **kwargs):
         letter_template_id = str(kwargs["pk"])
-        letter_template = get_letter_template(request, letter_template_id)
+        letter_template = get_letter_template(request, letter_template_id)[0]["template"]
 
         # Override case restrictions to use getlist
         edited_letter_template_data = request.POST.copy()
@@ -43,7 +43,7 @@ class EditTemplate(TemplateView):
 
 class EditParagraphs(TemplateView):
     def get(self, request, **kwargs):
-        letter_template = get_letter_template(request, str(kwargs["pk"]))
+        letter_template = get_letter_template(request, str(kwargs["pk"]))[0]["template"]
 
         if kwargs.get("override_paragraphs"):
             letter_template["letter_paragraphs"] = kwargs.get("override_paragraphs")
