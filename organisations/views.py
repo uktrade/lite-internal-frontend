@@ -106,5 +106,5 @@ class RegisterHMRC(TemplateView):
         if response:
             return response
 
-        messages.success(request, "The HMRC organisation was created successfully")
+        messages.success(request, strings.HMRC_ORGANISATION_CREATION_SUCCESS)
         return redirect("organisations:hmrc")
