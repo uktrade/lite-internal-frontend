@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from letter_templates.helpers import get_template_content, generate_preview, paragraphs_to_markdown
-from letter_templates.services import get_letter_paragraphs
+from letter_templates.services import get_letter_paragraphs, get_letter_preview
 from picklists.services import get_picklists
 
 
@@ -41,9 +41,7 @@ class LetterParagraphs(TemplateView):
         """
         Display a preview once letter paragraphs have been selected and sorted.
         """
-        letter_paragraphs = get_letter_paragraphs(request, template_content["letter_paragraphs"])
-        content = {"content": paragraphs_to_markdown(letter_paragraphs)}
-        preview = generate_preview(template_content["layout"]["filename"], content)
+        preview = get_letter_preview(request, template_content["layout"]["id"], template_content["letter_paragraphs"])[0]["preview"]
         return render(
             request,
             "letter_templates/preview.html",
