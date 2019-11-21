@@ -6,10 +6,10 @@
 	<table class="govuk-table">
 		<thead class="govuk-table__header">
 			<tr>
-				<th class="govuk-table__header" scope="col">Description</th>
-				<th class="govuk-table__header" scope="col">Control list entry</th>
-				<th class="govuk-table__header" scope="col">Is good controlled</th>
-				<th class="govuk-table__header" scope="col">Flags</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'GOOD_DESCRIPTION' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'GOOD_CONTROL_LIST_ENTRY' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'GOOD_CONTROLLED' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'GOOD_FLAGS' %}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -22,18 +22,10 @@
 						</div>
 					</td>
 					<td class="govuk-table__cell">
-						{% if good.control_code %}
-							<span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
-						{% else %}
-							None
-						{% endif %}
+						<span class="app-country-tag app-country-tag--orange">{{ good.control_code|default_na }}</span>
 					</td>
 					<td class="govuk-table__cell">
-						{% if good.is_good_controlled %}
-							Yes
-						{% else %}
-							No
-						{% endif %}
+						{{ if good.is_good_controlled|friendly_boolean }}
 					</td>
 					<td class="govuk-table__cell">
 						{% if good.flags %}
