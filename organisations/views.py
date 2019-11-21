@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
 from core.helpers import convert_dict_to_query_params
+from lite_content.lite_internal_frontend import strings
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 from organisations.forms import register_business_forms, register_hmrc_organisation_forms
@@ -83,7 +84,7 @@ class RegisterBusiness(TemplateView):
         if response:
             return response
 
-        messages.success(request, "The organisation was created successfully")
+        messages.success(request, strings.ORGANISATION_CREATION_SUCCESS)
         return redirect("organisations:organisations")
 
 
