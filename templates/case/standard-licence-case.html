@@ -6,7 +6,7 @@
 	<div class="govuk-breadcrumbs">
 		<ol class="govuk-breadcrumbs__list">
 			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">{% if queue_name %}{{ queue_name }}{% else %}All cases{% endif %}</a>
+				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">{% if queue_name %}{{ queue_name }}{% else %}{% lcs 'QUEUE_ALL_CASES' %}{% endif %}</a>
 			</li>
 			<!-- TODO -->
 			<li class="govuk-breadcrumbs__list-item" aria-current="page">&nbsp;</li>
