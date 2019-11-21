@@ -34,7 +34,7 @@ class ApplicationPage(BasePage):
     STATUS = "status"  # ID
     AUDIT_TRAIL_ITEM = ".app-activity__item"  # CSS
     APPLICATION_SUMMARY_BOARD = ".app-case-board"  # CSS
-    TABLE_ENTITIES = "table-entities"
+    TABLE_ENTITIES = "table-entities"  # ID
     GIVE_ADVICE_BUTTON = "button-give-advice"  # ID
     CHECKBOX = '[type="checkbox"]'  # CSS
     DOWNLOAD_GOOD_DOCUMENT = "good_document"  # ID
