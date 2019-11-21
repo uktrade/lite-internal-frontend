@@ -22,11 +22,32 @@ def get_const_string(value):
     """
     Template tag for accessing constants from LITE content library (not for Python use - only HTML)
     """
+    def get(object_to_search, nested_properties_list):
+        """
+        Recursive function used to search an unknown number of nested objects
+        for a property. For example if we had a path 'cases.CasePage.title' this function
+        would take the current object `object_to_search` and get an object called 'CasePage'.
+        It would then call itself again to search the 'CasePage' for a property called 'title'.
+        :param object_to_search: An unknown object to get the given property from
+        :param nested_properties_list: The path list to the attribute we want
+        :return: The attribute in the given object for the given path
+        """
+        object = getattr(object_to_search, nested_properties_list[0])
+        if len(nested_properties_list) == 1:
+            # We have reached the end of the path and now have the string
+            return object
+        else:
+            # Search the object for the next property in `nested_properties_list`
+            return get(object, nested_properties_list[1:])
+
     warnings.warn("Reference constants from strings directly, only use LCS in HTML files", Warning)
     try:
-        return getattr(strings, value)
+        path = value.split(".")
+        # Get initial object from strings.py
+        path_object = getattr(strings, path[0])
+        return get(path_object, path[1:])
     except AttributeError:
-        return ""
+        return "STRING_NOT_FOUND"
 
 
 @register.simple_tag

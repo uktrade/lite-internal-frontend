@@ -8,7 +8,7 @@ def select_template_form(templates):
         for t in templates
     ]
     return Form(
-        title=strings.CHOOSE_TEMPLATE_TITLE,
+        title=strings.LETTER_TEMPLATES.LetterTemplatesPage.PickTemplate.title,
         questions=[RadioButtonsImage(name="template", options=options,)],
-        default_button_name=strings.CHOOSE_TEMPLATE_BUTTON,
+        default_button_name=strings.LETTER_TEMPLATES.LetterTemplatesPage.PickTemplate.button,
     )
