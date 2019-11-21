@@ -100,7 +100,7 @@ class ViewCase(TemplateView):
         try:
             case_type = CaseType(case["type"]["key"])
         except ValueError:
-            raise Exception('Invalid case_type: {}'.format(case["type"]["key"]))
+            raise Exception("Invalid case_type: {}".format(case["type"]["key"]))
 
         if case_type == CaseType.END_USER_ADVISORY_QUERY:
             return render(request, "case/queries/end_user_advisory.html", context)
@@ -113,7 +113,7 @@ class ViewCase(TemplateView):
             try:
                 application_type = CaseType(case["application"]["application_type"]["key"])
             except ValueError:
-                raise Exception('Invalid application_type: {}'.format(case["type"]["key"]))
+                raise Exception("Invalid application_type: {}".format(case["type"]["key"]))
 
             if application_type == CaseType.HMRC_QUERY:
                 return render(request, "case/hmrc-case.html", context)
