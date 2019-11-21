@@ -79,39 +79,39 @@
 	<div class="app-case-board">
 		<div class="govuk-grid-row">
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">Organisation</p>
+				<p class="app-case-board__heading">{% lcs 'CASE_INFO_ORGANISATION' %}</p>
 				<a id="link-organisation" class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' case.application.organisation.id %}">
 					{{ case.application.organisation.name }}
 				</a>
 			</div>
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">Status</p>
+				<p class="app-case-board__heading">{% lcs 'CASE_INFO_STATUS' %}</p>
 				<p>{{ case.application.status.value }}</p>
 			</div>
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">Activity</p>
+				<p class="app-case-board__heading">{% lcs 'CASE_INFO_ACTIVITY' %}</p>
 				<p>{{ case.application.activity }}</p>
 			</div>
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">Submitted at</p>
+				<p class="app-case-board__heading">{% lcs 'CASE_INFO_SUBMITTED_AT' %}</p>
 				<p>{{ case.application.submitted_at|str_date }}</p>
 			</div>
 		</div>
 		<div class="govuk-grid-row">
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">Reference number</p>
+				<p class="app-case-board__heading">{% lcs 'CASE_INFO_REFERENCE_NUMBER' %}</p>
 				<p>{{ case.application.reference_number_on_information_form|default_na }}</p>
 			</div>
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">Export type</p>
+				<p class="app-case-board__heading">{% lcs 'CASE_INFO_EXPORT_TYPE' %}</p>
 				<p>{{ case.application.export_type.value }}</p>
 			</div>
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">Usage</p>
+				<p class="app-case-board__heading">{% lcs 'CASE_INFO_USAGE' %}</p>
 				<p>{{ case.application.usage|default_na }}</p>
 			</div>
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">Last updated</p>
+				<p class="app-case-board__heading">{% lcs 'CASE_INFO_LAST_UPDATED' %}</p>
 				<p>{{ case.application.last_modified_at|str_date }}</p>
 			</div>
 		</div>

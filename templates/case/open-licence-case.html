@@ -55,9 +55,9 @@
 		{% endfor %}
 		<a href="{% url 'cases:assign_flags' case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags" class="app-flag app-flag--action">
 			{% if case.flags %}
-				{% get_string 'cases.case.edit_case_flags' %}
+				{% lcs 'EDIT_CASE_FLAGS' %}
 			{% else %}
-				Set case flags
+				{% lcs 'SET_CASE_FLAGS' %}
 			{% endif %}
 		</a>
 	</div>
@@ -117,7 +117,7 @@
 			<div class="govuk-accordion__section-header">
 				<h2 class="govuk-accordion__section-heading">
 					<span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-						{{ case.application.goods_types|length }} Goods
+						{{ case.application.goods_types|length }} {% lcs 'CASE_GOODS' %}
 					</span>
 				</h2>
 			</div>
