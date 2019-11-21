@@ -105,18 +105,10 @@
                         </div>
                     </td>
                     <td class="govuk-table__cell">
-                        {% if good.control_code %}
-                            <span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
-                        {% else %}
-                            None
-                        {% endif %}
+                        <span class="app-country-tag app-country-tag--orange">{{ good.control_code|default_na }}</span>
                     </td>
                     <td class="govuk-table__cell">
-                        {% if good.is_good_controlled %}
-                            Yes
-                        {% else %}
-                            No
-                        {% endif %}
+                        {{ good.is_good_controlled|friendly_boolean }}
                     </td>
                     <td class="govuk-table__cell">
                         {% if good.flags %}

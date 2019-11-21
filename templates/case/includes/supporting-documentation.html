@@ -3,9 +3,9 @@
 	<table class="govuk-table" id="supporting-documentation">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th class="govuk-table__header" scope="col">Name</th>
-				<th class="govuk-table__header" scope="col">Description</th>
-				<th class="govuk-table__header" scope="col">Document</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'SUPPORTING_DOCUMENTATION_NAME' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'SUPPORTING_DOCUMENTATION_DESCRIPTION' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'SUPPORTING_DOCUMENTATION_DOCUMENT' %}</th>
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
@@ -30,5 +30,5 @@
 		</tbody>
 	</table>
 {% else %}
-	No supporting documentation
+	{% lcs 'SUPPORTING_DOCUMENTATION_NO_DOCUMENTATION' %}
 {% endif %}
