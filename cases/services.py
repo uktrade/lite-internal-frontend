@@ -345,5 +345,10 @@ def _get_total_goods_value(case):
 
 # Generated Documents
 def post_generated_document(request, pk, json):
-    data = post(request, CASE_URL + pk + GENERATED_DOCUMENTS_URL, json)
+    data = post(request, CASE_URL + pk + GENERATED_DOCUMENTS_URL + "/", json)
+    return data.json(), data.status_code
+
+
+def get_generated_document_preview(request, pk, tpk):
+    data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_URL + "?template=" + str(tpk))
     return data.json(), data.status_code
