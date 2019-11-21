@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from letter_templates.helpers import get_template_content, generate_preview, paragraphs_to_markdown
+from letter_templates.helpers import get_template_content
 from letter_templates.services import get_letter_paragraphs, get_letter_preview
 from picklists.services import get_picklists
 
