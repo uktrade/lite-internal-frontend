@@ -98,14 +98,13 @@
 		{% if not hide_creation_link %}
 			<a id="link-organisation-flags" class="app-flag app-flag--action" href="{% url 'flags:assign_flags' %}?level=organisations&items={{ organisation.id }}">
 				{% if organisation.flags %}
-					Edit organisation flags
+					{% lcs 'ORGANISATION_EDIT_FLAGS' %}
 				{% else %}
-					Set a flag on this organisation
+					{% lcs 'ORGANISATION_SET_FLAGS' %}
 				{% endif %}
 			</a>
 		{% endif %}
 	</div>
-
 
 	<div class="lite-tabs--fade">
 		<div class="lite-tabs">
