@@ -36,9 +36,11 @@
                         </button>
                     </div>
                 {% else %}
-                    <a class="govuk-button" href="{% url 'cases:coalesce_user_advice' case.id %}" class="lite-tabs__tab" id="combine_advice_button">
-                        Combine all user advice
-                    </a>
+                    {% if case.application.status.key not in terminal_case_statuses%}
+                        <a class="govuk-button" href="{% url 'cases:coalesce_user_advice' case.id %}" class="lite-tabs__tab" id="combine_advice_button">
+                            Combine all user advice
+                        </a>
+                    {% endif %}
                 {% endif %}
             {% endif %}
 		</div>

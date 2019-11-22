@@ -27,17 +27,19 @@
 			</div>
             {% if not case.has_advice.my_team %}
                 {% if not case.has_advice.final %}
-                    <button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-                        Give or change advice
-                    </button>
+                    {% if case.application.status.key not in terminal_case_statuses%}
+                        <button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+                            Give or change advice
+                        </button>
+                    {% endif %}
                 {% endif %}
             {% endif %}
 		</div>
 
 		<!-- Conditional error wrapper -->
-        {% if case.has_advice.my_team or case.has_advice.final %}
+        {% if case.has_advice.my_team or case.has_advice.final or case.application.status.key in terminal_case_statuses %}
             {% include 'cases/case/views/advice-view.html' with show_advice=True %}
-        {% else %}
+        {% else%}
             {% include 'cases/case/views/advice-view.html' with show_checkboxes=True show_advice=True %}
         {% endif %}
 

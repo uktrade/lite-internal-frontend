@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+
+from conf import constants
 from lite_forms.generators import error_page, form_page
 
 from cases.forms.advice import advice_recommendation_form
@@ -53,6 +55,7 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
 
     context["able_to_finalize"] = able_to_finalize
     context["able_to_create_and_edit_advice"] = able_to_create_and_edit_advice
+    context["terminal_case_statuses"] = constants.TERMINAL_CASE_STATUSES
 
     return render(request, "cases/case/" + user_team_final + "-advice-view.html", context)
 

@@ -52,5 +52,9 @@ LETTER_LAYOUTS_URL = STATIC_URL + "letter-layouts/"
 MAKE_FINAL_DECISIONS = "MAKE_FINAL_DECISIONS"
 DECISIONS_LIST = ["approve", "refuse", "no_licence_required"]
 
-# ROLE IDS
+# Role IDs
 SUPER_USER_ROLE_ID = "00000000-0000-0000-0000-000000000002"
+
+
+# Case Statuses
+TERMINAL_CASE_STATUSES = ['closed', 'finalised', 'withdrawn']

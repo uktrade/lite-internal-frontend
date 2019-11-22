@@ -23,7 +23,7 @@ from cases.services import (
     _get_total_goods_value,
 )
 from cases.services import post_case_documents, get_case_documents, get_document
-from conf import settings
+from conf import settings, constants
 from conf.constants import DEFAULT_QUEUE_ID
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
@@ -90,22 +90,28 @@ class ViewCase(TemplateView):
         case["all_flags"] = _get_all_distinct_flags(case)
 
         context = {"title": "Case", "case": case, "activity": activity, "permissions": permissions}
+        context["terminal_case_statuses"] = constants.TERMINAL_CASE_STATUSES
+
         if queue_id:
             context["queue_id"] = queue_id
         if queue_name:
             context["queue_name"] = queue_name
 
         if case["type"]["key"] == END_USER_ADVISORY_QUERY:
+            context['status'] = case["query"]["status"]["key"]
             return render(request, "cases/case/queries/end_user_advisory.html", context)
         elif case["type"]["key"] == CLC_QUERY:
             context["good"] = case["query"]["good"]
+            context['status'] = case["query"]["status"]["key"]
             return render(request, "cases/case/queries/clc-query-case.html", context)
         elif case.get("application").get("application_type").get("key") == HMRC_QUERY:
+            context['status'] = case["application"]["status"]["key"]
             return render(request, "cases/case/hmrc-case.html", context)
         elif case["type"]["key"] == APPLICATION:
             context["title"] = case.get("application").get("name")
             context["notification"] = get_user_case_notification(request, case_id)
             context["total_goods_value"] = _get_total_goods_value(case)
+            context['status'] = case["application"]["status"]["key"]
             return render(request, "cases/case/application-case.html", context)
 
     def post(self, request, **kwargs):
@@ -130,37 +136,24 @@ class ViewCase(TemplateView):
         return redirect(reverse("cases:case", kwargs={"pk": case_id}) + "#case_notes")
 
 
-class ViewAdvice(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-        activity, _ = get_activity(request, case_id)
-        permissions = get_user_permissions(request)
-
-        context = {
-            "data": case,
-            "title": case.get("application").get("name"),
-            "activity": activity.get("activity"),
-            "permissions": permissions,
-            "edit_case_flags": get_string("cases.case.edit_case_flags"),
-        }
-        return render(request, "cases/case/user-advice-view.html", context)
-
-
 class ManageCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
         statuses, _ = get_statuses(request)
 
-        reduced_statuses = {
-            "statuses": [
-                x for x in statuses["statuses"] if (x["status"] != "finalised" and x["status"] != "applicant_editing")
-            ]
-        }
+        reduced_statuses = {"statuses": [status for status in statuses['statuses'] if status['status'] == 'closed'
+                                          or status['status'] == 'submitted']}
 
         if case["type"]["key"] == APPLICATION:
             title = "Manage " + case.get("application").get("name")
+            # additional but still reduced statuses needed for applications
+            reduced_statuses = {
+                "statuses": [
+                    status for status in statuses["statuses"]
+                    if (status["status"] != "finalised" and status["status"] != "applicant_editing")
+                ]
+            }
         elif case["type"]["key"] == HMRC_QUERY:
             title = "Manage HMRC query"
         elif case["query"]["end_user"]:
