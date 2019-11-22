@@ -17,7 +17,7 @@ from ui_automation_tests.fixtures.add_a_team import add_a_team  # noqa
 from ui_automation_tests.fixtures.add_a_document_template import (  # noqa
     add_a_document_template,
     get_template_id,
-    get_licence_template_id
+    get_licence_template_id,
 )
 from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
     add_a_letter_paragraph_picklist,
