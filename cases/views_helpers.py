@@ -57,7 +57,7 @@ def get_case_advice(get_advice, request, case, user_team_final, team=None):
     context["able_to_create_and_edit_advice"] = able_to_create_and_edit_advice
     context["terminal_case_statuses"] = constants.TERMINAL_CASE_STATUSES
 
-    return render(request, "cases/case/" + user_team_final + "-advice-view.html", context)
+    return render(request, "case/" + user_team_final + "-advice-view.html", context)
 
 
 def render_form_page(get_advice, request, case, form, team=None):
@@ -117,7 +117,7 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
     advice_picklist_items = get_picklists(request, "standard_advice")
     static_denial_reasons, _ = get_denial_reasons(request, False)
 
-    form = "cases/case/give-advice.html"
+    form = "case/give-advice.html"
 
     context = {
         "case": case,
