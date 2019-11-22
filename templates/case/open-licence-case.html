@@ -175,7 +175,7 @@
 									<td class="lite-accordian-table__fold-wrapper" colspan="7">
 										<div class="lite-accordian-table__fold-content">
 											<p class="govuk-body">
-												Destinations:
+												{% lcs 'CASE_DESTINATIONS_HEADER' %}:
 												{% for country in good.countries %}
 													<span class="app-country-tag">{{ country.name }}</span>
 												{% empty %}
@@ -240,7 +240,7 @@
 			<div class="govuk-accordion__section-header">
 				<h2 class="govuk-accordion__section-heading">
 					<span class="govuk-accordion__section-button" id="accordion-default-heading-3">
-						Activity
+						{% lcs 'CASE_ACTIVITY_HEADING' %}
 					</span>
 				</h2>
 			</div>

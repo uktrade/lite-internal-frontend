@@ -154,8 +154,8 @@
 				<table class="govuk-table">
 					<thead class="govuk-table__head">
 						<tr class="govuk-table__row">
-							<th scope="col" class="govuk-table__header govuk-!-width-one-third">Name</th>
-							<th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Address</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-third">CASE_GOODS_LOCATION_NAME</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-two-thirds">CASE_GOODS_LOCATION_ADDRESS</th>
 						</tr>
 					</thead>
 					<tbody class="govuk-table__body">
@@ -184,16 +184,16 @@
 					<thead class="govuk-table__head">
 						<tr class="govuk-table__row">
 							<th scope="col" class="govuk-table__header"></th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-third">Name</th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-half">Address</th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-half">Type</th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-half">Website</th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-half">Document</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-third">CASE_PARTIES_NAME</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-half">CASE_PARTIES_ADDRESS</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-half">CASE_PARTIES_TYPE</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-half">CASE_PARTIES_WEBSITE</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-half">CASE_PARTIES_DOCUMENT</th>
 						</tr>
 					</thead>
 					<tbody class="govuk-table__body">
 						<tr class="govuk-table__row">
-							<th scope="row" class="govuk-table__header">Licencee</th>
+							<th scope="row" class="govuk-table__header">{% lcs 'CASE_PARTIES_LICENSEE' %}</th>
 							<td class="govuk-table__cell">{{ case.application.organisation.name }}</td>
 							<td class="govuk-table__cell">{{ case.application.organisation.primary_site|get_address }}</td>
 							<td class="govuk-table__cell">{{ none|default_na }}</td>
