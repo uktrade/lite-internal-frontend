@@ -33,8 +33,11 @@ def put_letter_template(request, pk, json):
     return data.json(), data.status_code
 
 
-def get_letter_templates(request):
-    data = get(request, LETTER_TEMPLATES_URL)
+def get_letter_templates(request, case=None):
+    url = LETTER_TEMPLATES_URL
+    if case:
+        url += "?case=" + case
+    data = get(request, url)
     return data.json()["results"]
 
 

@@ -13,7 +13,8 @@ CSS_LOCATION = "/assets/css/styles.css"
 
 class SelectTemplate(TemplateView):
     def get(self, request, **kwargs):
-        return form_page(request, select_template_form(get_letter_templates(request)))
+        templates = get_letter_templates(request, str(kwargs["pk"]))
+        return form_page(request, select_template_form(templates))
 
     def post(self, request, **kwargs):
         template_id = request.POST.get("template")
