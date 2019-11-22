@@ -5,7 +5,8 @@ from django.views.generic import TemplateView
 from cases.forms.generate_document import select_template_form
 from cases.services import post_generated_document, get_generated_document_preview
 from letter_templates.services import get_letter_templates
-from lite_forms.generators import form_page
+from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
+from lite_forms.generators import form_page, error_page
 
 CSS_LOCATION = "/assets/css/styles.css"
 
@@ -32,17 +33,28 @@ class PreviewDocument(TemplateView):
     content: dict
     preview: str
 
+    @staticmethod
+    def _error_page():
+        return error_page(
+            None,
+            title=GenerateDocumentsPage.TITLE,
+            description=GenerateDocumentsPage.ERROR,
+            show_back_link=True,
+        )
+
     def dispatch(self, request, *args, **kwargs):
         self.template_id = str(kwargs["tpk"])
         self.case_id = str(kwargs["pk"])
         return super(PreviewDocument, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        preview = get_generated_document_preview(request, self.case_id, self.template_id)[0]["preview"]
+        preview, status_code = get_generated_document_preview(request, self.case_id, self.template_id)
+        if status_code == 400:
+            return self._error_page()
         return render(
             request,
             "generated_documents/preview.html",
-            {"preview": preview, "pk": self.case_id, "tpk": self.template_id},
+            {"preview": preview["preview"], "pk": self.case_id, "tpk": self.template_id},
         )
 
     def post(self, request, **kwargs):

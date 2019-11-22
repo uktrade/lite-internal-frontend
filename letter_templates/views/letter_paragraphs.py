@@ -3,6 +3,8 @@ from django.views.generic import TemplateView
 
 from letter_templates.helpers import get_template_content
 from letter_templates.services import get_letter_paragraphs, get_letter_preview
+from lite_content.lite_internal_frontend.letter_templates import LetterTemplatesPage
+from lite_forms.generators import error_page
 from picklists.services import get_picklists
 
 
@@ -21,6 +23,15 @@ def get_order_paragraphs_page(request, template_content):
 
 
 class LetterParagraphs(TemplateView):
+    @staticmethod
+    def _error_page():
+        return error_page(
+            None,
+            title=LetterTemplatesPage.TITLE,
+            description=LetterTemplatesPage.ERROR,
+            show_back_link=True,
+        )
+
     @staticmethod
     def _add_letter_paragraph(request, template_content):
         all_letter_paragraphs = get_picklists(request, "letter_paragraph")
@@ -41,12 +52,14 @@ class LetterParagraphs(TemplateView):
         """
         Display a preview once letter paragraphs have been selected and sorted.
         """
-        preview = get_letter_preview(request, template_content["layout"]["id"], template_content["letter_paragraphs"])[0]["preview"]
+        preview, status_code = get_letter_preview(request, template_content["layout"]["id"], template_content["letter_paragraphs"])
+        if status_code == 400:
+            return self._error_page()
         return render(
             request,
             "letter_templates/preview.html",
             {
-                "preview": preview,
+                "preview": preview["preview"],
                 "name": template_content["name"],
                 "layout": template_content["layout"],
                 "restricted_to": template_content["restricted_to"],
