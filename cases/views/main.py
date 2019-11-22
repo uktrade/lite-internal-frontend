@@ -172,14 +172,18 @@ class ManageCase(TemplateView):
             ]
         }
 
-        if case["type"]["key"] == CaseType.APPLICATION.value:
+        case_type = case["type"]["key"]
+
+        if case_type == CaseType.APPLICATION.value:
             title = "Manage " + case.get("application").get("name")
-        elif case["type"]["key"] == CaseType.HMRC_QUERY.value:
+        elif case_type == CaseType.HMRC_QUERY.value:
             title = "Manage HMRC query"
-        elif case["query"]["end_user"]:
+        elif case_type == CaseType.END_USER_ADVISORY_QUERY.value:
             title = "Manage End User Advisory"
-        else:
+        elif case_type == CaseType.CLC_QUERY.value:
             title = "Manage CLC query case"
+        else:
+            raise Exception("Invalid case_type: {}".format(case_type))
 
         context = {"case": case, "title": title, "statuses": reduced_statuses}
         return render(request, "case/change-status.html", context)
