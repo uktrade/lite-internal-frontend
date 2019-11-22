@@ -26,10 +26,7 @@ class LetterParagraphs(TemplateView):
     @staticmethod
     def _error_page():
         return error_page(
-            None,
-            title=LetterTemplatesPage.TITLE,
-            description=LetterTemplatesPage.ERROR,
-            show_back_link=True,
+            None, title=LetterTemplatesPage.TITLE, description=LetterTemplatesPage.ERROR, show_back_link=True,
         )
 
     @staticmethod
@@ -52,7 +49,9 @@ class LetterParagraphs(TemplateView):
         """
         Display a preview once letter paragraphs have been selected and sorted.
         """
-        preview, status_code = get_letter_preview(request, template_content["layout"]["id"], template_content["letter_paragraphs"])
+        preview, status_code = get_letter_preview(
+            request, template_content["layout"]["id"], template_content["letter_paragraphs"]
+        )
         if status_code == 400:
             return self._error_page()
         return render(

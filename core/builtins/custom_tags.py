@@ -22,6 +22,7 @@ def get_const_string(value):
     """
     Template tag for accessing constants from LITE content library (not for Python use - only HTML)
     """
+
     def get(object_to_search, nested_properties_list):
         """
         Recursive function used to search an unknown number of nested objects

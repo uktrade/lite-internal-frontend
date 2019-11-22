@@ -22,9 +22,7 @@ class InvalidVarException(Exception):
 def template_engine_factory():
     # Put the variable name in if missing variables. Else trigger an InvalidVarException.
     string_if_invalid = InvalidVarException()
-    return Engine(
-        string_if_invalid=string_if_invalid
-    )
+    return Engine(string_if_invalid=string_if_invalid)
 
 
 def picklist_paragraph_errors(request):

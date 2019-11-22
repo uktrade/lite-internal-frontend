@@ -57,10 +57,7 @@ def get_letter_layout(request, pk):
 
 
 def get_letter_preview(request, layout_id, paragraph_ids):
-    data = {
-        "layout": str(layout_id),
-        "paragraphs": paragraph_ids
-    }
+    data = {"layout": str(layout_id), "paragraphs": paragraph_ids}
     get_params = "?" + convert_dict_to_query_params(data)
     data = get(request, LETTER_TEMPLATES_URL + GENERATE_PREVIEW_URL + get_params)
     return data.json(), data.status_code

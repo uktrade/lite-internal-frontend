@@ -37,10 +37,7 @@ class PreviewDocument(TemplateView):
     @staticmethod
     def _error_page():
         return error_page(
-            None,
-            title=GenerateDocumentsPage.TITLE,
-            description=GenerateDocumentsPage.ERROR,
-            show_back_link=True,
+            None, title=GenerateDocumentsPage.TITLE, description=GenerateDocumentsPage.ERROR, show_back_link=True,
         )
 
     def dispatch(self, request, *args, **kwargs):

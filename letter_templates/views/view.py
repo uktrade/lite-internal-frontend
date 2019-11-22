@@ -1,9 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from letter_templates.services import (
-    get_letter_templates,
-    get_letter_template)
+from letter_templates.services import get_letter_templates, get_letter_template
 
 
 class LetterTemplatesList(TemplateView):
