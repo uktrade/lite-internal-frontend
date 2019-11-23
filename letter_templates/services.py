@@ -1,5 +1,5 @@
 from conf.client import get, post, put
-from conf.constants import PICKLIST_URL, LETTER_TEMPLATES_URL, LETTER_LAYOUTS_URL, PREVIEW_URL, GENERATE_PREVIEW_URL
+from conf.constants import PICKLIST_URL, LETTER_TEMPLATES_URL, LETTER_LAYOUTS_URL, GENERATE_PREVIEW_URL
 from core.helpers import convert_dict_to_query_params
 
 
