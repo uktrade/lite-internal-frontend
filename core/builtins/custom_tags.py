@@ -47,7 +47,7 @@ def get_const_string(value):
         path = value.split(".")
         # Get initial object from strings.py
         path_object = getattr(strings, path[0])
-        return get(path_object, path[1:])
+        return get(path_object, path[1:]) if len(path) > 1 else path_object
     except AttributeError:
         return "STRING_NOT_FOUND"
 
