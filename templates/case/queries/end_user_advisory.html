@@ -3,9 +3,15 @@
 {% load static %}
 
 {% block back_link %}
-	<a href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}" class="govuk-back-link">
-		Back to {{ queue.queue.name }}
-	</a>
+	<div class="govuk-breadcrumbs">
+		<ol class="govuk-breadcrumbs__list">
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">{% if queue_name %}{{ queue_name }}{% else %}{% lcs 'QUEUE_ALL_CASES' %}{% endif %}</a>
+			</li>
+			<!-- TODO -->
+			<li class="govuk-breadcrumbs__list-item" aria-current="page">&nbsp;</li>
+		</ol>
+	</div>
 {% endblock %}
 
 {% block body %}
@@ -18,7 +24,7 @@
 		<div class="lite-app-bar__controls">
 			<div class="app-more-actions__container">
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
-					{% get_string 'cases.manage.documents.button' %}
+			      	{% lcs 'CASE_DOCUMENT_BUTTON' %}
 				</a>
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:ecju_queries' case.id %}">
 					{% get_string 'cases.ecju_queries.title' %}
@@ -28,9 +34,6 @@
 				</a>
                 <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' case.id %}">
                     Change Status
-                </a>
-                <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:generate_document' case.id %}">
-                    {% lcs 'CASES.ApplicationPage.Actions.generate_document' %}
                 </a>
 			</div>
 		</div>
