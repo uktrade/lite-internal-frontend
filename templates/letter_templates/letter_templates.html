@@ -37,7 +37,7 @@
 							{{ letter_template.layout.name }}
 						</td>
 						<td class="govuk-table__cell">
-							{% for case_type in letter_template.case_types %}{% if not forloop.first %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{{ case_type }}{% endfor %}
+							{% for case_type in letter_template.case_types %}{% if not forloop.first %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{{ case_type.value }}{% endfor %}
 						</td>
 						<td class="govuk-table__cell">
 							{{ letter_template.last_modified_at|str_date }}
@@ -47,7 +47,7 @@
 			</tbody>
 		</table>
 	{% else %}
-		{% include "includes/information-text.html" with text="There aren\'t any letter templates" %}
+		{% include "includes/information-text.html" with text="There aren't any letter templates" %}
 	{% endif %}
 
 {% endblock %}
