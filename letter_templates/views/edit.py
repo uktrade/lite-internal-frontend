@@ -25,7 +25,7 @@ class EditTemplate(TemplateView):
 
         # Override case restrictions to use getlist
         edited_letter_template_data = request.POST.copy()
-        edited_letter_template_data["restricted_to"] = edited_letter_template_data.getlist("restricted_to")
+        edited_letter_template_data["case_types"] = edited_letter_template_data.getlist("case_types")
 
         response = submit_single_form(
             request,

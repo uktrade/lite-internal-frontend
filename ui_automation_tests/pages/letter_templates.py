@@ -18,7 +18,7 @@ class LetterTemplates(BasePage):
     # Template page
     TEMPLATE_TITLE = "title"  # ID
     TEMPLATE_LAYOUT = "layout"  # ID
-    TEMPLATE_RESTRICTED_TO = "restricted_to"  # ID
+    CASE_TYPES = "case_types"  # ID
     TEMPLATE_PARAGRAPHS = "paragraph_content"  # ID
     EDIT_TEMPLATE_BUTTON = "edit_template"  # ID
     EDIT_PARAGRAPHS_BUTTON = "edit_template_paragraphs"  # ID
@@ -79,8 +79,8 @@ class LetterTemplates(BasePage):
     def get_template_layout(self):
         return self.driver.find_element_by_id(self.TEMPLATE_LAYOUT).text
 
-    def get_template_restricted_to(self):
-        return self.driver.find_element_by_id(self.TEMPLATE_RESTRICTED_TO).text
+    def get_template_case_types(self):
+        return self.driver.find_element_by_id(self.CASE_TYPES).text
 
     def get_template_paragraphs(self):
         return self.driver.find_element_by_id(self.TEMPLATE_PARAGRAPHS).text

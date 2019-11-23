@@ -13,7 +13,7 @@ def get_template_content(request):
     return {
         "name": data.get("name"),
         "layout": layout,
-        "restricted_to": data.getlist("restricted_to"),
+        "case_types": data.getlist("case_types"),
         "action": data.get("action"),
         "letter_paragraphs": data.getlist("letter_paragraphs"),
     }
