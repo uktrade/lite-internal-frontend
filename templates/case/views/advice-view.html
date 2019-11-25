@@ -3,7 +3,7 @@
     {% if case.application.application_type.key == 'open_licence' %}
         {% include 'case/views/open-goods.html' %}
     {% endif %}
-    {% if case.application.application_type.key == 'standard_licence' %}
+    {% if case.application.application_type.key == 'standard_licence' and case.application.status.key not in terminal_case_statuses%}
         {% include 'case/views/standard-goods.html' %}
     {% endif %}
 
