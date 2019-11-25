@@ -34,7 +34,7 @@ So that I can create standard letters used by case workers and they can be updat
     When I click save
     Then I see my template in the table
 
-  @LT_1029_view_and_edit_template
+  @LT_1029_view_and_edit_template @AT
   Scenario: View and edit a created template
     Given I create a document template
     And I sign in to SSO or am signed into SSO
@@ -49,4 +49,3 @@ So that I can create standard letters used by case workers and they can be updat
     Then The template paragraphs have been edited
     When I click save
     Then The paragraph text is present
-
