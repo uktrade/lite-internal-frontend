@@ -57,4 +57,4 @@ SUPER_USER_ROLE_ID = "00000000-0000-0000-0000-000000000002"
 
 
 # Case Statuses
-TERMINAL_CASE_STATUSES = ['closed', 'finalised', 'withdrawn']
+TERMINAL_CASE_STATUSES = ["closed", "finalised", "withdrawn"]

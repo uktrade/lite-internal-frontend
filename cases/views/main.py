@@ -101,16 +101,16 @@ class ViewCase(TemplateView):
         case_type = case["type"]["key"]
 
         if case_type == CaseType.END_USER_ADVISORY_QUERY.value:
-            context['status'] = case["query"]["status"]["key"]
+            context["status"] = case["query"]["status"]["key"]
             return render(request, "case/queries/end_user_advisory.html", context)
         elif case_type == CaseType.CLC_QUERY.value:
             context["good"] = case["query"]["good"]
-            context['status'] = case["query"]["status"]["key"]
+            context["status"] = case["query"]["status"]["key"]
             return render(request, "case/queries/clc-query-case.html", context)
         elif case_type == CaseType.APPLICATION.value:
             context["notification"] = get_user_case_notification(request, case_id)
             context["total_goods_value"] = _get_total_goods_value(case)
-            context['status'] = case["application"]["status"]["key"]
+            context["status"] = case["application"]["status"]["key"]
 
             application_type = case["application"]["application_type"]["key"]
 
@@ -170,8 +170,13 @@ class ManageCase(TemplateView):
         case = get_case(request, case_id)
         statuses, _ = get_statuses(request)
 
-        reduced_statuses = {"statuses": [status for status in statuses['statuses'] if status['status'] == 'closed'
-                                          or status['status'] == 'submitted']}
+        reduced_statuses = {
+            "statuses": [
+                status
+                for status in statuses["statuses"]
+                if status["status"] == "closed" or status["status"] == "submitted"
+            ]
+        }
 
         case_type = case["type"]["key"]
 
@@ -181,7 +186,8 @@ class ManageCase(TemplateView):
             # additional but still reduced statuses needed for applications
             reduced_statuses = {
                 "statuses": [
-                    status for status in statuses["statuses"]
+                    status
+                    for status in statuses["statuses"]
                     if (status["status"] != "finalised" and status["status"] != "applicant_editing")
                 ]
             }
