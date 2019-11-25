@@ -24,7 +24,7 @@
 		<div class="lite-app-bar__controls">
 			<div class="app-more-actions__container">
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
-			      	{% lcs 'CASE_DOCUMENT_BUTTON' %}
+			      	{% lcs 'CASES.ApplicationPage.Actions.DOCUMENT' %}
 				</a>
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:ecju_queries' case.id %}">
 					{% get_string 'cases.ecju_queries.title' %}
