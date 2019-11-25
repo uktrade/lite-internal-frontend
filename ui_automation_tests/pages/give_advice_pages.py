@@ -71,7 +71,7 @@ class GiveAdvicePages(BasePage):
         }
 
     def checkbox_present(self):
-        return len(self.driver.find_elements_by_css_selector('.input'))
+        return len(self.driver.find_elements_by_css_selector(".input"))
 
     def give_advice_button_present(self):
         return self.driver.find_elements_by_id(self.GIVE_OR_CHANGE_ADVICE_BUTTON)
