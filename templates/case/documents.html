@@ -43,7 +43,7 @@
                         <td class="govuk-table__cell">{{ document.created_at|str_date }}</td>
 						<td class="govuk-table__cell">
 							{% if document.safe == True %}
-								<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.metadata_id %}">
+								<a id="download" class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.metadata_id %}">
 									Download
 								</a>
 							{% elif document.safe == False %}
