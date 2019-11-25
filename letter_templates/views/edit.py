@@ -16,6 +16,9 @@ from picklists.services import get_picklists
 class EditTemplate(TemplateView):
     def get(self, request, **kwargs):
         letter_template = get_letter_template(request, str(kwargs["pk"]))[0]["template"]
+        case_types = letter_template.pop("case_types")
+        case_types = [dict(id=case_type["key"], value=case_type["value"]) for case_type in case_types]
+        letter_template.update(case_types=case_types)
         return form_page(request, edit_letter_template(letter_template), data=letter_template)
 
     @staticmethod
