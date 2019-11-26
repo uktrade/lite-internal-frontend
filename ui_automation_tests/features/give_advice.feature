@@ -170,7 +170,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I sign in to SSO or am signed into SSO
     When I go to application previously created
     And I click progress application
-    And I select status "Closed" and save
+    And I select status "Withdrawn" and save
     And I click on view advice
     Then the give advice checkboxes are not present
     And the give or change advice button is not present

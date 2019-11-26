@@ -188,7 +188,11 @@ class ManageCase(TemplateView):
                 "statuses": [
                     status
                     for status in statuses["statuses"]
-                    if (status["status"] != "finalised" and status["status"] != "applicant_editing")
+                    if (
+                        status["status"] != "finalised"
+                        and status["status"] != "applicant_editing"
+                        and status["status"] != "closed"
+                    )
                 ]
             }
         elif case_type == CaseType.HMRC_QUERY.value:
