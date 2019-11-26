@@ -62,7 +62,7 @@ def preview_template(driver):
 
 @then("my picklist is in template")
 def picklist_in_template(driver, context):
-    assert context.picklist_text in LetterTemplates(driver).get_text_of_paragraphs_in_template()
+    assert context.picklist_text in LetterTemplates(driver).get_text_in_template()
 
 
 @when("I click save")
