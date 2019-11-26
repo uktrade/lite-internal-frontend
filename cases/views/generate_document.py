@@ -8,8 +8,6 @@ from letter_templates.services import get_letter_templates
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_forms.generators import form_page, error_page
 
-CSS_LOCATION = "/assets/css/styles.css"
-
 
 class SelectTemplate(TemplateView):
     def get(self, request, **kwargs):
