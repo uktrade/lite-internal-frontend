@@ -24,7 +24,7 @@ from conf.constants import (
     GOOD_CLC_REVIEW_URL,
     MANAGE_STATUS_URL,
     GENERATED_DOCUMENTS_URL,
-)
+    GENERATED_DOCUMENTS_PREVIEW_URL)
 
 
 def get_case(request, pk):
@@ -350,5 +350,5 @@ def post_generated_document(request, pk, json):
 
 
 def get_generated_document_preview(request, pk, tpk):
-    data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_URL + "?template=" + str(tpk))
+    data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_PREVIEW_URL + "?template=" + str(tpk))
     return data.json(), data.status_code
