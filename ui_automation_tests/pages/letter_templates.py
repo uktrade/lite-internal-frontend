@@ -9,7 +9,7 @@ class LetterTemplates(BasePage):
     ADD_LETTER_PARAGRAPH_BUTTON = '[value="add_letter_paragraph"]'  # CSS
     ADD_LETTER_PARAGRAPHS_BUTTON = '[value="return_to_preview"]'  # CSS
     PREVIEW_BUTTON = "button-preview"  # ID
-    PREVIEW = ".app-letter-preview__page"  # CSS
+    PREVIEW = "preview"  # ID
     SAVE_BUTTON = "action"  # NAME
     EDIT_DETAILS_BUTTON = ".lite-app-bar__controls .govuk-button"  # CSS
     DRAG_DROP_LIST = "standard-advice-list"  # ID
@@ -59,7 +59,7 @@ class LetterTemplates(BasePage):
         self.driver.find_element_by_css_selector(self.ADD_LETTER_PARAGRAPHS_BUTTON).click()
 
     def get_text_in_template(self):
-        return self.driver.find_element_by_css_selector(self.PREVIEW).text
+        return self.driver.find_element_by_id(self.PREVIEW).text
 
     def get_text_of_paragraphs_in_preview(self):
         return self.driver.find_element_by_id(self.PREVIEW_PARAGRAPHS).text

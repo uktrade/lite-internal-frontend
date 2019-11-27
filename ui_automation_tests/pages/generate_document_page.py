@@ -2,7 +2,7 @@ from ui_automation_tests.shared.BasePage import BasePage
 
 
 class GeneratedDocument(BasePage):
-    PREVIEW = ".app-letter-preview__page"  # css
+    PREVIEW = "preview"  # ID
     PARAGRAPHS = "paragraph_content"  # ID
     DOWNLOAD = "link-download"  # ID
 
@@ -10,7 +10,7 @@ class GeneratedDocument(BasePage):
         self.driver.find_element_by_id(document_template_name).click()
 
     def preview_is_shown(self):
-        return self.driver.find_element_by_css_selector(self.PREVIEW).is_displayed()
+        return self.driver.find_element_by_id(self.PREVIEW).is_displayed()
 
     def get_document_text(self):
         return self.driver.find_element_by_id(self.PARAGRAPHS).text

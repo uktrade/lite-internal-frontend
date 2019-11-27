@@ -8,7 +8,6 @@
 			<li class="govuk-breadcrumbs__list-item">
 				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">{% if queue_name %}{{ queue_name }}{% else %}{% lcs 'QUEUE_ALL_CASES' %}{% endif %}</a>
 			</li>
-			<!-- TODO -->
 			<li class="govuk-breadcrumbs__list-item" aria-current="page">&nbsp;</li>
 		</ol>
 	</div>
@@ -18,7 +17,7 @@
 
 	{% if case.query.good.status.key == 'verified' %}
 		<div class="lite-info-bar lite-info-bar--no-animation {% if message.tags %}lite-info-bar--{{ message.tags }}{% endif %}">
-			This case is closed
+			{% lcs 'CASES.ApplicationPage.CLOSED' %}
 		</div>
 	{% endif %}
 
@@ -30,7 +29,7 @@
 			<div class="lite-app-bar__controls">
                 {% if case.query.good.status.key != 'verified' and 'REVIEW_GOODS' in permissions %}
                     <a role="button" draggable="false" id="respond" class="govuk-button" href="{% url 'cases:respond_to_clc_query' case.id %}">
-                        Respond to Query
+                        {% lcs 'CASES.ApplicationPage.RESPOND_BUTTON' %}
                     </a>
                 {% endif %}
 			<div class="app-more-actions__container {% if case.query.good.status != 'final' %}app-more-actions__container--secondary{% endif %}">

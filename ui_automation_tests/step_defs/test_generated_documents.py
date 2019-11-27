@@ -30,7 +30,6 @@ def generated_document_preview(driver, context):
     paragraphs = generated_document_page.get_document_text()
     for paragraph in context.document_template_paragraph_text:
         assert paragraph in paragraphs
-    # When context variables are filled in at some future point also check that no {{ __ }} are present
 
 
 @then("I see my generated document")

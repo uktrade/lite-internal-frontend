@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 from cases.forms.generate_document import select_template_form
 from cases.services import post_generated_document, get_generated_document_preview
+from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_forms.generators import form_page, error_page
@@ -11,7 +12,8 @@ from lite_forms.generators import form_page, error_page
 
 class SelectTemplate(TemplateView):
     def get(self, request, **kwargs):
-        templates = get_letter_templates(request, str(kwargs["pk"]))
+        params = {"case": str(kwargs["pk"])}
+        templates = get_letter_templates(request, convert_dict_to_query_params(params))
         return form_page(request, select_template_form(templates, str(kwargs["pk"])))
 
     def post(self, request, **kwargs):
