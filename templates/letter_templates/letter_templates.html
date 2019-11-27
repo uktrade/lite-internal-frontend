@@ -17,7 +17,7 @@
 		</div>
 	</div>
 
-	{% if data.count %}
+	{% if data %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
@@ -28,7 +28,7 @@
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
-				{% for letter_template in data.results %}
+				{% for letter_template in data %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
                             <a href="{% url 'letter_templates:letter_template' letter_template.id %}" id="{{ letter_template.name }}" class="govuk-link">{{ letter_template.name }}</a>
