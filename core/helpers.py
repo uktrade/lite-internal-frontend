@@ -1,5 +1,3 @@
-from django.core.exceptions import PermissionDenied
-
 from conf import decorators
 from conf.constants import Permissions
 from core.services import get_user_permissions
@@ -28,19 +26,14 @@ def has_permission(request, permission):
     return permission in user_permissions
 
 
-def _wrap_with_permission(permission, view_func=None):
-    """
-    Decorator for views that checks that the user is logged in and is a staff
-    member, redirecting to the login page if necessary.
-    """
-    actual_decorator = decorators.has_permission(permission)
-
-    if view_func:
-        return actual_decorator(view_func)
-    return actual_decorator
-
-
 def decorate_patterns_with_permission(patterns, permission: str):
+    def _wrap_with_permission(_permission, view_func=None):
+        actual_decorator = decorators.has_permission(_permission)
+
+        if view_func:
+            return actual_decorator(view_func)
+        return actual_decorator
+
     decorated_patterns = []
     for pattern in patterns:
         callback = pattern.callback
