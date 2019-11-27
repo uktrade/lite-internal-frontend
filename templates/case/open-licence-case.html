@@ -43,7 +43,7 @@
 		        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:user_advice_view' case.id %}">
 					{% lcs 'CASES.ApplicationPage.Actions.ADVICE' %}
 				</a>
-                <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:generate_document' case.id %}">
+                <a role="button" draggable="false" class="govuk-button" id="generate-document" href="{% url 'cases:generate_document' case.id %}">
 					{% lcs 'CASES.ApplicationPage.Actions.GENERATE_DOCUMENT' %}
 				</a>
 			</div>
