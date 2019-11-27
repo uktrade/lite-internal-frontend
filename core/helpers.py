@@ -1,5 +1,5 @@
 from conf import decorators
-from conf.constants import Permissions, Permission
+from conf.constants import Permission
 from core.services import get_user_permissions
 
 
@@ -18,11 +18,7 @@ def has_permission(request, permission: Permission):
     """
     Returns true if the user has a given permission, else false
     """
-    if not getattr(Permissions, permission.value):
-        raise NotImplementedError(f"{permission} is not implemented in core.permissions")
-
     user_permissions = get_user_permissions(request)
-
     return permission.value in user_permissions
 
 

@@ -2,7 +2,7 @@ import os
 
 from django.urls import reverse_lazy
 
-from conf.constants import Permissions
+from conf.constants import Permission
 from core.helpers import has_permission
 from lite_content.lite_internal_frontend import strings
 from lite_forms.helpers import conditional
@@ -23,7 +23,7 @@ def lite_menu(request):
             {"title": "Users", "url": reverse_lazy("users:users"), "icon": "menu/users"},
             {"title": "Flags", "url": reverse_lazy("flags:flags"), "icon": "menu/flags"},
             conditional(
-                has_permission(request, Permissions.CONFIGURE_TEMPLATES),
+                has_permission(request, Permission.CONFIGURE_TEMPLATES),
                 {
                     "title": strings.DOCUMENT_TEMPLATES_TITLE,
                     "url": reverse_lazy("letter_templates:letter_templates"),
