@@ -16,6 +16,7 @@ from core import lite_strings
 from lite_content.lite_internal_frontend import strings
 
 register = template.Library()
+STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
 
 
 @register.simple_tag(name="lcs")
@@ -49,7 +50,7 @@ def get_const_string(value):
         path_object = getattr(strings, path[0])
         return get(path_object, path[1:]) if len(path) > 1 else path_object
     except AttributeError:
-        return "STRING_NOT_FOUND"
+        return STRING_NOT_FOUND_ERROR
 
 
 @register.simple_tag
