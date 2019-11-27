@@ -17,7 +17,7 @@ class ApplicationPage(BasePage):
     CASE_NOTE_DATE_TIME = ".app-activity__item .govuk-hint"  # css
     CASE_NOTE_CHARACTER_WARNING = "case_note-warning"  # id
     DOCUMENTS_BTN = '[href*="documents"]'  # css
-    GENERATE_DOCUMENTS_BTN = 'generate-document'  # id
+    GENERATE_DOCUMENTS_BTN = "generate-document"  # id
     ECJU_QUERIES_BTN = '[href*="ecju-queries"]'  # css
     PROGRESS_APP_BTN = '[href*="manage"]'
     RECORD_DECISION_BTN = '[href*="decide"]'  # css

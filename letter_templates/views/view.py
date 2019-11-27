@@ -1,11 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from letter_templates.services import get_letter_templates, get_letter_template
 from core.helpers import convert_dict_to_query_params
-from letter_templates import helpers
 from letter_templates.services import (
-    get_letter_paragraphs,
     get_letter_templates,
     get_letter_template,
 )
