@@ -44,9 +44,9 @@ def get_const_string(value):
             return get(object, nested_properties_list[1:])
 
     warnings.warn("Reference constants from strings directly, only use LCS in HTML files", Warning)
+    path = value.split(".")
     try:
-        path = value.split(".")
-        # Get initial object from strings.py
+        # Get initial object from strings.py (may return AttributeError)
         path_object = getattr(strings, path[0])
         return get(path_object, path[1:]) if len(path) > 1 else path_object
     except AttributeError:
