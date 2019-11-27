@@ -1,6 +1,6 @@
 from django.urls import path
 
-from conf.constants import Permissions
+from conf.constants import Permission
 from core.helpers import decorate_patterns_with_permission
 from letter_templates.views import edit, letter_paragraphs, view, create
 
@@ -20,4 +20,4 @@ urlpatterns = [
     path("create/", create.Create.as_view(), name="create"),
 ]
 
-url_patterns = decorate_patterns_with_permission(urlpatterns, Permissions.CONFIGURE_TEMPLATES)
+url_patterns = decorate_patterns_with_permission(urlpatterns, Permission.CONFIGURE_TEMPLATES)

@@ -1,5 +1,5 @@
 from conf import decorators
-from conf.constants import Permissions
+from conf.constants import Permissions, Permission
 from core.services import get_user_permissions
 
 
@@ -14,20 +14,20 @@ def convert_dict_to_query_params(dictionary):
     return "&".join(items)
 
 
-def has_permission(request, permission):
+def has_permission(request, permission: Permission):
     """
     Returns true if the user has a given permission, else false
     """
-    if not getattr(Permissions, permission):
+    if not getattr(Permissions, permission.value):
         raise NotImplementedError(f"{permission} is not implemented in core.permissions")
 
     user_permissions = get_user_permissions(request)
 
-    return permission in user_permissions
+    return permission.value in user_permissions
 
 
-def decorate_patterns_with_permission(patterns, permission: str):
-    def _wrap_with_permission(_permission, view_func=None):
+def decorate_patterns_with_permission(patterns, permission: Permission):
+    def _wrap_with_permission(_permission: Permission, view_func=None):
         actual_decorator = decorators.has_permission(_permission)
 
         if view_func:
