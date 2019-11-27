@@ -24,7 +24,8 @@ from conf.constants import (
     GOOD_CLC_REVIEW_URL,
     MANAGE_STATUS_URL,
     GENERATED_DOCUMENTS_URL,
-    GENERATED_DOCUMENTS_PREVIEW_URL)
+    GENERATED_DOCUMENTS_PREVIEW_URL,
+)
 
 
 def get_case(request, pk):
