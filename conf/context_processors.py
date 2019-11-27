@@ -1,7 +1,10 @@
 import os
 
+from django.urls import reverse_lazy
+
 from conf.constants import Permissions
 from core.helpers import has_permission
+from lite_content.lite_internal_frontend import strings
 from lite_forms.helpers import conditional
 
 
@@ -11,18 +14,22 @@ def export_vars(request):
 
 def lite_menu(request):
     pages = [
-        {"title": "Cases", "url": "/cases/", "icon": "menu/cases"},
-        {"title": "Organisations", "url": "/organisations/", "icon": "menu/businesses"},
-        {"title": "Teams", "url": "/teams/", "icon": "menu/teams"},
-        {"title": "My Team", "url": "/team", "icon": "menu/teams"},
-        {"title": "Queues", "url": "/queues/", "icon": "menu/queues"},
-        {"title": "Users", "url": "/users/", "icon": "menu/users"},
-        {"title": "Flags", "url": "/flags/", "icon": "menu/flags"},
+        {"title": "Cases", "url": reverse_lazy("cases:cases"), "icon": "menu/cases"},
+        {"title": "Organisations", "url": reverse_lazy("organisations:organisations"), "icon": "menu/businesses"},
+        {"title": "Teams", "url": reverse_lazy("teams:teams"), "icon": "menu/teams"},
+        {"title": "My Team", "url": reverse_lazy("teams:team"), "icon": "menu/teams"},
+        {"title": "Queues", "url": reverse_lazy("queues:queues"), "icon": "menu/queues"},
+        {"title": "Users", "url": reverse_lazy("users:users"), "icon": "menu/users"},
+        {"title": "Flags", "url": reverse_lazy("flags:flags"), "icon": "menu/flags"},
         conditional(
             has_permission(request, Permissions.CONFIGURE_TEMPLATES),
-            {"title": "Letter Templates", "url": "/letter-templates/", "icon": "menu/letter_templates"},
+            {
+                "title": strings.DOCUMENT_TEMPLATES_TITLE,
+                "url": reverse_lazy("letter_templates:letter_templates"),
+                "icon": "menu/letter_templates",
+            },
         ),
-        {"title": "HMRC", "url": "/organisations/hmrc/", "icon": "menu/businesses"},
+        {"title": "HMRC", "url": reverse_lazy("organisations:hmrc"), "icon": "menu/businesses"},
     ]
 
     return {"LITE_MENU": [x for x in pages if x is not None]}

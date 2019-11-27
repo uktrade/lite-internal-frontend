@@ -16,7 +16,7 @@ def convert_dict_to_query_params(dictionary):
 
 def has_permission(request, permission):
     """
-    Returns true if the user has a given permission
+    Returns true if the user has a given permission, else false
     """
     if not getattr(Permissions, permission):
         raise NotImplementedError(f"{permission} is not implemented in core.permissions")
