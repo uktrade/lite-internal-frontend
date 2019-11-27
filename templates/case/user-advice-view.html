@@ -29,7 +29,7 @@
                 {% if not case.has_advice.final %}
                     {% if case.application.status.key not in terminal_case_statuses%}
                         <button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-                            Give or change advice
+                            {% lcs 'GIVE_OR_CHANGE_ADVICE' %}
                         </button>
                     {% endif %}
                 {% endif %}
