@@ -1,27 +1,22 @@
-from django.http import Http404
 from django.utils.functional import wraps
 
-from conf.constants import Permissions
-from core.services import get_user_permissions
+from conf.exceptions import PermissionDeniedError
+from core import helpers
 
 
 def has_permission(permission: str):
     """
     Decorator for views that checks that the user has a given permission
     """
-
     def decorator(view_func):
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
-            if not getattr(Permissions, permission):
-                raise NotImplementedError(f"{permission} is not implemented in core.permissions")
-
-            user_permissions = get_user_permissions(request)
-
-            if permission in user_permissions:
+            if helpers.has_permission(request, permission):
                 return view_func(request, *args, **kwargs)
 
-            raise Http404
+            raise PermissionDeniedError(f"You don't have the permission '{permission}' to view this, "
+                                        "check urlpatterns or the function decorator if you want to change "
+                                        "this functionality.")
 
         return _wrapped_view
 
