@@ -3,7 +3,7 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">{% lcs 'CASES.CaseDocumentsPage.back_link' %}</a>
+	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">{% lcs 'CASES.CaseDocumentsPage.BACK_LINK' %}</a>
 {% endblock %}
 
 {% block body %}
@@ -12,10 +12,10 @@
 		<h2 class="govuk-heading-l">{{ title }}</h2>
 		<div class="lite-app-bar--right">
 			<a id="button-attach-document" role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:attach_documents' case.id %}">
-				{% lcs 'CASES.CaseDocumentsPage.attach' %}
+				{% lcs 'CASES.CaseDocumentsPage.ATTACH' %}
 			</a>
             <a id="button-attach-document" role="button" draggable="false" class="govuk-button {% if documents %}govuk-button--secondary{% endif %}" href="{% url 'cases:generate_document' case.id %}">
-				{% lcs 'CASES.CaseDocumentsPage.generate' %}
+				{% lcs 'CASES.CaseDocumentsPage.GENERATE' %}
 			</a>
 		</div>
 	</div>
