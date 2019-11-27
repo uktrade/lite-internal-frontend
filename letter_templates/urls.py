@@ -11,7 +11,6 @@ urlpatterns = [
     path("<uuid:pk>/", view.LetterTemplateDetail.as_view(), name="letter_template"),
     path("<uuid:pk>/edit/", edit.EditTemplate.as_view(), name="edit"),
     path("<uuid:pk>/edit-paragraphs/", edit.EditParagraphs.as_view(), name="edit_letter_paragraphs"),
-
     # Create letter templates
     # ex: /letter-templates/add/
     path("add/", create.Add.as_view(), name="add"),
