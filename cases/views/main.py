@@ -174,7 +174,7 @@ class ManageCase(TemplateView):
             "statuses": [
                 status
                 for status in statuses["statuses"]
-                if status["status"] == "closed" or status["status"] == "submitted"
+                if status["status"] == "closed" or status["status"] == "submitted" or status["status"] == "withdrawn"
             ]
         }
 
@@ -192,6 +192,7 @@ class ManageCase(TemplateView):
                         status["status"] != "finalised"
                         and status["status"] != "applicant_editing"
                         and status["status"] != "closed"
+                        and status["status"] != "registered"
                     )
                 ]
             }
