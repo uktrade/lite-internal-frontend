@@ -106,10 +106,6 @@
 	}
 }
 
-.govuk-phase-banner {
-	display: none;
-}
-
 .app-case-board {
 	display: block;
 	position: relative;
@@ -158,18 +154,6 @@
 		&:last-of-type {
 			margin-bottom: 0;
 		}
-	}
-}
-
-.app-radios__label--error {
-	color: $govuk-error-colour;
-
-	&::before {
-		border-width: $govuk-border-width-form-element-error;
-	}
-
-	&::after {
-		color: govuk-colour("black");
 	}
 }
 
