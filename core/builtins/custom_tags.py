@@ -66,6 +66,7 @@ def str_date(value):
         + return_value.strftime("%d %B " "%Y")
     )
 
+
 @register.filter()
 def reference_code(value):
     value = str(value)
@@ -246,4 +247,4 @@ def linkify(address, name=None):
 def sentence_case(value):
     """Change value to uppercase on initial word and preserve casing on all other words. """
     words = value.split("_")
-    return ' '.join([words[0].capitalize()] + words[1:])
+    return " ".join([words[0].capitalize()] + words[1:])
