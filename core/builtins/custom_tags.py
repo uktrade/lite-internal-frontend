@@ -3,7 +3,6 @@ import json
 import warnings
 from html import escape
 
-import stringcase
 from django import template
 from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
