@@ -23,7 +23,7 @@ from cases.services import (
     _get_total_goods_value,
 )
 from cases.services import post_case_documents, get_case_documents, get_document
-from conf import settings, constants
+from conf import settings
 from conf.constants import DEFAULT_QUEUE_ID
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string

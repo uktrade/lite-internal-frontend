@@ -3,7 +3,6 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
-from conf import constants
 from lite_forms.generators import error_page, form_page
 
 from cases.forms.advice import advice_recommendation_form
