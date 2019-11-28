@@ -45,6 +45,7 @@ STATIC_URL = "/static/"
 DENIAL_REASONS_URL = STATIC_URL + "denial-reasons/"
 COUNTRIES_URL = STATIC_URL + "countries/"
 STATUSES_URL = STATIC_URL + "statuses/"
+STATUS_PROPERTIES_URL = STATUSES_URL + "properties/"
 CONTROL_LIST_ENTRIES_URL = STATIC_URL + "control-list-entries/"
 LETTER_LAYOUTS_URL = STATIC_URL + "letter-layouts/"
 
@@ -54,7 +55,3 @@ DECISIONS_LIST = ["approve", "refuse", "no_licence_required"]
 
 # Role IDs
 SUPER_USER_ROLE_ID = "00000000-0000-0000-0000-000000000002"
-
-
-# Case Statuses
-TERMINAL_CASE_STATUSES = ["closed", "deregistered", "finalised", "registered", "revoked", "surrendered", "withdrawn"]

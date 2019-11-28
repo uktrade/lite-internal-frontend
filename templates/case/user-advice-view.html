@@ -27,7 +27,7 @@
 			</div>
             {% if not case.has_advice.my_team %}
                 {% if not case.has_advice.final %}
-                    {% if case.application.status.key not in terminal_case_statuses%}
+                    {% if not status_is_terminal %}
                         <button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
                             {% lcs 'GIVE_OR_CHANGE_ADVICE' %}
                         </button>
@@ -37,7 +37,7 @@
 		</div>
 
 		<!-- Conditional error wrapper -->
-        {% if case.has_advice.my_team or case.has_advice.final or case.application.status.key in terminal_case_statuses %}
+        {% if case.has_advice.my_team or case.has_advice.final or status_is_terminal %}
             {% include 'case/views/advice-view.html' with show_advice=True %}
         {% else %}
             {% include 'case/views/advice-view.html' with show_checkboxes=True show_advice=True %}

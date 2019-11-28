@@ -28,7 +28,7 @@ from conf.constants import DEFAULT_QUEUE_ID
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import get_string
 from core.helpers import convert_dict_to_query_params
-from core.services import get_user_permissions, get_statuses, get_user_case_notification
+from core.services import get_user_permissions, get_statuses, get_user_case_notification, get_status_properties
 from queues.services import get_cases_search_data
 
 
@@ -95,25 +95,28 @@ class ViewCase(TemplateView):
             "permissions": permissions,
             "queue_id": queue_id,
             "queue_name": queue_name,
-            "terminal_case_statuses": constants.TERMINAL_CASE_STATUSES,
         }
 
         case_type = case["type"]["key"]
 
+        if "application" in case:
+            status_props, _ = get_status_properties(request, case["application"]["status"]["key"])
+        else:
+            status_props, _ = get_status_properties(request, case["query"]["status"]["key"])
+
+        context["status_is_read_only"] = status_props["is_read_only"]
+        context["status_is_terminal"] = status_props["is_terminal"]
+
         if case_type == CaseType.END_USER_ADVISORY_QUERY.value:
-            context["status"] = case["query"]["status"]["key"]
             return render(request, "case/queries/end_user_advisory.html", context)
         elif case_type == CaseType.CLC_QUERY.value:
             context["good"] = case["query"]["good"]
-            context["status"] = case["query"]["status"]["key"]
             return render(request, "case/queries/clc-query-case.html", context)
         elif case_type == CaseType.APPLICATION.value:
             context["notification"] = get_user_case_notification(request, case_id)
             context["total_goods_value"] = _get_total_goods_value(case)
-            context["status"] = case["application"]["status"]["key"]
 
             application_type = case["application"]["application_type"]["key"]
-
             if application_type == CaseType.HMRC_QUERY.value:
                 return render(request, "case/hmrc-case.html", context)
             elif application_type == CaseType.OPEN_LICENCE.value:

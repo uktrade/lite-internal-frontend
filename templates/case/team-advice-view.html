@@ -36,7 +36,7 @@
                         </button>
                     </div>
                 {% else %}
-                    {% if case.application.status.key not in terminal_case_statuses%}
+                    {% if not status_is_terminal %}
                         <a class="govuk-button" href="{% url 'cases:coalesce_user_advice' case.id %}" class="lite-tabs__tab" id="combine_advice_button">
                             {% lcs 'COMBINE_USER_ADVICE' %}
                         </a>
