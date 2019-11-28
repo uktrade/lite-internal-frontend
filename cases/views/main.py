@@ -175,9 +175,7 @@ class ManageCase(TemplateView):
 
         reduced_statuses = {
             "statuses": [
-                status
-                for status in statuses["statuses"]
-                if status["status"] == "closed" or status["status"] == "submitted" or status["status"] == "withdrawn"
+                status for status in statuses["statuses"] if status["status"] in ["closed", "submitted", "withdrawn"]
             ]
         }
 
@@ -191,12 +189,7 @@ class ManageCase(TemplateView):
                 "statuses": [
                     status
                     for status in statuses["statuses"]
-                    if (
-                        status["status"] != "finalised"
-                        and status["status"] != "applicant_editing"
-                        and status["status"] != "closed"
-                        and status["status"] != "registered"
-                    )
+                    if status["status"] not in ["applicant_editing", "closed", "finalised", "registered"]
                 ]
             }
         elif case_type == CaseType.HMRC_QUERY.value:
