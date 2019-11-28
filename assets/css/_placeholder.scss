@@ -285,19 +285,6 @@
 	}
 }
 
-.lite-checkboxes--inline {
-	& > * {
-		display: inline-block;
-	}
-
-	.govuk-checkboxes__label {
-		min-width: 50px;
-		text-align: center;
-		padding-left: 0;
-		padding-right: 15px;
-	}
-}
-
 .app-letter-preview__page {
 	font-family: $govuk-font-family;
 	font-size: 18px;
