@@ -16,6 +16,7 @@ services:
     env_file:
       - .env
     build: .
+    hostname: govfe
     volumes:
       - .:/app
     ports:
