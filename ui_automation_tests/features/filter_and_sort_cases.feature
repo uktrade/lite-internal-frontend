@@ -4,7 +4,7 @@ Feature: I want to filter and sort cases on a queue
   I want to filter and sort the cases in the work queue I am viewing
   So that I can easily find the cases I am most interested in
 
-  @LT_914_filter_and_sort @SB
+  @LT_914_filter_and_sort
   Scenario: Filter and sort
     Given a queue has been created
     And I create application or application has been previously created
