@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from setoptconf import Boolean
 
 from lite_content.lite_internal_frontend import strings
 from lite_forms.components import Form, Select, TextInput, BackLink
@@ -21,14 +22,14 @@ def add_user_form(request):
     )
 
 
-def edit_user_form(request, user_id, super_user):
+def edit_user_form(request, user_id, cannot_edit_role: Boolean):
     return Form(
         title="Edit User",
         questions=[
             TextInput(title="Email", name="email"),
             Select(name="team", title="What team will the user belong to?", options=get_teams(request, True)),
             conditional(
-                not super_user, Select(name="role", options=get_roles(request, True), title=strings.USER_ROLE_QUESTION),
+                not cannot_edit_role, Select(name="role", options=get_roles(request, True), title=strings.USER_ROLE_QUESTION),
             ),
         ],
         back_link=BackLink("Back to User", reverse_lazy("users:user", kwargs={"pk": user_id})),
