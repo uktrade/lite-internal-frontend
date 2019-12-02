@@ -1,10 +1,8 @@
 from django.urls import reverse_lazy
-from setoptconf import Boolean
-
-from lite_content.lite_internal_frontend import strings
-from lite_forms.components import Form, Select, TextInput, BackLink
 
 from core.builtins.custom_tags import get_string
+from lite_content.lite_internal_frontend import strings
+from lite_forms.components import Form, Select, TextInput, BackLink
 from lite_forms.helpers import conditional
 from teams.services import get_teams
 from users.services import get_roles
@@ -22,7 +20,7 @@ def add_user_form(request):
     )
 
 
-def edit_user_form(request, user_id, cannot_edit_role: Boolean):
+def edit_user_form(request, user_id, cannot_edit_role: bool):
     return Form(
         title="Edit User",
         questions=[
