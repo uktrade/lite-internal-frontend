@@ -2,12 +2,13 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from cases.forms.generate_document import select_template_form
+from cases.forms.generate_document import select_template_form, edit_document_text_form
 from cases.services import post_generated_document, get_generated_document_preview
 from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_forms.generators import form_page, error_page
+from lite_forms.views import SingleFormView
 
 
 class SelectTemplate(TemplateView):
@@ -20,10 +21,33 @@ class SelectTemplate(TemplateView):
         template_id = request.POST.get("template")
         if template_id:
             return redirect(
-                reverse_lazy("cases:generate_document_preview", kwargs={"pk": str(kwargs["pk"]), "tpk": template_id})
+                reverse_lazy("cases:generate_document_edit", kwargs={"pk": str(kwargs["pk"]), "tpk": template_id})
             )
         else:
             return redirect(reverse_lazy("cases:generate_document", kwargs={"pk": str(kwargs["pk"])}))
+
+
+class EditDocumentText(SingleFormView):
+    case_id: str
+    template_id: str
+
+    def dispatch(self, request, *args, **kwargs):
+        self.case_id = str(kwargs["pk"])
+        self.template_id = str(kwargs["tpk"])
+        return super(EditDocumentText, self).dispatch(request, *args, **kwargs)
+
+    def init(self, request, **kwargs):
+        self.form = edit_document_text_form(self.case_id)
+        self.success_url = reverse_lazy("users:users")
+        self.data = {"text": "abc"}
+
+    def post(self, request, **kwargs):
+        text = request.POST.get("text")
+        kwargs = {"pk": self.case_id, "tpk": self.template_id}
+        if text:
+            return redirect(reverse_lazy("cases:generate_document_preview", kwargs=kwargs))
+        else:
+            return redirect(reverse_lazy("cases:generate_document_edit", kwargs=kwargs))
 
 
 class PreviewDocument(TemplateView):

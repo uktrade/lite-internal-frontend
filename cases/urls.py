@@ -48,6 +48,11 @@ urlpatterns = [
     path("<uuid:pk>/review-goods-clc/", goods.ReviewGoodsClc.as_view(), name="review_goods_clc"),
     path("<uuid:pk>/generate-document/", generate_document.SelectTemplate.as_view(), name="generate_document"),
     path(
+        "<uuid:pk>/generate-document/<uuid:tpk>/edit/",
+        generate_document.EditDocumentText.as_view(),
+        name="generate_document_edit",
+    ),
+    path(
         "<uuid:pk>/generate-document/<uuid:tpk>/preview/",
         generate_document.PreviewDocument.as_view(),
         name="generate_document_preview",
