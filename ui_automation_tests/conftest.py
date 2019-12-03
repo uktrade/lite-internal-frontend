@@ -326,12 +326,12 @@ def click_chevron(driver, context):
     driver.set_timeout_to(10)
 
 
-@when(parsers.parse('filter case type has been changed to "{case_type}"'))
+@when(parsers.parse('filter case type has been changed to "{case_type}"'))  # noqa
 def filter_status_change(driver, context, case_type):
     CaseListPage(driver).select_filter_case_type_from_dropdown(case_type)
     CaseListPage(driver).click_apply_filters_button()
 
 
-@when("I show filters")
+@when("I show filters")  # noqa
 def i_show_filters(driver, context):
     CaseListPage(driver).click_show_filters_link()
