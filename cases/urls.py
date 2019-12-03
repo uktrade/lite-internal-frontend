@@ -57,4 +57,9 @@ urlpatterns = [
         generate_document.PreviewDocument.as_view(),
         name="generate_document_preview",
     ),
+    path(
+        "<uuid:pk>/generate-document/<uuid:tpk>/create/",
+        generate_document.CreateDocument.as_view(),
+        name="generate_document_create",
+    ),
 ]

@@ -25,10 +25,11 @@ def select_template_form(templates, case_id):
     )
 
 
-def edit_document_text_form(case_id):
+def edit_document_text_form(case_id, kwargs):
     return Form(
         title="Edit text",
         questions=[TextArea(title="Text", name="text", extras={"max_length": 5000})],
         default_button_name="Continue",
         back_link=BackLink(text="Back", url=reverse_lazy("cases:generate_document", kwargs={"pk": case_id})),
+        post_url=reverse_lazy("cases:generate_document_preview", kwargs=kwargs)
     )
