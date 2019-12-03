@@ -17,4 +17,4 @@ def go_to_hmrc(driver):
 
 @then("I see HMRC query")
 def see_hmrc(driver):
-    assert driver.find_element_by_css_selector('.govuk-caption-m').text == 'HMRC Query'
+    assert driver.find_element_by_css_selector('.govuk-caption-m').text == "HMRC Query"
