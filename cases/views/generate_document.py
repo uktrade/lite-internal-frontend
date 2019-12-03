@@ -9,6 +9,7 @@ from letter_templates.services import get_letter_templates, get_letter_template
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_forms.generators import form_page, error_page
 from lite_forms.views import SingleFormView
+from picklists.services import get_picklists
 
 
 class SelectTemplate(TemplateView):
@@ -40,10 +41,17 @@ class EditDocumentText(SingleFormView):
         self.data = {"text": paragraph_text}
 
 
+class AddDocumentParagraphs(TemplateView):
+    def get(self, request, **kwargs):
+        letter_paragraphs = get_picklists(request, "letter_paragraph")["picklist_items"]
+        return render(request, "generated_documents/add_paragraphs.html", {"letter_paragraphs": letter_paragraphs})
+
+
 def _error_page():
     return error_page(
         None, title=GenerateDocumentsPage.TITLE, description=GenerateDocumentsPage.ERROR, show_back_link=True,
     )
+
 
 class PreviewDocument(TemplateView):
     def post(self, request, **kwargs):
