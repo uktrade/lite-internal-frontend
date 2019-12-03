@@ -9,7 +9,7 @@ RUN apt-get install -y libpq-dev gcc \
   libffi-dev shared-mime-info \
   # Extra fonts for PDF generation
   fonts-liberation2 \
-  chromium chromium-driver
+  chromium chromium-driver wget unzip libnss3-dev procps iputils-ping emacs
 
 RUN pip3 install pipenv
 ADD Pipfile* /app/
