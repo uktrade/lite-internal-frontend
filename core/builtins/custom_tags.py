@@ -3,7 +3,6 @@ import json
 import warnings
 from html import escape
 
-import stringcase
 from django import template
 from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
@@ -16,6 +15,7 @@ from core import lite_strings
 from lite_content.lite_internal_frontend import strings
 
 register = template.Library()
+STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
 
 
 @register.simple_tag(name="lcs")
@@ -23,11 +23,33 @@ def get_const_string(value):
     """
     Template tag for accessing constants from LITE content library (not for Python use - only HTML)
     """
+
+    def get(object_to_search, nested_properties_list):
+        """
+        Recursive function used to search an unknown number of nested objects
+        for a property. For example if we had a path 'cases.CasePage.title' this function
+        would take the current object `object_to_search` and get an object called 'CasePage'.
+        It would then call itself again to search the 'CasePage' for a property called 'title'.
+        :param object_to_search: An unknown object to get the given property from
+        :param nested_properties_list: The path list to the attribute we want
+        :return: The attribute in the given object for the given path
+        """
+        object = getattr(object_to_search, nested_properties_list[0])
+        if len(nested_properties_list) == 1:
+            # We have reached the end of the path and now have the string
+            return object
+        else:
+            # Search the object for the next property in `nested_properties_list`
+            return get(object, nested_properties_list[1:])
+
     warnings.warn("Reference constants from strings directly, only use LCS in HTML files", Warning)
+    path = value.split(".")
     try:
-        return getattr(strings, value)
+        # Get initial object from strings.py (may return AttributeError)
+        path_object = getattr(strings, path[0])
+        return get(path_object, path[1:]) if len(path) > 1 else path_object
     except AttributeError:
-        return ""
+        return STRING_NOT_FOUND_ERROR
 
 
 @register.simple_tag
@@ -65,11 +87,6 @@ def str_date(value):
         + " "
         + return_value.strftime("%d %B " "%Y")
     )
-
-
-@register.filter()
-def sentence_case(value):
-    return stringcase.sentencecase(value)
 
 
 @register.filter()
@@ -246,3 +263,10 @@ def linkify(address, name=None):
     name = escape(name)
 
     return safe(f'<a href="{address}" class="govuk-link govuk-link--no-visited-state">{name}</a>')
+
+
+@register.filter()
+def sentence_case(value):
+    """Change value to uppercase on initial word and preserve casing on all other words. """
+    words = value.split("_")
+    return " ".join([words[0].capitalize()] + words[1:])
