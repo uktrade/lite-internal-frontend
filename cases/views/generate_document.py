@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from cases.forms.generate_document import select_template_form, edit_document_text_form
 from cases.services import post_generated_document, get_generated_document_preview
 from core.helpers import convert_dict_to_query_params
-from letter_templates.services import get_letter_templates
+from letter_templates.services import get_letter_templates, get_letter_template
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_forms.generators import form_page, error_page
 from lite_forms.views import SingleFormView
@@ -37,9 +37,14 @@ class EditDocumentText(SingleFormView):
         return super(EditDocumentText, self).dispatch(request, *args, **kwargs)
 
     def init(self, request, **kwargs):
+        paragraph_text = get_letter_template(
+            request,
+            self.template_id,
+            params=convert_dict_to_query_params({"text": True})
+        )[0]["text"]
         self.form = edit_document_text_form(self.case_id)
         self.success_url = reverse_lazy("users:users")
-        self.data = {"text": "abc"}
+        self.data = {"text": paragraph_text}
 
     def post(self, request, **kwargs):
         text = request.POST.get("text")
