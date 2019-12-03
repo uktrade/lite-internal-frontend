@@ -23,8 +23,8 @@ def get_letter_paragraphs(request, ids: list):
     return sort_letter_paragraphs(letter_paragraphs, ids)
 
 
-def get_letter_template(request, pk, generate_preview=False):
-    data = get(request, LETTER_TEMPLATES_URL + pk + "?generate_preview=" + str(generate_preview))
+def get_letter_template(request, pk, params=None):
+    data = get(request, LETTER_TEMPLATES_URL + pk + "?" + params)
     return data.json(), data.status_code
 
 

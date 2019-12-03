@@ -19,7 +19,9 @@ class LetterTemplatesList(TemplateView):
 class LetterTemplateDetail(TemplateView):
     def get(self, request, **kwargs):
         letter_template_id = str(kwargs["pk"])
-        template = get_letter_template(request, letter_template_id, generate_preview=True)[0]
+        template = get_letter_template(
+            request, letter_template_id, params=convert_dict_to_query_params({"generate_preview": True})
+        )[0]
         context = {
             "letter_template": template["template"],
             "preview": template["preview"],
