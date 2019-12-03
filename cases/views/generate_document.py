@@ -40,13 +40,12 @@ class EditDocumentText(SingleFormView):
         self.data = {"text": paragraph_text}
 
 
-class PreviewDocument(TemplateView):
-    @staticmethod
-    def _error_page():
-        return error_page(
-            None, title=GenerateDocumentsPage.TITLE, description=GenerateDocumentsPage.ERROR, show_back_link=True,
-        )
+def _error_page():
+    return error_page(
+        None, title=GenerateDocumentsPage.TITLE, description=GenerateDocumentsPage.ERROR, show_back_link=True,
+    )
 
+class PreviewDocument(TemplateView):
     def post(self, request, **kwargs):
         template_id = str(kwargs["tpk"])
         case_id = str(kwargs["pk"])
@@ -54,22 +53,30 @@ class PreviewDocument(TemplateView):
         if "text" in request.POST:
             text = request.POST["text"]
         else:
-            return self._error_page()
+            return _error_page()
 
         preview, status_code = get_generated_document_preview(request, case_id, template_id, text=text)
         if status_code == 400:
-            return self._error_page()
+            return _error_page()
 
         return render(
             request,
             "generated_documents/preview.html",
-            {"preview": preview["preview"], "pk": case_id, "tpk": template_id},
+            {
+                "preview": preview["preview"],
+                "text": text,
+                "pk": case_id,
+                "tpk": template_id
+            },
         )
 
 
 class CreateDocument(TemplateView):
     def post(self, request, **kwargs):
+        if "text" not in request.POST:
+            return _error_page()
+        text = request.POST["text"]
         template_id = str(kwargs["tpk"])
         case_id = str(kwargs["pk"])
-        post_generated_document(request, case_id, {"template": template_id})
+        post_generated_document(request, case_id, {"template": template_id, "text": text})
         return redirect(reverse_lazy("cases:documents", kwargs={"pk": case_id}))
