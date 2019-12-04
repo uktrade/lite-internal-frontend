@@ -13,9 +13,10 @@ def create_hmrc_query(driver, apply_for_hmrc_query, context):
 @when("I go to HMRC query")  # noqa
 def go_to_hmrc(driver, context):
     driver.set_timeout_to(0)
-    if len(driver.find_elements_by_css_selector('.govuk-link[href*="cases"]')) > 0:
+    context.hmrc_is_found = False
+    if len(driver.find_elements_by_css_selector('.govuk-table__body .govuk-link[href*="cases"]')) > 0:
         context.hmrc_is_found = True
-        driver.find_element_by_css_selector('.govuk-link[href*="cases"]').click()
+        driver.find_element_by_css_selector('.govuk-table__body .govuk-link[href*="cases"]').click()
     driver.set_timeout_to(10)
 
 
