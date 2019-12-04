@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 
+from letter_templates.context_variables import get_sample_context_variables
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_forms.components import (
@@ -7,10 +8,10 @@ from lite_forms.components import (
     RadioButtonsImage,
     Option,
     BackLink,
-    TextArea,
     SubmitButton,
     Checkboxes,
     HiddenField,
+    MarkdownArea,
 )
 
 ADD_PARAGRAPH_KEY = "add_paragraphs"
@@ -40,7 +41,9 @@ def edit_document_text_form(case_id, kwargs):
     return Form(
         title="Edit text",
         questions=[
-            TextArea(title="Text", name="text", extras={"max_length": 5000}),
+            MarkdownArea(
+                title="Text", variables=get_sample_context_variables(), name="text", extras={"max_length": 5000}
+            ),
             SubmitButton(
                 name=ADD_PARAGRAPH_KEY,
                 text="Add paragraphs",

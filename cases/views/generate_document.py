@@ -67,7 +67,7 @@ class RegenerateExistingDocument(TemplateView):
         return redirect(
             reverse_lazy("cases:generate_document_edit", kwargs={"pk": case_id, "tpk": document["template"]})
             + "?document_id="
-            + document["id"]
+            + document_id
         )
 
 
