@@ -2,7 +2,10 @@ from django.urls import reverse_lazy
 
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
-from lite_forms.components import Form, RadioButtonsImage, Option, BackLink, TextArea, Link
+from lite_forms.components import Form, RadioButtonsImage, Option, BackLink, TextArea, SubmitButton
+
+
+ADD_PARAGRAPH_KEY = "add_paragraphs"
 
 
 def select_template_form(templates, case_id):
@@ -30,9 +33,9 @@ def edit_document_text_form(case_id, kwargs):
         title="Edit text",
         questions=[
             TextArea(title="Text", name="text", extras={"max_length": 5000}),
-            Link(name="add_paragraphs", url=reverse_lazy("cases:generate_document_add_paragraphs"), text="Add paragraphs")
+            SubmitButton(name=ADD_PARAGRAPH_KEY, text="Add paragraphs"),
         ],
         default_button_name="Continue",
         back_link=BackLink(text="Back", url=reverse_lazy("cases:generate_document", kwargs={"pk": case_id})),
-        post_url=reverse_lazy("cases:generate_document_preview", kwargs=kwargs)
+        post_url=reverse_lazy("cases:generate_document_preview", kwargs=kwargs),
     )

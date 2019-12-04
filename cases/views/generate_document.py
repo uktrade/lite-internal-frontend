@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from cases.forms.generate_document import select_template_form, edit_document_text_form
 from cases.services import post_generated_document, get_generated_document_preview
 from core.helpers import convert_dict_to_query_params
-from letter_templates.services import get_letter_templates, get_letter_template
+from letter_templates.services import get_letter_templates, get_letter_template, get_letter_paragraphs
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_forms.generators import form_page, error_page
 from lite_forms.views import SingleFormView
@@ -32,19 +32,32 @@ class EditDocumentText(SingleFormView):
     def init(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         template_id = str(kwargs["tpk"])
-        paragraph_text = get_letter_template(
-            request,
-            template_id,
-            params=convert_dict_to_query_params({"text": True})
-        )[0]["text"]
+        if "text" in request.GET:
+            paragraph_text = request.GET["text"]
+        else:
+            paragraph_text = get_letter_template(
+                request, template_id, params=convert_dict_to_query_params({"text": True})
+            )[0]["text"]
         self.form = edit_document_text_form(case_id, {"pk": case_id, "tpk": template_id})
         self.data = {"text": paragraph_text}
 
 
 class AddDocumentParagraphs(TemplateView):
-    def get(self, request, **kwargs):
+    def get(self, request, pk, tpk, text):
         letter_paragraphs = get_picklists(request, "letter_paragraph")["picklist_items"]
-        return render(request, "generated_documents/add_paragraphs.html", {"letter_paragraphs": letter_paragraphs})
+        context = {"letter_paragraphs": letter_paragraphs, "text": text}
+        return render(request, "generated_documents/add_paragraphs.html", context)
+
+    def post(self, request, pk, tpk, text):
+        letter_paragraph_ids = request.POST.getlist("letter_paragraphs")
+        letter_paragraphs = get_letter_paragraphs(request, letter_paragraph_ids)
+
+        for paragraph in letter_paragraphs:
+            text += f"\n\n{paragraph['text']}"
+
+        return redirect(
+            reverse_lazy("cases:generate_document_edit", kwargs={"pk": str(pk), "tpk": str(tpk)}) + "?text=" + text
+        )
 
 
 def _error_page():
@@ -54,9 +67,14 @@ def _error_page():
 
 
 class PreviewDocument(TemplateView):
-    def post(self, request, **kwargs):
-        template_id = str(kwargs["tpk"])
-        case_id = str(kwargs["pk"])
+    def post(self, request, pk, tpk):
+        template_id = str(tpk)
+        case_id = str(pk)
+
+        # Redirect to add paragraphs instead if button is clicked
+        if "add_paragraphs" in request.POST:
+            kwargs = {"tpk": template_id, "pk": case_id, "text": request.POST["text"]}
+            return redirect(reverse_lazy("cases:generate_document_add_paragraphs", kwargs=kwargs))
 
         if "text" in request.POST:
             text = request.POST["text"]
@@ -70,12 +88,7 @@ class PreviewDocument(TemplateView):
         return render(
             request,
             "generated_documents/preview.html",
-            {
-                "preview": preview["preview"],
-                "text": text,
-                "pk": case_id,
-                "tpk": template_id
-            },
+            {"preview": preview["preview"], "text": text, "pk": case_id, "tpk": template_id},
         )
 
 
