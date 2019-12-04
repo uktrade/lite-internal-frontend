@@ -53,7 +53,7 @@ urlpatterns = [
         name="generate_document_edit",
     ),
     path(
-        "<uuid:pk>/generate-document/<uuid:tpk>/add-paragraphs/<str:text>/",
+        "<uuid:pk>/generate-document/<uuid:tpk>/add-paragraphs/",
         generate_document.AddDocumentParagraphs.as_view(),
         name="generate_document_add_paragraphs",
     ),

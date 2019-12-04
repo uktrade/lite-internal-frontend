@@ -1,11 +1,13 @@
+from http import HTTPStatus
+
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from cases.forms.generate_document import select_template_form, edit_document_text_form
+from cases.forms.generate_document import select_template_form, edit_document_text_form, add_paragraphs_form
 from cases.services import post_generated_document, get_generated_document_preview
 from core.helpers import convert_dict_to_query_params
-from letter_templates.services import get_letter_templates, get_letter_template, get_letter_paragraphs
+from letter_templates.services import get_letter_templates, get_letter_template
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_forms.generators import form_page, error_page
 from lite_forms.views import SingleFormView
@@ -29,35 +31,40 @@ class SelectTemplate(TemplateView):
 
 
 class EditDocumentText(SingleFormView):
+    @staticmethod
+    def _validate_text(request, json):
+        json["text"] = "\n\n".join(json["text"])
+        return json, HTTPStatus.OK
+
     def init(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         template_id = str(kwargs["tpk"])
-        if "text" in request.GET:
-            paragraph_text = request.GET["text"]
-        else:
+        keys = {"pk": case_id, "tpk": template_id}
+
+        if "text" not in request.POST:
             paragraph_text = get_letter_template(
                 request, template_id, params=convert_dict_to_query_params({"text": True})
             )[0]["text"]
-        self.form = edit_document_text_form(case_id, {"pk": case_id, "tpk": template_id})
-        self.data = {"text": paragraph_text}
+            self.data = {"text": paragraph_text}
+
+        self.form = edit_document_text_form(case_id, keys)
+        self.redirect = False
+        self.action = self._validate_text
 
 
-class AddDocumentParagraphs(TemplateView):
-    def get(self, request, pk, tpk, text):
+class AddDocumentParagraphs(SingleFormView):
+    @staticmethod
+    def _validate_text(request, json):
+        return json, HTTPStatus.OK
+
+    def init(self, request, **kwargs):
         letter_paragraphs = get_picklists(request, "letter_paragraph")["picklist_items"]
-        context = {"letter_paragraphs": letter_paragraphs, "text": text}
-        return render(request, "generated_documents/add_paragraphs.html", context)
+        case_id = str(kwargs["pk"])
+        template_id = str(kwargs["tpk"])
 
-    def post(self, request, pk, tpk, text):
-        letter_paragraph_ids = request.POST.getlist("letter_paragraphs")
-        letter_paragraphs = get_letter_paragraphs(request, letter_paragraph_ids)
-
-        for paragraph in letter_paragraphs:
-            text += f"\n\n{paragraph['text']}"
-
-        return redirect(
-            reverse_lazy("cases:generate_document_edit", kwargs={"pk": str(pk), "tpk": str(tpk)}) + "?text=" + text
-        )
+        self.form = add_paragraphs_form(letter_paragraphs, request.POST["text"], {"pk": case_id, "tpk": template_id})
+        self.redirect = False
+        self.action = self._validate_text
 
 
 def _error_page():
