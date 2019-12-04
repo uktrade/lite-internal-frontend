@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.forms.generate_document import select_template_form, edit_document_text_form, add_paragraphs_form
-from cases.services import post_generated_document, get_generated_document_preview
+from cases.services import post_generated_document, get_generated_document_preview, get_generated_document
 from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates, get_letter_template
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
@@ -15,10 +15,11 @@ from picklists.services import get_picklists
 
 
 class SelectTemplate(TemplateView):
-    def get(self, request, **kwargs):
-        params = {"case": str(kwargs["pk"])}
+    def get(self, request, pk):
+        case_id = str(pk)
+        params = {"case": case_id}
         templates = get_letter_templates(request, convert_dict_to_query_params(params))
-        return form_page(request, select_template_form(templates, str(kwargs["pk"])))
+        return form_page(request, select_template_form(templates, str(case_id)))
 
     def post(self, request, **kwargs):
         template_id = request.POST.get("template")
@@ -36,12 +37,18 @@ class EditDocumentText(SingleFormView):
         json["text"] = "\n\n".join(json["text"])
         return json, HTTPStatus.OK
 
-    def init(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        template_id = str(kwargs["tpk"])
+    def init(self, request, pk, tpk):
+        case_id = str(pk)
+        template_id = str(tpk)
         keys = {"pk": case_id, "tpk": template_id}
 
-        if "text" not in request.POST:
+        # If regenerating, get existing text for a given document ID
+        if "document_id" in request.GET:
+            document, status_code = get_generated_document(request, case_id, request.GET["document_id"])
+            self.data = {"text": document["text"]}
+
+        # if not returning to this page from adding paragraphs (going to page first time) get template text
+        elif "text" not in request.POST:
             paragraph_text = get_letter_template(
                 request, template_id, params=convert_dict_to_query_params({"text": True})
             )[0]["text"]
@@ -50,6 +57,18 @@ class EditDocumentText(SingleFormView):
         self.form = edit_document_text_form(case_id, keys)
         self.redirect = False
         self.action = self._validate_text
+
+
+class RegenerateExistingDocument(TemplateView):
+    def get(self, request, pk, dpk):
+        case_id = str(pk)
+        document_id = str(dpk)
+        document, status_code = get_generated_document(request, case_id, document_id)
+        return redirect(
+            reverse_lazy("cases:generate_document_edit", kwargs={"pk": case_id, "tpk": document["template"]})
+            + "?document_id="
+            + document["id"]
+        )
 
 
 class AddDocumentParagraphs(SingleFormView):

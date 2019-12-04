@@ -44,7 +44,8 @@
                         <td class="govuk-table__cell">{{ document.created_at|str_date }}</td>
                         <td class="govuk-table__cell">
                             {% if document.type.key == "GENERATED" %}
-                                <form method="post">
+                                <form method="get" action="{% url "cases:generate_document_regenerate" case.id document.id %}">
+                                    {% csrf_token %}
                                     <button type="submit" class="lite-button--link">Regenerate</button>
                                 </form>
                             {% endif %}
