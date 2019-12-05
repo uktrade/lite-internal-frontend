@@ -12,6 +12,12 @@ So that I can easily and quickly generate different types of standard document t
     When I go to application previously created
     And I click on the Generate document button
     And I select the template previously created
+    Then I see the template text to edit
+    When I add a paragraph to the document
+    Then I see the template text to edit
+    When I add my custom text "yellowDuck"
+    Then I see the template text to edit
+    When I click continue
     Then I see the generated document preview
     When I click continue
     Then I see my generated document
