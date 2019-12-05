@@ -63,6 +63,9 @@ class RegenerateExistingDocument(TemplateView):
         case_id = str(pk)
         document_id = str(dpk)
         document, status_code = get_generated_document(request, case_id, document_id)
+        if status_code != 200:
+            return redirect(reverse_lazy("cases:documents", kwargs={"pk": case_id}))
+
         return redirect(
             reverse_lazy("cases:generate_document_edit", kwargs={"pk": case_id, "tpk": document["template"]})
             + "?document_id="
