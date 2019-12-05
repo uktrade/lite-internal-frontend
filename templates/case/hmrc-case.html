@@ -28,7 +28,7 @@
 	<div class="lite-app-bar__controls">
 		<div class="app-more-actions__container">
 			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
-	        	{% get_string 'cases.manage.documents.button' %}
+	           	{% lcs 'CASES.ApplicationPage.Actions.DOCUMENT' %}
 	        </a>
 	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
 				{% get_string 'cases.manage.move_case.button' %}
@@ -36,11 +36,14 @@
 			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' case.id %}">
 				Change Status
 			</a>
-			{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
+			{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' and not status_is_terminal%}
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' case.id %}">
 					Record Decision
 				</a>
 			{% endif %}
+            <a role="button" draggable="false" class="govuk-button" id="generate-document" href="{% url 'cases:generate_document' case.id %}">
+                {% lcs 'CASES.ApplicationPage.Actions.GENERATE_DOCUMENT' %}
+            </a>
 		</div>
 	</div>
 </div>
