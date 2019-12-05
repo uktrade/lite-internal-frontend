@@ -38,7 +38,7 @@ def register_business_forms(individual=False, name=""):
                 Form(
                     title=get_string("register_business.register_individual_title"),
                     questions=[
-                        TextInput(title="First and last name", name="name"),
+                        TextInput(title=strings.REGISTER_BUSINESS_FIRST_AND_LAST_NAME, name="name"),
                         TextInput(title=get_string("register_business.email"), name="user.email"),
                         TextInput(title=get_string("register_business.eori_number"), name="eori_number"),
                         TextInput(
