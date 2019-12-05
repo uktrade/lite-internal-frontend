@@ -46,7 +46,7 @@
                             {% if document.type.key == "GENERATED" %}
                                 <form method="get" action="{% url "cases:generate_document_regenerate" case.id document.id %}">
                                     {% csrf_token %}
-                                    <button type="submit" class="lite-button--link">Regenerate</button>
+                                    <button type="submit" class="lite-button--link">{% lcs 'CASES.AdditionalDocumentsPage.Document.REGENERATE_LINK' %}</button>
                                 </form>
                             {% endif %}
                         </td>
