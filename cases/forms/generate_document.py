@@ -3,15 +3,7 @@ from django.urls import reverse_lazy
 from letter_templates.context_variables import get_sample_context_variables
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
-from lite_forms.components import (
-    Form,
-    RadioButtonsImage,
-    Option,
-    BackLink,
-    Checkboxes,
-    HiddenField,
-    MarkdownArea,
-    Link)
+from lite_forms.components import Form, RadioButtonsImage, Option, BackLink, Checkboxes, HiddenField, MarkdownArea, Link
 
 ADD_PARAGRAPH_KEY = "add_paragraphs"
 
@@ -40,17 +32,18 @@ def edit_document_text_form(case_id, kwargs):
     return Form(
         title=GenerateDocumentsPage.EditTextForm.HEADING,
         questions=[
-            MarkdownArea(
-                variables=get_sample_context_variables(), name="text", extras={"max_length": 5000}
-            ),
+            MarkdownArea(variables=get_sample_context_variables(), name="text", extras={"max_length": 5000}),
             Link(
                 text=GenerateDocumentsPage.EditTextForm.ADD_PARAGRAPHS_LINK,
                 address=reverse_lazy("cases:generate_document_add_paragraphs", kwargs=kwargs),
-                form_action=True
+                form_action=True,
             ),
         ],
         default_button_name=GenerateDocumentsPage.EditTextForm.BUTTON,
-        back_link=BackLink(text=GenerateDocumentsPage.EditTextForm.BACK_LINK, url=reverse_lazy("cases:generate_document", kwargs={"pk": case_id})),
+        back_link=BackLink(
+            text=GenerateDocumentsPage.EditTextForm.BACK_LINK,
+            url=reverse_lazy("cases:generate_document", kwargs={"pk": case_id}),
+        ),
         post_url=reverse_lazy("cases:generate_document_preview", kwargs=kwargs),
     )
 

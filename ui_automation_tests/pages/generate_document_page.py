@@ -29,7 +29,7 @@ class GeneratedDocument(BasePage):
 
     def uncheck_all_paragraphs_except_last(self):
         checkboxes = self.driver.find_elements_by_name(self.PARAGRAPH_CHECKBOXES)
-        for i in range(len(checkboxes)-1):
+        for i in range(len(checkboxes) - 1):
             if checkboxes[i].is_selected():
                 checkboxes[i].click()
 
