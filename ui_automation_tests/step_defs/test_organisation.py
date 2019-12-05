@@ -88,7 +88,7 @@ def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, reg
 )
 def fill_out_individual_registration_page(driver, first_last_name, eori, email, context):
     organisations_form_page = OrganisationsFormPage(driver)
-    organisations_form_page.enter_first_last_name(first_last_name)
+    organisations_form_page.enter_individual_organisation_first_last_name(first_last_name)
     organisations_form_page.enter_email(email)
     context.organisation_name = first_last_name
     organisations_form_page.enter_eori_number(eori)

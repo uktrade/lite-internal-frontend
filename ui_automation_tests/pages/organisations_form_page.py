@@ -46,7 +46,7 @@ class OrganisationsFormPage(BasePage):
         country_tb = self.driver.find_element_by_id("site.address.country")
         country_tb.send_keys(text)
 
-    def enter_first_last_name(self, text):
+    def enter_individual_organisation_first_last_name(self, text):
         self.driver.find_element_by_id("name").send_keys(text)
 
     def enter_email(self, text):
