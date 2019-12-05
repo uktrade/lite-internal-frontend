@@ -39,26 +39,26 @@ def select_template_form(templates, case_id):
 
 def edit_document_text_form(case_id, kwargs):
     return Form(
-        title="Edit text",
+        title=GenerateDocumentsPage.EditTextForm.HEADING,
         questions=[
             MarkdownArea(
-                title="Text", variables=get_sample_context_variables(), name="text", extras={"max_length": 5000}
+                variables=get_sample_context_variables(), name="text", extras={"max_length": 5000}
             ),
             SubmitButton(
                 name=ADD_PARAGRAPH_KEY,
-                text="Add paragraphs",
+                text=GenerateDocumentsPage.EditTextForm.ADD_PARAGRAPHS_LINK,
                 formaction=reverse_lazy("cases:generate_document_add_paragraphs", kwargs=kwargs),
             ),
         ],
-        default_button_name="Continue",
-        back_link=BackLink(text="Back", url=reverse_lazy("cases:generate_document", kwargs={"pk": case_id})),
+        default_button_name=GenerateDocumentsPage.EditTextForm.BUTTON,
+        back_link=BackLink(text=GenerateDocumentsPage.EditTextForm.BACK_LINK, url=reverse_lazy("cases:generate_document", kwargs={"pk": case_id})),
         post_url=reverse_lazy("cases:generate_document_preview", kwargs=kwargs),
     )
 
 
 def add_paragraphs_form(paragraphs, text, kwargs):
     return Form(
-        title="Add paragraphs",
+        title=GenerateDocumentsPage.AddParagraphsForm.HEADING,
         questions=[
             HiddenField(name="text[]", value=text),
             Checkboxes(
@@ -66,6 +66,6 @@ def add_paragraphs_form(paragraphs, text, kwargs):
             ),
         ],
         back_link=BackLink(),
-        default_button_name="Continue",
+        default_button_name=GenerateDocumentsPage.AddParagraphsForm.BUTTON,
         post_url=reverse_lazy("cases:generate_document_edit", kwargs=kwargs),
     )
