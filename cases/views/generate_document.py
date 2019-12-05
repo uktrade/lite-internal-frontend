@@ -17,8 +17,7 @@ from picklists.services import get_picklists
 class SelectTemplate(TemplateView):
     def get(self, request, pk):
         case_id = str(pk)
-        params = {"case": case_id}
-        templates = get_letter_templates(request, convert_dict_to_query_params(params))
+        templates = get_letter_templates(request, convert_dict_to_query_params({"case": case_id}))
         return form_page(request, select_template_form(templates, str(case_id)))
 
     def post(self, request, **kwargs):
@@ -100,7 +99,7 @@ class PreviewDocument(TemplateView):
         if "text" in request.POST:
             text = request.POST["text"]
         else:
-            text = ""
+            return _error_page()
 
         preview, status_code = get_generated_document_preview(request, case_id, template_id, text=text)
         if status_code == 400:
@@ -117,8 +116,12 @@ class CreateDocument(TemplateView):
     def post(self, request, **kwargs):
         if "text" not in request.POST:
             return _error_page()
+
         text = request.POST["text"]
         template_id = str(kwargs["tpk"])
         case_id = str(kwargs["pk"])
-        post_generated_document(request, case_id, {"template": template_id, "text": text})
-        return redirect(reverse_lazy("cases:documents", kwargs={"pk": case_id}))
+        status_code = post_generated_document(request, case_id, {"template": template_id, "text": text})
+        if status_code != 201:
+            return _error_page()
+        else:
+            return redirect(reverse_lazy("cases:documents", kwargs={"pk": case_id}))
