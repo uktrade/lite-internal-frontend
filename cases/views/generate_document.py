@@ -97,15 +97,10 @@ class PreviewDocument(TemplateView):
         template_id = str(tpk)
         case_id = str(pk)
 
-        # Redirect to add paragraphs instead if button is clicked
-        if "add_paragraphs" in request.POST:
-            kwargs = {"tpk": template_id, "pk": case_id, "text": request.POST["text"]}
-            return redirect(reverse_lazy("cases:generate_document_add_paragraphs", kwargs=kwargs))
-
         if "text" in request.POST:
             text = request.POST["text"]
         else:
-            return _error_page()
+            text = ""
 
         preview, status_code = get_generated_document_preview(request, case_id, template_id, text=text)
         if status_code == 400:
