@@ -43,7 +43,7 @@ class EditDocumentText(SingleFormView):
 
         # If regenerating, get existing text for a given document ID
         if "document_id" in request.GET:
-            document, status_code = get_generated_document(request, case_id, request.GET["document_id"])
+            document, _ = get_generated_document(request, case_id, request.GET["document_id"])
             self.data = {"text": document["text"]}
 
         # if not returning to this page from adding paragraphs (going to page first time) get template text
