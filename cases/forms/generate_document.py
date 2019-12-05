@@ -8,11 +8,10 @@ from lite_forms.components import (
     RadioButtonsImage,
     Option,
     BackLink,
-    SubmitButton,
     Checkboxes,
     HiddenField,
     MarkdownArea,
-)
+    Link)
 
 ADD_PARAGRAPH_KEY = "add_paragraphs"
 
@@ -44,10 +43,10 @@ def edit_document_text_form(case_id, kwargs):
             MarkdownArea(
                 variables=get_sample_context_variables(), name="text", extras={"max_length": 5000}
             ),
-            SubmitButton(
-                name=ADD_PARAGRAPH_KEY,
+            Link(
                 text=GenerateDocumentsPage.EditTextForm.ADD_PARAGRAPHS_LINK,
-                formaction=reverse_lazy("cases:generate_document_add_paragraphs", kwargs=kwargs),
+                address=reverse_lazy("cases:generate_document_add_paragraphs", kwargs=kwargs),
+                form_action=True
             ),
         ],
         default_button_name=GenerateDocumentsPage.EditTextForm.BUTTON,
