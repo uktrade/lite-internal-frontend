@@ -113,9 +113,7 @@ def fill_out_site_details(driver, name, address_line_1, city, region, post_code,
         functions.click_submit(driver)
 
 
-@when(
-    parsers.parse('I setup the admin user with email: "{email}"')
-)
+@when(parsers.parse('I setup the admin user with email: "{email}"'))
 def fill_out_admin_user_details(driver, email, context):
     if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)

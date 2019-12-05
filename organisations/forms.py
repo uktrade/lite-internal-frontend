@@ -87,9 +87,7 @@ def register_business_forms(individual=False, name=""):
                 not individual,
                 Form(
                     title="Create an admin user for " + name,
-                    questions=[
-                        TextInput(title=get_string("register_business.email"), name="user.email"),
-                    ],
+                    questions=[TextInput(title=get_string("register_business.email"), name="user.email"),],
                     default_button_name="Submit",
                     helpers=[HelpSection("Help", get_string("register_business.default_user"))],
                 ),
@@ -115,9 +113,7 @@ def register_hmrc_organisation_forms(name=""):
             ),
             Form(
                 title="Create an admin for " + name,
-                questions=[
-                    TextInput(title=get_string("register_business.email"), name="user.email"),
-                ],
+                questions=[TextInput(title=get_string("register_business.email"), name="user.email"),],
                 default_button_name="Submit",
                 helpers=[HelpSection("Help", get_string("register_business.default_user"))],
             ),
