@@ -34,6 +34,7 @@ def edit_document_text_form(case_id, kwargs):
         questions=[
             MarkdownArea(variables=get_sample_context_variables(), name="text", extras={"max_length": 5000}),
             Link(
+                name="add_paragraphs",
                 text=GenerateDocumentsPage.EditTextForm.ADD_PARAGRAPHS_LINK,
                 address=reverse_lazy("cases:generate_document_add_paragraphs", kwargs=kwargs),
                 form_action=True,
