@@ -21,7 +21,7 @@ class GeneratedDocument(BasePage):
     def check_download_link_is_present(self, row):
         return row.find_element_by_id(self.DOWNLOAD).is_displayed()
 
-    def get_document_text_in_edit(self):
+    def get_document_text_in_edit_text_area(self):
         return self.driver.find_element_by_id(self.TEXT).text
 
     def click_add_paragraphs_link(self):

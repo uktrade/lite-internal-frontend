@@ -39,7 +39,7 @@ def add_custom_text(driver, context, custom_text):
 
 @then("I see the template text to edit")
 def template_text(driver, context):
-    text = GeneratedDocument(driver).get_document_text_in_edit()
+    text = GeneratedDocument(driver).get_document_text_in_edit_text_area()
     for paragraph in context.document_template_paragraph_text:
         assert paragraph in text
         # Remove matched strings to ensure the same string isn't matched twice
