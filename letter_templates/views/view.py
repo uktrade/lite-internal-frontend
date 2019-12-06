@@ -11,7 +11,7 @@ from letter_templates.services import (
 class LetterTemplatesList(TemplateView):
     def get(self, request, **kwargs):
         params = {"page": int(request.GET.get("page", 1))}
-        data = get_letter_templates(request, convert_dict_to_query_params(params))
+        data, _ = get_letter_templates(request, convert_dict_to_query_params(params))
         context = {"data": data, "page": params.pop("page")}
         return render(request, "letter_templates/letter_templates.html", context)
 
