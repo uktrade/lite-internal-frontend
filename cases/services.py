@@ -351,7 +351,7 @@ def post_generated_document(request, pk, json):
 
 
 def get_generated_document_preview(request, pk, tpk, text):
-    data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_PREVIEW_URL + "?template=" + str(tpk) + "&text=" + text)
+    data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_PREVIEW_URL + "?template=" + tpk + "&text=" + text)
     return data.json(), data.status_code
 
 
