@@ -17,9 +17,8 @@ from picklists.services import get_picklists
 
 class SelectTemplate(TemplateView):
     def get(self, request, pk):
-        case_id = str(pk)
-        templates = get_letter_templates(request, convert_dict_to_query_params({"case": case_id}))
-        return form_page(request, select_template_form(templates, case_id))
+        templates = get_letter_templates(request, convert_dict_to_query_params({"case": pk}))
+        return form_page(request, select_template_form(templates, pk))
 
     def post(self, request, **kwargs):
         template_id = request.POST.get("template")
