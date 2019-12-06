@@ -19,7 +19,7 @@ class SelectTemplate(TemplateView):
     def get(self, request, pk):
         case_id = str(pk)
         templates = get_letter_templates(request, convert_dict_to_query_params({"case": case_id}))
-        return form_page(request, select_template_form(templates, str(case_id)))
+        return form_page(request, select_template_form(templates, case_id))
 
     def post(self, request, **kwargs):
         template_id = request.POST.get("template")
@@ -72,7 +72,7 @@ class RegenerateExistingDocument(TemplateView):
         case_id = str(pk)
         document_id = str(dpk)
         document, status_code = get_generated_document(request, case_id, document_id)
-        if status_code != 200:
+        if status_code != HTTPStatus.OK:
             return redirect(reverse_lazy("cases:documents", kwargs={"pk": case_id}))
 
         return redirect(
@@ -133,7 +133,7 @@ class CreateDocument(TemplateView):
         template_id = str(kwargs["tpk"])
         case_id = str(kwargs["pk"])
         status_code = post_generated_document(request, case_id, {"template": template_id, "text": text})
-        if status_code != 201:
+        if status_code != HTTPStatus.CREATED:
             return _error_page()
         else:
             return redirect(reverse_lazy("cases:documents", kwargs={"pk": case_id}))
