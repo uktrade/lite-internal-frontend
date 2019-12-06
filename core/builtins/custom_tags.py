@@ -270,3 +270,11 @@ def sentence_case(value):
     """Change value to uppercase on initial word and preserve casing on all other words. """
     words = value.split("_")
     return " ".join([words[0].capitalize()] + words[1:])
+
+
+@register.filter
+def classname(obj):
+    """
+    Returns object class name
+    """
+    return obj.__class__.__name__
