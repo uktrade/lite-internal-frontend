@@ -32,7 +32,7 @@ class SelectTemplate(TemplateView):
 
 class EditDocumentText(SingleFormView):
     @staticmethod
-    def _validate_text(request, json):
+    def _convert_text_list_to_str(request, json):
         json["text"] = "\n\n".join(json["text"])
         return json, HTTPStatus.OK
 
@@ -63,7 +63,7 @@ class EditDocumentText(SingleFormView):
 
         self.form = edit_document_text_form(backlink, keys)
         self.redirect = False
-        self.action = self._validate_text
+        self.action = self._convert_text_list_to_str
 
 
 class RegenerateExistingDocument(TemplateView):
@@ -83,7 +83,7 @@ class RegenerateExistingDocument(TemplateView):
 
 class AddDocumentParagraphs(SingleFormView):
     @staticmethod
-    def _validate_text(request, json):
+    def _get_form_data(request, json):
         return json, HTTPStatus.OK
 
     def init(self, request, **kwargs):
@@ -93,7 +93,7 @@ class AddDocumentParagraphs(SingleFormView):
 
         self.form = add_paragraphs_form(letter_paragraphs, request.POST["text"], {"pk": case_id, "tpk": template_id})
         self.redirect = False
-        self.action = self._validate_text
+        self.action = self._get_form_data
 
 
 def _error_page():
