@@ -28,13 +28,13 @@ def select_template_form(templates, case_id):
     )
 
 
-def edit_document_text_form(case_id, backlink, kwargs):
+def edit_document_text_form(backlink, kwargs):
     return Form(
         title=GenerateDocumentsPage.EditTextForm.HEADING,
         questions=[
             MarkdownArea(variables=get_sample_context_variables(), name="text", extras={"max_length": 5000}),
             Link(
-                name="add_paragraphs",
+                name=ADD_PARAGRAPH_KEY,
                 text=GenerateDocumentsPage.EditTextForm.ADD_PARAGRAPHS_LINK,
                 address=reverse_lazy("cases:generate_document_add_paragraphs", kwargs=kwargs),
                 form_action=True,

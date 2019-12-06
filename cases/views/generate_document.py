@@ -61,7 +61,7 @@ class EditDocumentText(SingleFormView):
             )[0]["text"]
             self.data = {"text": paragraph_text}
 
-        self.form = edit_document_text_form(case_id, backlink, keys)
+        self.form = edit_document_text_form(backlink, keys)
         self.redirect = False
         self.action = self._validate_text
 
