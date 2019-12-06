@@ -27,7 +27,7 @@ def selected_created_template(driver, context):
 def add_paragraph(driver, context):
     generated_document_page = GeneratedDocument(driver)
     generated_document_page.click_add_paragraphs_link()
-    new_paragraph = generated_document_page.uncheck_all_paragraphs_except_last()
+    new_paragraph = generated_document_page.select_and_return_first_checkbox_value()
     context.document_template_paragraph_text.append(new_paragraph)
     Shared(driver).click_submit()
 
