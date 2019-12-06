@@ -23,7 +23,7 @@ def select_template_form(templates, case_id):
         default_button_name=strings.LETTER_TEMPLATES.LetterTemplatesPage.PickTemplate.button,
         back_link=BackLink(
             text=GenerateDocumentsPage.SelectTemplateForm.BACK_LINK,
-            url=reverse_lazy("cases:case", kwargs={"pk": case_id}),
+            url=reverse_lazy("cases:documents", kwargs={"pk": case_id}),
         ),
     )
 
