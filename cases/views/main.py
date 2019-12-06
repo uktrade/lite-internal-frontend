@@ -263,7 +263,7 @@ class Documents(TemplateView):
             "title": get_string("cases.manage.documents.title"),
             "case": case,
             "case_documents": case_documents["documents"],
-            "generated_document_key": GENERATED_DOCUMENT
+            "generated_document_key": GENERATED_DOCUMENT,
         }
         return render(request, "case/documents.html", context)
 
