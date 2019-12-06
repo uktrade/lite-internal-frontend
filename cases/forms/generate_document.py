@@ -55,7 +55,7 @@ def add_paragraphs_form(paragraphs, text, kwargs):
         questions=[
             HiddenField(name="text[]", value=text),
             Checkboxes(
-                name="text[]", options=[Option(paragraph["text"], paragraph["name"]) for paragraph in paragraphs],
+                name="text[]", options=[Option(paragraph["text"], paragraph["name"], auto_check=False) for paragraph in paragraphs],
             ),
         ],
         back_link=BackLink(),
