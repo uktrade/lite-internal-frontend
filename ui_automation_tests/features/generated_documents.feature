@@ -21,3 +21,10 @@ So that I can easily and quickly generate different types of standard document t
     Then I see the generated document preview
     When I click continue
     Then I see my generated document
+    # Test Regenerate
+    When I click regenerate
+    Then I see the template text to edit
+    When I click continue
+    Then I see the generated document preview
+    When I click continue
+    Then I see both my generated documents

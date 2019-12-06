@@ -37,6 +37,11 @@ def add_custom_text(driver, context, custom_text):
     GeneratedDocument(driver).add_text_to_edit_text(custom_text)
 
 
+@when("I click regenerate")
+def click_regenerate(driver, context):
+    GeneratedDocument(driver).click_regenerate_btn()
+
+
 @then("I see the template text to edit")
 def template_text(driver, context):
     text = GeneratedDocument(driver).get_document_text_in_edit_text_area()
@@ -66,3 +71,15 @@ def generated_document(driver, context):
     assert "Generated" in row_text
     # Check download link is present
     assert GeneratedDocument(driver).check_download_link_is_present(most_recent_doc)
+
+
+@then("I see both my generated documents")
+def both_generated_documents(driver, context):
+    document_rows = Shared(driver).get_rows_in_lite_table()
+    for document_row in document_rows:
+        row_text = document_row.text
+        assert context.document_template_name in row_text
+        assert "Generated" in row_text
+        assert GeneratedDocument(driver).check_download_link_is_present(document_row)
+    # Check 2 documents have been created
+    assert document_rows[0].text != document_rows[1].text

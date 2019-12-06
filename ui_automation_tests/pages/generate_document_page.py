@@ -8,6 +8,7 @@ class GeneratedDocument(BasePage):
     TEXT = "text"  # ID
     ADD_PARAGRAPHS = "add_paragraphs"  # name
     PARAGRAPH_CHECKBOXES = ".govuk-checkboxes__input"  # CSS
+    REGENERATE_LINK = "regenerate"  # ID
 
     def click_letter_template(self, document_template_name):
         self.driver.find_element_by_id(document_template_name).click()
@@ -34,3 +35,6 @@ class GeneratedDocument(BasePage):
 
     def add_text_to_edit_text(self, text):
         return self.driver.find_element_by_id(self.TEXT).send_keys(text)
+
+    def click_regenerate_btn(self):
+        self.driver.find_element_by_id(self.REGENERATE_LINK).click()
