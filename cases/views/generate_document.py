@@ -3,6 +3,7 @@ from http import HTTPStatus
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from lite_forms.components import BackLink
 
 from cases.forms.generate_document import select_template_form, edit_document_text_form, add_paragraphs_form
 from cases.services import post_generated_document, get_generated_document_preview, get_generated_document
@@ -40,11 +41,19 @@ class EditDocumentText(SingleFormView):
         case_id = str(pk)
         template_id = str(tpk)
         keys = {"pk": case_id, "tpk": template_id}
+        backlink = BackLink(
+            text=GenerateDocumentsPage.EditTextForm.BACK_LINK,
+            url=reverse_lazy("cases:generate_document", kwargs={"pk": case_id}),
+        )
 
         # If regenerating, get existing text for a given document ID
         if "document_id" in request.GET:
             document, _ = get_generated_document(request, case_id, request.GET["document_id"])
             self.data = {"text": document["text"]}
+            backlink = BackLink(
+                text=GenerateDocumentsPage.EditTextForm.BACK_LINK_REGENERATE,
+                url=reverse_lazy("cases:documents", kwargs={"pk": case_id}),
+            )
 
         # if not returning to this page from adding paragraphs (going to page first time) get template text
         elif "text" not in request.POST:
@@ -53,7 +62,7 @@ class EditDocumentText(SingleFormView):
             )[0]["text"]
             self.data = {"text": paragraph_text}
 
-        self.form = edit_document_text_form(case_id, keys)
+        self.form = edit_document_text_form(case_id, backlink, keys)
         self.redirect = False
         self.action = self._validate_text
 
