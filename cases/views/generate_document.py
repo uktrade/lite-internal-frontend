@@ -107,9 +107,8 @@ class PreviewDocument(TemplateView):
         template_id = str(tpk)
         case_id = str(pk)
 
-        if "text" in request.POST:
-            text = request.POST["text"]
-        else:
+        text = request.POST.get("text")
+        if not text:
             return _error_page()
 
         preview, status_code = get_generated_document_preview(request, case_id, template_id, text=text)
