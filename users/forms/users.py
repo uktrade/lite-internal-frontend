@@ -20,14 +20,14 @@ def add_user_form(request):
     )
 
 
-def edit_user_form(request, user_id, cannot_edit_role: bool):
+def edit_user_form(request, user_id, can_edit_role: bool):
     return Form(
         title="Edit User",
         questions=[
             TextInput(title="Email", name="email"),
             Select(name="team", title="What team will the user belong to?", options=get_teams(request, True)),
             conditional(
-                not cannot_edit_role,
+                can_edit_role,
                 Select(name="role", options=get_roles(request, True), title=strings.USER_ROLE_QUESTION),
             ),
         ],

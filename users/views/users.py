@@ -65,8 +65,8 @@ class EditUser(TemplateView):
     def get(self, request, **kwargs):
         user, _ = get_gov_user(request, str(kwargs["pk"]))
         super_user = is_super_user(user) and request.user.lite_api_user_id == str(kwargs["pk"])
-        cannot_edit_role = user["user"]["id"] == request.user.lite_api_user_id or super_user
-        return form_page(request, edit_user_form(request, str(kwargs["pk"]), cannot_edit_role), data=user["user"])
+        can_edit_role = (user["user"]["id"] != request.user.lite_api_user_id) or not super_user
+        return form_page(request, edit_user_form(request, str(kwargs["pk"]), can_edit_role), data=user["user"])
 
     def post(self, request, **kwargs):
         response, status_code = put_gov_user(request, str(kwargs["pk"]), request.POST)
