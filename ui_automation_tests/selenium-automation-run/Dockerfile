@@ -2,7 +2,7 @@ FROM python:3.7-stretch AS selenium_base
 
 RUN apt-get update && apt-get install -yq \
     firefox-esr \
-    chromium=73.0.3683.75-1~deb9u1 \
+    chromium \
     git-core \
     xvfb=2:1.19.2-1+deb9u5 \
     xsel=1.2.0-2+b1 \
