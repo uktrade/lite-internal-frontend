@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "core.apps.CoreConfig",
     "svg",
-    "authbroker_client",
     "lite_forms",
     "letter_templates",
 ]
@@ -61,7 +60,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "authbroker_client.middleware.ProtectAllViewsMiddleware",
+    "conf.middleware.ProtectAllViewsMiddleware",
     "conf.middleware.LoggingMiddleware",
     "conf.middleware.UploadFailedMiddleware",
 ]
@@ -94,10 +93,10 @@ AUTHBROKER_CLIENT_SECRET = env("AUTHBROKER_CLIENT_SECRET")
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "authbroker_client.backends.AuthbrokerBackend",
+    "auth.backends.AuthbrokerBackend",
 ]
 
-LOGIN_URL = reverse_lazy("authbroker_client:login")
+LOGIN_URL = reverse_lazy("auth:login")
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -205,9 +204,6 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "json",},},
     "loggers": {"": {"handlers": ["console"], "level": env("LOG_LEVEL").upper(),},},
 }
-
-
-LETTER_TEMPLATES_DIRECTORY = os.path.join(BASE_DIR, "letter_templates", "layouts")
 
 # Security settings
 
