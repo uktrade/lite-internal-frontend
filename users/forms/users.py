@@ -26,8 +26,7 @@ def edit_user_form(request, user_id, can_edit_role: bool):
             TextInput(title=strings.USER_EMAIL_QUESTION, name="email"),
             Select(name="team", title=strings.USER_TEAM_QUESTION, options=get_teams(request, True)),
             conditional(
-                can_edit_role,
-                Select(name="role", options=get_roles(request, True), title=strings.USER_ROLE_QUESTION),
+                can_edit_role, Select(name="role", options=get_roles(request, True), title=strings.USER_ROLE_QUESTION),
             ),
         ],
         back_link=BackLink(strings.USER_EDIT_FORM_BACK_TO_USER, reverse_lazy("users:user", kwargs={"pk": user_id})),
