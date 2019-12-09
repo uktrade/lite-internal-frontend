@@ -15,6 +15,9 @@ from lite_forms.views import SingleFormView
 from picklists.services import get_picklists
 
 
+TEXT = "text"
+
+
 class SelectTemplate(TemplateView):
     def get(self, request, pk):
         templates, _ = get_letter_templates(request, convert_dict_to_query_params({"case": pk}))
@@ -33,7 +36,7 @@ class SelectTemplate(TemplateView):
 class EditDocumentText(SingleFormView):
     @staticmethod
     def _convert_text_list_to_str(request, json):
-        json["text"] = "\n\n".join(json["text"])
+        json[TEXT] = "\n\n".join(json[TEXT])
         return json, HTTPStatus.OK
 
     def init(self, request, pk, tpk):
@@ -48,18 +51,18 @@ class EditDocumentText(SingleFormView):
         # If regenerating, get existing text for a given document ID
         if "document_id" in request.GET:
             document, _ = get_generated_document(request, case_id, request.GET["document_id"])
-            self.data = {"text": document["text"]}
+            self.data = {TEXT: document[TEXT]}
             backlink = BackLink(
                 text=GenerateDocumentsPage.EditTextForm.BACK_LINK_REGENERATE,
                 url=reverse_lazy("cases:documents", kwargs={"pk": case_id}),
             )
 
         # if not returning to this page from adding paragraphs (going to page first time) get template text
-        elif "text" not in request.POST:
+        elif TEXT not in request.POST:
             paragraph_text = get_letter_template(
-                request, template_id, params=convert_dict_to_query_params({"text": True})
-            )[0]["text"]
-            self.data = {"text": paragraph_text}
+                request, template_id, params=convert_dict_to_query_params({TEXT: True})
+            )[0][TEXT]
+            self.data = {TEXT: paragraph_text}
 
         self.form = edit_document_text_form(backlink, keys)
         self.redirect = False
@@ -91,7 +94,7 @@ class AddDocumentParagraphs(SingleFormView):
         case_id = str(kwargs["pk"])
         template_id = str(kwargs["tpk"])
 
-        self.form = add_paragraphs_form(letter_paragraphs, request.POST["text"], {"pk": case_id, "tpk": template_id})
+        self.form = add_paragraphs_form(letter_paragraphs, request.POST[TEXT], {"pk": case_id, "tpk": template_id})
         self.redirect = False
         self.action = self._get_form_data
 
@@ -107,7 +110,7 @@ class PreviewDocument(TemplateView):
         template_id = str(tpk)
         case_id = str(pk)
 
-        text = request.POST.get("text")
+        text = request.POST.get(TEXT)
         if not text:
             return _error_page()
 
@@ -118,19 +121,19 @@ class PreviewDocument(TemplateView):
         return render(
             request,
             "generated_documents/preview.html",
-            {"preview": preview["preview"], "text": text, "pk": case_id, "tpk": template_id},
+            {"preview": preview["preview"], TEXT: text, "pk": case_id, "tpk": template_id},
         )
 
 
 class CreateDocument(TemplateView):
     def post(self, request, **kwargs):
-        if "text" not in request.POST:
+        text = request.POST.get(TEXT)
+        if not text:
             return _error_page()
 
-        text = request.POST["text"]
         template_id = str(kwargs["tpk"])
         case_id = str(kwargs["pk"])
-        status_code = post_generated_document(request, case_id, {"template": template_id, "text": text})
+        status_code = post_generated_document(request, case_id, {"template": template_id, TEXT: text})
         if status_code != HTTPStatus.CREATED:
             return _error_page()
         else:
