@@ -1,6 +1,5 @@
 from django.urls import reverse_lazy
 
-from core.builtins.custom_tags import get_string
 from lite_content.lite_internal_frontend import strings
 from lite_forms.components import Form, Select, TextInput, BackLink
 from lite_forms.helpers import conditional
