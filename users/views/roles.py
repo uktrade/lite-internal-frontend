@@ -25,7 +25,7 @@ class Roles(TemplateView):
             "title": get_string("roles.title"),
             "user_permissions": permissions,
             "super_user_role_id": SUPER_USER_ROLE_ID,
-            "user_role_id": user["user"]["role"]["id"]
+            "user_role_id": user["user"]["role"]["id"],
         }
         return render(request, "users/roles.html", context)
 
