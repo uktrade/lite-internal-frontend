@@ -5,7 +5,7 @@ from pytest_bdd import when, then, scenarios, given
 from pages.application_page import ApplicationPage
 from pages.ecju_queries_pages import EcjuQueriesPages
 
-scenarios("../features/ecju_query.feature", strict_gherkin=False)
+scenarios("../features/ecju_queries.feature", strict_gherkin=False)
 
 NEW_QUESTION_DROP_DOWN_TEXT = "Write a new question"
 

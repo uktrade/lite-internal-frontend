@@ -1,11 +1,7 @@
 FROM python:3.7-stretch AS selenium_base
 
 RUN apt-get update && apt-get install -yq \
-    firefox-esr \
     chromium \
-    git-core \
-    xvfb=2:1.19.2-1+deb9u5 \
-    xsel=1.2.0-2+b1 \
     unzip \
     python-pytest=3.0.6-1 \
     libgconf2-4=3.2.6-4+b1 \

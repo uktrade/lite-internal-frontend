@@ -2,7 +2,7 @@ from pytest_bdd import when, then, parsers, scenarios
 from pages.case_list_page import CaseListPage
 from pages.shared import Shared
 
-scenarios("../features/users_to_queue.feature", strict_gherkin=False)
+scenarios("../features/assign_users_to_queue.feature", strict_gherkin=False)
 
 
 @when("I select the checkbox for previously created case to be assigned")
