@@ -13,6 +13,7 @@ from conf.settings import env
 from core import lite_strings
 
 from lite_content.lite_internal_frontend import strings
+from lite_content.tools import get_lite_string
 
 register = template.Library()
 STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
@@ -20,36 +21,7 @@ STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
 
 @register.simple_tag(name="lcs")
 def get_const_string(value):
-    """
-    Template tag for accessing constants from LITE content library (not for Python use - only HTML)
-    """
-
-    def get(object_to_search, nested_properties_list):
-        """
-        Recursive function used to search an unknown number of nested objects
-        for a property. For example if we had a path 'cases.CasePage.title' this function
-        would take the current object `object_to_search` and get an object called 'CasePage'.
-        It would then call itself again to search the 'CasePage' for a property called 'title'.
-        :param object_to_search: An unknown object to get the given property from
-        :param nested_properties_list: The path list to the attribute we want
-        :return: The attribute in the given object for the given path
-        """
-        object = getattr(object_to_search, nested_properties_list[0])
-        if len(nested_properties_list) == 1:
-            # We have reached the end of the path and now have the string
-            return object
-        else:
-            # Search the object for the next property in `nested_properties_list`
-            return get(object, nested_properties_list[1:])
-
-    warnings.warn("Reference constants from strings directly, only use LCS in HTML files", Warning)
-    path = value.split(".")
-    try:
-        # Get initial object from strings.py (may return AttributeError)
-        path_object = getattr(strings, path[0])
-        return get(path_object, path[1:]) if len(path) > 1 else path_object
-    except AttributeError:
-        return STRING_NOT_FOUND_ERROR
+    get_lite_string(strings, value)
 
 
 @register.simple_tag
@@ -58,6 +30,7 @@ def get_string(value):
     Given a string, such as 'cases.manage.attach_documents' it will return the relevant value
     from the strings.json file
     """
+    # TODO remove when all strings are moved
     warnings.warn(
         'get_string is deprecated. Use "lcs" instead, or reference constants from strings directly.', DeprecationWarning
     )
