@@ -142,7 +142,9 @@ def refusal_flag_displayed(driver):
 
 @then("I see refusal flag is not attached")
 def refusal_flag_not_displayed(driver):
+    driver.set_timeout_to(0)
     assert not ApplicationPage(driver).is_flag_applied("Refusal Advice")
+    driver.set_timeout_to(10)
 
 
 @when("I clear advice")
