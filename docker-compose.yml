@@ -10,7 +10,7 @@ services:
     ports:
       - 5431:5432
     networks:
-      - lite-api_default
+      - lite-network
 
   govfe:
     env_file:
@@ -26,11 +26,11 @@ services:
     expose:
       - 8080
     networks:
-      - lite-api_default
+      - lite-network
     command: pipenv run ./manage.py runserver 0.0.0.0:8080
 #    use this command to use gunicorn rather than the django development server
 #    command: pipenv run gunicorn -c gconfig.py conf.wsgi
 
 networks:
-  lite-api_default:
+  lite-network:
     external: true
