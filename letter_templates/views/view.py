@@ -20,10 +20,10 @@ class LetterTemplateDetail(TemplateView):
     def get(self, request, **kwargs):
         letter_template_id = str(kwargs["pk"])
         params = convert_dict_to_query_params({"generate_preview": True, "activity": True})
-        template, _ = get_letter_template(request, letter_template_id, params=params)
+        response, _ = get_letter_template(request, letter_template_id, params=params)
         context = {
-            "letter_template": template["template"],
-            "preview": template["preview"],
-            "activity": template["activity"]
+            "letter_template": response["template"],
+            "preview": response["preview"],
+            "activity": response.get("activity", [])
         }
         return render(request, "letter_templates/letter_template.html", context)
