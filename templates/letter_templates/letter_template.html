@@ -46,6 +46,31 @@
 		<div class="app-letter-preview__page" id="preview">
 			{{ preview|safe }}
 		</div>
+
+		<br><br>
+
+		<!-- Activity -->
+		{% if activity %}
+			<h3 class="govuk-heading-m">
+					{% lcs 'CASE_ENTITIES_ACTIVITY' %}
+			</h3>
+
+			<div class="app-activity__list">
+				{% for item in activity %}
+					<div id="case-activity-{{ item.id }}" class="app-activity__item">
+						<p class="govuk-body">
+							<span class="user">{{ item.user.first_name }} {{ item.user.last_name }}</span> {{ item.text }}
+						</p>
+						{% if item.additional_text %}
+							<div class="app-activity__additional-text">
+								{{ item.additional_text }}
+							</div>
+						{% endif %}
+						<p class="govuk-hint govuk-!-font-size-16">{{ item.created_at|str_date }}</p>
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %}
 	</div>
 
 {% endblock %}
