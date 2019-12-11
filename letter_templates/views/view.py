@@ -12,7 +12,7 @@ class LetterTemplatesList(TemplateView):
     def get(self, request, **kwargs):
         params = {"page": int(request.GET.get("page", 1))}
         data, _ = get_letter_templates(request, convert_dict_to_query_params(params))
-        context = {"data": data, "page": params.pop("page")}
+        context = {"templates": data["results"], "total_pages": data["total_pages"], "page": params.pop("page")}
         return render(request, "letter_templates/letter_templates.html", context)
 
 
