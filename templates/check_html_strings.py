@@ -27,7 +27,7 @@ def get_strings_package(base_dir):
     i.e. /Users/user/lite-internal-frontend = lite_internal_frontend
     :return: strings package name
     """
-    project_name = base_dir.split("/")[-1]
+    project_name = os.path.basename(base_dir)
     return project_name.replace("-", "_", 2)
 
 
@@ -58,9 +58,9 @@ def get_all_lcs_strings(templates_folder):
     strings = set()
 
     for root, _, files in os.walk(templates_folder):
-        for file in files:
-            if file.endswith(".html"):
-                with open(f"{root}/{file}") as f:
+        for file_name in files:
+            if file_name.endswith(".html"):
+                with open(f"{root}/{file_name}") as f:
                     lcs_strings = re.findall(LCS_PATTERN, f.read())
                     strings.update(lcs_strings)
 
