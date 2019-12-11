@@ -2,16 +2,16 @@ import importlib
 import os
 import re
 
-LCS_REGEX = "{% lcs '(.*)' %}"
+LCS_PATTERN = "{% lcs '(.*)' %}"
 
 
 def find_occurance(module, string):
     """
-    Check that the given string variable i.e. CASES.Page.TITLE is found within a given module (strings.py).
+    Check that the given string variable i.e. `CASES.Page.TITLE` is found within a given module (strings.py).
     Checks each section of the path is found inside the module defined in the last iteration
     :param module: Python module to search
     :param string: Path to find (split into sections)
-    :return: bool of whether it was found
+    :return: True/False
     """
     for path_section in string:
         module = module.__dict__.get(path_section)
@@ -61,7 +61,7 @@ def get_all_lcs_strings(templates_folder):
         for file in files:
             if file.endswith(".html"):
                 with open(f"{root}/{file}") as f:
-                    lcs_strings = re.findall(LCS_REGEX, f.read())
+                    lcs_strings = re.findall(LCS_PATTERN, f.read())
                     strings.update(lcs_strings)
 
     return strings
