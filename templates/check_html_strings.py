@@ -5,7 +5,7 @@ import re
 LCS_PATTERN = "{% lcs '(.*)' %}"
 
 
-def find_occurance(module, string):
+def check_string_for_occurance(module, string):
     """
     Check that the given string variable i.e. `CASES.Page.TITLE` is found within a given module (strings.py).
     Checks each section of the path is found inside the module defined in the last iteration
@@ -80,10 +80,10 @@ if __name__ == "__main__":
     # Check all strings are found
     lcs_strings = get_all_lcs_strings(templates_folder)
     for string in lcs_strings:
-        if not find_occurance(strings_module, string.split(".")):
+        if not check_string_for_occurance(strings_module, string.split(".")):
             not_found.append(string)
 
     if not_found:
         raise Exception(f"The following strings couldn't be found: {not_found}")
     else:
-        print("All strings found")
+        print("No unused strings found")
