@@ -1,3 +1,4 @@
+from selenium.common.exceptions import NoSuchElementException
 from shared.BasePage import BasePage
 
 
@@ -25,6 +26,7 @@ class LetterTemplates(BasePage):
     ADD_PARAGRAPH_LINK = "add_paragraph"  # ID
     PARAGRAPH_CHECKBOXES_LIST = ".govuk-checkboxes__input"  # CSS
     PARAGRAPH_TEXT_LIST = "paragraph-list"  # ID
+    PAGES = "page"  # ID
 
     def click_create_a_template(self):
         self.driver.find_element_by_id(self.CREATE_TEMPLATE_BUTTON).click()
@@ -71,7 +73,17 @@ class LetterTemplates(BasePage):
         return self.driver.find_element_by_id(self.DRAG_DROP_LIST).text
 
     def click_letter_template(self, document_template_name):
-        self.driver.find_element_by_id(document_template_name).click()
+        self.driver.set_timeout_to(0)
+        current_page = 1
+        while True:
+            template = self.driver.find_elements_by_id(document_template_name)
+            if template:
+                template[0].click()
+                break
+            else:
+                current_page += 1
+                self.driver.find_element_by_id(f"{self.PAGES}-{current_page}").click()
+        self.driver.set_timeout_to(10)
 
     def get_template_title(self):
         return self.driver.find_element_by_id(self.TEMPLATE_TITLE).text

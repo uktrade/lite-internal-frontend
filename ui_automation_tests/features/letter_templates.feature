@@ -3,8 +3,7 @@ Feature: I want to configure standard templates for letter generation
 As a logged in government user
 I want to configure standard templates for letter generation
 So that I can create standard letters used by case workers and they can be updated when required
-
-
+  
   @LT_1029_add_template @smoke
   Scenario: Add ECJU Letter template
     Given I sign in to SSO or am signed into SSO
@@ -18,7 +17,6 @@ So that I can create standard letters used by case workers and they can be updat
     Then my picklist is in template
     When I click save
     Then I see my template in the table
-
 
   @LT_1029_add_template @regression
   Scenario: Add Licence template
