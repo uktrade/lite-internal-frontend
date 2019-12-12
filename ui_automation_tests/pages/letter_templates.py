@@ -1,6 +1,7 @@
 from shared.BasePage import BasePage
 
-from ui_automation_tests.shared.tools.helpers import find_paginated_item
+from ui_automation_tests.pages.shared import Shared
+from ui_automation_tests.shared.tools.helpers import find_paginated_item, get_text_of_multi_page_table
 
 
 class LetterTemplates(BasePage):
@@ -104,3 +105,6 @@ class LetterTemplates(BasePage):
 
     def get_list_of_letter_paragraphs(self):
         return self.driver.find_element_by_id(self.PARAGRAPH_TEXT_LIST).text
+
+    def get_template_table_text(self):
+        return get_text_of_multi_page_table(Shared.LITE_TABLE, self.driver)
