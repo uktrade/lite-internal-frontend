@@ -23,9 +23,7 @@ class SelectTemplate(TemplateView):
         page = request.GET.get("page")
         if not page:
             page = 1
-        templates, _ = get_letter_templates(
-            request, convert_dict_to_query_params({"case": pk, "page": page})
-        )
+        templates, _ = get_letter_templates(request, convert_dict_to_query_params({"case": pk, "page": page}))
         return form_page(request, select_template_form(templates["results"], templates["total_pages"], pk))
 
     def post(self, request, **kwargs):

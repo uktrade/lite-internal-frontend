@@ -18,7 +18,7 @@ def select_template_form(templates, total_pages, case_id):
                     Option(t["id"], t["name"], img_url=f"/assets/images/letter_templates/{t['layout']['filename']}.png")
                     for t in templates
                 ],
-                total_pages=total_pages
+                total_pages=total_pages,
             )
         ],
         default_button_name=strings.LETTER_TEMPLATES.LetterTemplatesPage.PickTemplate.button,
