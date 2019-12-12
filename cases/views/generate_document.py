@@ -21,7 +21,7 @@ TEXT = "text"
 class SelectTemplate(TemplateView):
     def get(self, request, pk):
         templates, _ = get_letter_templates(request, convert_dict_to_query_params({"case": pk}))
-        return form_page(request, select_template_form(templates, pk))
+        return form_page(request, select_template_form(templates["results"], pk))
 
     def post(self, request, **kwargs):
         template_id = request.POST.get("template")
