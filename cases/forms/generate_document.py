@@ -10,7 +10,7 @@ ADD_PARAGRAPH_KEY = "add_paragraphs"
 
 def select_template_form(templates, total_pages, case_id):
     return Form(
-        title=strings.LETTER_TEMPLATES.LetterTemplatesPage.PickTemplate.title,
+        title=strings.LETTER_TEMPLATES.LetterTemplatesPage.PickTemplate.TITLE,
         questions=[
             RadioButtonsImage(
                 name="template",
@@ -21,7 +21,7 @@ def select_template_form(templates, total_pages, case_id):
                 total_pages=total_pages,
             )
         ],
-        default_button_name=strings.LETTER_TEMPLATES.LetterTemplatesPage.PickTemplate.button,
+        default_button_name=strings.LETTER_TEMPLATES.LetterTemplatesPage.PickTemplate.BUTTON,
         back_link=BackLink(
             text=GenerateDocumentsPage.SelectTemplateForm.BACK_LINK,
             url=reverse_lazy("cases:documents", kwargs={"pk": case_id}),
