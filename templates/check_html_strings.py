@@ -1,24 +1,9 @@
 import importlib
+import inspect
 import os
 import re
 
 LCS_PATTERN = "{% lcs '(.*)' %}"
-
-
-def check_string_for_occurance(module, string):
-    """
-    Check that the given string variable i.e. `CASES.Page.TITLE` is found within a given module (strings.py).
-    Checks each section of the path is found inside the module defined in the last iteration
-    :param module: Python module to search
-    :param string: Path to find (split into sections)
-    :return: True/False
-    """
-    for path_section in string:
-        module = module.__dict__.get(path_section)
-        if not module:
-            return False
-
-    return True
 
 
 def get_strings_package(base_dir):
@@ -42,14 +27,13 @@ def get_base_dir():
     except ModuleNotFoundError:
         # Fix for calling python file externally
         import sys
-
         parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         sys.path.append(parent_dir)
         from conf.settings import BASE_DIR
     return BASE_DIR
 
 
-def get_all_lcs_strings(templates_folder):
+def get_all_html_strings(templates_folder):
     """
     Get all LCS strings from the HTML files in the given folder
     :param templates_folder: string path for the HTML folders
@@ -67,23 +51,54 @@ def get_all_lcs_strings(templates_folder):
     return strings
 
 
+def get_all_lite_strings(lite_strings, module, path):
+    """
+    Recursive function to load all properies in a given module
+    :param lite_strings: set of strings found
+    :param module: the current module to search
+    :param path: the string path to the current module (dot seperated)
+    :return: set of all string paths for lite_content
+    """
+    for key, obj in inspect.getmembers(module):
+        # Ignore hidden properties
+        if "__" not in key:
+
+            # Uses isupper to ensure we do not assess both the import and the definition (definition is uppercase)
+            if inspect.isclass(obj) or (inspect.ismodule(obj) and key.isupper()):
+                get_all_lite_strings(lite_strings, obj, f"{path}.{key}")
+
+            # Saves path. Removes leading .
+            elif isinstance(obj, str):
+                lite_strings.add(f"{path}.{key}"[1:])
+
+    return lite_strings
+
+
 if __name__ == "__main__":
     not_found = []
 
     base_dir = get_base_dir()
-    templates_folder = f"{base_dir}/templates"
-
     # Load strings package
     strings_package_name = get_strings_package(base_dir)
     strings_module = importlib.import_module(f"lite_content.{strings_package_name}.strings")
 
-    # Check all strings are found
-    lcs_strings = get_all_lcs_strings(templates_folder)
-    for string in lcs_strings:
-        if not check_string_for_occurance(strings_module, string.split(".")):
-            not_found.append(string)
+    # Get all HTML strings (LCS)
+    html_strings = get_all_html_strings(f"{base_dir}/templates")
 
-    if not_found:
-        raise Exception(f"The following strings couldn't be found: {not_found}")
+    # Get all lite_content strings
+    lite_strings = get_all_lite_strings(set(), strings_module, "")
+
+    if html_strings != lite_strings:
+        errors = []
+        # Get differences between the two sets
+        invalid_html_strings = html_strings - lite_strings
+        unused_lite_strings = lite_strings - html_strings
+
+        if invalid_html_strings:
+            errors.append(f"\n\nThe following HTML strings couldn't be found: {invalid_html_strings}")
+        if unused_lite_strings:
+            errors.append(f"\n\nThe following strings in lite_content are unused: {unused_lite_strings}")
+        raise Exception("".join(errors))
+    
     else:
-        print("No unused strings found")
+        print("All LITE strings valid")
