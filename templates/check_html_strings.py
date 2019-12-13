@@ -4,6 +4,7 @@ import os
 import re
 
 LCS_PATTERN = "{% lcs '(.*)' %}"
+BASE_PACKAGE = "strings"
 
 
 def get_strings_package(base_dir):
@@ -51,6 +52,50 @@ def get_all_html_strings(templates_folder):
     return strings
 
 
+def extract_string_variable_usage(line, import_name):
+    usages = line.split(f"{import_name}.")[1:]
+    for i in range(len(usages)):
+        usage = usages[i]
+        variable_name = ""
+
+        for char in usage:
+            if not char.isalpha() and char not in ["_","."]:
+                break
+            variable_name += char
+
+        if import_name == BASE_PACKAGE:
+            usages[i] = variable_name
+        else:
+            usages[i] = f"{import_name}.{variable_name}"
+
+    return usages
+
+
+def get_all_python_strings(project_folder, strings_package_name):
+    strings = set()
+
+    for root, _, files in os.walk(project_folder):
+        for file_name in files:
+            if file_name.endswith(".py") and "lite_content" not in root:
+                with open(f"{root}/{file_name}") as f:
+                    imports = {}
+                    text = f.readlines()
+
+                    for line in text:
+                        if "import" in line and strings_package_name in line:
+                            line = line.replace("\n", "")
+                            imported = line.split("import ")[1]
+                            path = line.replace(" import ", ".").replace("from ", "")
+                            imports[imported] = path
+                        else:
+                            for import_name in imports.keys():
+                                if import_name in line:
+                                    variables_found = extract_string_variable_usage(line, import_name)
+                                    strings.update(variables_found)
+
+    return strings
+
+
 def get_all_lite_strings(lite_strings, module, path):
     """
     Recursive function to load all properies in a given module
@@ -84,15 +129,17 @@ if __name__ == "__main__":
 
     # Get all HTML strings (LCS)
     html_strings = get_all_html_strings(f"{base_dir}/templates")
+    python_strings = get_all_python_strings(base_dir, strings_package_name)
+    code_strings = html_strings.union(python_strings)
 
     # Get all lite_content strings
     lite_strings = get_all_lite_strings(set(), strings_module, "")
 
-    if html_strings != lite_strings:
+    if code_strings != lite_strings:
         errors = []
         # Get differences between the two sets
         invalid_html_strings = html_strings - lite_strings
-        unused_lite_strings = lite_strings - html_strings
+        unused_lite_strings = lite_strings - code_strings
 
         if invalid_html_strings:
             errors.append(f"\n\nThe following HTML strings couldn't be found: {invalid_html_strings}")
