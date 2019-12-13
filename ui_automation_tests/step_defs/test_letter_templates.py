@@ -151,5 +151,4 @@ def template_paragraphs_have_been_edited(driver, context):
 
 @then(parsers.parse('"{expected_text}" is shown as position "{no}" in the audit trail'))
 def latest_audit_trail(driver, expected_text, no):
-    print('aaaa')
-    assert expected_text in ApplicationPage(driver).get_text_of_audit_trail_item(int(no)-1)
+    assert expected_text in ApplicationPage(driver).get_text_of_audit_trail_item(int(no) - 1)
