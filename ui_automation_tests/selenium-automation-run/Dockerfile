@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -yq \
     libxslt-dev \
     libz-dev \
     python-pytest-xdist \
-    python-pytest-rerunfailures \
+    pytest-rerunfailures \
     xclip=0.12+svn84-4+b1
 
 # GeckoDriver v0.19.1
