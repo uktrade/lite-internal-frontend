@@ -23,4 +23,4 @@ def go_to_hmrc(driver, context):
 @then("I see HMRC query")
 def see_hmrc(driver, context):
     if context.hmrc_is_found:
-        assert driver.find_element_by_css_selector(".govuk-caption-m").text == "HMRC Query"
+        assert driver.find_element_by_css_selector(".govuk-caption-m").text == "HMRsC Query"
