@@ -8,11 +8,11 @@ from lite_forms.components import Option
 from lite_forms.generators import form_page
 
 from cases.forms.goods_flags import flags_form
-from cases.services import put_flag_assignments, get_good, get_goods_type, get_case
+from cases.services import put_flag_assignments, get_good, get_goods_type, get_case, get_destination
 from core.builtins.custom_tags import get_string
 from core.helpers import convert_dict_to_query_params
 from flags.forms import add_flag_form, edit_flag_form
-from flags.services import get_cases_flags, get_goods_flags, get_organisation_flags
+from flags.services import get_cases_flags, get_goods_flags, get_organisation_flags, get_destination_flags
 from flags.services import get_flags, post_flags, get_flag, put_flag
 from organisations.services import get_organisation
 from users.services import get_gov_user
@@ -142,6 +142,8 @@ class AssignFlags(TemplateView):
         elif self.level == "organisations":
             flags = get_organisation_flags(request)
             origin = "organisation"
+        elif self.level == "destinations":
+            flags = get_destination_flags(request)
 
         self.url = (
             reverse("organisations:organisation", kwargs=kwargs)
@@ -177,6 +179,8 @@ class AssignFlags(TemplateView):
         elif self.level == "organisations":
             obj, _ = get_organisation(request, self.objects[0])
             object_flags = obj.get("flags")
+        elif self.level == "destinations":
+            obj, _ = get_destination(request, self.objects[0])
 
         # Fetches existing flags on the object
         if self.level != "organisations":

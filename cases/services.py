@@ -25,7 +25,7 @@ from conf.constants import (
     MANAGE_STATUS_URL,
     GENERATED_DOCUMENTS_URL,
     GENERATED_DOCUMENTS_PREVIEW_URL,
-)
+    DESTINATION_URL)
 
 
 def get_case(request, pk):
@@ -357,4 +357,9 @@ def get_generated_document_preview(request, pk, tpk, text):
 
 def get_generated_document(request, pk, dpk):
     data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_URL + dpk + "/")
+    return data.json(), data.status_code
+
+
+def get_destination(request, pk):
+    data = get(request, DESTINATION_URL + pk)
     return data.json(), data.status_code
