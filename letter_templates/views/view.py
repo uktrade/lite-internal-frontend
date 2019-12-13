@@ -24,6 +24,6 @@ class LetterTemplateDetail(TemplateView):
         context = {
             "letter_template": response["template"],
             "preview": response["preview"],
-            "activity": response.get("activity", [])
+            "activity": response.get("activity", []),
         }
         return render(request, "letter_templates/letter_template.html", context)
