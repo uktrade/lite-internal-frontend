@@ -216,10 +216,8 @@
 						</tr>
 						<tr class="govuk-table__row">
                             <td class="govuk-table__cell govuk-table__cell--checkbox">
-                                <div class="govuk-checkboxes govuk-checkboxes--small">
-                                    <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ case.application.end_user.id }}" id="{{ case.application.end_user.id }}">
-                                    <label class="govuk-label {% if show_checkboxes %}govuk-checkboxes__label{% endif %}" for="{{ case.application.end_user.id }}"></label>
-                                </div>
+                                <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ case.application.end_user.id }}" id="{{ case.application.end_user.id }}">
+                                <label class="govuk-label govuk-checkboxes__label" for="{{ case.application.end_user.id }}"></label>
                             </td>
 							<th scope="row" class="govuk-table__header">End user</th>
 							<td class="govuk-table__cell">{{ case.application.end_user.name }}</td>
@@ -239,10 +237,8 @@
 						</tr>
 						<tr class="govuk-table__row">
                             <td class="govuk-table__cell govuk-table__cell--checkbox">
-                                <div class="govuk-checkboxes govuk-checkboxes--small">
-                                    <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ case.application.consignee.id }}" id="{{ case.application.consignee.id }}">
-                                    <label class="govuk-label {% if show_checkboxes %}govuk-checkboxes__label{% endif %}" for="{{ case.application.consignee.id }}"></label>
-                                </div>
+                                <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ case.application.consignee.id }}" id="{{ case.application.consignee.id }}">
+                                <label class="govuk-label govuk-checkboxes__label" for="{{ case.application.consignee.id }}"></label>
                             </td>
 							<th scope="row" class="govuk-table__header">Consignee</th>
 							<td class="govuk-table__cell">{{ case.application.consignee.name }}</td>
@@ -263,10 +259,8 @@
 						{% for ultimate_end_user in case.application.ultimate_end_users %}
 							<tr class="govuk-table__row">
                                 <td class="govuk-table__cell govuk-table__cell--checkbox">
-                                    <div class="govuk-checkboxes govuk-checkboxes--small">
-                                        <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ ultimate_end_user.id }}" id="{{ ultimate_end_user.id }}">
-                                        <label class="govuk-label {% if show_checkboxes %}govuk-checkboxes__label{% endif %}" for="{{ ultimate_end_user.id }}"></label>
-                                    </div>
+                                    <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ ultimate_end_user.id }}" id="{{ ultimate_end_user.id }}">
+                                    <label class="govuk-label govuk-checkboxes__label" for="{{ ultimate_end_user.id }}"></label>
                                 </td>
 								<th scope="row" class="govuk-table__header">Ultimate end user</th>
 								<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
@@ -288,10 +282,8 @@
 						{% for party in case.application.third_parties %}
 							<tr class="govuk-table__row">
                                 <td class="govuk-table__cell govuk-table__cell--checkbox">
-                                    <div class="govuk-checkboxes govuk-checkboxes--small">
-                                        <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ party.id }}" id="{{ party.id }}">
-                                        <label class="govuk-label {% if show_checkboxes %}govuk-checkboxes__label{% endif %}" for="{{ party.id }}"></label>
-                                    </div>
+                                    <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ party.id }}" id="{{ party.id }}">
+                                    <label class="govuk-label govuk-checkboxes__label" for="{{ party.id }}"></label>
                                 </td>
 								<th scope="row" class="govuk-table__header">Third party</th>
 								<td class="govuk-table__cell">{{ party.name }}</td>
