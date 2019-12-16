@@ -75,6 +75,6 @@ urlpatterns = [
     path(
         "<uuid:pk>/assign-destination-flags/",
         destinations.AssignDestinationFlags.as_view(),
-        name="assign_destination_flags"
+        name="assign_destination_flags",
     ),
 ]
