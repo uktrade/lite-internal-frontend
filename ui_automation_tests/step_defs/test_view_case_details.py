@@ -11,7 +11,7 @@ def assert_party_data(table, headings, values):
 
 
 class ViewCaseDetails:
-    scenarios("../features/case_view_details.feature", strict_gherkin=False)
+    scenarios("../features/view_case_details.feature", strict_gherkin=False)
 
     import logging
 
@@ -30,11 +30,9 @@ class ViewCaseDetails:
         case_notification_anchor = app_page.get_case_notification_anchor()
 
         lite_client = get_lite_client(context, seed_data_config)
-        exporter_name = exporter_info["first_name"] + " " + exporter_info["last_name"]
 
         audit_text = (
-            exporter_name
-            + ' updated the application name from "'
+            ' updated the application name from "'
             + context.app_name
             + '" to "'
             + lite_client.context["edit_case_app"]["name"]
