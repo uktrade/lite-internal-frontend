@@ -1,4 +1,5 @@
 from pytest_bdd import then, scenarios, when
+
 from pages.application_page import ApplicationPage
 from shared.tools.utils import get_lite_client
 
@@ -11,7 +12,7 @@ def assert_party_data(table, headings, values):
 
 
 class ViewCaseDetails:
-    scenarios("../features/case_view_details.feature", strict_gherkin=False)
+    scenarios("../features/view_case_details.feature", strict_gherkin=False)
 
     import logging
 
