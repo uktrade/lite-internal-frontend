@@ -32,22 +32,6 @@ def verify_hmrc_registered_organisation(driver, context):
     assert context.hmrc_org_name in Shared(driver).get_text_of_lite_table_body()
 
 
-@when("I go to organisations")
-def i_go_to_organisations(driver, context):
-    header = HeaderPage(driver)
-    header.click_lite_menu()
-    header.click_organisations()
-    context.org_registered_status = False
-
-
-@when("I go to HMRC")
-def i_go_to_hmrc(driver, context):
-    header = HeaderPage(driver)
-    header.click_lite_menu()
-    header.click_hmrc()
-    context.org_registered_status = False
-
-
 @when("I choose to add a new organisation")
 def i_choose_to_add_a_new_organisation(driver):
     organisations_page = OrganisationsPage(driver)
@@ -149,3 +133,15 @@ def register_hmrc_org(driver, org_name, site_name, address, city, region, post_c
 @then("the previously created organisations flag is assigned")  # noqa
 def assert_flag_is_assigned(driver, context):
     assert OrganisationPage(driver).is_organisation_flag_applied(context.flag_name)
+
+
+@when("I go to organisations")
+def i_go_to_organisations(driver, internal_url, context):
+    driver.get(internal_url.rstrip("/") + "/organisations")
+    context.org_registered_status = False
+
+
+@when("I go to HMRC")
+def i_go_to_hmrc(driver, internal_url, context):
+    driver.get(internal_url.rstrip("/") + "/organisations/hmrc/")
+    context.org_registered_status = False
