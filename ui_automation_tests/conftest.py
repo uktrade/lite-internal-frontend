@@ -315,6 +315,6 @@ def i_show_filters(driver, context):
     CaseListPage(driver).click_show_filters_link()
 
 
-@when("I go to users")
+@when("I go to users")  # noqa
 def go_to_users(driver, sso_sign_in, internal_url):
     driver.get(internal_url.rstrip("/") + "/users/")
