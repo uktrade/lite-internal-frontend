@@ -12,10 +12,7 @@ def success(driver):
     conn = urllib.request.urlopen(driver.current_url)
     assert conn.getcode() == 200
     assert driver.find_element_by_id(
-        "log-out-button"
-    ).is_displayed(), "Log out button is displayed. User may have the service unavailable screen."
-    assert driver.find_element_by_id(
-        "log-out-button"
+        "link-log-out"
     ).is_displayed(), "Log out button is displayed. User may have the service unavailable screen."
 
 
