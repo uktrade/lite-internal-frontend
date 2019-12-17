@@ -1,7 +1,7 @@
 @internal
-Feature: Menu
-  @super_smoke
-  Scenario: Menu
+Feature: Go to each item in the menu
+  @verify_build @menu
+  Scenario: Go to each item in the menu
     Given I go to internal homepage
     When I refresh the page
     Then I get a 200
