@@ -18,24 +18,24 @@
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">
-		{% for good in case.application.goods %}
+		{% for good_on_application in case.application.goods %}
 			<tr class="govuk-table__row">
                 <td class="govuk-table__cell govuk-table__cell--checkbox">
 					<div class="govuk-checkboxes govuk-checkboxes--small">
-						<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.good.id }}" id="{{ good.good.id }}">
-						<label class="govuk-label {% if show_checkboxes %}govuk-checkboxes__label{% endif %}" for="{{ good.good.id }}"></label>
+						<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good_on_application.good.id }}" id="{{ good_on_application.good.id }}">
+						<label class="govuk-label {% if show_checkboxes %}govuk-checkboxes__label{% endif %}" for="{{ good_on_application.good.id }}"></label>
 					</div>
 				</td>
 				<td class="govuk-table__cell">
-					{{ good.good.control_code|default_na }}
+					{{ good_on_application.good.control_code|default_na }}
 				</td>
                 <td class="govuk-table__cell">
-                	{{ good.good.description }}
+                	{{ good_on_application.good.description }}
                 </td>
-				<td class="govuk-table__cell">{{ good.quantity }} {{ good.unit.value }}/£{{ good.value|intcomma }}</td>
+				<td class="govuk-table__cell">{{ good_on_application.quantity }} {{ good_on_application.unit.value }}/£{{ good_on_application.value|intcomma }}</td>
 				<td class="govuk-table__cell">
-                    {% if good.good.documents %}
-                        {% for document in good.good.documents %}
+                    {% if good_on_application.good.documents %}
+                        {% for document in good_on_application.good.documents %}
                             {% if document.safe == True %}
                                 <a class="govuk-link govuk-link--no-visited-state" id="good_document" href="{% url 'cases:document' case.id document.id %}">
                                     {% get_string 'cases.manage.documents.download_document' %}
@@ -43,17 +43,17 @@
                             {% endif %}
                         {% endfor %}
                     {% else %}
-                        {% lcs 'CASES.ApplicationPage.Goods.MISSING_DOCUMENT_REASON_PREFIX' %}{{ good.good.missing_document_reason.value }}
+                        {% lcs 'CASES.ApplicationPage.Goods.MISSING_DOCUMENT_REASON_PREFIX' %}{{ good_on_application.good.missing_document_reason.value }}
                     {% endif %}
                 <td class="govuk-table__cell">
-                    {% for flag in good.good.flags %}
+                    {% for flag in good_on_application.good.flags %}
                         {{ flag.name }}<br>
                     {% endfor %}
                 </td>
 				{% if show_advice %}
 					<td class="govuk-table__cell">
 						{% for advice in all_advice %}
-							{% if advice.good == good.good.id %}
+							{% if advice.good == good_on_application.good.id %}
 								{% include 'case/views/table-advice.html' %}
 							{% endif %}
 						{% endfor %}
