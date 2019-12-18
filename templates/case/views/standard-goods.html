@@ -34,13 +34,17 @@
                 </td>
 				<td class="govuk-table__cell">{{ good.quantity }} {{ good.unit.value }}/£{{ good.value|intcomma }}</td>
 				<td class="govuk-table__cell">
-				  {% for document in good.good.documents %}
-					  {% if document.safe == True %}
-						  <a class="govuk-link govuk-link--no-visited-state" id="good_document" href="{% url 'cases:document' case.id document.id %}">
-							  {% get_string 'cases.manage.documents.download_document' %}
-						  </a>
-					  {% endif %}
-				   {% endfor %}
+                    {% if good.good.documents %}
+                        {% for document in good.good.documents %}
+                            {% if document.safe == True %}
+                                <a class="govuk-link govuk-link--no-visited-state" id="good_document" href="{% url 'cases:document' case.id document.id %}">
+                                    {% get_string 'cases.manage.documents.download_document' %}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        No document given: {{ good.good.missing_document_reason.value }}
+                    {% endif %}
                 <td class="govuk-table__cell">
                     {% for flag in good.good.flags %}
                         {{ flag.name }}<br>
