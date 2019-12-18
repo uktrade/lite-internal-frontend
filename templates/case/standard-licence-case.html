@@ -122,27 +122,7 @@
 
 	<div class="govuk-accordion app-accordion" data-module="govuk-accordion" id="accordion-default">
 		<!-- Goods -->
-		<div class="govuk-accordion__section">
-			<div class="govuk-accordion__section-header">
-				<h2 class="govuk-accordion__section-heading">
-					<span class="govuk-accordion__section-button" id="accordion-goods">
-						{% lcs 'CASE_GOODS' %}
-					</span>
-				</h2>
-			</div>
-			<div id="accordion-goods-content" class="govuk-accordion__section-content" aria-labelledby="accordion-goods">
-			<form action="{% url 'cases:review_goods' case.id %}" method="get">
-			{% if 'REVIEW_GOODS' in permissions and not status_is_terminal %}
-			    <button id="button-review-goods" name="action" value="review-goods" class="govuk-button" data-module="govuk-button">
-			        {% lcs 'CASES.ApplicationPage.REVIEW_GOODS' %}
-			    </button>
-			{% endif %}
-			    <button id="button-edit-goods-flags" name="action" value="edit-flags" class="govuk-button" data-module="govuk-button">
-			        {% lcs 'CASES.ApplicationPage.EDIT_FLAGS' %}
-			    </button>
-			    {% include 'case/views/standard-goods.html' with show_checkboxes=True %}
-			</form>
-		</div>
+        {% include 'case/includes/case-goods.html' %}
 
 		<!-- Goods location -->
 		<div class="govuk-accordion__section">
