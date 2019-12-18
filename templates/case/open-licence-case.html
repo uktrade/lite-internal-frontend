@@ -203,31 +203,64 @@
 		</div>
 
 		<!-- Countries -->
-		<div class="govuk-accordion__section">
+        <div class="govuk-accordion__section">
 			<div class="govuk-accordion__section-header">
 				<h2 class="govuk-accordion__section-heading">
-					<span class="govuk-accordion__section-button" id="accordion-default-heading-2">
-						{{ case.application.destinations.data|length }} {% lcs 'CASE_COUNTRIES' %}
+					<span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+						{% lcs 'CASE_ENTITIES_INVOLVED' %}
 					</span>
 				</h2>
 			</div>
-			<div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
-				<table class="govuk-table">
+            <form action="{% url 'cases:assign_destination_flags' case.id %}" method="get">
+                <button id="button-edit-goods-flags" class="govuk-button" data-module="govuk-button">
+                    Destination Flags [temp]
+{#                    {% lcs 'CASES.ApplicationPage.EDIT_FLAGS' %}#}
+                </button>
+			    <table class="govuk-table" id="table-entities">
 					<thead class="govuk-table__head">
 						<tr class="govuk-table__row">
-							<th scope="col" class="govuk-table__header">{% lcs 'CASE_COUNTRIES_GREEN_LIST' %}</th>
+                            <th scope="col" class="govuk-table__header">
+                                <button type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
+                            </th>
+							<th scope="col" class="govuk-table__header"></th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-third">{% lcs 'CASE_PARTIES_NAME' %}</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASE_PARTIES_ADDRESS' %}</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASE_PARTIES_TYPE' %}</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASE_PARTIES_WEBSITE' %}</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASE_PARTIES_DOCUMENT' %}</th>
+							<th scope="col" class="govuk-table__header govuk-!-width-one-half">Flags</th>
 						</tr>
 					</thead>
-					<tbody class="govuk-table__body">
+                    <tbody>
+                    {{ case.application.destinations.data }}
 						{% for country in case.application.destinations.data %}
+                            {{ country }}
 							<tr class="govuk-table__row">
-								<td class="govuk-table__cell">{{ country.name }}</td>
+                                <td class="govuk-table__cell govuk-table__cell--checkbox">
+                                    <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ ultimate_end_user.id }}" id="{{ ultimate_end_user.id }}">
+                                    <label class="govuk-label govuk-checkboxes__label" for="{{ ultimate_end_user.id }}"></label>
+                                </td>
+								<th scope="row" class="govuk-table__header">Ultimate end user</th>
+{#								<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>#}
+{#								<td class="govuk-table__cell">{{ ultimate_end_user|get_address }}</td>#}
+{#								<td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value }}</td>#}
+{#								<td class="govuk-table__cell">{{ ultimate_end_user.website|linkify }}</td>#}
+{#								<td class="govuk-table__cell">#}
+									<a href="{% url 'cases:document' case.id ultimate_end_user.document.id %}">
+										{{ ultimate_end_user.document.name }}
+									</a>
+								</td>
+                                <td class="govuk-table__cell">
+                                    {% for flag in ultimate_end_user.flags %}
+                                        {{ flag.name }}<br>
+                                    {% endfor %}
+                                </td>
 							</tr>
 						{% endfor %}
 					</tbody>
 				</table>
-			</div>
-		</div>
+			</form>
+        </div>
 
 		<!-- Supporting documentation -->
 		<div class="govuk-accordion__section">
