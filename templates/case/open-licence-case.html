@@ -213,8 +213,7 @@
 			</div>
             <form action="{% url 'cases:assign_destination_flags' case.id %}" method="get">
                 <button id="button-edit-goods-flags" class="govuk-button" data-module="govuk-button">
-                    Destination Flags [temp]
-{#                    {% lcs 'CASES.ApplicationPage.EDIT_FLAGS' %}#}
+                    {% lcs 'CASES.ApplicationPage.EDIT_DESTINATION_FLAGS' %}
                 </button>
                         <div class="app-wrappable-list">
                         {% for country_group in case.application.destinations.data|group_list:4 %}

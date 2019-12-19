@@ -87,8 +87,6 @@ class ViewCase(TemplateView):
         queue_id = request.GET.get("queue_id")
         queue_name = request.GET.get("queue_name")
 
-        case["all_flags"] = _get_all_distinct_flags(case)
-
         context = {
             "case": case,
             "activity": activity,
