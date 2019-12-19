@@ -1,7 +1,8 @@
 import uuid
 
-from pytest_bdd import scenarios, when, then, given
+from pytest_bdd import scenarios, when, then, given, parsers
 import shared.tools.helpers as utils
+from pages.application_page import ApplicationPage
 
 from pages.header_page import HeaderPage
 from pages.letter_templates import LetterTemplates
@@ -14,13 +15,6 @@ scenarios("../features/letter_templates.feature", strict_gherkin=False)
 @given("I create a letter paragraph picklist")
 def add_letter_paragraph_picklist(add_a_letter_paragraph_picklist):
     pass
-
-
-@when("I go to letters")
-def go_to_letters(driver):
-    header = HeaderPage(driver)
-    header.click_lite_menu()
-    header.click_letters()
 
 
 @when("I create a letter template for ECJU letter")
@@ -146,3 +140,13 @@ def template_paragraphs_have_been_edited(driver, context):
     paragraphs_text_list = LetterTemplates(driver).get_list_of_letter_paragraphs()
     for text in context.document_template_paragraph_text:
         assert text in paragraphs_text_list
+
+
+@then(parsers.parse('"{expected_text}" is shown as position "{no}" in the audit trail'))
+def latest_audit_trail(driver, expected_text, no):
+    assert expected_text in ApplicationPage(driver).get_text_of_audit_trail_item(int(no) - 1)
+
+
+@when("I go to letters")
+def i_go_to_letters(driver, internal_url):
+    driver.get(internal_url.rstrip("/") + "/document-templates")
