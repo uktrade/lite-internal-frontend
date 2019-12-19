@@ -52,31 +52,6 @@ def get_const_string(value):
         return STRING_NOT_FOUND_ERROR
 
 
-@register.simple_tag
-def get_string(value):
-    """
-    Given a string, such as 'cases.manage.attach_documents' it will return the relevant value
-    from the strings.json file
-    """
-    warnings.warn(
-        'get_string is deprecated. Use "lcs" instead, or reference constants from strings directly.', DeprecationWarning
-    )
-
-    # Pull the latest changes from strings.json for faster debugging
-    if env("DEBUG"):
-        with open("lite_content/lite-internal-frontend/strings.json") as json_file:
-            lite_strings.constants = json.load(json_file)
-
-    def get(d, keys):
-        if "." in keys:
-            key, rest = keys.split(".", 1)
-            return get(d[key], rest)
-        else:
-            return d[keys]
-
-    return get(lite_strings.constants, value)
-
-
 @register.filter
 @stringfilter
 def str_date(value):
