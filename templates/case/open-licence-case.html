@@ -216,49 +216,40 @@
                     Destination Flags [temp]
 {#                    {% lcs 'CASES.ApplicationPage.EDIT_FLAGS' %}#}
                 </button>
-			    <table class="govuk-table" id="table-entities">
-					<thead class="govuk-table__head">
-						<tr class="govuk-table__row">
-                            <th scope="col" class="govuk-table__header">
-                                <button type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
-                            </th>
-							<th scope="col" class="govuk-table__header"></th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-third">{% lcs 'CASE_PARTIES_NAME' %}</th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASE_PARTIES_ADDRESS' %}</th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASE_PARTIES_TYPE' %}</th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASE_PARTIES_WEBSITE' %}</th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASE_PARTIES_DOCUMENT' %}</th>
-							<th scope="col" class="govuk-table__header govuk-!-width-one-half">Flags</th>
-						</tr>
-					</thead>
-                    <tbody>
-                    {{ case.application.destinations.data }}
-						{% for country in case.application.destinations.data %}
-                            {{ country }}
-							<tr class="govuk-table__row">
-                                <td class="govuk-table__cell govuk-table__cell--checkbox">
-                                    <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ ultimate_end_user.id }}" id="{{ ultimate_end_user.id }}">
-                                    <label class="govuk-label govuk-checkboxes__label" for="{{ ultimate_end_user.id }}"></label>
-                                </td>
-								<th scope="row" class="govuk-table__header">Ultimate end user</th>
-{#								<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>#}
-{#								<td class="govuk-table__cell">{{ ultimate_end_user|get_address }}</td>#}
-{#								<td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value }}</td>#}
-{#								<td class="govuk-table__cell">{{ ultimate_end_user.website|linkify }}</td>#}
-{#								<td class="govuk-table__cell">#}
-									<a href="{% url 'cases:document' case.id ultimate_end_user.document.id %}">
-										{{ ultimate_end_user.document.name }}
-									</a>
-								</td>
-                                <td class="govuk-table__cell">
-                                    {% for flag in ultimate_end_user.flags %}
-                                        {{ flag.name }}<br>
-                                    {% endfor %}
-                                </td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
+                        <div class="app-wrappable-list">
+                        {% for country_group in case.application.destinations.data|group_list:4 %}
+                            <div class="app-wrappable-list__group govuk-checkboxes govuk-checkboxes--small">
+                                {% for country in country_group %}
+                                    <div class="app-wrappable-list__item">
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ country.id }}" id="{{ country.id }}">
+                                            <label class="govuk-label govuk-checkboxes__label" for="{{ country.id }}">{{ country.name }}
+                                                <span class="app-country-tag" style="margin-right: 10px">
+                                                    {{ country.id }}
+                                                </span>
+                                                {% for good in case.application.goods_types %}
+                                                    {% if good.countries %}
+                                                        {% if country in good.countries %}
+                                                            {% if good.control_code %}
+                                                                <span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% elif good.control_code %}
+                                                        <span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <span>
+                                                    {% for flag in country.flags %}
+                                                        {{ flag.name }}
+                                                    {% endfor %}
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
 			</form>
         </div>
 
