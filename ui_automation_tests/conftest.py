@@ -57,7 +57,7 @@ def pytest_addoption(parser):
         env = "dev"
 
     parser.addoption("--driver", action="store", default="chrome", help="Type in browser type")
-    parser.addoption("--sso_sign_in_url", action="store", default=str(os.environ.get('AUTHBROKER_URL')), help="url")
+    parser.addoption("--sso_sign_in_url", action="store", default=str(os.environ.get("AUTHBROKER_URL")), help="url")
 
     if env.lower() == "local":
         parser.addoption(

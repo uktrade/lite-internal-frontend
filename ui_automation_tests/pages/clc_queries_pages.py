@@ -31,4 +31,3 @@ class ClcQueriesPages(BasePage):
 
     def is_clc_query_case_closed(self):
         return len(self.driver.find_elements_by_css_selector(self.CASE_CLOSE)) == 1
-
