@@ -9,7 +9,7 @@ class AssignDestinationFlags(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
 
-        params = dict()
+        params = {}
         params["items"] = request.GET.getlist("destinations")
         params["level"] = "destinations"
         post_url = "?" + convert_dict_to_query_params(params)

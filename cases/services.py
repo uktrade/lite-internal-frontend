@@ -343,4 +343,4 @@ def get_generated_document(request, pk, dpk):
 
 def get_destination(request, pk):
     data = get(request, DESTINATION_URL + pk)
-    return data.json(), data.status_code
+    return data.json()

@@ -181,7 +181,7 @@ class AssignFlags(TemplateView):
             obj, _ = get_organisation(request, self.objects[0])
             object_flags = obj.get("flags")
         elif self.level == "destinations":
-            obj, _ = get_destination(request, self.objects[0])
+            obj = get_destination(request, self.objects[0])
 
         # Fetches existing flags on the object
         if self.level != "organisations":
