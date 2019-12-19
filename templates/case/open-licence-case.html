@@ -205,7 +205,7 @@
 		</div>
 
 		<!-- Countries -->
-        <div class="govuk-accordion__section">
+		<div class="govuk-accordion__section">
 			<div class="govuk-accordion__section-header">
 				<h2 class="govuk-accordion__section-heading">
 					<span class="govuk-accordion__section-button" id="accordion-default-heading-3">
@@ -213,46 +213,57 @@
 					</span>
 				</h2>
 			</div>
-            <form action="{% url 'cases:assign_destination_flags' case.id %}" method="get">
-                <button id="button-edit-goods-flags" class="govuk-button" data-module="govuk-button">
-                    {% lcs 'CASES.ApplicationPage.EDIT_DESTINATION_FLAGS' %}
-                </button>
-                        <div class="app-wrappable-list">
-                        {% for country_group in case.application.destinations.data|group_list:4 %}
-                            <div class="app-wrappable-list__group govuk-checkboxes govuk-checkboxes--small">
-                                {% for country in country_group %}
-                                    <div class="app-wrappable-list__item">
-                                        <div class="govuk-checkboxes__item">
-                                            <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ country.id }}" id="{{ country.id }}">
-                                            <label class="govuk-label govuk-checkboxes__label" for="{{ country.id }}">{{ country.name }}
-                                                <span class="app-country-tag" style="margin-right: 10px">
-                                                    {{ country.id }}
-                                                </span>
-                                                {% for good in case.application.goods_types %}
-                                                    {% if good.countries %}
-                                                        {% if country in good.countries %}
-                                                            {% if good.control_code %}
-                                                                <span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
-                                                            {% endif %}
-                                                        {% endif %}
-                                                    {% elif good.control_code %}
-                                                        <span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
-                                                    {% endif %}
-                                                {% endfor %}
-                                                <span>
-                                                    {% for flag in country.flags %}
-                                                        {{ flag.name }}
-                                                    {% endfor %}
-                                                </span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
-                    </div>
-			</form>
-        </div>
+			<div class="govuk-accordion__section-content">
+				<form action="{% url 'cases:assign_destination_flags' case.id %}" method="get">
+					<button id="button-edit-goods-flags" class="govuk-button" data-module="govuk-button">
+						{% lcs 'CASES.ApplicationPage.EDIT_DESTINATION_FLAGS' %}
+					</button>
+					<table class="govuk-table">
+						<thead class="govuk-table__head">
+							<tr class="govuk-table__row">
+								<th scope="col" class="govuk-table__header">
+									<button type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
+								</th>
+								<th scope="col" class="govuk-table__header govuk-!-width-one-third">{% lcs 'CASES.ApplicationPage.Destinations.COUNTRY_NAME' %}</th>
+								<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASES.ApplicationPage.Destinations.PRODUCTS_CONTROL_CODES' %}</th>
+								<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASES.ApplicationPage.Destinations.FLAGS_TABLE_HEADER' %}</th>
+							</tr>
+						</thead>
+						<tbody class="govuk-table__body">
+							{% for country in case.application.destinations.data %}
+							<tr class="govuk-table__row">
+								<td class="govuk-table__cell govuk-table__cell--checkbox">
+									<input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ country.id }}" id="{{ country.id }}">
+									<label class="govuk-label govuk-checkboxes__label" for="{{ country.id }}"></label>
+								</td>
+								<td class="govuk-table__cell">{{ country.name }}<span class="app-country-tag">{{ country.id }}</span></td>
+								<td class="govuk-table__cell">
+									{% for good in case.application.goods_types %}
+										{% if good.countries %}
+											{% if country in good.countries %}
+												{% if good.control_code %}
+													<span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
+												{% endif %}
+											{% endif %}
+										{% elif good.control_code %}
+											<span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
+										{% endif %}
+									{% endfor %}
+								</td>
+								<td class="govuk-table__cell">
+									{% for flag in country.flags %}
+										{{ flag.name }}<br>
+									{% endfor %}
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</div>
+
+
 
 		<!-- Supporting documentation -->
 		<div class="govuk-accordion__section">
