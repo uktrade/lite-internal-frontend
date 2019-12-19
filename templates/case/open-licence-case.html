@@ -143,7 +143,7 @@
 						<thead class="govuk-table__head">
 							<tr class="govuk-table__row">
 								<th scope="col" class="govuk-table__header">
-									<button type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
+									<button id="select-all-goods" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
 								</th>
 								<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'GOOD_DESCRIPTION' %}</th>
 								<th scope="col" class="govuk-table__header">{% lcs 'GOOD_CONTROLLED' %}</th>
@@ -215,14 +215,14 @@
 			</div>
 			<div class="govuk-accordion__section-content">
 				<form action="{% url 'cases:assign_destination_flags' case.id %}" method="get">
-					<button id="button-edit-goods-flags" class="govuk-button" data-module="govuk-button">
+					<button id="button-edit-destinations-flags" class="govuk-button" data-module="govuk-button">
 						{% lcs 'CASES.ApplicationPage.EDIT_DESTINATION_FLAGS' %}
 					</button>
 					<table class="govuk-table">
 						<thead class="govuk-table__head">
 							<tr class="govuk-table__row">
 								<th scope="col" class="govuk-table__header">
-									<button type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
+									<button id="select-all-destinations" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
 								</th>
 								<th scope="col" class="govuk-table__header govuk-!-width-one-third">{% lcs 'CASES.ApplicationPage.Destinations.COUNTRY_NAME' %}</th>
 								<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'CASES.ApplicationPage.Destinations.PRODUCTS_CONTROL_CODES' %}</th>
@@ -305,11 +305,12 @@
 		}
 	</script>
 
+    <script src="{% static 'javascripts/select-buttons.js' %}"></script>
 	<script src="{% static 'javascripts/more-actions.js' %}"></script>
 	<script src="{% static 'javascripts/edit-good-flags.js' %}"></script>
+	<script src="{% static 'javascripts/edit-destination-flags.js' %}"></script>
 	<script src="{% static 'javascripts/modal.js' %}"></script>
 	<script src="{% static 'javascripts/case.js' %}"></script>
-	<script src="{% static 'javascripts/select-buttons.js' %}"></script>
 
 	<script type="text/javascript">
 		$(".govuk-accordion__section").addClass("govuk-accordion__section--expanded");
