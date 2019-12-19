@@ -28,17 +28,19 @@
 	<div class="lite-app-bar__controls">
 		<div class="app-more-actions__container">
 			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
-	           	{% lcs 'CASES.ApplicationPage.Actions.DOCUMENT' %}
+	           	{% lcs 'CASES.HMRCPage.Actions.DOCUMENT' %}
 	        </a>
 	        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
-				{% get_string 'cases.manage.move_case.button' %}
+				{% lcs 'CASES.HMRCPage.Actions.MOVE' %}
 			</a>
+            {% if not status_is_terminal or 'REOPEN_CLOSED_CASES' in permissions %}
 			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:manage' case.id %}">
-				Change Status
+				{% lcs 'CASES.HMRCPage.Actions.CHANGE_STATUS' %}
 			</a>
+            {% endif %}
 			{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' and not status_is_terminal%}
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' case.id %}">
-					Record Decision
+					{% lcs 'CASES.HMRCPage.Actions.RECORD_DECISION' %}
 				</a>
 			{% endif %}
             <a role="button" draggable="false" class="govuk-button" id="generate-document" href="{% url 'cases:generate_document' case.id %}">
@@ -87,7 +89,7 @@
 <form action="{% url 'cases:assign_flags' case.id %}" method="get">
     <input type="hidden" name="level" value="goods"/>
     <button id="button-edit-goods-flags" value="goods" class="govuk-button" data-module="govuk-button">
-        {% get_string 'cases.case.edit_goods_flags' %}
+        {% lcs 'Cases.Case.EDIT_GOODS_FLAGS' %}
     </button>
     <table class="govuk-table">
         <thead class="govuk-table__header">
@@ -152,7 +154,7 @@
                 <td class="govuk-table__cell">
                     {% if supporting_documentation.safe == True %}
                     <a class="govuk-link govuk-link--no-visited-state" id="supporting_documentation-{{ supporting_documentation.id }}" href="{% url 'cases:document' case.id supporting_documentation.id %}">
-                        <span class="govuk-visually-hidden">{% get_string 'cases.manage.documents.download_document' %}</span>
+                        <span class="govuk-visually-hidden">{% lcs 'Cases.Manage.Documents.DOWNLOAD_DOCUMENT' %}</span>
                         {{ supporting_documentation.name }}<br>
                     </a>
                     {% endif %}

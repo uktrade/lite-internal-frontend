@@ -1,3 +1,4 @@
+from lite_content.lite_internal_frontend import strings
 from django.http import Http404
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -89,10 +90,10 @@ class ChangeFlagStatus(TemplateView):
             raise Http404
 
         if status == "deactivate":
-            description = get_string("flags.update_flag.status.deactivate_warning")
+            description = strings.Flags.UpdateFlag.Status.DEACTIVATE_WARNING
 
         if status == "reactivate":
-            description = get_string("flags.update_flag.status.reactivate_warning")
+            description = strings.Flags.UpdateFlag.Status.REACTIVATE_WARNING
 
         context = {
             "title": "Are you sure you want to {} this flag?".format(status),
