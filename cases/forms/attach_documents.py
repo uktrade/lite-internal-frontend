@@ -2,7 +2,6 @@ from lite_content.lite_internal_frontend import strings
 from lite_forms.components import Form, TextArea, FileUpload, BackLink
 
 
-
 def attach_documents_form(case_url):
     return Form(
         strings.Cases.Manage.Documents.AttachDocuments.TITLE,

@@ -11,7 +11,6 @@ from lite_forms.generators import error_page
 from s3chunkuploader.file_handler import UploadFailed
 
 
-
 class ProtectAllViewsMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
