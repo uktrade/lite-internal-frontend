@@ -9,8 +9,6 @@ from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
 from conf.constants import ISO8601_FMT
-from conf.settings import env
-from core import lite_strings
 
 from lite_content.lite_internal_frontend import strings
 

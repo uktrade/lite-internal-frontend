@@ -1,5 +1,4 @@
 from lite_content.lite_internal_frontend import strings
-from lite_content.lite_internal_frontend import strings
 from lite_forms.common import address_questions
 from lite_forms.components import (
     Form,
