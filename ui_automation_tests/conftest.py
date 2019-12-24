@@ -269,7 +269,9 @@ def add_a_flag(driver, add_uae_flag):  # noqa
     pass
 
 
-@when(parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'))  # noqa
+@when(
+    parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue')
+)  # noqa
 def enter_response(driver, controlled, control_list_entry, report, comment):  # noqa
     clc_query_page = ClcQueriesPages(driver)
     clc_query_page.click_is_good_controlled(controlled)
