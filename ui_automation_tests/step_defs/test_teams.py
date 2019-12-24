@@ -43,16 +43,6 @@ def add_a_team_blue_ocean(driver, add_a_team, context):
     pass
 
 
-@when(parsers.parse('I add a team called "{team_name}"'))
-def add_a_team(driver, team_name, context):
-    teams_pages = TeamsPages(driver)
-    shared = Shared(driver)
-    utils.get_unformatted_date_time()
-    teams_pages.click_add_a_team_button()
-    teams_pages.enter_team_name(team_name)
-    shared.click_submit()
-
-
 @when("I edit my team")
 def edit_existing_team(driver, context):
     teams_pages = TeamsPages(driver)

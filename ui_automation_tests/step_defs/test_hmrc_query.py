@@ -3,11 +3,6 @@ from pytest_bdd import given, scenarios, when, then
 scenarios("../features/hmrc_query.feature", strict_gherkin=False)
 
 
-@given("I create a hmrc query")  # noqa
-def create_hmrc_query(driver, apply_for_hmrc_query, context):
-    pass
-
-
 @when("I go to HMRC query")  # noqa
 def go_to_hmrc(driver, context):
     driver.set_timeout_to(0)

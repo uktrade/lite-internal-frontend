@@ -19,13 +19,6 @@ def click_on_edit_queue(driver, context):
     Shared(driver).click_submit()
 
 
-@when(parsers.parse('I enter in queue name "{queue_name}"'))
-def add_a_queue(driver, queue_name):
-    QueuesPages(driver).click_add_a_queue_button()
-    QueuesPages(driver).enter_queue_name(queue_name)
-    Shared(driver).click_submit()
-
-
 @then("I see the new queue")
 def see_queue_in_queue_list(driver, context):
     assert context.queue_name in Shared(driver).get_text_of_body()
@@ -45,28 +38,11 @@ def dont_see_queue_in_queue_list(driver, context):
     driver.set_timeout_to_10_seconds()
 
 
-@then("I dont see previously created clc query")
-def dont_see_queue_in_queue_list(driver, context):
-    driver.set_timeout_to(0)
-    if len(driver.find_elements_by_css_selector(".lite-information-text__text")) == 1:
-        assert True
-    else:
-        assert context.case_id not in driver.find_element_by_css_selector(".govuk-table").text
-    driver.set_timeout_to_10_seconds()
-
-
 @then(parsers.parse('I see "{num}" queue checkboxes selected'))
 def see_number_of_checkboxes_selected(driver, context, num):
     ApplicationPage(driver).click_move_case_button()
     assert QueuesPages(driver).get_size_of_selected_queues() == int(num)
     Shared(driver).click_back_link()
-
-
-@when("I deselect all queues")
-def deselect_all_queues(driver):
-    ApplicationPage(driver).click_move_case_button()
-    QueuesPages(driver).deselect_all_queues()
-    Shared(driver).click_submit()
 
 
 @then("queue change is in audit trail")
