@@ -1,4 +1,4 @@
-from pytest_bdd import when, then, parsers, scenarios, given
+from pytest_bdd import when, then, parsers, scenarios
 import shared.tools.helpers as utils
 from pages.shared import Shared
 from pages.teams_pages import TeamsPages

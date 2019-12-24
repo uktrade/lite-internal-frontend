@@ -1,4 +1,4 @@
-from pytest_bdd import given, scenarios, when, then
+from pytest_bdd import scenarios, when, then
 
 scenarios("../features/hmrc_query.feature", strict_gherkin=False)
 

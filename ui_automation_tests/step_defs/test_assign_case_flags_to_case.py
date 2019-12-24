@@ -2,11 +2,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 import shared.tools.helpers as utils
 from pages.shared import Shared
-from pytest_bdd import given, when, then, scenarios, parsers
-from pages.assign_flags_to_case import CaseFlagsPages
-from pages.flags_pages import FlagsPages
+from pytest_bdd import when, then, scenarios
 from pages.application_page import ApplicationPage
-from pages.header_page import HeaderPage
 
 scenarios("../features/assign_case_flags_to_case.feature", strict_gherkin=False)
 
