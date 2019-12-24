@@ -264,11 +264,6 @@ def go_to_users(driver, sso_sign_in, internal_url):
     driver.get(internal_url.rstrip("/") + "/users/")
 
 
-@when("I add a flag called UAE at level Case")  # noqa
-def add_a_flag(driver, add_uae_flag):  # noqa
-    pass
-
-
 @when(  # noqa
     parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue') # noqa
 )  # noqa
@@ -279,3 +274,8 @@ def enter_response(driver, controlled, control_list_entry, report, comment):  # 
     clc_query_page.choose_report_summary(report)
     clc_query_page.enter_a_comment(controlled)
     Shared(driver).click_submit()
+
+
+@when("I add a flag called UAE at level Case")  # noqa
+def add_a_flag(driver, add_uae_flag):  # noqa
+    pass
