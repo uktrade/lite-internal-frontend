@@ -265,7 +265,9 @@ def go_to_users(driver, sso_sign_in, internal_url):
 
 
 @when(  # noqa
-    parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue') # noqa
+    parsers.parse(
+        'I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'
+    )  # noqa
 )  # noqa
 def enter_response(driver, controlled, control_list_entry, report, comment):  # noqa
     clc_query_page = ClcQueriesPages(driver)
