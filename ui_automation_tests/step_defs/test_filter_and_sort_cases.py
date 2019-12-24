@@ -73,3 +73,8 @@ def no_cases_shown(driver):
     assert (
         "There are no new cases to show." in QueuesPages(driver).get_no_cases_text()
     ), "There are cases shown in the newly created queue."
+
+
+@when("I create a clc query")  # noqa
+def create_clc_query(driver, apply_for_clc_query, context):
+    pass

@@ -150,11 +150,6 @@ def go_to_flags(driver, internal_url, sso_sign_in):
     driver.get(internal_url.rstrip("/") + "/flags")
 
 
-@given("I create a clc query")  # noqa
-def create_clc_query(driver, apply_for_clc_query, context):
-    pass
-
-
 @when("I click progress application")  # noqa
 def click_post_note(driver):
     application_page = ApplicationPage(driver)
