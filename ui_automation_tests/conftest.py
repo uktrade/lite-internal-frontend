@@ -150,7 +150,7 @@ def go_to_flags(driver, internal_url, sso_sign_in):
     driver.get(internal_url.rstrip("/") + "/flags")
 
 
-@when("I create a clc_query")  # noqa
+@given("I create a clc query")  # noqa
 def create_clc_query(driver, apply_for_clc_query, context):
     pass
 
@@ -264,13 +264,13 @@ def go_to_users(driver, sso_sign_in, internal_url):
     driver.get(internal_url.rstrip("/") + "/users/")
 
 
-@when("I add a flag called UAE at level Case")
-def add_a_flag(driver, add_uae_flag):
+@when("I add a flag called UAE at level Case")  # noqa
+def add_a_flag(driver, add_uae_flag):  # noqa
     pass
 
 
-@when(parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'))
-def enter_response(driver, controlled, control_list_entry, report, comment):
+@when(parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'))  # noqa
+def enter_response(driver, controlled, control_list_entry, report, comment):  # noqa
     clc_query_page = ClcQueriesPages(driver)
     clc_query_page.click_is_good_controlled(controlled)
     clc_query_page.type_in_to_control_list_entry(control_list_entry)
