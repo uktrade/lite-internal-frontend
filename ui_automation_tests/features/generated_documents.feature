@@ -1,4 +1,4 @@
-@internal @documents @generated_documents
+@internal @documents @generated_documents @all
 Feature: I want to select a template to generate a document to the applicant on a case
 As a logged in government user
 I want to select a template to generate a document to the applicant on a case
