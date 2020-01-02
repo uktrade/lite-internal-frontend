@@ -26,7 +26,8 @@ from conf.constants import (
     GENERATED_DOCUMENTS_URL,
     GENERATED_DOCUMENTS_PREVIEW_URL,
     DESTINATION_URL,
-    CASE_OFFICER_URL)
+    CASE_OFFICER_URL,
+)
 
 
 def get_case(request, pk):
