@@ -18,7 +18,10 @@ from cases.services import (
     put_case,
     put_end_user_advisory_query,
     _get_total_goods_value,
-    get_case_officer, post_case_officer, post_unassign_case_officer)
+    get_case_officer,
+    post_case_officer,
+    post_unassign_case_officer,
+)
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
 from conf.constants import DEFAULT_QUEUE_ID, GENERATED_DOCUMENT
@@ -327,17 +330,12 @@ class Document(TemplateView):
 
 
 class CaseOfficer(TemplateView):
-
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         search_term = request.GET.get("search_term", "").strip()
         gov_users, _ = get_case_officer(request, case_id, search_term)
 
-        context = {
-            "users": gov_users,
-            "case_id": case_id,
-            "search_term": search_term
-        }
+        context = {"users": gov_users, "case_id": case_id, "search_term": search_term}
         return render(request, "case/case-officer.html", context)
 
     def post(self, request, **kwargs):
@@ -349,12 +347,7 @@ class CaseOfficer(TemplateView):
             if not user_id:
                 search_term = request.GET.get("search_term", "").strip()
                 gov_users, _ = get_case_officer(request, case_id, search_term)
-                context = {
-                    "show_error": True,
-                    "users": gov_users,
-                    "case_id": case_id,
-                    "search_term": search_term
-                }
+                context = {"show_error": True, "users": gov_users, "case_id": case_id, "search_term": search_term}
                 return render(request, "case/case-officer.html", context)
 
             _, status_code = post_case_officer(request, case_id, user_id)
@@ -362,28 +355,16 @@ class CaseOfficer(TemplateView):
             if status_code != 204:
                 search_term = request.GET.get("search_term", "").strip()
                 gov_users, _ = get_case_officer(request, case_id, search_term)
-                context = {
-                    "show_error": True,
-                    "users": gov_users,
-                    "case_id": case_id,
-                    "search_term": search_term
-                }
+                context = {"show_error": True, "users": gov_users, "case_id": case_id, "search_term": search_term}
                 return render(request, "case/case-officer.html", context)
 
         elif action == "unassign":
-            errors, status_code = post_unassign_case_officer(request, case_id)
+            _, status_code = post_unassign_case_officer(request, case_id)
 
             if status_code != 204:
                 search_term = request.GET.get("search_term", "").strip()
-                gov_users, _ = get_case_officer(request, case_id)
-                context = {
-                    "show_error": True,
-                    "users": gov_users,
-                    "case_id": case_id,
-                    "search_term": search_term
-                }
+                gov_users, _ = get_case_officer(request, case_id, search_term)
+                context = {"show_error": True, "users": gov_users, "case_id": case_id, "search_term": search_term}
                 return render(request, "case/case-officer.html", context)
 
         return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
-
-
