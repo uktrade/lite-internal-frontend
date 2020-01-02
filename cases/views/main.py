@@ -347,7 +347,12 @@ class CaseOfficer(TemplateView):
             if not user_id:
                 search_term = request.GET.get("search_term", "").strip()
                 gov_users, _ = get_case_officer(request, case_id, search_term)
-                context = {"show_error": True, "users": gov_users, "case_id": case_id, "search_term": search_term}
+                context = {
+                    "error": strings.cases.CaseOfficerPage.Error.NO_SELECTION,
+                    "users": gov_users,
+                    "case_id": case_id,
+                    "search_term": search_term,
+                }
                 return render(request, "case/case-officer.html", context)
 
             _, status_code = post_case_officer(request, case_id, user_id)
