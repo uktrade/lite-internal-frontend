@@ -330,11 +330,13 @@ class CaseOfficer(TemplateView):
 
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
-        gov_users, _ = get_case_officer(request, case_id)
+        search_term = request.GET.get("search_term", "").strip()
+        gov_users, _ = get_case_officer(request, case_id, search_term)
 
         context = {
             "users": gov_users,
-            "case_id": case_id
+            "case_id": case_id,
+            "search_term": search_term
         }
         return render(request, "case/case-officer.html", context)
 

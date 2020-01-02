@@ -346,8 +346,8 @@ def get_destination(request, pk):
     return data.json()
 
 
-def get_case_officer(request, pk):
-    data = get(request, CASE_URL + pk + CASE_OFFICER_URL)
+def get_case_officer(request, pk, search_term):
+    data = get(request, CASE_URL + pk + CASE_OFFICER_URL + "?search_term=" + search_term)
     return data.json()["GovUsers"], data.status_code
 
 

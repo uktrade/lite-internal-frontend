@@ -3,7 +3,7 @@
 {% load svg %}
 
 {% block back_link %}
-<a href="{% url 'cases:case' case_id %}" id="back-link" class="govuk-back-link">Back to Case</a>
+<a href="{% url 'cases:case' case_id %}" id="back-link" class="govuk-back-link">{% lcs 'CASE.Case_Officer.BackLink' %}</a>
 {% endblock %}
 
 {% block body %}
@@ -25,13 +25,13 @@
 
     {% if users.case_officer %}
         <h2>
-            Current Case Officer
+            {% lcs 'CASE.Case_Officer.Current.Title' %}
         </h2>
         <div class="app-case-board">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-quarter">
                     <p class="app-case-board__heading">{% lcs 'CASE.Case_Officer.Current.Name' %}</p>
-				    <p>{{ users.case_officer.first_name }} {{ users.case_officer.last_name }}</p>
+				    <p>{{ users.case_officer.full_name }}</p>
                 </div>
                 <div class="govuk-grid-column-one-quarter">
                     <p class="app-case-board__heading">{% lcs 'CASE.Case_Officer.Current.Email' %}</p>
@@ -42,7 +42,7 @@
                     <form method="post">
                         {% csrf_token %}
                         <button id="unassign" class="govuk-button" data-module="govuk-button" type="submit" name="_action" value="unassign" action="unassign">
-                            Un-Assign
+                            {% lcs 'CASE.Case_Officer.Remove' %}
                         </button>
                     </form>
                 </div>
@@ -52,18 +52,18 @@
 
 	<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
 		<h1 class="govuk-fieldset__heading">
-			Assign a Case Officer to the case
+			{% block title %}Assign a Case Officer to the case{% endblock %}
 		</h1>
 	</legend>
-	<span class="govuk-hint" style="margin: 30px 0;">
-		Search by the first name, last name or email of a user.
+	<span class="govuk-hint">
+		Search for a user by their full name
 	</span>
     <form method="get" class="govuk-!-margin-bottom-6">
 		<div class="lite-search__container">
-		    <input type="search" name="search_term" class="govuk-input" name="search" id="search" value="{{ params.search_term }}" placeholder="Search organisations" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+		    <input type="search" name="search_term" class="govuk-input" name="search" id="search" value="{{ search_term }}" placeholder="{% lcs 'CASE.Case_Officer.Search.Placeholder' %}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <button class="lite-search__button" type="submit">
 				{% svg 'search' %}
-				<span>Search</span>
+				<span>{% lcs 'CASE.Case_Officer.Search.Submit' %}</span>
 			</button>
 	    </div>
     </form>
@@ -77,7 +77,7 @@
                     <input class="govuk-radios__input" id="user-{{ user.id }}" name="user" type="radio" value="{{ user.id }}"
                         {% if user.id == users.case_officer.id %}checked{% endif %}>
                     <label class="govuk-label govuk-radios__label" for="user-{{ user.id }}">
-                        {{ user.first_name }} {{ user.last_name }}
+                        {{ user.full_name|highlight_text:search_term }}
                     </label>
                     <span id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
                         {{ user.email }}
@@ -86,12 +86,12 @@
             {% endfor %}
 
             <button id="assign" class="govuk-button" data-module="govuk-button" type="submit" name="_action" value="assign" action="assign">
-                    Assign
+                    {% lcs 'CASE.Case_Officer.Assign' %}
             </button>
 
 		</form>
 	{% elif params.search_term %}
-        No Users found for search criteria
+        {% lcs 'CASE.Case_Officer.None_Found' %}
 	{% endif %}
 
 {% endblock %}
