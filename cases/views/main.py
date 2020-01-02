@@ -1,7 +1,7 @@
 from lite_content.lite_internal_frontend import strings
 from django.http import StreamingHttpResponse, Http404
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
@@ -18,7 +18,7 @@ from cases.services import (
     put_case,
     put_end_user_advisory_query,
     _get_total_goods_value,
-)
+    get_case_officer, post_case_officer, post_unassign_case_officer)
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
 from conf.constants import DEFAULT_QUEUE_ID, GENERATED_DOCUMENT
@@ -324,3 +324,58 @@ class Document(TemplateView):
         response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
         response["Content-Disposition"] = f'attachment; filename="{original_file_name}"'
         return response
+
+
+class CaseOfficer(TemplateView):
+
+    def get(self, request, **kwargs):
+        case_id = str(kwargs["pk"])
+        gov_users, _ = get_case_officer(request, case_id)
+
+        context = {
+            "users": gov_users,
+            "case_id": case_id
+        }
+        return render(request, "case/case-officer.html", context)
+
+    def post(self, request, **kwargs):
+        case_id = str(kwargs["pk"])
+        user_id = request.POST.get("user")
+        action = request.POST.get("_action")
+
+        if action == "assign":
+            if not user_id:
+                gov_users, _ = get_case_officer(request, case_id)
+                context = {
+                    "show_error": True,
+                    "users": gov_users,
+                    "case_id": case_id
+                }
+                return render(request, "case/case-officer.html", context)
+
+            errors, status_code = post_case_officer(request, case_id, user_id)
+
+            if status_code != 204:
+                gov_users, _ = get_case_officer(request, case_id)
+                context = {
+                    "show_error": True,
+                    "users": gov_users,
+                    "case_id": case_id
+                }
+                return render(request, "case/case-officer.html", context)
+
+        elif action == "unassign":
+            errors, status_code = post_unassign_case_officer(request, case_id)
+
+            if status_code != 204:
+                gov_users, _ = get_case_officer(request, case_id)
+                context = {
+                    "show_error": True,
+                    "users": gov_users,
+                    "case_id": case_id
+                }
+                return render(request, "case/case-officer.html", context)
+
+        return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
+
+

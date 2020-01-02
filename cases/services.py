@@ -26,7 +26,7 @@ from conf.constants import (
     GENERATED_DOCUMENTS_URL,
     GENERATED_DOCUMENTS_PREVIEW_URL,
     DESTINATION_URL,
-)
+    CASE_OFFICER_URL)
 
 
 def get_case(request, pk):
@@ -344,3 +344,18 @@ def get_generated_document(request, pk, dpk):
 def get_destination(request, pk):
     data = get(request, DESTINATION_URL + pk)
     return data.json()
+
+
+def get_case_officer(request, pk):
+    data = get(request, CASE_URL + pk + CASE_OFFICER_URL)
+    return data.json()["GovUsers"], data.status_code
+
+
+def post_case_officer(request, pk, user_pk):
+    data = get(request, CASE_URL + pk + CASE_OFFICER_URL + user_pk + "/")
+    return data, data.status_code
+
+
+def post_unassign_case_officer(request, pk):
+    data = post(request, CASE_URL + pk + CASE_OFFICER_URL, json={})
+    return data, data.status_code

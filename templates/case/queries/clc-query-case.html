@@ -45,6 +45,9 @@
                 <a role="button" draggable="false" class="govuk-button" id="generate-document" href="{% url 'cases:generate_document' case.id %}">
 					{% lcs 'CASES.ApplicationPage.Actions.GENERATE_DOCUMENT' %}
 				</a>
+                <a role="button" draggable="false" class="govuk-button" id="generate-document" href="{% url 'cases:case_officer' case.id %}">
+					{% lcs 'CASES.CLCQuery.Actions.CASE_OFFICER' %}
+				</a>
 			</div>
 		</div>
 	</div>
