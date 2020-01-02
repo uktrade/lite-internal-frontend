@@ -347,22 +347,26 @@ class CaseOfficer(TemplateView):
 
         if action == "assign":
             if not user_id:
-                gov_users, _ = get_case_officer(request, case_id)
+                search_term = request.GET.get("search_term", "").strip()
+                gov_users, _ = get_case_officer(request, case_id, search_term)
                 context = {
                     "show_error": True,
                     "users": gov_users,
-                    "case_id": case_id
+                    "case_id": case_id,
+                    "search_term": search_term
                 }
                 return render(request, "case/case-officer.html", context)
 
-            errors, status_code = post_case_officer(request, case_id, user_id)
+            _, status_code = post_case_officer(request, case_id, user_id)
 
             if status_code != 204:
-                gov_users, _ = get_case_officer(request, case_id)
+                search_term = request.GET.get("search_term", "").strip()
+                gov_users, _ = get_case_officer(request, case_id, search_term)
                 context = {
                     "show_error": True,
                     "users": gov_users,
-                    "case_id": case_id
+                    "case_id": case_id,
+                    "search_term": search_term
                 }
                 return render(request, "case/case-officer.html", context)
 
@@ -370,11 +374,13 @@ class CaseOfficer(TemplateView):
             errors, status_code = post_unassign_case_officer(request, case_id)
 
             if status_code != 204:
+                search_term = request.GET.get("search_term", "").strip()
                 gov_users, _ = get_case_officer(request, case_id)
                 context = {
                     "show_error": True,
                     "users": gov_users,
-                    "case_id": case_id
+                    "case_id": case_id,
+                    "search_term": search_term
                 }
                 return render(request, "case/case-officer.html", context)
 
