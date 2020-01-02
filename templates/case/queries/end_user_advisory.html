@@ -43,6 +43,10 @@
 		</div>
 	</div>
 	<!-- Case flags -->
+
+    <p class="govuk-caption-m">Case officer: {% if case.case_officer %}<a class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}">{{ case.case_officer.full_name }}</a>{% else %} No Case Officer Set {% endif %}</p>
+
+
 	{% include 'case/views/case-flags.html' %}
 
 	<br><br>
