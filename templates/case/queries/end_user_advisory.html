@@ -36,7 +36,7 @@
                     {% lcs 'CASES.EndUserAdvisoriesPage.Actions.CHANGE_STATUS' %}
                 </a>
                 {% endif %}
-                <a role="button" draggable="false" class="govuk-button" id="generate-document" href="{% url 'cases:case_officer' case.id %}">
+                <a role="button" draggable="false" class="govuk-button" id="case-officer" href="{% url 'cases:case_officer' case.id %}">
                     {% lcs 'CASES.ApplicationPage.Actions.CASE_OFFICER' %}
                 </a>
 			</div>
