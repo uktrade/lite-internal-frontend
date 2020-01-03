@@ -22,7 +22,7 @@
 	{% endif %}
 	<div class="lite-app-bar" style="margin-top: -20px;">
 		<div class="lite-app-bar__content">
-            <p class="govuk-caption-m" style="margin: 0;">{{ case.type.value }} by <a class="govuk-link govuk-link--no-visited-state" style="display: inline-block;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a></p>
+            <p class="govuk-caption-m">{{ case.type.value }} by <a class="govuk-link govuk-link--no-visited-state" style="display: inline-block;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a></p>
 
 			<h2 class="govuk-heading-l">
 				{% block title %}{{ case.application.id }}{% endblock %}

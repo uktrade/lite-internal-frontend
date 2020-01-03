@@ -3,7 +3,7 @@
 {% load svg %}
 
 {% block back_link %}
-<a href="{% url 'cases:case' case_id %}" id="back-link" class="govuk-back-link">{% lcs 'CASES.CaseOfficerPage.BACKLINK' %}</a>
+    <a href="{% url 'cases:case' case_id %}" id="back-link" class="govuk-back-link">{% lcs 'CASES.CaseOfficerPage.BACKLINK' %}</a>
 {% endblock %}
 
 {% block title %}{% lcs 'CASES.CaseOfficerPage.TITLE' %}{% endblock %}
@@ -44,7 +44,7 @@
                     <p class="app-case-board__heading">{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.REMOVE' %}</p>
                     <form method="post">
                         {% csrf_token %}
-                        <button id="unassign" class="govuk-button" data-module="govuk-button" type="submit" name="_action" value="unassign" action="unassign">
+                        <button id="button-unassign" class="govuk-button" data-module="govuk-button" type="submit" name="_action" value="unassign" action="unassign">
                             {% lcs 'CASES.CaseOfficerPage.CurrentOfficer.BUTTON' %}
                         </button>
                     </form>
@@ -63,8 +63,8 @@
 	</span>
     <form method="get" class="govuk-!-margin-bottom-6">
 		<div class="lite-search__container">
-		    <input type="search" name="search_term" class="govuk-input" name="search" id="search" value="{{ search_term }}" placeholder="{% lcs 'CASES.CaseOfficerPage.Search.PLACEHOLDER' %}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-            <button class="lite-search__button" type="submit">
+		    <input type="search" name="search_term" class="govuk-input" name="search" id="textarea-search" value="{{ search_term }}" placeholder="{% lcs 'CASES.CaseOfficerPage.Search.PLACEHOLDER' %}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <button class="lite-search__button" type="submit" id="button-search">
 				{% svg 'search' %}
 				<span>{% lcs 'CASES.CaseOfficerPage.Search.SEARCH' %}</span>
 			</button>
@@ -91,7 +91,7 @@
                 </div>
             {% endfor %}
 
-            <button id="assign" class="govuk-button" data-module="govuk-button" type="submit" name="_action" value="assign" action="assign">
+            <button id="button-assign" class="govuk-button" data-module="govuk-button" type="submit" name="_action" value="assign" action="assign">
                 {% lcs 'CASES.CaseOfficerPage.Search.ASSIGN' %}
             </button>
 
