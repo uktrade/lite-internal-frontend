@@ -1,4 +1,4 @@
-{% extends 'layouts/two-pane.html' %}
+{% extends 'layouts/base.html' %}
 
 {% load humanize %}
 
@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-
 	<h2 class="govuk-heading-l">{{ title }}</h2>
 
 	<form method="post">
@@ -38,5 +37,4 @@
 			<button type="submit" class="govuk-button">Save</button>
 		</div>
 	</form>
-
 {% endblock %}

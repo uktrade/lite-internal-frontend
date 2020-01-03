@@ -8,8 +8,6 @@
 	</a>
 {% endblock %}
 
-{% load svg %}
-
 {% block body %}
 
 {% if notification %}
@@ -165,8 +163,7 @@
 	</table>
 {% endif %}
 
-{% include "case/views/activity.html" %}
-
+    {% include "case/views/activity.html" %}
 {% endblock %}
 
 {% block javascript %}
