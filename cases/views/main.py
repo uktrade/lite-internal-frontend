@@ -20,7 +20,7 @@ from cases.services import (
     _get_total_goods_value,
     get_case_officer,
     post_case_officer,
-    post_unassign_case_officer,
+    delete_case_officer,
 )
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
@@ -364,7 +364,7 @@ class CaseOfficer(TemplateView):
                 return render(request, "case/case-officer.html", context)
 
         elif action == "unassign":
-            _, status_code = post_unassign_case_officer(request, case_id)
+            _, status_code = delete_case_officer(request, case_id)
 
             if status_code != 204:
                 search_term = request.GET.get("search_term", "").strip()

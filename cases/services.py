@@ -353,10 +353,10 @@ def get_case_officer(request, pk, search_term):
 
 
 def post_case_officer(request, pk, user_pk):
-    data = get(request, CASE_URL + pk + CASE_OFFICER_URL + user_pk + "/")
+    data = post(request, CASE_URL + pk + CASE_OFFICER_URL + user_pk + "/", json={})
     return data, data.status_code
 
 
-def post_unassign_case_officer(request, pk):
-    data = post(request, CASE_URL + pk + CASE_OFFICER_URL, json={})
+def delete_case_officer(request, pk):
+    data = delete(request, CASE_URL + pk + CASE_OFFICER_URL)
     return data, data.status_code

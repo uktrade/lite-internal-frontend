@@ -52,7 +52,11 @@
 		</div>
 	</div>
 
-    <p class="govuk-caption-m">Case officer: {% if case.case_officer %}<a class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}">{{ case.case_officer.full_name }}</a>{% else %} No Case Officer Set {% endif %}</p>
+    {% if case.case_officer %}
+        <p class="govuk-caption-m">{% lcs 'CASES.ApplicationPage.CASE_OFFICER' %} <a class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}">{{ case.case_officer.full_name }}</a></p>
+    {% else %}
+        <p class="govuk-caption-m">{% lcs 'CASES.ApplicationPage.NO_CASE_OFFICER' %}</p>
+    {% endif %}
 
 	<!-- Case flags -->
 	{% include 'case/views/case-flags.html' %}
