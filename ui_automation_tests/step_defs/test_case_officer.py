@@ -1,6 +1,5 @@
-from pytest_bdd import then, scenarios, given, when, parsers
+from pytest_bdd import then, scenarios, when
 
-from conf.settings import env
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.case_officer_pages import CaseOfficerPages
 from ui_automation_tests.shared.fixtures.core import internal_info
