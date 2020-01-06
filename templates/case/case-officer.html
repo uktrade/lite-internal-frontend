@@ -3,13 +3,12 @@
 {% load svg %}
 
 {% block back_link %}
-    <a href="{% url 'cases:case' case_id %}" id="back-link" class="govuk-back-link">{% lcs 'CASES.CaseOfficerPage.BACKLINK' %}</a>
+    <a href="{% url 'cases:case' case_id %}" id="back-link" class="govuk-back-link">
+		{% lcs 'CASES.CaseOfficerPage.BACKLINK' %}
+	</a>
 {% endblock %}
 
-{% block title %}{% lcs 'CASES.CaseOfficerPage.TITLE' %}{% endblock %}
-
-{% block body %}
-
+{% block two_thirds %}
 	{% if show_error or error %}
 		 <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
 			<h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -22,40 +21,9 @@
 		</div>
 	{% endif %}
 
-    {% if users.case_officer %}
-        <h2 class="govuk-heading-l">
-            {% lcs 'CASES.CaseOfficerPage.CurrentOfficer.TITLE' %}
-        </h2>
-        <div class="app-case-board">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-one-quarter">
-                    <p class="app-case-board__heading">{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.FULLNAME' %}</p>
-				    <p>{{ users.case_officer.full_name }}</p>
-                </div>
-                <div class="govuk-grid-column-one-quarter">
-                    <p class="app-case-board__heading">{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.EMAIL' %}</p>
-				    <p>{{ users.case_officer.email }}</p>
-                </div>
-                <div class="govuk-grid-column-one-quarter">
-                    <p class="app-case-board__heading">{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.TEAM' %}</p>
-				    <p>{{ users.case_officer.team }}</p>
-                </div>
-                <div class="govuk-grid-column-one-quater">
-                    <p class="app-case-board__heading">{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.REMOVE' %}</p>
-                    <form method="post">
-                        {% csrf_token %}
-                        <button id="button-unassign" class="govuk-button" data-module="govuk-button" type="submit" name="_action" value="unassign" action="unassign">
-                            {% lcs 'CASES.CaseOfficerPage.CurrentOfficer.BUTTON' %}
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-
 	<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
 		<h2 class="govuk-fieldset__heading">
-			{% lcs 'CASES.CaseOfficerPage.Search.TITLE' %}
+			{% block title %}{% lcs 'CASES.CaseOfficerPage.Search.TITLE' %}{% endblock %}
 		</h2>
 	</legend>
 	<span class="govuk-hint">
@@ -80,12 +48,18 @@
                     <input class="govuk-radios__input" id="user-{{ user.id }}" name="user" type="radio" value="{{ user.id }}"
                         {% if user.id == users.case_officer.id %}checked{% endif %}>
                     <label class="govuk-label govuk-radios__label" for="user-{{ user.id }}">
-                        {{ user.full_name|highlight_text:search_term }}
+						{% if user.full_name %}
+                        	{{ user.full_name|highlight_text:search_term }}
+						{% else %}
+							{{ user.email }}
+						{% endif %}
                     </label>
-                    <span id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
-                        {{ user.email }}
-                    </span>
-                    <span id="sign-in-item-hint" class="govuk-hint govuk-radios__hint">
+					{% if user.full_name %}
+	                    <span class="govuk-hint govuk-radios__hint">
+	                        {{ user.email }}
+	                    </span>
+					{% endif %}
+                    <span class="govuk-hint govuk-radios__hint">
                         {{ user.team }}
                     </span>
                 </div>
@@ -99,5 +73,50 @@
 	{% else %}
         <p class="govuk-caption-l">{% lcs 'CASES.CaseOfficerPage.Search.NORESULTS' %}</p>
 	{% endif %}
+{% endblock %}
 
+{% block one_third %}
+	{% if users.case_officer %}
+		<aside class="lite-related-items" role="complementary">
+			<h2 class="govuk-heading-m" id="subsection-title">
+				{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.TITLE' %}
+			</h2>
+			<dl class="govuk-summary-list govuk-summary-list--no-border">
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.FULLNAME' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ users.case_officer.full_name }}
+					</dd>
+				</div>
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.EMAIL' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ users.case_officer.email }}
+					</dd>
+				</div>
+				<div class="govuk-summary-list__row">
+					<dt class="govuk-summary-list__key">
+						{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.TEAM' %}
+					</dt>
+					<dd class="govuk-summary-list__value">
+						{{ users.case_officer.team }}
+					</dd>
+				</div>
+			</dl>
+
+			<form method="post">
+				{% csrf_token %}
+				<button id="button-unassign" class="govuk-button govuk-button--secondary" data-module="govuk-button" type="submit" name="_action" value="unassign" action="unassign">
+					{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.BUTTON' %}
+				</button>
+			</form>
+		</aside>
+	{% endif %}
+{% endblock %}
+
+{% block javascript %}
 {% endblock %}
