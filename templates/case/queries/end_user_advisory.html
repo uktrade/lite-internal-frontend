@@ -17,7 +17,7 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<p class="govuk-caption-m">{{ case.type.value }} by <a class="govuk-link govuk-link--no-visited-state" style="display: inline-block;" href="{% url 'organisations:organisation' case.query.organisation.id %}">{{ case.query.organisation.name }}</a></p>
+			<p class="govuk-caption-m">{{ case.type.value }} by <a class="govuk-link govuk-link--no-visited-state" style="display: inline-block;" href="{% url 'organisations:organisation' case.query.organisation.id %}">{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}</a></p>
 			<h2 class="govuk-heading-l">{{ case.query.id|reference_code }}</h2>
 		</div>
 		<div class="lite-app-bar__controls">
