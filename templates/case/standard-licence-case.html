@@ -238,8 +238,8 @@
                                 </td>
                             {% else %}
                                 <td class="govuk-table__cell">&nbsp;</td>
-                                <th scope="row" class="govuk-table__header">End user</th>
-                                <td colspan=6 class="govuk-table__cell">HERE COMES A LITE CONTENT STRING WOOHOO</td>
+                                <th scope="row" class="govuk-table__header">{% lcs 'CASES.ApplicationPage.EndUser.Table.Title' %}</th>
+                                <td colspan=6 class="govuk-table__cell">{% lcs 'CASES.ApplicationPage.EndUser.NO_END_USER' %}</td>
                             {% endif %}
                         </tr>
                         <tr class="govuk-table__row">
@@ -265,8 +265,8 @@
                                 </td>
                             {% else %}
                                 <td class="govuk-table__cell">&nbsp;</td>
-                                <th scope="row" class="govuk-table__header">Consignee</th>
-                                    <td colspan=6 class="govuk-table__cell">HERE COMES A LITE CONTENT STRING WOOHOO</td>
+                                <th scope="row" class="govuk-table__header">{% lcs 'CASES.ApplicationPage.Consignee.Table.Title' %}</th>
+                                    <td colspan=6 class="govuk-table__cell">{% lcs 'CASES.ApplicationPage.Consignee.NO_CONSIGNEE' %}</td>
                             {% endif %}
                         </tr>
 						{% for ultimate_end_user in case.application.ultimate_end_users %}
