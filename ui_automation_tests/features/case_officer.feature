@@ -9,8 +9,8 @@ Feature: I want to assign a dedicated case officer / single point of contact to 
     And I create application or application has been previously created
     When I go to application previously created
     And I click Assign Case Officer Button
-    And filter by name "first-name last-name"
-    Then I should see one user with the name "first-name last-name"
+    And filter by test user name
+    Then I should see one user with the test user name
     When I click the user and assign
     And I click Assign Case Officer Button
     Then I see a case officer is assigned
