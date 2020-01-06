@@ -71,6 +71,10 @@ jobs:
             pipenv install bandit
             pipenv run bandit -r .
 
+      - run:
+          name: Run Content String Check
+          command: pipenv run python templates/check_html_strings.py
+
   linting:
     docker:
       - image: circleci/python:3.7
@@ -102,10 +106,6 @@ jobs:
       - run:
           name: Black
           command: pipenv run black . --check --diff
-
-      - run:
-          name: Run Content String Check
-          command: pipenv run python templates/check_html_strings.py
 
 workflows:
   version: 2
