@@ -33,6 +33,7 @@ from core.services import get_user_permissions, get_statuses, get_status_propert
 from lite_forms.generators import error_page, form_page
 from lite_forms.submitters import submit_single_form
 from queues.services import get_cases_search_data
+from users.services import get_gov_users
 
 
 class Cases(TemplateView):
@@ -333,10 +334,15 @@ class CaseOfficer(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
-        search_term = request.GET.get("search_term", "").strip()
-        gov_users, _ = get_case_officer(request, case_id, search_term)
+        params = {"name": request.GET.get("name", ""), "activated": False}
+        gov_users, _ = get_gov_users(request, params)
 
-        context = {"users": gov_users, "case": case, "search_term": search_term}
+        context = {
+            "case_officer": get_case_officer(request, case_id)[0],
+            "users": gov_users,
+            "case": case,
+            "search_term": params["name"],
+        }
         return render(request, "case/set-case-officer.html", context)
 
     def post(self, request, **kwargs):
@@ -347,7 +353,7 @@ class CaseOfficer(TemplateView):
         if action == "assign":
             if not user_id:
                 case = get_case(request, case_id)
-                search_term = request.GET.get("search_term", "").strip()
+                search_term = request.GET.get("search_term", "")
                 gov_users, _ = get_case_officer(request, case_id, search_term)
                 context = {
                     "error": strings.cases.CaseOfficerPage.Error.NO_SELECTION,
@@ -371,7 +377,7 @@ class CaseOfficer(TemplateView):
         return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
 
     def response_error(self, request, case_id):
-        search_term = request.GET.get("search_term", "").strip()
+        search_term = request.GET.get("search_term", "")
         gov_users, _ = get_case_officer(request, case_id, search_term)
         context = {"show_error": True, "users": gov_users, "case_id": case_id, "search_term": search_term}
         return render(request, "case/set-case-officer.html", context)

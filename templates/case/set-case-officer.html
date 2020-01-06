@@ -51,7 +51,7 @@
 
     <form method="get" class="govuk-!-margin-bottom-6">
 		<div class="lite-search__container">
-		    <input type="search" name="search_term" class="govuk-input" name="search" id="input-search" value="{{ search_term }}" placeholder="{% lcs 'CASES.CaseOfficerPage.Search.PLACEHOLDER' %}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+		    <input type="search" name="name" class="govuk-input" id="input-search" value="{{ name }}" placeholder="{% lcs 'CASES.CaseOfficerPage.Search.PLACEHOLDER' %}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             <button class="lite-search__button" type="submit" id="button-search">
 				{% svg 'search' %}
 				<span>{% lcs 'CASES.CaseOfficerPage.Search.SEARCH' %}</span>
@@ -59,7 +59,7 @@
 	    </div>
     </form>
 
-	{% if users.users %}
+	{% if users.gov_users %}
 		<form method="post">
             {% csrf_token %}
 
@@ -70,7 +70,7 @@
 						{{ error }}
 					</span>
 				{% endif %}
-	            {% for user in users.users %}
+	            {% for user in users.gov_users %}
 	                <div class="govuk-radios__item">
 	                    <input class="govuk-radios__input" id="user-{{ user.id }}" name="user" type="radio" value="{{ user.id }}"
 	                        {% if user.id == users.case_officer.id %}checked{% endif %}>
@@ -87,7 +87,7 @@
 		                    </span>
 						{% endif %}
 	                    <span class="govuk-hint govuk-radios__hint">
-	                        {{ user.team }}
+	                        {{ user.team.name }}
 	                    </span>
 	                </div>
 	            {% endfor %}
