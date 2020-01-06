@@ -6,8 +6,6 @@ orbs:
 jobs:
   tests:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.7
 
     environment:
@@ -43,13 +41,13 @@ jobs:
             fi
             exit $VULNERABILITY_COUNT
 
-
       - run:
           name: Create environment file
           command: cp local.env .env
 
       # Download and cache dependencies
-      - restore_cache:  # ensure this step occurs *before* installing dependencies
+      # ensure this step occurs *before* installing dependencies
+      - restore_cache:
           key: dependencies-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
 
       - run:
