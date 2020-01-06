@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from lite_content.lite_internal_frontend import strings
 from django.http import StreamingHttpResponse, Http404
 from django.shortcuts import render, redirect
@@ -357,19 +359,19 @@ class CaseOfficer(TemplateView):
 
             _, status_code = post_case_officer(request, case_id, user_id)
 
-            if status_code != 204:
-                search_term = request.GET.get("search_term", "").strip()
-                gov_users, _ = get_case_officer(request, case_id, search_term)
-                context = {"show_error": True, "users": gov_users, "case_id": case_id, "search_term": search_term}
-                return render(request, "case/case-officer.html", context)
+            if status_code != HTTPStatus.NO_CONTENT:
+                self.response_error(request, case_id)
 
         elif action == "unassign":
             _, status_code = delete_case_officer(request, case_id)
 
-            if status_code != 204:
-                search_term = request.GET.get("search_term", "").strip()
-                gov_users, _ = get_case_officer(request, case_id, search_term)
-                context = {"show_error": True, "users": gov_users, "case_id": case_id, "search_term": search_term}
-                return render(request, "case/case-officer.html", context)
+            if status_code != HTTPStatus.NO_CONTENT:
+                self.response_error(request, case_id)
 
         return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
+
+    def response_error(self, request, case_id):
+        search_term = request.GET.get("search_term", "").strip()
+        gov_users, _ = get_case_officer(request, case_id, search_term)
+        context = {"show_error": True, "users": gov_users, "case_id": case_id, "search_term": search_term}
+        return render(request, "case/case-officer.html", context)
