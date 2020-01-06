@@ -8,8 +8,8 @@ class CaseOfficerPages(BasePage):
     BUTTON_UNASSIGN_ID = "button-unassign"  # id
     CHOICES = ".govuk-radios__item"  # css
     CHOICES_NAMES = ".govuk-radios__item label"
-    CURRENT_CASE_OFFICER_PANEL = ".app-case-board"
-    TEXTAREA_SEARCH_ID = "textarea-search"  # id
+    CURRENT_CASE_OFFICER_PANEL = ".govuk-grid-column-one-third .lite-related-items"
+    TEXTAREA_SEARCH_ID = "input-search"  # id
     BUTTON_SEARCH_ID = "button-search"  # id
     RADIO_BUTTON = "input[name='user']"
 

@@ -1,4 +1,6 @@
 from pytest_bdd import then, scenarios, given, when, parsers
+
+from conf.settings import env
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.case_officer_pages import CaseOfficerPages
 
@@ -11,14 +13,16 @@ def i_click_case_officer_button(driver):
     application_page.click_case_officer_button()
 
 
-@when(parsers.parse('filter by name "{name}"'))
-def filter_users_found(driver, name):
+@when("filter by test user name")
+def filter_users_found(driver):
+    name = env("TEST_SSO_NAME")
     case_officer_page = CaseOfficerPages(driver)
     case_officer_page.search(name)
 
 
-@then(parsers.parse('I should see one user with the name "{name}"'))
-def one_user_found(driver, name):
+@then("I should see one user with the test user name")
+def one_user_found(driver):
+    name = env("TEST_SSO_NAME")
     case_officer_page = CaseOfficerPages(driver)
     names = case_officer_page.get_users_name()
     assert len(names) == 1
