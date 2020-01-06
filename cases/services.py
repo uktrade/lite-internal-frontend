@@ -352,8 +352,8 @@ def get_case_officer(request, pk):
     return data.json()["case_officer"], data.status_code
 
 
-def post_case_officer(request, pk, user_pk):
-    data = post(request, CASE_URL + pk + CASE_OFFICER_URL + user_pk + "/", json={})
+def put_case_officer(request, pk, user_pk):
+    data = put(request, CASE_URL + pk + CASE_OFFICER_URL, json={"gov_user_pk": user_pk})
     return data, data.status_code
 
 

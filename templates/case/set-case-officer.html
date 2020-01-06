@@ -76,7 +76,7 @@
 	                        {% if user.id == users.case_officer.id %}checked{% endif %}>
 	                    <label class="govuk-label govuk-radios__label" for="user-{{ user.id }}">
 							{% if user.first_name %}
-	                        	{{ user.first_name|add:' '|add:user.last_name|highlight_text:search_term }}
+	                        	{{ user.first_name|add:' '|add:user.last_name|highlight_text:name }}
 							{% else %}
 								{{ user.email }}
 							{% endif %}
@@ -103,19 +103,19 @@
 {% endblock %}
 
 {% block one_third %}
-	{% if users.case_officer %}
+	{% if case_officer %}
 		<aside class="lite-related-items" role="complementary">
 			<h2 class="govuk-heading-m" id="subsection-title">
 				{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.TITLE' %}
 			</h2>
 			<dl class="govuk-summary-list govuk-summary-list--no-border">
-				{% if users.case_officer.first_name %}
+				{% if case_officer.first_name %}
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
 							{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.FULLNAME' %}
 						</dt>
 						<dd class="govuk-summary-list__value">
-							{{ users.case_officer.first_name }} {{ users.case_officer.last_name }}
+							{{ case_officer.first_name }} {{ case_officer.last_name }}
 						</dd>
 					</div>
 				{% endif %}
@@ -124,7 +124,7 @@
 						{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.EMAIL' %}
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ users.case_officer.email }}
+						{{ case_officer.email }}
 					</dd>
 				</div>
 				<div class="govuk-summary-list__row">
@@ -132,7 +132,7 @@
 						{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.TEAM' %}
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ users.case_officer.team }}
+						{{ case_officer.team }}
 					</dd>
 				</div>
 			</dl>

@@ -21,7 +21,7 @@ from cases.services import (
     put_end_user_advisory_query,
     _get_total_goods_value,
     get_case_officer,
-    post_case_officer,
+    put_case_officer,
     delete_case_officer,
 )
 from cases.services import post_case_documents, get_case_documents, get_document
@@ -334,14 +334,14 @@ class CaseOfficer(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
-        params = {"name": request.GET.get("name", ""), "activated": False}
+        params = {"name": request.GET.get("name", ""), "activated": True}
         gov_users, _ = get_gov_users(request, params)
 
         context = {
             "case_officer": get_case_officer(request, case_id)[0],
             "users": gov_users,
             "case": case,
-            "search_term": params["name"],
+            "name": params["name"],
         }
         return render(request, "case/set-case-officer.html", context)
 
@@ -353,17 +353,18 @@ class CaseOfficer(TemplateView):
         if action == "assign":
             if not user_id:
                 case = get_case(request, case_id)
-                search_term = request.GET.get("search_term", "")
-                gov_users, _ = get_case_officer(request, case_id, search_term)
+                params = {"name": request.GET.get("name", ""), "activated": True}
+                gov_users, _ = get_gov_users(request, params)
                 context = {
                     "error": strings.cases.CaseOfficerPage.Error.NO_SELECTION,
+                    "case_officer": get_case_officer(request, case_id)[0],
                     "users": gov_users,
                     "case": case,
-                    "search_term": search_term,
+                    "name": request.GET.get("name", ""),
                 }
                 return render(request, "case/set-case-officer.html", context)
 
-            _, status_code = post_case_officer(request, case_id, user_id)
+            _, status_code = put_case_officer(request, case_id, user_id)
 
             if status_code != HTTPStatus.NO_CONTENT:
                 self.response_error(request, case_id)
@@ -377,7 +378,15 @@ class CaseOfficer(TemplateView):
         return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
 
     def response_error(self, request, case_id):
-        search_term = request.GET.get("search_term", "")
-        gov_users, _ = get_case_officer(request, case_id, search_term)
-        context = {"show_error": True, "users": gov_users, "case_id": case_id, "search_term": search_term}
+        case = get_case(request, case_id)
+        params = {"name": request.GET.get("name", ""), "activated": True}
+        gov_users, _ = get_gov_users(request, params)
+
+        context = {
+            "show_error": True,
+            "case_officer": get_case_officer(request, case_id)[0],
+            "users": gov_users,
+            "case": case,
+            "name": params["name"],
+        }
         return render(request, "case/set-case-officer.html", context)
