@@ -86,7 +86,7 @@ TEMPLATES = [
     },
 ]
 
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # Authbroker config
 AUTHBROKER_URL = env("AUTHBROKER_URL")
