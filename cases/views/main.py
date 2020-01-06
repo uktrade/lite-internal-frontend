@@ -339,7 +339,7 @@ class CaseOfficer(TemplateView):
         gov_users, _ = get_case_officer(request, case_id, search_term)
 
         context = {"users": gov_users, "case": case, "search_term": search_term}
-        return render(request, "case/case-officer.html", context)
+        return render(request, "case/set-case-officer.html", context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
@@ -357,7 +357,7 @@ class CaseOfficer(TemplateView):
                     "case": case,
                     "search_term": search_term,
                 }
-                return render(request, "case/case-officer.html", context)
+                return render(request, "case/set-case-officer.html", context)
 
             _, status_code = post_case_officer(request, case_id, user_id)
 
@@ -376,4 +376,4 @@ class CaseOfficer(TemplateView):
         search_term = request.GET.get("search_term", "").strip()
         gov_users, _ = get_case_officer(request, case_id, search_term)
         context = {"show_error": True, "users": gov_users, "case_id": case_id, "search_term": search_term}
-        return render(request, "case/case-officer.html", context)
+        return render(request, "case/set-case-officer.html", context)

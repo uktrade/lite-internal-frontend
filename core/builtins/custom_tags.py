@@ -270,3 +270,15 @@ def highlight_text(value: str, term: str) -> str:
         value = insert_str(value, span_end, index + len(span) + len(term))
 
     return value
+
+
+@register.filter()
+def username(user: dict):
+    """
+    Returns the user's first and last name if they've seen set, else
+    returns the user's email
+    """
+    if user["first_name"]:
+        return user["first_name"] + " " + user["last_name"]
+
+    return user["email"]
