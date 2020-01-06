@@ -3,9 +3,17 @@
 {% load svg %}
 
 {% block back_link %}
-    <a href="{% url 'cases:case' case_id %}" id="back-link" class="govuk-back-link">
-		{% lcs 'CASES.CaseOfficerPage.BACKLINK' %}
-	</a>
+	<div class="govuk-breadcrumbs">
+		<ol class="govuk-breadcrumbs__list">
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">{% if queue_name %}{{ queue_name }}{% else %}{% lcs 'QUEUE_ALL_CASES' %}{% endif %}</a>
+			</li>
+			<li class="govuk-breadcrumbs__list-item">
+				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">Case</a>
+			</li>
+			<li class="govuk-breadcrumbs__list-item" aria-current="page">{% lcs 'CASES.CaseOfficerPage.Search.TITLE' %}</li>
+		</ol>
+	</div>
 {% endblock %}
 
 {% block two_thirds %}
@@ -22,13 +30,16 @@
 	{% endif %}
 
 	<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-		<h2 class="govuk-fieldset__heading">
-			{% block title %}{% lcs 'CASES.CaseOfficerPage.Search.TITLE' %}{% endblock %}
-		</h2>
+		<h1 class="govuk-fieldset__heading govuk-!-margin-bottom-6">
+			{% block title %}
+				{% lcs 'CASES.CaseOfficerPage.Search.TITLE' %}
+			{% endblock %}
+		</h1>
 	</legend>
-	<span class="govuk-hint">
+	<span class="govuk-hint govuk-!-margin-bottom-6">
         {% lcs 'CASES.CaseOfficerPage.Search.DESCRIPTION' %}
 	</span>
+
     <form method="get" class="govuk-!-margin-bottom-6">
 		<div class="lite-search__container">
 		    <input type="search" name="search_term" class="govuk-input" name="search" id="textarea-search" value="{{ search_term }}" placeholder="{% lcs 'CASES.CaseOfficerPage.Search.PLACEHOLDER' %}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
@@ -48,13 +59,13 @@
                     <input class="govuk-radios__input" id="user-{{ user.id }}" name="user" type="radio" value="{{ user.id }}"
                         {% if user.id == users.case_officer.id %}checked{% endif %}>
                     <label class="govuk-label govuk-radios__label" for="user-{{ user.id }}">
-						{% if user.full_name %}
-                        	{{ user.full_name|highlight_text:search_term }}
+						{% if user.first_name %}
+                        	{{ user.first_name|add:' '|add:user.last_name|highlight_text:search_term }}
 						{% else %}
 							{{ user.email }}
 						{% endif %}
                     </label>
-					{% if user.full_name %}
+					{% if user.first_name %}
 	                    <span class="govuk-hint govuk-radios__hint">
 	                        {{ user.email }}
 	                    </span>
@@ -87,7 +98,7 @@
 						{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.FULLNAME' %}
 					</dt>
 					<dd class="govuk-summary-list__value">
-						{{ users.case_officer.full_name }}
+						{{ users.case_officer.first_name }} {{ users.case_officer.last_name }}
 					</dd>
 				</div>
 				<div class="govuk-summary-list__row">
@@ -107,10 +118,10 @@
 					</dd>
 				</div>
 			</dl>
-
-			<form method="post">
+			<form class="lite-horizontal-align-right" method="post">
 				{% csrf_token %}
-				<button id="button-unassign" class="govuk-button govuk-button--secondary" data-module="govuk-button" type="submit" name="_action" value="unassign" action="unassign">
+				<button id="button-unassign" class="govuk-link lite-button--link lite-link--icon" data-module="govuk-button" type="submit" name="_action" value="unassign" action="unassign">
+					{% svg 'close' %}
 					{% lcs 'CASES.CaseOfficerPage.CurrentOfficer.BUTTON' %}
 				</button>
 			</form>
