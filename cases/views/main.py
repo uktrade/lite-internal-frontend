@@ -334,10 +334,11 @@ class Document(TemplateView):
 class CaseOfficer(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
+        case = get_case(request, case_id)
         search_term = request.GET.get("search_term", "").strip()
         gov_users, _ = get_case_officer(request, case_id, search_term)
 
-        context = {"users": gov_users, "case_id": case_id, "search_term": search_term}
+        context = {"users": gov_users, "case": case, "search_term": search_term}
         return render(request, "case/case-officer.html", context)
 
     def post(self, request, **kwargs):
@@ -347,12 +348,13 @@ class CaseOfficer(TemplateView):
 
         if action == "assign":
             if not user_id:
+                case = get_case(request, case_id)
                 search_term = request.GET.get("search_term", "").strip()
                 gov_users, _ = get_case_officer(request, case_id, search_term)
                 context = {
                     "error": strings.cases.CaseOfficerPage.Error.NO_SELECTION,
                     "users": gov_users,
-                    "case_id": case_id,
+                    "case": case,
                     "search_term": search_term,
                 }
                 return render(request, "case/case-officer.html", context)

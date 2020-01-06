@@ -6,12 +6,18 @@
 	<div class="govuk-breadcrumbs">
 		<ol class="govuk-breadcrumbs__list">
 			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">{% if queue_name %}{{ queue_name }}{% else %}{% lcs 'QUEUE_ALL_CASES' %}{% endif %}</a>
+				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">
+					{% if queue_name %}{{ queue_name }}{% else %}{% lcs 'QUEUE_ALL_CASES' %}{% endif %}
+				</a>
 			</li>
 			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">Case</a>
+				<a class="govuk-breadcrumbs__link" href="{% url 'cases:case' case.id %}">
+					{{ case.id }}
+				</a>
 			</li>
-			<li class="govuk-breadcrumbs__list-item" aria-current="page">{% lcs 'CASES.CaseOfficerPage.Search.TITLE' %}</li>
+			<li class="govuk-breadcrumbs__list-item" aria-current="page">
+				{% lcs 'CASES.CaseOfficerPage.Search.TITLE' %}
+			</li>
 		</ol>
 	</div>
 {% endblock %}
