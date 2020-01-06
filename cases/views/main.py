@@ -18,6 +18,7 @@ from cases.services import (
     put_case,
     put_end_user_advisory_query,
     _get_total_goods_value,
+    put_clc_query_status,
 )
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
@@ -212,6 +213,9 @@ class ManageCase(TemplateView):
         elif case["type"]["key"] == CaseType.END_USER_ADVISORY_QUERY.value:
             query_id = case.get("query").get("id")
             put_end_user_advisory_query(request, query_id, request.POST)
+        elif case["type"]["key"] == CaseType.CLC_QUERY.value:
+            query_id = case.get("query").get("id")
+            put_clc_query_status(request, query_id, request.POST)
         else:
             raise Http404
 
