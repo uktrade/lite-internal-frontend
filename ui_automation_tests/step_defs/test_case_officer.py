@@ -3,6 +3,7 @@ from pytest_bdd import then, scenarios, given, when, parsers
 from conf.settings import env
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.case_officer_pages import CaseOfficerPages
+from ui_automation_tests.shared.fixtures.core import internal_info
 
 scenarios("../features/case_officer.feature", strict_gherkin=False)
 
@@ -14,19 +15,17 @@ def i_click_case_officer_button(driver):
 
 
 @when("filter by test user name")
-def filter_users_found(driver):
-    name = env("TEST_SSO_NAME")
+def filter_users_found(driver, internal_info):
     case_officer_page = CaseOfficerPages(driver)
-    case_officer_page.search(name)
+    case_officer_page.search(internal_info["name"])
 
 
 @then("I should see one user with the test user name")
-def one_user_found(driver):
-    name = env("TEST_SSO_NAME")
+def one_user_found(driver, internal_info):
     case_officer_page = CaseOfficerPages(driver)
     names = case_officer_page.get_users_name()
     assert len(names) == 1
-    assert name in names[0].text
+    assert internal_info["name"] in names[0].text
 
 
 @when("I click the user and assign")
