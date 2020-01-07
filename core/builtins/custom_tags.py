@@ -260,8 +260,8 @@ def highlight_text(value: str, term: str) -> str:
 
     indexes = [m.start() for m in re.finditer(term, value, flags=re.IGNORECASE)]
 
-    mark_start = '<span class="lite-highlight">'
-    mark_end = "</span>"
+    mark_start = '<mark class="lite-highlight">'
+    mark_end = "</mark>"
 
     loop = 0
     for index in indexes:
