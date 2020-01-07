@@ -40,7 +40,6 @@ class Cases(TemplateView):
         status = request.GET.get("status")
         sort = request.GET.get("sort")
         queue_id = request.GET.get("queue_id")
-        updated_cases_queue_id = None
 
         # Page parameters
         params = {"page": int(request.GET.get("page", 1))}
