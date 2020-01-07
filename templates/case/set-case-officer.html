@@ -73,7 +73,7 @@
 	            {% for user in users.gov_users %}
 	                <div class="govuk-radios__item">
 	                    <input class="govuk-radios__input" id="user-{{ user.id }}" name="user" type="radio" value="{{ user.id }}"
-	                        {% if user.id == users.case_officer.id %}checked{% endif %}>
+	                        {% if user.id == case_officer.id %}checked{% endif %}>
 	                    <label class="govuk-label govuk-radios__label" for="user-{{ user.id }}">
 							{% if user.first_name %}
 	                        	{{ user.first_name|add:' '|add:user.last_name|highlight_text:name }}
