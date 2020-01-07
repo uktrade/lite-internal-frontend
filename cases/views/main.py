@@ -1,3 +1,4 @@
+from cases.helpers import get_updated_cases_banner_queue_id
 from lite_content.lite_internal_frontend import strings
 from django.http import StreamingHttpResponse, Http404
 from django.shortcuts import render, redirect
@@ -39,6 +40,7 @@ class Cases(TemplateView):
         status = request.GET.get("status")
         sort = request.GET.get("sort")
         queue_id = request.GET.get("queue_id")
+        updated_cases_queue_id = None
 
         # Page parameters
         params = {"page": int(request.GET.get("page", 1))}
@@ -53,13 +55,9 @@ class Cases(TemplateView):
 
         data = get_cases_search_data(request, convert_dict_to_query_params(params))
 
-        updated_cases = False
-        updated_case_queue_id = "00000000-0000-0000-0000-000000000004"
-        if queue_id != updated_case_queue_id:
-            for queue in data["results"]["queues"]:
-                if queue["id"] == updated_case_queue_id and queue["case_count"] > 0:
-                    updated_cases = True
-                    break
+        updated_cases_banner_queue_id = get_updated_cases_banner_queue_id(
+            data["results"]["queue"], data["results"]["queues"]
+        )
 
         context = {
             "title": data["results"]["queue"]["name"],
@@ -68,8 +66,7 @@ class Cases(TemplateView):
             "page": params.pop("page"),
             "params": params,
             "params_str": convert_dict_to_query_params(params),
-            "updated_cases": updated_cases,
-            "updated_case_queue_id": updated_case_queue_id,
+            "updated_cases_banner_queue_id": updated_cases_banner_queue_id,
         }
 
         return render(request, "cases/index.html", context)
@@ -170,7 +167,7 @@ class ViewAdvice(TemplateView):
             "permissions": permissions,
             "edit_case_flags": strings.Cases.Case.EDIT_CASE_FLAGS,
         }
-        return render(request, "case/user-advice-view.html", context)
+        return render(request, "case/advice/user.html", context)
 
 
 class ManageCase(TemplateView):

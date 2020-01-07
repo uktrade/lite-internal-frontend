@@ -5,9 +5,9 @@
 {% block back_link %}{% endblock %}
 
 {% block body %}
-    {% if updated_cases %}
-        <a id="updated-cases-notification" class="lite-info-bar lite-info-bar--link lite-info-bar--no-animation" href="?queue_id={{ updated_case_queue_id }}">
-            HERE COMES ANOTHER STRING
+    {% if updated_cases_banner_queue_id %}
+        <a id="updated-cases-notification" class="lite-info-bar lite-info-bar--link lite-info-bar--no-animation" href="?queue_id={{ updated_cases_banner_queue_id }}">
+        {% lcs 'QUEUES.CaseListPage.EXPORTER_AMENDMENTS_BANNER' %}
         </a>
     {% endif %}
 
