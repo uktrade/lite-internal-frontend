@@ -355,6 +355,7 @@ class CaseOfficer(TemplateView):
                 case = get_case(request, case_id)
                 params = {"name": request.GET.get("name", ""), "activated": True}
                 gov_users, _ = get_gov_users(request, params)
+
                 context = {
                     "error": strings.cases.CaseOfficerPage.Error.NO_SELECTION,
                     "case_officer": get_case_officer(request, case_id)[0],
@@ -366,14 +367,11 @@ class CaseOfficer(TemplateView):
 
             _, status_code = put_case_officer(request, case_id, user_id)
 
-            if status_code != HTTPStatus.NO_CONTENT:
-                self.response_error(request, case_id)
-
         elif action == "unassign":
             _, status_code = delete_case_officer(request, case_id)
 
-            if status_code != HTTPStatus.NO_CONTENT:
-                self.response_error(request, case_id)
+        if status_code != HTTPStatus.NO_CONTENT:
+            self.response_error(request, case_id)
 
         return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
 

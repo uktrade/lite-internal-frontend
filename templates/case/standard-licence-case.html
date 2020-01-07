@@ -217,7 +217,7 @@
 					<tbody class="govuk-table__body">
 						<tr class="govuk-table__row">
                             <td></td>
-							<th scope="row" class="govuk-table__header">{% lcs 'CASE_PARTIES_LICENSEE' %}</th>
+							<th scope="row" class="govuk-table__header">{% lcs 'CASES.StandardApplication.LICENSEE' %}</th>
 							<td class="govuk-table__cell">{{ case.application.organisation.name }}</td>
 							<td class="govuk-table__cell">{{ case.application.organisation.primary_site|get_address }}</td>
 							<td class="govuk-table__cell">{{ none|default_na }}</td>
@@ -230,7 +230,7 @@
                                 <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ case.application.end_user.id }}" id="{{ case.application.end_user.id }}">
                                 <label class="govuk-label govuk-checkboxes__label" for="{{ case.application.end_user.id }}"></label>
                             </td>
-							<th scope="row" class="govuk-table__header">End user</th>
+							<th scope="row" class="govuk-table__header">{% lcs 'CASES.StandardApplication.END_USER' %}</th>
 							<td class="govuk-table__cell">{{ case.application.end_user.name }}</td>
 							<td class="govuk-table__cell">{{ case.application.end_user|get_address }}</td>
 							<td class="govuk-table__cell">{{ case.application.end_user.sub_type.value }}</td>
@@ -251,7 +251,7 @@
                                 <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ case.application.consignee.id }}" id="{{ case.application.consignee.id }}">
                                 <label class="govuk-label govuk-checkboxes__label" for="{{ case.application.consignee.id }}"></label>
                             </td>
-							<th scope="row" class="govuk-table__header">Consignee</th>
+							<th scope="row" class="govuk-table__header">{% lcs 'CASES.StandardApplication.CONSIGNEE' %}</th>
 							<td class="govuk-table__cell">{{ case.application.consignee.name }}</td>
 							<td class="govuk-table__cell">{{ case.application.consignee|get_address }}</td>
 							<td class="govuk-table__cell">{{ case.application.consignee.sub_type.value }}</td>
@@ -273,7 +273,7 @@
                                     <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ ultimate_end_user.id }}" id="{{ ultimate_end_user.id }}">
                                     <label class="govuk-label govuk-checkboxes__label" for="{{ ultimate_end_user.id }}"></label>
                                 </td>
-								<th scope="row" class="govuk-table__header">Ultimate end user</th>
+								<th scope="row" class="govuk-table__header">{% lcs 'CASES.StandardApplication.ULTIMATE_END_USER' %}</th>
 								<td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
 								<td class="govuk-table__cell">{{ ultimate_end_user|get_address }}</td>
 								<td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value }}</td>
@@ -296,7 +296,7 @@
                                     <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ party.id }}" id="{{ party.id }}">
                                     <label class="govuk-label govuk-checkboxes__label" for="{{ party.id }}"></label>
                                 </td>
-								<th scope="row" class="govuk-table__header">Third party</th>
+								<th scope="row" class="govuk-table__header"></th>
 								<td class="govuk-table__cell">{{ party.name }}</td>
 								<td class="govuk-table__cell">{{ party|get_address }}</td>
 								<td class="govuk-table__cell">{{ party.sub_type.value }}</td>
