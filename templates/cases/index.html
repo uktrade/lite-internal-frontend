@@ -5,6 +5,12 @@
 {% block back_link %}{% endblock %}
 
 {% block body %}
+    {% if updated_cases %}
+        <a id="updated-cases-notification" class="lite-info-bar lite-info-bar--link lite-info-bar--no-animation" href="?queue_id={{ updated_case_queue_id }}">
+            HERE COMES ANOTHER STRING
+        </a>
+    {% endif %}
+
 	<noscript>
 	    <style>
 	        #noscript_hide {display:none;}

@@ -53,6 +53,14 @@ class Cases(TemplateView):
 
         data = get_cases_search_data(request, convert_dict_to_query_params(params))
 
+        updated_cases = False
+        updated_case_queue_id = "00000000-0000-0000-0000-000000000004"
+        if queue_id != updated_case_queue_id:
+            for queue in data["results"]["queues"]:
+                if queue["id"] == updated_case_queue_id and queue["case_count"] > 0:
+                    updated_cases = True
+                    break
+
         context = {
             "title": data["results"]["queue"]["name"],
             "data": data,
@@ -60,6 +68,8 @@ class Cases(TemplateView):
             "page": params.pop("page"),
             "params": params,
             "params_str": convert_dict_to_query_params(params),
+            "updated_cases": updated_cases,
+            "updated_case_queue_id": updated_case_queue_id,
         }
 
         return render(request, "cases/index.html", context)
