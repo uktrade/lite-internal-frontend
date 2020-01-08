@@ -7,7 +7,7 @@
 {% block body %}
     {% if updated_cases_banner_queue_id %}
         <a id="updated-cases-notification" class="lite-info-bar lite-info-bar--link lite-info-bar--no-animation" href="?queue_id={{ updated_cases_banner_queue_id }}">
-        {% lcs 'CASES.CaseListPage.EXPORTER_AMENDMENTS_BANNER' %}
+        {% lcs 'Cases.EXPORTER_AMENDMENTS_BANNER' %}
         </a>
     {% endif %}
 
@@ -30,7 +30,7 @@
 	    </a>
 	    {% if not data.results.is_system_queue %}
 	    <div class="lite-app-bar__controls">
-	        <button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">{% lcs 'CASES_ASSIGN_USERS' %}</button>
+	        <button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">{% lcs 'Cases.ASSIGN_USERS' %}</button>
 	    </div>
 	    {% endif %}
 	</div>
@@ -49,11 +49,11 @@
 	<div class="lite-js-only">
 		<a href="#" id="show-filters-link" class="govuk-link govuk-link--no-visited-state lite-filter-toggle-link">
 			{% svg 'plus' %}
-			Show filters
+            {% lcs 'Cases.Filters.SHOW_FILTERS' %}
 		</a>
 		<a href="#" id="hide-filters-link" class="govuk-link govuk-link--no-visited-state lite-filter-toggle-link">
 			{% svg 'minus' %}
-			Hide filters
+			{% lcs 'Cases.Filters.HIDE_FILTERS' %}
 		</a>
 	</div>
 	<form id="filters" action="{% url 'cases:cases'%}" method="get">
@@ -63,7 +63,7 @@
 	    <div class="govuk-grid-row lite-filter-bar">
 	        <div class="govuk-grid-column-one-quarter">
 	            <label class="govuk-label" for="case_type">
-	                Filter by case type
+                    {% lcs 'Cases.Filters.FILTER_BY_CASE_TYPE' %}
 	            </label>
 	            <div class="lite-select-wrapper">
 	                <select class="govuk-select" id="case_type" name="case_type">
@@ -76,7 +76,7 @@
 	        </div>
 	        <div class="govuk-grid-column-one-quarter">
 	            <label class="govuk-label" for="status">
-	                Filter by case status
+                    {% lcs 'Cases.Filters.FILTER_BY_CASE_STATUS' %}
 	            </label>
 	            <div class="lite-select-wrapper">
 	                <select class="govuk-select" id="status" name="status">
@@ -93,10 +93,10 @@
 	            </label>
 	            <div class="lite-buttons-row">
 	                <button type="submit" form="filters" class="govuk-button" style="margin: 0;" id="button-apply-filters">
-	                    Apply filters
+	                    {% lcs 'Cases.Filters.APPLY_FILTERS' %}
 	                </button>
 	                <a href="{% url 'cases:cases' %}?queue_id={{ data.results.queue.id }}" class="govuk-button govuk-button--secondary" style="margin-bottom: 0;" id="button-clear-filters">
-	                    Clear filters
+	                     {% lcs 'Cases.Filters.CLEAR_FILTERS' %}
 	                </a>
 	            </div>
 	        </div>
@@ -120,7 +120,7 @@
 	                    <th class="cases-table__header" style="width: 200px;" scope="col">Flags</th>
 	                    <th class="cases-table__header" style="width: 125px;" scope="col">
 	                        <a href="{% url 'cases:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" id="sort-status" class="app-table__sortable-header {{ 'status'|table_sort:params }}">
-	                            Status
+                                {% lcs 'Cases.STATUS' %}
 	                            {% svg 'chevron' %}
 	                        </a>
 	                    </th>
