@@ -308,7 +308,7 @@
                                     <input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ party.id }}" id="{{ party.id }}">
                                     <label class="govuk-label govuk-checkboxes__label" for="{{ party.id }}"></label>
                                 </td>
-								<th scope="row" class="govuk-table__header"></th>
+								<th scope="row" class="govuk-table__header">{% lcs 'CASES.StandardApplication.THIRD_PARTY' %}</th>
 								<td class="govuk-table__cell">{{ party.name }}</td>
 								<td class="govuk-table__cell">{{ party|get_address }}</td>
 								<td class="govuk-table__cell">{{ party.sub_type.value }}</td>
