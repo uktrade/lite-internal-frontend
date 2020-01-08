@@ -278,8 +278,8 @@ def add_a_flag(driver, add_uae_flag):  # noqa
     pass
 
 
-@then("the status has been changed in the application")
-def status_has_been_changed_in_header(driver, context, internal_info):
+@then("the status has been changed in the application")  # noqa
+def status_has_been_changed_in_header(driver, context, internal_info):  # noqa
     application_page = ApplicationPage(driver)
     if context.status.lower() == "under review":
         assert "updated the status to: " + "Under review" in application_page.get_text_of_audit_trail_item(
