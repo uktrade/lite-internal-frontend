@@ -17,7 +17,10 @@ Feature: I want to view the case details of a case
   @LT_982_exporter_edited_case_anchor @regression
   Scenario: Gov user can see exporter has made changes to case
     Given I create application or application has been previously created
+    And I am an assigned user for the case
     And I sign in to SSO or am signed into SSO
     When the exporter user has edited the case
-    And I go to application previously created
+    And I go to the internal homepage
+    And I click on the exporter amendments banner
+    And I click on the case in the exporter amendments queue
     Then I see that changes have been made to the case
