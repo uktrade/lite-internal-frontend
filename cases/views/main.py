@@ -54,9 +54,7 @@ class Cases(TemplateView):
 
         data = get_cases_search_data(request, convert_dict_to_query_params(params))
 
-        updated_cases_banner_queue_id = get_updated_cases_banner_queue_id(
-            data["results"]["queue"], data["results"]["queues"]
-        )
+        updated_cases_banner_queue_id = get_updated_cases_banner_queue_id(queue_id, data["results"]["queues"])
 
         context = {
             "title": data["results"]["queue"]["name"],

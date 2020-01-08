@@ -1,8 +1,9 @@
 from pytest_bdd import then, scenarios, when, given
 
 from pages.application_page import ApplicationPage
+from pages.case_list_page import CaseListPage
 from shared.tools.utils import get_lite_client
-
+import shared.tools.helpers as utils
 
 scenarios("../features/view_case_details.feature", strict_gherkin=False)
 
@@ -16,7 +17,10 @@ def assert_party_data(table, headings, values):
 
 @given("I am an assigned user for the case")
 def i_am_an_assigned_user_for_the_case(driver, context, seed_data_config):
-    pass
+    lite_client = get_lite_client(context, seed_data_config)
+    lite_client.seed_queue.add_queue("User Amendment Queue Testing" + str(utils.get_formatted_date_time_d_h_m_s()))
+    lite_client.seed_case.assign_case_to_queue(context.app_id, lite_client.context["queue_id"])
+    lite_client.seed_case.assign_case_to_user(context.app_id, lite_client.context["queue_id"], context.gov_user_id)
 
 
 @when("the exporter user has edited the case")
@@ -26,13 +30,15 @@ def exporter_user_has_edited_case(driver, context, seed_data_config):
 
 
 @when("I click on the exporter amendments banner")
-def i_click_on_the_exporter_amendments_banner(driver, context, seed_data_config):
-    pass
+def i_click_on_the_exporter_amendments_banner(driver, context):
+    case_list_page = CaseListPage(driver)
+    case_list_page.click_on_exporter_amendments_banner()
 
 
-@when("I click on the case in the exporter amendments queue")
-def i_click_on_the_case_in_the_exporter_akmendments_queue(driver, context, seed_data_config):
-    pass
+@then("I can see the case on the exporter amendments queue")
+def i_can_see_the_case_on_the_exporter_amendments_queue(driver, context):
+    case_list_page = CaseListPage(driver)
+    case_list_page.assert_case_is_present(context.app_id)
 
 
 @then("I see that changes have been made to the case")
