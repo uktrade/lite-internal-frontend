@@ -6,8 +6,8 @@ from core.services import get_control_list_entries
 from picklists.services import get_picklists
 
 
-def review_goods_clc_query_form(request, back_url, goods_type):
-    if goods_type:
+def review_goods_clc_query_form(request, back_url, is_goods_type):
+    if is_goods_type:
         options = [Option(key="True", value="Yes", show_pane="pane_control_code"), Option(key="False", value="No")]
     else:
         options = [Option(key="yes", value="Yes", show_pane="pane_control_code"), Option(key="no", value="No")]
