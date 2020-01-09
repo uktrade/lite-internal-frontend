@@ -143,7 +143,12 @@
 				</h2>
 			</div>
 			<div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
-				<form action="{% url 'cases:assign_flags' case.id %}" method="get">
+				<form action="{% url 'cases:review_goods' case.id %}" method="get">
+					{% if 'REVIEW_GOODS' in permissions and not status_is_terminal %}
+						<button id="button-review-goods" name="action" value="review-goods" class="govuk-button" data-module="govuk-button">
+							{% lcs 'CASES.OpenApplication.REVIEW_GOODS' %}
+						</button>
+					{% endif %}
 				    <input type="hidden" name="level" value="goods"/>
 				    <div class="lite-horizontal-align-right">
 						<button id="button-edit-goods-flags" value="goods" class="govuk-button" data-module="govuk-button">
