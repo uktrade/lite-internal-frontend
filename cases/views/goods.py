@@ -97,9 +97,9 @@ class ReviewGoodsClc(TemplateView):
                 good_data = get_good_func(request, good)[0]["good"]
                 if (
                     initial_good["control_code"] != good_data["control_code"]
-                    and initial_good["is_good_controlled"] != good_data["is_good_controlled"]
-                    and initial_good["comment"] != good_data["comment"]
-                    and initial_good["report_summary"] != good_data["report_summary"]
+                    or initial_good["is_good_controlled"] != good_data["is_good_controlled"]
+                    or initial_good["comment"] != good_data["comment"]
+                    or initial_good["report_summary"] != good_data["report_summary"]
                 ):
                     return form_page(request, form)
             data = initial_good
