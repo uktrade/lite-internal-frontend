@@ -199,6 +199,9 @@ class ApplicationPage(BasePage):
     def get_case_officer_element(self):
         return self.driver.find_element_by_id(self.CASE_OFFICER_ID)
 
+    def get_generate_document_element(self):
+        return self.driver.find_element_by_id(self.GENERATE_DOCUMENTS_BTN)
+
     def is_change_status_available(self):
         return len(self.driver.find_elements_by_id(self.PROGRESS_APP_BTN)) == 1
 
