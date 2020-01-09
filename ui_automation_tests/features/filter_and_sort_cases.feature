@@ -39,7 +39,7 @@ Feature: I want to filter and sort cases on a queue
   Scenario: Sort all cases
     Given I create open application or open application has been previously created
     And I go to internal homepage
-    When I click on the "All cases" queue in dropdown
+    When I click on the "All Cases" queue in dropdown
     And I sort cases by status
     Then the case at index "0" has the status of "Submitted"
 

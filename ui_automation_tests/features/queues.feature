@@ -36,7 +36,7 @@ Feature: I want to define new work queues and the teams they belong to
     And I click progress application
     And I select status "Withdrawn" and save
     And I go to the internal homepage
-    And I click on the "All cases" queue in dropdown
+    And I click on the "All Cases" queue in dropdown
     Then I see previously created application
 
   @LT_1123_view_all_cases @view_all_cases @regression
