@@ -49,7 +49,7 @@ class ReviewGoods(TemplateView):
                     goods.append(good)
 
         context = {
-            "title": strings.Cases.ReviewGoodsSummary.HEADING,
+            "title": strings.CASES.ReviewGoodsSummary.HEADING,
             "case_id": case_id,
             "application_type": case["application"]["application_type"]["key"],
             "objects": goods,
@@ -84,10 +84,10 @@ class ReviewGoodsClc(TemplateView):
         case = get_case(request, self.case_id)
         if case["application"]["application_type"]["key"] == "open_licence":
             get_good_func = get_goods_type
-            form = review_goods_clc_query_form(request, self.back_link, goods_type=True)
+            form = review_goods_clc_query_form(request, self.back_link, is_goods_type=True)
         else:
             get_good_func = get_good
-            form = review_goods_clc_query_form(request, self.back_link, goods_type=False)
+            form = review_goods_clc_query_form(request, self.back_link, is_goods_type=False)
 
         if len(self.goods) == 1:
             data = get_good_func(request, self.goods[0])[0]["good"]
@@ -123,9 +123,9 @@ class ReviewGoodsClc(TemplateView):
         if response.status_code == 400:
             case = get_case(request, self.case_id)
             if case["application"]["application_type"]["key"] == "open_licence":
-                form = review_goods_clc_query_form(request, self.back_link, goods_type=True)
+                form = review_goods_clc_query_form(request, self.back_link, is_goods_type=True)
             else:
-                form = review_goods_clc_query_form(request, self.back_link, goods_type=False)
+                form = review_goods_clc_query_form(request, self.back_link, is_goods_type=False)
             return form_page(request, form, data=request.POST, errors=response.json().get("errors"))
 
         return redirect(self.back_link)

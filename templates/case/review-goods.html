@@ -4,7 +4,7 @@
 
 {% block back_link %}
 	<a href="{% url 'cases:case' case_id %}" class="govuk-back-link">
-		{% lcs 'Cases.ReviewGoodsSummary.BACK_LINK' %}
+		{% lcs 'CASES.ReviewGoodsSummary.BACK_LINK' %}
 	</a>
 {% endblock %}
 
@@ -13,11 +13,11 @@
 <div class="lite-app-bar">
 	<div class="lite-app-bar__content">
 		<p class="govuk-caption-m" style="margin: 0;">{{ case.application.application_type.value }}</p>
-		<h2 class="govuk-heading-l">{% lcs 'Cases.ReviewGoodsSummary.HEADING' %}</h2>
+		<h2 class="govuk-heading-l">{% lcs 'CASES.ReviewGoodsSummary.HEADING' %}</h2>
 	</div>
     <div class="lite-app-bar__controls">
         <a id="button-add-report-summary" value="goods" class="btn govuk-button" data-module="govuk-button" href="{{ review_goods_clc_url }}">
-			{% lcs 'Cases.ReviewGoodsSummary.REVIEW_BUTTON' %}
+			{% lcs 'CASES.ReviewGoodsSummary.REVIEW_BUTTON' %}
         </a>
     </div>
 </div>
@@ -29,7 +29,7 @@
         </div>
     {% endfor %}
 	<a href="{{ edit_flags_url }}" id="button-edit-goods-flags" class="app-flag app-flag--action">
-        {% lcs 'Cases.ReviewGoodsSummary.SET_FLAGS' %}
+        {% lcs 'CASES.ReviewGoodsSummary.SET_FLAGS' %}
 	</a>
 </div>
 
@@ -37,15 +37,15 @@
 <table class="govuk-table" id="goods">
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
-			<th class="govuk-table__header">Description</th>
-			<th class="govuk-table__header">Report summary</th>
-			<th class="govuk-table__header">{% lcs 'GOOD_CONTROLLED' %}</th>
-			<th class="govuk-table__header">Controlled list entry</th>
-			<th class="govuk-table__header">Goods Comment</th>
+			<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.DESCRIPTION' %}</th>
+			<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.REPORT_SUMMARY' %}</th>
+			<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.CONTROLLED' %}</th>
+			<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.CONTROL_LIST_ENTRY' %}</th>
+			<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.GOODS_COMMENT' %}</th>
 			{% if application_type != "open_licence" %}
-				<th class="govuk-table__header">Quantity/Value</th>
+				<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.QUANTITY_VALUE' %}</th>
 			{% endif %}
-			<th class="govuk-table__header">Flags</th>
+			<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.FLAGS' %}</th>
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">
@@ -53,14 +53,30 @@
 			{% for good in objects %}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell">{{ good.description }}</td>
-					<td class="govuk-table__cell">{{ good.report_summary|default_if_none:"N/A" }}</td>
-					<td class="govuk-table__cell">{{ good.is_good_controlled|capfirst}}</td>
-					<td class="govuk-table__cell">{{ good.control_code}}</td>
-					<td class="govuk-table__cell">{{ good.comment}}</td>
 					<td class="govuk-table__cell">
-						{% for flag in good.flags %}
-							{{ flag.name}} <br>
-						{% endfor %}
+						{% if good.report_summary %}
+							{{ good.report_summary }}
+						{% else %}
+							<span class="lite-hint">Not Set</span>
+						{% endif %}
+					</td>
+					<td class="govuk-table__cell">{{ good.is_good_controlled }}</td>
+					<td class="govuk-table__cell">{{ good.control_code|default_na }}</td>
+					<td class="govuk-table__cell">
+						{% if good.comment %}
+							{{ good.comment}}
+						{% else %}
+							<span class="lite-hint">Not Set</span>
+						{% endif %}
+					</td>
+					<td class="govuk-table__cell">
+						{% if good.flags %}
+							{% for flag in good.flags %}
+								{{ flag.name}} <br>
+							{% endfor %}
+						{% else %}
+							<span class="lite-hint">None set</span>
+						{% endif %}
 					</td>
 				</tr>
 			{% endfor %}
@@ -68,8 +84,8 @@
 			{% for good in objects %}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell">{{ good.good.description }}</td>
-					<td class="govuk-table__cell">{{ good.good.report_summary|default_if_none:"N/A" }}</td>
-					<td class="govuk-table__cell">{{ good.good.is_good_controlled|capfirst}}</td>
+					<td class="govuk-table__cell">{{ good.good.report_summary|default_na }}</td>
+					<td class="govuk-table__cell">{{ good.good.is_good_controlled|sentence_case }}</td>
 					<td class="govuk-table__cell">{{ good.good.control_code}}</td>
 					<td class="govuk-table__cell">{{ good.good.comment}}</td>
 					<td class="govuk-table__cell">{{ good.quantity }} {{ good.unit.value }}/£{{ good.value }}</td>
