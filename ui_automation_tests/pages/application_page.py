@@ -7,6 +7,8 @@ from shared.tools.helpers import scroll_to_element_by_id
 
 class ApplicationPage(BasePage):
 
+    ACTIONS_LIST_CONTAINER_ID = "actions-list"  # ID
+    ACTION_BUTTON_NAME = "action-button"  # Name
     ACTIONS_DROPDOWN = ".app-more-actions__button"  # CSS
     AUDIT_NOTIFICATION_ANCHOR = "audit-notification"  # ID
     AUDIT_CASE_ACTIVITY_ID = "[id^=case-activity-]"  # CSS
@@ -210,3 +212,10 @@ class ApplicationPage(BasePage):
 
     def go_to_organisation(self):
         self.driver.find_element_by_id(self.LINK_ORGANISATION_ID).click()
+
+    def get_action_dropdown_entries_count(self):
+        return len(
+            self.driver.find_element_by_id(self.ACTIONS_LIST_CONTAINER_ID).find_elements_by_name(
+                self.ACTION_BUTTON_NAME
+            )
+        )
