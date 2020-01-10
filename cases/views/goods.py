@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from lite_forms.generators import form_page
 
+from cases.constants import CaseType
 from cases.forms.review_goods_clc import review_goods_clc_query_form
 from cases.services import get_good, get_case, post_goods_control_code, get_goods_type
 from core.helpers import convert_dict_to_query_params
@@ -127,7 +128,7 @@ class ReviewGoodsClc(TemplateView):
 
         if response.status_code == 400:
             case = get_case(request, self.case_id)
-            is_goods_type = case["application"]["application_type"]["key"] != "standard_licence"
+            is_goods_type = case["application"]["application_type"]["key"] != CaseType.STANDARD_LICENCE.value
 
             form = review_goods_clc_query_form(request, self.back_link, is_goods_type=is_goods_type)
             return form_page(request, form, data=request.POST, errors=response.json().get("errors"))
