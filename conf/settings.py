@@ -54,6 +54,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "conf.middleware.SessionTimeoutMiddleware",
     "csp.middleware.CSPMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -222,3 +223,7 @@ CSP_STYLE_SRC = env("CSP_STYLE_SRC")
 CSP_SCRIPT_SRC = env("CSP_SCRIPT_SRC")
 CSP_FONT_SRC = env("CSP_FONT_SRC")
 CSP_REPORT_ONLY = env("CSP_REPORT_ONLY")
+
+
+# Session timeout
+SESSION_EXPIRE_SECONDS = 3600

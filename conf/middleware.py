@@ -1,14 +1,17 @@
-from lite_content.lite_internal_frontend import strings
 import logging
 import time
 import uuid
+
+from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.urls import resolve
+from s3chunkuploader.file_handler import UploadFailed
 
 from auth.urls import app_name as auth_app_name
 from conf import settings
+from conf.settings import env
+from lite_content.lite_internal_frontend import strings
 from lite_forms.generators import error_page
-from s3chunkuploader.file_handler import UploadFailed
 
 
 class ProtectAllViewsMiddleware:
@@ -59,3 +62,25 @@ class LoggingMiddleware:
         data["elapsed_time"] = time.time() - start
         logging.info(data)
         return response
+
+
+SESSION_TIMEOUT_KEY = "_session_timeout_seconds_"
+
+
+class SessionTimeoutMiddleware:
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        start = request.session.get(SESSION_TIMEOUT_KEY, time.time())
+
+        timeout = getattr(settings, "SESSION_EXPIRE_SECONDS", 3600)
+
+        if time.time() - start > 10:  # session expired
+            request.session.flush()
+            logout(request)
+            return redirect(env("AUTHBROKER_URL") + "/logout/")
+
+        request.session[SESSION_TIMEOUT_KEY] = time.time()
+
+        return self.get_response(request)
