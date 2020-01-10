@@ -42,7 +42,7 @@
 			<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.CONTROLLED' %}</th>
 			<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.CONTROL_LIST_ENTRY' %}</th>
 			<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.GOODS_COMMENT' %}</th>
-			{% if application_type != "open_licence" %}
+			{% if application_type == "standard_licence" %}
 				<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.QUANTITY_VALUE' %}</th>
 			{% endif %}
 			<th class="govuk-table__header">{% lcs 'CASES.ReviewGoodsSummary.Table.FLAGS' %}</th>
