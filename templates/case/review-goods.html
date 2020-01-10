@@ -84,7 +84,7 @@
 			{% for good_on_app in objects %}
 				{% with good_on_app.good as good %}
 					<tr class="govuk-table__row">
-						<td class="govuk-table__cell">{{ good.good.description }}</td>
+						<td class="govuk-table__cell">{{ good.description }}</td>
 						<td class="govuk-table__cell">
 							{% if good.report_summary %}
 								{{ good.report_summary }}
