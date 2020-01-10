@@ -39,13 +39,13 @@ class ReviewGoods(TemplateView):
         parameters = {"level": "goods", "origin": "review_goods", "goods": goods_pk_list}
         goods_postfix_url = "?" + convert_dict_to_query_params(parameters)
 
-        if case["application"]["application_type"]["key"] == "open_licence":
-            for good in case["application"]["goods_types"]:
-                if good["id"] in goods_pk_list:
-                    goods.append(good)
-        else:
+        if case["application"]["application_type"]["key"] == "standard_licence":
             for good in case["application"]["goods"]:
                 if good["good"]["id"] in goods_pk_list:
+                    goods.append(good)
+        else:
+            for good in case["application"]["goods_types"]:
+                if good["id"] in goods_pk_list:
                     goods.append(good)
 
         context = {
@@ -82,12 +82,12 @@ class ReviewGoodsClc(TemplateView):
 
     def get(self, request, *args, **kwargs):
         case = get_case(request, self.case_id)
-        if case["application"]["application_type"]["key"] == "open_licence":
-            get_good_func = get_goods_type
-            form = review_goods_clc_query_form(request, self.back_link, is_goods_type=True)
-        else:
+        if case["application"]["application_type"]["key"] == "standard_licence":
             get_good_func = get_good
             form = review_goods_clc_query_form(request, self.back_link, is_goods_type=False)
+        else:
+            get_good_func = get_goods_type
+            form = review_goods_clc_query_form(request, self.back_link, is_goods_type=True)
 
         if len(self.goods) == 1:
             data = get_good_func(request, self.goods[0])[0]["good"]

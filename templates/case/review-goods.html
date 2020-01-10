@@ -49,38 +49,7 @@
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">
-		{% if application_type == "open_licence" %}
-			{% for good in objects %}
-				<tr class="govuk-table__row">
-					<td class="govuk-table__cell">{{ good.description }}</td>
-					<td class="govuk-table__cell">
-						{% if good.report_summary %}
-							{{ good.report_summary }}
-						{% else %}
-							<span class="lite-hint">{% lcs 'CASES.ReviewGoodsSummary.NotSet.REPORT_SUMMARY' %}</span>
-						{% endif %}
-					</td>
-					<td class="govuk-table__cell">{{ good.is_good_controlled }}</td>
-					<td class="govuk-table__cell">{{ good.control_code|default_na }}</td>
-					<td class="govuk-table__cell">
-						{% if good.comment %}
-							{{ good.comment}}
-						{% else %}
-							<span class="lite-hint">{% lcs 'CASES.ReviewGoodsSummary.NotSet.COMMENT' %}</span>
-						{% endif %}
-					</td>
-					<td class="govuk-table__cell">
-						{% if good.flags %}
-							{% for flag in good.flags %}
-								{{ flag.name}} <br>
-							{% endfor %}
-						{% else %}
-							<span class="lite-hint">{% lcs 'CASES.ReviewGoodsSummary.NotSet.FLAGS' %}</span>
-						{% endif %}
-					</td>
-				</tr>
-			{% endfor %}
-		{% else %}
+		{% if application_type == "standard_licence" %}
 			{% for good_on_app in objects %}
 				{% with good_on_app.good as good %}
 					<tr class="govuk-table__row">
@@ -112,6 +81,38 @@
 						</td>
 					</tr>
 				{% endwith %}
+			{% endfor %}
+
+		{% else %}
+			{% for good in objects %}
+				<tr class="govuk-table__row">
+					<td class="govuk-table__cell">{{ good.description }}</td>
+					<td class="govuk-table__cell">
+						{% if good.report_summary %}
+							{{ good.report_summary }}
+						{% else %}
+							<span class="lite-hint">{% lcs 'CASES.ReviewGoodsSummary.NotSet.REPORT_SUMMARY' %}</span>
+						{% endif %}
+					</td>
+					<td class="govuk-table__cell">{{ good.is_good_controlled }}</td>
+					<td class="govuk-table__cell">{{ good.control_code|default_na }}</td>
+					<td class="govuk-table__cell">
+						{% if good.comment %}
+							{{ good.comment}}
+						{% else %}
+							<span class="lite-hint">{% lcs 'CASES.ReviewGoodsSummary.NotSet.COMMENT' %}</span>
+						{% endif %}
+					</td>
+					<td class="govuk-table__cell">
+						{% if good.flags %}
+							{% for flag in good.flags %}
+								{{ flag.name}} <br>
+							{% endfor %}
+						{% else %}
+							<span class="lite-hint">{% lcs 'CASES.ReviewGoodsSummary.NotSet.FLAGS' %}</span>
+						{% endif %}
+					</td>
+				</tr>
 			{% endfor %}
 		{% endif %}
 	</tbody>
