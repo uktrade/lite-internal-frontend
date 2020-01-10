@@ -1,17 +1,21 @@
 from django.urls import reverse_lazy
-from lite_forms.components import Form, TextInput, BackLink, DateInput
+from lite_forms.components import Form, TextInput, BackLink, DateInput, Label
 from lite_forms.helpers import conditional
 
 
-def approve_licence_form(case_id, standard):
+def approve_licence_form(case_id, standard, duration, editable_duration):
     return Form(
         title="Approve",
         questions=[
             DateInput(description="For example, 27 3 2007", title="When will the licence start?", prefix=""),
-            TextInput(
-                name="duration",
-                description="This must be a whole number of months, such as 12",
-                title="How long will it last?",
+            conditional(
+                editable_duration,
+                TextInput(
+                    name="duration",
+                    description="This must be a whole number of months, such as 12",
+                    title="How long will it last?",
+                ),
+                Label(text=f"Duration: {duration} months"),
             ),
         ],
         back_link=conditional(
