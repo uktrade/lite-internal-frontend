@@ -42,7 +42,12 @@ class ReviewGoods(TemplateView):
         if case["application"]["application_type"]["key"] == "standard_licence":
             for good in case["application"]["goods"]:
                 if good["good"]["id"] in goods_pk_list:
-                    goods.append(good)
+                    # flatten the good details onto the first layer of the dictionary
+                    # (so both good on app and good details are together)
+                    flatten = good
+                    for key, val in good["good"].items():
+                        flatten[key] = val
+                    goods.append(flatten)
         else:
             for good in case["application"]["goods_types"]:
                 if good["id"] in goods_pk_list:
@@ -122,10 +127,9 @@ class ReviewGoodsClc(TemplateView):
 
         if response.status_code == 400:
             case = get_case(request, self.case_id)
-            if case["application"]["application_type"]["key"] == "open_licence":
-                form = review_goods_clc_query_form(request, self.back_link, is_goods_type=True)
-            else:
-                form = review_goods_clc_query_form(request, self.back_link, is_goods_type=False)
+            is_goods_type = case["application"]["application_type"]["key"] != "standard_licence"
+
+            form = review_goods_clc_query_form(request, self.back_link, is_goods_type=is_goods_type)
             return form_page(request, form, data=request.POST, errors=response.json().get("errors"))
 
         return redirect(self.back_link)
