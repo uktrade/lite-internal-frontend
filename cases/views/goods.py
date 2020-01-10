@@ -55,7 +55,7 @@ class ReviewGoods(TemplateView):
                     goods.append(good)
 
         context = {
-            "title": strings.CASES.ReviewGoodsSummary.HEADING,
+            "title": strings.Cases.ReviewGoodsSummary.HEADING,
             "case_id": case_id,
             "application_type": case["application"]["application_type"]["key"],
             "objects": goods,
