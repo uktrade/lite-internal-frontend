@@ -12,20 +12,24 @@
 		<div class="govuk-form-group">
             {% if title == 'Manage CLC query case' %}
     			<label class="govuk-label" for="status">
-	    			CLC Query Status
+	    			{% lcs 'CASES.ChangeStatus.TITLE_CLC' %}
+		    	</label>
+            {% elif title == 'Manage End User Advisory' %}
+                <label class="govuk-label" for="status">
+	    			{% lcs 'CASES.ChangeStatus.TITLE_EUA' %}
 		    	</label>
             {% else %}
                 <label class="govuk-label" for="status">
-	    			Application Status
+	    			{% lcs 'CASES.ChangeStatus.TITLE_APPLICATION' %}
 		    	</label>
             {% endif %}
 			<select id="status" class="govuk-select" name="status">
-                {% for status in statuses.statuses %}
+                {% for status in statuses %}
 				    <option value="{{ status.status }}"
-                            {% if data.case.application.status == status.status or data.case.query.status == status.status %}
+                            {% if data.case.application.status == status or data.case.query.status == status %}
                                 selected
                             {% endif %}>
-                        {{ status.status|default:"Untitled"|sentence_case }}
+                        {{ status|default:"Untitled" }}
                     </option>
                 {% endfor %}
 			</select>
