@@ -4,7 +4,7 @@
 
 {% block back_link %}
 	<a href="{% url 'cases:case' case_id %}" class="govuk-back-link">
-		{% lcs 'Cases.ReviewGoodsSummary.BACK_LINK' %}
+		{% lcs 'cases.ReviewGoodsSummary.BACK_LINK' %}
 	</a>
 {% endblock %}
 
@@ -13,11 +13,11 @@
 <div class="lite-app-bar">
 	<div class="lite-app-bar__content">
 		<p class="govuk-caption-m" style="margin: 0;">{{ case.application.application_type.value }}</p>
-		<h2 class="govuk-heading-l">{% lcs 'Cases.ReviewGoodsSummary.HEADING' %}</h2>
+		<h2 class="govuk-heading-l">{% lcs 'cases.ReviewGoodsSummary.HEADING' %}</h2>
 	</div>
     <div class="lite-app-bar__controls">
         <a id="button-add-report-summary" value="goods" class="btn govuk-button" data-module="govuk-button" href="{{ review_goods_clc_url }}">
-			{% lcs 'Cases.ReviewGoodsSummary.REVIEW_BUTTON' %}
+			{% lcs 'cases.ReviewGoodsSummary.REVIEW_BUTTON' %}
         </a>
     </div>
 </div>
@@ -29,7 +29,7 @@
         </div>
     {% endfor %}
 	<a href="{{ edit_flags_url }}" id="button-edit-goods-flags" class="app-flag app-flag--action">
-        {% lcs 'Cases.ReviewGoodsSummary.SET_FLAGS' %}
+        {% lcs 'cases.ReviewGoodsSummary.SET_FLAGS' %}
 	</a>
 </div>
 
