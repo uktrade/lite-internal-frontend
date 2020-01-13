@@ -97,11 +97,15 @@
 
 <!-- Goods -->
 
-<form action="{% url 'cases:assign_flags' case.id %}" method="get">
-    <input type="hidden" name="level" value="goods"/>
-    <button id="button-edit-goods-flags" value="goods" class="govuk-button" data-module="govuk-button">
-        {% lcs 'cases.Case.HMRCPage.Good.EDIT_FLAGS' %}
-    </button>
+<form action="{% url 'cases:review_goods' case.id %}" method="get">
+	{% if 'REVIEW_GOODS' in permissions and not status_is_terminal %}
+		<button id="button-review-goods" name="action" value="review-goods" class="govuk-button" data-module="govuk-button">
+			{% lcs 'cases.HMRCPage.Good.REVIEW_GOODS' %}
+		</button>
+	{% endif %}
+    <button id="button-edit-goods-flags" name="action" value="edit-flags" class="govuk-button" data-module="govuk-button">
+		{% lcs 'cases.HMRCPage.Good.EDIT_FLAGS' %}
+	</button>
     <table class="govuk-table">
         <thead class="govuk-table__header">
             <tr>
