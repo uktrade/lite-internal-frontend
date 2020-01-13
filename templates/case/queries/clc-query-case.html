@@ -42,10 +42,10 @@
 		      	    {% lcs 'cases.ApplicationPage.Actions.DOCUMENT' %}
 				</a>
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:ecju_queries' case.id %}">
-					{% lcs 'Cases.EcjuQueries.TITLE' %}
+					{% lcs 'cases.EcjuQueries.TITLE' %}
 				</a>
                 <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:move' case.id %}">
-					{% lcs 'Cases.Manage.MoveCase.BUTTON' %}
+					{% lcs 'cases.Manage.MoveCase.BUTTON' %}
 				</a>
                 <a role="button" draggable="false" class="govuk-button" id="generate-document" href="{% url 'cases:generate_document' case.id %}">
 					{% lcs 'cases.ApplicationPage.Actions.GENERATE_DOCUMENT' %}
@@ -184,9 +184,9 @@
 									{% lcs 'cases.ClcQuery.Documents.DOWNLOAD' %}
 								</a>
 							{% elif document.safe == False %}
-								{% lcs 'Cases.Manage.Documents.VIRUS_INFECTED' %}
+								{% lcs 'cases.Manage.Documents.VIRUS_INFECTED' %}
 							{% else %}
-								{% lcs 'Cases.Manage.Documents.PROCESSING' %}
+								{% lcs 'cases.Manage.Documents.PROCESSING' %}
 							{% endif %}
 						</dd>
 					</div>
