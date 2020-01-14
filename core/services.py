@@ -60,30 +60,33 @@ def get_countries(request, convert_to_options=False):
 
 
 # Statuses
-def get_statuses(request, convert_to_options=False):
+def get_statuses(request):
     """ Get static list of case statuses. """
     data = get(request, STATUSES_URL)
-    if convert_to_options:
-        return [Option(key=item["id"], value=sentence_case(item["status"])) for item in data.json().get("statuses")]
-
     return data.json(), data.status_code
+
+
+def get_statuses_as_options(request):
+    """ Get a list of statuses as Options. """
+    data, _ = get_statuses(request)
+    return [Option(key=item["id"], value=sentence_case(item["status"])) for item in data.get("statuses")]
 
 
 def get_permissible_statuses(request, case_id):
     """ Get a list of case statuses permissible for the user's role. """
-    user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
     case = get_case(request, case_id)
+    case_type = case["type"]["key"]
+    user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
     user_permissible_statuses = user["user"]["role"]["statuses"]
 
-    case_type = case["type"]["key"]
     if case_type == CaseType.APPLICATION.value:
-        application_applicable_statuses = [status for status in get_statuses(request, True) if
-                                           status.value not in ['Applicant Editing', 'Closed', 'Finalised', 'Registered']]
+        case_type_applicable_statuses = [status for status in get_statuses_as_options(request) if
+                                         status.value not in ['Applicant editing', 'Closed', 'Finalised', 'Registered']]
     else:
-        application_applicable_statuses = [status for status in get_statuses(request, True) if
-                                           status.value in ['Closed', 'Submitted', 'Withdrawn']]
+        case_type_applicable_statuses = [status for status in get_statuses_as_options(request) if
+                                         status.value in ['Closed', 'Submitted', 'Withdrawn']]
 
-    return [status.value for status in application_applicable_statuses if status.key in user_permissible_statuses]
+    return [status.value for status in case_type_applicable_statuses if status.key in user_permissible_statuses]
 
 
 def get_status_properties(request, status):
@@ -125,3 +128,4 @@ def get_control_list_entries(request, convert_to_options=False):
 
     data = get(request, CONTROL_LIST_ENTRIES_URL)
     return data.json()["control_list_entries"]
+

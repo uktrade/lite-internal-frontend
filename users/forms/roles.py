@@ -1,5 +1,5 @@
-from core.services import get_statuses
-from lite_content.lite_internal_frontend.roles import AddRoleForm, ManageRolesPage, EditRoleForm
+from core.services import get_statuses, get_statuses_as_options
+from lite_content.lite_internal_frontend.roles import AddRoleForm, EditRoleForm
 from django.http import HttpRequest
 from django.urls import reverse_lazy
 from lite_forms.components import Form, TextInput, Checkboxes, BackLink
@@ -21,7 +21,7 @@ def add_role(request: HttpRequest):
             ),
             Checkboxes(
                 name="statuses",
-                options=get_statuses(request, True),
+                options=get_statuses_as_options(request),
                 title=AddRoleForm.STATUSES_CHECKBOXES_TITLE,
                 description=AddRoleForm.STATUSES_CHECKBOXES_DESCRIPTION,
             ),
@@ -45,7 +45,7 @@ def edit_role(request: HttpRequest):
             ),
             Checkboxes(
                 name="statuses",
-                options=get_statuses(request, True),
+                options=get_statuses_as_options(request),
                 title=AddRoleForm.STATUSES_CHECKBOXES_TITLE,
                 description=AddRoleForm.STATUSES_CHECKBOXES_DESCRIPTION,
             ),
@@ -53,3 +53,4 @@ def edit_role(request: HttpRequest):
         back_link=BackLink(EditRoleForm.BACK_TO_ROLES, reverse_lazy("users:roles")),
         default_button_name=EditRoleForm.FORM_CREATE,
     )
+

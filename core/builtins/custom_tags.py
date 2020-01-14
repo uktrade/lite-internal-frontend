@@ -248,6 +248,12 @@ def sentence_case(value):
     return " ".join([words[0].capitalize()] + words[1:])
 
 
+def lowercase_and_underscore(value):
+    """Change value to uppercase on initial word and preserve casing on all other words. """
+    words = value.split(" ")
+    return "_".join(words).lower()
+
+
 @register.filter
 @stringfilter
 @mark_safe
