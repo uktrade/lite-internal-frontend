@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from cases.forms.goods_flags import flags_form
+from cases.forms.flags import flags_form, set_case_flags_form
 from cases.services import put_flag_assignments, get_good, get_goods_type, get_case, get_destination
 from core.helpers import convert_dict_to_query_params
 from flags.forms import add_flag_form, edit_flag_form
@@ -165,6 +165,10 @@ class AssignFlags(TemplateView):
         flags = [Option(flag["id"], flag["name"]) for flag in flags]
 
         self.form = flags_form(flags=flags, level=self.level, origin=origin, url=self.url)
+
+        if self.level == "cases":
+            case = get_case(request, kwargs["pk"])
+            self.form = set_case_flags_form(flags, case)
 
         return super(AssignFlags, self).dispatch(request, *args, **kwargs)
 
