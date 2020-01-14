@@ -1,5 +1,7 @@
+from django.urls import reverse_lazy
+
 from conf.constants import UPDATED_CASES_QUEUE_ID
-from lite_forms.components import HiddenField
+from lite_forms.components import HiddenField, Breadcrumbs, BackLink
 
 
 def clean_advice(json):
@@ -102,3 +104,11 @@ def get_updated_cases_banner_queue_id(current_queue_id, queues):
         for queue in queues:
             if queue["id"] == UPDATED_CASES_QUEUE_ID and queue["case_count"]:
                 return UPDATED_CASES_QUEUE_ID
+
+
+def case_view_breadcrumbs(case: dict, current_view: str):
+    return Breadcrumbs([
+        BackLink("All cases", reverse_lazy("cases:cases")),
+        BackLink(case["reference_code"], reverse_lazy("cases:case", kwargs={"pk": case["id"]})),
+        BackLink(current_view),
+    ])

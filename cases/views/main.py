@@ -33,6 +33,7 @@ from core.helpers import convert_dict_to_query_params
 from core.services import get_user_permissions, get_statuses, get_status_properties
 from lite_forms.generators import error_page, form_page
 from lite_forms.submitters import submit_single_form
+from lite_forms.views import SingleFormView
 from queues.services import get_cases_search_data
 from users.services import get_gov_users
 
@@ -221,32 +222,13 @@ class ManageCase(TemplateView):
         return redirect(reverse("cases:case", kwargs={"pk": case_id}))
 
 
-class MoveCase(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-
-        return form_page(request, move_case_form(request, reverse("cases:case", kwargs={"pk": case_id})), data=case)
-
-    def post(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-
-        data = {
-            "queues": request.POST.getlist("queues"),
-        }
-
-        response, data = submit_single_form(
-            request,
-            move_case_form(request, reverse("cases:case", kwargs={"pk": case_id})),
-            put_case,
-            object_pk=case_id,
-            override_data=data,
-        )
-
-        if response:
-            return response
-
-        return redirect(reverse("cases:case", kwargs={"pk": case_id}))
+class MoveCase(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        self.form = move_case_form(request, case)
+        self.action = put_case
+        self.success_url = reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
 
 
 class Documents(TemplateView):
