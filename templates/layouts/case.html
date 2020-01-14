@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% load static %}
+{% load svg static %}
 
 {% block back_link %}
 	<div class="govuk-breadcrumbs">
@@ -15,6 +15,8 @@
 	</div>
 {% endblock %}
 
+{% block body_classes %}lite-main-wrapper--case{% endblock %}
+
 {% block body %}
 	{% if case.audit_notification %}
 		<a id="audit-notification" class="lite-info-bar lite-info-bar--link lite-info-bar--no-animation" href="#case-activity-{{ case.audit_notification.audit_id }}">
@@ -24,7 +26,6 @@
 
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<p class="govuk-caption-m">{{ case.type.value }} by <a class="govuk-link govuk-link--no-visited-state" style="display: inline-block;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a></p>
 			<h1 class="govuk-heading-l">
 				{% block title %}
 					{{ case.reference_code }}
@@ -35,6 +36,7 @@
 			<div class="lite-more-actions__container">
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
 		        	{% lcs 'Cases.ApplicationPage.Actions.DOCUMENT' %}
+					{% svg 'search' %}
 		        </a>
 		        <a role="button" draggable="false" class="govuk-button" href="{% url 'cases:ecju_queries' case.id %}">
 		            {% lcs 'Cases.ApplicationPage.Actions.ECJU' %}
@@ -65,13 +67,38 @@
 		</div>
 	</div>
 
+	<p class="govuk-caption-m">{{ case.type.value }} by <a class="govuk-link govuk-link--no-visited-state" style="display: inline-block;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a></p>
+
     {% if case.case_officer %}
         <p class="govuk-caption-m">{% lcs 'Cases.ApplicationPage.CASE_OFFICER' %} <a class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}">{{ case.case_officer|username }}</a></p>
     {% else %}
         <p class="govuk-caption-m">{% lcs 'Cases.ApplicationPage.NO_CASE_OFFICER' %}</p>
     {% endif %}
 
-	{% block detaails %}{% endblock %}
+	<div class="app-flags" id="application-case-flags">
+		{% for flag in case.flags %}
+			<div class="app-flag" id="{{ flag.name }}">
+				{{ flag.name }}
+			</div>
+		{% endfor %}
+		<a href="{% url 'cases:assign_flags' case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags" class="app-flag app-flag--action">
+			{% if case.flags %}
+				{% lcs 'EDIT_CASE_FLAGS' %}
+			{% else %}
+				{% lcs 'SET_CASE_FLAGS' %}
+			{% endif %}
+		</a>
+	</div>
+
+	<div class="app-flags" id="application-all-flags">
+		{% for flag in case.all_flags %}
+			<div class="app-flag" id="{{ flag.name }}">
+				{{ flag.name }}
+			</div>
+		{% endfor %}
+	</div>
+
+	{% block details %}{% endblock %}
 {% endblock %}
 
 {% block javascript %}

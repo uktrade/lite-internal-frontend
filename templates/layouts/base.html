@@ -112,7 +112,7 @@
 		{% block back_link %}
 			<a href="#" class="govuk-back-link lite-js-only">Back</a>
 		{% endblock %}
-		<main class="govuk-main-wrapper " id="main-content" role="main">
+		<main class="govuk-main-wrapper {% block body_classes %}{% endblock %}" id="main-content" role="main">
 			{% block body %}{% endblock %}
 		</main>
 	</div>

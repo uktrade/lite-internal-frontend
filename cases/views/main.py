@@ -123,14 +123,14 @@ class ViewCase(TemplateView):
 
             application_type = case["application"]["application_type"]["key"]
             if application_type == CaseType.OPEN_LICENCE.value:
-                return render(request, "case/open-licence-case.html", context)
+                return render(request, "case/applications/open-licence-case.html", context)
             elif application_type == CaseType.STANDARD_LICENCE.value:
-                return render(request, "case/standard-licence-case.html", context)
+                return render(request, "case/applications/standard-licence-case.html", context)
             else:
                 raise Exception("Invalid application_type: {}".format(case["application"]["application_type"]["key"]))
         elif case_type == CaseType.HMRC_QUERY.value:
             context["total_goods_value"] = _get_total_goods_value(case)
-            return render(request, "case/hmrc-case.html", context)
+            return render(request, "case/queries/hmrc-case.html", context)
         else:
             raise Exception("Invalid case_type: {}".format(case_type))
 

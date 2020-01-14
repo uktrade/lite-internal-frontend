@@ -11,11 +11,6 @@
 		</a>
 	{% endif %}
 
-	<noscript>
-		<style>
-			#noscript_hide {display:none;}
-		    </style>
-	</noscript>
 	<div class="lite-app-bar">
 		<form method="get" class="app-dropdown__select">
 			<select class="govuk-select" name="queue">
@@ -29,11 +24,12 @@
 			{{ data.results.queue.name }}
 		</a>
 		{% if not data.results.is_system_queue %}
-		<div class="lite-app-bar__controls">
-			<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">{% lcs 'Cases.CasesListPage.ASSIGN_USERS' %}</button>
-		</div>
+			<div class="lite-app-bar__controls">
+				<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">{% lcs 'Cases.CasesListPage.ASSIGN_USERS' %}</button>
+			</div>
 		{% endif %}
 	</div>
+
 	<div class="app-dropdown__background" onclick="toggleDropdown()"></div>
 	<div class="app-dropdown__container" id="queues">
 		<div class="app-dropdown__list">
@@ -101,7 +97,6 @@
 	            </div>
 	        </div>
 	    </div>
-
 	</form>
 
 	<form id="cases-form" method="post">
@@ -138,11 +133,7 @@
 	                        </td>
 	                        <td class="cases-table__cell">
 	                            <a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue_id={{data.results.queue.id}}&queue_name={{data.results.queue.name}}">
-									{% if case.type.key == 'application' or case.type.key == 'hmrc_query' %}
-									    {{ case.id }}
-	                                {% else %}
-										{{ case.query.id }}
-	                                {% endif %}
+									{{ case.reference_code }}
 	                            </a>
 	                            <p class="govuk-body" style="opacity: .7; magin: 0;">
 	                                {{ case.organisation }}
