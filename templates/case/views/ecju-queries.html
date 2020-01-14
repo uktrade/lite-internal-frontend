@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case_id %}" class="govuk-back-link">{% lcs 'Cases.EcjuQueries.BACK_TO_CASE' %}</a>
+	{% include "case/views/includes/breadcrumbs.html" %}
 {% endblock %}
 
 {% block body %}
@@ -23,7 +23,7 @@
                     <div class="govuk-accordion__section">
                         <div class="govuk-accordion__section-header">
                             <div class="govuk-accordion__section-heading">
-                                <div class="govuk-accordion__section-button" id="open-question"  style="color:#34384b; text-decoration: none;">
+                                <div class="govuk-accordion__section-button" id="open-question"  style="color: #34384b; text-decoration: none;">
                                     {{ query.question|slice:":200" }}...
                                 </div>
                             </div>

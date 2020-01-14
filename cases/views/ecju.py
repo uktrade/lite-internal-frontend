@@ -10,7 +10,7 @@ from cases.forms.create_ecju_query import (
     create_ecju_query_write_or_edit_form,
     create_ecju_create_confirmation_form,
 )
-from cases.services import get_ecju_queries, post_ecju_query
+from cases.services import get_ecju_queries, post_ecju_query, get_case
 from picklists.services import get_picklists, get_picklist_item
 
 
@@ -31,14 +31,16 @@ class ViewEcjuQueries(TemplateView):
         Get all ECJU queries for the given case, divided into open and close
         """
         case_id = str(kwargs["pk"])
+        case = get_case(request, case_id)
         open_ecju_queries, closed_ecju_queries = self._get_ecju_queries(request, case_id)
         context = {
+            "case": case,
             "case_id": case_id,
             "open_ecju_queries": open_ecju_queries,
             "closed_ecju_queries": closed_ecju_queries,
             "title": strings.Cases.EcjuQueries.TITLE,
         }
-        return render(request, "case/ecju-queries.html", context)
+        return render(request, "case/views/ecju-queries.html", context)
 
 
 class CreateEcjuQuery(TemplateView):

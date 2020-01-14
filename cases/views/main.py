@@ -165,7 +165,6 @@ class ViewAdvice(TemplateView):
 
         context = {
             "data": case,
-            "title": case.get("application").get("name"),
             "activity": activity.get("activity"),
             "permissions": permissions,
             "edit_case_flags": strings.Cases.Case.EDIT_CASE_FLAGS,
@@ -186,10 +185,9 @@ class ManageCase(TemplateView):
         }
 
         case_type = case["type"]["key"]
+        title = "Manage " + case["reference_code"]
 
         if case_type == CaseType.APPLICATION.value:
-            title = "Manage " + case.get("application").get("name")
-
             # additional but still reduced statuses needed for applications
             reduced_statuses = {
                 "statuses": [
@@ -198,17 +196,11 @@ class ManageCase(TemplateView):
                     if status["status"] not in ["applicant_editing", "closed", "finalised", "registered"]
                 ]
             }
-        elif case_type == CaseType.HMRC_QUERY.value:
-            title = "Manage HMRC query"
-        elif case_type == CaseType.END_USER_ADVISORY_QUERY.value:
-            title = "Manage End User Advisory"
-        elif case_type == CaseType.CLC_QUERY.value:
-            title = "Manage CLC query case"
         else:
             raise Exception("Invalid case_type: {}".format(case_type))
 
         context = {"case": case, "title": title, "statuses": reduced_statuses}
-        return render(request, "case/change-status.html", context)
+        return render(request, "case/views/change-status.html", context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
@@ -272,7 +264,7 @@ class Documents(TemplateView):
             "case_documents": case_documents["documents"],
             "generated_document_key": GENERATED_DOCUMENT,
         }
-        return render(request, "case/documents.html", context)
+        return render(request, "case/views/documents.html", context)
 
 
 @method_decorator(csrf_exempt, "dispatch")
@@ -350,7 +342,7 @@ class CaseOfficer(TemplateView):
             "case": case,
             "name": params["name"],
         }
-        return render(request, "case/set-case-officer.html", context)
+        return render(request, "case/views/set-case-officer.html", context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
@@ -370,7 +362,7 @@ class CaseOfficer(TemplateView):
                     "case": case,
                     "name": request.GET.get("name", ""),
                 }
-                return render(request, "case/set-case-officer.html", context)
+                return render(request, "case/views/set-case-officer.html", context)
 
             _, status_code = put_case_officer(request, case_id, user_id)
 
@@ -394,4 +386,4 @@ class CaseOfficer(TemplateView):
             "case": case,
             "name": params["name"],
         }
-        return render(request, "case/set-case-officer.html", context)
+        return render(request, "case/views/set-case-officer.html", context)
