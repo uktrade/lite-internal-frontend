@@ -226,6 +226,7 @@ class MoveCase(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
+        self.data = case
         self.form = move_case_form(request, case)
         self.action = put_case
         self.success_url = reverse_lazy("cases:case", kwargs={"pk": self.object_pk})

@@ -246,13 +246,11 @@
 		$("#show-filters-link").show();
 		$("#hide-filters-link").hide();
 
-		{ %
-			if params.case_type or params.status %
-		}
-		$("#filters").show();
-		$("#show-filters-link").hide();
-		$("#hide-filters-link").show(); { % endif %
-		}
+		{% if params.case_type or params.status %}
+			$("#filters").show();
+			$("#show-filters-link").hide();
+			$("#hide-filters-link").show();
+		{% endif %}
 
 		function toggleFilters() {
 			$("#filters").toggle();
