@@ -6,7 +6,7 @@
 	<div class="govuk-breadcrumbs">
 		<ol class="govuk-breadcrumbs__list">
 			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">{% if queue_name %}{{ queue_name }}{% else %}{% lcs 'QUEUE_ALL_Cases' %}{% endif %}</a>
+				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">{% if queue_name %}{{ queue_name }}{% else %}{% lcs 'QUEUE_ALL_CASES' %}{% endif %}</a>
 			</li>
 			<li class="govuk-breadcrumbs__list-item" aria-current="page">
 				{{ case.reference_code }}
@@ -43,9 +43,9 @@
 					{% lcs 'Cases.ApplicationPage.Actions.MOVE' %}
 				</a>
                 {% if not status_is_terminal or 'REOPEN_CLOSED_Cases' in permissions %}
-				<a role="button" draggable="false" class="govuk-button" id="change-status" href="{% url 'cases:manage' case.id %}">
-					{% lcs 'Cases.ApplicationPage.Actions.CHANGE_STATUS' %}
-				</a>
+					<a role="button" draggable="false" class="govuk-button" id="change-status" href="{% url 'cases:manage' case.id %}">
+						{% lcs 'Cases.ApplicationPage.Actions.CHANGE_STATUS' %}
+					</a>
                 {% endif %}
 				{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
 					<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' case.id %}">
