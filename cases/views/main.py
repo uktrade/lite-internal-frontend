@@ -364,7 +364,7 @@ class CaseOfficer(TemplateView):
                 gov_users, _ = get_gov_users(request, params)
 
                 context = {
-                    "error": strings.cases.CaseOfficerPage.Error.NO_SELECTION,
+                    "error": cases.CaseOfficerPage.Error.NO_SELECTION,
                     "case_officer": get_case_officer(request, case_id)[0],
                     "users": gov_users,
                     "case": case,
