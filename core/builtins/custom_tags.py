@@ -249,7 +249,7 @@ def sentence_case(value):
 
 
 def lowercase_and_underscore(value):
-    """Change value to uppercase on initial word and preserve casing on all other words. """
+    """Change value to lowercase and change spaces to underscores. """
     words = value.split(" ")
     return "_".join(words).lower()
 
