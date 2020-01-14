@@ -42,7 +42,7 @@
                 {% if permissible_statuses %}
                     {% if not status_is_terminal or 'REOPEN_CLOSED_CASES' in permissions %}
 				    <a role="button" draggable="false" class="govuk-button" id="change-status" href="{% url 'cases:manage' case.id %}">
-					    {% lcs 'CASES.ApplicationPage.Actions.CHANGE_STATUS' %}
+					    {% lcs 'Cases.ApplicationPage.Actions.CHANGE_STATUS' %}
 				    </a>
                     {% endif %}
                 {% endif %}
