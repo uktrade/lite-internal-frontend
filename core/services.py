@@ -80,11 +80,17 @@ def get_permissible_statuses(request, case_id):
     user_permissible_statuses = user["user"]["role"]["statuses"]
 
     if case_type == CaseType.APPLICATION.value:
-        case_type_applicable_statuses = [status for status in get_statuses_as_options(request) if
-                                         status.value not in ['Applicant editing', 'Closed', 'Finalised', 'Registered']]
+        case_type_applicable_statuses = [
+            status
+            for status in get_statuses_as_options(request)
+            if status.value not in ["Applicant editing", "Closed", "Finalised", "Registered"]
+        ]
     else:
-        case_type_applicable_statuses = [status for status in get_statuses_as_options(request) if
-                                         status.value in ['Closed', 'Submitted', 'Withdrawn']]
+        case_type_applicable_statuses = [
+            status
+            for status in get_statuses_as_options(request)
+            if status.value in ["Closed", "Submitted", "Withdrawn"]
+        ]
 
     return [status.value for status in case_type_applicable_statuses if status.key in user_permissible_statuses]
 
@@ -128,4 +134,3 @@ def get_control_list_entries(request, convert_to_options=False):
 
     data = get(request, CONTROL_LIST_ENTRIES_URL)
     return data.json()["control_list_entries"]
-

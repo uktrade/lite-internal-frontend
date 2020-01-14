@@ -103,7 +103,7 @@ class ViewCase(TemplateView):
             "queue_name": request.GET.get("queue_name"),
             "permissible_statuses": get_permissible_statuses(request, case_id),
             "status_is_read_only": status_props["is_read_only"],
-            "status_is_terminal": status_props["is_terminal"]
+            "status_is_terminal": status_props["is_terminal"],
         }
 
         if case_type == CaseType.END_USER_ADVISORY_QUERY.value:

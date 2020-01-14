@@ -53,4 +53,3 @@ def edit_role(request: HttpRequest):
         back_link=BackLink(EditRoleForm.BACK_TO_ROLES, reverse_lazy("users:roles")),
         default_button_name=EditRoleForm.FORM_CREATE,
     )
-

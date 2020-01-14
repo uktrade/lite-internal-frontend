@@ -108,6 +108,6 @@ def get_updated_cases_banner_queue_id(current_queue_id, queues):
 def format_status_in_request_data(data):
     """ Format the status in the data to representation stored in database. """
     data_copy = data.copy()
-    data_copy['status'] = lowercase_and_underscore(data_copy['status'])
+    data_copy["status"] = lowercase_and_underscore(data_copy["status"])
 
     return data_copy
