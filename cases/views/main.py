@@ -30,7 +30,7 @@ from conf import settings
 from conf.constants import DEFAULT_QUEUE_ID, GENERATED_DOCUMENT
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.helpers import convert_dict_to_query_params
-from core.services import get_user_permissions, get_statuses, get_status_properties, get_permissible_statuses
+from core.services import get_user_permissions, get_status_properties, get_permissible_statuses
 from lite_forms.generators import error_page, form_page
 from lite_forms.submitters import submit_single_form
 from queues.services import get_cases_search_data

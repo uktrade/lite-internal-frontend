@@ -1,4 +1,4 @@
-from core.services import get_statuses, get_statuses_as_options
+from core.services import get_statuses_as_options
 from lite_content.lite_internal_frontend.roles import AddRoleForm, EditRoleForm
 from django.http import HttpRequest
 from django.urls import reverse_lazy

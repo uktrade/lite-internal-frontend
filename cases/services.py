@@ -28,7 +28,6 @@ from conf.constants import (
     DESTINATION_URL,
     CASE_OFFICER_URL,
 )
-from core.builtins.custom_tags import lowercase_and_underscore
 
 
 def get_case(request, pk):
