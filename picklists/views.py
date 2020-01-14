@@ -80,7 +80,7 @@ class ViewPicklistItem(TemplateView):
         context = {
             "title": picklist_item["name"],
             "picklist_item": picklist_item,
-            "activity": picklist_item["activity"]
+            "activity": picklist_item["activity"],
         }
         return render(request, "teams/picklist-item.html", context)
 
