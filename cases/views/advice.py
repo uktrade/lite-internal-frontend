@@ -340,7 +340,7 @@ class Finalise(TemplateView):
         application_id = case.get("application").get("id")
         data = request.POST.copy()
 
-        if case.get("application").get("duration") != data["duration"]:
+        if "duration" in data and case["application"].get("duration") != data["duration"]:
             default_duration = get_application_default_duration(request, str(kwargs["pk"]))
             if data["duration"] != default_duration and not helpers.has_permission(
                 request, Permission.MANAGE_LICENCE_DURATION
