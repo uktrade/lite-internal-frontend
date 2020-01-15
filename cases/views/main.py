@@ -101,7 +101,7 @@ class ViewCase(TemplateView):
             "permissions": get_user_permissions(request),
             "queue_id": request.GET.get("queue_id"),
             "queue_name": request.GET.get("queue_name"),
-            "permissible_statuses": get_permissible_statuses(request, case_id),
+            "permissible_statuses": get_permissible_statuses(request, case_type),
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
         }
@@ -170,9 +170,8 @@ class ManageCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
-        statuses = get_permissible_statuses(request, case_id)
-
         case_type = case["type"]["key"]
+        permissible_statuses = get_permissible_statuses(request, case_type)
 
         if case_type == CaseType.APPLICATION.value:
             title = strings.cases.ChangeStatusPage.TITLE_APPLICATION
@@ -185,7 +184,7 @@ class ManageCase(TemplateView):
         else:
             raise Exception("Invalid case_type: {}".format(case_type))
 
-        context = {"case": case, "title": title, "statuses": statuses}
+        context = {"case": case, "title": title, "statuses": permissible_statuses}
         return render(request, "case/change-status.html", context)
 
     def post(self, request, **kwargs):
