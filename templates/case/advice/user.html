@@ -3,27 +3,10 @@
 {% load static %}
 
 {% block back_link %}
-	<div class="govuk-breadcrumbs">
-		<ol class="govuk-breadcrumbs__list">
-			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue={{ queue.queue.id }}">
-					{% if queue_name %}{{ queue_name }}{% else %}{% lcs 'QUEUE_ALL_CASES' %}{% endif %}
-				</a>
-			</li>
-			<li class="govuk-breadcrumbs__list-item">
-				<a class="govuk-breadcrumbs__link" href="{% url 'cases:case' case.id %}">
-					{{ case.reference_code }}
-				</a>
-			</li>
-			<li class="govuk-breadcrumbs__list-item" aria-current="page">
-				{% lcs 'Cases.ApplicationPage.Actions.ADVICE' %}
-			</li>
-		</ol>
-	</div>
+	{% include "case/views/includes/breadcrumbs.html" %}
 {% endblock %}
 
 {% block body %}
-
 	{% include 'includes/messages.html' %}
 
 	<h1 class="govuk-heading-xl">
