@@ -1,7 +1,5 @@
-from cases.forms.flags import set_case_flags_form
-from cases.helpers import get_updated_cases_banner_queue_id
 from http import HTTPStatus
-from lite_content.lite_internal_frontend import strings
+
 from django.http import StreamingHttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
@@ -13,6 +11,7 @@ from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 from cases.constants import CaseType
 from cases.forms.attach_documents import attach_documents_form
 from cases.forms.move_case import move_case_form
+from cases.helpers import get_updated_cases_banner_queue_id
 from cases.services import (
     get_case,
     post_case_notes,
@@ -32,8 +31,8 @@ from conf.constants import DEFAULT_QUEUE_ID, GENERATED_DOCUMENT
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.helpers import convert_dict_to_query_params
 from core.services import get_user_permissions, get_statuses, get_status_properties
+from lite_content.lite_internal_frontend import strings
 from lite_forms.generators import error_page, form_page
-from lite_forms.submitters import submit_single_form
 from lite_forms.views import SingleFormView
 from queues.services import get_cases_search_data
 from users.services import get_gov_users
