@@ -34,6 +34,7 @@ def get_queue(request, pk, case_type=None, status=None, sort=None):
     if sort:
         sort_json = sort.split("-")
         import json
+
         if len(sort_json) == 2:
             sort = json.dumps({sort_json[0]: sort_json[1]})
             filter_and_sort.append("sort=" + sort)

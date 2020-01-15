@@ -107,8 +107,10 @@ def get_updated_cases_banner_queue_id(current_queue_id, queues):
 
 
 def case_view_breadcrumbs(case: dict, current_view: str):
-    return Breadcrumbs([
-        BackLink("All cases", reverse_lazy("cases:cases")),
-        BackLink(case["reference_code"], reverse_lazy("cases:case", kwargs={"pk": case["id"]})),
-        BackLink(current_view),
-    ])
+    return Breadcrumbs(
+        [
+            BackLink("All cases", reverse_lazy("cases:cases")),
+            BackLink(case["reference_code"], reverse_lazy("cases:case", kwargs={"pk": case["id"]})),
+            BackLink(current_view),
+        ]
+    )
