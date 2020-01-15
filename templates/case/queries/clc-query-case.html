@@ -23,7 +23,7 @@
 				<hr>
 
 				<h4 class="govuk-heading-s">{% lcs 'Cases.ClcQuery.Verified.CONTROLLED' %}</h4>
-				<p class="govuk-body-m">{{ good.is_good_controlled|friendly_boolean }}</p>
+				<p class="govuk-body-m">{{ good.is_good_controlled.value }}</p>
 
 				<h4 class="govuk-heading-s">{% lcs 'Cases.ClcQuery.Verified.CONTROL_CODE' %}</h4>
 				<p class="govuk-body-m">{{ good.control_code|default_na }}</p>
@@ -55,7 +55,7 @@
                     {% lcs 'Cases.ClcQuery.GoodDetails.CONTROLLED' %}
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ good.is_good_controlled|capfirst }}
+					{{ good.is_good_controlled.value }}
 				</dd>
 			</div>
 			<div class="govuk-summary-list__row">
