@@ -121,6 +121,7 @@
 {% endblock %}
 
 {% block javascript %}
-	<script src="{% static 'javascripts/more-actions.js' %}"></script>
+	{{ block.super }}
+	
 	<script src="{% static 'javascripts/edit-good-flags.js' %}"></script>
 {% endblock %}

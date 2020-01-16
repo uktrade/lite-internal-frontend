@@ -223,6 +223,8 @@
 {% endblock %}
 
 {% block javascript %}
+	{{ block.super }}
+	
 	<script nonce="{{ request.csp_nonce }}" type="text/javascript">
 		function openTableFold(element) {
 			$(element).parent().parent().next(".lite-accordian-table__fold").toggleClass("open");
@@ -230,14 +232,8 @@
 			return false;
 		}
 	</script>
-
-    <script src="{% static 'javascripts/select-buttons.js' %}"></script>
-	<script src="{% static 'javascripts/more-actions.js' %}"></script>
 	<script src="{% static 'javascripts/edit-good-flags.js' %}"></script>
 	<script src="{% static 'javascripts/edit-destination-flags.js' %}"></script>
-	<script src="{% static 'javascripts/modal.js' %}"></script>
-	<script src="{% static 'javascripts/case.js' %}"></script>
-
 	<script type="text/javascript">
 		$(".govuk-accordion__section").addClass("govuk-accordion__section--expanded");
 	</script>

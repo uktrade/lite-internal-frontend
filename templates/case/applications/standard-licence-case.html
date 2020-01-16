@@ -213,12 +213,10 @@
 {% endblock %}
 
 {% block javascript %}
-    <script src="{% static 'javascripts/select-buttons.js' %}"></script>
-	<script src="{% static 'javascripts/more-actions.js' %}"></script>
+	{{ block.super }}
+
 	<script src="{% static 'javascripts/edit-good-flags.js' %}"></script>
     <script src="{% static 'javascripts/edit-destination-flags.js' %}"></script>
-	<script src="{% static 'javascripts/modal.js' %}"></script>
-	<script src="{% static 'javascripts/case.js' %}"></script>
 	<script type="text/javascript">
 		$(".govuk-accordion__section").addClass("govuk-accordion__section--expanded");
 	</script>
