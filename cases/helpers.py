@@ -1,10 +1,8 @@
 from django.urls import reverse_lazy
 
 from conf.constants import UPDATED_CASES_QUEUE_ID
-from lite_forms.components import HiddenField, Breadcrumbs, BackLink
 from core.builtins.custom_tags import lowercase_and_underscore
-from lite_forms.components import HiddenField
-
+from lite_forms.components import Breadcrumbs, BackLink, HiddenField
 
 
 def clean_advice(json):
