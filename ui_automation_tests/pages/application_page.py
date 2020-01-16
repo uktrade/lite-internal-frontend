@@ -222,4 +222,4 @@ class ApplicationPage(BasePage):
         )
 
     def click_expand_flags(self, case_id):
-        self.driver.find_element_by_id(self.EXPAND_FLAGS_PARTIAL_ID+case_id).click()
+        self.driver.find_element_by_id(self.EXPAND_FLAGS_PARTIAL_ID + case_id).click()
