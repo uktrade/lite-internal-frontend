@@ -108,6 +108,11 @@ def get_updated_cases_banner_queue_id(current_queue_id, queues):
 
 
 def case_view_breadcrumbs(case: dict, current_view: str):
+    """
+    Returns a Breadcrumb bar suitable for forms
+    Pulls the reference code from case
+    Current view is the title of the page the breadcrumb bar is on
+    """
     return Breadcrumbs(
         [
             BackLink("All cases", reverse_lazy("cases:cases")),
