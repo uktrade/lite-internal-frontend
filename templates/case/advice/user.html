@@ -3,14 +3,14 @@
 {% load static %}
 
 {% block back_link %}
-	{% include "case/views/includes/breadcrumbs.html" %}
+	{% include "case/views/includes/breadcrumbs.html" with text="cases.ApplicationPage.Actions.ADVICE" %}
 {% endblock %}
 
 {% block body %}
 	{% include 'includes/messages.html' %}
 
 	<h1 class="govuk-heading-xl">
-		{% lcs 'Cases.ApplicationPage.Actions.ADVICE' %}
+		{% lcs 'cases.ApplicationPage.Actions.ADVICE' %}
 	</h1>
 
 	<form method="post">

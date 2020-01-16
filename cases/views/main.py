@@ -184,7 +184,7 @@ class ManageCase(TemplateView):
             raise Exception("Invalid case_type: {}".format(case_type))
 
         context = {"case": case, "title": title, "statuses": permissible_statuses}
-        return render(request, "case/change-status.html", context)
+        return render(request, "case/views/change-status.html", context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
