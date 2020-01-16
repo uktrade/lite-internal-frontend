@@ -1,43 +1,41 @@
 from cases.helpers import case_view_breadcrumbs
+from lite_content.lite_internal_frontend.flags import SetCaseFlagsForm, SetGenericFlagsForm
 from lite_forms.components import Form, Filter, Checkboxes, TextArea, BackLink
 
 
 def flags_form(flags, level, origin, url):
-    title = f"Set {level} flags"
-    back_link = BackLink("Back to " + origin, url)
-
     return Form(
-        title=title,
-        description="Select all flags that apply",
+        title=SetGenericFlagsForm.TITLE,
+        description=SetGenericFlagsForm.DESCRIPTION,
         questions=[
-            Filter(placeholder="Filter flags"),
+            Filter(placeholder=SetGenericFlagsForm.Filter.PLACEHOLDER),
             Checkboxes(name="flags", options=flags),
             TextArea(
                 name="note",
-                title="Notes",
-                description="Provide reasons for editing the flags on these " + level,
+                title=SetGenericFlagsForm.Note.TITLE,
+                description=SetGenericFlagsForm.Note.DESCRIPTION + level,
                 optional=True,
             ),
         ],
         javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
-        back_link=back_link,
+        back_link=BackLink(SetGenericFlagsForm.BACK + origin, url),
     )
 
 
 def set_case_flags_form(flags, case):
     return Form(
-        title="Set case flags",
-        description="Select all flags that you want to set on this case.",
+        title=SetCaseFlagsForm.TITLE,
+        description=SetCaseFlagsForm.DESCRIPTION,
         questions=[
-            Filter(placeholder="Filter flags"),
+            Filter(placeholder=SetCaseFlagsForm.Filter.PLACEHOLDER),
             Checkboxes(name="flags", options=flags),
             TextArea(
                 name="note",
-                title="Notes",
-                description="Provide reasons for editing the flags on this case",
+                title=SetCaseFlagsForm.Note.TITLE,
+                description=SetCaseFlagsForm.Note.DESCRIPTION,
                 optional=True,
             ),
         ],
         javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
-        back_link=case_view_breadcrumbs(case, "Set case flags"),
+        back_link=case_view_breadcrumbs(case, SetCaseFlagsForm.TITLE),
     )
