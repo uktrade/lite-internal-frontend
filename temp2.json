@@ -1,0 +1,858 @@
+{
+  'count': 16,
+  'total_pages': 1,
+  'results': {
+    'queues': [
+      {
+        'id': '00000000-0000-0000-0000-000000000001',
+        'name': 'All cases',
+        'case_count': 19,
+        'team': 'Team object (00000000-0000-0000-0000-000000000001)'
+      },
+      {
+        'id': '00000000-0000-0000-0000-000000000002',
+        'name': 'Open cases',
+        'case_count': 18,
+        'team': 'Team object (00000000-0000-0000-0000-000000000001)'
+      },
+      {
+        'id': '00000000-0000-0000-0000-000000000003',
+        'name': "My team's cases",
+        'case_count': 1,
+        'team': 'Team object (00000000-0000-0000-0000-000000000001)'
+      },
+      {
+        'id': '00000000-0000-0000-0000-000000000005',
+        'name': 'My assigned cases',
+        'case_count': 1,
+        'team': 'Team object (00000000-0000-0000-0000-000000000001)'
+      },
+      {
+        'id': '00000000-0000-0000-0000-000000000006',
+        'name': 'My caseload',
+        'case_count': 2,
+        'team': 'Team object (00000000-0000-0000-0000-000000000001)'
+      },
+      {
+        'id': '00000000-0000-0000-0000-000000000004',
+        'name': 'New exporter amendments',
+        'case_count': 0,
+        'team': 'Team object (00000000-0000-0000-0000-000000000001)'
+      },
+      {
+        'id': '4df62bef-71f7-4fd7-adf6-1cd5aee874fe',
+        'name': 'Test Queue A',
+        'case_count': 1,
+        'team': 'Team object (00000000-0000-0000-0000-000000000001)'
+      }
+    ],
+    'cases': [
+      {
+        'id': '62955e6f-06c4-4949-8ce3-bf03e16157ed',
+        'queues': [],
+        'type': {
+          'key': 'end_user_advisory_query',
+          'value': 'End User Advisory Query'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': {
+          'id': '62955e6f-06c4-4949-8ce3-bf03e16157ed',
+          'end_user': {
+            'id': '0b837c94-641d-4a05-a954-dd4cb7279f63',
+            'name': 'Person',
+            'address': 'Westminster, London SW1A 0AA',
+            'country': {
+              'id': 'GB',
+              'name': 'United Kingdom',
+              'type': 'gov.uk Country'
+            },
+            'website': 'https://www.gov.uk',
+            'type': 'end_user',
+            'organisation': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'document': None,
+            'sub_type': {
+              'key': 'government',
+              'value': 'Government'
+            },
+            'flags': [],
+            'created_at': '2020-01-13T13:52:37.598684Z',
+            'updated_at': '2020-01-13T13:52:37.650390Z'
+          },
+          'reasoning': 'This is the reason for raising the enquiry',
+          'note': 'note for end user advisory',
+          'organisation': {
+            'id': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'primary_site': {
+              'id': '4e9f8d54-143d-4af6-83a6-9a38a90ee4f5',
+              'name': 'Head officeedited01131213',
+              'address': {
+                'id': 'e3aafd7d-49d8-4819-bd40-80fc94f81fbb',
+                'address_line_1': '4 Privet Drive',
+                'address_line_2': '',
+                'city': 'Surrey',
+                'region': 'Surrey',
+                'postcode': 'SU1 1BB',
+                'country': {
+                  'id': 'UA',
+                  'name': 'Ukraine',
+                  'type': 'gov.uk Country'
+                }
+              },
+              'users': [
+                {
+                  'id': 'b49b0cee-e3a4-4697-8641-0c8eef783bba',
+                  'first_name': '',
+                  'last_name': '',
+                  'email': 'gillespiejessica@banks.com'
+                },
+                {
+                  'id': '25cd65e7-d493-4c26-896a-342e862c7e53',
+                  'first_name': 'Bruce',
+                  'last_name': 'Wayne',
+                  'email': 'test.lite.e2e@gmail.com'
+                }
+              ]
+            },
+            'type': {
+              'key': 'commercial',
+              'value': 'Commercial Organisation'
+            },
+            'flags': [],
+            'created_at': '2020-01-13T12:02:41.597769Z',
+            'updated_at': '2020-01-13T13:52:37.108395Z',
+            'name': 'Square Is Circle Ltd',
+            'eori_number': '1234567890AAA',
+            'sic_number': '2345',
+            'vat_number': 'GB1234567',
+            'registration_number': '09876543'
+          },
+          'copy_of': None,
+          'nature_of_business': None,
+          'contact_name': None,
+          'contact_email': 'person@gov.uk',
+          'contact_job_title': None,
+          'contact_telephone': '12345678901',
+          'status': {
+            'key': 'submitted',
+            'value': 'Submitted'
+          }
+        },
+        'flags': [],
+        'submitted_at': '2020-01-13 13:09:05.130281+00:00'
+      },
+      {
+        'id': '5deac1f5-13d8-42ce-a776-a7cb004f2349',
+        'queues': [
+          '4df62bef-71f7-4fd7-adf6-1cd5aee874fe'
+        ],
+        'type': {
+          'key': 'application',
+          'value': 'Application'
+        },
+        'queue_names': [
+          'Test Queue A'
+        ],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [
+          {
+            'first_name': 'first-name',
+            'last_name': 'last-name',
+            'email': 'test-uat-user@digital.trade.gov.uk',
+            'queue': 'Test Queue A'
+          },
+          {
+            'first_name': 'Piotr',
+            'last_name': 'Konopacki',
+            'email': 'piotr.konopacki@digital.trade.gov.uk',
+            'queue': 'Test Queue A'
+          },
+          {
+            'first_name': '',
+            'last_name': '',
+            'email': 'test.lite.exporter@gmail.com',
+            'queue': 'Test Queue A'
+          }
+        ],
+        'status': 'submitted',
+        'query': None,
+        'flags': [],
+        'submitted_at': '2020-01-13 13:08:36.052705+00:00'
+      },
+      {
+        'id': 'b8e3908f-e040-43a0-a230-e1679a621d2b',
+        'queues': [],
+        'type': {
+          'key': 'application',
+          'value': 'Application'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'withdrawn',
+        'query': None,
+        'flags': [],
+        'submitted_at': '2020-01-13 12:18:35.929960+00:00'
+      },
+      {
+        'id': '20a692b9-0619-4e28-8c4c-c36b45d994a7',
+        'queues': [],
+        'type': {
+          'key': 'application',
+          'value': 'Application'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': None,
+        'flags': [],
+        'submitted_at': '2020-01-13 12:18:09.470269+00:00'
+      },
+      {
+        'id': '7e361d5f-b1ec-4ff8-a060-ff15874a2ed2',
+        'queues': [],
+        'type': {
+          'key': 'application',
+          'value': 'Application'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': None,
+        'flags': [],
+        'submitted_at': '2020-01-13 12:12:18.314082+00:00'
+      },
+      {
+        'id': '965dfee8-8bca-4f79-949b-e657a6312fab',
+        'queues': [],
+        'type': {
+          'key': 'hmrc_query',
+          'value': 'HMRC Query'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': None,
+        'flags': [],
+        'submitted_at': '2020-01-13 12:11:09.644209+00:00'
+      },
+      {
+        'id': '917fa831-c85c-4864-afc1-34150a1549a9',
+        'queues': [],
+        'type': {
+          'key': 'clc_query',
+          'value': 'CLC Query'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': {
+          'id': '917fa831-c85c-4864-afc1-34150a1549a9',
+          'details': 'I believe it is ML1a',
+          'good': {
+            'id': 'e05851fa-2404-4980-bad5-a665b07395d0',
+            'description': 'Hand pistol 2020/01/13 12:09:54:899744',
+            'is_good_controlled': {
+              'key': 'unsure',
+              'value': "I don't know"
+            },
+            'control_code': 'ML1a',
+            'organisation': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'status': {
+              'key': 'clc_query',
+              'value': 'Control List Classification Query'
+            },
+            'case_id': '917fa831-c85c-4864-afc1-34150a1549a9',
+            'case_officer': None,
+            'query': {
+              'id': '917fa831-c85c-4864-afc1-34150a1549a9'
+            },
+            'case_status': {
+              'key': 'submitted',
+              'value': 'Submitted'
+            },
+            'documents': [
+              {
+                'id': '6c67520b-fc07-49f4-9721-453554554c46',
+                'name': 'file_for_doc_upload_test_1.txt',
+                'description': 'This is a file I want to upload to show.',
+                'size': 0,
+                'safe': True
+              }
+            ],
+            'missing_document_reason': None,
+            'flags': [],
+            'created_at': '2020-01-13T13:52:35.989512Z',
+            'updated_at': '2020-01-13T13:52:36.050937Z',
+            'part_number': '321 2020/01/13 12:09:54:899744',
+            'comment': None,
+            'report_summary': None
+          },
+          'submitted_at': '2020-01-13T12:10:02.306070Z',
+          'organisation': {
+            'id': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'name': 'Square Is Circle Ltd'
+          },
+          'status': {
+            'key': 'submitted',
+            'value': 'Submitted'
+          }
+        },
+        'flags': [],
+        'submitted_at': '2020-01-13 12:10:02.306070+00:00'
+      },
+      {
+        'id': '87252136-dc03-439b-ac76-388b250b116e',
+        'queues': [],
+        'type': {
+          'key': 'application',
+          'value': 'Application'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': None,
+        'flags': [],
+        'submitted_at': '2020-01-13 12:09:24.830163+00:00'
+      },
+      {
+        'id': 'a18389d1-62a8-4383-9f8c-313d045239a4',
+        'queues': [],
+        'type': {
+          'key': 'end_user_advisory_query',
+          'value': 'End User Advisory Query'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': {
+          'id': 'a18389d1-62a8-4383-9f8c-313d045239a4',
+          'end_user': {
+            'id': '1d70b0ae-9472-4784-af68-58e2101b2247',
+            'name': 'Person',
+            'address': 'Westminster, London SW1A 0AA',
+            'country': {
+              'id': 'GB',
+              'name': 'United Kingdom',
+              'type': 'gov.uk Country'
+            },
+            'website': 'https://www.gov.uk',
+            'type': 'end_user',
+            'organisation': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'document': None,
+            'sub_type': {
+              'key': 'government',
+              'value': 'Government'
+            },
+            'flags': [],
+            'created_at': '2020-01-13T13:52:37.598684Z',
+            'updated_at': '2020-01-13T13:52:37.650390Z'
+          },
+          'reasoning': 'This is the reason for raising the enquiry',
+          'note': 'note for end user advisory',
+          'organisation': {
+            'id': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'primary_site': {
+              'id': '4e9f8d54-143d-4af6-83a6-9a38a90ee4f5',
+              'name': 'Head officeedited01131213',
+              'address': {
+                'id': 'e3aafd7d-49d8-4819-bd40-80fc94f81fbb',
+                'address_line_1': '4 Privet Drive',
+                'address_line_2': '',
+                'city': 'Surrey',
+                'region': 'Surrey',
+                'postcode': 'SU1 1BB',
+                'country': {
+                  'id': 'UA',
+                  'name': 'Ukraine',
+                  'type': 'gov.uk Country'
+                }
+              },
+              'users': [
+                {
+                  'id': 'b49b0cee-e3a4-4697-8641-0c8eef783bba',
+                  'first_name': '',
+                  'last_name': '',
+                  'email': 'gillespiejessica@banks.com'
+                },
+                {
+                  'id': '25cd65e7-d493-4c26-896a-342e862c7e53',
+                  'first_name': 'Bruce',
+                  'last_name': 'Wayne',
+                  'email': 'test.lite.e2e@gmail.com'
+                }
+              ]
+            },
+            'type': {
+              'key': 'commercial',
+              'value': 'Commercial Organisation'
+            },
+            'flags': [],
+            'created_at': '2020-01-13T12:02:41.597769Z',
+            'updated_at': '2020-01-13T13:52:37.108395Z',
+            'name': 'Square Is Circle Ltd',
+            'eori_number': '1234567890AAA',
+            'sic_number': '2345',
+            'vat_number': 'GB1234567',
+            'registration_number': '09876543'
+          },
+          'copy_of': None,
+          'nature_of_business': None,
+          'contact_name': None,
+          'contact_email': 'person@gov.uk',
+          'contact_job_title': None,
+          'contact_telephone': '12345678901',
+          'status': {
+            'key': 'submitted',
+            'value': 'Submitted'
+          }
+        },
+        'flags': [],
+        'submitted_at': '2020-01-13 12:08:58.956960+00:00'
+      },
+      {
+        'id': '09e28d8e-edfb-455e-b06f-50ffad1cda4e',
+        'queues': [],
+        'type': {
+          'key': 'end_user_advisory_query',
+          'value': 'End User Advisory Query'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': {
+          'id': '09e28d8e-edfb-455e-b06f-50ffad1cda4e',
+          'end_user': {
+            'id': 'bcd7187d-4fd0-4e0e-8f4c-d234e0513dca',
+            'name': 'Matt',
+            'address': '4 place',
+            'country': {
+              'id': 'AW',
+              'name': 'Aruba',
+              'type': 'gov.uk Territory'
+            },
+            'website': '',
+            'type': 'end_user',
+            'organisation': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'document': None,
+            'sub_type': {
+              'key': 'commercial',
+              'value': 'Commercial Organisation'
+            },
+            'flags': [],
+            'created_at': '2020-01-13T13:52:37.598684Z',
+            'updated_at': '2020-01-13T13:52:37.650390Z'
+          },
+          'reasoning': 'reasoningreasoning',
+          'note': 'these are notesthese are notes',
+          'organisation': {
+            'id': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'primary_site': {
+              'id': '4e9f8d54-143d-4af6-83a6-9a38a90ee4f5',
+              'name': 'Head officeedited01131213',
+              'address': {
+                'id': 'e3aafd7d-49d8-4819-bd40-80fc94f81fbb',
+                'address_line_1': '4 Privet Drive',
+                'address_line_2': '',
+                'city': 'Surrey',
+                'region': 'Surrey',
+                'postcode': 'SU1 1BB',
+                'country': {
+                  'id': 'UA',
+                  'name': 'Ukraine',
+                  'type': 'gov.uk Country'
+                }
+              },
+              'users': [
+                {
+                  'id': 'b49b0cee-e3a4-4697-8641-0c8eef783bba',
+                  'first_name': '',
+                  'last_name': '',
+                  'email': 'gillespiejessica@banks.com'
+                },
+                {
+                  'id': '25cd65e7-d493-4c26-896a-342e862c7e53',
+                  'first_name': 'Bruce',
+                  'last_name': 'Wayne',
+                  'email': 'test.lite.e2e@gmail.com'
+                }
+              ]
+            },
+            'type': {
+              'key': 'commercial',
+              'value': 'Commercial Organisation'
+            },
+            'flags': [],
+            'created_at': '2020-01-13T12:02:41.597769Z',
+            'updated_at': '2020-01-13T13:52:37.108395Z',
+            'name': 'Square Is Circle Ltd',
+            'eori_number': '1234567890AAA',
+            'sic_number': '2345',
+            'vat_number': 'GB1234567',
+            'registration_number': '09876543'
+          },
+          'copy_of': 'ee56fd3d-2343-451d-a21f-4361ec3c6535',
+          'nature_of_business': 'Love hearts',
+          'contact_name': 'John',
+          'contact_email': 'john@email.com',
+          'contact_job_title': 'director',
+          'contact_telephone': '123456789',
+          'status': {
+            'key': 'submitted',
+            'value': 'Submitted'
+          }
+        },
+        'flags': [],
+        'submitted_at': '2020-01-13 12:08:55.958669+00:00'
+      },
+      {
+        'id': 'ee56fd3d-2343-451d-a21f-4361ec3c6535',
+        'queues': [],
+        'type': {
+          'key': 'end_user_advisory_query',
+          'value': 'End User Advisory Query'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': {
+          'id': 'ee56fd3d-2343-451d-a21f-4361ec3c6535',
+          'end_user': {
+            'id': 'b04e0650-499b-4c6f-a9d2-2bcebecdc905',
+            'name': 'Love heart systems',
+            'address': '4 place',
+            'country': {
+              'id': 'AW',
+              'name': 'Aruba',
+              'type': 'gov.uk Territory'
+            },
+            'website': '',
+            'type': 'end_user',
+            'organisation': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'document': None,
+            'sub_type': {
+              'key': 'commercial',
+              'value': 'Commercial Organisation'
+            },
+            'flags': [],
+            'created_at': '2020-01-13T13:52:37.598684Z',
+            'updated_at': '2020-01-13T13:52:37.650390Z'
+          },
+          'reasoning': 'reasoning',
+          'note': 'these are notes',
+          'organisation': {
+            'id': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'primary_site': {
+              'id': '4e9f8d54-143d-4af6-83a6-9a38a90ee4f5',
+              'name': 'Head officeedited01131213',
+              'address': {
+                'id': 'e3aafd7d-49d8-4819-bd40-80fc94f81fbb',
+                'address_line_1': '4 Privet Drive',
+                'address_line_2': '',
+                'city': 'Surrey',
+                'region': 'Surrey',
+                'postcode': 'SU1 1BB',
+                'country': {
+                  'id': 'UA',
+                  'name': 'Ukraine',
+                  'type': 'gov.uk Country'
+                }
+              },
+              'users': [
+                {
+                  'id': 'b49b0cee-e3a4-4697-8641-0c8eef783bba',
+                  'first_name': '',
+                  'last_name': '',
+                  'email': 'gillespiejessica@banks.com'
+                },
+                {
+                  'id': '25cd65e7-d493-4c26-896a-342e862c7e53',
+                  'first_name': 'Bruce',
+                  'last_name': 'Wayne',
+                  'email': 'test.lite.e2e@gmail.com'
+                }
+              ]
+            },
+            'type': {
+              'key': 'commercial',
+              'value': 'Commercial Organisation'
+            },
+            'flags': [],
+            'created_at': '2020-01-13T12:02:41.597769Z',
+            'updated_at': '2020-01-13T13:52:37.108395Z',
+            'name': 'Square Is Circle Ltd',
+            'eori_number': '1234567890AAA',
+            'sic_number': '2345',
+            'vat_number': 'GB1234567',
+            'registration_number': '09876543'
+          },
+          'copy_of': None,
+          'nature_of_business': 'Love hearts',
+          'contact_name': 'John',
+          'contact_email': 'john@email.com',
+          'contact_job_title': 'director',
+          'contact_telephone': '123456789',
+          'status': {
+            'key': 'submitted',
+            'value': 'Submitted'
+          }
+        },
+        'flags': [],
+        'submitted_at': '2020-01-13 12:08:48.863428+00:00'
+      },
+      {
+        'id': '6f3b9194-53bf-4d4f-944f-275bc06c18bd',
+        'queues': [],
+        'type': {
+          'key': 'application',
+          'value': 'Application'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': None,
+        'flags': [],
+        'submitted_at': '2020-01-13 12:08:31.821596+00:00'
+      },
+      {
+        'id': '5d056fa0-689a-471a-aead-2b3a49743a66',
+        'queues': [],
+        'type': {
+          'key': 'application',
+          'value': 'Application'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'applicant_editing',
+        'query': None,
+        'flags': [],
+        'submitted_at': '2020-01-13 12:06:47.525716+00:00'
+      },
+      {
+        'id': '54814681-14c0-4da0-96ba-e98b961d14c7',
+        'queues': [],
+        'type': {
+          'key': 'application',
+          'value': 'Application'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': None,
+        'flags': [],
+        'submitted_at': '2020-01-13 12:06:22.305869+00:00'
+      },
+      {
+        'id': 'f0fab110-f3f1-4985-b0d1-1cbe1c632e49',
+        'queues': [],
+        'type': {
+          'key': 'clc_query',
+          'value': 'CLC Query'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': {
+          'id': 'f0fab110-f3f1-4985-b0d1-1cbe1c632e49',
+          'details': 'something',
+          'good': {
+            'id': '3643c559-5947-46a7-babf-a380570fbcae',
+            'description': 'Targus',
+            'is_good_controlled': {
+              'key': 'unsure',
+              'value': "I don't know"
+            },
+            'control_code': 'ML1a',
+            'organisation': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'status': {
+              'key': 'clc_query',
+              'value': 'Control List Classification Query'
+            },
+            'case_id': 'f0fab110-f3f1-4985-b0d1-1cbe1c632e49',
+            'case_officer': None,
+            'query': {
+              'id': 'f0fab110-f3f1-4985-b0d1-1cbe1c632e49'
+            },
+            'case_status': {
+              'key': 'submitted',
+              'value': 'Submitted'
+            },
+            'documents': [
+              {
+                'id': 'f53447b1-8cf8-4f86-8881-2bb238c32220',
+                'name': 'document 1',
+                'description': 'document for test setup',
+                'size': 0,
+                'safe': True
+              }
+            ],
+            'missing_document_reason': None,
+            'flags': [],
+            'created_at': '2020-01-13T13:52:35.989512Z',
+            'updated_at': '2020-01-13T13:52:36.050937Z',
+            'part_number': '1234',
+            'comment': None,
+            'report_summary': None
+          },
+          'submitted_at': '2020-01-13T12:04:54.227561Z',
+          'organisation': {
+            'id': 'f38454a8-10ac-475a-a3d3-fd8f2ce5ef4d',
+            'name': 'Square Is Circle Ltd'
+          },
+          'status': {
+            'key': 'submitted',
+            'value': 'Submitted'
+          }
+        },
+        'flags': [],
+        'submitted_at': '2020-01-13 12:04:54.227561+00:00'
+      },
+      {
+        'id': '3db153ed-dcf7-4a84-bb3b-8acffb5a60f3',
+        'queues': [],
+        'type': {
+          'key': 'application',
+          'value': 'Application'
+        },
+        'queue_names': [],
+        'organisation': 'Square Is Circle Ltd',
+        'users': [],
+        'status': 'submitted',
+        'query': None,
+        'flags': [],
+        'submitted_at': '2020-01-13 12:03:47.943918+00:00'
+      }
+    ],
+    'filters': {
+      'statuses': [
+        {
+          'status': 'appeal_final_review',
+          'priority': 13
+        },
+        {
+          'status': 'appeal_review',
+          'priority': 12
+        },
+        {
+          'status': 'applicant_editing',
+          'priority': 2
+        },
+        {
+          'status': 'change_initial_review',
+          'priority': 15
+        },
+        {
+          'status': 'change_under_final_review',
+          'priority': 17
+        },
+        {
+          'status': 'change_under_review',
+          'priority': 16
+        },
+        {
+          'status': 'closed',
+          'priority': 9
+        },
+        {
+          'status': 'deregistered',
+          'priority': 22
+        },
+        {
+          'status': 'finalised',
+          'priority': 7
+        },
+        {
+          'status': 'initial_checks',
+          'priority': 4
+        },
+        {
+          'status': 'registered',
+          'priority': 10
+        },
+        {
+          'status': 'reopened_for_changes',
+          'priority': 14
+        },
+        {
+          'status': 'resubmitted',
+          'priority': 3
+        },
+        {
+          'status': 'revoked',
+          'priority': 19
+        },
+        {
+          'status': 'submitted',
+          'priority': 1
+        },
+        {
+          'status': 'surrendered',
+          'priority': 21
+        },
+        {
+          'status': 'suspended',
+          'priority': 20
+        },
+        {
+          'status': 'under_appeal',
+          'priority': 11
+        },
+        {
+          'status': 'under_ECJU_review',
+          'priority': 18
+        },
+        {
+          'status': 'under_final_review',
+          'priority': 6
+        },
+        {
+          'status': 'under_review',
+          'priority': 5
+        },
+        {
+          'status': 'withdrawn',
+          'priority': 8
+        }
+      ],
+      'case_types': [
+        {
+          'value': 'application',
+          'title': 'Application'
+        },
+        {
+          'value': 'clc_query',
+          'title': 'CLC Query'
+        },
+        {
+          'value': 'end_user_advisory_query',
+          'title': 'End User Advisory Query'
+        },
+        {
+          'value': 'hmrc_query',
+          'title': 'HMRC Query'
+        }
+      ]
+    },
+    'is_system_queue': True,
+    'queue': {
+      'id': '00000000-0000-0000-0000-000000000001',
+      'name': 'All cases',
+      'case_count': 19,
+      'team': 'Team object (00000000-0000-0000-0000-000000000001)'
+    }
+  }
+}

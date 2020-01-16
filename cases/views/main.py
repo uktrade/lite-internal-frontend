@@ -103,6 +103,12 @@ class ViewCase(TemplateView):
             "queue_name": queue_name,
         }
 
+        print("\n")
+        print("RZEZNIK GETTING A CASE")
+        print(case)
+        print("RZEZNIK GOT A CASE")
+        print("\n")
+
         case_type = case["type"]["key"]
 
         if "application" in case:

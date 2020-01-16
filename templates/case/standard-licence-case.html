@@ -67,6 +67,70 @@
         <p class="govuk-caption-m">{% lcs 'CASES.ApplicationPage.NO_CASE_OFFICER' %}</p>
     {% endif %}
 
+
+		{% for user in case.users|slice:":3" %}
+				<div>
+						<span style="opacity: 0.6;">{{ user.queue }}:</span>
+							{% if user.first_name %}
+									{{ user.first_name }} {{ user.last_name }}
+							{% else %}
+									{{ user.email }}
+							{% endif %}
+						<span class="lite-hint app-expanded-row__item--invert">
+								{% if case.users|length > 3 and forloop.counter == 3 %} (3 of {{case.users|length}}){% endif %}
+						</span>
+				</div>
+		{% empty %}
+				<span class="lite-hint">No users assigned</span>
+		{% endfor %}
+
+
+
+		{% if case.users %}
+
+				<table class="govuk-table">
+						<thead class="govuk-table__head">
+								<tr class="govuk-table__row">
+										<th class="cases-table__header" style="width: 1fr;" scope="col">Assignees</th>
+										<th class="cases-table__header" scope="col"></th>
+								</tr>
+						</thead>
+						<tbody class="govuk-table__body">
+										<tr class="govuk-table__row lite-accordian-table__row">
+												<td class="cases-table__cell">
+														{% for user in case.users|slice:":3" %}
+																<div>
+																		<span style="opacity: 0.6;">{{ user.queue }}:</span>
+																			{% if user.first_name %}
+																					{{ user.first_name }} {{ user.last_name }}
+																			{% else %}
+																					{{ user.email }}
+																			{% endif %}
+																		<span class="lite-hint app-expanded-row__item--invert">
+																				{% if case.users|length > 3 and forloop.counter == 3 %} (3 of {{case.users|length}}){% endif %}
+																		</span>
+																</div>
+														{% empty %}
+																<span class="lite-hint">No users assigned</span>
+														{% endfor %}
+														{% for user in case.users|slice:"3:" %}
+																<div class="app-expanded-row__item">
+																		<span style="opacity: 0.6;">{{ user.queue }}:</span>
+																			{% if user.first_name %}
+																					{{ user.first_name }} {{ user.last_name }}
+																			{% else %}
+																					{{ user.email }}
+																			{% endif %}
+																</div>
+														{% endfor %}
+												</td>
+										</tr>
+						</tbody>
+				</table>
+			{% else %}
+	        <p class="govuk-caption-m">{% lcs 'CASES.ApplicationPage.NO_CASE_OFFICER' %}</p>
+	    {% endif %}
+
     <div class="app-flags" id="application-case-flags">
 		{% for flag in case.flags %}
 			<div class="app-flag" id="{{ flag.name }}">

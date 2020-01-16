@@ -68,6 +68,18 @@
         <p class="govuk-caption-m">{% lcs 'CASES.ApplicationPage.NO_CASE_OFFICER' %}</p>
     {% endif %}
 
+
+
+
+		{% if case.case_officer %}
+        <p class="govuk-caption-m">{% lcs 'CASES.ApplicationPage.CASE_OFFICER' %} <a class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}">{{ case.case_officer|username }}</a></p>
+    {% else %}
+        <p class="govuk-caption-m">{% lcs 'CASES.ApplicationPage.NO_CASE_OFFICER' %}</p>
+    {% endif %}
+
+
+
+
 	<div class="app-flags" id="application-case-flags">
 		{% for flag in case.flags %}
 			<div class="app-flag" id="{{ flag.name }}">
