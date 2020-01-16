@@ -35,10 +35,8 @@ class ViewEcjuQueries(TemplateView):
         open_ecju_queries, closed_ecju_queries = self._get_ecju_queries(request, case_id)
         context = {
             "case": case,
-            "case_id": case_id,
             "open_ecju_queries": open_ecju_queries,
             "closed_ecju_queries": closed_ecju_queries,
-            "title": cases.EcjuQueries.TITLE,
         }
         return render(request, "case/views/ecju-queries.html", context)
 
