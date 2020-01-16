@@ -99,8 +99,6 @@ class ViewCase(TemplateView):
             "activity": get_activity(request, case_id),
             "case": case,
             "permissions": get_user_permissions(request),
-            "queue_id": request.GET.get("queue_id"),
-            "queue_name": request.GET.get("queue_name"),
             "permissible_statuses": get_permissible_statuses(request, case_type),
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
