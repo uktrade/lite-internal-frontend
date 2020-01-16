@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 
 from conf.constants import UPDATED_CASES_QUEUE_ID
 from core.builtins.custom_tags import lowercase_and_underscore
+from lite_content.lite_internal_frontend.strings import QUEUE_ALL_CASES
 from lite_forms.components import Breadcrumbs, BackLink, HiddenField
 
 
@@ -115,7 +116,7 @@ def case_view_breadcrumbs(case: dict, current_view: str):
     """
     return Breadcrumbs(
         [
-            BackLink("All cases", reverse_lazy("cases:cases")),
+            BackLink(QUEUE_ALL_CASES, reverse_lazy("cases:cases")),
             BackLink(case["reference_code"], reverse_lazy("cases:case", kwargs={"pk": case["id"]})),
             BackLink(current_view),
         ]
