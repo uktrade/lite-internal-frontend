@@ -174,13 +174,13 @@ class ManageCase(TemplateView):
         permissible_statuses = get_permissible_statuses(request, case_type)
 
         if case_type == CaseType.APPLICATION.value:
-            title = strings.cases.ChangeStatusPage.TITLE_APPLICATION
+            title = cases.ChangeStatusPage.TITLE_APPLICATION
         elif case_type == CaseType.HMRC_QUERY.value:
-            title = strings.cases.ChangeStatusPage.TITLE_APPLICATION
+            title = cases.ChangeStatusPage.TITLE_APPLICATION
         elif case_type == CaseType.END_USER_ADVISORY_QUERY.value:
-            title = strings.cases.ChangeStatusPage.TITLE_EUA
+            title = cases.ChangeStatusPage.TITLE_EUA
         elif case_type == CaseType.CLC_QUERY.value:
-            title = strings.cases.ChangeStatusPage.TITLE_CLC
+            title = cases.ChangeStatusPage.TITLE_CLC
         else:
             raise Exception("Invalid case_type: {}".format(case_type))
 

@@ -22,7 +22,7 @@ class Roles(TemplateView):
         context = {
             "all_permissions": all_permissions,
             "roles": roles["roles"],
-            "title": strings.ROLES.ManageRolesPage.TITLE,
+            "title": strings.roles.ManageRolesPage.TITLE,
             "user_permissions": permissions,
             "super_user_role_id": SUPER_USER_ROLE_ID,
             "user_role_id": user["user"]["role"]["id"],
