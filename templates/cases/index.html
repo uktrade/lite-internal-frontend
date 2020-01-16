@@ -234,8 +234,7 @@
 		</div>
 		{% endif %}
 		{% else %}
-			{% lcs 'Cases.CasesListPage.NO_Cases' as no_cases_text %}
-			{% include "includes/information-text.html" with text=no_cases_text %}
+			{% include "includes/notice.html" with text="cases.CasesListPage.NO_CASES" %}
 			<br><br>
 			{% if params.case_type or params.status %}
 				<a href="{% url 'cases:cases' %}?queue={{ data.results.queue.id }}" class="govuk-link govuk-link--no-visited-state govuk-body">Clear filters</a>
