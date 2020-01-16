@@ -1,5 +1,4 @@
 from cases.constants import CaseType
-from cases.services import get_case
 from core.builtins.custom_tags import sentence_case
 from lite_forms.components import Option, Checkboxes
 
