@@ -11,7 +11,7 @@ def approve_licence_form(case_id, standard, duration, editable_duration):
             DateInput(
                 description=cases.ApplicationPage.Finalise.Date.TITLE,
                 title=cases.ApplicationPage.Finalise.Date.DESCRIPTION,
-                prefix=""
+                prefix="",
             ),
             conditional(
                 editable_duration,
@@ -44,7 +44,8 @@ def refuse_licence_form(case_id, standard):
             standard,
             BackLink(
                 url=reverse_lazy("cases:final_advice_view", kwargs={"pk": case_id}),
-                text=cases.ApplicationPage.Back.FINAL_ADVICE),
+                text=cases.ApplicationPage.Back.FINAL_ADVICE,
+            ),
             BackLink(
                 url=reverse_lazy("cases:finalise_goods_countries", kwargs={"pk": case_id}),
                 text=cases.ApplicationPage.Back.GOODS_AND_COUNTRIES,
