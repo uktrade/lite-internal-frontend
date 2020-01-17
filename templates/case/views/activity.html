@@ -12,33 +12,19 @@
 						</div>
 					</div>
 			<a id="case-note-cancel-button" href="{% url 'cases:case' case.id %}" class="govuk-button govuk-button--secondary govuk-button--secondary-white" type="button" draggable="false">
-				Cancel
+				{% lcs 'cases.Tabs.Activity.CANCEL_POST' %}
 			</a>
 			<button class="govuk-button" type="submit" id="button-post-note">
-				Post note
+				{% lcs 'cases.Tabs.Activity.POST' %}
 			</button>
 		</div>
 	</div>
 	<p id="case_note-warning" class="govuk-hint govuk-character-count__message" aria-live="polite">
-		{% lcs 'Cases.Case.Tabs.Activity.CHARACTER_LIMIT_2200' %}
+		{% lcs 'cases.Tabs.Activity.CHARACTER_LIMIT_2200' %}
 	</p>
 </form>
 
-<div class="app-activity__list">
-	{% for audit in activity %}
-		<div id="case-activity-{{ audit.id }}" class="app-activity__item">
-			<p class="govuk-body">
-				<span class="user">{{ audit.user.first_name }} {{ audit.user.last_name }}</span> {{ audit.text }}
-			</p>
-			{% if audit.additional_text %}
-				<div class="app-activity__additional-text">
-					{{ audit.additional_text }}
-				</div>
-			{% endif %}
-			<p class="govuk-hint govuk-!-font-size-16">{{ audit.created_at|str_date }}</p>
-		</div>
-	{% endfor %}
-</div>
+{% include "includes/audit-trail.html" %}
 
 <script src="{% static 'javascripts/pluralize.js' %}"></script>
 <script src="{% static 'javascripts/case_notes.js' %}"></script>
