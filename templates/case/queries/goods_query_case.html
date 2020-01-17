@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block body %}
-    {% if case.query.good.status.key == 'verified' %}
+    {% if case.status == 'closed' %}
 		<div class="lite-info-bar lite-info-bar--no-animation {% if message.tags %}lite-info-bar--{{ message.tags }}{% endif %}">
 			{% lcs 'cases.ApplicationPage.CLOSED' %}
 		</div>
@@ -32,10 +32,14 @@
 			<h2 class="govuk-heading-l">{% block title %}{{ case.query.id|reference_code }}{% endblock %}</h2>
 		</div>
 			<div class="lite-app-bar__controls">
-			{% if case.query.good.status.key != 'verified' and 'REVIEW_GOODS' in permissions and not status_is_terminal %}
-				<a role="button" draggable="false" id="respond" class="govuk-button" href="{% url 'cases:respond_to_clc_query' case.id %}">
-					{% lcs 'cases.ApplicationPage.RESPOND_BUTTON' %}
-				</a>
+			{% if 'REVIEW_GOODS' in permissions and not status_is_terminal %}
+				{% if clc_query %}
+					<a role="button" draggable="false" id="respond" class="govuk-button" href="{% url 'cases:respond_to_clc_query' case.id %}">
+						{% lcs 'cases.ApplicationPage.RESPOND_BUTTON' %}
+					</a>
+				{% elif grading_query %}
+					{# will be introduced with the respond to pv_grading function #}
+				{% endif %}
 			{% endif %}
 			<div class="app-more-actions__container {% if case.query.good.status != 'final' %}app-more-actions__container--secondary{% endif %}">
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
@@ -83,7 +87,7 @@
 				<hr>
 
 				<h4 class="govuk-heading-s">{% lcs 'cases.ClcQuery.Verified.CONTROLLED' %}</h4>
-				<p class="govuk-body-m">{{ good.is_good_controlled|friendly_boolean }}</p>
+				<p class="govuk-body-m">{{ good.is_good_controlled.value }}</p>
 
 				<h4 class="govuk-heading-s">{% lcs 'cases.ClcQuery.Verified.CONTROL_CODE' %}</h4>
 				<p class="govuk-body-m">{{ good.control_code|default_na }}</p>
@@ -115,7 +119,7 @@
                     {% lcs 'cases.ClcQuery.GoodDetails.CONTROLLED' %}
 				</dt>
 				<dd class="govuk-summary-list__value">
-					{{ good.is_good_controlled|capfirst }}
+					{{ good.is_good_controlled.value }}
 				</dd>
 			</div>
 			<div class="govuk-summary-list__row">
