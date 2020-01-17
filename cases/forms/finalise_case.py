@@ -9,16 +9,16 @@ def approve_licence_form(case_id, standard, duration, editable_duration):
         title="Approve",
         questions=[
             DateInput(
-                description=cases.ApplicationPage.Finalise.Date.TITLE,
-                title=cases.ApplicationPage.Finalise.Date.DESCRIPTION,
+                description=cases.FinalisePage.Date.TITLE,
+                title=cases.FinalisePage.Date.DESCRIPTION,
                 prefix="",
             ),
             conditional(
                 editable_duration,
                 TextInput(
-                    title=cases.ApplicationPage.Finalise.Duration.TITLE,
+                    title=cases.FinalisePage.Duration.TITLE,
                     name="licence_duration",
-                    description=cases.ApplicationPage.Finalise.Duration.DESCRIPTION,
+                    description=cases.FinalisePage.Duration.DESCRIPTION,
                 ),
                 Label(text=f"Duration: {duration} months"),
             ),
@@ -27,11 +27,11 @@ def approve_licence_form(case_id, standard, duration, editable_duration):
             standard,
             BackLink(
                 url=reverse_lazy("cases:final_advice_view", kwargs={"pk": case_id}),
-                text=cases.ApplicationPage.Back.FINAL_ADVICE,
+                text=cases.FinalisePage.Backlink.FINAL_ADVICE,
             ),
             BackLink(
                 url=reverse_lazy("cases:finalise_goods_countries", kwargs={"pk": case_id}),
-                text=cases.ApplicationPage.Back.GOODS_AND_COUNTRIES,
+                text=cases.FinalisePage.Backlink.GOODS_AND_COUNTRIES,
             ),
         ),
     )
@@ -44,11 +44,11 @@ def refuse_licence_form(case_id, standard):
             standard,
             BackLink(
                 url=reverse_lazy("cases:final_advice_view", kwargs={"pk": case_id}),
-                text=cases.ApplicationPage.Back.FINAL_ADVICE,
+                text=cases.FinalisePage.Backlink.FINAL_ADVICE,
             ),
             BackLink(
                 url=reverse_lazy("cases:finalise_goods_countries", kwargs={"pk": case_id}),
-                text=cases.ApplicationPage.Back.GOODS_AND_COUNTRIES,
+                text=cases.FinalisePage.Backlink.GOODS_AND_COUNTRIES,
             ),
         ),
     )
