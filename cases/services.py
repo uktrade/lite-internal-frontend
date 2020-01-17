@@ -53,7 +53,7 @@ def finalise_application(request, pk, json):
 
 
 def get_application_default_duration(request, pk):
-    return int(get(request, f"{APPLICATIONS_URL}{pk}{DURATION_URL}").json()["duration"])
+    return int(get(request, f"{APPLICATIONS_URL}{pk}{DURATION_URL}").json()["licence_duration"])
 
 
 # CLC Queries
