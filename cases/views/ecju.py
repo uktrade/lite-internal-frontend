@@ -1,9 +1,6 @@
-from lite_content.lite_internal_frontend.strings import cases
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
-from lite_forms.components import Option, HiddenField
-from lite_forms.generators import form_page, error_page
 
 from cases.forms.create_ecju_query import (
     choose_ecju_query_type_form,
@@ -11,6 +8,8 @@ from cases.forms.create_ecju_query import (
     create_ecju_create_confirmation_form,
 )
 from cases.services import get_ecju_queries, post_ecju_query, get_case
+from lite_forms.components import Option, HiddenField
+from lite_forms.generators import form_page, error_page
 from picklists.services import get_picklists, get_picklist_item
 
 
