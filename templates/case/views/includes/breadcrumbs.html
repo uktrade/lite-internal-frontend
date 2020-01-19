@@ -1,8 +1,8 @@
 <div class="govuk-breadcrumbs">
 	<ol class="govuk-breadcrumbs__list">
 		<li class="govuk-breadcrumbs__list-item">
-			<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}?queue_id={{ request.GET.queue_id }}">
-				{% if request.GET.queue_name %}{{ request.GET.queue_name }}{% else %}{% lcs 'QUEUE_ALL_CASES' %}{% endif %}
+			<a class="govuk-breadcrumbs__link" href="{% url 'cases:cases' %}">
+				{% lcs 'QUEUE_ALL_CASES' %}
 			</a>
 		</li>
 		<li class="govuk-breadcrumbs__list-item">
