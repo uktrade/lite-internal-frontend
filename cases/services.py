@@ -49,7 +49,7 @@ def put_application_status(request, pk, json):
 
 
 def finalise_application(request, pk, json):
-    return put(request, f"{APPLICATIONS_URL}{pk}{FINALISE_URL}", json).status_code
+    return put(request, f"{APPLICATIONS_URL}{pk}{FINALISE_URL}", json)
 
 
 def get_application_default_duration(request, pk):

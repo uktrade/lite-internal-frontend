@@ -27,11 +27,11 @@ def approve_licence_form(case_id, standard, duration, editable_duration):
             standard,
             BackLink(
                 url=reverse_lazy("cases:final_advice_view", kwargs={"pk": case_id}),
-                text=cases.FinalisePage.Backlink.FINAL_ADVICE,
+                text=cases.FinalisePage.BackLink.FINAL_ADVICE,
             ),
             BackLink(
                 url=reverse_lazy("cases:finalise_goods_countries", kwargs={"pk": case_id}),
-                text=cases.FinalisePage.Backlink.GOODS_AND_COUNTRIES,
+                text=cases.FinalisePage.BackLink.GOODS_AND_COUNTRIES,
             ),
         ),
     )
@@ -44,11 +44,11 @@ def refuse_licence_form(case_id, standard):
             standard,
             BackLink(
                 url=reverse_lazy("cases:final_advice_view", kwargs={"pk": case_id}),
-                text=cases.FinalisePage.Backlink.FINAL_ADVICE,
+                text=cases.FinalisePage.BackLink.FINAL_ADVICE,
             ),
             BackLink(
                 url=reverse_lazy("cases:finalise_goods_countries", kwargs={"pk": case_id}),
-                text=cases.FinalisePage.Backlink.GOODS_AND_COUNTRIES,
+                text=cases.FinalisePage.BackLink.GOODS_AND_COUNTRIES,
             ),
         ),
     )

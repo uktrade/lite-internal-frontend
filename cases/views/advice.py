@@ -2,7 +2,7 @@ from datetime import date
 
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 
 from cases.constants import CaseType
 from cases.forms.finalise_case import approve_licence_form, refuse_licence_form
@@ -337,16 +337,26 @@ class Finalise(TemplateView):
 
     def post(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))
+        standard = case["application"]["application_type"]["key"] == CaseType.STANDARD_LICENCE.value
         application_id = case.get("application").get("id")
         data = request.POST.copy()
 
+        has_permission = helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION)
+
         if "licence_duration" in data and case["application"].get("licence_duration") != data["licence_duration"]:
             default_duration = get_application_default_duration(request, str(kwargs["pk"]))
-            if data["licence_duration"] != default_duration and not helpers.has_permission(
-                request, Permission.MANAGE_LICENCE_DURATION
-            ):
+            if data["licence_duration"] != default_duration and not has_permission:
                 return error_page(request, "You do not have permission.")
 
-        finalise_application(request, application_id, data)
+        res = finalise_application(request, application_id, data)
+
+        if res.status_code == 400:
+            form = approve_licence_form(
+                case_id=case["id"],
+                standard=standard,
+                duration=data["licence_duration"],
+                editable_duration=has_permission,
+            )
+            return form_page(request, form, data=data, errors=res.json()["errors"])
 
         return redirect(reverse_lazy("cases:case", kwargs={"pk": case["id"]}))
