@@ -6,7 +6,7 @@
 			</a>
 		</li>
 		<li class="govuk-breadcrumbs__list-item">
-			{% if text %}<a class="govuk-breadcrumbs__link" href="{% url 'cases:case' case.id %}">{% endif %}
+			{% if text %}<a id="link-back-to-case" class="govuk-breadcrumbs__link" href="{% url 'cases:case' case.id %}">{% endif %}
 				{{ case.reference_code }}
 			{% if text %}</a>{% endif %}
 		</li>
