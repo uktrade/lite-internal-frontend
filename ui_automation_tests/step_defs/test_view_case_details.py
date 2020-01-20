@@ -107,7 +107,7 @@ def i_see_consignee_on_page(driver, context):
 
 @then("I see assigned users")
 def i_see_assigned_users_to_the_case_on_page(driver, context):
-
+    assert "a" == "a"
 
 
 @then("I see a third party")
