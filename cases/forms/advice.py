@@ -5,9 +5,9 @@ from lite_content.lite_internal_frontend.strings import cases
 
 def advice_recommendation_form(post_url, back_url, application_type):
     if application_type == CaseType.OPEN_LICENCE.value:
-        denial_option = Option("refuse", "Reject the licence")
+        denial_option = Option("refuse", cases.AdviceRecommendationForm.RadioButtons.REJECT)
     else:
-        denial_option = Option("refuse", "Refuse the licence")
+        denial_option = Option("refuse", cases.AdviceRecommendationForm.RadioButtons.REFUSE)
 
     return Form(
         cases.AdviceRecommendationForm.TITLE,
@@ -16,11 +16,11 @@ def advice_recommendation_form(post_url, back_url, application_type):
             RadioButtons(
                 "type",
                 [
-                    Option("approve", "Grant the licence"),
-                    Option("proviso", "Add a proviso"),
+                    Option("approve", cases.AdviceRecommendationForm.RadioButtons.GRANT),
+                    Option("proviso", cases.AdviceRecommendationForm.RadioButtons.PROVISO),
                     denial_option,
-                    Option("no_licence_required", "Tell the applicant they do not need a licence"),
-                    Option("not_applicable", "Not applicable", show_or=True),
+                    Option("no_licence_required", cases.AdviceRecommendationForm.RadioButtons.NLR),
+                    Option("not_applicable", cases.AdviceRecommendationForm.RadioButtons.NOT_APPLICABLE, show_or=True),
                 ],
             ),
         ],

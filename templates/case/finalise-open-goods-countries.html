@@ -50,7 +50,7 @@
 					<td class="govuk-table__cell">
                         {{ good.control_code|default:good.description }}
                         {% if country.advice.value == 'Refuse' and case.application.application_type.key == 'open_licence' %}
-                            <span style="opacity: 0.7">(Reject)</span>
+                            <span style="opacity: 0.7">{% lcs 'cases.GoodsDecisionMatrixPage.REFUSE_ADVICE_TAG'%}</span>
                         {% else %}
                             <span style="opacity: 0.7">({{ good.advice.value|default:NO_ADVICE_DEFAULT }})</span></td>
                         {%  endif %}
@@ -59,7 +59,7 @@
 							<div class="{% if good.id in errors %}{% if country.id in errors|key_value:good.id %}govuk-form-group--error govuk-error-message{% endif %}{% endif %}" style="margin-bottom: 25px;">
 								{{ country.name }}
                                 {% if country.advice.value == 'Refuse' and case.application.application_type.key == 'open_licence' %}
-                                    <span style="opacity: 0.7">(Reject)</span>
+                                    <span style="opacity: 0.7">{% lcs 'cases.GoodsDecisionMatrixPage.REFUSE_ADVICE_TAG'%}</span>
                                 {% else %}
                                     <span style="opacity: 0.7">({{ country.advice.value|default:NO_ADVICE_DEFAULT }})</span>
                                 {%  endif %}
