@@ -108,6 +108,7 @@ class ViewCase(TemplateView):
             return render(request, "case/queries/end_user_advisory.html", context)
         elif case_type == CaseType.CLC_QUERY.value:
             context["good"] = case["query"]["good"]
+            context["verified"] = case["query"]["good"]["status"]["key"] == "verified"
             return render(request, "case/queries/clc-query-case.html", context)
         elif case_type == CaseType.APPLICATION.value:
             context["total_goods_value"] = _get_total_goods_value(case)

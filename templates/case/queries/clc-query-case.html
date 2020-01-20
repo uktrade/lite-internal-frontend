@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block details %}
-    {% if case.query.good.status.key == 'verified' %}
+    {% if verified %}
 		<div class="lite-info-bar lite-info-bar--no-animation {% if message.tags %}lite-info-bar--{{ message.tags }}{% endif %}">
 			{% lcs 'cases.ApplicationPage.CLOSED' %}
 		</div>
@@ -15,7 +15,7 @@
         </a>
     {% endif %}
 
-	{% if case.query.good.status.key == 'verified' %}
+	{% if verified %}
 		<div class="govuk-!-width-two-thirds">
 			<div class="app-panel app-panel--info">
 				<h3 class="govuk-heading-m">{% lcs 'cases.ClcQuery.Verified.OUTCOME' %}</h3>
