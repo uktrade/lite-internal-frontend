@@ -127,7 +127,7 @@ def click_on_created_application(driver, context, internal_url):  # noqa
 
 @when("I go to end user advisory previously created")  # noqa
 def click_on_created_eua(driver, context):  # noqa
-    driver.find_element_by_link_text(context.eua_id).click()
+    driver.find_element_by_link_text(context.eua_reference_code).click()
 
 
 @given("I create application or application has been previously created")  # noqa
@@ -212,7 +212,7 @@ def added_flags_on_queue(driver, context):  # noqa
     no = utils.get_element_index_by_text(elements, context.case_id, complete_match=False)
     driver.set_timeout_to(0)
     try:
-        if elements[no].find_element_by_id("chevron").is_displayed():
+        if elements[no].find_element_by_css_selector(".lite-accordian-table__chevron").is_displayed():
             element = elements[no].find_element_by_css_selector(".lite-accordian-table__chevron")
             element.click()
     except NoSuchElementException:
