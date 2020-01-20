@@ -46,9 +46,11 @@
 						{% lcs 'cases.ApplicationPage.Actions.DECISION' %}
 					</a>
 				{% endif %}
-				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:user_advice_view' case.id %}">
-					{% lcs 'cases.ApplicationPage.Actions.ADVICE' %}
-				</a>
+				{% if case.type.key != "clc_query" %}
+					<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:user_advice_view' case.id %}">
+						{% lcs 'cases.ApplicationPage.Actions.ADVICE' %}
+					</a>
+				{% endif %}
 				<a role="button" draggable="false" class="govuk-button" id="generate-document" href="{% url 'cases:generate_document' case.id %}">
 					{% lcs 'cases.ApplicationPage.Actions.GENERATE_DOCUMENT' %}
 				</a>
