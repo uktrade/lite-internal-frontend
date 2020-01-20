@@ -213,9 +213,9 @@
 						{{ case.status|sentence_case }}
 					</td>
 					<td class="cases-table__cell govuk-table__cell--numeric">
-						<a id="noscript_hide" class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
+						<a id="expand-flags-{{ case.id }}" class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
 							{% if case.flags|length > 3 or case.users|length > 3 or case.queue_names|length > 3 %}
-							{% svg 'chevron' %}
+								{% svg 'chevron' %}
 							{% endif %}
 						</a>
 					</td>
@@ -227,9 +227,9 @@
 		<br>
 		<div class="lite-pagination__container ">
 			{% for i in data.total_pages|times %}
-			<a href="{% url 'cases:cases' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
-				{{ i }}
-			</a>
+				<a href="{% url 'cases:cases' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
+					{{ i }}
+				</a>
 			{% endfor %}
 		</div>
 		{% endif %}
