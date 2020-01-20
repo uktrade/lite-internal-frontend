@@ -106,12 +106,6 @@ class ViewCase(TemplateView):
             "status_is_terminal": status_props["is_terminal"],
         }
 
-        print("\n")
-        print("W CHUJ CASES")
-        print("CASE: ", case);
-        print("PO CHUJU CASES")
-        print("\n")
-
         if case_type == CaseType.END_USER_ADVISORY_QUERY.value:
             return render(request, "case/queries/end_user_advisory.html", context)
         elif case_type == CaseType.CLC_QUERY.value:
