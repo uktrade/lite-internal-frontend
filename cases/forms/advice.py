@@ -1,15 +1,17 @@
+from cases.constants import CaseType
 from lite_forms.components import Form, RadioButtons, Option, BackLink
+from lite_content.lite_internal_frontend.strings import cases
 
 
-def advice_recommendation_form(post_url, back_url, case_type):
-    if case_type == "open_licence":
+def advice_recommendation_form(post_url, back_url, application_type):
+    if application_type == CaseType.OPEN_LICENCE:
         denial_option = Option("refuse", "Reject the licence")
     else:
         denial_option = Option("refuse", "Refuse the licence")
 
     return Form(
-        "What do you advise?",
-        "You can advise to:",
+        cases.AdviceRecommendationForm.TITLE,
+        cases.AdviceRecommendationForm.DESCRIPTION,
         [
             RadioButtons(
                 "type",
@@ -22,7 +24,7 @@ def advice_recommendation_form(post_url, back_url, case_type):
                 ],
             ),
         ],
-        default_button_name="Continue",
-        back_link=BackLink("Back to advice", back_url),
+        default_button_name=cases.AdviceRecommendationForm.Actions.CONTINUE_BUTTON,
+        back_link=BackLink(cases.AdviceRecommendationForm.Actions.BACK_BUTTON, back_url),
         post_url=post_url,
     )
