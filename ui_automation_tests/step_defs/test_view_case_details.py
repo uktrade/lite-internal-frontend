@@ -105,6 +105,11 @@ def i_see_consignee_on_page(driver, context):
     assert_party_data(destinations_table, headings, values)
 
 
+@then("I see assigned users")
+def i_see_assigned_users_to_the_case_on_page(driver, context):
+
+
+
 @then("I see a third party")
 def i_see_third_party_on_page(driver, context):
     destinations_table = ApplicationPage(driver).get_text_of_third_parties_table()
