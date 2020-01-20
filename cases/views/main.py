@@ -270,7 +270,7 @@ class Documents(TemplateView):
             "title": cases.Manage.Documents.TITLE,
             "case": case,
             "case_documents": case_documents["documents"],
-            "generated_document_key": GENERATED_DOCUMENT,
+            "generated_document_key": GENERATED_DOCUMENT,  # noqa
         }
         return render(request, "case/documents.html", context)
 
