@@ -247,7 +247,7 @@ class Documents(TemplateView):
             "title": cases.Manage.Documents.TITLE,
             "case": case,
             "case_documents": case_documents["documents"],
-            "generated_document_key": GENERATED_DOCUMENT,  # noqa
+            "generated_document_key": GENERATED_DOCUMENT,
         }
         return render(request, "case/documents.html", context)
 
@@ -270,7 +270,7 @@ class AttachDocuments(TemplateView):
         data = []
 
         files = request.FILES.getlist("file")
-        if len(files) is not 1:
+        if len(files) != 1:
             return error_page(None, "We had an issue uploading your files. Try again later.")
         file = files[0]
         data.append(
