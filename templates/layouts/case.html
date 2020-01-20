@@ -24,6 +24,10 @@
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
+			<div class="govuk-!-margin-right-3">
+				{% block additional_controls %}
+				{% endblock %}
+			</div>
 			<div class="lite-more-actions__container">
 				<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:documents' case.id %}">
 					{% lcs 'cases.ApplicationPage.Actions.DOCUMENT' %}

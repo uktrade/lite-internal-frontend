@@ -8,7 +8,7 @@ class ClcQueriesPages(BasePage):
     REPORT_SUMMARY = "report_summary"  # Name
     COMMENT = "comment"  # ID
     CASE_CLOSE = ".lite-info-bar"  # CSS
-    BUTTON_RESPOND_ID = "respond"
+    BUTTON_RESPOND_ID = "button-respond"
     SUBMIT_BUTTON = '.govuk-button[type*="submit"]'  # CSS
 
     def click_respond_to_query(self):
