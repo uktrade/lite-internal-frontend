@@ -342,11 +342,15 @@ class Finalise(TemplateView):
         data = request.POST.copy()
 
         has_permission = helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION)
+        default_duration = get_application_default_duration(request, str(kwargs["pk"]))
 
-        if "licence_duration" in data and case["application"].get("licence_duration") != data["licence_duration"]:
-            default_duration = get_application_default_duration(request, str(kwargs["pk"]))
-            if data["licence_duration"] != default_duration and not has_permission:
-                return error_page(request, "You do not have permission.")
+        if "licence_duration" in data:
+            new_licence_duration = int(data["licence_duration"])
+            if case["application"].get("licence_duration") != new_licence_duration:
+                if new_licence_duration != default_duration and not has_permission:
+                    return error_page(request, "You do not have permission.")
+        else:
+            new_licence_duration = default_duration
 
         res = finalise_application(request, application_id, data)
 
@@ -354,7 +358,7 @@ class Finalise(TemplateView):
             form = approve_licence_form(
                 case_id=case["id"],
                 standard=standard,
-                duration=data["licence_duration"],
+                duration=new_licence_duration,
                 editable_duration=has_permission,
             )
             return form_page(request, form, data=data, errors=res.json()["errors"])
