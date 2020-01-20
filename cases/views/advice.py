@@ -6,7 +6,7 @@ from cases.constants import CaseType
 from lite_forms.generators import form_page, error_page
 from datetime import date
 
-from cases.forms.finalise_case import approve_licence_form, refuse_licence_form
+from cases.forms.finalise_case import approve_licence_form, deny_licence_form
 from cases.services import (
     post_user_case_advice,
     get_user_case_advice,
@@ -302,8 +302,8 @@ class Finalise(TemplateView):
 
     def get(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))
-        standard = case["application"]["application_type"]["key"] == CaseType.STANDARD_LICENCE.value
-        if standard:
+        is_standard_licence = case["application"]["application_type"]["key"] == CaseType.STANDARD_LICENCE.value
+        if is_standard_licence:
             advice, _ = get_final_case_advice(request, str(kwargs["pk"]))
             data = advice["advice"]
             search_key = "type"
@@ -317,9 +317,9 @@ class Finalise(TemplateView):
             if item[search_key]["key"] == "approve" or item[search_key]["key"] == "proviso":
                 today = date.today()
                 date_dict = {"day": today.day, "month": today.month, "year": today.year}
-                return form_page(request, approve_licence_form(case_id, standard), data=date_dict)
+                return form_page(request, approve_licence_form(case_id, is_standard_licence), data=date_dict)
 
-        return form_page(request, refuse_licence_form(case_id, standard))
+        return form_page(request, deny_licence_form(case_id, is_standard_licence))
 
     def post(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))
