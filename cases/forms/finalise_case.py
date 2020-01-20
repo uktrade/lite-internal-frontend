@@ -9,8 +9,8 @@ def approve_licence_form(case_id, standard, duration, editable_duration):
         title="Approve",
         questions=[
             DateInput(
-                description=cases.FinalisePage.Date.TITLE,
-                title=cases.FinalisePage.Date.DESCRIPTION,
+                title=cases.FinalisePage.Date.TITLE,
+                description=cases.FinalisePage.Date.DESCRIPTION,
                 prefix="",
             ),
             conditional(
