@@ -4,7 +4,7 @@ from lite_content.lite_internal_frontend.strings import cases
 
 
 def advice_recommendation_form(post_url, back_url, application_type):
-    if application_type == CaseType.OPEN_LICENCE:
+    if application_type == CaseType.OPEN_LICENCE.value:
         denial_option = Option("refuse", "Reject the licence")
     else:
         denial_option = Option("refuse", "Refuse the licence")
