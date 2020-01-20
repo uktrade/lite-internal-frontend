@@ -77,3 +77,10 @@ class Permission(Enum):
     REVIEW_GOODS = "REVIEW_GOODS"
     CONFIGURE_TEMPLATES = "CONFIGURE_TEMPLATES"
     MANAGE_LICENCE_DURATION = "MANAGE_LICENCE_DURATION"
+
+
+class FlagLevels:
+    CASES = "cases"
+    GOODS = "goods"
+    ORGANISATIONS = "organisations"
+    DESTINATIONS = "destinations"
