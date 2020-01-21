@@ -71,7 +71,7 @@
 		<p class="govuk-caption-m">{% lcs 'cases.ApplicationPage.NO_CASE_OFFICER' %}</p>
 	{% endif %}
 
-	<div class="govuk-!-margin-bottom-6">
+	<div class="govuk-!-margin-bottom-6" id="assigned_users">
 		{% for user in case.users|slice:":3" %}
 			<div class="govuk-caption-m">
 				<span style="opacity: 0.6;">{{ user.queue }}:</span>

@@ -5,6 +5,8 @@ from pages.case_list_page import CaseListPage
 from shared.tools.utils import get_lite_client
 import shared.tools.helpers as utils
 
+from ui_automation_tests.shared import functions
+
 scenarios("../features/view_case_details.feature", strict_gherkin=False)
 
 
@@ -107,7 +109,7 @@ def i_see_consignee_on_page(driver, context):
 
 @then("I see assigned users")
 def i_see_assigned_users_to_the_case_on_page(driver, context):
-    assert "a" == "a"
+    assert functions.element_with_id_exists(driver, ApplicationPage(driver).ASSIGNED_USERS_ID)
 
 
 @then("I see a third party")

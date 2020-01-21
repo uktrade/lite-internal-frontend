@@ -43,6 +43,7 @@ class ApplicationPage(BasePage):
     EDIT_GOODS_FLAGS = "button-edit-goods-flags"  # ID
     CASE_OFFICER_ID = "case-officer"  # ID
     EXPAND_FLAGS_PARTIAL_ID = "expand-flags-"
+    ASSIGNED_USERS_ID = "assigned_users"
 
     def click_visible_to_exporter_checkbox(self):
         time.sleep(0.5)
