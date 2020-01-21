@@ -182,7 +182,6 @@ STREAMING_CHUNK_SIZE = 8192
 S3_MIN_PART_SIZE = 5 * 1024 * 1024
 MAX_UPLOAD_SIZE = 100 * 1024 * 1024
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -225,3 +224,5 @@ CSP_REPORT_ONLY = env("CSP_REPORT_ONLY")
 
 # Session timeout
 SESSION_EXPIRE_SECONDS = 60 * 60  # 60 minutes
+
+LOGOUT_URL = env("AUTHBROKER_URL") + "/logout/"

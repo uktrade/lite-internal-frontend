@@ -74,13 +74,13 @@ class SessionTimeoutMiddleware:
     def __call__(self, request):
         start = request.session.get(SESSION_TIMEOUT_KEY, time.time())
 
-        timeout = getattr(settings, "SESSION_EXPIRE_SECONDS", 60 * 60)  # Defaults to 60 minutes
+        timeout = settings.SESSION_EXPIRE_SECONDS
 
         # Expire the session if more than start time + timeout time has occurred
         if time.time() - start > timeout:
             request.session.flush()
             logout(request)
-            return redirect(env("AUTHBROKER_URL") + "/logout/")
+            return redirect(settings.LOGOUT_URL)
 
         request.session[SESSION_TIMEOUT_KEY] = time.time()
 
