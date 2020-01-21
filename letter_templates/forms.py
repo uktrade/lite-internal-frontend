@@ -76,7 +76,7 @@ def edit_letter_template(letter_template):
                 name="case_types",
                 options=[
                     Option("application", "Application"),
-                    Option("clc_query", "CLC Query"),
+                    Option("goods_query", "Goods Query"),
                     Option("end_user_advisory_query", "End User Advisory Query"),
                 ],
             ),
