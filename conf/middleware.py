@@ -1,4 +1,3 @@
-from lite_content.lite_internal_frontend.strings import cases
 import logging
 import time
 import uuid
@@ -11,7 +10,7 @@ from s3chunkuploader.file_handler import UploadFailed
 from auth.urls import app_name as auth_app_name
 from conf import settings
 from conf.settings import env
-from lite_content.lite_internal_frontend import strings
+from lite_content.lite_internal_frontend.strings import cases
 from lite_forms.generators import error_page
 
 
@@ -75,9 +74,10 @@ class SessionTimeoutMiddleware:
     def __call__(self, request):
         start = request.session.get(SESSION_TIMEOUT_KEY, time.time())
 
-        timeout = getattr(settings, "SESSION_EXPIRE_SECONDS", 3600)
+        timeout = getattr(settings, "SESSION_EXPIRE_SECONDS", 60 * 60)  # Defaults to 60 minutes
 
-        if time.time() - start > 10:  # session expired
+        # Expire the session if more than start time + timeout time has occurred
+        if time.time() - start > timeout:
             request.session.flush()
             logout(request)
             return redirect(env("AUTHBROKER_URL") + "/logout/")
