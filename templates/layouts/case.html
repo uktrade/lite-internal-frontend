@@ -76,9 +76,9 @@
 			<div class="govuk-caption-m">
 				<span style="opacity: 0.6;">{{ user.queue }}:</span>
 					{% if user.first_name %}
-					{{ user.first_name }} {{ user.last_name }}
+						{{ user.first_name }} {{ user.last_name }}
 					{% else %}
-					{{ user.email }}
+						{{ user.email }}
 					{% endif %}
 				<span class="lite-hint app-expanded-row__item--invert">
 					{% if case.users|length > 3 and forloop.counter == 3 %} (3 of {{case.users|length}}){% endif %}
