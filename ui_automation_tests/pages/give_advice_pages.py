@@ -66,7 +66,7 @@ class GiveAdvicePages(BasePage):
         }
 
     def get_duration_in_finalise_view(self):
-        return self.driver.find_element_by_id(self.DURATION_TEXT).text
+        return self.driver.find_element_by_id(self.DURATION_TEXT).get_attribute("value")
 
     def checkbox_present(self):
         return len(self.driver.find_elements_by_css_selector(".input"))

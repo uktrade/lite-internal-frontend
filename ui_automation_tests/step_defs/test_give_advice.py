@@ -136,7 +136,7 @@ def todays_date_is_filled_in(driver):
 
     duration_in_form = GiveAdvicePages(driver).get_duration_in_finalise_view()
 
-    assert int(duration_in_form)
+    assert int(duration_in_form) > 0
 
 
 @then("I see refusal flag is attached")
