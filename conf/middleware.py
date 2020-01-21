@@ -75,12 +75,14 @@ class SessionTimeoutMiddleware:
 
         timeout = settings.SESSION_EXPIRE_SECONDS
 
+        end = time.time()
+
         # Expire the session if more than start time + timeout time has occurred
-        if time.time() - start > timeout:
+        if end - start > timeout:
             request.session.flush()
             logout(request)
             return redirect(settings.LOGOUT_URL)
 
-        request.session[SESSION_TIMEOUT_KEY] = time.time()
+        request.session[SESSION_TIMEOUT_KEY] = end
 
         return self.get_response(request)
