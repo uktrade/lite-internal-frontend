@@ -1,11 +1,11 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">Back</a>
+	{% include "case/views/includes/breadcrumbs.html" %}
 {% endblock %}
 
 {% block body %}
-	<h2 class="govuk-heading-l">{{ title }}</h2>
+	<h1 class="govuk-heading-xl">{{ title }}</h1>
 
 	<form method="post">
 		{% csrf_token %}
@@ -20,12 +20,12 @@
 		    	</label>
             {% endif %}
 			<select id="status" class="govuk-select" name="status">
-                {% for status in statuses.statuses %}
-				    <option value="{{ status.status }}"
-                            {% if data.case.application.status == status.status or data.case.query.status == status.status %}
+                {% for status in statuses %}
+				    <option value="{{ status }}"
+                            {% if data.case.application.status == status or data.case.query.status == status %}
                                 selected
                             {% endif %}>
-                        {{ status.status|default:"Untitled"|sentence_case }}
+                        {{ status|default:"Untitled"|sentence_case }}
                     </option>
                 {% endfor %}
 			</select>

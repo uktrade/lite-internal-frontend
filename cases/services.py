@@ -1,6 +1,6 @@
 from _decimal import Decimal
 
-from cases.helpers import clean_advice
+from cases.helpers import clean_advice, format_status_in_request_data
 from conf.client import post, get, put, delete
 from conf.constants import (
     CASE_URL,
@@ -31,17 +31,18 @@ from conf.constants import (
 
 
 def get_case(request, pk):
-    data = get(request, CASE_URL + pk)
+    data = get(request, CASE_URL + str(pk))
     return data.json()["case"]
 
 
 def put_case(request, pk, json):
-    data = put(request, CASE_URL + pk, json)
+    data = put(request, CASE_URL + str(pk), json)
     return data.json(), data.status_code
 
 
 # Applications
 def put_application_status(request, pk, json):
+    json = format_status_in_request_data(json)
     return put(request, APPLICATIONS_URL + pk + MANAGE_STATUS_URL, json).status_code
 
 
@@ -52,11 +53,13 @@ def put_control_list_classification_query(request, pk, json):
 
 
 def put_clc_query_status(request, pk, json):
+    json = format_status_in_request_data(json)
     return put(request, CLC_QUERIES_URL + pk + MANAGE_STATUS_URL, json).status_code
 
 
 # EUA Queries
 def put_end_user_advisory_query(request, pk, json):
+    json = format_status_in_request_data(json)
     data = put(request, END_USER_ADVISORY_URL + str(pk), json)
     return data.json(), data.status_code
 
