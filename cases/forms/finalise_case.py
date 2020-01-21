@@ -32,7 +32,6 @@ def approve_licence_form(case_id, standard, duration, editable_duration):
             BackLink(
                 url=reverse_lazy("cases:finalise_goods_countries", kwargs={"pk": case_id}),
                 text=cases.FinaliseLicenceForm.Actions.BACK_TO_DECISION_MATRIX_BUTTON,
-
             ),
         ),
     )
