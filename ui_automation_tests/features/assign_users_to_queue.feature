@@ -9,7 +9,7 @@ Feature: I want to assign one or more specific users to a case in a work queue
     And I create open application or open application has been previously created
     When I go to queues
     When I enter in queue name Review
-    And I go to application previously created    
+    And I go to application previously created
     And I add case to newly created queue
     And I go to the internal homepage
     And I click on the added queue in dropdown
