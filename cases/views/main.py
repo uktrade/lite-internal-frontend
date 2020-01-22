@@ -31,7 +31,10 @@ from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.helpers import convert_dict_to_query_params
 from core.services import get_status_properties, get_user_permissions, get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
+from lite_content.lite_internal_frontend.cases import CasesListPage
+from lite_forms.components import FiltersBar, TextInput, AutocompleteInput, Option, HiddenField, Select
 from lite_forms.generators import error_page, form_page
+from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
 from queues.services import get_cases_search_data
 from users.services import get_gov_users
@@ -59,8 +62,21 @@ class Cases(TemplateView):
             params["case_type"] = case_type
 
         data = get_cases_search_data(request, convert_dict_to_query_params(params))
-
         updated_cases_banner_queue_id = get_updated_cases_banner_queue_id(queue_id, data["results"]["queues"])
+
+        # Filter bar
+        statuses = [Option(option["key"], option["value"]) for option in data["results"]["filters"]["statuses"]]
+        case_types = [Option(option["key"], option["value"]) for option in data["results"]["filters"]["case_types"]]
+        gov_users = get_gov_users(request, {"name": request.GET.get("name", ""), "activated": True}, True)
+        filters = FiltersBar([
+            conditional(queue_id, HiddenField(name="queue_id", value=queue_id)),
+            Select(name="case_type", title=CasesListPage.Filters.CASE_TYPE, options=case_types),
+            Select(name="status", title=CasesListPage.Filters.CASE_STATUS, options=statuses),
+            AutocompleteInput(name="case_officer", title=CasesListPage.Filters.CASE_OFFICER,
+                              options=[Option("not_assigned", "Not assigned"), *gov_users]),
+            AutocompleteInput(name="assigned_user", title=CasesListPage.Filters.ASSIGNED_USER,
+                              options=[Option("not_assigned", "Not assigned"), *gov_users])
+        ])
 
         context = {
             "title": data["results"]["queue"]["name"],
@@ -70,6 +86,7 @@ class Cases(TemplateView):
             "params": params,
             "params_str": convert_dict_to_query_params(params),
             "updated_cases_banner_queue_id": updated_cases_banner_queue_id,
+            "filters": filters,
         }
 
         return render(request, "cases/index.html", context)
