@@ -4,7 +4,7 @@ Feature: I want to add a company to LITE
   I want to add a new company to LITE
   So that the new company can make applications
 
-  @LT_934_test @smoke
+  @LT_934_test @smoke @SB
   Scenario: Test registering an organisation
     Given I go to internal homepage
     When I go to organisations
@@ -35,7 +35,7 @@ Feature: I want to add a company to LITE
     And I go to organisations
     Then HMRC organisation is registered
 
-  @LT_1086_test_adding_a_flag_to_an_organisation @regression
+  @LT_1086_test_adding_a_flag_to_an_organisation @regression @SB
   Scenario: Adding a flag to an organisation
     Given I create open application or open application has been previously created
     And I go to internal homepage

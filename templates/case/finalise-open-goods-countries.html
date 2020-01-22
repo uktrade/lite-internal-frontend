@@ -39,7 +39,7 @@
                 {% else %}
 				    <th class="govuk-table__header">{% lcs 'cases.GoodsDecisionMatrixPage.Table.REFUSE_TITLE' %}</th>
                 {% endif %}
-                <th class="govuk-table__header">{% lcs 'cases.GoodsDecisionMatrixPage.Table.NRL_TITLE' %}</th>
+                <th class="govuk-table__header">{% lcs 'cases.GoodsDecisionMatrixPage.Table.NLR_TITLE' %}</th>
 			</tr>
 		</thead>
 
@@ -91,7 +91,7 @@
 												{% elif decision == "refuse"%}
 													{% lcs 'cases.GoodsDecisionMatrixPage.Table.REFUSE_TITLE' %}
 												{% elif decision == "no_licence_required" %}
-													{% lcs 'cases.GoodsDecisionMatrixPage.Table.NRL_TITLE' %}
+													{% lcs 'cases.GoodsDecisionMatrixPage.Table.HIDDEN_NLR_TITLE' %}
 												{% endif %} {{ good.control_code }}
 											</span>
 										</label>
@@ -105,10 +105,10 @@
 		</tbody>
 	</table>
 
-	<button id="finalise" type="submit" name="action" value="submit" class="govuk-button" data-module="govuk-button" style="margin-right: 15px">
+	<button id="button-finalise" type="submit" name="action" value="submit" class="govuk-button" data-module="govuk-button" style="margin-right: 15px">
 		{% lcs 'cases.GoodsDecisionMatrixPage.Actions.FINALISE_BUTTON' %}
 	</button>
-    <button id="save" type="submit" name="action" value="save" class="govuk-button govuk-button--secondary">
+    <button id="button-save" type="submit" name="action" value="save" class="govuk-button govuk-button--secondary">
         {% lcs 'cases.GoodsDecisionMatrixPage.Actions.SAVE_BUTTON' %}
 	</button>
 
