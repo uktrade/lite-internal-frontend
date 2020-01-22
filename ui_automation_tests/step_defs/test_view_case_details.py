@@ -112,6 +112,11 @@ def i_see_assigned_users_to_the_case_on_page(driver, context):
     assert functions.element_with_id_exists(driver, ApplicationPage(driver).ASSIGNED_USERS_ID)
 
 
+@then("I see assigned queues")
+def i_see_assigned_users_to_the_case_on_page(driver, context):
+    assert functions.element_with_id_exists(driver, ApplicationPage(driver).CASE_QUEUES_ID)
+
+
 @then("I see a third party")
 def i_see_third_party_on_page(driver, context):
     destinations_table = ApplicationPage(driver).get_text_of_third_parties_table()

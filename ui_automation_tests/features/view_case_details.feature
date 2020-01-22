@@ -36,4 +36,5 @@ Feature: I want to view the case details of a case
     And I see an ultimate end user
     And I see a third party
     And I see a consignee
+    And I see assigned queues
     And I see assigned users

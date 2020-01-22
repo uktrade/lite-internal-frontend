@@ -44,6 +44,7 @@ class ApplicationPage(BasePage):
     CASE_OFFICER_ID = "case-officer"  # ID
     EXPAND_FLAGS_PARTIAL_ID = "expand-flags-"
     ASSIGNED_USERS_ID = "assigned_users"
+    CASE_QUEUES_ID = "case_queues"
 
     def click_visible_to_exporter_checkbox(self):
         time.sleep(0.5)
