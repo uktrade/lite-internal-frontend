@@ -37,7 +37,7 @@
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
 							<a class="govuk-link" href="{% url 'organisations:organisation' organisation.id %}">
-								{{ organisation.name|highlight_text:name }}
+								{{ organisation.name|highlight_text:search_term }}
 							</a>
 						</td>
                         <td class="govuk-table__cell">

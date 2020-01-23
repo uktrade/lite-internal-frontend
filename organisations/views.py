@@ -49,7 +49,7 @@ class OrganisationList(TemplateView):
             "page": params.pop("page"),
             "params_str": convert_dict_to_query_params(params),
             "filters": filters,
-            "name": params.get("search_term", ""),
+            "search_term": params.get("search_term", ""),
         }
         return render(request, "organisations/index.html", context)
 
