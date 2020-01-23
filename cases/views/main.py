@@ -49,6 +49,8 @@ class Cases(TemplateView):
         status = request.GET.get("status")
         sort = request.GET.get("sort")
         queue_id = request.GET.get("queue_id")
+        case_officer = request.GET.get("case_officer")
+        assigned_user = request.GET.get("assigned_user")
 
         # Page parameters
         params = {"page": int(request.GET.get("page", 1))}
@@ -60,6 +62,10 @@ class Cases(TemplateView):
             params["status"] = status
         if case_type:
             params["case_type"] = case_type
+        if case_officer:
+            params["case_officer"] = case_officer
+        if assigned_user:
+            params["assigned_user"] = assigned_user
 
         data = get_cases_search_data(request, convert_dict_to_query_params(params))
         updated_cases_banner_queue_id = get_updated_cases_banner_queue_id(queue_id, data["results"]["queues"])

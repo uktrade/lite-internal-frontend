@@ -148,38 +148,38 @@
 										</span>
 									</div>
 								{% endfor %}
-						{% for flag in case.flags|slice:"3:" %}
-							<div class="app-expanded-row__item">
-								{{ flag.name }}
-							</div>
-						{% endfor %}
-					</td>
-					<td class="cases-table__cell">
-						{{ case.status|sentence_case }}
-					</td>
-					<td class="cases-table__cell govuk-table__cell--numeric">
-						<a id="expand-flags-{{ case.id }}" class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
-							{% if case.flags|length > 3 or case.users|length > 3 or case.queue_names|length > 3 %}
-								{% svg 'chevron' %}
-							{% endif %}
+								{% for flag in case.flags|slice:"3:" %}
+									<div class="app-expanded-row__item">
+										{{ flag.name }}
+									</div>
+								{% endfor %}
+							</td>
+							<td class="cases-table__cell">
+								{{ case.status|sentence_case }}
+							</td>
+							<td class="cases-table__cell govuk-table__cell--numeric">
+								<a id="expand-flags-{{ case.id }}" class="lite-accordian-table__chevron" onclick="return openTableFold(this);">
+									{% if case.flags|length > 3 or case.users|length > 3 or case.queue_names|length > 3 %}
+										{% svg 'chevron' %}
+									{% endif %}
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% if data.total_pages > 1 %}
+				<br>
+				<div class="lite-pagination__container ">
+					{% for i in data.total_pages|times %}
+						<a href="{% url 'cases:cases' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
+							{{ i }}
 						</a>
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		{% if data.total_pages > 1 %}
-		<br>
-		<div class="lite-pagination__container ">
-			{% for i in data.total_pages|times %}
-				<a href="{% url 'cases:cases' %}?{{ params_str }}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
-					{{ i }}
-				</a>
-			{% endfor %}
-		</div>
-		{% endif %}
+					{% endfor %}
+				</div>
+			{% endif %}
 		{% else %}
-			{% if params.case_type or params.status %}
+			{% if params.case_type or params.status or params.case_officer or params.assigned_user %}
 				{% include "includes/notice.html" with text="cases.CasesListPage.ACTIVE_FILTER_NO_CASES" %}
 			{% else %}
 				{% include "includes/notice.html" with text="cases.CasesListPage.NO_CASES" %}

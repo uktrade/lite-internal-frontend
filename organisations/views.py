@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 from core.helpers import convert_dict_to_query_params
 from lite_content.lite_internal_frontend import strings
+from lite_forms.components import FiltersBar, TextInput, Select, Option
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
 from organisations.forms import register_business_forms, register_hmrc_organisation_forms
@@ -27,12 +28,17 @@ class OrganisationList(TemplateView):
 
         organisations, _ = get_organisations(request, convert_dict_to_query_params(params))
 
+        filters = FiltersBar([
+            TextInput(name="search_term", title="name"),
+            Select(name="org_type", title="organisation type", options=[Option("individual", "Individual"), Option("commercial", "Commercial"), Option("hmrc", "HMRC")]),
+        ])
+
         context = {
             "data": organisations,
-            "title": "Organisations",
             "page": params.pop("page"),
-            "params": params,
             "params_str": convert_dict_to_query_params(params),
+            "filters": filters,
+            "name": params.get("search_term", "")
         }
         return render(request, "organisations/index.html", context)
 
