@@ -36,9 +36,9 @@ class OrganisationList(TemplateView):
                     name="org_type",
                     title=OrganisationsPage.Filters.TYPE,
                     options=[
-                        Option("individual", "Individual"),
-                        Option("commercial", "Commercial"),
-                        Option("hmrc", "HMRC"),
+                        Option("individual", OrganisationsPage.Filters.Types.INDIVIDUAL),
+                        Option("commercial", OrganisationsPage.Filters.Types.COMMERCIAL),
+                        Option("hmrc", OrganisationsPage.Filters.Types.HMRC),
                     ],
                 ),
             ]
