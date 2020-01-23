@@ -25,9 +25,6 @@ class CaseListPage(BasePage):
     STATUS_DROPDOWN = "status"  # ID
     CASE_TYPE_DROPDOWN = "case_type"  # ID
 
-    # Deprecated
-    FILTER_SEARCH_BOX = "filter-box"  # ID
-
     # Queue dropdown
     QUEUE_DROPDOWN_TITLE = "queue-title"  # ID
 
@@ -74,9 +71,6 @@ class CaseListPage(BasePage):
 
     def get_class_name_of_assign_users_button(self):
         return self.driver.find_element_by_id(self.BUTTON_ASSIGN_USERS).get_attribute("class")
-
-    def enter_name_to_filter_search_box(self, name):
-        return self.driver.find_element_by_id(self.FILTER_SEARCH_BOX).send_keys(name)
 
     def get_text_checkbox_elements(self):
         return self.driver.find_elements_by_css_selector(self.CHECKBOX_TEXT)
