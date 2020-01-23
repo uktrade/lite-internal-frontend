@@ -73,9 +73,7 @@
 
 	<div class="govuk-!-margin-bottom-6" id="case_queues">
 		{% for queue_name in case.queue_names %}
-			<div class="govuk-caption-m">
-				{{ queue_name }}
-			</div>
+			<div class="govuk-caption-m">{{ queue_name }}</div>
 		{% empty %}
 			<span class="govuk-caption-m">{% lcs 'cases.ApplicationPage.NO_QUEUES_ASSIGNED' %}</span>
 		{% endfor %}
@@ -84,7 +82,7 @@
 	<div class="govuk-!-margin-bottom-6" id="assigned_users">
 		{% for user in case.users %}
 			<div class="govuk-caption-m">
-				<span style="opacity: 0.6;">{{ user.queue }}:</span>
+				<span>{{ user.queue }}:</span>
 					{% if user.first_name %}
 						{{ user.first_name }} {{ user.last_name }}
 					{% else %}

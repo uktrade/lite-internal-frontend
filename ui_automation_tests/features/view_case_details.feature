@@ -32,9 +32,5 @@ Feature: I want to view the case details of a case
     And I sign in to SSO or am signed into SSO
     And I am an assigned user for the case
     When I go to application previously created
-    Then I see an end user
-    And I see an ultimate end user
-    And I see a third party
-    And I see a consignee
-    And I see assigned queues
+    Then I see assigned queues
     And I see assigned users
