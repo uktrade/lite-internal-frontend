@@ -24,6 +24,7 @@ class CaseListPage(BasePage):
     FILTER_BAR = "lite-filter-bar"  # Class
     STATUS_DROPDOWN = "status"  # ID
     CASE_TYPE_DROPDOWN = "case_type"  # ID
+    INPUT_ASSIGNED_USER_ID = "assigned_user"
 
     # Queue dropdown
     QUEUE_DROPDOWN_TITLE = "queue-title"  # ID
@@ -115,3 +116,6 @@ class CaseListPage(BasePage):
 
     def click_on_exporter_amendments_banner(self):
         self.driver.find_element_by_id(self.EXPORTER_AMENDMENTS_BANNER).click()
+
+    def enter_assigned_user_filter_text(self, text):
+        self.driver.find_element_by_id(self.INPUT_ASSIGNED_USER_ID).send_keys(text)
