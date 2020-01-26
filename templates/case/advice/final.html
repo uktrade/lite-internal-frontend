@@ -18,7 +18,7 @@
 		{% csrf_token %}
 
 		<!-- Tab bar -->
-		<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
+		<div>
 			<div class="lite-tabs--fade">
 				<div class="lite-tabs">
 					<a href="{% url 'cases:user_advice_view' case.id %}" class="lite-tabs__tab" id="user_advice">User Advice</a>
@@ -71,7 +71,6 @@
         {% endif %}
 
 	</form>
-
 {% endblock %}
 
 {% block javascript %}

@@ -7,10 +7,9 @@
 {% endblock %}
 
 {% block body %}
-
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">{{ title }}</h2>
+			<h1 class="govuk-heading-l">{{ title }}</h1>
 			<p class="govuk-caption-m">
 				{% lcs 'roles.ManageRolesPage.DESCRIPTION' %}
 			</p>
@@ -72,5 +71,4 @@
             {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}

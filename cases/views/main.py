@@ -137,7 +137,7 @@ class ViewCase(TemplateView):
         }
 
         if case_type == CaseType.END_USER_ADVISORY_QUERY.value:
-            return render(request, "case/queries/end_user_advisory.html", context)
+            return render(request, "case/queries/end-user-advisory.html", context)
         elif case_type == CaseType.CLC_QUERY.value:
             context["good"] = case["query"]["good"]
             context["verified"] = case["query"]["good"]["status"]["key"] == "verified"

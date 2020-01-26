@@ -8,7 +8,7 @@
 	<div class="app-letter-preview__container">
 		<div class="lite-app-bar">
 			<div class="lite-app-bar__content">
-				<h2 class="govuk-heading-l" id="title">{% block title %}{{ letter_template.name }}{% endblock %}</h2>
+				<h1 class="govuk-heading-l" id="title">{% block title %}{{ letter_template.name }}{% endblock %}</h2>
 			</div>
 			<div class="lite-app-bar__controls">
 				<a id="edit_template" href="{% url 'letter_templates:edit' letter_template.id %}" class="govuk-button govuk-button--secondary">{% lcs 'LetterTemplates.LetterTemplate.EDIT_BUTTON' %}</a>
@@ -72,5 +72,4 @@
 			</div>
 		{% endif %}
 	</div>
-
 {% endblock %}

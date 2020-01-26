@@ -15,7 +15,6 @@ class Shared(BasePage):
     BODY = "body"  # CSS
     LINKS_IN_TABLE = ".govuk-table td a"
     ROWS_IN_CASES_TABLE = ".govuk-table__body .govuk-table__row"  # CSS
-    H2 = "h2"  # CSS
     LINKS_IN_LITE_TABLE = ".govuk-table__cell a"  # CSS
 
     def click_submit(self):
@@ -38,9 +37,6 @@ class Shared(BasePage):
 
     def get_text_of_lite_table_body(self):
         return self.driver.find_element_by_css_selector(self.LITE_TABLE_BODY).text
-
-    def get_text_of_h2(self):
-        return self.driver.find_element_by_css_selector(self.H2).text
 
     def get_links_in_cells_in_table(self):
         return self.driver.find_elements_by_css_selector(self.LINKS_IN_TABLE)

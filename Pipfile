@@ -37,6 +37,7 @@ bleach = "*"
 gunicorn = "*"
 whitenoise = "*"
 raven = "*"
+lite-linter = "*"
 
 [requires]
 python_version = "3.7"

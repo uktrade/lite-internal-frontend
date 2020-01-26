@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block body %}
-
     <form action="{% url 'letter_templates:letter_paragraphs' %}" method="post">
         {% csrf_token %}
         {% hidden_field 'name' name %}
@@ -13,7 +12,7 @@
         {% hidden_field 'layout' layout.id %}
         <div class="lite-app-bar">
             <div class="lite-app-bar__content">
-                <h2 class="govuk-heading-l">{% block title %}{% lcs 'LetterTemplates.OrderParagraph.TITLE' %}{% endblock %}</h2>
+                <h1 class="govuk-heading-l">{% block title %}{% lcs 'LetterTemplates.OrderParagraph.TITLE' %}{% endblock %}</h2>
                 <h4 class="govuk-heading-s govuk-hint">
                     <noscript>{% lcs 'LetterTemplates.OrderParagraph.NO_JS_HINT' %}</noscript>
                     <span class="lite-js-only">{% lcs 'LetterTemplates.OrderParagraph.JS_HINT' %}</span>
@@ -50,7 +49,6 @@
 			</div>
 		</div>
 	</form>
-
 {% endblock %}
 
 {% block javascript %}

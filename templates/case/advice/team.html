@@ -18,7 +18,7 @@
 		{% csrf_token %}
 
 		<!-- Tab bar -->
-		<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 30px;">
+		<div>
 			<div class="lite-tabs--fade">
 				<div class="lite-tabs">
                     <a href="{% url 'cases:user_advice_view' case.id %}" class="lite-tabs__tab" id="user_advice">User Advice</a>
@@ -48,7 +48,7 @@
 
         <div class="govuk-heading-m">
             Team<br>
-            <select id="team" name="team" class="govuk-select {% if error %}govuk-select--error{% endif %}" style="min-width: 300px;">
+            <select id="team" name="team" class="govuk-select {% if error %}govuk-select--error{% endif %}">
                 {% for team_choice in teams %}
                     <option value="{{ team_choice.id }}" {% if team_choice|key_in_array:team.id %}selected{% endif %}>{{ team_choice.name }}</option>
                 {% endfor %}
