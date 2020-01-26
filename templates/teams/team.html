@@ -22,13 +22,13 @@
 					<th class="govuk-table__header" scope="col">Name</th>
 					<th class="govuk-table__header" scope="col">Email</th>
 					<th class="govuk-table__header" scope="col">Status</th>
-                    <th class="govuk-table__header" scope="col"></th>
+					<th class="govuk-table__header" scope="col"></th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for user in users %}
-	                <tr class="govuk-table__row" id="row-{{ forloop.counter }}">
-	                    <td class="govuk-table__cell">
+					<tr class="govuk-table__row" id="row-{{ forloop.counter }}">
+						<td class="govuk-table__cell">
 							{% if user.first_name %}
 								<a href="{% url 'users:user' user.id %}" class="govuk-link govuk-link--no-visited-state">
 									{{ user.first_name }} {{ user.last_name }}
@@ -38,14 +38,14 @@
 									Pending
 								</strong>
 							{% endif %}
-	                    </td>
-	                    <td class="govuk-table__cell">{{ user.email }}</td>
-	                    <td class="govuk-table__cell">{{ user.status }}</td>
-	                    <td class="govuk-table__cell">
-	                        <a href="{% url 'users:edit' user.id %}" class="govuk-link govuk-link--no-visited-state">Edit</a>
-	                    </td>
-	                </tr>
-            	{% endfor %}
+						</td>
+						<td class="govuk-table__cell">{{ user.email }}</td>
+						<td class="govuk-table__cell">{{ user.status }}</td>
+						<td class="govuk-table__cell">
+							<a href="{% url 'users:edit' user.id %}" class="govuk-link govuk-link--no-visited-state">Edit</a>
+						</td>
+					</tr>
+				{% endfor %}
 			</tbody>
 		</table>
 	{% else %}

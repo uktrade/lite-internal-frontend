@@ -40,7 +40,7 @@
 								{{ organisation.name|highlight_text:search_term }}
 							</a>
 						</td>
-                        <td class="govuk-table__cell">
+						<td class="govuk-table__cell">
 							{{ organisation.type.value }}
 						</td>
 						<td class="govuk-table__cell">
@@ -59,8 +59,8 @@
 				{% endfor %}
 			</tbody>
 		</table>
-        {% if data.total_pages > 1 %}
-	        {% include "includes/pagination.html" %}
+		{% if data.total_pages > 1 %}
+			{% include "includes/pagination.html" %}
 		{% endif %}
 	{% else %}
 		{% include "includes/notice.html" with text="organisations.OrganisationsPage.ACTIVE_FILTER_NO_ORGANISATIONS" %}

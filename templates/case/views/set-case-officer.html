@@ -46,22 +46,22 @@
 		</h1>
 	</legend>
 	<span class="govuk-hint govuk-!-margin-bottom-6">
-        {% lcs 'cases.CaseOfficerPage.Search.DESCRIPTION' %}
+		{% lcs 'cases.CaseOfficerPage.Search.DESCRIPTION' %}
 	</span>
 
-    <form method="get" class="govuk-!-margin-bottom-6">
+	<form method="get" class="govuk-!-margin-bottom-6">
 		<div class="lite-search__container">
-		    <input type="search" name="name" class="govuk-input" id="input-search" value="{{ name }}" placeholder="{% lcs 'cases.CaseOfficerPage.Search.PLACEHOLDER' %}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-            <button class="lite-search__button" type="submit" id="button-search">
+			<input type="search" name="name" class="govuk-input" id="input-search" value="{{ name }}" placeholder="{% lcs 'cases.CaseOfficerPage.Search.PLACEHOLDER' %}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+			<button class="lite-search__button" type="submit" id="button-search">
 				{% svg 'search' %}
 				<span>{% lcs 'cases.CaseOfficerPage.Search.SEARCH' %}</span>
 			</button>
-	    </div>
-    </form>
+		</div>
+	</form>
 
 	{% if users.gov_users %}
 		<form method="post">
-            {% csrf_token %}
+			{% csrf_token %}
 
 			<div id="radios-users" class="govuk-radios {% if error %}govuk-form-group--error{% endif %} govuk-!-margin-bottom-6">
 				{% if error %}
@@ -70,35 +70,35 @@
 						{{ error }}
 					</span>
 				{% endif %}
-	            {% for user in users.gov_users %}
-	                <div class="govuk-radios__item">
-	                    <input class="govuk-radios__input" id="user-{{ user.id }}" name="user" type="radio" value="{{ user.id }}"
-	                        {% if user.id == case_officer.id %}checked{% endif %}>
-	                    <label class="govuk-label govuk-radios__label" for="user-{{ user.id }}">
+				{% for user in users.gov_users %}
+					<div class="govuk-radios__item">
+						<input class="govuk-radios__input" id="user-{{ user.id }}" name="user" type="radio" value="{{ user.id }}"
+							{% if user.id == case_officer.id %}checked{% endif %}>
+						<label class="govuk-label govuk-radios__label" for="user-{{ user.id }}">
 							{% if user.first_name %}
-	                        	{{ user.first_name|add:' '|add:user.last_name|highlight_text:name }}
+								{{ user.first_name|add:' '|add:user.last_name|highlight_text:name }}
 							{% else %}
 								{{ user.email }}
 							{% endif %}
-	                    </label>
+						</label>
 						{% if user.first_name %}
-		                    <span class="govuk-hint govuk-radios__hint">
-		                        {{ user.email }}
-		                    </span>
+							<span class="govuk-hint govuk-radios__hint">
+								{{ user.email }}
+							</span>
 						{% endif %}
-	                    <span class="govuk-hint govuk-radios__hint">
-	                        {{ user.team.name }}
-	                    </span>
-	                </div>
-	            {% endfor %}
+						<span class="govuk-hint govuk-radios__hint">
+							{{ user.team.name }}
+						</span>
+					</div>
+				{% endfor %}
 			</div>
 
-            <button id="button-assign" class="govuk-button" data-module="govuk-button" type="submit" name="_action" value="assign" action="assign">
-                {% lcs 'cases.CaseOfficerPage.Search.ASSIGN' %}
-            </button>
+			<button id="button-assign" class="govuk-button" data-module="govuk-button" type="submit" name="_action" value="assign" action="assign">
+				{% lcs 'cases.CaseOfficerPage.Search.ASSIGN' %}
+			</button>
 		</form>
 	{% else %}
-        <p class="govuk-caption-l">{% lcs 'cases.CaseOfficerPage.Search.NO_RESULTS' %}</p>
+		<p class="govuk-caption-l">{% lcs 'cases.CaseOfficerPage.Search.NO_RESULTS' %}</p>
 	{% endif %}
 {% endblock %}
 

@@ -38,8 +38,8 @@
 							{% if user_data.user.team.id == queue.team.id %}
 								<a href="{% url 'queues:edit' queue.id %}" class="govuk-link govuk-link--no-visited-state">Edit</a>
 							{% else %}
-                				None
-            				{% endif %}
+								None
+							{% endif %}
 						</td>
 					</tr>
 				{% endfor %}

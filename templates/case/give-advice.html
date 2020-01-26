@@ -54,7 +54,6 @@
 		<input type="hidden" name="third_parties" value="{{ third_parties }}">
 
 		{% if type == 'proviso' %}
-
 			<div class="govuk-form-group {% if errors|key_value:'proviso' %}govuk-form-group--error{% endif %}">
 				<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="5000">
 					<div class="govuk-form-group">
@@ -67,9 +66,9 @@
 								{% lcs 'cases.Advice.IMPORT_PROVISO' %}
 							</a>
 						</div>
-			  <span class="govuk-hint" for="{{ question.name }}">
-				{% lcs 'cases.Advice.TEXT_ON_LICENCE' %}
-			  </span>
+						<span class="govuk-hint" for="{{ question.name }}">
+							{% lcs 'cases.Advice.TEXT_ON_LICENCE' %}
+						</span>
 						{% if errors|key_value:'proviso' %}
 							<span class="govuk-error-message">
 								<span class="govuk-visually-hidden">Error:</span> {{ errors|key_value:'proviso'|first }}
@@ -77,7 +76,6 @@
 						{% endif %}
 						<textarea class="govuk-textarea govuk-js-character-count " id="proviso" name="proviso" rows="5" aria-describedby="proviso-info proviso-hint">{{ data.proviso }}</textarea>
 					</div>
-
 					<span id="proviso-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
 						You can enter up to 5000 characters
 					</span>
@@ -146,9 +144,9 @@
 						<span class="govuk-visually-hidden">Error:</span> {{ errors|key_value:'note'|first }}
 					</span>
 				{% endif %}
-		  <span class="govuk-hint" for="{{ question.name }}">
-			{% lcs 'cases.Advice.TEXT_ON_LICENCE' %}
-		  </span>
+				<span class="govuk-hint" for="{{ question.name }}">
+					{% lcs 'cases.Advice.TEXT_ON_LICENCE' %}
+				</span>
 				<textarea class="govuk-textarea govuk-js-character-count " id="textarea-note" name="note" rows="5" aria-describedby="textarea-note-info textarea-note-hint">{{ data.note }}</textarea>
 			</div>
 
@@ -160,7 +158,6 @@
 		<button type="submit" class="govuk-button" data-module="govuk-button">
 			Submit advice
 		</button>
-
 	</form>
 
 	<div id="modal-proviso-picker">

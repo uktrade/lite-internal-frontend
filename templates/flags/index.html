@@ -43,7 +43,7 @@
 						<tr class="govuk-table__row">
 							<th class="govuk-table__header" scope="col">Name</th>
 							<th class="govuk-table__header" scope="col">Level</th>
-		                    <th class="govuk-table__header" scope="col">Status</th>
+							<th class="govuk-table__header" scope="col">Status</th>
 							<th class="govuk-table__header" scope="col">Actions</th>
 						</tr>
 					</thead>
@@ -56,12 +56,12 @@
 									</a>
 									<p class="lite-hint">{{ flag.team.name }}</p>
 								</td>
-		                        <td class="govuk-table__cell">
-		                            {{ flag.level }}
-		                        </td>
-		                        <td class="govuk-table__cell">
-		                            {{ flag.status }}
-		                        </td>
+								<td class="govuk-table__cell">
+									{{ flag.level }}
+								</td>
+								<td class="govuk-table__cell">
+									{{ flag.status }}
+								</td>
 								<td class="govuk-table__cell">
 									{% if user_data.user.team.id == flag.team.id %}
 										{% if flag.status == 'Active' %}
@@ -71,8 +71,8 @@
 										{% endif %}
 										<a href="{% url 'flags:edit' flag.id %}" class="govuk-link govuk-link--no-visited-state">Edit</a>
 									{% else %}
-		                                None
-		                            {% endif %}
+										None
+									{% endif %}
 								</td>
 							</tr>
 						{% endfor %}

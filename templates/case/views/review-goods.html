@@ -14,21 +14,21 @@
 			<p class="govuk-caption-m">{{ case.application.application_type.value }}</p>
 			<h1 class="govuk-heading-l">{% lcs 'cases.ReviewGoodsSummary.HEADING' %}</h1>
 		</div>
-	    <div class="lite-app-bar__controls">
-	        <a id="button-add-report-summary" value="goods" class="btn govuk-button" data-module="govuk-button" href="{{ review_goods_clc_url }}">
+		<div class="lite-app-bar__controls">
+			<a id="button-add-report-summary" value="goods" class="btn govuk-button" data-module="govuk-button" href="{{ review_goods_clc_url }}">
 				{% lcs 'cases.ReviewGoodsSummary.REVIEW_BUTTON' %}
-	        </a>
-	    </div>
+			</a>
+		</div>
 	</div>
 
 	<div class="app-flags" id="application-case-flags">
-	    {% for flag in case.flags %}
-	        <div class="app-flag" id="{{ flag.name }}">
-	            {{ flag.name }}
-	        </div>
-	    {% endfor %}
+		{% for flag in case.flags %}
+			<div class="app-flag" id="{{ flag.name }}">
+				{{ flag.name }}
+			</div>
+		{% endfor %}
 		<a href="{{ edit_flags_url }}" id="button-edit-goods-flags" class="app-flag app-flag--action">
-	        {% lcs 'cases.ReviewGoodsSummary.SET_FLAGS' %}
+			{% lcs 'cases.ReviewGoodsSummary.SET_FLAGS' %}
 		</a>
 	</div>
 

@@ -30,8 +30,8 @@
 				{% for letter_template in data.results %}
 					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
-                            <a href="{% url 'letter_templates:letter_template' letter_template.id %}" id="{{ letter_template.name }}" class="govuk-link">{{ letter_template.name }}</a>
-                        </td>
+							<a href="{% url 'letter_templates:letter_template' letter_template.id %}" id="{{ letter_template.name }}" class="govuk-link">{{ letter_template.name }}</a>
+						</td>
 						<td class="govuk-table__cell">
 							{{ letter_template.layout.name }}
 						</td>
@@ -45,9 +45,9 @@
 				{% endfor %}
 			</tbody>
 		</table>
-        {% include "includes/pagination.html" with data=data %}
+		{% include "includes/pagination.html" with data=data %}
 	{% else %}
-        {% lcs 'letter_templates.LetterTemplatesPage.NONE_FOUND' as text %}
-        {% include "includes/information-text.html" with text=text  %}
+		{% lcs 'letter_templates.LetterTemplatesPage.NONE_FOUND' as text %}
+		{% include "includes/information-text.html" with text=text  %}
 	{% endif %}
 {% endblock %}
