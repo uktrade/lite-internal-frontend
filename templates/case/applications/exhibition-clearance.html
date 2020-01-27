@@ -30,10 +30,6 @@
 				<p>{{ case.application.reference_number_on_information_form|default_na }}</p>
 			</div>
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">{% lcs 'CASE_INFO_EXPORT_TYPE' %}</p>
-				<p>{{ case.application.export_type.value }}</p>
-			</div>
-			<div class="govuk-grid-column-one-quarter">
 				<p class="app-case-board__heading">{% lcs 'CASE_INFO_USAGE' %}</p>
 				<p>{{ case.application.usage|default_na }}</p>
 			</div>

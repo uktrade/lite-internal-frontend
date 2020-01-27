@@ -10,6 +10,7 @@ from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from cases.constants import CaseType
 from cases.forms.attach_documents import attach_documents_form
+from cases.forms.change_status import change_status_form
 from cases.forms.move_case import move_case_form
 from cases.helpers import get_updated_cases_banner_queue_id
 from cases.services import (
@@ -198,6 +199,27 @@ class ViewAdvice(TemplateView):
         return render(request, "case/advice/user.html", context)
 
 
+class ChangeStatus(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = str(kwargs["pk"])
+        case = get_case(request, self.object_pk)
+        self.case_type = case["type"]["key"]
+        permissible_statuses = get_permissible_statuses(request, self.case_type)
+        self.data = case["application"] if "application" in case else case["query"]
+        self.form = change_status_form(case, permissible_statuses)
+        self.success_url = reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
+
+    def get_action(self):
+        if self.case_type == CaseType.APPLICATION.value or \
+                self.case_type == CaseType.HMRC_QUERY.value or \
+                self.case_type == CaseType.EXHIBITION_CLEARANCE.value:
+            return put_application_status
+        elif self.case_type == CaseType.END_USER_ADVISORY_QUERY.value:
+            return put_end_user_advisory_query
+        elif self.case_type == CaseType.CLC_QUERY.value:
+            return put_clc_query_status
+
+
 class ManageCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
@@ -205,25 +227,14 @@ class ManageCase(TemplateView):
         case_type = case["type"]["key"]
         permissible_statuses = get_permissible_statuses(request, case_type)
 
-        if case_type == CaseType.APPLICATION.value:
-            title = cases.ChangeStatusPage.TITLE_APPLICATION
-        elif case_type == CaseType.HMRC_QUERY.value:
-            title = cases.ChangeStatusPage.TITLE_APPLICATION
-        elif case_type == CaseType.END_USER_ADVISORY_QUERY.value:
-            title = cases.ChangeStatusPage.TITLE_EUA
-        elif case_type == CaseType.CLC_QUERY.value:
-            title = cases.ChangeStatusPage.TITLE_CLC
-        else:
-            raise Exception("Invalid case_type: {}".format(case_type))
-
-        context = {"case": case, "title": title, "statuses": permissible_statuses}
+        context = {"case": case, "statuses": permissible_statuses}
         return render(request, "case/views/change-status.html", context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
 
-        if case["type"]["key"] == CaseType.APPLICATION.value or case["type"]["key"] == CaseType.HMRC_QUERY.value:
+        if case["type"]["key"] == CaseType.APPLICATION.value or case["type"]["key"] == CaseType.HMRC_QUERY.value or case["type"]["key"] == CaseType.EXHIBITION_CLEARANCE.value:
             application_id = case.get("application").get("id")
             put_application_status(request, application_id, request.POST)
         elif case["type"]["key"] == CaseType.END_USER_ADVISORY_QUERY.value:
