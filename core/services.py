@@ -9,6 +9,7 @@ from conf.constants import (
     CONTROL_LIST_ENTRIES_URL,
     NOTIFICATIONS_URL,
     STATUS_PROPERTIES_URL,
+    Statuses,
 )
 from users.services import get_gov_user
 
@@ -78,11 +79,12 @@ def get_permissible_statuses(request, case_type):
         case_type_applicable_statuses = [
             status
             for status in statuses
-            if status["key"] not in ["applicant_editing", "closed", "finalised", "registered"]
+            if status["key"]
+            not in [Statuses.APPLICANT_EDITING, Statuses.CLOSED, Statuses.FINALISED, Statuses.REGISTERED]
         ]
     else:
         case_type_applicable_statuses = [
-            status for status in statuses if status["key"] in ["closed", "submitted", "withdrawn"]
+            status for status in statuses if status["key"] in [Statuses.CLOSED, Statuses.SUBMITTED, Statuses.WITHDRAWN]
         ]
 
     return [status for status in case_type_applicable_statuses if status in user_permissible_statuses]
