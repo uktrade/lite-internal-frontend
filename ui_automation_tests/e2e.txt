@@ -8,4 +8,4 @@ pytest-xdist==1.30.0
 pytest-rerunfailures==8.0
 faker==3.0.0
 django-environ==0.4.5
-pyderman=2.0.0
+pyderman==2.0.0
