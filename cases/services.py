@@ -63,14 +63,12 @@ def put_control_list_classification_query(request, pk, json):
 
 
 def put_clc_query_status(request, pk, json):
-    json = format_status_in_request_data(json)
     data = put(request, CLC_QUERIES_URL + pk + MANAGE_STATUS_URL, json)
     return data.json(), data.status_code
 
 
 # EUA Queries
 def put_end_user_advisory_query(request, pk, json):
-    json = format_status_in_request_data(json)
     data = put(request, END_USER_ADVISORY_URL + str(pk), json)
     return data.json(), data.status_code
 

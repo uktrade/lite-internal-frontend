@@ -72,7 +72,7 @@ def get_permissible_statuses(request, case_type):
     """ Get a list of case statuses permissible for the user's role. """
     user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
     user_permissible_statuses = user["user"]["role"]["statuses"]
-    statuses, status_code = get_statuses(request)
+    statuses, _ = get_statuses(request)
 
     if case_type == CaseType.APPLICATION.value:
         case_type_applicable_statuses = [

@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from django.contrib import messages
-from django.http import StreamingHttpResponse, Http404
+from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
