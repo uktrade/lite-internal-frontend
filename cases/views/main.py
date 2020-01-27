@@ -222,7 +222,7 @@ class ChangeStatus(SingleFormView):
             return put_clc_query_status
 
     def get_success_url(self):
-        messages.success(self.request, "You've changed the case status successfully")
+        messages.success(self.request, cases.ChangeStatusPage.SUCCESS_MESSAGE)
         return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
 
 
@@ -235,7 +235,7 @@ class MoveCase(SingleFormView):
         self.action = put_case
 
     def get_success_url(self):
-        messages.success(self.request, "You've moved the case successfully")
+        messages.success(self.request, cases.Manage.MoveCase.SUCCESS_MESSAGE)
         return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
 
 
