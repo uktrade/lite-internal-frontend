@@ -64,7 +64,6 @@ def put_goods_query_clc(request, pk, json):
 
 
 def put_goods_query_status(request, pk, json):
-    json = format_status_in_request_data(json)
     data = put(request, GOODS_QUERIES_URL + pk + MANAGE_STATUS_URL, json)
     return data.json(), data.status_code
 
