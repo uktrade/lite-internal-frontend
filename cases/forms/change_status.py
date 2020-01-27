@@ -1,6 +1,6 @@
 from cases.helpers import case_view_breadcrumbs
 from lite_content.lite_internal_frontend import cases
-from lite_forms.components import Form, RadioButtons, Option
+from lite_forms.components import Form, Option, Select
 
 
 def change_status_form(case, statuses):
@@ -8,10 +8,10 @@ def change_status_form(case, statuses):
         title=cases.ChangeStatusPage.TITLE,
         description=cases.ChangeStatusPage.DESCRIPTION,
         questions=[
-            RadioButtons(
+            Select(
                 name="status",
                 options=[Option(status["key"], status["value"]) for status in statuses],
-                classes=["govuk-radios--small"],
+                include_default_select=False
             )
         ],
         back_link=case_view_breadcrumbs(case, cases.ChangeStatusPage.TITLE),
