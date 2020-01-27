@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from django.contrib import messages
 from django.http import StreamingHttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
@@ -207,7 +208,6 @@ class ChangeStatus(SingleFormView):
         permissible_statuses = get_permissible_statuses(request, self.case_type)
         self.data = case["application"] if "application" in case else case["query"]
         self.form = change_status_form(case, permissible_statuses)
-        self.success_url = reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
 
     def get_action(self):
         if self.case_type == CaseType.APPLICATION.value or \
@@ -219,6 +219,10 @@ class ChangeStatus(SingleFormView):
         elif self.case_type == CaseType.CLC_QUERY.value:
             return put_clc_query_status
 
+    def get_success_url(self):
+        messages.success(self.request, "You've changed the case status successfully")
+        return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
+
 
 class MoveCase(SingleFormView):
     def init(self, request, **kwargs):
@@ -227,7 +231,10 @@ class MoveCase(SingleFormView):
         self.data = case
         self.form = move_case_form(request, case)
         self.action = put_case
-        self.success_url = reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
+
+    def get_success_url(self):
+        messages.success(self.request, "You've moved the case successfully")
+        return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
 
 
 class Documents(TemplateView):
