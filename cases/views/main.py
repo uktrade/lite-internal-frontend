@@ -220,35 +220,6 @@ class ChangeStatus(SingleFormView):
             return put_clc_query_status
 
 
-class ManageCase(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-        case_type = case["type"]["key"]
-        permissible_statuses = get_permissible_statuses(request, case_type)
-
-        context = {"case": case, "statuses": permissible_statuses}
-        return render(request, "case/views/change-status.html", context)
-
-    def post(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-
-        if case["type"]["key"] == CaseType.APPLICATION.value or case["type"]["key"] == CaseType.HMRC_QUERY.value or case["type"]["key"] == CaseType.EXHIBITION_CLEARANCE.value:
-            application_id = case.get("application").get("id")
-            put_application_status(request, application_id, request.POST)
-        elif case["type"]["key"] == CaseType.END_USER_ADVISORY_QUERY.value:
-            query_id = case.get("query").get("id")
-            put_end_user_advisory_query(request, query_id, request.POST)
-        elif case["type"]["key"] == CaseType.CLC_QUERY.value:
-            query_id = case.get("query").get("id")
-            put_clc_query_status(request, query_id, request.POST)
-        else:
-            raise Http404
-
-        return redirect(reverse("cases:case", kwargs={"pk": case_id}))
-
-
 class MoveCase(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
