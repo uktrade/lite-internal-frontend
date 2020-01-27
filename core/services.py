@@ -74,16 +74,6 @@ def get_permissible_statuses(request, case_type):
     user_permissible_statuses = user["user"]["role"]["statuses"]
     statuses, status_code = get_statuses(request)
 
-    print('\n')
-    print("User statuses")
-    print(user["user"]["role"]["statuses"])
-    print('\n')
-
-    print('\n')
-    print("Statuses")
-    print(statuses)
-    print('\n')
-
     if case_type == CaseType.APPLICATION.value:
         case_type_applicable_statuses = [
             status
@@ -92,9 +82,7 @@ def get_permissible_statuses(request, case_type):
         ]
     else:
         case_type_applicable_statuses = [
-            status
-            for status in statuses
-            if status["key"] in ["closed", "submitted", "withdrawn"]
+            status for status in statuses if status["key"] in ["closed", "submitted", "withdrawn"]
         ]
 
     return [status for status in case_type_applicable_statuses if status in user_permissible_statuses]

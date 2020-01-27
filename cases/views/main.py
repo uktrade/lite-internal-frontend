@@ -210,9 +210,11 @@ class ChangeStatus(SingleFormView):
         self.form = change_status_form(case, permissible_statuses)
 
     def get_action(self):
-        if self.case_type == CaseType.APPLICATION.value or \
-                self.case_type == CaseType.HMRC_QUERY.value or \
-                self.case_type == CaseType.EXHIBITION_CLEARANCE.value:
+        if (
+            self.case_type == CaseType.APPLICATION.value
+            or self.case_type == CaseType.HMRC_QUERY.value
+            or self.case_type == CaseType.EXHIBITION_CLEARANCE.value
+        ):
             return put_application_status
         elif self.case_type == CaseType.END_USER_ADVISORY_QUERY.value:
             return put_end_user_advisory_query
