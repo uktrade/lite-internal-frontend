@@ -11,7 +11,7 @@ def change_status_form(case, statuses):
             Select(
                 name="status",
                 options=[Option(status["key"], status["value"]) for status in statuses],
-                include_default_select=False
+                include_default_select=False,
             )
         ],
         back_link=case_view_breadcrumbs(case, cases.ChangeStatusPage.TITLE),
