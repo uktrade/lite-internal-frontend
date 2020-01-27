@@ -1,5 +1,7 @@
 from pytest_bdd import scenarios, when, then, given
 
+from pages.application_page import ApplicationPage
+
 scenarios("../features/exhibition_clearance.feature", strict_gherkin=False)
 
 
@@ -15,4 +17,4 @@ def i_click_on_the_exhibition_clearance_case(driver, context):
 
 @then("I see the Exhibition Clearance case page")  # noqa
 def i_see_the_exhibition_clearance_case_page(driver, context):
-    assert driver.find_element_by_id("heading-reference-code").text == context.reference_code
+    assert driver.find_element_by_id(ApplicationPage.HEADING_ID).text == context.reference_code
