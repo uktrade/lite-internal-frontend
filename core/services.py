@@ -63,7 +63,7 @@ def get_statuses(request, convert_to_options=False):
     data = get(request, STATUSES_URL)
 
     if convert_to_options:
-        return [Option(key=item["key"], value=item["value"]) for item in data.json().get("statuses")]
+        return [Option(key=item["id"], value=item["value"]) for item in data.json().get("statuses")]
 
     return data.json()["statuses"], data.status_code
 
