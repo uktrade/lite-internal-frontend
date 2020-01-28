@@ -14,6 +14,13 @@ RUN apt-get update && apt-get install -yq \
     python-pytest-xdist \
     xclip
 
+RUN apt-get clean \
+ && cd /var/lib/apt \
+ && mv lists lists.old \
+ && mkdir -p lists/partial \
+ && apt-get update \
+ && apt-get upgrade -y
+
 RUN wget -q "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O /tmp/google-chrome-stable_current_amd64.deb \
     && apt-get install -f /tmp/google-chrome-stable_current_amd64.deb -yq
 
