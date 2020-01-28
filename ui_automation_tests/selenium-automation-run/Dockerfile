@@ -21,8 +21,10 @@ RUN apt-get clean \
  && apt-get update \
  && apt-get upgrade -y
 
-RUN wget -q "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O /tmp/google-chrome-stable_current_amd64.deb \
-    && apt-get install -f /tmp/google-chrome-stable_current_amd64.deb -yq
+RUN cd /tmp && \
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    dpkg -i google-chrome-stable_current_amd64.deb; apt-get update; apt-get install -y -f
+
 
 # chromeDriver v2.35
 RUN wget -q "https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
