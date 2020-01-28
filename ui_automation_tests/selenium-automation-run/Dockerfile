@@ -14,20 +14,20 @@ RUN apt-get update && apt-get install -yq \
     python-pytest-xdist \
     xclip=0.12+svn84-4+b1
 
+RUN wget -q "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O /tmp/google-chrome-stable_current_amd64.deb \
+    && apt install -f /tmp/google-chrome-stable_current_amd64.deb -yq
+
 # chromeDriver v2.35
 RUN wget -q "https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
     && unzip -o /tmp/chromedriver.zip -d /usr/bin/ \
     && rm /tmp/chromedriver.zip
-
-RUN wget -q "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O /tmp/google-chrome-stable_current_amd64.deb \
-  && apt install -f /tmp/google-chrome-stable_current_amd64.deb -yq
 
 # xvfb - X server display
 COPY xvfb-chrome /usr/bin/xvfb-chrome
 RUN rm /usr/bin/google-chrome \
     && ln -s /usr/bin/xvfb-chrome /usr/bin/google-chrome \
     && chmod 777 /usr/bin/xvfb-chrome
-    
+
 FROM selenium_base
 
 # pip
