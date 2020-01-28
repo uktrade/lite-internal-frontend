@@ -1,0 +1,114 @@
+{% extends 'layouts/two-pane.html' %}
+
+{% block back_link %}{% endblock %}
+
+{% block two_thirds %}
+
+	<h2 class="govuk-heading-l">{{ title }}</h2>
+
+    <p class="govuk-body-m">You won't be able to change this case once you've submitted.</p>
+
+	<br>
+
+	<form action="{% url 'cases:respond_to_pv_grading_query' case.id %}" method="post">
+
+		{% hidden_field 'prefix' data.prefix %}
+		{% hidden_field 'grading' data.grading%}
+		{% hidden_field 'suffix' data.suffix %}
+		{% hidden_field 'comment' data.comment %}
+
+		{% csrf_token %}
+
+		<h4 class="govuk-heading-s">{{ case.query.id|reference_code }}</h4>
+		<div class="app-summary-list app-inset-text">
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Description</p>
+				<p class="govuk-body-m">{{ case.query.good.description }}</p>
+			</div>
+
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Control list entry</p>
+				<p class="govuk-body-m">{{ case.query.good.control_code|default_na }}</p>
+			</div>
+
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Part Number</p>
+				<p class="govuk-body-m">{{ case.query.good.part_number }}</p>
+			</div>
+
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Flags</p>
+				<div class="app-flags">
+					{% for flag in case.query.good.flags %}
+						<div class="app-flag" id="{{ flag.name }}">
+							{{ flag.name }}
+						</div>
+					{% endfor %}
+					<button class="app-flag app-flag--action" type="submit" name="action" value="set-flags">
+						{% if case.query.good.flags %}
+							Edit good flags
+						{% else %}
+							Set a flag on this good
+						{% endif %}
+					</button>
+				</div>
+			</div>
+
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Documents</p>
+				{% for document in case.query.good.documents %}
+					<div>
+						<a href="#" class="govuk-link govuk-body-m">
+							{% if document.safe == True %}
+								<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.id %}">
+									<span class="govuk-visually-hidden">Download</span> {{ document.name }}
+								</a>
+							{% elif document.safe == False %}
+								{% lcs 'cases.Manage.Documents.VIRUS_INFECTED' %} {{ document.name }}
+							{% else %}
+								{% lcs 'cases.Manage.Documents.PROCESSING' %} {{ document.name }}
+							{% endif %}
+						</a>
+					</div>
+				{% empty %}
+					<p class="govuk-body-m">This good has no documents attached.</p>
+				{% endfor %}
+			</div>
+		</div>
+
+		<br>
+
+		<h4 class="govuk-heading-s">Your response</h4>
+		<div class="app-summary-list app-inset-text">
+			<div class="app-summary-list__item">
+				<div class="app-pv-grading-inputs">
+					<div class="govuk-form-group">
+						<p class="govuk-caption-m">prefix</p>
+						<p class="govuk-body-m">{{data.prefix}}</p>
+					</div>
+					<div class="govuk-form-group">
+						<p class="govuk-caption-m">grading</p>
+						<p class="govuk-body-m">{{data.grading}}</p>
+					</div>
+					<div class="govuk-form-group">
+						<p class="govuk-caption-m">suffix</p>
+						<p class="govuk-body-m">{{ data.suffix }}</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="app-summary-list__item">
+				<p class="govuk-caption-m">Comment (optional)</p>
+				<p class="govuk-body-m">{{ data.comment }}</p>
+			</div>
+		</div>
+
+		<br><br>
+
+		<div class="lite-buttons-row">
+			<button type="submit" name="action" value="submit" class="govuk-button">Submit response</button>
+			<button type="submit" name="action" value="change" class="govuk-button govuk-button--secondary">Change answers</button>
+		</div>
+	</form>
+
+{% endblock %}

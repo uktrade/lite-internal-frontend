@@ -30,6 +30,7 @@ from conf.constants import (
     CASE_OFFICER_URL,
     GOODS_QUERIES_URL,
     CLC_RESPONSE_URL,
+    PV_GRADING_RESPONSE_URL,
 )
 
 
@@ -60,6 +61,11 @@ def get_application_default_duration(request, pk):
 # Goods Queries
 def put_goods_query_clc(request, pk, json):
     data = put(request, GOODS_QUERIES_URL + pk + CLC_RESPONSE_URL, json)
+    return data.json(), data.status_code
+
+
+def put_goods_query_pv_grading(request, pk, json):
+    data = put(request, GOODS_QUERIES_URL + pk + PV_GRADING_RESPONSE_URL, json)
     return data.json(), data.status_code
 
 
