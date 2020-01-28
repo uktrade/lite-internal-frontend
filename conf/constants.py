@@ -4,6 +4,12 @@ ISO8601_FMT = "%Y-%m-%dT%H:%M:%S.%fZ"
 DEFAULT_QUEUE_ID = "00000000-0000-0000-0000-000000000001"
 UPDATED_CASES_QUEUE_ID = "00000000-0000-0000-0000-000000000004"
 
+
+class GoodSystemFlags:
+    CLC_FLAG = "00000000-0000-0000-0000-000000000002"
+    PV_GRADING_FLAG = "00000000-0000-0000-0000-000000000003"
+
+
 # URLS
 ORGANISATIONS_URL = "/organisations/"
 CASE_URL = "/cases/"
@@ -34,11 +40,14 @@ ASSIGN_FLAGS_URL = FLAGS_URL + "assign/"
 FLAGS_CASE_LEVEL_FOR_TEAM = "/flags/?level=Case&team=True"
 FLAGS_GOOD_LEVEL_FOR_TEAM = "/flags/?level=Good&team=True"
 FLAGS_ORGANISATION_LEVEL_FOR_TEAM = "/flags/?level=Organisation&team=True"
-CLC_QUERIES_URL = "/queries/control-list-classifications/"
+GOODS_QUERIES_URL = "/queries/goods-queries/"
+CLC_RESPONSE_URL = "/clc-response/"
 PICKLIST_URL = "/picklist/"
 LETTER_TEMPLATES_URL = "/letter-templates/"
 GOOD_CLC_REVIEW_URL = "/goods/controlcode/"
 MANAGE_STATUS_URL = "/status/"
+FINALISE_URL = "/finalise/"
+DURATION_URL = "/duration/"
 NOTIFICATIONS_URL = "/gov_users/notifications/"
 GENERATED_DOCUMENTS_URL = "/generated-documents/"
 GENERATED_DOCUMENTS_PREVIEW_URL = GENERATED_DOCUMENTS_URL + "preview/"
@@ -75,6 +84,7 @@ class Permission(Enum):
     ADMINISTER_ROLES = "ADMINISTER_ROLES"
     REVIEW_GOODS = "REVIEW_GOODS"
     CONFIGURE_TEMPLATES = "CONFIGURE_TEMPLATES"
+    MANAGE_LICENCE_DURATION = "MANAGE_LICENCE_DURATION"
 
 
 class FlagLevels:

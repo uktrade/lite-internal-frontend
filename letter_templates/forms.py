@@ -70,9 +70,12 @@ def edit_letter_template(letter_template):
                 title=strings.LetterTemplates.EditLetterTemplate.CaseTypes.TITLE,
                 name="case_types",
                 options=[
-                    Option("application", "Application"),
-                    Option("clc_query", "CLC Query"),
-                    Option("end_user_advisory_query", "End User Advisory Query"),
+                    Option("application", strings.LetterTemplates.EditLetterTemplate.CaseTypes.Types.APPLICATION),
+                    Option("goods_query", strings.LetterTemplates.EditLetterTemplate.CaseTypes.Types.GOODS_QUERY),
+                    Option(
+                        "end_user_advisory_query",
+                        strings.LetterTemplates.EditLetterTemplate.CaseTypes.Types.END_USER_ADVISORY,
+                    ),
                 ],
             ),
             RadioButtonsImage(

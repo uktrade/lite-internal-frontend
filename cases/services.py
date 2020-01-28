@@ -7,7 +7,6 @@ from conf.constants import (
     CASE_NOTES_URL,
     APPLICATIONS_URL,
     ACTIVITY_URL,
-    CLC_QUERIES_URL,
     DOCUMENTS_URL,
     END_USER_ADVISORY_URL,
     CASE_FLAGS_URL,
@@ -23,11 +22,15 @@ from conf.constants import (
     VIEW_FINAL_ADVICE_URL,
     GOOD_CLC_REVIEW_URL,
     MANAGE_STATUS_URL,
+    FINALISE_URL,
+    DURATION_URL,
     GENERATED_DOCUMENTS_URL,
     GENERATED_DOCUMENTS_PREVIEW_URL,
     DESTINATION_URL,
     CASE_OFFICER_URL,
     CASE_TYPES_URL,
+    GOODS_QUERIES_URL,
+    CLC_RESPONSE_URL,
 )
 
 
@@ -54,15 +57,23 @@ def put_application_status(request, pk, json):
     return put(request, APPLICATIONS_URL + pk + MANAGE_STATUS_URL, json).status_code
 
 
-# CLC Queries
-def put_control_list_classification_query(request, pk, json):
-    data = put(request, CLC_QUERIES_URL + pk, json)
+def finalise_application(request, pk, json):
+    return put(request, f"{APPLICATIONS_URL}{pk}{FINALISE_URL}", json)
+
+
+def get_application_default_duration(request, pk):
+    return int(get(request, f"{APPLICATIONS_URL}{pk}{DURATION_URL}").json()["licence_duration"])
+
+
+# Goods Queries
+def put_goods_query_clc(request, pk, json):
+    data = put(request, GOODS_QUERIES_URL + pk + CLC_RESPONSE_URL, json)
     return data.json(), data.status_code
 
 
-def put_clc_query_status(request, pk, json):
+def put_goods_query_status(request, pk, json):
     json = format_status_in_request_data(json)
-    return put(request, CLC_QUERIES_URL + pk + MANAGE_STATUS_URL, json).status_code
+    return put(request, GOODS_QUERIES_URL + pk + MANAGE_STATUS_URL, json).status_code
 
 
 # EUA Queries
