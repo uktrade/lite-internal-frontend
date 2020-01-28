@@ -1,8 +1,8 @@
 FROM python:3.7-stretch AS selenium_base
 
 RUN apt-get update && apt-get install -yq \
-    firefox-esr \
-    chromium \
+#    firefox-esr \
+#    chromium \
     git-core \
     xvfb=2:1.19.2-1+deb9u5 \
     xsel=1.2.0-2+b1 \
@@ -17,24 +17,27 @@ RUN apt-get update && apt-get install -yq \
     xclip=0.12+svn84-4+b1
 
 # GeckoDriver v0.19.1
-RUN wget -q "https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz" -O /tmp/geckodriver.tgz \
-    && tar zxf /tmp/geckodriver.tgz -C /usr/bin/ \
-    && rm /tmp/geckodriver.tgz
+#RUN wget -q "https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz" -O /tmp/geckodriver.tgz \
+#    && tar zxf /tmp/geckodriver.tgz -C /usr/bin/ \
+#    && rm /tmp/geckodriver.tgz
 
 # chromeDriver v2.35
-RUN wget -q "https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
-    && unzip -o /tmp/chromedriver.zip -d /usr/bin/ \
-    && rm /tmp/chromedriver.zip
+#RUN wget -q "https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
+#    && unzip -o /tmp/chromedriver.zip -d /usr/bin/ \
+#    && rm /tmp/chromedriver.zip
 
 # xvfb - X server display
-COPY xvfb-chromium /usr/bin/xvfb-chromium
-RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome \
-    && chmod 777 /usr/bin/xvfb-chromium
+#COPY xvfb-chromium /usr/bin/xvfb-chromium
+#RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome \
+#    && chmod 777 /usr/bin/xvfb-chromium
 
-# create symlinks to chromedriver and geckodriver (to the PATH)
-RUN ln -s /usr/bin/geckodriver /usr/bin/chromium-browser \
-    && chmod 777 /usr/bin/geckodriver \
-    && chmod 777 /usr/bin/chromium-browser
+RUN wget -q "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O /tmp/google-chrome-stable_current_amd64.deb \
+  && apt install -f /tmp/google-chrome-stable_current_amd64.deb -yq
+
+## create symlinks to chromedriver and geckodriver (to the PATH)
+#RUN ln -s /usr/bin/geckodriver /usr/bin/chromium-browser \
+#    && chmod 777 /usr/bin/geckodriver \
+#    && chmod 777 /usr/bin/chromium-browser
 
 FROM selenium_base
 
