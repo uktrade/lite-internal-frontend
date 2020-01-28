@@ -30,9 +30,9 @@ RUN apt-get update && apt-get install -yq \
 #    && rm /tmp/chromedriver.zip
 
 # xvfb - X server display
-#COPY xvfb-chromium /usr/bin/xvfb-chromium
-#RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome \
-#    && chmod 777 /usr/bin/xvfb-chromium
+COPY xvfb-chromium /usr/bin/xvfb-chromium
+RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome \
+    && chmod 777 /usr/bin/xvfb-chromium
 
 RUN wget -q "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O /tmp/google-chrome-stable_current_amd64.deb \
   && apt install -f /tmp/google-chrome-stable_current_amd64.deb -yq
