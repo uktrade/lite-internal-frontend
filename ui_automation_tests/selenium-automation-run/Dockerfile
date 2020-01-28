@@ -41,7 +41,7 @@ RUN wget -q "https://dl.google.com/linux/direct/google-chrome-stable_current_amd
 #RUN ln -s /usr/bin/geckodriver /usr/bin/chromium-browser \
 #    && chmod 777 /usr/bin/geckodriver \
 #    && chmod 777 /usr/bin/chromium-browser
-RUN chmod 777 /usr/bin/google-chrome-stable_current_amd64
+RUN chmod 777 /usr/bin/google-chrome-stable
 RUN chmod 777 /usr/bin/google-chrome
 
 FROM selenium_base
