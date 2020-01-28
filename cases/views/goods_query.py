@@ -105,12 +105,12 @@ class RespondPVGradingQuery(TemplateView):
         if request.POST.get("action") == "set-flags":
             form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#")
 
-            form.questions.append(HiddenField("is_good_controlled", request.POST["is_good_controlled"]))
-            form.questions.append(HiddenField("control_code", request.POST.get("control_code")))
-            form.questions.append(HiddenField("report_summary", request.POST["report_summary"]))
+            form.questions.append(HiddenField("prefix", request.POST["prefix"]))
+            form.questions.append(HiddenField("grading", request.POST["grading"]))
+            form.questions.append(HiddenField("suffix", request.POST["suffix"]))
             form.questions.append(HiddenField("comment", request.POST["comment"]))
 
-            form.post_url = reverse_lazy("cases:respond_to_clc_query_flags", kwargs={"pk": self.case["id"]})
+            form.post_url = reverse_lazy("cases:respond_to_pv_grading_query_flags", kwargs={"pk": self.case["id"]})
             return form_page(request, form, data={"flags": self.case["query"]["good"]["flags"]})
 
         # original form posted
@@ -144,7 +144,7 @@ class RespondPVGradingQuery(TemplateView):
         return render(request, "case/queries/pv_grading_query_response_overview.html", context)
 
 
-class RespondFlags(TemplateView):
+class RespondCLCFlags(TemplateView):
     case = None
     form = None
 
@@ -153,7 +153,7 @@ class RespondFlags(TemplateView):
         self.form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#")
         self.form.post_url = reverse_lazy("cases:respond_to_clc_query_flags", kwargs={"pk": self.case["id"]})
 
-        return super(RespondFlags, self).dispatch(request, *args, **kwargs)
+        return super(RespondCLCFlags, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
         put_flag_assignments(
@@ -173,3 +173,33 @@ class RespondFlags(TemplateView):
             "report_summary": get_picklist_item(request, request.POST["report_summary"]),
         }
         return render(request, "case/queries/clc_query_response_overview.html", context)
+
+
+class RespondPVGradingFlags(TemplateView):
+    case = None
+    form = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.case = get_case(request, str(kwargs["pk"]))
+        self.form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#")
+        self.form.post_url = reverse_lazy("cases:respond_to_pv_grading_query_flags", kwargs={"pk": self.case["id"]})
+
+        return super(RespondPVGradingFlags, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, **kwargs):
+        put_flag_assignments(
+            request,
+            {
+                "level": "Goods",
+                "objects": self.case["query"]["good"]["id"],
+                "flags": request.POST.getlist("flags"),
+                "note": request.POST.get("note"),
+            },
+        )
+
+        context = {
+            "title": "Response Overview",
+            "data": request.POST,
+            "case": get_case(request, str(kwargs["pk"])),
+        }
+        return render(request, "case/queries/pv_grading_query_response_overview.html", context)
