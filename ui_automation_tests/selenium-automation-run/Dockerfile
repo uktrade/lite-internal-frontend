@@ -14,7 +14,10 @@ RUN apt-get update && apt-get install -yq \
     libxslt-dev \
     libz-dev \
     python-pytest-xdist \
-    xclip=0.12+svn84-4+b1
+    xclip=0.12+svn84-4+b1 \
+    libxss1 \
+    libappindicator1 \
+    libindicator7
 
 # GeckoDriver v0.19.1
 #RUN wget -q "https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz" -O /tmp/geckodriver.tgz \
