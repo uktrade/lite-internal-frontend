@@ -1,8 +1,8 @@
 #!/bin/bash
 
 _kill_procs() {
-kill -TERM $chromium
-wait $chromium
+kill -TERM $chrome
+wait $chrome
 kill -TERM $xvfb
 }
 
@@ -17,8 +17,8 @@ xvfb=$!
 
 export DISPLAY=:99
 
-chromium --no-sandbox $@ &
-chromium=$!
+google-chrome-stable --no-sandbox $@ &
+chrome=$!
 
-wait $chromium
+wait $chrome
 wait $xvfb
