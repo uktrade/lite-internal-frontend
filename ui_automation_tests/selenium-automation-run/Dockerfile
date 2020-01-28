@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -yq \
     libxslt-dev \
     libz-dev \
     python-pytest-xdist \
-    xclip=0.12+svn84-4+b1 \
+    xclip=0.12+svn84-4+b1
 
 # chromeDriver v2.35
 RUN wget -q "https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
