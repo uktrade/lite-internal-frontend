@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -yq \
     xclip
 
 RUN wget -q "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" -O /tmp/google-chrome-stable_current_amd64.deb \
-    && apt install -f /tmp/google-chrome-stable_current_amd64.deb -yq
+    && apt-get install -f /tmp/google-chrome-stable_current_amd64.deb -yq
 
 # chromeDriver v2.35
 RUN wget -q "https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
