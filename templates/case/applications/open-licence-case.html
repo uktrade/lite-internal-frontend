@@ -163,11 +163,13 @@
 								<td class="govuk-table__cell">
 									{% for good in case.application.goods_types %}
 										{% if good.countries %}
-											{% if country in good.countries %}
-												{% if good.control_code %}
-													<span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
+											{% for good_country in good.countries %}
+												{% if good_country.id == country.id %}
+													{% if good.control_code %}
+														<span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
+													{% endif %}
 												{% endif %}
-											{% endif %}
+											{% endfor %}
 										{% elif good.control_code %}
 											<span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
 										{% endif %}
