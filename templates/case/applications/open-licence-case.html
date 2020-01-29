@@ -162,17 +162,13 @@
 								<td class="govuk-table__cell">{{ country.name }}<span class="app-country-tag">{{ country.id }}</span></td>
 								<td class="govuk-table__cell">
 									{% for good in case.application.goods_types %}
-										{% if good.countries %}
-											{% for good_country in good.countries %}
-												{% if good_country.id == country.id %}
-													{% if good.control_code %}
-														<span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
-													{% endif %}
+										{% for good_country in good.countries %}
+											{% if good_country.id == country.id %}
+												{% if good.control_code %}
+													<span class="app-country-tag app-country-tag--orange">{{ good.description }}</span>
 												{% endif %}
-											{% endfor %}
-										{% elif good.control_code %}
-											<span class="app-country-tag app-country-tag--orange">{{ good.control_code }}</span>
-										{% endif %}
+											{% endif %}
+										{% endfor %}
 									{% endfor %}
 								</td>
 								<td class="govuk-table__cell">
