@@ -163,6 +163,8 @@ class ViewCase(TemplateView):
             else:
                 raise Exception("Invalid application_type: {}".format(case["application"]["application_type"]["key"]))
         elif case_type == CaseType.EXHIBITION_CLEARANCE.value:
+            context["total_goods_value"] = _get_total_goods_value(case)
+
             return render(request, "case/applications/exhibition-clearance.html", context)
         elif case_type == CaseType.HMRC_QUERY.value:
             context["total_goods_value"] = _get_total_goods_value(case)
