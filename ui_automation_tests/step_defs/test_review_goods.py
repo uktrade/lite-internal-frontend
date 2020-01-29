@@ -1,4 +1,4 @@
-from pages.clc_queries_pages import ClcQueriesPages
+from pages.goods_queries_pages import GoodsQueriesPages
 from pytest_bdd import when, then, scenarios, parsers
 from pages.application_page import ApplicationPage
 from pages.good_summary_page import GoodSummaryPage

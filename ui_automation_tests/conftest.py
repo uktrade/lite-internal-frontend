@@ -3,7 +3,7 @@ import os
 from pytest_bdd import given, when, then, parsers
 from selenium.common.exceptions import NoSuchElementException
 
-from pages.clc_queries_pages import ClcQueriesPages
+from pages.goods_queries_pages import GoodsQueriesPages
 from pages.organisation_page import OrganisationPage
 
 from ui_automation_tests.fixtures.env import environment  # noqa
@@ -30,6 +30,7 @@ from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
 from ui_automation_tests.shared.fixtures.apply_for_application import (  # noqa
     apply_for_standard_application,
     apply_for_clc_query,
+    apply_for_grading_query,
     apply_for_eua_query,
     apply_for_open_application,
 )

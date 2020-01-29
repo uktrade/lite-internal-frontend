@@ -1,18 +1,26 @@
 from shared.BasePage import BasePage
+from selenium.webdriver.support.ui import Select
 
 
-class ClcQueriesPages(BasePage):
+class GoodsQueriesPages(BasePage):
 
     CONTROL_RESPONSE = "is_good_controlled-"  # ID
     CONTROL_LIST_ENTRY = "control_code"  # ID
     REPORT_SUMMARY = "report_summary"  # Name
     COMMENT = "comment"  # ID
     CASE_CLOSE = ".lite-info-bar"  # CSS
-    BUTTON_RESPOND_ID = "button-respond"
+    BUTTON_CLC_RESPOND_ID = "clc-button-respond"
+    BUTTON_GRADING_RESPOND_ID = "grading-button-respond"
     SUBMIT_BUTTON = '.govuk-button[type*="submit"]'  # CSS
+    PREFIX_ID = "prefix"
+    GRADING_ID = "grading"
+    SUFFIX_ID = "suffix"
 
-    def click_respond_to_query(self):
-        self.driver.find_element_by_id(self.BUTTON_RESPOND_ID).click()
+    def click_respond_to_clc_query(self):
+        self.driver.find_element_by_id(self.BUTTON_CLC_RESPOND_ID).click()
+
+    def click_respond_to_grading_query(self):
+        self.driver.find_element_by_id(self.BUTTON_GRADING_RESPOND_ID).click()
 
     # Response Page
     def click_is_good_controlled(self, answer):
@@ -28,6 +36,15 @@ class ClcQueriesPages(BasePage):
 
     def enter_a_comment(self, comment):
         self.driver.find_element_by_id(self.COMMENT).send_keys(comment)
+
+    def enter_a_prefix(self, prefix):
+        self.driver.find_element_by_id(self.PREFIX_ID).send_keys(prefix)
+
+    def select_a_grading(self, grading):
+        Select(self.driver.find_element_by_id(self.GRADING_ID)).select_by_visible_text(grading)
+
+    def enter_a_suffix(self, suffix):
+        self.driver.find_element_by_id(self.COMMENT).send_keys(suffix)
 
     def is_clc_query_case_closed(self):
         return len(self.driver.find_elements_by_css_selector(self.CASE_CLOSE)) == 1
