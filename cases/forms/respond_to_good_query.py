@@ -13,7 +13,6 @@ from lite_forms.components import (
     Group,
     TextInput,
     Select,
-    Summary,
     SummaryList,
 )
 from lite_forms.styles import HeadingStyle
