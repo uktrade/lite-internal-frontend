@@ -93,3 +93,12 @@ class FlagLevels:
     GOODS = "goods"
     ORGANISATIONS = "organisations"
     DESTINATIONS = "destinations"
+
+
+class Statuses:
+    APPLICANT_EDITING = "applicant_editing"
+    CLOSED = "closed"
+    FINALISED = "finalised"
+    REGISTERED = "registered"
+    SUBMITTED = "submitted"
+    WITHDRAWN = "withdrawn"
