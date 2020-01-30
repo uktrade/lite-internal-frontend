@@ -1,7 +1,6 @@
 from django.template.defaultfilters import default
 from django.urls import reverse_lazy
 
-from lite_content.lite_api.strings import Cases
 from lite_content.lite_internal_frontend import cases
 from lite_forms.common import control_list_entry_question
 from lite_forms.components import (

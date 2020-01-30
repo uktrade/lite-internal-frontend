@@ -71,7 +71,6 @@ class RespondCLCQuery(TemplateView):
             response_data.pop("control_code")
 
         context = {
-            "title": "Response Overview",
             "data": response_data,
             "case": self.case,
         }
@@ -167,7 +166,6 @@ class RespondCLCFlags(TemplateView):
         )
 
         context = {
-            "title": "Response Overview",
             "data": request.POST,
             "case": get_case(request, str(kwargs["pk"])),  # Do another pull of case as case flags have changed
             "report_summary": get_picklist_item(request, request.POST["report_summary"]),
