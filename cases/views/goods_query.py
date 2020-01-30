@@ -135,7 +135,6 @@ class RespondPVGradingQuery(TemplateView):
         response_data = response_data["pv_grading_query"]
 
         context = {
-            "title": "Response Overview",
             "data": response_data,
             "case": self.case,
         }
@@ -196,7 +195,6 @@ class RespondPVGradingFlags(TemplateView):
         )
 
         context = {
-            "title": "Response Overview",
             "data": request.POST,
             "case": get_case(request, str(kwargs["pk"])),
         }
