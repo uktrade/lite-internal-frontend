@@ -106,10 +106,11 @@
 				</dt>
 			{% endif %}
 				<dd class="govuk-summary-list__value">
-					{{ good.control_code|default:"Not on the control list" }}
+					{% lcs 'cases.ClcQuery.GoodDetails.Clc.NO_CONTROL_CODE' as default %}
+					{{ good.control_code|default:default }}
 				</dd>
 			</div>
-			{% if good.is_good_controlled == "Unsure" %}
+			{% if good.is_good_controlled.key == "unsure" %}
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
 						{% lcs 'cases.ClcQuery.GoodDetails.Clc.REASON' %}

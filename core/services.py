@@ -135,7 +135,6 @@ def get_control_list_entries(request, convert_to_options=False):
 def get_pv_gradings(request, convert_to_options=False):
     data = get(request, GOV_PV_GRADINGS_URL)
     if convert_to_options:
-
         converted_units = []
         for pvg in data.json().get("pv_gradings"):
             for key in pvg:

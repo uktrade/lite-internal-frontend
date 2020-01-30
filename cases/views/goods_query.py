@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+
+from conf.constants import Permission
 from lite_forms.components import HiddenField
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_single_form
@@ -91,7 +93,7 @@ class RespondPVGradingQuery(TemplateView):
         self.form = respond_to_grading_query_form(request, self.case)
 
         permissions = get_user_permissions(request)
-        if "RESPOND_PV_GRADING" not in permissions:
+        if Permission.RESPOND_PV_GRADING not in permissions:
             return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
 
         return super(RespondPVGradingQuery, self).dispatch(request, *args, **kwargs)
