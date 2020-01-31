@@ -165,7 +165,7 @@ def friendly_boolean(boolean):
     """
     Returns 'Yes' if a boolean is equal to True, else 'No'
     """
-    if boolean is True or boolean == "true" or boolean == "True":
+    if boolean is True or boolean == "true" or boolean == "True" or boolean == "yes" or boolean == "Yes":
         return "Yes"
     else:
         return "No"
@@ -239,19 +239,6 @@ def linkify(address, name=None):
     name = escape(name)
 
     return safe(f'<a href="{address}" class="govuk-link govuk-link--no-visited-state">{name}</a>')
-
-
-@register.filter()
-def sentence_case(value):
-    """Change value to uppercase on initial word and preserve casing on all other words. """
-    words = value.split("_")
-    return " ".join([words[0].capitalize()] + words[1:])
-
-
-def lowercase_and_underscore(value):
-    """Change value to lowercase and change spaces to underscores. """
-    words = value.split(" ")
-    return "_".join(words).lower()
 
 
 @register.filter
