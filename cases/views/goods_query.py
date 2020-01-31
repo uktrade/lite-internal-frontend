@@ -96,7 +96,7 @@ class RespondPVGradingQuery(TemplateView):
         self.form = respond_to_grading_query_form(request, self.case)
 
         permissions = get_user_permissions(request)
-        if Permission.RESPOND_PV_GRADING not in permissions:
+        if Permission.RESPOND_PV_GRADING.value not in permissions:
             return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
 
         return super(RespondPVGradingQuery, self).dispatch(request, *args, **kwargs)
