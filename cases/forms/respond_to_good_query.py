@@ -9,13 +9,12 @@ from lite_forms.components import (
     RadioButtons,
     Option,
     TextArea,
-    HTMLBlock,
     Heading,
     HiddenField,
     Group,
     TextInput,
     Select,
-    SummaryList,
+    Summary,
 )
 from lite_forms.styles import HeadingStyle
 
@@ -29,16 +28,16 @@ def respond_to_clc_query_form(request, case):
         title=cases.RespondClCQueryForm.TITLE,
         questions=[
             Heading(reference_code(case["id"]), HeadingStyle.S),
-            SummaryList(
+            Summary(
                 values={
                     cases.RespondClCQueryForm.Summary.DESCRIPTION: case["query"]["good"]["description"],
                     cases.RespondClCQueryForm.Summary.CONTROL_LIST_ENTRY: default(
                         case["query"]["good"].get("control_code"),
                         cases.RespondClCQueryForm.Summary.NO_CONTROL_LIST_ENTRY,
                     ),
-                }
+                },
+                classes=["app-inset-text"],
             ),
-            HTMLBlock(html='<hr class="lite-horizontal-separator">'),
             RadioButtons(
                 title=cases.RespondClCQueryForm.Controlled.TITLE,
                 name="is_good_controlled",
@@ -76,8 +75,7 @@ def respond_to_grading_query_form(request, case):
         title=cases.RespondGradingQueryForm.TITLE,
         questions=[
             Heading(case["id"], HeadingStyle.S),
-            SummaryList(values={"Description": case["query"]["good"]["description"]}),
-            HTMLBlock(html='<hr class="lite-horizontal-separator">'),
+            Summary(values={"Description": case["query"]["good"]["description"]}, classes=["app-inset-text"],),
             Group(
                 name="grading",
                 components=[
