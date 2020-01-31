@@ -75,7 +75,7 @@
 	</form>
 
 	<!-- Goods Locations -->
-	{% if case.application.is_goods_departed %}
+	{% if case.application.have_goods_departed %}
 		<div class="govuk-!-margin-bottom-6">
 			<p class="govuk-heading-m">{% lcs 'cases.HMRCPage.GoodsLocation.TITLE' %}</p>
 			{% include "includes/notice.html" with text='cases.HMRCPage.GoodsLocation.GOODS_DEPARTED' %}
