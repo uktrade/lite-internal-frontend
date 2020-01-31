@@ -4,9 +4,9 @@
 
 {% block two_thirds %}
 
-	<h2 class="govuk-heading-l">{% lcs 'cases.GradingResponseOverview.TITLE' %}</h2>
+	<h1 class="govuk-heading-l">{% lcs 'cases.GradingResponseOverview.TITLE' %}</h1>
 
-    <p class="govuk-body-m">{% lcs 'cases.GradingResponseOverview.WARNING' %}</p>
+	<p class="govuk-body-m">{% lcs 'cases.GradingResponseOverview.WARNING' %}</p>
 
 	<form action="{% url 'cases:respond_to_pv_grading_query' case.id %}" method="post">
 

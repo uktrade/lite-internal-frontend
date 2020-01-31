@@ -70,7 +70,7 @@ def respond_to_clc_query_form(request, case):
     )
 
 
-def respond_to_grading_query_form(request, case):
+def respond_to_grading_query_form(case):
     return Form(
         title=cases.RespondGradingQueryForm.TITLE,
         questions=[

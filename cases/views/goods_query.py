@@ -77,10 +77,10 @@ class RespondCLCQuery(TemplateView):
     def display_flag_form(self, request):
         form = flags_form(flags=get_goods_flags(request, True), level=FlagLevels.GOODS, origin="response", url="#")
 
-        form.questions.append(HiddenField("is_good_controlled", request.POST["is_good_controlled"]))
-        form.questions.append(HiddenField("control_code", request.POST.get("control_code")))
-        form.questions.append(HiddenField("report_summary", request.POST["report_summary"]))
-        form.questions.append(HiddenField("comment", request.POST["comment"]))
+        hidden_fields = ["is_good_controlled", "control_code", "report_summary", "comment"]
+
+        for field in hidden_fields:
+            form.questions.append(field, request.POST[field])
 
         form.post_url = reverse_lazy("cases:respond_to_clc_query_flags", kwargs={"pk": self.case["id"]})
         return form_page(request, form, data={"flags": self.case["query"]["good"]["flags"]})
@@ -141,10 +141,10 @@ class RespondPVGradingQuery(TemplateView):
     def display_flag_form(self, request):
         form = flags_form(flags=get_goods_flags(request, True), level=FlagLevels.GOODS, origin="response", url="#")
 
-        form.questions.append(HiddenField("prefix", request.POST["prefix"]))
-        form.questions.append(HiddenField("grading", request.POST["grading"]))
-        form.questions.append(HiddenField("suffix", request.POST["suffix"]))
-        form.questions.append(HiddenField("comment", request.POST["comment"]))
+        hidden_fields = ["prefix", "grading", "suffix", "comment"]
+
+        for field in hidden_fields:
+            form.questions.append(field, request.POST[field])
 
         form.post_url = reverse_lazy("cases:respond_to_pv_grading_query_flags", kwargs={"pk": self.case["id"]})
         return form_page(request, form, data={"flags": self.case["query"]["good"]["flags"]})
