@@ -80,7 +80,7 @@ class RespondCLCQuery(TemplateView):
         hidden_fields = ["is_good_controlled", "control_code", "report_summary", "comment"]
 
         for field in hidden_fields:
-            form.questions.append(field, request.POST[field])
+            form.questions.append(HiddenField(field, request.POST[field]))
 
         form.post_url = reverse_lazy("cases:respond_to_clc_query_flags", kwargs={"pk": self.case["id"]})
         return form_page(request, form, data={"flags": self.case["query"]["good"]["flags"]})
@@ -144,7 +144,7 @@ class RespondPVGradingQuery(TemplateView):
         hidden_fields = ["prefix", "grading", "suffix", "comment"]
 
         for field in hidden_fields:
-            form.questions.append(field, request.POST[field])
+            form.questions.append(HiddenField(field, request.POST[field]))
 
         form.post_url = reverse_lazy("cases:respond_to_pv_grading_query_flags", kwargs={"pk": self.case["id"]})
         return form_page(request, form, data={"flags": self.case["query"]["good"]["flags"]})
