@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from conf.constants import Permission
+from conf.constants import Permission, FlagLevels
 from lite_forms.components import HiddenField
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_single_form
@@ -36,15 +36,7 @@ class RespondCLCQuery(TemplateView):
     def post(self, request, **kwargs):
         # If 'set-flags' take them to the goods flags page
         if request.POST.get("action") == "set-flags":
-            form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#")
-
-            form.questions.append(HiddenField("is_good_controlled", request.POST["is_good_controlled"]))
-            form.questions.append(HiddenField("control_code", request.POST.get("control_code")))
-            form.questions.append(HiddenField("report_summary", request.POST["report_summary"]))
-            form.questions.append(HiddenField("comment", request.POST["comment"]))
-
-            form.post_url = reverse_lazy("cases:respond_to_clc_query_flags", kwargs={"pk": self.case["id"]})
-            return form_page(request, form, data={"flags": self.case["query"]["good"]["flags"]})
+            self.display_flag_form(request)
 
         if request.POST.get("action") == "change":
             return form_page(request, self.form, data=request.POST)
@@ -61,12 +53,12 @@ class RespondCLCQuery(TemplateView):
         if response:
             return response
 
+        # If validate only is removed (therefore the user is on the overview page
+        # already) go back to the case and show a success message
         if not request.POST.get("validate_only"):
             return redirect(reverse_lazy("cases:case", kwargs={"pk": self.case["id"]}))
 
         response_data = response_data["control_list_classification_query"]
-        # If validate only is removed (therefore the user is on the overview page
-        # already) go back to the case and show a success message
 
         # Remove validate only key and go to overview page
         if response_data["is_good_controlled"] == "no":
@@ -81,6 +73,17 @@ class RespondCLCQuery(TemplateView):
             context["report_summary"] = get_picklist_item(request, response_data["report_summary"])
 
         return render(request, "case/queries/clc_query_response_overview.html", context)
+
+    def display_flag_form(self, request):
+        form = flags_form(flags=get_goods_flags(request, True), level=FlagLevels.GOODS, origin="response", url="#")
+
+        form.questions.append(HiddenField("is_good_controlled", request.POST["is_good_controlled"]))
+        form.questions.append(HiddenField("control_code", request.POST.get("control_code")))
+        form.questions.append(HiddenField("report_summary", request.POST["report_summary"]))
+        form.questions.append(HiddenField("comment", request.POST["comment"]))
+
+        form.post_url = reverse_lazy("cases:respond_to_clc_query_flags", kwargs={"pk": self.case["id"]})
+        return form_page(request, form, data={"flags": self.case["query"]["good"]["flags"]})
 
 
 class RespondPVGradingQuery(TemplateView):
@@ -104,15 +107,7 @@ class RespondPVGradingQuery(TemplateView):
     def post(self, request, **kwargs):
         # If 'set-flags' take them to the goods flags page
         if request.POST.get("action") == "set-flags":
-            form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#")
-
-            form.questions.append(HiddenField("prefix", request.POST["prefix"]))
-            form.questions.append(HiddenField("grading", request.POST["grading"]))
-            form.questions.append(HiddenField("suffix", request.POST["suffix"]))
-            form.questions.append(HiddenField("comment", request.POST["comment"]))
-
-            form.post_url = reverse_lazy("cases:respond_to_pv_grading_query_flags", kwargs={"pk": self.case["id"]})
-            return form_page(request, form, data={"flags": self.case["query"]["good"]["flags"]})
+            self.display_flag_form(request)
 
         # original form posted
         if request.POST.get("action") == "change":
@@ -143,6 +138,17 @@ class RespondPVGradingQuery(TemplateView):
 
         return render(request, "case/queries/pv_grading_query_response_overview.html", context)
 
+    def display_flag_form(self, request):
+        form = flags_form(flags=get_goods_flags(request, True), level=FlagLevels.GOODS, origin="response", url="#")
+
+        form.questions.append(HiddenField("prefix", request.POST["prefix"]))
+        form.questions.append(HiddenField("grading", request.POST["grading"]))
+        form.questions.append(HiddenField("suffix", request.POST["suffix"]))
+        form.questions.append(HiddenField("comment", request.POST["comment"]))
+
+        form.post_url = reverse_lazy("cases:respond_to_pv_grading_query_flags", kwargs={"pk": self.case["id"]})
+        return form_page(request, form, data={"flags": self.case["query"]["good"]["flags"]})
+
 
 class RespondCLCFlags(TemplateView):
     case = None
@@ -150,7 +156,7 @@ class RespondCLCFlags(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.case = get_case(request, str(kwargs["pk"]))
-        self.form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#")
+        self.form = flags_form(flags=get_goods_flags(request, True), level=FlagLevels.GOODS, origin="response", url="#")
         self.form.post_url = reverse_lazy("cases:respond_to_clc_query_flags", kwargs={"pk": self.case["id"]})
 
         return super(RespondCLCFlags, self).dispatch(request, *args, **kwargs)
@@ -180,7 +186,7 @@ class RespondPVGradingFlags(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.case = get_case(request, str(kwargs["pk"]))
-        self.form = flags_form(flags=get_goods_flags(request, True), level="goods", origin="response", url="#")
+        self.form = flags_form(flags=get_goods_flags(request, True), level=FlagLevels.GOODS, origin="response", url="#")
         self.form.post_url = reverse_lazy("cases:respond_to_pv_grading_query_flags", kwargs={"pk": self.case["id"]})
 
         return super(RespondPVGradingFlags, self).dispatch(request, *args, **kwargs)
