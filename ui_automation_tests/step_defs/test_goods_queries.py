@@ -20,7 +20,7 @@ def respond_to_query(driver):
 @when("I submit response")
 def submit_response(driver):
     scroll_to_element_by_id(driver, GoodsQueriesPages.SUBMIT_RESPONSE_BUTTON_ID)
-    Shared(driver).click_submit()
+    GoodsQueriesPages(driver).click_overview_submit()
 
 
 @then("I see case is closed")
@@ -39,7 +39,7 @@ def create_clc_query(driver, apply_for_clc_query, context):
 
 
 @given("I create a grading query")  # noqa
-def create_clc_query(driver, apply_for_grading_query, context):
+def create_grading_query(driver, apply_for_grading_query, context):
     pass
 
 

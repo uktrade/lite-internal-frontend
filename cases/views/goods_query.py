@@ -93,7 +93,7 @@ class RespondPVGradingQuery(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         case_id = str(kwargs["pk"])
         self.case = get_case(request, case_id)
-        self.form = respond_to_grading_query_form(request, self.case)
+        self.form = respond_to_grading_query_form(self.case)
 
         permissions = get_user_permissions(request)
         if Permission.RESPOND_PV_GRADING.value not in permissions:

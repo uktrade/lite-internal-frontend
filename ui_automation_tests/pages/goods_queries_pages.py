@@ -8,7 +8,7 @@ class GoodsQueriesPages(BasePage):
     CONTROL_LIST_ENTRY = "control_code"  # ID
     REPORT_SUMMARY = "report_summary"  # Name
     COMMENT = "comment"  # ID
-    CASE_CLOSE = ".lite-info-bar"  # CSS
+    CASE_CLOSE_INFO_BAR_ID = "closed"  # CSS
     BUTTON_CLC_RESPOND_ID = "clc-button-respond"
     BUTTON_GRADING_RESPOND_ID = "grading-button-respond"
     SUBMIT_BUTTON = '.govuk-button[type*="submit"]'  # CSS
@@ -21,6 +21,9 @@ class GoodsQueriesPages(BasePage):
 
     def click_respond_to_grading_query(self):
         self.driver.find_element_by_id(self.BUTTON_GRADING_RESPOND_ID).click()
+
+    def click_overview_submit(self):
+        self.driver.find_element_by_id(self.SUBMIT_RESPONSE_BUTTON_ID).click()
 
     # Response Page
     def click_is_good_controlled(self, answer):
@@ -47,4 +50,4 @@ class GoodsQueriesPages(BasePage):
         self.driver.find_element_by_id(self.COMMENT).send_keys(suffix)
 
     def is_clc_query_case_closed(self):
-        return len(self.driver.find_elements_by_css_selector(self.CASE_CLOSE)) == 1
+        return len(self.driver.find_elements_by_id(self.CASE_CLOSE_INFO_BAR_ID)) == 1

@@ -17,7 +17,7 @@
 
 {% block details %}
     {% if case.query.status.key == "closed" %}
-		<div class="lite-info-bar lite-info-bar--no-animation {% if message.tags %}lite-info-bar--{{ message.tags }}{% endif %}">
+		<div id="closed" class="lite-info-bar lite-info-bar--no-animation {% if message.tags %}lite-info-bar--{{ message.tags }}{% endif %}">
 			{% lcs 'cases.ApplicationPage.CLOSED' %}
 		</div>
 	{% endif %}
