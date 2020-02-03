@@ -36,10 +36,10 @@
 		<button id="button-edit-goods-flags" name="action" value="edit-flags" class="govuk-button" data-module="govuk-button">
 			{% lcs 'cases.HMRCPage.Good.EDIT_FLAGS' %}
 		</button>
-	    <table class="govuk-table">
+		<table class="govuk-table">
 			<caption class="govuk-table__caption">{% lcs 'cases.HMRCPage.Good.TITLE' %}</caption>
-	        <thead class="govuk-table__header">
-	            <tr class="govuk-table__row">
+			<thead class="govuk-table__header">
+				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="col">
 						<button type="button" name="button" class="lite-button-checkbox" title="{% lcs 'generic.Checkboxes.SELECT_DESELECT_ALL' %}"></button>
 					</th>
@@ -47,31 +47,31 @@
 					<th class="govuk-table__header" scope="col">
 						{% lcs 'cases.HMRCPage.Good.DESCRIPTION' %}
 					</th>
-	                <th class="govuk-table__header" scope="col">{% lcs 'cases.HMRCPage.Good.FLAGS' %}</th>
-	            </tr>
-	        </thead>
-	        <tbody class="govuk-table__body">
-	            {% for good in case.application.goods_types %}
-	                <tr class="govuk-table__row">
-	                    <td class="govuk-table__cell govuk-table__cell--checkbox">
-                            <input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.id }}" id="{{ good.id }}">
-                            <label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}">
+					<th class="govuk-table__header" scope="col">{% lcs 'cases.HMRCPage.Good.FLAGS' %}</th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body">
+				{% for good in case.application.goods_types %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell govuk-table__cell--checkbox">
+							<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.id }}" id="{{ good.id }}">
+							<label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}">
 								<span class="govuk-visually-hidden">{{ good.description }}</span>
 							</label>
-	                    </td>
+						</td>
 						<td class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
 						<td class="govuk-table__cell" aria-hidden="true">{{ good.description }}</td>
-	                    <td class="govuk-table__cell">
-	                        {% if good.flags %}
-	                            {% for flag in good.flags %}
-	                                {{ flag.name }}<br>
-	                            {% endfor %}
-	                        {% endif %}
-	                    </td>
-	                </tr>
-	            {% endfor %}
-	        </tbody>
-	    </table>
+						<td class="govuk-table__cell">
+							{% if good.flags %}
+								{% for flag in good.flags %}
+									{{ flag.name }}<br>
+								{% endfor %}
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</form>
 
 	<!-- Goods Locations -->

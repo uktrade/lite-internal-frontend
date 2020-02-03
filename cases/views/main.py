@@ -151,7 +151,7 @@ class ViewCase(TemplateView):
             context["good"] = case["query"]["good"]
 
             context["verified"] = case["query"]["good"]["status"]["key"] == "verified"
-            return render(request, "case/queries/goods_query_case.html", context)
+            return render(request, "case/queries/goods-query-case.html", context)
         elif case_type == CaseType.APPLICATION.value:
             context["total_goods_value"] = _get_total_goods_value(case)
 
