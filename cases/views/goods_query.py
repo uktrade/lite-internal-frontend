@@ -36,7 +36,7 @@ class RespondCLCQuery(TemplateView):
     def post(self, request, **kwargs):
         # If 'set-flags' take them to the goods flags page
         if request.POST.get("action") == "set-flags":
-            self.display_flag_form(request)
+            return self.display_flag_form(request)
 
         if request.POST.get("action") == "change":
             return form_page(request, self.form, data=request.POST)
@@ -107,7 +107,7 @@ class RespondPVGradingQuery(TemplateView):
     def post(self, request, **kwargs):
         # If 'set-flags' take them to the goods flags page
         if request.POST.get("action") == "set-flags":
-            self.display_flag_form(request)
+            return self.display_flag_form(request)
 
         # original form posted
         if request.POST.get("action") == "change":
