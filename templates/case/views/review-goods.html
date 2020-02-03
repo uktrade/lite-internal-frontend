@@ -36,11 +36,23 @@
 	<table class="govuk-table" id="goods">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.DESCRIPTION' %}</th>
-				<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.REPORT_SUMMARY' %}</th>
-				<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.CONTROLLED' %}</th>
-				<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.CONTROL_LIST_ENTRY' %}</th>
-				<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.GOODS_COMMENT' %}</th>
+				<td class="govuk-table__cell">{{ good.description }}</td>
+				<td class="govuk-table__cell">
+					{% if good.report_summary %}
+						{{ good.report_summary }}
+					{% else %}
+						<span class="lite-hint">{% lcs 'cases.ReviewGoodsSummary.NotSet.REPORT_SUMMARY' %}</span>
+					{% endif %}
+				</td>
+				<td class="govuk-table__cell">{{ good.is_good_controlled.value|friendly_boolean }}</td>
+				<td class="govuk-table__cell">{{ good.control_code|default_na }}</td>
+				<td class="govuk-table__cell">
+					{% if good.comment %}
+						{{ good.comment}}
+					{% else %}
+						<span class="lite-hint">{% lcs 'cases.ReviewGoodsSummary.NotSet.COMMENT' %}</span>
+					{% endif %}
+				</td>
 				{% if application_type == "standard_licence" %}
 					<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.QUANTITY_VALUE' %}</th>
 				{% endif %}

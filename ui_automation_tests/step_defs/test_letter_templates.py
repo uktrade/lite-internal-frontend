@@ -15,27 +15,15 @@ def add_letter_paragraph_picklist(add_a_letter_paragraph_picklist):
     pass
 
 
-@when("I create a letter template for ECJU letter")
+@when("I create a letter template for a document")
 def create_letter_template(driver, context, get_template_id):
     LetterTemplates(driver).click_create_a_template()
     context.template_name = "000 Template " + utils.get_formatted_date_time_m_d_h_s()
     LetterTemplates(driver).enter_template_name(context.template_name)
     Shared(driver).click_submit()
-    LetterTemplates(driver).select_which_type_of_case_template_can_apply_to("Applications")
+    LetterTemplates(driver).select_which_type_of_case_template_can_apply_to("Application")
     Shared(driver).click_submit()
     LetterTemplates(driver).click_licence_layout(get_template_id)
-    Shared(driver).click_submit()
-
-
-@when("I create a letter template for document")
-def create_letter_template(driver, context, get_licence_template_id):
-    LetterTemplates(driver).click_create_a_template()
-    context.template_name = "000 Template " + utils.get_formatted_date_time_m_d_h_s()
-    LetterTemplates(driver).enter_template_name(context.template_name)
-    Shared(driver).click_submit()
-    LetterTemplates(driver).select_which_type_of_case_template_can_apply_to("Applications")
-    Shared(driver).click_submit()
-    LetterTemplates(driver).click_licence_layout(get_licence_template_id)
     Shared(driver).click_submit()
 
 
@@ -100,11 +88,11 @@ def paragraph_text_is_present(driver, context):
 @when("I edit my template name and layout")
 def edit_template_name_and_layout(driver, context):
     context.document_template_name = str(uuid.uuid4())[:35]
-    context.document_template_case_types.append(dict(key="clc_query", value="CLC Query"))
+    context.document_template_case_types.append(dict(key="goods_query", value="Goods Query"))
     letter_template = LetterTemplates(driver)
     letter_template.click_edit_template_button()
     letter_template.enter_template_name(context.document_template_name)
-    letter_template.select_which_type_of_case_template_can_apply_to("CLC Query")
+    letter_template.select_which_type_of_case_template_can_apply_to("Goods Query")
     Shared(driver).click_submit()
 
 

@@ -1,3 +1,4 @@
+from cases.services import get_case_types
 from lite_content.lite_internal_frontend import strings
 from django.urls import reverse_lazy
 from lite_forms.components import (
@@ -26,7 +27,8 @@ def _letter_layout_options():
     return options
 
 
-def add_letter_template():
+def add_letter_template(request):
+    case_types = get_case_types(request)
     return FormGroup(
         forms=[
             Form(
@@ -42,14 +44,7 @@ def add_letter_template():
             Form(
                 title=strings.LetterTemplates.AddLetterTemplate.CaseTypes.TITLE,
                 questions=[
-                    Checkboxes(
-                        name="case_types",
-                        options=[
-                            Option("application", "Applications"),
-                            Option("clc_query", "Control List Classification Queries"),
-                            Option("end_user_advisory_query", "End User Advisory Queries"),
-                        ],
-                    )
+                    Checkboxes(name="case_types", options=[Option(key, value) for key, value in case_types.items()],)
                 ],
                 default_button_name=strings.LetterTemplates.AddLetterTemplate.CaseTypes.CONTINUE_BUTTON,
             ),
@@ -75,9 +70,12 @@ def edit_letter_template(letter_template):
                 title=strings.LetterTemplates.EditLetterTemplate.CaseTypes.TITLE,
                 name="case_types",
                 options=[
-                    Option("application", "Application"),
-                    Option("clc_query", "CLC Query"),
-                    Option("end_user_advisory_query", "End User Advisory Query"),
+                    Option("application", strings.LetterTemplates.EditLetterTemplate.CaseTypes.Types.APPLICATION),
+                    Option("goods_query", strings.LetterTemplates.EditLetterTemplate.CaseTypes.Types.GOODS_QUERY),
+                    Option(
+                        "end_user_advisory_query",
+                        strings.LetterTemplates.EditLetterTemplate.CaseTypes.Types.END_USER_ADVISORY,
+                    ),
                 ],
             ),
             RadioButtonsImage(

@@ -121,5 +121,5 @@ class CaseListPage(BasePage):
     def enter_assigned_user_filter_text(self, text):
         self.driver.find_element_by_id(self.INPUT_ASSIGNED_USER_ID).send_keys(text)
 
-    def enter_name_to_filter_search_box(self, name):
-        return self.driver.find_element_by_id(self.FILTER_SEARCH_BOX).send_keys(name)
+    def enter_name_to_filter_search_box(self, text):
+        self.driver.find_element_by_id(self.FILTER_SEARCH_BOX).send_keys(text)

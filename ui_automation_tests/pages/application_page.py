@@ -7,6 +7,7 @@ from shared.tools.helpers import scroll_to_element_by_id
 
 class ApplicationPage(BasePage):
     ACTIONS_LIST_CONTAINER_ID = "actions-list"  # ID
+    HEADING_ID = "heading-reference-code"
     ACTION_BUTTON_SELECTOR = "a"
     ACTIONS_DROPDOWN = ".lite-more-actions__button"  # CSS
     AUDIT_NOTIFICATION_ANCHOR = "audit-notification"  # ID
@@ -45,6 +46,7 @@ class ApplicationPage(BasePage):
     EXPAND_FLAGS_PARTIAL_ID = "expand-flags-"
     ASSIGNED_USERS_ID = "assigned_users"
     CASE_QUEUES_ID = "case_queues"
+    HMRC_GOODS_LOCATION = "hmrc-goods-location"
 
     def click_visible_to_exporter_checkbox(self):
         time.sleep(0.5)
@@ -156,10 +158,10 @@ class ApplicationPage(BasePage):
     def get_case_notification_anchor(self):
         return self.driver.find_element_by_id(self.AUDIT_NOTIFICATION_ANCHOR)
 
-    def get_case_activity_id_by_audit_text(self, audit_text):
+    def get_case_activity_id_by_audit_text(self, old_text, new_text):
         audits = self.driver.find_elements_by_css_selector(self.AUDIT_CASE_ACTIVITY_ID)
         for audit in audits:
-            if audit_text in audit.text:
+            if old_text in audit.text and new_text in audit.text:
                 return audit.get_attribute("id")
 
         return None

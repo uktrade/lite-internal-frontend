@@ -7,4 +7,5 @@ class CaseType(Enum):
     HMRC_QUERY = "hmrc_query"
     END_USER_ADVISORY_QUERY = "end_user_advisory_query"
     APPLICATION = "application"
-    CLC_QUERY = "clc_query"
+    GOODS_QUERY = "goods_query"
+    EXHIBITION_CLEARANCE = "exhibition_clearance"

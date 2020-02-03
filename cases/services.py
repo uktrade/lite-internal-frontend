@@ -1,13 +1,12 @@
 from _decimal import Decimal
 
-from cases.helpers import clean_advice, format_status_in_request_data
+from cases.helpers import clean_advice
 from conf.client import post, get, put, delete
 from conf.constants import (
     CASE_URL,
     CASE_NOTES_URL,
     APPLICATIONS_URL,
     ACTIVITY_URL,
-    CLC_QUERIES_URL,
     DOCUMENTS_URL,
     END_USER_ADVISORY_URL,
     CASE_FLAGS_URL,
@@ -29,9 +28,19 @@ from conf.constants import (
     GENERATED_DOCUMENTS_PREVIEW_URL,
     DESTINATION_URL,
     CASE_OFFICER_URL,
+    CASE_TYPES_URL,
+    GOODS_QUERIES_URL,
+    CLC_RESPONSE_URL,
 )
 
 
+# Case types
+def get_case_types(request):
+    data = get(request, CASE_TYPES_URL)
+    return data.json()["case_types"]
+
+
+# Case
 def get_case(request, pk):
     data = get(request, CASE_URL + str(pk))
     return data.json()["case"]
@@ -44,8 +53,8 @@ def put_case(request, pk, json):
 
 # Applications
 def put_application_status(request, pk, json):
-    json = format_status_in_request_data(json)
-    return put(request, APPLICATIONS_URL + pk + MANAGE_STATUS_URL, json).status_code
+    data = put(request, APPLICATIONS_URL + pk + MANAGE_STATUS_URL, json)
+    return data.json(), data.status_code
 
 
 def finalise_application(request, pk, json):
@@ -56,20 +65,19 @@ def get_application_default_duration(request, pk):
     return int(get(request, f"{APPLICATIONS_URL}{pk}{DURATION_URL}").json()["licence_duration"])
 
 
-# CLC Queries
-def put_control_list_classification_query(request, pk, json):
-    data = put(request, CLC_QUERIES_URL + pk, json)
+# Goods Queries
+def put_goods_query_clc(request, pk, json):
+    data = put(request, GOODS_QUERIES_URL + pk + CLC_RESPONSE_URL, json)
     return data.json(), data.status_code
 
 
-def put_clc_query_status(request, pk, json):
-    json = format_status_in_request_data(json)
-    return put(request, CLC_QUERIES_URL + pk + MANAGE_STATUS_URL, json).status_code
+def put_goods_query_status(request, pk, json):
+    data = put(request, GOODS_QUERIES_URL + pk + MANAGE_STATUS_URL, json)
+    return data.json(), data.status_code
 
 
 # EUA Queries
 def put_end_user_advisory_query(request, pk, json):
-    json = format_status_in_request_data(json)
     data = put(request, END_USER_ADVISORY_URL + str(pk), json)
     return data.json(), data.status_code
 
