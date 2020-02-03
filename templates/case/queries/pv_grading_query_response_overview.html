@@ -57,23 +57,18 @@
 			<p class="govuk-heading-s">{% lcs 'cases.GradingResponseOverview.Details.Documents.DOCUMENTS' %}</p>
 			<div class="app-summary-list__item">
 				{% for document in case.query.good.documents %}
-					<div class="govuk-summary-list__row">
-						<dt class="govuk-summary-list__key">
-							{{ document.name }}
-						</dt>
-						<dd class="govuk-summary-list__value">
-							<a href="#" class="govuk-link govuk-body-m">
-								{% if document.safe == True %}
-									<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.id %}">
-										<span class="govuk-visually-hidden">{% lcs 'cases.GradingResponseOverview.Details.Documents.DOWNLOAD' %}</span>
-									</a>
-								{% elif document.safe == False %}
-									{% lcs 'cases.Manage.Documents.VIRUS_INFECTED' %}
-								{% else %}
-									{% lcs 'cases.Manage.Documents.PROCESSING' %}
-								{% endif %}
-							</a>
-						</dd>
+					<div>
+						<a href="#" class="govuk-link govuk-body-m">
+							{% if document.safe == True %}
+								<a class="govuk-link lite-link--icon govuk-link--no-visited-state" href="{% url 'cases:document' case.id document.id %}">
+									<span class="govuk-visually-hidden">{% lcs 'cases.ClcResponseOverview.Details.Documents.DOWNLOAD' %}</span> {{ document.name }}
+								</a>
+							{% elif document.safe == False %}
+								{% lcs 'cases.Manage.Documents.VIRUS_INFECTED' %} {{ document.name }}
+							{% else %}
+								{% lcs 'cases.Manage.Documents.PROCESSING' %} {{ document.name }}
+							{% endif %}
+						</a>
 					</div>
 				{% empty %}
 					<p class="govuk-body-m">{% lcs 'cases.GradingResponseOverview.Details.Documents.NONE' %}</p>
