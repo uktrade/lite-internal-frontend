@@ -18,7 +18,6 @@ from lite_forms.components import (
 )
 from lite_forms.styles import HeadingStyle
 
-from core.builtins.custom_tags import reference_code
 from core.services import get_control_list_entries, get_pv_gradings
 from picklists.services import get_picklists
 
@@ -27,7 +26,7 @@ def respond_to_clc_query_form(request, case):
     return Form(
         title=cases.RespondClCQueryForm.TITLE,
         questions=[
-            Heading(reference_code(case["id"]), HeadingStyle.S),
+            Heading(case["reference_code"], HeadingStyle.S),
             Summary(
                 values={
                     cases.RespondClCQueryForm.Summary.DESCRIPTION: case["query"]["good"]["description"],
@@ -74,7 +73,7 @@ def respond_to_grading_query_form(case):
     return Form(
         title=cases.RespondGradingQueryForm.TITLE,
         questions=[
-            Heading(case["id"], HeadingStyle.S),
+            Heading(case["reference_code"], HeadingStyle.S),
             Summary(values={"Description": case["query"]["good"]["description"]}, classes=["app-inset-text"],),
             Group(
                 name="grading",

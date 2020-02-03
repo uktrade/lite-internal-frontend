@@ -19,7 +19,7 @@
 
 		{% csrf_token %}
 
-		<h4 class="govuk-heading-s">{{ case.query.id|reference_code }}</h4>
+		<h4 class="govuk-heading-s">{{ case.reference_code }}</h4>
 		<div class="app-summary-list app-inset-text">
 			<div class="app-summary-list__item">
 				<p class="govuk-caption-m">{% lcs 'cases.ClcResponseOverview.Details.DESCRIPTION' %}</p>
