@@ -81,6 +81,7 @@ def respond_to_grading_query_form(case):
                 components=[
                     TextInput(title=cases.RespondGradingQueryForm.Grading.PREFIX, name="prefix", optional=True),
                     Select(
+                        # request not supplied since static endpoints don't require it.
                         options=get_pv_gradings(request=None, convert_to_options=True),
                         title=cases.RespondGradingQueryForm.Grading.GRADING,
                         name="grading",
