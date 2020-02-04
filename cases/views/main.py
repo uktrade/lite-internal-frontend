@@ -141,13 +141,6 @@ class ViewCase(TemplateView):
         if case_type == CaseType.END_USER_ADVISORY_QUERY.value:
             return render(request, "case/queries/end_user_advisory.html", context)
         elif case_type == CaseType.GOODS_QUERY.value:
-            context["clc_query"] = False
-            context["pv_grading_query"] = False
-            for flag in case["flags"]:
-                if flag["id"] == GoodSystemFlags.CLC_FLAG:
-                    context["clc_query"] = True
-                elif flag["id"] == GoodSystemFlags.PV_GRADING_FLAG:
-                    context["pv_grading_query"] = True
             context["good"] = case["query"]["good"]
 
             context["verified"] = case["query"]["good"]["status"]["key"] == "verified"

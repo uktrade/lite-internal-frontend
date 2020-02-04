@@ -38,7 +38,7 @@
 							{{ flag.name }}
 						</div>
 					{% endfor %}
-					<button class="app-flag app-flag--action" type="submit" name="action" value="set-flags">
+					<button class="lite-button--link" type="submit" name="action" value="set-flags">
 						{% if case.query.good.flags %}
 							{% lcs 'cases.GradingResponseOverview.Details.Flags.EDIT' %}
 						{% else %}

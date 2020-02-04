@@ -3,12 +3,12 @@
 {% load static %}
 
 {% block additional_controls %}
-	{% if clc_query and 'REVIEW_GOODS' in permissions and not status_is_terminal %}
+	{% if case.query.clc_responded == False and 'REVIEW_GOODS' in permissions and not status_is_terminal %}
 		<a role="button" draggable="false" id="clc-button-respond" class="govuk-button" href="{% url 'cases:respond_to_clc_query' case.id %}">
 			{% lcs 'cases.ClcQuery.Actions.RESPOND_CLC' %}
 		</a>
 	{% endif %}
-	{% if pv_grading_query and 'RESPOND_PV_GRADING' in permissions and not status_is_terminal %}
+	{% if case.query.pv_grading_responded == False and 'RESPOND_PV_GRADING' in permissions and not status_is_terminal %}
 		<a role="button" draggable="false" id="grading-button-respond" class="govuk-button" href="{% url 'cases:respond_to_pv_grading_query' case.id %}">
 			{% lcs 'cases.ClcQuery.Actions.RESPOND_GRADING' %}
 		</a>
@@ -125,7 +125,7 @@
 		{% if not good.is_pv_graded.key == "no" %}
 			<h3 class="govuk-heading-m">{% lcs 'cases.ClcQuery.GoodDetails.Grading.TITLE' %}</h3>
 			<dl class="govuk-summary-list">
-				{% if pv_grading_query %}
+				{% if case.query.pv_grading_responded %}
 					<div class="govuk-summary-list__row">
 						<dt class="govuk-summary-list__key">
 							{% lcs 'cases.ClcQuery.GoodDetails.Grading.COMMENTS' %}
