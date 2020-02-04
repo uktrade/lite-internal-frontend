@@ -46,9 +46,7 @@ def deny_licence_form(case_id, is_standard_licence):
 
     return Form(
         title=title,
-        questions=[
-            HiddenField(name="action", value="refuse")
-        ],
+        questions=[HiddenField(name="action", value="refuse")],
         back_link=conditional(
             is_standard_licence,
             BackLink(
