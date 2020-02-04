@@ -2,7 +2,7 @@
 
 <form method="post" onSubmit="return confirmVisible()">
 	{% csrf_token %}
-	<label class="govuk-label" for="input-case-note">{% lcs 'applications.CaseNotes.TITLE' %}</label>
+	<label class="govuk-label" for="input-case-note">{% lcs 'cases.Tabs.Activity.TITLE' %}</label>
 	<p id="input-case-note-warning" class="govuk-hint govuk-character-count__message" aria-live="polite">
 		{% lcs 'cases.Tabs.Activity.CHARACTER_LIMIT_2200' %}
 	</p>
