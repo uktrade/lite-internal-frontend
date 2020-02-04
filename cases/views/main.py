@@ -29,7 +29,7 @@ from cases.services import (
 )
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
-from conf.constants import DEFAULT_QUEUE_ID, GENERATED_DOCUMENT, GoodSystemFlags
+from conf.constants import DEFAULT_QUEUE_ID, GENERATED_DOCUMENT
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.helpers import convert_dict_to_query_params
 from core.services import get_status_properties, get_user_permissions, get_permissible_statuses
