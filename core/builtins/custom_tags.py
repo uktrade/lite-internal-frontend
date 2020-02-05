@@ -277,3 +277,13 @@ def username(user: dict):
         return user["first_name"] + " " + user["last_name"]
 
     return user["email"]
+
+
+@register.filter()
+def get_party_type(party):
+    return {
+        "end_user": "End User",
+        "third_party": "Third Party",
+        "ultimate_end_user": "Ultimate End User",
+        "consignee": "Consignee",
+    }[party["type"]]
