@@ -38,7 +38,6 @@ bleach = "*"
 gunicorn = "*"
 whitenoise = "*"
 raven = "*"
-faker = "*"
 
 [requires]
 python_version = "3.7"
