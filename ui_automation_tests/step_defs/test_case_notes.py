@@ -39,11 +39,6 @@ def i_click_cancel_button(driver):
     application_page.click_cancel_btn()
 
 
-@then(parsers.parse('case note warning is "{text}"'))
-def n_characters_remaining(driver, text):
-    pass
-
-
 @then("the case note is disabled")
 def post_note_is_disabled(driver):
     assert functions.element_with_css_selector_exists(driver, ".lite-case-note__container--error")
