@@ -287,3 +287,12 @@ def get_party_type(party):
         "ultimate_end_user": "Ultimate End User",
         "consignee": "Consignee",
     }[party["type"]]
+
+
+@register.filter()
+def display_grading(text: str):
+    value = text.split("_")
+    if len(value):
+        return f"{value[0].upper()} {' '.join(value[1:]).title()}"
+
+    return text
