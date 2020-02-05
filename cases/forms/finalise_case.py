@@ -39,13 +39,8 @@ def approve_licence_form(case_id, standard, duration, editable_duration):
 
 
 def deny_licence_form(case_id, is_standard_licence):
-    if is_standard_licence:
-        title = cases.FinaliseLicenceForm.REFUSE_TITLE
-    else:
-        title = cases.FinaliseLicenceForm.REJECT_TITLE
-
     return Form(
-        title=title,
+        title=cases.FinaliseLicenceForm.FINALISE_TITLE,
         questions=[HiddenField(name="action", value="refuse")],
         back_link=conditional(
             is_standard_licence,
