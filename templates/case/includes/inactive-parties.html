@@ -1,17 +1,17 @@
-<table class="govuk-table" id="table-entities">
-	<thead class="govuk-table__head">
-		<tr class="govuk-table__row">
-			<th scope="col" class="govuk-table__header govuk-!-width-one-third"></th>
-			<th scope="col" class="govuk-table__header govuk-!-width-one-third">{% lcs 'cases.ApplicationPage.Parties.NAME' %}</th>
-			<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.ADDRESS' %}</th>
-			<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.TYPE' %}</th>
-			<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.WEBSITE' %}</th>
-			<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.DOCUMENT' %}</th>
-			<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Destinations.FLAGS_TABLE_HEADER' %}</th>
-		</tr>
-	</thead>
-	<tbody class="govuk-table__body">
-		{% if case.application.inactive_parties %}
+{% if case.application.inactive_parties %}
+	<table class="govuk-table" id="table-entities">
+		<thead class="govuk-table__head">
+			<tr class="govuk-table__row">
+				<th scope="col" class="govuk-table__header govuk-!-width-one-third"></th>
+				<th scope="col" class="govuk-table__header govuk-!-width-one-third">{% lcs 'cases.ApplicationPage.Parties.NAME' %}</th>
+				<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.ADDRESS' %}</th>
+				<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.TYPE' %}</th>
+				<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.WEBSITE' %}</th>
+				<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.DOCUMENT' %}</th>
+				<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Destinations.FLAGS_TABLE_HEADER' %}</th>
+			</tr>
+		</thead>
+		<tbody class="govuk-table__body">
 			{% for party in case.application.inactive_parties %}
 				<tr class="govuk-table__row">
 					<th scope="row" class="govuk-table__header">{{ party|get_party_type }}</th>
@@ -33,10 +33,6 @@
 					</td>
 				</tr>
 			{% endfor %}
-		{% else %}
-			<tr class="govuk-table__row">
-				<td class="govuk-table__cell">{% lcs 'cases.ApplicationPage.EndUser.Table.Title' %}</td>
-			</tr>
-		{% endif %}
-	</tbody>
-</table>
+		</tbody>
+	</table>
+{% endif %}
