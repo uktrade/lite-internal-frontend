@@ -53,10 +53,11 @@ class Picklists(TemplateView):
 class AddPicklistItem(SingleFormView):
     def init(self, request, **kwargs):
         self.action = post_picklist_item
-        print('\n')
-        print(denial_reasons)
-        print('\n')
+        countries, _ = get_countries(request)
+        flags, _ = get_flags(request)
+        denial_reasons, _ = get_denial_reasons(request, False, False)
 
+        self.context = {**countries, **flags, **denial_reasons}
         self.success_url = reverse_lazy("picklists:picklists") + "?type=" + self.request.GET.get("type")
 
     def get_form(self):
@@ -65,6 +66,7 @@ class AddPicklistItem(SingleFormView):
         else:
             return add_picklist_item_form(self.request.GET.get("type"))
 
+# ADD BACK
 # # Letter paragraphs are passed through the Django template engine, so we need
 # # to make sure they're valid.
 # if request.POST.get("type") == "letter_paragraph":
