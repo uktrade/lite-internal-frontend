@@ -15,27 +15,15 @@ def add_letter_paragraph_picklist(add_a_letter_paragraph_picklist):
     pass
 
 
-@when("I create a letter template for ECJU letter")
+@when("I create a letter template for a document")
 def create_letter_template(driver, context, get_template_id):
     LetterTemplates(driver).click_create_a_template()
     context.template_name = "000 Template " + utils.get_formatted_date_time_m_d_h_s()
     LetterTemplates(driver).enter_template_name(context.template_name)
     Shared(driver).click_submit()
-    LetterTemplates(driver).select_which_type_of_case_template_can_apply_to("Applications")
+    LetterTemplates(driver).select_which_type_of_case_template_can_apply_to("Application")
     Shared(driver).click_submit()
     LetterTemplates(driver).click_licence_layout(get_template_id)
-    Shared(driver).click_submit()
-
-
-@when("I create a letter template for document")
-def create_letter_template(driver, context, get_licence_template_id):
-    LetterTemplates(driver).click_create_a_template()
-    context.template_name = "000 Template " + utils.get_formatted_date_time_m_d_h_s()
-    LetterTemplates(driver).enter_template_name(context.template_name)
-    Shared(driver).click_submit()
-    LetterTemplates(driver).select_which_type_of_case_template_can_apply_to("Applications")
-    Shared(driver).click_submit()
-    LetterTemplates(driver).click_licence_layout(get_licence_template_id)
     Shared(driver).click_submit()
 
 
@@ -109,12 +97,12 @@ def edit_template_name_and_layout(driver, context):
 
 
 @when("I edit my template paragraphs")
-def edit_template_paragraphs(driver, context, seed_data_config):
+def edit_template_paragraphs(driver, context, api_client_config):
     letter_template = LetterTemplates(driver)
     letter_template.click_edit_paragraphs_button()
     letter_template.click_add_paragraph_link()
     paragraph_id = letter_template.get_add_paragraph_button()
-    context.document_template_paragraph_text.append(get_paragraph_text(context, seed_data_config, paragraph_id))
+    context.document_template_paragraph_text.append(get_paragraph_text(context, api_client_config, paragraph_id))
     Shared(driver).click_submit()
 
 
