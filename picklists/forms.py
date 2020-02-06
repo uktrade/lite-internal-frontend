@@ -1,6 +1,6 @@
 from lite_content.lite_internal_frontend import strings
 from django.urls import reverse_lazy
-from lite_forms.components import TextInput, TextArea, Form, Button, MarkdownArea, HiddenField, BackLink
+from lite_forms.components import TextInput, TextArea, Form, Button, MarkdownArea, HiddenField, BackLink, HelpSection
 from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
@@ -11,7 +11,10 @@ _name = TextInput(title="Name", name="name")
 _text = TextArea(title="Text", name="text", extras={"max_length": 5000,})
 
 _paragraph = MarkdownArea(
-    title="Paragraph Text", name="text", variables=get_sample_context_variables(), extras={"max_length": 5000,}
+    title="Paragraph Text",
+    name="text",
+    variables=get_sample_context_variables(),
+    extras={"max_length": 5000,}
 )
 
 
@@ -97,4 +100,22 @@ def reactivate_picklist_item(picklist_item):
                 reverse_lazy("picklists:edit", kwargs={"pk": picklist_item["id"]}),
             ),
         ],
+    )
+
+
+def add_letter_paragraph_form(picklist_type):
+    return Form(
+        title="Create a letter paragraph",
+        description="",
+        questions=[
+            HiddenField("type", picklist_type),
+            TextInput(title="Name", name="name", classes=["govuk-!-width-full"]),
+            MarkdownArea(
+                title="Paragraph Text",
+                name="text",
+                variables=get_sample_context_variables(),
+                extras={"max_length": 5000, }
+            ),
+        ],
+        helpers=[HelpSection("Help", "Help may go here? maybe a modal?", "teams/markdown-help.html")],
     )

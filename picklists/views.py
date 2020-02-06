@@ -4,12 +4,13 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from lite_forms.generators import form_page
+from lite_forms.views import SingleFormView
 from picklists.forms import (
     add_picklist_item_form,
     edit_picklist_item_form,
     deactivate_picklist_item,
     reactivate_picklist_item,
-)
+    add_letter_paragraph_form)
 from picklists.helpers import picklist_paragraph_errors
 from picklists.services import (
     get_picklists,
@@ -47,30 +48,24 @@ class Picklists(TemplateView):
         return render(request, "teams/picklist.html", context)
 
 
-class AddPicklistItem(TemplateView):
-    def get(self, request, **kwargs):
-        picklist_type = request.GET.get("type")
+class AddPicklistItem(SingleFormView):
+    def init(self, request, **kwargs):
+        self.action = post_picklist_item
+        self.success_url = reverse_lazy("picklists:picklists") + "?type=" + self.request.GET.get("type")
 
-        data = {"type": picklist_type}
+    def get_form(self):
+        if self.request.GET.get("type") == "letter_paragraph":
+            return add_letter_paragraph_form(self.request.GET.get("type"))
+        else:
+            return add_picklist_item_form(self.request.GET.get("type"))
 
-        return form_page(request, add_picklist_item_form(request), data=data)
-
-    def post(self, request, **kwargs):
-        # Letter paragraphs are passed through the Django template engine, so we need
-        # to make sure they're valid.
-        if request.POST.get("type") == "letter_paragraph":
-            errors = picklist_paragraph_errors(request)
-            if errors:
-                return form_page(request, add_picklist_item_form(request), data=request.POST, errors=errors,)
-
-        response, status_code = post_picklist_item(request, request.POST)
-
-        if status_code != 201:
-            return form_page(request, add_picklist_item_form(request), data=request.POST, errors=response.get("errors"))
-
-        picklist_type = request.POST["type"]
-
-        return redirect(reverse_lazy("picklists:picklists") + "?type=" + picklist_type)
+# # Letter paragraphs are passed through the Django template engine, so we need
+# # to make sure they're valid.
+# if request.POST.get("type") == "letter_paragraph":
+#     errors = picklist_paragraph_errors(request)
+#     if errors:
+#         return form_page(request, add_picklist_item_form(request), data=request.POST, errors=errors,)
+#
 
 
 class ViewPicklistItem(TemplateView):

@@ -1,0 +1,49 @@
+.app-markdown {
+	&:focus-within {
+		outline: $govuk-focus-width solid $govuk-focus-colour;
+
+		.app-markdown__format-bar {
+			border: 4px solid black;
+			padding: govuk-spacing(1) - 2px;
+			padding-bottom: govuk-spacing(1);
+			border-bottom: 0;
+		}
+	}
+}
+
+.app-markdown__format-bar {
+	display: block;
+	display: flex;
+	padding: govuk-spacing(1);
+	border: 2px solid black;
+	border-bottom: 0;
+	background: govuk-colour("light-grey");
+
+	&__button {
+		@include appearance(none);
+		@include govuk-font($size: 19, $weight: bold);
+		width: 40px;
+		height: 40px;
+		border: 0;
+		outline: 0;
+		background: transparent;
+		color: govuk-colour("black");
+
+		&:hover {
+			background: govuk-shade(govuk-colour("light-grey"), 10%);
+		}
+
+		&:focus {
+			@include govuk-focused-text;
+		}
+	}
+}
+
+.app-markdown__textarea {
+	@extend .govuk-textarea;
+	@include govuk-font($size: 19, $line-height: 1.5);
+	margin: 0;
+	padding: govuk-spacing(3);
+	height: 400px;
+	outline: 0!important;
+}
