@@ -31,6 +31,28 @@ def exporter_user_has_edited_case(driver, context, api_client_config):
     lite_client.cases.edit_case(context.app_id)
 
 
+@when("the exporter has deleted the end user")
+def exporter_has_deleted_end_user(driver, context, api_client_config):
+    lite_client = get_lite_client(context, api_client_config)
+    lite_client.applications.parties.delete_party(draft_id=context.app_id, party=context.end_user)
+
+
+@when("the exporter has added the black mamba")
+def exporter_has_added_the_back_mambda(driver, context, api_client_config):
+    lite_client = get_lite_client(context, api_client_config)
+    party = {
+        "name": "Black Mamba",
+        "address": "24",
+        "country": "GB",
+        "sub_type": "government",
+        "website": "https://www.gov.uk",
+        "type": "end_user",
+    }
+    lite_client.applications.parties.add_party(
+        draft_id=context.app_id, party_type="end_user", party=party,
+    )
+
+
 @when("I click on the exporter amendments banner")
 def i_click_on_the_exporter_amendments_banner(driver, context):
     case_list_page = CaseListPage(driver)
@@ -123,3 +145,19 @@ def i_see_third_party_on_page(driver, context):
         context.third_party["country"]["name"],
     ]
     assert_party_data(destinations_table, headings, values)
+
+
+@then("I see an inactive party on page")
+def i_see_inactive_party_on_page(driver, context, api_client_config):
+    lite_client = get_lite_client(context, api_client_config)
+    table = ApplicationPage(driver).get_text_of_inactive_entities_table()
+    headings = ["NAME", "TYPE", "WEBSITE", "ADDRESS", "DOCUMENT"]
+    values = [
+        # For whatever reason end user subtype is a dict rather than a string
+        lite_client.context["inactive_party"]["sub_type"]["value"],
+        lite_client.context["inactive_party"]["name"],
+        lite_client.context["inactive_party"]["website"],
+        lite_client.context["inactive_party"]["address"],
+        lite_client.context["inactive_party"]["country"]["name"],
+    ]
+    assert_party_data(table, headings, values)

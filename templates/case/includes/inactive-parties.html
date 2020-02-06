@@ -1,5 +1,5 @@
 {% if case.application.inactive_parties %}
-	<table class="govuk-table" id="table-entities">
+	<table class="govuk-table" id="table-inactive-entities">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
 				<th scope="col" class="govuk-table__header govuk-!-width-one-third"></th>
@@ -35,4 +35,8 @@
 			{% endfor %}
 		</tbody>
 	</table>
+{% else %}
+	<p class="govuk-hint">
+		{% lcs 'CASE_ENTITIES_NONE' %}
+	</p>
 {% endif %}
