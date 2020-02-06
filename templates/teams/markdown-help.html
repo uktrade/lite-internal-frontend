@@ -11,7 +11,7 @@
 
 <h3 class="govuk-heading-m">Personalisation</h3>
 
-<p class="govuk-body govuk-!-margin-bottom-2">Use double brackets to personalise your document:</p>
+<p class="govuk-body govuk-!-margin-bottom-2">Use double brackets to personalise your text:</p>
 
 <p class="govuk-inset-text govuk-inset-text--slim govuk-!-margin-top-0">
 	{% verbatim %}
@@ -39,7 +39,7 @@
 </p>
 
 <div id="modal-help-formatting" class="govuk-visually-hidden">
-	<p class="govuk-body">To put a title in your document, use a hash:</p>
+	<p class="govuk-body">To add a title, use a hash:</p>
 
 	<p class="govuk-inset-text govuk-inset-text--slim govuk-!-margin-top-0"># This is a title</p>
 
@@ -166,9 +166,9 @@
 					</thead>
 					<tbody class="govuk-table__body">
 						{% for reason in denial_reasons %}
-						<tr class="govuk-table__row">
-							<td class="govuk-table__cell">{{ reason.id }}</td>
-						</tr>
+							<tr class="govuk-table__row">
+								<td class="govuk-table__cell">{{ reason.id }}</td>
+							</tr>
 						{% endfor %}
 					</tbody>
 				</table>
