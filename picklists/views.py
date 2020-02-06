@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from core.services import get_countries, get_denial_reasons
+from flags.services import get_flags
 from lite_forms.generators import form_page
 from lite_forms.views import SingleFormView
 from picklists.forms import (
@@ -51,6 +53,10 @@ class Picklists(TemplateView):
 class AddPicklistItem(SingleFormView):
     def init(self, request, **kwargs):
         self.action = post_picklist_item
+        print('\n')
+        print(denial_reasons)
+        print('\n')
+
         self.success_url = reverse_lazy("picklists:picklists") + "?type=" + self.request.GET.get("type")
 
     def get_form(self):

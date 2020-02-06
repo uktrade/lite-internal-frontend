@@ -117,5 +117,5 @@ def add_letter_paragraph_form(picklist_type):
                 extras={"max_length": 5000, }
             ),
         ],
-        helpers=[HelpSection("Help", "Help may go here? maybe a modal?", "teams/markdown-help.html")],
+        helpers=[HelpSection("Help", None, "teams/markdown-help.html")],
     )
