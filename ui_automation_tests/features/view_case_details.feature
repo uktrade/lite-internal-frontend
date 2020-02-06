@@ -19,8 +19,8 @@ Feature: I want to view the case details of a case
     Given I create application or application has been previously created
     And I sign in to SSO or am signed into SSO
     When the exporter has deleted the end user
-    When the exporter has added the black mamba
-    When I go to application previously created
+    And the exporter has added the black mamba
+    And I go to application previously created
     Then I see an inactive party on page
 
   @LT_982_exporter_edited_case_anchor @LT_1180_exporter_amendments_queue @regression
