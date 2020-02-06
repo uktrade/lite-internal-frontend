@@ -198,6 +198,7 @@
 	});
 
 	$("#link-help-variables").click(function() {
+		changeTab($(".lite-tabs a:first-of-type"), 1)
 		LITECommon.Modal.showModal('', $('#modal-help-variables').html(), false, true);
 		return false;
 	});
