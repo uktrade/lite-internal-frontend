@@ -24,6 +24,22 @@ spec:
     }
   }
 
+parameters
+  {
+    // Define DRIVER parameter for running the test
+    choice(name: 'DRIVER', description: 'Choose browser', choices: 'chrome\nfirefox\nheadless')
+
+    // Define test path to run
+    string(name: 'TESTS_TO_RUN', defaultValue: '', description: 'choose test to run, leave blank to run all tests')
+
+    // Define environment to run tests on
+    choice(name: 'ENVIRONMENT', description: 'choose what environment to run in', choices: 'dev\nqa\ndevpopcorn\nstaging\nuat')
+
+    //Define branch to run
+    string(name: 'BRANCH', defaultValue: 'master', description: 'choose branch to run against')
+  }
+
+
   options {
     timestamps()
     ansiColor('xterm')
@@ -83,7 +99,7 @@ spec:
        //unarchive mapping: ['ui_automation_tests/allure-results/**.*': '.']
        generateAllureReport()
        // Send Slack notification
-       //sendSlackNotification()
+       sendSlackNotification()
       }
     }
   }
