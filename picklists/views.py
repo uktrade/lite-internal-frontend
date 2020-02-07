@@ -9,16 +9,13 @@ from lite_forms.generators import form_page
 from lite_forms.views import SingleFormView
 from picklists.forms import (
     add_picklist_item_form,
-    edit_picklist_item_form,
     deactivate_picklist_item,
     reactivate_picklist_item,
     add_letter_paragraph_form,
 )
-from picklists.helpers import picklist_paragraph_errors
 from picklists.services import (
     get_picklists,
     get_picklist_item,
-    post_picklist_item,
     put_picklist_item,
 )
 from picklists.validators import validate_and_post_picklist_item, validate_and_put_picklist_item
