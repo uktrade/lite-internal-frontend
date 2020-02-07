@@ -12,6 +12,8 @@ from picklists.forms import (
     deactivate_picklist_item,
     reactivate_picklist_item,
     add_letter_paragraph_form,
+    edit_picklist_item_form,
+    edit_letter_paragraph_form,
 )
 from picklists.services import (
     get_picklists,
@@ -81,6 +83,7 @@ class AddPicklistItem(SingleFormView):
 class EditPicklistItem(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
+        self.object = get_picklist_item(request, self.object_pk)
         self.action = validate_and_put_picklist_item
         countries, _ = get_countries(request)
         flags, _ = get_flags(request)
@@ -93,9 +96,9 @@ class EditPicklistItem(SingleFormView):
 
     def get_form(self):
         if self.request.GET.get("type") == "letter_paragraph":
-            return add_letter_paragraph_form(self.request.GET.get("type"))
+            return edit_letter_paragraph_form(self.object)
         else:
-            return add_picklist_item_form(self.request.GET.get("type"))
+            return edit_picklist_item_form(self.object)
 
 
 class DeactivatePicklistItem(TemplateView):
