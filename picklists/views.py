@@ -12,7 +12,8 @@ from picklists.forms import (
     edit_picklist_item_form,
     deactivate_picklist_item,
     reactivate_picklist_item,
-    add_letter_paragraph_form)
+    add_letter_paragraph_form,
+)
 from picklists.helpers import picklist_paragraph_errors
 from picklists.services import (
     get_picklists,
@@ -65,6 +66,7 @@ class AddPicklistItem(SingleFormView):
             return add_letter_paragraph_form(self.request.GET.get("type"))
         else:
             return add_picklist_item_form(self.request.GET.get("type"))
+
 
 # ADD BACK
 # # Letter paragraphs are passed through the Django template engine, so we need

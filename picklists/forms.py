@@ -11,10 +11,7 @@ _name = TextInput(title="Name", name="name")
 _text = TextArea(title="Text", name="text", extras={"max_length": 5000,})
 
 _paragraph = MarkdownArea(
-    title="Paragraph Text",
-    name="text",
-    variables=get_sample_context_variables(),
-    extras={"max_length": 5000,}
+    title="Paragraph Text", name="text", variables=get_sample_context_variables(), extras={"max_length": 5000,}
 )
 
 
@@ -114,7 +111,7 @@ def add_letter_paragraph_form(picklist_type):
                 title="Paragraph Text",
                 name="text",
                 variables=get_sample_context_variables(),
-                extras={"max_length": 5000, }
+                extras={"max_length": 5000,},
             ),
         ],
         helpers=[HelpSection("Help", None, "teams/markdown-help.html")],
