@@ -21,6 +21,7 @@ from picklists.services import (
     post_picklist_item,
     put_picklist_item,
 )
+from picklists.validators import validate_and_post_picklist_item, validate_and_put_picklist_item
 from teams.services import get_team
 from users.services import get_gov_user
 
@@ -51,9 +52,21 @@ class Picklists(TemplateView):
         return render(request, "teams/picklist.html", context)
 
 
+class ViewPicklistItem(TemplateView):
+    def get(self, request, **kwargs):
+        picklist_item = get_picklist_item(request, str(kwargs["pk"]))
+
+        context = {
+            "title": picklist_item["name"],
+            "picklist_item": picklist_item,
+            "activity": picklist_item["activity"],
+        }
+        return render(request, "teams/picklist-item.html", context)
+
+
 class AddPicklistItem(SingleFormView):
     def init(self, request, **kwargs):
-        self.action = post_picklist_item
+        self.action = validate_and_post_picklist_item
         countries, _ = get_countries(request)
         flags, _ = get_flags(request)
         denial_reasons, _ = get_denial_reasons(request, False, False)
@@ -68,57 +81,24 @@ class AddPicklistItem(SingleFormView):
             return add_picklist_item_form(self.request.GET.get("type"))
 
 
-# ADD BACK
-# # Letter paragraphs are passed through the Django template engine, so we need
-# # to make sure they're valid.
-# if request.POST.get("type") == "letter_paragraph":
-#     errors = picklist_paragraph_errors(request)
-#     if errors:
-#         return form_page(request, add_picklist_item_form(request), data=request.POST, errors=errors,)
-#
+class EditPicklistItem(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.action = validate_and_put_picklist_item
+        countries, _ = get_countries(request)
+        flags, _ = get_flags(request)
+        denial_reasons, _ = get_denial_reasons(request, False, False)
 
+        self.context = {**countries, **flags, **denial_reasons}
+        self.success_url = reverse_lazy(
+            "picklists:picklist_item", kwargs={"pk": self.get_validated_data()["picklist_item"]["id"]}
+        )
 
-class ViewPicklistItem(TemplateView):
-    def get(self, request, **kwargs):
-        picklist_item = get_picklist_item(request, str(kwargs["pk"]))
-
-        context = {
-            "title": picklist_item["name"],
-            "picklist_item": picklist_item,
-            "activity": picklist_item["activity"],
-        }
-        return render(request, "teams/picklist-item.html", context)
-
-
-class EditPicklistItem(TemplateView):
-    picklist_item_id = None
-    picklist_item = None
-    form = None
-
-    def dispatch(self, request, *args, **kwargs):
-        self.picklist_item_id = str(kwargs["pk"])
-        self.picklist_item = get_picklist_item(request, self.picklist_item_id)
-        self.form = edit_picklist_item_form(self.picklist_item)
-
-        return super(EditPicklistItem, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request, **kwargs):
-        return form_page(request, self.form, data=self.picklist_item)
-
-    def post(self, request, **kwargs):
-        # Letter paragraphs are passed through the Django template engine, so we need
-        # to make sure they're valid.
-        if request.POST.get("type") == "letter_paragraph":
-            errors = picklist_paragraph_errors(request)
-            if errors:
-                return form_page(request, self.form, data=request.POST, errors=errors)
-
-        response, status_code = put_picklist_item(request, self.picklist_item_id, request.POST)
-
-        if status_code != 200:
-            return form_page(request, self.form, data=request.POST, errors=response.get("errors"))
-
-        return redirect(reverse_lazy("picklists:picklist_item", kwargs={"pk": response["picklist_item"]["id"]}))
+    def get_form(self):
+        if self.request.GET.get("type") == "letter_paragraph":
+            return add_letter_paragraph_form(self.request.GET.get("type"))
+        else:
+            return add_picklist_item_form(self.request.GET.get("type"))
 
 
 class DeactivatePicklistItem(TemplateView):
