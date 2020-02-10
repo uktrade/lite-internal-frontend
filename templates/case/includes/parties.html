@@ -45,7 +45,7 @@
                         {{ flag.name }}<br>
                     {% endfor %}
                 </td>
-            {% else %}
+            {% elif has_mandatory_parties %}
                 <td class="govuk-table__cell">&nbsp;</td>
                 <th scope="row" class="govuk-table__header">{% lcs 'cases.ApplicationPage.EndUser.Table.Title' %}</th>
                 <td colspan=6 class="govuk-table__cell">{% lcs 'cases.ApplicationPage.EndUser.NO_END_USER' %}</td>
@@ -72,7 +72,7 @@
                         {{ flag.name }}<br>
                     {% endfor %}
                 </td>
-            {% else %}
+            {% elif has_mandatory_parties %}
                 <td class="govuk-table__cell">&nbsp;</td>
                 <th scope="row" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Consignee.Table.Title' %}</th>
                     <td colspan=6 class="govuk-table__cell">{% lcs 'cases.ApplicationPage.Consignee.NO_CONSIGNEE' %}</td>

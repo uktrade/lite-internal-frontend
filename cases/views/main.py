@@ -136,6 +136,7 @@ class ViewCase(TemplateView):
             "permissible_statuses": get_permissible_statuses(request, case_type),
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
+            "has_mandatory_parties": True
         }
 
         if case_type == CaseType.END_USER_ADVISORY_QUERY.value:
@@ -161,6 +162,9 @@ class ViewCase(TemplateView):
             CaseType.GIFTING_CLEARANCE.value,
         ]:
             context["total_goods_value"] = _get_total_goods_value(case)
+
+            if case_type in [CaseType.F680_CLEARANCE.value, CaseType.GIFTING_CLEARANCE.value]:
+                context["has_mandatory_parties"] = False
 
             return render(request, "case/applications/exhibition-clearance.html", context)
         elif case_type == CaseType.HMRC_QUERY.value:
