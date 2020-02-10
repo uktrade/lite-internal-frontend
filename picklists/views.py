@@ -93,7 +93,7 @@ class EditPicklistItem(SingleFormView):
         self.context = {**countries, **flags, **denial_reasons}
 
     def get_form(self):
-        if self.request.GET.get("type") == "letter_paragraph":
+        if self.object["type"]["key"] == "letter_paragraph":
             return edit_letter_paragraph_form(self.object)
         else:
             return edit_picklist_item_form(self.object)
