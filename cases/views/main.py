@@ -136,7 +136,7 @@ class ViewCase(TemplateView):
             "permissible_statuses": get_permissible_statuses(request, case_type),
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
-            "has_mandatory_parties": True
+            "has_mandatory_parties": True,
         }
 
         if case_type == CaseType.END_USER_ADVISORY_QUERY.value:
