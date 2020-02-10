@@ -7,9 +7,7 @@ from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 
 
-def add_picklist_item_form(request):
-    picklist_type = request.GET.get("type")
-
+def add_picklist_item_form(picklist_type):
     return Form(
         title=getattr(picklists.NewPicklistForm, picklist_type.upper()),
         questions=[

@@ -85,14 +85,14 @@ class EditPicklistItem(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.object = get_picklist_item(request, self.object_pk)
         self.action = validate_and_put_picklist_item
+        self.success_url = reverse_lazy(
+            "picklists:picklist_item", kwargs={"pk": self.object_pk}
+        )
         countries, _ = get_countries(request)
         flags, _ = get_flags(request)
         denial_reasons, _ = get_denial_reasons(request, False, False)
 
         self.context = {**countries, **flags, **denial_reasons}
-        self.success_url = reverse_lazy(
-            "picklists:picklist_item", kwargs={"pk": self.get_validated_data()["picklist_item"]["id"]}
-        )
 
     def get_form(self):
         if self.request.GET.get("type") == "letter_paragraph":
