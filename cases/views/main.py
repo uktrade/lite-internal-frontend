@@ -166,7 +166,7 @@ class ViewCase(TemplateView):
             if case_type in [CaseType.F680_CLEARANCE.value, CaseType.GIFTING_CLEARANCE.value]:
                 context["has_mandatory_parties"] = False
 
-            return render(request, "case/applications/exhibition-clearance.html", context)
+            return render(request, "case/applications/mod-clearance.html", context)
         elif case_type == CaseType.HMRC_QUERY.value:
             context["total_goods_value"] = _get_total_goods_value(case)
             return render(request, "case/queries/hmrc-case.html", context)
