@@ -37,6 +37,6 @@
 	</table>
 {% else %}
 	<p class="govuk-hint">
-		{% lcs 'cases.ApplicationPage.Parties.NO_INACTIVE_CASES' %}
+		{% include "includes/notice.html" with text="cases.ApplicationPage.Parties.NO_INACTIVE_CASES" %}
 	</p>
 {% endif %}
