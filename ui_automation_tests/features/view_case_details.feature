@@ -18,8 +18,7 @@ Feature: I want to view the case details of a case
   Scenario: Gov user can see all parties on the case
     Given I create application or application has been previously created
     And I sign in to SSO or am signed into SSO
-    When the exporter has deleted the end user
-    And the exporter has added the black mamba
+    When the exporter has deleted the third party
     And I go to application previously created
     Then I see an inactive party on page
 
