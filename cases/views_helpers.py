@@ -12,7 +12,7 @@ from core.services import get_denial_reasons, get_user_permissions, get_status_p
 from picklists.services import get_picklists
 from teams.services import get_teams
 from users.services import get_gov_user
-from conf.constants import Permission, APPLICATION_CASE_TYPES, CLEARANCE_CASE_TYPES
+from conf.constants import Permission, APPLICATION_CASE_TYPES, CLEARANCE_CASE_TYPES, CONFLICTING
 
 
 def get_case_advice(get_advice, request, case, advice_level, team=None):
@@ -56,7 +56,7 @@ def get_case_advice(get_advice, request, case, advice_level, team=None):
     context["status_is_read_only"] = status_props["is_read_only"]
     context["status_is_terminal"] = status_props["is_terminal"]
 
-    return render(request, "case/advice/" + advice_level + ".html", context)
+    return render(request, f"case/advice/{advice_level}.html", context)
 
 
 def _check_user_permitted_to_give_final_advice(case_type, permissions):
@@ -73,7 +73,7 @@ def _check_user_permitted_to_give_final_advice(case_type, permissions):
 def _can_advice_be_finalised(advice):
     """Check that there is no conflicting advice and that the advice can be finalised. """
     for item in advice["advice"]:
-        if item["type"]["key"] == "conflicting":
+        if item["type"]["key"] == CONFLICTING:
             return False
     return True
 
