@@ -101,7 +101,7 @@ def when_go_to_internal_homepage(driver, internal_url):  # noqa
 
 
 @given("I go to internal homepage")  # noqa
-def go_to_internal_homepage(driver, internal_url, sso_sign_in):  # noqa
+def go_to_internal_homepage(driver, internal_url):  # noqa
     driver.get(internal_url)
 
 
@@ -121,8 +121,8 @@ def click_on_created_application(driver, context, internal_url):  # noqa
 
 
 @when("I go to end user advisory previously created")  # noqa
-def click_on_created_eua(driver, context):  # noqa
-    utils.find_paginated_item_by_link_text(context.eua_reference_code, driver).click()
+def click_on_created_eua(driver, context, internal_url:  # noqa
+    driver.get(internal_url.rstrip("/") + "/cases/" + context.eua_id)
 
 
 @given("I create application or application has been previously created")  # noqa
@@ -141,7 +141,7 @@ def i_click_continue(driver):  # noqa
 
 
 @when("I go to flags")  # noqa
-def go_to_flags(driver, internal_url, sso_sign_in):  # noqa
+def go_to_flags(driver, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/flags")
 
 
@@ -176,7 +176,7 @@ def add_a_queue(driver, context, add_queue):  # noqa
 
 
 @when("I go to queues")  # noqa
-def go_to_queues(driver, sso_sign_in, internal_url):  # noqa
+def go_to_queues(driver, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/queues/")
 
 
