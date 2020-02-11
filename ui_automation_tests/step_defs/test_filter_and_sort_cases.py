@@ -24,6 +24,12 @@ def assign_case_to_queue(context, api_client_config):
     lite_client.cases.assign_case_to_queue()
 
 
+@when("case has been moved to new Queue")
+def assign_case_to_queue_when(context, api_client_config):
+    lite_client = get_lite_client(context, api_client_config)
+    lite_client.cases.assign_case_to_queue()
+
+
 @then(parsers.parse('"{number}" cases are shown'))
 def num_cases_appear(driver, context, number):
     assert int(number) == Shared(driver).get_number_of_rows_in_lite_table(), "incorrect number of cases are shown"
@@ -73,8 +79,3 @@ def no_cases_shown(driver):
     assert (
         "There are no cases to show with those filters" in QueuesPages(driver).get_no_cases_text()
     ), "There are cases shown in the newly created queue."
-
-
-@when("I create a clc query")  # noqa
-def create_clc_query(driver, apply_for_clc_query, context):
-    pass

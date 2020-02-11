@@ -11,9 +11,9 @@ Feature: I want to filter and sort cases on a queue
     And I create open application or open application has been previously created
     And case has been moved to new Queue
     And I create a clc query
-    And case has been moved to new Queue
     And I go to internal homepage
-    When I click on new queue in dropdown
+    When case has been moved to new Queue
+    And I click on new queue in dropdown
     Then "2" cases are shown
     When I show filters
     And filter status has been changed to "Finalised"

@@ -295,3 +295,8 @@ def status_has_been_changed_in_header(driver, context, internal_info):  # noqa
     assert (
         application_page.get_text_of_activity_users(0) == internal_info["name"]
     ), "user who has made the status change has not been displayed correctly"
+
+
+@given("I create a clc query")  # noqa
+def create_clc_query(driver, apply_for_clc_query, context):
+    pass
