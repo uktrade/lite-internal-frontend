@@ -18,7 +18,7 @@ def create_queue(context, api_client_config):
     context.queue_name = lite_client.context["queue_name"]
 
 
-@when("case has been moved to new Queue")
+@given("case has been moved to new Queue")
 def assign_case_to_queue(context, api_client_config):
     lite_client = get_lite_client(context, api_client_config)
     lite_client.cases.assign_case_to_queue()

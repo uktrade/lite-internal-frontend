@@ -121,7 +121,7 @@ def click_on_created_application(driver, context, internal_url):  # noqa
 
 
 @when("I go to end user advisory previously created")  # noqa
-def click_on_created_eua(driver, context, internal_url:  # noqa
+def click_on_created_eua(driver, context, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/cases/" + context.eua_id)
 
 

@@ -38,3 +38,4 @@ Feature: I want to assign one or more specific users to a case in a work queue
     When I select the checkbox for previously created case to be assigned
     And I search for SSO users name to assign
     Then only SSO users name is displayed in user list for assign cases
+    

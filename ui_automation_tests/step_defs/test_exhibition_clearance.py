@@ -10,8 +10,8 @@ def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance):
     pass
 
 
-@when("I click on the Exhibition Clearance case")  # noqa
-def i_click_on_the_exhibition_clearance_case(driver, context, internal_url):
+@when("I go to the exhibition clearance case")  # noqa
+def i_go_to_the_exhibition_clearance_case(driver, context, internal_url):
     driver.get(internal_url.rstrip("/") + "/cases/" + context.case_id)
 
 
