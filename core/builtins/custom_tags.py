@@ -12,7 +12,7 @@ from django.utils.safestring import mark_safe
 from conf.constants import ISO8601_FMT
 
 from lite_content.lite_internal_frontend import strings
-from teams.constants import SystemTeamsID
+from conf.constants import SystemTeamsID
 
 register = template.Library()
 STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
