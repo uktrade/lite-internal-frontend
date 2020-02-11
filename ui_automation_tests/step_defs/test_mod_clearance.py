@@ -5,7 +5,7 @@ from pages.application_page import ApplicationPage
 scenarios("../features/mod_clearance.feature", strict_gherkin=False)
 
 
-@given("an exhibition clearance is created")  # noqa
+@given("an Exhibition Clearance is created")  # noqa
 def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance):
     pass
 
