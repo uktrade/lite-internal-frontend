@@ -15,7 +15,7 @@ Feature: I want to view the case details of a case
     And I see a consignee
 
   @LT_1658_parties_refactor @regression
-  Scenario: Gov user can see all parties on the case
+  Scenario: Gov user can see inactive parties on the case
     Given I create application or application has been previously created
     And I sign in to SSO or am signed into SSO
     When the exporter has deleted the third party

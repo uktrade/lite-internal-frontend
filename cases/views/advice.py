@@ -343,7 +343,7 @@ class Finalise(TemplateView):
 
     def post(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))
-        standard = case["application"]["application_type"]["key"] == CaseType.STANDARD_LICENCE.value
+        is_open_licence = case["application"]["application_type"]["key"] == CaseType.OPEN_LICENCE.value
         application_id = case.get("application").get("id")
         data = request.POST.copy()
 
@@ -357,7 +357,7 @@ class Finalise(TemplateView):
         if res.status_code == 400:
             form = approve_licence_form(
                 case_id=case["id"],
-                is_open_licence=standard,
+                is_open_licence=is_open_licence,
                 duration=data.get("licence_duration") or get_application_default_duration(request, str(kwargs["pk"])),
                 editable_duration=has_permission,
             )
