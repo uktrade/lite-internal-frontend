@@ -35,7 +35,7 @@ class ApplicationPage(BasePage):
     AUDIT_TRAIL_ITEM = ".app-activity__item"  # CSS
     APPLICATION_SUMMARY_BOARD = ".app-case-board"  # CSS
     TABLE_ENTITIES = "table-entities"  # ID
-    TABLE_INACTIVE_ENTITIES = "table-inactive-entities"  # ID
+    TABLE_INACTIVE_ENTITIES_ID = "table-inactive-entities"  # ID
     GIVE_ADVICE_BUTTON = "button-give-advice"  # ID
     CHECKBOX = '[type="checkbox"]'  # CSS
     DOWNLOAD_GOOD_DOCUMENT = "good_document"  # ID
@@ -177,7 +177,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.TABLE_ENTITIES).text
 
     def get_text_of_inactive_entities_table(self):
-        return self.driver.find_element_by_id(self.TABLE_INACTIVE_ENTITIES).text
+        return self.driver.find_element_by_id(self.TABLE_INACTIVE_ENTITIES_ID).text
 
     def click_on_all_checkboxes(self):
         elements = self.driver.find_elements_by_css_selector(self.CHECKBOX)
