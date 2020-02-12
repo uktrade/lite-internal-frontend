@@ -10,12 +10,12 @@ def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance):
     pass
 
 
-@given("an F680 Clearance is created")  # noqa
+@given("a F680 Clearance is created")  # noqa
 def an_f680_clearance_is_created(driver, apply_for_f680_clearance):
     pass
 
 
-@given("an Gifting Clearance is created")  # noqa
+@given("a Gifting Clearance is created")  # noqa
 def an_gifting_clearance_is_created(driver, apply_for_gifting_clearance):
     pass
 
