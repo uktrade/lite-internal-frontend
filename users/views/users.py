@@ -18,11 +18,28 @@ from users.services import (
 
 class UsersList(TemplateView):
     def get(self, request, **kwargs):
-        data, _ = get_gov_users(request)
+        status = request.GET.get("status", "active")
+        activated = status == "active"
+
+        params = {"page": int(request.GET.get("page", 1))}
+        if activated:
+            params["status"] = "active"
+
+        data, _ = get_gov_users(request, params)
         user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
         super_user = is_super_user(user)
 
-        context = {"data": data, "title": "Users", "super_user": super_user}
+        context = {
+            "data": data,
+            "title": "Users",
+            "super_user": super_user,
+            "status": status,
+            "page": int(request.GET.get("page", 1)),
+        }
+
+        from pprint import  pprint
+        pprint(data)
+
         return render(request, "users/index.html", context)
 
 

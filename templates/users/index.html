@@ -20,7 +20,22 @@
 			</a>
 		</div>
 	</div>
-
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-one-third lite-filters">
+				<div class="lite-filter-box">
+					<h4 class="govuk-heading-s">Filter</h4>
+					{% if status == 'active' %}
+						<a href="{% url 'users:users' %}?status=all" class="govuk-button govuk-button--secondary" draggable="false" role="button" style="width: 100%; margin: 0;">
+							Include deactivated
+						</a>
+					{% else %}
+						<a href="{% url 'users:users' %}?status=active" class="govuk-button govuk-button--secondary" draggable="false" role="button" style="width: 100%; margin: 0;">
+							Hide deactivated
+						</a>
+					{% endif %}
+				</div>
+			</div>
+		<div class="govuk-grid-column-two-thirds">
     <table class="govuk-table">
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
@@ -33,7 +48,7 @@
             </tr>
         </thead>
         <tbody class="govuk-table__body">
-            {% for user in data.gov_users %}
+            {% for user in data.results.gov_users %}
                 <tr class="govuk-table__row" id="row-{{ forloop.counter }}">
                     <td class="govuk-table__cell">
 						{% if user.first_name %}
@@ -69,5 +84,18 @@
             {% endfor %}
         </tbody>
     </table>
+
+						{% if data.total_pages > 1 %}
+				<br>
+				<div class="lite-pagination__container ">
+					{% for i in data.total_pages|times %}
+						<a href="{% url 'users:users' %}?status={{status}}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
+							{{ i }}
+						</a>
+					{% endfor %}
+				</div>
+			{% endif %}
+		</div>
+		</div>
 
 {% endblock %}
