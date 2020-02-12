@@ -96,7 +96,7 @@ def pytest_exception_interact(node, report):
 
 
 @when("I go to the case") # noqa
-def i_go_to_the_exhibition_clearance_case(driver, context, internal_url):
+def i_go_to_the_case(driver, context, internal_url):
     driver.get(internal_url.rstrip("/") + "/cases/" + context.case_id)
 
 
