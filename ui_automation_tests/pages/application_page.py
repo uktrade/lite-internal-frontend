@@ -48,6 +48,10 @@ class ApplicationPage(BasePage):
     ASSIGNED_USERS_ID = "assigned_users"
     CASE_QUEUES_ID = "case_queues"
     HMRC_GOODS_LOCATION = "hmrc-goods-location"
+    CASE_COPY_OF_ID = "case-copy-of"
+
+    def get_case_copy_of_field(self):
+        return self.driver.find_element_by_id(self.CASE_COPY_OF_ID)
 
     def click_visible_to_exporter_checkbox(self):
         time.sleep(0.5)
