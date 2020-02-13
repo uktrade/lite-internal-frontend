@@ -268,6 +268,11 @@ def enter_response(driver, controlled, control_list_entry, report, comment):  # 
     Shared(driver).click_submit()
 
 
+@given("I create a clc query")  # noqa
+def create_clc_query(driver, apply_for_clc_query, context):
+    pass
+
+
 @when("I add a flag called UAE at level Case")  # noqa
 def add_a_flag(driver, add_uae_flag):  # noqa
     pass
@@ -292,11 +297,3 @@ def status_has_been_changed_in_header(driver, context, internal_info):  # noqa
     assert utils.search_for_correct_date_regex_in_element(
         application_page.get_text_of_activity_dates(0)
     ), "date is not displayed after status change"
-    assert (
-        application_page.get_text_of_activity_users(0) == internal_info["name"]
-    ), "user who has made the status change has not been displayed correctly"
-
-
-@given("I create a clc query")  # noqa
-def create_clc_query(driver, apply_for_clc_query, context):
-    pass
