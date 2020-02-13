@@ -2,10 +2,10 @@ from enum import Enum
 
 
 class CaseType(Enum):
-    STANDARD_LICENCE = "standard_licence"
-    OPEN_LICENCE = "open_licence"
-    HMRC_QUERY = "hmrc_query"
-    END_USER_ADVISORY_QUERY = "end_user_advisory_query"
+    STANDARD = "standard"
+    OPEN = "open"
+    HMRC = "hmrc"
+    END_USER_ADVISORY = "end_user_advisory"
     APPLICATION = "application"
-    GOODS_QUERY = "goods_query"
-    EXHIBITION_CLEARANCE = "exhibition_clearance"
+    GOODS = "goods"
+    EXHIBITION = "exhibition_clearance"

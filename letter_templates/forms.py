@@ -57,7 +57,7 @@ def add_letter_template(request):
     )
 
 
-def edit_letter_template(letter_template):
+def edit_letter_template(letter_template, case_type_options):
     return Form(
         title=strings.LetterTemplates.EditLetterTemplate.TITLE % letter_template["name"],
         questions=[
@@ -69,14 +69,7 @@ def edit_letter_template(letter_template):
             Checkboxes(
                 title=strings.LetterTemplates.EditLetterTemplate.CaseTypes.TITLE,
                 name="case_types",
-                options=[
-                    Option("application", strings.LetterTemplates.EditLetterTemplate.CaseTypes.Types.APPLICATION),
-                    Option("goods_query", strings.LetterTemplates.EditLetterTemplate.CaseTypes.Types.GOODS_QUERY),
-                    Option(
-                        "end_user_advisory_query",
-                        strings.LetterTemplates.EditLetterTemplate.CaseTypes.Types.END_USER_ADVISORY,
-                    ),
-                ],
+                options=case_type_options,
             ),
             RadioButtonsImage(
                 title=strings.LetterTemplates.EditLetterTemplate.Layout.TITLE,

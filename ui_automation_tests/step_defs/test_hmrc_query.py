@@ -19,5 +19,5 @@ def go_to_hmrc(driver, context):
 @then("I see HMRC query")
 def see_hmrc(driver, context):
     if context.hmrc_is_found:
-        assert driver.find_element_by_id("case-type").text == "HMRC Query"
+        assert driver.find_element_by_id("case-type").text == "hmrc"
         assert functions.element_with_id_exists(driver, ApplicationPage(driver).HMRC_GOODS_LOCATION)
