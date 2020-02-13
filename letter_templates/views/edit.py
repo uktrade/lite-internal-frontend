@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from cases.services import get_case_types
-from lite_content.lite_internal_frontend import strings
 from lite_forms.components import Option
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_single_form
