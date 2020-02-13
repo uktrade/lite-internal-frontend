@@ -3,39 +3,25 @@
 {% block back_link %}{% endblock %}
 
 {% block body %}
-
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">{{ title }}</h2>
+			<h1 class="govuk-heading-l">{{ title }}</h1>
 			<p class="govuk-caption-m">
 				{% lcs 'Users.DESCRIPTION' %}
 			</p>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a id="button-manage-roles" href="{% url 'users:roles' %}" class="govuk-button govuk-button--secondary" draggable="false" role="button">
-				Manage roles
+				{% lcs 'Users.MANAGE_ROLES' %}
 			</a>
 			<a id="button-invite-user" href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
 				{% lcs 'Users.INVITE' %}
 			</a>
 		</div>
 	</div>
-		<div class="govuk-grid-row">
-			<div class="govuk-grid-column-one-third lite-filters">
-				<div class="lite-filter-box">
-					<h4 class="govuk-heading-s">Filter</h4>
-					{% if status == 'active' %}
-						<a href="{% url 'users:users' %}?status=all" class="govuk-button govuk-button--secondary" draggable="false" role="button" style="width: 100%; margin: 0;">
-							Include deactivated
-						</a>
-					{% else %}
-						<a href="{% url 'users:users' %}?status=active" class="govuk-button govuk-button--secondary" draggable="false" role="button" style="width: 100%; margin: 0;">
-							Hide deactivated
-						</a>
-					{% endif %}
-				</div>
-			</div>
-		<div class="govuk-grid-column-two-thirds">
+
+	{% include "filters.html" %}
+
     <table class="govuk-table">
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
@@ -57,7 +43,7 @@
 							</a>
 						{% else %}
 							<strong class="govuk-tag govuk-phase-banner__content__tag ">
-								Pending
+								{% lcs 'Users.PENDING' %}
 							</strong>
 						{% endif %}
                     </td>
@@ -85,17 +71,5 @@
         </tbody>
     </table>
 
-						{% if data.total_pages > 1 %}
-				<br>
-				<div class="lite-pagination__container ">
-					{% for i in data.total_pages|times %}
-						<a href="{% url 'users:users' %}?status={{status}}&page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
-							{{ i }}
-						</a>
-					{% endfor %}
-				</div>
-			{% endif %}
-		</div>
-		</div>
-
+	{% include "includes/pagination.html" %}
 {% endblock %}
