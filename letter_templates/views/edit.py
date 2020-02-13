@@ -20,7 +20,7 @@ class EditTemplate(TemplateView):
     def get(self, request, **kwargs):
         letter_template = get_letter_template(request, str(kwargs["pk"]))[0]["template"]
         letter_template_case_types = letter_template.pop("case_types")
-        letter_template_case_types = [case_type["reference"] for case_type in letter_template_case_types]
+        letter_template_case_types = [case_type["reference"]["key"] for case_type in letter_template_case_types]
         letter_template.update(case_types=letter_template_case_types)
         applicable_case_types = [Option(option["key"], option["value"]) for option in get_case_types(request)]
         return form_page(request, edit_letter_template(letter_template, applicable_case_types), data=letter_template)

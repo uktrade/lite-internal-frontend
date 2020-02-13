@@ -124,8 +124,8 @@ class ViewCase(TemplateView):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
         case_type = case["case_type"]
-        case_type__type = case_type["type"]
-        case_type__sub_type = case_type["sub_type"]
+        case_type__type = case_type["type"]["key"]
+        case_type__sub_type = case_type["sub_type"]["key"]
 
         if "application" in case:
             status_props, _ = get_status_properties(request, case["application"]["status"]["key"])
@@ -156,7 +156,9 @@ class ViewCase(TemplateView):
             elif case_type__sub_type == CaseType.STANDARD.value:
                 return render(request, "case/applications/standard-licence-case.html", context)
             else:
-                raise Exception("Invalid case_type__sub_type: {}".format(case["application"]["case_type"]["sub_type"]))
+                raise Exception(
+                    "Invalid case_type__sub_type: {}".format(case["application"]["case_type"]["sub_type"]["key"])
+                )
         elif case_type__sub_type == CaseType.EXHIBITION.value:
             context["total_goods_value"] = _get_total_goods_value(case)
 
@@ -209,8 +211,8 @@ class ChangeStatus(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         case = get_case(request, self.object_pk)
-        self.case_type__type = case["case_type"]["type"]
-        self.case_type__sub_type = case["case_type"]["sub_type"]
+        self.case_type__type = case["case_type"]["type"]["key"]
+        self.case_type__sub_type = case["case_type"]["sub_type"]["key"]
         permissible_statuses = get_permissible_statuses(request, self.case_type__type)
         self.data = case["application"] if "application" in case else case["query"]
         self.form = change_status_form(case, permissible_statuses)
