@@ -50,8 +50,8 @@ class ApplicationPage(BasePage):
     HMRC_GOODS_LOCATION = "hmrc-goods-location"
     CASE_COPY_OF_ID = "case-copy-of"
 
-    def get_case_copy_of_field(self):
-        return self.driver.find_element_by_id(self.CASE_COPY_OF_ID)
+    def get_case_copy_of_field_href(self):
+        return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
 
     def click_visible_to_exporter_checkbox(self):
         time.sleep(0.5)
