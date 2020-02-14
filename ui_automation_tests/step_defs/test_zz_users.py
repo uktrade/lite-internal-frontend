@@ -1,9 +1,13 @@
+from faker import Faker
 from selenium.webdriver.common.by import By
 import shared.tools.helpers as utils
 import pytest
 from pages.header_page import HeaderPage
+from pages.shared import Shared
 from pages.users_page import UsersPage
-from pytest_bdd import given, scenarios
+from pytest_bdd import given, scenarios, when, then
+
+from shared import functions
 
 scenarios("../features/users.feature", strict_gherkin=False)
 
@@ -72,40 +76,49 @@ def test_manage_users(driver, open_internal_hub, context, internal_info):
     )
 
 
-@given("I run the inability to deactivate oneself test")
-def test_inability_to_deactivate_oneself(driver, open_internal_hub):
-    header = HeaderPage(driver)
-    header.click_user_profile()
-    driver.set_timeout_to(0)
-    deactivate = utils.is_element_present(driver, By.XPATH, "//*[text()[contains(.,'Deactivate')]]")
-    assert not deactivate
-    driver.set_timeout_to_10_seconds()
-
-
-@given("I run the invalid user test")
-def test_invalid(driver, open_internal_hub, internal_info):
-    header = HeaderPage(driver)
+@when("I add a new user")
+def add_user(driver, context):
     user_page = UsersPage(driver)
-
-    header.open_users()
     user_page.click_add_a_user_btn()
-    user_page.enter_email(internal_info["email"])
+    fake = Faker()
+    context.added_email = fake.email()
+    user_page.enter_email(context.added_email)
     user_page.select_option_from_team_drop_down_by_visible_text("Admin")
     user_page.select_option_from_role_drop_down_by_visible_text("Default")
     user_page.click_save_and_continue()
-    assert "This field must be unique." in driver.find_element_by_css_selector(".govuk-error-message").text
-    user_page.enter_email("invalidemail")
-    user_page.click_save_and_continue()
-    assert (
-        "Enter an email address in the correct format, like name@example.com"
-        in driver.find_element_by_css_selector(".govuk-error-message").text
+
+
+@then("I see new user")
+def see_new_user(driver, context):
+    assert utils.find_paginated_item_by_id(context.added_email, driver), "Item couldn't be found"
+
+
+@when("I deactivate new user")
+def deactivate_user(driver, context):
+    user_page = UsersPage(driver)
+    utils.find_paginated_item_by_id(context.added_email, driver)
+    no = utils.get_element_index_by_text(
+        Shared(driver).get_rows_in_lite_table(), context.added_email, complete_match=False
     )
-    user_page.enter_email("")
-    user_page.select_option_from_team_drop_down_by_visible_text("Select")
-    user_page.click_save_and_continue()
-    assert (
-        "Enter an email address in the correct format, like name@example.com"
-        in driver.find_element_by_css_selector(".govuk-error-message").text
+    driver.find_elements_by_link_text('Edit')[no].click()
+    functions.click_back_link(driver)
+    user_page.deactivate_user()
+
+
+@then("I dont see new user")
+def dont_see_user(driver, context):
+    driver.set_timeout_to(0)
+    assert utils.find_paginated_item_by_id(context.added_email, driver, exists=False), "Item could be found"
+    driver.set_timeout_to(10)
+
+
+@when("I reactivate new user")
+def reactivate_user(driver, context):
+    user_page = UsersPage(driver)
+    utils.find_paginated_item_by_id(context.added_email, driver)
+    no = utils.get_element_index_by_text(
+        Shared(driver).get_rows_in_lite_table(), context.added_email, complete_match=False
     )
-    # TODO uncomment this when error message bug is fixed
-    # assert "Select a team" in driver.find_elements_by_css_selector(".govuk-error-message")[1].text
+    driver.find_elements_by_link_text('Edit')[no].click()
+    functions.click_back_link(driver)
+    user_page.reactivate_user()
