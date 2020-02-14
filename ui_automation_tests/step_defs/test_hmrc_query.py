@@ -11,12 +11,7 @@ def create_hmrc(apply_for_hmrc_query):
     pass
 
 
-@when("I go to HMRC query previously created")
-def go_to_hmrc(driver, internal_url, context):
-    driver.get(internal_url.rstrip("/") + "/cases/" + context.case_id)
-
-
 @then("I see HMRC query")
 def see_hmrc(driver, context):
-    assert driver.find_element_by_id("case-type").text == "HMRC Query"
+    assert ApplicationPage(driver).get_type_of_case_from_page() == "HMRC Query"
     assert functions.element_with_id_exists(driver, ApplicationPage(driver).HMRC_GOODS_LOCATION)
