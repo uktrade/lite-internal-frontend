@@ -5,9 +5,10 @@ Feature: I want to test users
 
   @deactivate_user @regression
   Scenario: Add user, deactivate then reactivate
-    Given I go to users
+    Given I sign in to SSO or am signed into SSO
+    And I go to users
     When I add a new user
-    When I show filters
+    And I show filters
     And filter status has been changed to "Active"
     Then I see new user
     When filter status has been changed to "All"

@@ -96,12 +96,7 @@ def see_new_user(driver, context):
 @when("I deactivate new user")
 def deactivate_user(driver, context):
     user_page = UsersPage(driver)
-    utils.find_paginated_item_by_id(context.added_email, driver)
-    no = utils.get_element_index_by_text(
-        Shared(driver).get_rows_in_lite_table(), context.added_email, complete_match=False
-    )
-    driver.find_elements_by_link_text('Edit')[no].click()
-    functions.click_back_link(driver)
+    user_page.go_to_users_page(context)
     user_page.deactivate_user()
 
 
@@ -115,10 +110,5 @@ def dont_see_user(driver, context):
 @when("I reactivate new user")
 def reactivate_user(driver, context):
     user_page = UsersPage(driver)
-    utils.find_paginated_item_by_id(context.added_email, driver)
-    no = utils.get_element_index_by_text(
-        Shared(driver).get_rows_in_lite_table(), context.added_email, complete_match=False
-    )
-    driver.find_elements_by_link_text('Edit')[no].click()
-    functions.click_back_link(driver)
+    user_page.go_to_users_page(context)
     user_page.reactivate_user()
