@@ -144,7 +144,7 @@ def create_open_app(driver, apply_for_open_application):  # noqa
 def create_open_app(driver, apply_for_open_application, api_client_config, context):  # noqa
     lite_client = get_lite_client(context, api_client_config)  # noqa
     data = {"name": "new application"}
-    lite_client.applications.copy_open_application(context.app_id, data)
+    lite_client.applications.add_copied_application(context.app_id, data)
     context.old_app_id = context.app_id
     context.app_id = lite_client.context["application_id"]
     context.case_id = lite_client.context["application_id"]
