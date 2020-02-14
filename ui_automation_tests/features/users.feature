@@ -20,7 +20,7 @@ Feature: I want to test users
     When filter status has been changed to "All"
     Then I see new user
     When I reactivate new user
-    When I show filters
+    And I show filters
     And filter status has been changed to "Active"
     Then I see new user
     When filter status has been changed to "All"
