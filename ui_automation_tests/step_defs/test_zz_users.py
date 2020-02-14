@@ -1,13 +1,11 @@
-from faker import Faker
-from selenium.webdriver.common.by import By
-import shared.tools.helpers as utils
 import pytest
-from pages.header_page import HeaderPage
-from pages.shared import Shared
-from pages.users_page import UsersPage
+from faker import Faker
 from pytest_bdd import given, scenarios, when, then
+from selenium.webdriver.common.by import By
 
-from shared import functions
+import shared.tools.helpers as utils
+from pages.header_page import HeaderPage
+from pages.users_page import UsersPage
 
 scenarios("../features/users.feature", strict_gherkin=False)
 
@@ -38,10 +36,6 @@ def test_manage_users(driver, open_internal_hub, context, internal_info):
     user_page.select_option_from_role_drop_down_by_visible_text("Default")
 
     user_page.click_save_and_continue()
-
-    assert (
-        driver.find_element_by_tag_name("h1").text == "Users"
-    ), "Failed to return to Users list page after Adding user"
 
     assert utils.is_element_present(
         driver, By.XPATH, "//td[text()='" + context.email_to_search + "']/following-sibling::td[text()='Active']"

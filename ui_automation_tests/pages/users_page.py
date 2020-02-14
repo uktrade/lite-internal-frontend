@@ -17,10 +17,10 @@ class UsersPage(BasePage):
     TEAM = "team"
     ROLE = "role"
     EDIT_BUTTONS_IN_TABLE = '.govuk-table__cell a[href*="edit"]'
-    DEACTIVATE_BUTTON = '.govuk-button[href*="deactivate"]'  # CSS
-    REACTIVATE_BUTTON = '.govuk-button[href*="reactivate"]'  # CSS
-    DEACTIVATE_ARE_YOU_SURE_BUTTON = "deactivated_button"  # CSS
-    REACTIVATE_ARE_YOU_SURE_BUTTON = "reactivated_button"  # CSS
+    DEACTIVATE_BUTTON_CSS = '.govuk-button[href*="deactivate"]'
+    REACTIVATE_BUTTON_CSS = '.govuk-button[href*="reactivate"]'
+    DEACTIVATE_ARE_YOU_SURE_BUTTON_ID = "deactivated_button"
+    REACTIVATE_ARE_YOU_SURE_BUTTON_ID = "reactivated_button"
 
     def click_save_and_continue(self):
         self.driver.find_element_by_css_selector(self.SUBMIT_BUTTON).click()
@@ -63,12 +63,12 @@ class UsersPage(BasePage):
         self.driver.find_elements_by_css_selector(self.EDIT_BUTTONS_IN_TABLE)[index].click()
 
     def deactivate_user(self):
-        self.driver.find_element_by_css_selector(self.DEACTIVATE_BUTTON).click()
-        self.driver.find_element_by_id(self.DEACTIVATE_ARE_YOU_SURE_BUTTON).click()
+        self.driver.find_element_by_css_selector(self.DEACTIVATE_BUTTON_CSS).click()
+        self.driver.find_element_by_id(self.DEACTIVATE_ARE_YOU_SURE_BUTTON_ID).click()
 
     def reactivate_user(self):
-        self.driver.find_element_by_css_selector(self.REACTIVATE_BUTTON).click()
-        self.driver.find_element_by_id(self.REACTIVATE_ARE_YOU_SURE_BUTTON).click()
+        self.driver.find_element_by_css_selector(self.REACTIVATE_BUTTON_CSS).click()
+        self.driver.find_element_by_id(self.REACTIVATE_ARE_YOU_SURE_BUTTON_ID).click()
 
     def go_to_users_page(self, context):
         utils.find_paginated_item_by_id(context.added_email, self.driver)

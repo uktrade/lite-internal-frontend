@@ -28,12 +28,7 @@ class UsersList(TemplateView):
         user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
         super_user = is_super_user(user)
 
-        # Return from API and swap key and value names.
-        statuses = [
-            Option(option["key"], option["value"])
-            for option in [{"key": "active", "value": "Active"}, {"key": "", "value": "All"}]
-        ]
-
+        statuses = [Option(option["key"], option["value"])for option in data["results"]["filters"]["status"]]
         filters = FiltersBar([Select(name="status", title="status", options=statuses)])
 
         context = {
@@ -43,7 +38,7 @@ class UsersList(TemplateView):
             "status": status,
             "page": params.pop("page"),
             "params_str": convert_dict_to_query_params(params),
-            "filters": filters,
+            "filters": filters
         }
 
         return render(request, "users/index.html", context)
