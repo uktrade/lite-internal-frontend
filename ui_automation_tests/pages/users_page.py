@@ -75,5 +75,5 @@ class UsersPage(BasePage):
         no = utils.get_element_index_by_text(
             Shared(self.driver).get_rows_in_lite_table(), context.added_email, complete_match=False
         )
-        self.driver.find_elements_by_link_text('Edit')[no].click()
+        self.driver.find_elements_by_link_text("Edit")[no].click()
         functions.click_back_link(self.driver)
