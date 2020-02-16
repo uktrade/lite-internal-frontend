@@ -84,7 +84,7 @@ def add_user(driver, context):
 
 @then("I see new user")
 def see_new_user(driver, context):
-    assert utils.find_paginated_item_by_id(context.added_email, driver), "Item couldn't be found"
+    assert utils.paginated_item_exists(context.added_email, driver), "Item couldn't be found"
 
 
 @when("I deactivate new user")
@@ -97,7 +97,7 @@ def deactivate_user(driver, context):
 @then("I dont see new user")
 def dont_see_user(driver, context):
     driver.set_timeout_to(0)
-    assert utils.find_paginated_item_by_id(context.added_email, driver, exists=False), "Item could be found"
+    assert utils.paginated_item_exists(context.added_email, driver, exists=False), "Item could be found"
     driver.set_timeout_to(10)
 
 
