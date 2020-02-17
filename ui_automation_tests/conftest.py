@@ -1,7 +1,6 @@
 import os
 
 from pytest_bdd import given, when, then, parsers
-from selenium.common.exceptions import NoSuchElementException
 
 from pages.goods_queries_pages import GoodsQueriesPages  # noqa
 from pages.organisation_page import OrganisationPage

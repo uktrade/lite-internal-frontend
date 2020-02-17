@@ -44,7 +44,10 @@ def add_letter_template(request):
             Form(
                 title=strings.LetterTemplates.AddLetterTemplate.CaseTypes.TITLE,
                 questions=[
-                    Checkboxes(name="case_types", options=[Option(key, value) for key, value in case_types.items()],)
+                    Checkboxes(
+                        name="case_types",
+                        options=[Option(case_type["key"], case_type["value"]) for case_type in case_types],
+                    )
                 ],
                 default_button_name=strings.LetterTemplates.AddLetterTemplate.CaseTypes.CONTINUE_BUTTON,
             ),
