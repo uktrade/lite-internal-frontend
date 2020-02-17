@@ -312,7 +312,7 @@ def create_clc_query(driver, apply_for_clc_query, context):
     pass
 
 
-@when(parsers.parse('filter status has been changed to "{status}"'))
+@when(parsers.parse('filter status has been changed to "{status}"'))  # noqa
 def filter_status_change(driver, context, status):
     CaseListPage(driver).select_filter_status_from_dropdown(status)
     CaseListPage(driver).click_apply_filters_button()
