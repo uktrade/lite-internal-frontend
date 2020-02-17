@@ -42,7 +42,7 @@
 			<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.CONTROLLED' %}</th>
 			<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.CONTROL_LIST_ENTRY' %}</th>
 			<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.GOODS_COMMENT' %}</th>
-			{% if case_type__sub_type.key == "standard" %}
+			{% if case_sub_type.key == "standard" %}
 				<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.QUANTITY_VALUE' %}</th>
 			{% endif %}
 			<th class="govuk-table__header">{% lcs 'cases.ReviewGoodsSummary.Table.FLAGS' %}</th>
@@ -68,7 +68,7 @@
 						<span class="lite-hint">{% lcs 'cases.ReviewGoodsSummary.NotSet.COMMENT' %}</span>
 					{% endif %}
 				</td>
-				{% if case_type__sub_type.key == "standard" %}
+				{% if case_sub_type.key == "standard" %}
 					<td class="govuk-table__cell">{{ good.quantity }} {{ good.unit.value }}/£{{ good.value }}</td>
 				{% endif %}
 				<td class="govuk-table__cell">

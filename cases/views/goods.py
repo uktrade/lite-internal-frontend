@@ -57,7 +57,7 @@ class ReviewGoods(TemplateView):
         context = {
             "title": cases.ReviewGoodsSummary.HEADING,
             "case_id": case_id,
-            "case_type__sub_type": case["application"]["case_type"]["sub_type"]["key"],
+            "case_sub_type": case["application"]["case_type"]["sub_type"]["key"],
             "objects": goods,
             "edit_flags_url": edit_flags_url + goods_postfix_url,
             "review_goods_clc_url": review_goods_clc_url + goods_postfix_url,
