@@ -1,17 +1,11 @@
 <div class="govuk-form-group">
-    <!-- Goods -->
     {% if case.application.case_type.sub_type.key == 'open' %}
         {% include 'case/views/open-goods.html' %}
-    {% endif %}
-    {% if case.application.case_type.sub_type.key == 'standard' or case.application.case_type.sub_type.key == 'exhibition_clearance' and not status_is_terminal %}
-        {% include 'case/views/standard-goods.html' %}
-    {% endif %}
-
-    <!-- Destinations/End User + Ultimate End Users -->
-    {% if case.application.case_type.sub_type.key == 'open' %}
-        {% include 'case/views/open-destinations.html' %}
-    {% endif %}
-    {% if case.application.case_type.sub_type.key == 'standard' or case.application.case_type.sub_type.key == 'exhibition_clearance' %}
-        {% include 'case/views/standard-destinations.html' %}
+		{% include 'case/views/open-destinations.html' %}
+    {% elif case.application.case_type.sub_type.key != 'hmrc' %}
+		{% if not status_is_terminal %}
+        	{% include 'case/views/standard-goods.html' %}
+		{% endif %}
+		{% include 'case/views/standard-destinations.html' %}
     {% endif %}
 </div>

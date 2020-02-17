@@ -145,29 +145,26 @@ class ViewCase(TemplateView):
             return render(request, "case/queries/end_user_advisory.html", context)
         elif case_type__sub_type == CaseType.GOODS.value:
             context["good"] = case["query"]["good"]
-
             context["verified"] = case["query"]["good"]["status"]["key"] == "verified"
             return render(request, "case/queries/goods_query_case.html", context)
-        elif case_type__type == CaseType.APPLICATION.value:
+        elif case_type__sub_type == CaseType.HMRC_QUERY.value:
             context["total_goods_value"] = _get_total_goods_value(case)
-
+            return render(request, "case/queries/hmrc-case.html", context)
+        elif case_type__sub_type in [
+            CaseType.EXHIBITION_CLEARANCE.value,
+            CaseType.F680_CLEARANCE.value,
+            CaseType.GIFTING_CLEARANCE.value,
+        ]:
+            context["total_goods_value"] = _get_total_goods_value(case)
+            return render(request, "case/applications/mod-clearance.html", context)
+        elif case_type__sub_type == CaseType.APPLICATION.value:
+            context["total_goods_value"] = _get_total_goods_value(case)
             if case_type__sub_type == CaseType.OPEN.value:
                 return render(request, "case/applications/open-licence-case.html", context)
             elif case_type__sub_type == CaseType.STANDARD.value:
                 return render(request, "case/applications/standard-licence-case.html", context)
-            else:
-                raise Exception(
-                    "Invalid case_type__sub_type: {}".format(case["application"]["case_type"]["sub_type"]["key"])
-                )
-        elif case_type__sub_type == CaseType.EXHIBITION.value:
-            context["total_goods_value"] = _get_total_goods_value(case)
 
-            return render(request, "case/applications/exhibition-clearance.html", context)
-        elif case_type__sub_type == CaseType.HMRC.value:
-            context["total_goods_value"] = _get_total_goods_value(case)
-            return render(request, "case/queries/hmrc-case.html", context)
-        else:
-            raise Exception("Invalid case_type: {}".format(case_type))
+        raise Exception("Invalid case_type__sub_type: {}".format(case_type__sub_type))
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
