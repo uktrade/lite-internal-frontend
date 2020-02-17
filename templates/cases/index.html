@@ -69,7 +69,7 @@
 				</thead>
 				<tbody class="govuk-table__body">
 					{% for case in data.results.cases %}
-						<tr class="govuk-table__row lite-accordian-table__row">
+						<tr class="govuk-table__row lite-accordian-table__row" id="{{ case.id }}">
 							<td class="cases-table__cell cases-table__cell--checkbox">
 								<div class="govuk-checkboxes__item">
 									<input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}">
