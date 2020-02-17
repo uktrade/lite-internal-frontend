@@ -12,7 +12,7 @@
 		</div>
 		<div class="lite-app-bar__controls">
 			<a id="button-manage-roles" href="{% url 'users:roles' %}" class="govuk-button govuk-button--secondary" draggable="false" role="button">
-				{% lcs 'Users.MANAGE_ROLES' %}
+				{% lcs 'users.ManagePage.MANAGE_ROLES' %}
 			</a>
 			<a id="button-invite-user" href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
 				{% lcs 'Users.INVITE' %}
@@ -43,7 +43,7 @@
 							</a>
 						{% else %}
 							<strong class="govuk-tag govuk-phase-banner__content__tag ">
-								{% lcs 'Users.PENDING' %}
+								{% lcs 'users.ManagePage.PENDING' %}
 							</strong>
 						{% endif %}
                     </td>
