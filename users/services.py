@@ -20,7 +20,7 @@ def get_gov_users(request, params=None, convert_to_options=False):
     if convert_to_options:
         converted = []
 
-        for user in data.json()["results"].get("gov_users"):
+        for user in data.json()["results"]:
             first_name = user.get("first_name")
             last_name = user.get("last_name")
             email = user.get("email")
