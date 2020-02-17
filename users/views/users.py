@@ -28,7 +28,11 @@ class UsersList(TemplateView):
         user, _ = get_gov_user(request, str(request.user.lite_api_user_id))
         super_user = is_super_user(user)
 
-        statuses = [Option(option["key"], option["value"]) for option in data["results"]["filters"]["status"]]
+        statuses = [
+            Option(option["key"], option["value"])
+            for option in [{"key": "active", "value": "Active"}, {"key": "", "value": "All"}]
+        ]  # TODO[future]: filters in API?
+
         filters = FiltersBar([Select(name="status", title="status", options=statuses)])
 
         context = {

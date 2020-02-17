@@ -334,7 +334,6 @@ class CaseOfficer(TemplateView):
         case = get_case(request, case_id)
         params = {"name": request.GET.get("name", ""), "activated": True, "no_page": True}
         gov_users, _ = get_gov_users(request, params)
-
         context = {
             "case_officer": get_case_officer(request, case_id)[0],
             "users": gov_users["results"],

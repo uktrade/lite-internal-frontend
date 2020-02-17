@@ -34,7 +34,7 @@
             </tr>
         </thead>
         <tbody class="govuk-table__body">
-            {% for user in data.results.gov_users %}
+            {% for user in data.results %}
                 <tr class="govuk-table__row" id="row-{{ forloop.counter }}">
                     <td class="govuk-table__cell">
 						{% if user.first_name %}
