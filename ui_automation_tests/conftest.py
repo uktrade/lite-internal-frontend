@@ -208,6 +208,8 @@ def add_report_summary_picklist(add_a_report_summary_picklist):  # noqa
 @then("I see the added flags on the queue")  # noqa
 def added_flags_on_queue(driver, context):  # noqa
     case_row = driver.find_element_by_id(context.case_id)
+    if "(3 of " in case_row.text:
+        ApplicationPage(driver).click_expand_flags(context.case_id)
     assert context.flag_name in case_row.text
 
 
