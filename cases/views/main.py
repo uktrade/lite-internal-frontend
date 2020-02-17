@@ -26,7 +26,6 @@ from cases.services import (
     get_case_officer,
     put_case_officer,
     delete_case_officer,
-    get_case_types,
 )
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
