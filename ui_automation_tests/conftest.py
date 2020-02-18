@@ -140,7 +140,7 @@ def create_open_app(driver, apply_for_open_application):  # noqa
 
 
 @given("I have an open application from copying")  # noqa
-def create_open_app(driver, apply_for_open_application, api_client_config, context):  # noqa
+def copy_open_app(driver, apply_for_open_application, api_client_config, context):  # noqa
     lite_client = get_lite_client(context, api_client_config)  # noqa
     data = {"name": "new application"}
     lite_client.applications.add_copied_application(context.app_id, data)
