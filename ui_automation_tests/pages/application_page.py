@@ -49,6 +49,7 @@ class ApplicationPage(BasePage):
     CASE_QUEUES_ID = "case_queues"
     HMRC_GOODS_LOCATION = "hmrc-goods-location"
     CASE_COPY_OF_ID = "case-copy-of"
+    TYPE_OF_CASE = "case-type"  # ID
 
     def get_case_copy_of_field_href(self):
         return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
@@ -234,3 +235,6 @@ class ApplicationPage(BasePage):
 
     def click_expand_flags(self, case_id):
         self.driver.find_element_by_id(self.EXPAND_FLAGS_PARTIAL_ID + case_id).click()
+
+    def get_type_of_case_from_page(self):
+        return self.driver.find_element_by_id(self.TYPE_OF_CASE).text
