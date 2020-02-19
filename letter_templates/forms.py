@@ -111,6 +111,18 @@ def edit_letter_template(letter_template, case_type_options):
                 title=strings.LetterTemplates.EditLetterTemplate.CaseTypes.TITLE,
                 name="case_types",
                 options=case_type_options,
+                classes=["govuk-checkboxes--small"],
+            ),
+            Checkboxes(
+                title="Decisions (optional)",
+                name="decisions",
+                options=[
+                    Option("approve", "Approve"),
+                    Option("proviso", "Proviso"),
+                    Option("deny", "Deny"),
+                    Option("no_licence_required", "No Licence Required"),
+                ],
+                classes=["govuk-checkboxes--small"],
             ),
             RadioButtonsImage(
                 title=strings.LetterTemplates.EditLetterTemplate.Layout.TITLE,

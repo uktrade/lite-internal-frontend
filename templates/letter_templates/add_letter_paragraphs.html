@@ -19,6 +19,9 @@
             {% for case_type in case_types %}
 			    {% hidden_field 'case_types' case_type %}
             {% endfor %}
+			{% for decision in decisions %}
+			    {% hidden_field 'decisions' decision %}
+            {% endfor %}
 			{% hidden_field 'layout' layout.id %}
 
 			{% for letter_paragraph in existing_letter_paragraphs %}
