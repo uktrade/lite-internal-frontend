@@ -1,3 +1,4 @@
+from cases.constants import CaseType
 from cases.services import get_case_types
 from lite_content.lite_internal_frontend import strings
 from django.urls import reverse_lazy
@@ -12,6 +13,7 @@ from lite_forms.components import (
 )
 
 from letter_templates.services import get_letter_layouts
+from lite_forms.helpers import conditional
 
 
 def _letter_layout_options():
@@ -28,7 +30,19 @@ def _letter_layout_options():
 
 
 def add_letter_template(request):
-    case_types = get_case_types(request)
+    possible_case_types = get_case_types(request, type_only=False)
+    chosen_case_types = request.POST.get("case_types", [])
+    application_case_types_only = CaseType.HMRC_REFERENCE.value not in chosen_case_types
+
+    if application_case_types_only:
+        for possible_case_type in possible_case_types:
+            if (
+                possible_case_type["reference"]["key"] in chosen_case_types
+                and not possible_case_type["type"]["key"] == CaseType.APPLICATION.value
+            ):
+                application_case_types_only = False
+                break
+
     return FormGroup(
         forms=[
             Form(
@@ -46,10 +60,34 @@ def add_letter_template(request):
                 questions=[
                     Checkboxes(
                         name="case_types",
-                        options=[Option(case_type["key"], case_type["value"]) for case_type in case_types],
+                        options=[
+                            Option(case_type["reference"]["key"], case_type["reference"]["value"])
+                            for case_type in possible_case_types
+                        ],
+                        classes=["govuk-checkboxes--small"],
                     )
                 ],
                 default_button_name=strings.LetterTemplates.AddLetterTemplate.CaseTypes.CONTINUE_BUTTON,
+            ),
+            conditional(
+                application_case_types_only,
+                Form(
+                    title="Decisions (optional)",
+                    description="Select the decisions that apply to your template",
+                    questions=[
+                        Checkboxes(
+                            name="decisions",
+                            options=[
+                                Option("approve", "Approve"),
+                                Option("proviso", "Proviso"),
+                                Option("deny", "Deny"),
+                                Option("no_licence_required", "No Licence Required"),
+                            ],
+                            classes=["govuk-checkboxes--small"],
+                        )
+                    ],
+                    default_button_name=strings.LetterTemplates.AddLetterTemplate.CaseTypes.CONTINUE_BUTTON,
+                ),
             ),
             Form(
                 title=strings.LetterTemplates.AddLetterTemplate.Layout.TITLE,

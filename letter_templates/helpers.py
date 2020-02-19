@@ -14,6 +14,7 @@ def get_template_content(request):
         "name": data.get("name"),
         "layout": layout,
         "case_types": data.getlist("case_types"),
+        "decisions": data.getlist("decisions"),
         "action": data.get("action"),
         "letter_paragraphs": data.getlist("letter_paragraphs"),
     }

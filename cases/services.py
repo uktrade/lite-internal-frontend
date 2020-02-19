@@ -36,8 +36,8 @@ from conf.constants import (
 
 
 # Case types
-def get_case_types(request):
-    data = get(request, CASE_TYPES_URL)
+def get_case_types(request, type_only=True):
+    data = get(request, CASE_TYPES_URL + "?type_only=" + str(type_only))
     return data.json()["case_types"]
 
 
