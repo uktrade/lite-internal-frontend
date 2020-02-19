@@ -20,8 +20,14 @@ class EditTemplate(TemplateView):
     def get(self, request, **kwargs):
         letter_template = get_letter_template(request, str(kwargs["pk"]))[0]["template"]
         letter_template_case_types = letter_template.pop("case_types")
+        letter_template_decisions = letter_template.pop("decisions")
+
         letter_template_case_types = [case_type["reference"]["key"] for case_type in letter_template_case_types]
         letter_template.update(case_types=letter_template_case_types)
+
+        letter_template_decisions = [decision["key"] for decision in letter_template_decisions]
+        letter_template.update(decisions=letter_template_decisions)
+
         applicable_case_types = [Option(option["key"], option["value"]) for option in get_case_types(request)]
         return form_page(request, edit_letter_template(letter_template, applicable_case_types), data=letter_template)
 
@@ -33,19 +39,20 @@ class EditTemplate(TemplateView):
         # Override case restrictions to use getlist
         edited_letter_template_data = request.POST.copy()
         edited_letter_template_data["case_types"] = edited_letter_template_data.getlist("case_types")
+        edited_letter_template_data["decisions"] = edited_letter_template_data.getlist("decisions")
 
         applicable_case_types = [Option(option["key"], option["value"]) for option in get_case_types(request)]
 
-        response = submit_single_form(
+        next_form, _ = submit_single_form(
             request,
             edit_letter_template(letter_template, applicable_case_types),
             put_letter_template,
             object_pk=letter_template_id,
             override_data=edited_letter_template_data,
-        )[0]
+        )
 
-        if response:
-            return response
+        if next_form:
+            return next_form
 
         return redirect(reverse("letter_templates:letter_template", kwargs={"pk": letter_template_id}))
 
