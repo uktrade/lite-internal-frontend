@@ -156,7 +156,31 @@
 								{% endfor %}
 							</td>
 							<td class="cases-table__cell">
-								{{ case.sla_days }} / {{ case.sla_remaining_days }}
+								<style>
+								.dot {
+									height: 15px;
+									width: 15px;
+									border-radius: 50%;
+									display: inline-block;
+								}
+								.red {
+									background-color: red;
+								}
+								.amber {
+									background-color: orange;
+								}
+								.green {
+									background-color: green;
+								}
+								</style>
+								{% if case.sla_percentage <= 0.5 %}
+									<span class="dot green"></span>
+								{% elif case.sla_percentage <= 0.75 %}
+									<span class="dot amber"></span>
+								{% else %}
+									<span class="dot red"></span>
+								{% endif %}
+								{{ case.sla_days }}
 							</td>
 							<td class="cases-table__cell">
 								{{ case.status.value }}
