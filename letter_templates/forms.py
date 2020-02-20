@@ -72,8 +72,8 @@ def add_letter_template(request):
             conditional(
                 application_case_types_only,
                 Form(
-                    title="Decisions (optional)",
-                    description="Select the decisions that apply to your template",
+                    title=strings.LetterTemplates.EditLetterTemplate.CaseTypes.TITLE,
+                    description=strings.LetterTemplates.EditLetterTemplate.Decisions.DESCRIPTION,
                     questions=[
                         Checkboxes(
                             name="decisions",
@@ -114,7 +114,8 @@ def edit_letter_template(letter_template, case_type_options):
                 classes=["govuk-checkboxes--small"],
             ),
             Checkboxes(
-                title="Decisions (optional)",
+                title=strings.LetterTemplates.EditLetterTemplate.Decisions.TITLE,
+                description=strings.LetterTemplates.EditLetterTemplate.Decisions.DESCRIPTION,
                 name="decisions",
                 options=[
                     Option("approve", "Approve"),
