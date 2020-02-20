@@ -58,6 +58,7 @@
 						<th class="cases-table__header" style="width: 125px;" scope="col">Type</th>
 						<th class="cases-table__header" style="width: 125px;" scope="col">Queue</th>
 						<th class="cases-table__header" style="width: 200px;" scope="col">Flags</th>
+						<th class="cases-table__header" style="width: 200px;" scope="col">SLA Target</th>
 						<th class="cases-table__header" style="width: 125px;" scope="col">
 							<a href="{% url 'cases:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" id="sort-status" class="app-table__sortable-header {{ 'status'|table_sort:params }}">
 								{% lcs 'cases.CasesListPage.STATUS' %}
@@ -153,6 +154,9 @@
 										{{ flag.name }}
 									</div>
 								{% endfor %}
+							</td>
+							<td class="cases-table__cell">
+								{{ case.sla_days }} / {{ case.sla_remaining_days }}
 							</td>
 							<td class="cases-table__cell">
 								{{ case.status.value }}
