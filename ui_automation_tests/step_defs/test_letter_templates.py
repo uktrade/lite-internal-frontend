@@ -77,7 +77,7 @@ def template_details_are_present(driver, context):
     assert context.document_template_layout == letter_template.get_template_layout()
 
     for case_type in context.document_template_case_types:
-        assert case_type["reference"]["value"] in letter_template.get_template_case_types()
+        assert case_type["reference"]["key"].upper() in letter_template.get_template_case_types()
 
 
 @then("The paragraph text is present")
