@@ -25,6 +25,8 @@ def create_letter_template(driver, context, get_template_id):
         ["Standard Individual Export Licence", "Open Individual Export Licence"]
     )
     Shared(driver).click_submit()
+    LetterTemplates(driver).select_which_type_of_decisions_template_can_apply_to(["Approve", "Proviso"])
+    Shared(driver).click_submit()
     LetterTemplates(driver).click_licence_layout(get_template_id)
     Shared(driver).click_submit()
 
