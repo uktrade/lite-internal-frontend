@@ -19,8 +19,8 @@ from picklists.services import get_picklists
 class EditTemplate(TemplateView):
     def get(self, request, **kwargs):
         letter_template = get_letter_template(request, str(kwargs["pk"]))[0]["template"]
-        letter_template_case_types = letter_template.pop("case_types", [])
-        letter_template_decisions = letter_template.pop("decisions", [])
+        letter_template_case_types = letter_template.pop("case_types") or []
+        letter_template_decisions = letter_template.pop("decisions") or []
 
         letter_template_case_types = [case_type["reference"]["key"] for case_type in letter_template_case_types]
         letter_template.update(case_types=letter_template_case_types)
