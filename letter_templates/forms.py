@@ -1,5 +1,5 @@
 from cases.constants import CaseType
-from cases.services import get_case_types
+from cases.services import get_case_types, get_decisions
 from lite_content.lite_internal_frontend import strings
 from django.urls import reverse_lazy
 from lite_forms.components import (
@@ -78,10 +78,7 @@ def add_letter_template(request):
                         Checkboxes(
                             name="decisions",
                             options=[
-                                Option("approve", "Approve"),
-                                Option("proviso", "Proviso"),
-                                Option("deny", "Deny"),
-                                Option("no_licence_required", "No Licence Required"),
+                                Option(decision["key"], decision["value"]) for decision in get_decisions(request)[0]
                             ],
                             classes=["govuk-checkboxes--small"],
                         )
@@ -98,7 +95,7 @@ def add_letter_template(request):
     )
 
 
-def edit_letter_template(letter_template, case_type_options):
+def edit_letter_template(letter_template, case_type_options, decision_options):
     return Form(
         title=strings.LetterTemplates.EditLetterTemplate.TITLE % letter_template["name"],
         questions=[
@@ -117,12 +114,7 @@ def edit_letter_template(letter_template, case_type_options):
                 title=strings.LetterTemplates.EditLetterTemplate.Decisions.TITLE,
                 description=strings.LetterTemplates.EditLetterTemplate.Decisions.DESCRIPTION,
                 name="decisions",
-                options=[
-                    Option("approve", "Approve"),
-                    Option("proviso", "Proviso"),
-                    Option("deny", "Deny"),
-                    Option("no_licence_required", "No Licence Required"),
-                ],
+                options=decision_options,
                 classes=["govuk-checkboxes--small"],
             ),
             RadioButtonsImage(

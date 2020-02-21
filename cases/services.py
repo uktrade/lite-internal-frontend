@@ -32,6 +32,7 @@ from conf.constants import (
     GOODS_QUERIES_URL,
     CLC_RESPONSE_URL,
     PV_GRADING_RESPONSE_URL,
+    DECISIONS_URL,
 )
 
 
@@ -355,6 +356,12 @@ def _get_total_goods_value(case):
     for good in case.get("application").get("goods", []):
         total_value += Decimal(good["value"]).quantize(Decimal(".01"))
     return total_value
+
+
+# Letter template decisions
+def get_decisions(request):
+    data = get(request, DECISIONS_URL)
+    return data.json()["decisions"], data.status_code
 
 
 # Generated Documents
