@@ -14,6 +14,12 @@ def click_edit_case_flags_link(driver):
     application_page.click_edit_case_flags()
 
 
+@when("I click edit destination flags link")
+def click_edit_case_flags_link(driver):
+    application_page = ApplicationPage(driver)
+    application_page.click_edit_destination_flags()
+
+
 @when("I click edit goods flags link")
 def click_edit_goods_flags_link(driver):
     application_page = ApplicationPage(driver)
@@ -34,13 +40,13 @@ def assert_flag_is_assigned(driver, context):
     assert application_page.is_good_flag_applied(context.flag_name)
 
 
-@when("I add a flag called Suspicious at level Good")
-def add_a_suspicious_flag(driver, add_suspicious_flag):
+@when("I add a flag at level Good")
+def add_a_good_flag(driver, add_good_flag):
     pass
 
 
-@when("I add a flag called New at level Case")
-def add_a_suspicious_flag(driver, add_new_flag):
+@when("I add a flag at level Destination")
+def add_a_good_flag(driver, add_destination_flag):
     pass
 
 
