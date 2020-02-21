@@ -17,9 +17,7 @@ class Add(TemplateView):
 
     @staticmethod
     def post(request):
-        next_form, _ = submit_paged_form(
-            request, add_letter_template(request), post_letter_template, expect_many_values=["case_types", "decisions"],
-        )
+        next_form, _ = submit_paged_form(request, add_letter_template(request), post_letter_template,)
 
         if next_form:
             return next_form
@@ -33,8 +31,8 @@ class Create(TemplateView):
     def post(request):
         json = request.POST.copy()
         json["letter_paragraphs"] = request.POST.getlist("letter_paragraphs")
-        json["case_types"] = request.POST.getlist("case_types")
-        json["decisions"] = request.POST.getlist("decisions")
+        json["case_types"] = request.POST.getlist("case_types[]")
+        json["decisions"] = request.POST.getlist("decisions[]")
         response, status_code = post_letter_template(request, json)
 
         if status_code == 201:

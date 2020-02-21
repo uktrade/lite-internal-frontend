@@ -42,8 +42,8 @@ class EditTemplate(TemplateView):
 
         # Override case restrictions to use getlist
         edited_letter_template_data = request.POST.copy()
-        edited_letter_template_data["case_types"] = edited_letter_template_data.getlist("case_types")
-        edited_letter_template_data["decisions"] = edited_letter_template_data.getlist("decisions")
+        edited_letter_template_data["case_types"] = edited_letter_template_data.getlist("case_types[]")
+        edited_letter_template_data["decisions"] = edited_letter_template_data.getlist("decisions[]")
 
         case_type_options = [Option(option["key"], option["value"]) for option in get_case_types(request)]
         decision_options = [Option(decision["key"], decision["value"]) for decision in get_decisions(request)[0]]

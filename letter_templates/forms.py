@@ -31,7 +31,7 @@ def _letter_layout_options():
 
 def add_letter_template(request):
     possible_case_types = get_case_types(request, type_only=False)
-    chosen_case_types = request.POST.getlist("case_types", [])
+    chosen_case_types = request.POST.getlist("case_types")
     is_application_case_types_only = CaseType.HMRC_REFERENCE.value not in chosen_case_types
 
     if is_application_case_types_only:
@@ -60,7 +60,7 @@ def add_letter_template(request):
                 title=strings.LetterTemplates.AddLetterTemplate.CaseTypes.TITLE,
                 questions=[
                     Checkboxes(
-                        name="case_types",
+                        name="case_types[]",
                         options=[
                             Option(case_type["reference"]["key"], case_type["reference"]["value"])
                             for case_type in possible_case_types
@@ -77,7 +77,7 @@ def add_letter_template(request):
                     description=strings.LetterTemplates.EditLetterTemplate.Decisions.DESCRIPTION,
                     questions=[
                         Checkboxes(
-                            name="decisions",
+                            name="decisions[]",
                             options=[
                                 Option(decision["key"], decision["value"]) for decision in get_decisions(request)[0]
                             ],
@@ -89,7 +89,7 @@ def add_letter_template(request):
             ),
             Form(
                 title=strings.LetterTemplates.AddLetterTemplate.Layout.TITLE,
-                questions=[RadioButtonsImage(name="layout", options=_letter_layout_options(),)],
+                questions=[RadioButtonsImage(name="layout", options=_letter_layout_options())],
                 default_button_name=strings.LetterTemplates.AddLetterTemplate.Layout.CONTINUE_BUTTON,
             ),
         ]
@@ -107,14 +107,14 @@ def edit_letter_template(letter_template, case_type_options, decision_options):
             ),
             Checkboxes(
                 title=strings.LetterTemplates.EditLetterTemplate.CaseTypes.TITLE,
-                name="case_types",
+                name="case_types[]",
                 options=case_type_options,
                 classes=["govuk-checkboxes--small"],
             ),
             Checkboxes(
                 title=strings.LetterTemplates.EditLetterTemplate.Decisions.TITLE,
                 description=strings.LetterTemplates.EditLetterTemplate.Decisions.DESCRIPTION,
-                name="decisions",
+                name="decisions[]",
                 options=decision_options,
                 classes=["govuk-checkboxes--small"],
             ),
