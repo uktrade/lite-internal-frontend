@@ -14,7 +14,7 @@ class UsersPage(BasePage):
     TEAM = "team"
     ROLE = "role"
     EDIT_BUTTONS_IN_TABLE = '.govuk-table__cell a[href*="edit"]'
-    EDIT_BUTTON_ON_USERS_PAGE = 'edit_button'
+    EDIT_BUTTON_ON_USERS_PAGE = "edit_button"
     DEACTIVATE_BUTTON_CSS = '.govuk-button[href*="deactivate"]'
     REACTIVATE_BUTTON_CSS = '.govuk-button[href*="reactivate"]'
     DEACTIVATE_ARE_YOU_SURE_BUTTON_ID = "deactivated_button"
