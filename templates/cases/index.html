@@ -103,14 +103,16 @@
 									background-color: green;
 								}
 								</style>
-								{% if case.sla_percentage <= 0.5 %}
-									<span class="dot green"></span>
-								{% elif case.sla_percentage <= 0.75 %}
-									<span class="dot amber"></span>
-								{% else %}
-									<span class="dot red"></span>
+								{% if case.sla_percentage %}
+									{% if case.sla_percentage <= 0.5 %}
+										<span class="dot green"></span>
+									{% elif case.sla_percentage <= 0.75 %}
+										<span class="dot amber"></span>
+									{% else %}
+										<span class="dot red"></span>
+									{% endif %}
+									{{ case.sla_days }}
 								{% endif %}
-								{{ case.sla_days }}
 							</td>
 							<td class="cases-table__cell">
 								<a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue_id={{data.results.queue.id}}&queue_name={{data.results.queue.name}}">
