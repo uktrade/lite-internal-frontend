@@ -53,12 +53,12 @@
 						<th class="cases-table__header cases-table__cell--checkbox">
 							<button id="button-select-all" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
 						</th>
+						<th class="cases-table__header" style="width: 50px;" scope="col"></th>
 						<th class="cases-table__header" style="width: 225px;" scope="col">Case</th>
 						<th class="cases-table__header" style="width: 1fr;" scope="col">Assignees</th>
 						<th class="cases-table__header" style="width: 125px;" scope="col">Type</th>
 						<th class="cases-table__header" style="width: 125px;" scope="col">Queue</th>
 						<th class="cases-table__header" style="width: 200px;" scope="col">Flags</th>
-						<th class="cases-table__header" style="width: 200px;" scope="col">SLA Target</th>
 						<th class="cases-table__header" style="width: 125px;" scope="col">
 							<a href="{% url 'cases:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" id="sort-status" class="app-table__sortable-header {{ 'status'|table_sort:params }}">
 								{% lcs 'cases.CasesListPage.STATUS' %}
@@ -84,6 +84,33 @@
 										</span>
 									</label>
 								</div>
+							</td>
+							<td class="cases-table__cell">
+								<style>
+								.dot {
+									height: 15px;
+									width: 15px;
+									border-radius: 50%;
+									display: inline-block;
+								}
+								.red {
+									background-color: red;
+								}
+								.amber {
+									background-color: orange;
+								}
+								.green {
+									background-color: green;
+								}
+								</style>
+								{% if case.sla_percentage <= 0.5 %}
+									<span class="dot green"></span>
+								{% elif case.sla_percentage <= 0.75 %}
+									<span class="dot amber"></span>
+								{% else %}
+									<span class="dot red"></span>
+								{% endif %}
+								{{ case.sla_days }}
 							</td>
 							<td class="cases-table__cell">
 								<a class="govuk-link govuk-!-font-weight-bold" href="{% url 'cases:case' case.id %}?queue_id={{data.results.queue.id}}&queue_name={{data.results.queue.name}}">
@@ -154,33 +181,6 @@
 										{{ flag.name }}
 									</div>
 								{% endfor %}
-							</td>
-							<td class="cases-table__cell">
-								<style>
-								.dot {
-									height: 15px;
-									width: 15px;
-									border-radius: 50%;
-									display: inline-block;
-								}
-								.red {
-									background-color: red;
-								}
-								.amber {
-									background-color: orange;
-								}
-								.green {
-									background-color: green;
-								}
-								</style>
-								{% if case.sla_percentage <= 0.5 %}
-									<span class="dot green"></span>
-								{% elif case.sla_percentage <= 0.75 %}
-									<span class="dot amber"></span>
-								{% else %}
-									<span class="dot red"></span>
-								{% endif %}
-								{{ case.sla_days }}
 							</td>
 							<td class="cases-table__cell">
 								{{ case.status.value }}
