@@ -2,9 +2,10 @@
 
 // -- vars
 $bg-color: #34495e;
-$default-size: 0.4em;
-$label-font-size: $default-size / 2;
+$default-size: 0.3em;
+$label-font-size: $default-size * 0.4;
 $label-font-size-redo: $default-size * 4;
+$top: $label-font-size-redo * 0.65;
 
 // -- mixins
 @mixin size($width, $height) {
@@ -60,7 +61,7 @@ $label-font-size-redo: $default-size * 4;
 .pie-wrapper {
   @include size($default-size, $default-size);
   float: left;
-  margin: 15px;
+  margin: 10px;
   position: relative;
   font-size: 8em;
 
@@ -99,7 +100,7 @@ $label-font-size-redo: $default-size * 4;
     position: absolute;
     right: $label-font-size-redo / 10;
     text-align: center;
-    top: $label-font-size-redo / 4;
+    top: $top;
   }
 
   .shadow {
