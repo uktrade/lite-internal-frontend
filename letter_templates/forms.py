@@ -32,15 +32,16 @@ def _letter_layout_options():
 def add_letter_template(request):
     possible_case_types = get_case_types(request, type_only=False)
     chosen_case_types = request.POST.getlist("case_types", [])
-    application_case_types_only = CaseType.HMRC_REFERENCE.value not in chosen_case_types
+    is_application_case_types_only = CaseType.HMRC_REFERENCE.value not in chosen_case_types
 
-    if application_case_types_only:
+    if is_application_case_types_only:
+        # iterate through all case-types and determine if the ones we have chosen are of type "application"
         for possible_case_type in possible_case_types:
             if (
                 possible_case_type["reference"]["key"] in chosen_case_types
                 and not possible_case_type["type"]["key"] == CaseType.APPLICATION.value
             ):
-                application_case_types_only = False
+                is_application_case_types_only = False
                 break
 
     return FormGroup(
@@ -70,7 +71,7 @@ def add_letter_template(request):
                 default_button_name=strings.LetterTemplates.AddLetterTemplate.CaseTypes.CONTINUE_BUTTON,
             ),
             conditional(
-                application_case_types_only,
+                is_application_case_types_only,
                 Form(
                     title=strings.LetterTemplates.EditLetterTemplate.Decisions.TITLE,
                     description=strings.LetterTemplates.EditLetterTemplate.Decisions.DESCRIPTION,

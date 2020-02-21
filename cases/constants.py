@@ -6,6 +6,7 @@ class CaseType(Enum):
     STANDARD = "standard"
     OPEN = "open"
     HMRC = "hmrc"
+    # The case_type_reference for HMRC
     HMRC_REFERENCE = "cre"
     GOODS = "goods"
     END_USER_ADVISORY = "end_user_advisory"
