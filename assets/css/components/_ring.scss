@@ -13,12 +13,17 @@ $top: $label-font-size-redo * 0.65;
   width: $width;
 }
 
-@mixin draw-progress($progress, $color) {
+
+@mixin colour($color) {
   .pie {
     .half-circle {
       border-color: $color;
     }
+  }
+}
 
+@mixin draw-progress($progress) {
+  .pie {
     .left-side {
       transform: rotate($progress * 3.6deg);
     }
@@ -110,26 +115,18 @@ $top: $label-font-size-redo * 0.65;
   }
 
   &.progress-30 {
-    @include draw-progress(30, #3498db);
+    @include draw-progress(30);
   }
 
-  &.progress-60 {
-    @include draw-progress(60, #9b59b6);
+  &.green {
+    @include colour(govuk-colour("green"));
   }
 
-  &.progress-90 {
-    @include draw-progress(90, #e67e22);
+  &.orange {
+    @include colour(govuk-colour("orange"));
   }
 
-  &.progress-45 {
-    @include draw-progress(45, #1abc9c);
-  }
-
-  &.progress-75 {
-    @include draw-progress(75, #8e44ad);
-  }
-
-  &.progress-95 {
-    @include draw-progress(95, #e74c3c);
+  &.red {
+    @include colour(govuk-colour("red"));
   }
 }
