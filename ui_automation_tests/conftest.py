@@ -231,7 +231,7 @@ def see_queue_in_queue_list(driver, context):  # noqa
 
 
 @when("I add a flag at level Organisation")  # noqa
-def add_a_suspicious_flag(driver, add_organisation_flag):  # noqa
+def add_an_organisation_flag(driver, add_organisation_flag):  # noqa
     pass
 
 
