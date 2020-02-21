@@ -1,6 +1,4 @@
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.action_chains import ActionChains
-import time
 
 from pages.shared import Shared
 from shared import functions
