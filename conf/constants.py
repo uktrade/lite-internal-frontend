@@ -113,6 +113,8 @@ class Statuses:
     REGISTERED = "registered"
     SUBMITTED = "submitted"
     WITHDRAWN = "withdrawn"
+    CLC = "clc_review"
+    PV = "pv_review"
 
 
 class SystemTeamsID(Enum):

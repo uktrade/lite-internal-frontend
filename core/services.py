@@ -88,7 +88,9 @@ def get_permissible_statuses(request, case_type):
         ]
     else:
         case_type_applicable_statuses = [
-            status for status in statuses if status["key"] in [Statuses.CLOSED, Statuses.SUBMITTED, Statuses.WITHDRAWN]
+            status
+            for status in statuses
+            if status["key"] in [Statuses.CLOSED, Statuses.SUBMITTED, Statuses.WITHDRAWN, Statuses.CLC, Statuses.PV]
         ]
 
     return [status for status in case_type_applicable_statuses if status in user_permissible_statuses]
