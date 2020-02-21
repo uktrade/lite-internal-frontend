@@ -72,7 +72,7 @@ def add_letter_template(request):
             conditional(
                 application_case_types_only,
                 Form(
-                    title=strings.LetterTemplates.EditLetterTemplate.CaseTypes.TITLE,
+                    title=strings.LetterTemplates.EditLetterTemplate.Decisions.TITLE,
                     description=strings.LetterTemplates.EditLetterTemplate.Decisions.DESCRIPTION,
                     questions=[
                         Checkboxes(
