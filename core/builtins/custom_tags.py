@@ -2,6 +2,7 @@ from __future__ import division
 
 import datetime
 import json
+import math
 import re
 import warnings
 from html import escape
@@ -312,8 +313,8 @@ def get_sla_percentage(case):
     if case["sla_remaining_days"] <= 0:
         return "100"
     else:
-        percentage = case["sla_days"] / (case["sla_days"] + case["sla_remaining_days"])
-        percentage = int(round(percentage / 100, 1) * 100)
+        percentage = (case["sla_days"] / (case["sla_days"] + case["sla_remaining_days"])) * 100
+        percentage = math.ceil(percentage / 10) * 10
         return str(percentage)
 
 
