@@ -315,8 +315,11 @@ def get_sla_percentage(case):
     else:
         percentage = (case["sla_days"] / (case["sla_days"] + case["sla_remaining_days"])) * 100
         # Round up to nearest 10
-        percentage = math.ceil(percentage / 10) * 10
-        return str(percentage)
+        if percentage == 0:
+            return "10"
+        else:
+            percentage = math.ceil(percentage / 10) * 10
+            return str(percentage)
 
 
 @register.filter()
