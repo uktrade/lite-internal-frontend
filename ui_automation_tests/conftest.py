@@ -44,6 +44,8 @@ from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
 from pages.queues_pages import QueuesPages
 
+from ui_automation_tests.shared.tools.helpers import paginated_item_exists
+
 
 def pytest_addoption(parser):
     env = str(os.environ.get("ENVIRONMENT"))
@@ -318,3 +320,13 @@ def create_clc_query(driver, apply_for_clc_query, context):
 def filter_status_change(driver, context, status):
     CaseListPage(driver).select_filter_status_from_dropdown(status)
     CaseListPage(driver).click_apply_filters_button()
+
+
+@then("I should see my case in the cases list")
+def case_in_cases_list(driver, context, internal_url):
+    driver.get(internal_url.rstrip("/") + "/cases/")
+    cases_page = CaseListPage(driver)
+    assert paginated_item_exists(context.case_id, driver)
+    row = cases_page.get_case_row(context.case_id)
+    assert cases_page.get_case_row_sla(row) == "0"
+    assert context.reference_code in row.text

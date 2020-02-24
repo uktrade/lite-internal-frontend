@@ -5,6 +5,7 @@ Feature: View an MOD Clearance
   Scenario: View an Exhibition Clearance
     Given I sign in to SSO or am signed into SSO
     And an Exhibition Clearance is created
+    Then I should see my case in the cases list
     When I go to the case
     Then I see the MOD Clearance case page
 
@@ -12,6 +13,7 @@ Feature: View an MOD Clearance
   Scenario: View an F680 Clearance
     Given I sign in to SSO or am signed into SSO
     And a F680 Clearance is created
+    Then I should see my case in the cases list
     When I go to the case
     Then I see the MOD Clearance case page
 
@@ -19,5 +21,6 @@ Feature: View an MOD Clearance
   Scenario: View an Gifting Clearance
     Given I sign in to SSO or am signed into SSO
     And  a Gifting Clearance is created
+    Then I should see my case in the cases list
     When I go to the case
     Then I see the MOD Clearance case page
