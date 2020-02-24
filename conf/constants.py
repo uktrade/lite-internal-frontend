@@ -117,5 +117,8 @@ class Statuses:
     PV = "pv_review"
 
 
+GOODS_QUERY_STATUSES = [Statuses.CLOSED, Statuses.SUBMITTED, Statuses.WITHDRAWN, Statuses.CLC, Statuses.PV]
+
+
 class SystemTeamsID(Enum):
     ADMIN = "00000000-0000-0000-0000-000000000001"
