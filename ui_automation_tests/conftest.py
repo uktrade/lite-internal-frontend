@@ -331,3 +331,8 @@ def case_in_cases_list(driver, context, internal_url):
     row = cases_page.get_case_row(context.case_id)
     assert cases_page.get_case_row_sla(row) == "0"
     assert context.reference_code in row.text
+
+
+@then("I see the case page")  # noqa
+def i_see_the_case_page(driver, context):
+    assert driver.find_element_by_id(ApplicationPage.HEADING_ID).text == context.reference_code

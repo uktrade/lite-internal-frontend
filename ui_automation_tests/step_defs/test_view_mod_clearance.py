@@ -18,8 +18,3 @@ def an_f680_clearance_is_created(driver, apply_for_f680_clearance):
 @given("a Gifting Clearance is created")  # noqa
 def an_gifting_clearance_is_created(driver, apply_for_gifting_clearance):
     pass
-
-
-@then("I see the MOD Clearance case page")  # noqa
-def i_see_the_exhibition_clearance_case_page(driver, context):
-    assert driver.find_element_by_id(ApplicationPage.HEADING_ID).text == context.reference_code

@@ -7,7 +7,7 @@ Feature: View an MOD Clearance
     And an Exhibition Clearance is created
     Then I should see my case in the cases list
     When I go to the case
-    Then I see the MOD Clearance case page
+    Then I see the case page
 
   @regression @F680_view
   Scenario: View an F680 Clearance
@@ -15,7 +15,7 @@ Feature: View an MOD Clearance
     And a F680 Clearance is created
     Then I should see my case in the cases list
     When I go to the case
-    Then I see the MOD Clearance case page
+    Then I see the case page
 
   @regression @gifting_view
   Scenario: View an Gifting Clearance
@@ -23,4 +23,4 @@ Feature: View an MOD Clearance
     And  a Gifting Clearance is created
     Then I should see my case in the cases list
     When I go to the case
-    Then I see the MOD Clearance case page
+    Then I see the case page

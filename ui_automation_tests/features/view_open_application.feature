@@ -7,4 +7,4 @@ Feature: View an Open Applications
     And I create open application or open application has been previously created
     Then I should see my case in the cases list
     When I go to the case
-    Then I see the Open Application case page
+    Then I see the case page
