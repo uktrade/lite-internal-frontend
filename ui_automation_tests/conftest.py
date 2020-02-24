@@ -149,6 +149,7 @@ def copy_open_app(driver, apply_for_open_application, api_client_config, context
     context.old_app_id = context.app_id
     context.app_id = lite_client.context["application_id"]
     context.case_id = lite_client.context["application_id"]
+    context.reference_code = lite_client.context["reference_code"]
 
 
 @when("I click continue")  # noqa
