@@ -8,6 +8,7 @@
             <th scope="col" class="govuk-table__header govuk-!-width-one-third">{% lcs 'cases.ApplicationPage.Parties.NAME' %}</th>
 			{% if case.application.case_type.sub_type.key == "f680_clearance" %}
 				<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.CLEARANCE_LEVEL' %}</th>
+				<th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.DESCRIPTORS' %}</th>
 			{% endif %}
             <th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.ADDRESS' %}</th>
             <th scope="col" class="govuk-table__header govuk-!-width-one-half">{% lcs 'cases.ApplicationPage.Parties.TYPE' %}</th>
@@ -22,6 +23,7 @@
             <th scope="row" class="govuk-table__header">{% lcs 'cases.StandardApplication.LICENSEE' %}</th>
             <td class="govuk-table__cell">{{ case.application.organisation.name }}</td>
 			<td class="govuk-table__cell">{{ none|default_na }}</td>
+            <td class="govuk-table__cell">{{ none|default_na }}</td>
 			<td class="govuk-table__cell">{{ case.application.organisation.primary_site|get_address }}</td>
             <td class="govuk-table__cell">{{ none|default_na }}</td>
             <td class="govuk-table__cell">{{ none|default_na }}</td>
@@ -38,6 +40,7 @@
                 <td class="govuk-table__cell">{{ case.application.end_user.name }}</td>
 				{% if case.application.case_type.sub_type.key == "f680_clearance" %}
 					<td class="govuk-table__cell">{{ case.application.end_user.clearance_level.value|default_na }}</td>
+					<td class="govuk-table__cell">{{ case.application.end_user.descriptors.value|default_na }}</td>
 				{% endif %}
                 <td class="govuk-table__cell">{{ case.application.end_user|get_address }}</td>
                 <td class="govuk-table__cell">{{ case.application.end_user.sub_type.value }}</td>
@@ -64,6 +67,7 @@
                 <td class="govuk-table__cell">{{ case.application.consignee.name }}</td>
 				{% if case.application.case_type.sub_type.key == "f680_clearance" %}
 					<td class="govuk-table__cell">{{ case.application.consignee.clearance_level.value|default_na }}</td>
+					<td class="govuk-table__cell">{{ case.application.consignee.descriptors.value|default_na }}</td>
 				{% endif %}
                 <td class="govuk-table__cell">{{ case.application.consignee|get_address }}</td>
                 <td class="govuk-table__cell">{{ case.application.consignee.sub_type.value }}</td>
@@ -90,6 +94,7 @@
                 <td class="govuk-table__cell">{{ ultimate_end_user.name }}</td>
 				{% if case.application.case_type.sub_type.key == "f680_clearance" %}
 					<td class="govuk-table__cell">{{ ultimate_end_user.clearance_level.value|default_na }}</td>
+					<td class="govuk-table__cell">{{ ultimate_end_user.descriptors.value|default_na }}</td>
 				{% endif %}
                 <td class="govuk-table__cell">{{ ultimate_end_user|get_address }}</td>
                 <td class="govuk-table__cell">{{ ultimate_end_user.sub_type.value }}</td>
@@ -116,6 +121,7 @@
                 <td class="govuk-table__cell">{{ party.name }}</td>
 				{% if case.application.case_type.sub_type.key == "f680_clearance" %}
 					<td class="govuk-table__cell">{{ party.clearance_level.value|default_na }}</td>
+					<td class="govuk-table__cell">{{ party.descriptors.value|default_na }}</td>
 				{% endif %}
                 <td class="govuk-table__cell">{{ party|get_address }}</td>
                 <td class="govuk-table__cell">{{ party.sub_type.value }} ({% lcs 'cases.ApplicationPage.ThirdParty.ROLE' %}{{ party.role.value  }})</td>
