@@ -2,7 +2,7 @@ from pytest_bdd import scenarios, when, then, given
 
 from pages.application_page import ApplicationPage
 
-scenarios("../features/mod_clearance.feature", strict_gherkin=False)
+scenarios("../features/view_mod_clearance.feature", strict_gherkin=False)
 
 
 @given("an Exhibition Clearance is created")  # noqa
