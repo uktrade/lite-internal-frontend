@@ -112,8 +112,48 @@ $top: $label-font-size-redo * 0.65;
     border-radius: 50%;
   }
 
+  &.progress-0 {
+    @include draw-progress(0);
+  }
+
+  &.progress-10 {
+    @include draw-progress(10);
+  }
+
+  &.progress-20 {
+    @include draw-progress(20);
+  }
+
   &.progress-30 {
     @include draw-progress(30);
+  }
+
+  &.progress-40 {
+    @include draw-progress(40);
+  }
+
+  &.progress-50 {
+    @include draw-progress(50);
+  }
+
+  &.progress-60 {
+    @include draw-progress(60);
+  }
+
+  &.progress-70 {
+    @include draw-progress(70);
+  }
+
+  &.progress-80 {
+    @include draw-progress(80);
+  }
+
+  &.progress-90 {
+    @include draw-progress(90);
+  }
+
+  &.progress-100 {
+    @include draw-progress(100);
   }
 
   &.green {

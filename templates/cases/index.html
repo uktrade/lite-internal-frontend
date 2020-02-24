@@ -87,7 +87,7 @@
 							</td>
 							<td class="cases-table__cell">
 								{% if case.sla_remaining_days != None %}
-									<div class="pie-wrapper progress-30 green">
+									<div class="pie-wrapper progress-{{ case|get_sla_percentage }} green">
 									  <span class="label"><strong>{{ case.sla_days }}</strong></span>
 									  <div class="pie">
 										<div class="left-side half-circle"></div>

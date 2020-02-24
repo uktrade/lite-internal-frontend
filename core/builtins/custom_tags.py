@@ -303,3 +303,10 @@ def display_grading(text: str):
 def is_system_team(id: str):
     ids = [team_id.value for team_id in SystemTeamsID]
     return id in ids
+
+
+@register.filter()
+def get_sla_percentage(case):
+    percentage = case["sla_days"] / (case["sla_days"] / case["sla_remaining_days"])
+    percentage = int(round(percentage / 100, 1) * 100)
+    return str(percentage)
