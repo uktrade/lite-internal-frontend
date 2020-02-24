@@ -8,6 +8,7 @@ Feature: I want to view the case details of a case
   Scenario: Gov user can see all parties on the case
     Given I sign in to SSO or am signed into SSO
     And I create standard application or standard application has been previously created
+    Then I should see my case in the cases list
     When I go to application previously created
     Then I see an end user
     And I see an ultimate end user
