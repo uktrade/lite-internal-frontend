@@ -312,7 +312,7 @@ def get_sla_percentage(case):
     if case["sla_remaining_days"] <= 0:
         return "100"
     else:
-        percentage = case["sla_days"] / (case["sla_days"] / case["sla_remaining_days"])
+        percentage = case["sla_days"] / (case["sla_days"] + case["sla_remaining_days"])
         percentage = int(round(percentage / 100, 1) * 100)
         return str(percentage)
 
