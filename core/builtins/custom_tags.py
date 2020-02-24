@@ -307,6 +307,19 @@ def is_system_team(id: str):
 
 @register.filter()
 def get_sla_percentage(case):
-    percentage = case["sla_days"] / (case["sla_days"] / case["sla_remaining_days"])
-    percentage = int(round(percentage / 100, 1) * 100)
-    return str(percentage)
+    if case["sla_remaining_days"] <= 0:
+        return "100"
+    else:
+        percentage = case["sla_days"] / (case["sla_days"] / case["sla_remaining_days"])
+        percentage = int(round(percentage / 100, 1) * 100)
+        return str(percentage)
+
+
+@register.filter()
+def get_sla_ring_colour(remaining_days):
+    if remaining_days > 5:
+        return "green"
+    elif remaining_days >= 0:
+        return "orange"
+    else:
+        return "red"
