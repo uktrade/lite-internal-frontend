@@ -323,7 +323,7 @@ def filter_status_change(driver, context, status):
     CaseListPage(driver).click_apply_filters_button()
 
 
-@then("I should see my case in the cases list")
+@then("I should see my case in the cases list")  # noqa
 def case_in_cases_list(driver, context, internal_url):
     driver.get(internal_url.rstrip("/") + "/cases/")
     cases_page = CaseListPage(driver)
