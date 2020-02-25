@@ -26,14 +26,6 @@
 		</div>
 		<div class="govuk-grid-row">
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">{% lcs 'CASE_INFO_REFERENCE_NUMBER' %}</p>
-				<p>{{ case.application.reference_number_on_information_form|default_na }}</p>
-			</div>
-			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">{% lcs 'CASE_INFO_USAGE' %}</p>
-				<p>{{ case.application.usage|default_na }}</p>
-			</div>
-			<div class="govuk-grid-column-one-quarter">
 				<p class="app-case-board__heading">{% lcs 'CASE_INFO_LAST_UPDATED' %}</p>
 				<p>{{ case.application.updated_at|str_date }}</p>
 			</div>
@@ -41,6 +33,43 @@
 	</div>
 
 	<div class="govuk-accordion app-accordion" data-module="govuk-accordion" id="accordion-default">
+		{% if case.case_type.sub_type.key == "exhibition_clearance"  %}
+		<!-- Details -->
+			<div class="govuk-accordion__section">
+				<div class="govuk-accordion__section-header">
+					<h2 class="govuk-accordion__section-heading">
+						<span class="govuk-accordion__section-button" id="accordion-goods">
+							{% lcs 'cases.ApplicationPage.Details.DETAILS' %}
+						</span>
+					</h2>
+				</div>
+				<div id="accordion-goods-content" class="govuk-accordion__section-content" aria-labelledby="accordion-goods">
+					<table class="govuk-table">
+						<thead class="govuk-table__head">
+							<tr class="govuk-table__row">
+								<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Details.Table.TITLE' %}</th>
+								<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Details.Table.REQUIRED_BY_DATE' %}</th>
+								<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Details.Table.FIRST_EXHIBITION_DATE' %}</th>
+								{% if case.application.reason_for_clearance %}
+									<th scope="col" class="govuk-table__header govuk-!-width-one-third">{% lcs 'cases.ApplicationPage.Details.Table.REASON_FOR_CLEARANCE' %}</th>
+								{% endif %}
+							</tr>
+						</thead>
+						<tbody class="govuk-table__body">
+							<tr class="govuk-table__row">
+								<th scope="row" class="govuk-table__header">{{ case.application.title }}</th>
+								<td class="govuk-table__cell">{{ case.application.required_by_date }}</td>
+								<td class="govuk-table__cell">{{ case.application.first_exhibition_date }}</td>
+								{% if case.application.reason_for_clearance %}
+									<td class="govuk-table__cell">{{ case.capplication.reason_for_clearance }}</td>
+								{% endif %}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		{% endif %}
+
 		<!-- Goods -->
 		<div class="govuk-accordion__section">
 			<div class="govuk-accordion__section-header">
@@ -129,7 +158,9 @@
 							{% endfor %}
 						</tbody>
 					</table>
-					<p class="govuk-body govuk-!-margin-top-3 govuk-!-font-weight-bold">{% lcs 'STANDARD_CASE_TOTAL_VALUE' %} £{{ total_goods_value|intcomma }}</p>
+					{% if case.case_type.sub_type.key != "exhibition_clearance"  %}
+						<p class="govuk-body govuk-!-margin-top-3 govuk-!-font-weight-bold">{% lcs 'STANDARD_CASE_TOTAL_VALUE' %} £{{ total_goods_value|intcomma }}</p>
+					{% endif %}
                 </form>
             </div>
 		</div>
