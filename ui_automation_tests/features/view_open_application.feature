@@ -1,4 +1,4 @@
-@all @MOD
+@all @open
 Feature: View an Open Applications
 
   @smoke @open_application
