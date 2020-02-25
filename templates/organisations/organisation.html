@@ -10,10 +10,20 @@
             Back to organisations
         </a>
     {% endif %}
+
 {% endblock %}
 
 {% block two_thirds %}
+	<div class="lite-app-bar">
     <h1 class="govuk-heading-l">{{ title }}</h1>
+	<div class="lite-app-bar__controls">
+		{% if can_manage_organisations %}
+			<a href="{% url 'organisations:edit' organisation.id %}" type="submit" class="govuk-button">
+				Edit
+			</a>
+		{% endif %}
+	</div>
+	</div>
 
     <dl class="govuk-summary-list">
         {% if organisation.eori_number %}

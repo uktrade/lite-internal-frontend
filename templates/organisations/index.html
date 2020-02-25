@@ -30,6 +30,7 @@
 					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationsPage.Table.SIC_NUMBER" %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationsPage.Table.VAT_NUMBER" %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationsPage.Table.ADDRESS" %}</th>
+					<th class="govuk-table__header" scope="col"></th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -55,6 +56,13 @@
 						<td class="govuk-table__cell">
 							{{ organisation.primary_site|get_address }}
 						</td>
+						<td class="govuk-table__cell">
+                        {% if can_manage_organisations %}
+                            <a href="{% url 'organisations:edit' organisation.id %}" class="govuk-link govuk-link--no-visited-state">
+                                Edit
+                            </a>
+                        {% endif %}
+                    </td>
 					</tr>
 				{% endfor %}
 			</tbody>
