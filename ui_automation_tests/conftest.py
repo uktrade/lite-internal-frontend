@@ -331,9 +331,13 @@ def filter_status_change(driver, context, status):
     CaseListPage(driver).click_apply_filters_button()
 
 
-@then("I should see my case in the cases list")  # noqa
-def case_in_cases_list(driver, context, internal_url):
+@when("I go to the case list page")  # noqa
+def case_list_page(driver, internal_url):
     driver.get(internal_url.rstrip("/") + "/cases/")
+
+
+@then("I should see my case in the cases list")  # noqa
+def case_in_cases_list(driver, context):
     cases_page = CaseListPage(driver)
     assert paginated_item_exists(context.case_id, driver)
     row = cases_page.get_case_row(context.case_id)

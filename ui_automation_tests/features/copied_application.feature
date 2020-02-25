@@ -7,4 +7,5 @@ Feature: I want to see that a copied application references the previous applica
     And I have an open application from copying
     When I go to application previously created
     Then I can see the original application is linked
-    And I should see my case in the cases list
+    When I go to the case list page
+    Then I should see my case in the cases list
