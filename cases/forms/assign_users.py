@@ -6,7 +6,7 @@ from users.services import get_gov_users
 
 
 def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
-    params = {"teams": team_id, "no_page": True}
+    params = {"teams": team_id, "no_page": True, "activated": True}
     return Form(
         title=cases.Manage.AssignUsers.MULTIPLE_TITLE if multiple else cases.Manage.AssignUsers.TITLE,
         description=cases.Manage.AssignUsers.DESCRIPTION,
