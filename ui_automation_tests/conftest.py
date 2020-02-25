@@ -338,11 +338,14 @@ def case_list_page(driver, internal_url):
 
 @then("I should see my case in the cases list")  # noqa
 def case_in_cases_list(driver, context):
-    cases_page = CaseListPage(driver)
     assert paginated_item_exists(context.case_id, driver)
-    row = cases_page.get_case_row(context.case_id)
-    assert cases_page.get_case_row_sla(row) == "0"
-    assert context.reference_code in row.text
+    context.case_row = CaseListPage(driver).get_case_row(context.case_id)
+    assert context.reference_code in context.case_row.text
+
+
+@then("I should see my case SLA")  # noqa
+def case_sla(driver, context):
+    assert CaseListPage(driver).get_case_row_sla(context.case_row) == "0"
 
 
 @then("I see the case page")  # noqa

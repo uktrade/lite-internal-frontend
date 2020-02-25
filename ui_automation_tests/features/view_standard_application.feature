@@ -10,6 +10,7 @@ Feature: I want to view the case details of a case
     And I create standard application or standard application has been previously created
     When I go to the case list page
     Then I should see my case in the cases list
+    And I should see my case SLA
     When I go to application previously created
     Then I see an end user
     And I see an ultimate end user

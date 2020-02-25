@@ -7,6 +7,7 @@ Feature: View an MOD Clearance
     And an Exhibition Clearance is created
     When I go to the case list page
     Then I should see my case in the cases list
+    And I should see my case SLA
     When I go to the case
     Then I see the case page
 
@@ -16,6 +17,7 @@ Feature: View an MOD Clearance
     And a F680 Clearance is created
     When I go to the case list page
     Then I should see my case in the cases list
+    And I should see my case SLA
     When I go to the case
     Then I see the case page
 
@@ -25,5 +27,6 @@ Feature: View an MOD Clearance
     And  a Gifting Clearance is created
     When I go to the case list page
     Then I should see my case in the cases list
+    And I should see my case SLA
     When I go to the case
     Then I see the case page
