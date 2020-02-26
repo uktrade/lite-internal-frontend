@@ -328,7 +328,7 @@ class CaseOfficer(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
-        params = {"name": request.GET.get("name", ""), "activated": True, "no_page": True}
+        params = {"name": request.GET.get("name", ""), "activated": True, "disable_pagination": True}
         gov_users, _ = get_gov_users(request, params)
         context = {
             "case_officer": get_case_officer(request, case_id)[0],
@@ -346,7 +346,7 @@ class CaseOfficer(TemplateView):
         if action == "assign":
             if not user_id:
                 case = get_case(request, case_id)
-                params = {"name": request.GET.get("name", ""), "activated": True, "no_page": True}
+                params = {"name": request.GET.get("name", ""), "activated": True, "disable_pagination": True}
                 gov_users, _ = get_gov_users(request, params)
 
                 context = {
@@ -370,7 +370,7 @@ class CaseOfficer(TemplateView):
 
     def response_error(self, request, case_id):
         case = get_case(request, case_id)
-        params = {"name": request.GET.get("name", ""), "activated": True, "no_page": True}
+        params = {"name": request.GET.get("name", ""), "activated": True, "disable_pagination": True}
         gov_users, _ = get_gov_users(request, params)
 
         context = {
