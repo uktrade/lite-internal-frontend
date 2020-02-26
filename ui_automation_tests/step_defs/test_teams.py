@@ -81,8 +81,3 @@ def see_team_user_added(driver, added_not_added, context, internal_info):
         assert (
             Shared(driver).get_text_of_caption() == "You don't have any users at the moment."
         ), "Users are potentially displayed for a just created Team List"
-
-
-@when("I go to users")  # noqa
-def go_to_users(driver, sso_sign_in, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/users/")

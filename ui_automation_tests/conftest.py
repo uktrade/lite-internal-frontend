@@ -312,3 +312,8 @@ def case_sla(driver, context):
 @then("I see the case page")  # noqa
 def i_see_the_case_page(driver, context):
     assert driver.find_element_by_id(ApplicationPage.HEADING_ID).text == context.reference_code
+
+
+@when("I go to users")  # noqa
+def go_to_users(driver, sso_sign_in, internal_url):  # noqa
+    driver.get(internal_url.rstrip("/") + "/users/")

@@ -72,7 +72,7 @@ def import_text_advice(driver, option, context):
 
 @then("I see my advice has been posted successfully")
 def posted_successfully_advice(driver):
-    assert Shared(driver).get_text_of_info_bar() == "Your advice has been posted successfully"
+    assert "Your advice has been posted successfully" in Shared(driver).get_text_of_info_bar()
 
 
 @then("I see added advice in the same amount of places")
