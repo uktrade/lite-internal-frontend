@@ -42,8 +42,13 @@ def click_edit_for_my_user(driver, internal_info):
 
 
 @when(parsers.parse("I add a team called BlueOcean"))
-def add_a_team_blue_ocean(driver, add_a_team, context):
-    pass
+def add_a_team_blue_ocean(driver, context):
+    teams_pages = TeamsPages(driver)
+    shared = Shared(driver)
+    teams_pages.click_add_a_team_button()
+    context.team_name = "BlueOcean" + str(utils.get_unformatted_date_time())
+    teams_pages.enter_team_name(context.team_name)
+    shared.click_submit()
 
 
 @when("I edit my team")
@@ -76,3 +81,8 @@ def see_team_user_added(driver, added_not_added, context, internal_info):
         assert (
             Shared(driver).get_text_of_caption() == "You don't have any users at the moment."
         ), "Users are potentially displayed for a just created Team List"
+
+
+@when("I go to users")  # noqa
+def go_to_users(driver, sso_sign_in, internal_url):  # noqa
+    driver.get(internal_url.rstrip("/") + "/users/")
