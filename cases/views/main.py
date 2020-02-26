@@ -327,10 +327,7 @@ class Document(TemplateView):
 class CaseOfficer(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
-        return form_page(
-            request,
-            assign_case_officer_form(request, get_case_officer(request, case_id)[0]),
-        )
+        return form_page(request, assign_case_officer_form(request, get_case_officer(request, case_id)[0]),)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
@@ -346,7 +343,7 @@ class CaseOfficer(TemplateView):
             return form_page(
                 request,
                 assign_case_officer_form(request, get_case_officer(request, case_id)[0]),
-                errors=response.json()["errors"]
+                errors=response.json()["errors"],
             )
 
         return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
