@@ -67,7 +67,7 @@
 								<td class="govuk-table__cell">{{ case.application.required_by_date }}</td>
 								<td class="govuk-table__cell">{{ case.application.first_exhibition_date }}</td>
 								{% if case.application.reason_for_clearance %}
-									<td class="govuk-table__cell">{{ case.capplication.reason_for_clearance }}</td>
+									<td class="govuk-table__cell">{{ case.application.reason_for_clearance }}</td>
 								{% endif %}
 							</tr>
 						</tbody>
@@ -104,7 +104,11 @@
 								<th class="govuk-table__header" scope="col"></th>
 					            <th class="govuk-table__header" scope="col">{% lcs 'cases.ApplicationPage.Goods.Table.CLC' %}</th>
 								<th class="govuk-table__header" scope="col">{% lcs 'cases.ApplicationPage.Goods.Table.DESCRIPTION' %}</th>
-					            <th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.VALUE' %}</th>
+								{% if case.case_type.sub_type.key != "exhibition_clearance"  %}
+									<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.VALUE' %}</th>
+								{% else %}
+									<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.ITEM_TYPE' %}</th>
+								{% endif %}
 								<th class="govuk-table__header">{% lcs 'GOOD_INCORPORATED' %}</th>
 								<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.DOCUMENTS' %}</th>
 					            <th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.FLAGS' %}</th>
@@ -132,7 +136,11 @@
 					                <td class="govuk-table__cell">
 					                	{{ good_on_application.good.description }}
 					                </td>
-									<td class="govuk-table__cell">{{ good_on_application.quantity }} {{ good_on_application.unit.value }}/£{{ good_on_application.value|intcomma }}</td>
+									{% if case.case_type.sub_type.key == "exhibition_clearance"  %}
+										<td class="govuk-table__cell">{{ good_on_application.item_type|title }}</td>
+									{% else %}
+										<td class="govuk-table__cell">{{ good_on_application.quantity }} {{ good_on_application.unit.value }}/£{{ good_on_application.value|intcomma }}</td>
+									{% endif %}
 									<td class="govuk-table__cell">{{ good_on_application.is_good_incorporated|friendly_boolean }}</td>
 									<td class="govuk-table__cell">
 					                    {% if good_on_application.good.documents %}
@@ -222,18 +230,20 @@
 		</div>
 
 		<!-- Inactive Parties -->
-		<div class="govuk-accordion__section">
-			<div class="govuk-accordion__section-header">
-				<h2 class="govuk-accordion__section-heading">
-					<span class="govuk-accordion__section-button" id="accordion-default-heading-3">
-						{% lcs 'cases.ApplicationPage.Parties.ENTITIES_DELETED' %}
-					</span>
-				</h2>
+		{% if case.case_type.sub_type.key != "exhibition_clearance"  %}
+			<div class="govuk-accordion__section">
+				<div class="govuk-accordion__section-header">
+					<h2 class="govuk-accordion__section-heading">
+						<span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+							{% lcs 'cases.ApplicationPage.Parties.ENTITIES_DELETED' %}
+						</span>
+					</h2>
+				</div>
+				<div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
+					{% include "case/includes/inactive-parties.html" %}
+				</div>
 			</div>
-			<div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
-				{% include "case/includes/inactive-parties.html" %}
-			</div>
-		</div>
+		{% endif %}
 
 		<!-- Other Documents -->
 		<div class="govuk-accordion__section">
