@@ -1,9 +1,7 @@
 from selenium.webdriver.support.ui import Select
 
-from pages.shared import Shared
-from shared import functions
-from shared.BasePage import BasePage
-import shared.tools.helpers as utils
+from ui_automation_tests.shared.BasePage import BasePage
+import ui_automation_tests.shared.tools.helpers as utils
 
 
 class UsersPage(BasePage):
