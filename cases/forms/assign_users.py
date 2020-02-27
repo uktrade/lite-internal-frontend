@@ -14,7 +14,7 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
         description=cases.Manage.AssignUsers.DESCRIPTION,
         questions=[Filter(), Checkboxes("users", get_gov_users(request, params, convert_to_options=True))],
         caption=queue["name"],
-        default_button_name="Submit",
+        default_button_name=cases.Manage.AssignUsers.BUTTON,
         javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
     )
 
@@ -22,12 +22,13 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
 def assign_case_officer_form(request: HttpRequest, existing_officer):
     params = {"disable_pagination": True, "activated": True}
     users = get_gov_users(request, params, convert_to_options=True)
-    buttons = [Button("Submit", action="submit")]
+    buttons = [Button(cases.Manage.AssignCaseOfficer.SUBMIT_BUTTON, action="submit")]
     if existing_officer:
-        buttons.append(Button("Delete existing case officer only", action="delete", style=ButtonStyle.WARNING))
+        buttons.append(Button(cases.Manage.AssignCaseOfficer.DELETE_BUTTON, action="delete", style=ButtonStyle.WARNING))
 
     return Form(
-        title="Assign a case officer",
+        title=cases.Manage.AssignCaseOfficer.TITLE,
+        description=cases.Manage.AssignCaseOfficer.DESCRIPTION,
         questions=[Filter(), RadioButtons("user", users)],
         buttons=buttons,
         javascript_imports=["/assets/javascripts/filter-radiobuttons-list.js"],
