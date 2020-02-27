@@ -58,6 +58,6 @@ class UsersPage(BasePage):
         self.driver.find_element_by_id(self.REACTIVATE_ARE_YOU_SURE_BUTTON_ID).click()
 
     def go_to_user_page(self, context):
-        id = "edit-"+context.added_email
+        id = "edit-" + context.added_email
         utils.find_paginated_item_by_id(id, self.driver)
         self.driver.find_element_by_id(id).click()
