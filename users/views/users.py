@@ -20,8 +20,7 @@ from users.services import (
 
 class UsersList(TemplateView):
     def get(self, request, **kwargs):
-        status = request.GET.get("status", "active")
-        params = {"page": int(request.GET.get("page", 1)), "status": status}
+        params = {"page": int(request.GET.get("page", 1)), "activated": request.GET.get("activated")}
 
         data, _ = get_gov_users(request, params)
 
@@ -29,17 +28,18 @@ class UsersList(TemplateView):
         super_user = is_super_user(user)
 
         statuses = [
-            Option(option["key"], option["value"])
-            for option in [{"key": "active", "value": "Active"}, {"key": "", "value": "All"}]
-        ]  # TODO[future]: filters in API?
+            Option("", "All"),
+            Option("True", "Activated"),
+            Option("False", "Deactivated"),
+        ]
 
-        filters = FiltersBar([Select(name="status", title="status", options=statuses)])
+        filters = FiltersBar([Select(name="activated", title="status", options=statuses, include_default_select=False)])
 
         context = {
             "data": data,
             "title": "Users",
             "super_user": super_user,
-            "status": status,
+            "status": request.GET.get("activated"),
             "page": params.pop("page"),
             "params_str": convert_dict_to_query_params(params),
             "filters": filters,

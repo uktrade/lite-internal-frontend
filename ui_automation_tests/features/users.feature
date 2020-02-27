@@ -7,19 +7,17 @@ Feature: I want to test users
     And I go to users
     When I add a new user
     And I show filters
-    And filter status has been changed to "Active"
-    Then I see new user
-    When filter status has been changed to "All"
+    And filter status has been changed to "Activated"
     Then I see new user
     When I deactivate new user
-    When I show filters
-    And filter status has been changed to "Active"
+    And I show filters
+    And filter status has been changed to "Activated"
     Then I dont see new user
-    When filter status has been changed to "All"
+    When filter status has been changed to "Deactivated"
     Then I see new user
     When I reactivate new user
     And I show filters
-    And filter status has been changed to "Active"
+    And filter status has been changed to "Activated"
     Then I see new user
     When filter status has been changed to "All"
     Then I see new user
