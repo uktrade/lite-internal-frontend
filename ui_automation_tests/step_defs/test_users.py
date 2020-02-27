@@ -51,8 +51,7 @@ def reactivate_user(driver, context):
 @when("I edit new user")
 def edit_user(driver, context):
     user_page = UsersPage(driver)
-    user_page.go_to_users_page(context)
-    user_page.click_edit_button_on_users_page()
+    user_page.go_to_user_page(context)
     context.added_email = context.added_email + "edited"
     user_page.enter_email(context.added_email)
 
