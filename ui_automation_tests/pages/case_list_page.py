@@ -23,7 +23,7 @@ class CaseListPage(BasePage):
     LINK_SHOW_FILTERS = "show-filters-link"  # ID
     LINK_HIDE_FILTERS = "hide-filters-link"  # ID
     FILTER_BAR = "lite-filter-bar"  # Class
-    USER_STATUS_DROPDOWN = "activated"  # ID
+    USER_STATUS_DROPDOWN = "status"  # ID
     STATUS_DROPDOWN = "status"  # ID
     CASE_TYPE_DROPDOWN = "case_type"  # ID
     INPUT_ASSIGNED_USER_ID = "assigned_user"

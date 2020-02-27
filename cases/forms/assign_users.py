@@ -8,7 +8,7 @@ from users.services import get_gov_users
 
 
 def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
-    params = {"teams": team_id, "disable_pagination": True, "activated": True}
+    params = {"teams": team_id, "disable_pagination": True, "status": "Active"}
     return Form(
         title=cases.Manage.AssignUsers.MULTIPLE_TITLE if multiple else cases.Manage.AssignUsers.TITLE,
         description=cases.Manage.AssignUsers.DESCRIPTION,
@@ -20,7 +20,7 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
 
 
 def assign_case_officer_form(request: HttpRequest, existing_officer):
-    params = {"disable_pagination": True, "activated": True}
+    params = {"disable_pagination": True, "status": "Active"}
     users = get_gov_users(request, params, convert_to_options=True)
     buttons = [Button(cases.Manage.AssignCaseOfficer.SUBMIT_BUTTON, action="submit")]
     if existing_officer:
