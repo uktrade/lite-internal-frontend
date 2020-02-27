@@ -297,7 +297,7 @@ def filter_status_change(driver, context, status):
     CaseListPage(driver).click_apply_filters_button()
 
 
-@when(parsers.parse('user filter status has been changed to "{status}"'))  # noqa
+@when(parsers.parse('I change the user filter to "{status}"'))  # noqa
 def filter_status_change(driver, context, status):
     CaseListPage(driver).select_filter_user_status_from_dropdown(status)
     CaseListPage(driver).click_apply_filters_button()

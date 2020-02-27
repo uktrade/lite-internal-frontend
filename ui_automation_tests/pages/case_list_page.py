@@ -23,7 +23,7 @@ class CaseListPage(BasePage):
     LINK_SHOW_FILTERS = "show-filters-link"  # ID
     LINK_HIDE_FILTERS = "hide-filters-link"  # ID
     FILTER_BAR = "lite-filter-bar"  # Class
-    USER_STATUS_DROPDOWN = "status"  # ID
+    USER_STATUS_DROPDOWN_ID = "status"
     STATUS_DROPDOWN = "status"  # ID
     CASE_TYPE_DROPDOWN = "case_type"  # ID
     INPUT_ASSIGNED_USER_ID = "assigned_user"
@@ -115,7 +115,7 @@ class CaseListPage(BasePage):
         Select(self.driver.find_element_by_id(self.STATUS_DROPDOWN)).select_by_visible_text(status)
 
     def select_filter_user_status_from_dropdown(self, status):
-        Select(self.driver.find_element_by_id(self.USER_STATUS_DROPDOWN)).select_by_visible_text(status)
+        Select(self.driver.find_element_by_id(self.USER_STATUS_DROPDOWN_ID)).select_by_visible_text(status)
 
     def select_filter_case_type_from_dropdown(self, status):
         Select(self.driver.find_element_by_id(self.CASE_TYPE_DROPDOWN)).select_by_visible_text(status)
