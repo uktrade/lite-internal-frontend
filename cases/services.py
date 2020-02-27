@@ -156,6 +156,7 @@ def clear_team_advice(request, case_pk):
 
 def get_final_case_advice(request, case_pk):
     data = get(request, CASE_URL + case_pk + VIEW_FINAL_ADVICE_URL)
+
     return data.json(), data.status_code
 
 
@@ -192,6 +193,9 @@ def prepare_data_for_advice(json):
 
     if json.get("type") == "proviso":
         base_data["proviso"] = json["proviso"]
+
+    if json.get("pv_grading"):
+        base_data["pv_grading"] = json["pv_grading"]
 
     new_data = []
     single_cases = ["end_user", "consignee"]
