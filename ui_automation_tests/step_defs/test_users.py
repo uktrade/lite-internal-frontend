@@ -4,6 +4,8 @@ from pytest_bdd import scenarios, when, then, given
 import shared.tools.helpers as utils
 from pages.users_page import UsersPage
 
+from ui_automation_tests.shared import functions
+
 scenarios("../features/users.feature", strict_gherkin=False)
 
 
@@ -27,7 +29,8 @@ def see_new_user(driver, context):
 @when("I deactivate new user")
 def deactivate_user(driver, context):
     user_page = UsersPage(driver)
-    user_page.go_to_users_page(context)
+    user_page.go_to_user_page(context)
+    functions.click_back_link(driver)
     user_page.deactivate_user()
 
 
@@ -41,7 +44,8 @@ def dont_see_user(driver, context):
 @when("I reactivate new user")
 def reactivate_user(driver, context):
     user_page = UsersPage(driver)
-    user_page.go_to_users_page(context)
+    user_page.go_to_user_page(context)
+    functions.click_back_link(driver)
     user_page.reactivate_user()
 
 
