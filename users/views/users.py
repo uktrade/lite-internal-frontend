@@ -28,9 +28,9 @@ class UsersList(TemplateView):
         super_user = is_super_user(user)
 
         statuses = [
-            Option("", "All"),
             Option("True", "Activated"),
             Option("False", "Deactivated"),
+            Option("All", "All"),
         ]
 
         filters = FiltersBar([Select(name="activated", title="status", options=statuses, include_default_select=False)])
