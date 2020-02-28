@@ -1,6 +1,5 @@
 from shared.BasePage import BasePage
 
-from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 
