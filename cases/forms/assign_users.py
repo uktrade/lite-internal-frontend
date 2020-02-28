@@ -25,7 +25,11 @@ def assign_case_officer_form(request: HttpRequest, existing_officer):
     users = get_gov_users(request, params, convert_to_options=True)
     buttons = [Button(cases.Manage.AssignCaseOfficer.SUBMIT_BUTTON, action="submit")]
     if existing_officer:
-        buttons.append(Button(cases.Manage.AssignCaseOfficer.DELETE_BUTTON, action="delete", style=ButtonStyle.WARNING))
+        buttons.append(
+            Button(
+                cases.Manage.AssignCaseOfficer.DELETE_BUTTON, action="delete", id="unassign", style=ButtonStyle.WARNING
+            )
+        )
 
     return Form(
         title=cases.Manage.AssignCaseOfficer.TITLE,
