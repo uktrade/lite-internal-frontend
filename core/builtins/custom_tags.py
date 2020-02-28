@@ -12,7 +12,7 @@ from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
-from conf.constants import ISO8601_FMT
+from conf.constants import ISO8601_FMT, DATE_NO_TIME
 
 from lite_content.lite_internal_frontend import strings
 from conf.constants import SystemTeamsID
@@ -65,6 +65,13 @@ def str_date(value):
         + " "
         + return_value.strftime("%d %B " "%Y")
     )
+
+
+@register.filter
+@stringfilter
+def str_date_only(value):
+    return_value = do_timezone(datetime.datetime.strptime(value, DATE_NO_TIME), "Europe/London")
+    return return_value.strftime("%d %B " "%Y")
 
 
 @register.filter()
