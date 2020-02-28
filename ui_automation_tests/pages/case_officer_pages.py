@@ -5,7 +5,7 @@ from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 class CaseOfficerPages(BasePage):
     BUTTON_ASSIGN_ID = "button-assign"  # id
-    BUTTON_UNASSIGN_ID = "unassign"  # id
+    BUTTON_UNASSIGN_ID = "button-unassign"  # id
     VISIBLE_CHOICES_EMAILS = ".govuk-radios__item.visible .govuk-hint"
     VISIBLE_CHOICE_BUTTON = ".govuk-radios__item.visible .govuk-radios__input"
     CURRENT_CASE_OFFICER_PANEL = ".govuk-grid-column-one-third .lite-related-items"
