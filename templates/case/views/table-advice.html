@@ -41,19 +41,16 @@
                 {% endif %}
             {% endif %}
 
-			{% if advice.pv_grading and not advice.conflicting_pv_grading %}
+			{% if advice.collated_pv_grading %}
+				<p class="govuk-heading-s">Grading</p>
+				<p class="govuk-body-s">{{ advice.collated_pv_grading }}</p>
+			{% elif advice.pv_grading %}
 				<p class="govuk-heading-s">Grading</p>
 				<p class="govuk-body-s">{{ advice.pv_grading.value }}</p>
 			{% endif %}
 
-			{% if advice.conflicting_pv_grading %}
-				<p class="govuk-heading-s">Grading</p>
-				<p class="govuk-body-s">{{ advice.conflicting_pv_grading }}</p>
-			{% endif %}
-
 			<p class="govuk-heading-s">{% lcs 'cases.AdvicePage.REASON_FOR_ADVICE_TITLE' %}</p>
             <p class="govuk-body-s">{{ advice.text|default_na }}</p>
-
 
             <p class="govuk-heading-s">{% lcs 'cases.AdvicePage.NOTE_TO_APPLICANT_TITLE' %}</p>
             <p class="govuk-body-s" style="margin-bottom: 0;">{{ advice.note|default_na }}</p>
