@@ -119,6 +119,11 @@ class Statuses:
     PV = "pv_review"
 
 
+class UserStatuses:
+    ACTIVE = "Active"
+    DEACTIVATED = "Deactivated"
+
+
 GOODS_QUERY_STATUSES = [Statuses.CLOSED, Statuses.SUBMITTED, Statuses.WITHDRAWN, Statuses.CLC, Statuses.PV]
 
 
