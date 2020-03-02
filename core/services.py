@@ -12,7 +12,8 @@ from conf.constants import (
     GOV_PV_GRADINGS_URL,
     Statuses,
     GOODS_QUERY_STATUSES,
-    PV_GRADINGS_URL)
+    PV_GRADINGS_URL,
+)
 from users.services import get_gov_user
 
 
