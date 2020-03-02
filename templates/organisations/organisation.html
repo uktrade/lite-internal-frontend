@@ -18,7 +18,7 @@
     <h1 class="govuk-heading-l">{{ title }}</h1>
 	<div class="lite-app-bar__controls">
 		{% if can_manage_organisations %}
-			<a href="{% url 'organisations:edit' organisation.id %}" type="submit" class="govuk-button">
+			<a href="{% url 'organisations:edit' organisation.id %}" type="submit" class="govuk-button" id="button-edit-org">
 				{% lcs "organisations.OrganisationPage.Actions.EDIT" %}
 			</a>
 		{% endif %}

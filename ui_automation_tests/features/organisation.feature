@@ -51,3 +51,13 @@ Feature: I want to add a company to LITE
     When I go to the internal homepage
     Then I see previously created application
     And I see the added flags on the queue
+
+    @LT_980_edit_organisation @regression
+    Scenario: Test editing an organisation
+      Given I sign in to SSO or am signed into SSO
+      When I go to organisations
+      And I click on an organisation to edit
+      And I select "commercial"
+      And I provide company registration details of name: "ChangedBlueOcean", EORI: "123", SIC: "456", VAT: "789", CRN: "101112"
+      Then The organisation is listed on the organisations page
+
