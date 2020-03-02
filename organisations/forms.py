@@ -189,7 +189,7 @@ def edit_business_forms(request, individual=False):
                     ],
                     default_button_name=strings.CONTINUE,
                 ),
-            )
+            ),
         ],
         show_progress_indicators=True,
     )
