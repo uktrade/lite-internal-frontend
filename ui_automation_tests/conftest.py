@@ -7,17 +7,15 @@ from pages.organisation_page import OrganisationPage
 
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.add_a_flag import (  # noqa
-    add_uae_flag,
-    add_suspicious_flag,
-    add_organisation_suspicious_flag,
-    add_new_flag,
+    add_case_flag,
+    add_good_flag,
+    add_organisation_flag,
+    add_destination_flag,
 )
 from ui_automation_tests.fixtures.add_queue import add_queue  # noqa
-from ui_automation_tests.fixtures.add_a_team import add_a_team  # noqa
 from ui_automation_tests.fixtures.add_a_document_template import (  # noqa
     add_a_document_template,
     get_template_id,
-    get_licence_template_id,
 )
 from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
     add_a_letter_paragraph_picklist,
@@ -43,6 +41,8 @@ from pages.shared import Shared
 from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
 from pages.queues_pages import QueuesPages
+
+from ui_automation_tests.shared.tools.helpers import paginated_item_exists
 
 
 def pytest_addoption(parser):
@@ -124,11 +124,6 @@ def click_on_created_application(driver, context, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/cases/" + context.case_id)
 
 
-@when("I go to end user advisory previously created")  # noqa
-def click_on_created_eua(driver, context, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/cases/" + context.eua_id)
-
-
 @given("I create standard application or standard application has been previously created")  # noqa
 def create_app(driver, apply_for_standard_application):  # noqa
     pass
@@ -137,16 +132,6 @@ def create_app(driver, apply_for_standard_application):  # noqa
 @given("I create open application or open application has been previously created")  # noqa
 def create_open_app(driver, apply_for_open_application):  # noqa
     pass
-
-
-@given("I have an open application from copying")  # noqa
-def copy_open_app(driver, apply_for_open_application, api_client_config, context):  # noqa
-    lite_client = get_lite_client(context, api_client_config)  # noqa
-    data = {"name": "new application"}
-    lite_client.applications.add_copied_application(context.app_id, data)
-    context.old_app_id = context.app_id
-    context.app_id = lite_client.context["application_id"]
-    context.case_id = lite_client.context["application_id"]
 
 
 @when("I click continue")  # noqa
@@ -230,8 +215,8 @@ def see_queue_in_queue_list(driver, context):  # noqa
     )
 
 
-@when("I add a flag called Suspicious at level Organisation")  # noqa
-def add_a_suspicious_flag(driver, add_organisation_suspicious_flag):  # noqa
+@when("I add a flag at level Organisation")  # noqa
+def add_an_organisation_flag(driver, add_organisation_flag):  # noqa
     pass
 
 
@@ -245,25 +230,9 @@ def go_to_edit_flags(driver):  # noqa
     OrganisationPage(driver).click_edit_organisation_flags()
 
 
-@when(parsers.parse('filter case type has been changed to "{case_type}"'))  # noqa
-def filter_status_change(driver, context, case_type):  # noqa
-    CaseListPage(driver).select_filter_case_type_from_dropdown(case_type)
-    CaseListPage(driver).click_apply_filters_button()
-
-
 @when("I show filters")  # noqa
 def i_show_filters(driver, context):  # noqa
     CaseListPage(driver).click_show_filters_link()
-
-
-@when("I go to users")  # noqa
-def go_to_users(driver, sso_sign_in, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/users/")
-
-
-@given("I go to users")  # noqa
-def go_to_users(driver, sso_sign_in, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/users/")
 
 
 @when(  # noqa
@@ -280,11 +249,6 @@ def enter_response(driver, controlled, control_list_entry, report, comment):  # 
     Shared(driver).click_submit()
 
 
-@when("I add a flag called UAE at level Case")  # noqa
-def add_a_flag(driver, add_uae_flag):  # noqa
-    pass
-
-
 @then("the status has been changed in the application")  # noqa
 def status_has_been_changed_in_header(driver, context, internal_info):  # noqa
     application_page = ApplicationPage(driver)
@@ -293,6 +257,14 @@ def status_has_been_changed_in_header(driver, context, internal_info):  # noqa
             0
         ), "status has not been shown as approved in audit trail"
     elif context.status.lower() == "withdrawn":
+        assert "updated the status to: " + context.status in application_page.get_text_of_audit_trail_item(
+            0
+        ), "status has not been shown as approved in audit trail"
+    elif context.status.lower() == "pv grading review":
+        assert "updated the status to: " + context.status in application_page.get_text_of_audit_trail_item(
+            0
+        ), "status has not been shown as approved in audit trail"
+    elif context.status.lower() == "clc review":
         assert "updated the status to: " + context.status in application_page.get_text_of_audit_trail_item(
             0
         ), "status has not been shown as approved in audit trail"
@@ -318,3 +290,30 @@ def create_clc_query(driver, apply_for_clc_query, context):
 def filter_status_change(driver, context, status):
     CaseListPage(driver).select_filter_status_from_dropdown(status)
     CaseListPage(driver).click_apply_filters_button()
+
+
+@when("I go to the case list page")  # noqa
+def case_list_page(driver, internal_url):
+    driver.get(internal_url.rstrip("/") + "/cases/")
+
+
+@then("I should see my case in the cases list")  # noqa
+def case_in_cases_list(driver, context):
+    assert paginated_item_exists(context.case_id, driver)
+    context.case_row = CaseListPage(driver).get_case_row(context.case_id)
+    assert context.reference_code in context.case_row.text
+
+
+@then("I should see my case SLA")  # noqa
+def case_sla(driver, context):
+    assert CaseListPage(driver).get_case_row_sla(context.case_row) == "0"
+
+
+@then("I see the case page")  # noqa
+def i_see_the_case_page(driver, context):
+    assert driver.find_element_by_id(ApplicationPage.HEADING_ID).text == context.reference_code
+
+
+@when("I go to users")  # noqa
+def go_to_users(driver, sso_sign_in, internal_url):  # noqa
+    driver.get(internal_url.rstrip("/") + "/users/")

@@ -183,8 +183,7 @@ def edit_business_forms(request, individual=False, name=""):
                     ],
                     default_button_name=strings.CONTINUE,
                 ),
-            ),
-            add_admin_user_form(individual, name),
+            )
         ],
         show_progress_indicators=True,
     )

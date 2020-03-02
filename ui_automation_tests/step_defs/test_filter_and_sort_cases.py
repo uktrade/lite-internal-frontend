@@ -71,5 +71,11 @@ def the_filters_are_hidden(driver, context):
 @then("there are no cases shown")  # noqa
 def no_cases_shown(driver):
     assert (
-        "There are no cases to show with those filters" in QueuesPages(driver).get_no_cases_text()
+        "No cases match your filters" in QueuesPages(driver).get_no_cases_text()
     ), "There are cases shown in the newly created queue."
+
+
+@when(parsers.parse('filter case type has been changed to "{case_type}"'))  # noqa
+def filter_status_change(driver, context, case_type):  # noqa
+    CaseListPage(driver).select_filter_case_type_from_dropdown(case_type)
+    CaseListPage(driver).click_apply_filters_button()

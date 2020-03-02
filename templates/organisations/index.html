@@ -59,7 +59,7 @@
 						<td class="govuk-table__cell">
                         {% if can_manage_organisations %}
                             <a href="{% url 'organisations:edit' organisation.id %}" class="govuk-link govuk-link--no-visited-state">
-                                Edit
+                                {% lcs "organisations.OrganisationsPage.Table.EDIT" %}
                             </a>
                         {% endif %}
                     </td>
