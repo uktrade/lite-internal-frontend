@@ -56,8 +56,8 @@ def register_business_forms(individual=False, name=""):
                         TextInput(title=strings.RegisterBusiness.NAME, name="name"),
                         TextInput(title=strings.RegisterBusiness.EORI_NUMBER, name="eori_number"),
                         TextInput(
-                            title=strings.RegisterBusiness.SIC_NUMBER,
-                            description="Classifies industries by a four-digit code.",
+                            title=strings.RegisterBusiness.SicNumber.TITLE,
+                            description=strings.RegisterBusiness.SicNumber.DESCRIPTION,
                             name="sic_number",
                         ),
                         TextInput(

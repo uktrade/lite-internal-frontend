@@ -152,7 +152,6 @@ class EditBusiness(MultiFormView):
         self.object_pk = kwargs["pk"]
         organisation, _ = get_organisation(request, str(self.object_pk))
         self.data = organisation
-        name = request.POST.get("name")
         individual = request.POST.get("type") == "individual"
         self.forms = edit_business_forms(request, individual)
         self.success_url = reverse_lazy("organisations:organisations")
