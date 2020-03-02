@@ -154,9 +154,7 @@ class EditBusiness(MultiFormView):
         self.data = organisation
         name = request.POST.get("name")
         individual = request.POST.get("type") == "individual"
-        self.forms = (
-            edit_business_forms(request, individual, name) if name else edit_business_forms(request, individual)
-        )
+        self.forms = edit_business_forms(request, individual)
         self.success_url = reverse_lazy("organisations:organisations")
 
     def on_submission(self, request, **kwargs):

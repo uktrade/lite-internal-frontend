@@ -18,10 +18,21 @@ from core.services import get_countries, get_user_permissions
 
 
 def register_business_forms(individual=False, name=""):
-
     return FormGroup(
         [
-            individual_or_commerical_form,
+            Form(
+                title=strings.RegisterBusiness.COMMERCIAL_OR_PRIVATE_INDIVIDUAL,
+                questions=[
+                    RadioButtons(
+                        name="type",
+                        options=[
+                            Option(key="commercial", value="Commercial"),
+                            Option(key="individual", value="Individual"),
+                        ],
+                    )
+                ],
+                default_button_name=strings.CONTINUE,
+            ),
             conditional(
                 individual,
                 Form(
@@ -72,7 +83,15 @@ def register_business_forms(individual=False, name=""):
                 ],
                 default_button_name=strings.CONTINUE,
             ),
-            add_admin_user_form(individual, name),
+            conditional(
+                not individual,
+                Form(
+                    title="Create an admin user for " + name,
+                    questions=[TextInput(title=strings.RegisterBusiness.EMAIL, name="user.email"),],
+                    default_button_name="Submit",
+                    helpers=[HelpSection("Help", strings.RegisterBusiness.DEFAULT_USER)],
+                ),
+            ),
         ],
         show_progress_indicators=True,
     )
@@ -103,32 +122,7 @@ def register_hmrc_organisation_forms(name=""):
     )
 
 
-def individual_or_commerical_form():
-    return Form(
-        title=strings.RegisterBusiness.COMMERCIAL_OR_PRIVATE_INDIVIDUAL,
-        questions=[
-            RadioButtons(
-                name="type",
-                options=[Option(key="commercial", value="Commercial"), Option(key="individual", value="Individual"),],
-            )
-        ],
-        default_button_name=strings.CONTINUE,
-    )
-
-
-def add_admin_user_form(individual, name):
-    return conditional(
-        not individual,
-        Form(
-            title="Create an admin user for " + name,
-            questions=[TextInput(title=strings.RegisterBusiness.EMAIL, name="user.email"),],
-            default_button_name="Submit",
-            helpers=[HelpSection("Help", strings.RegisterBusiness.DEFAULT_USER)],
-        ),
-    )
-
-
-def edit_business_forms(request, individual=False, name=""):
+def edit_business_forms(request, individual=False):
     user_permissions = get_user_permissions(request)
     permission_to_edit_org_name = (
         Permission.MANAGE_ORGANISATIONS.value in user_permissions
@@ -136,7 +130,19 @@ def edit_business_forms(request, individual=False, name=""):
     )
     return FormGroup(
         [
-            individual_or_commerical_form(),
+            Form(
+                title=strings.RegisterBusiness.COMMERCIAL_OR_PRIVATE_INDIVIDUAL,
+                questions=[
+                    RadioButtons(
+                        name="type",
+                        options=[
+                            Option(key="commercial", value="Commercial"),
+                            Option(key="individual", value="Individual"),
+                        ],
+                    )
+                ],
+                default_button_name=strings.CONTINUE,
+            ),
             conditional(
                 individual,
                 Form(
