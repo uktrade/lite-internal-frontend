@@ -71,10 +71,6 @@ def respond_to_clc_query_form(request, case):
 
 def respond_to_grading_query_form(case):
     pvs = get_gov_pv_gradings(request=None, convert_to_options=True)
-    out = {}
-    for pv in pvs:
-        for key, value in pv:
-            out[pv] = value
     return Form(
         title=cases.RespondGradingQueryForm.TITLE,
         questions=[
@@ -86,7 +82,7 @@ def respond_to_grading_query_form(case):
                     TextInput(title=cases.RespondGradingQueryForm.Grading.PREFIX, name="prefix", optional=True),
                     Select(
                         # request not supplied since static endpoints don't require it.
-                        options=out,
+                        options=pvs,
                         title=cases.RespondGradingQueryForm.Grading.GRADING,
                         name="grading",
                     ),
