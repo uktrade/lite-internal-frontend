@@ -36,5 +36,5 @@ class OrganisationPage(BasePage):
             "type": row.find_element_by_id("type").text,
             "eori-number": row.find_element_by_id("eori-number").text,
             "sic-number": row.find_element_by_id("sic-number").text,
-            "vat-number": row.find_element_by_id("vat-number").text
+            "vat-number": row.find_element_by_id("vat-number").text,
         }

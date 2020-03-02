@@ -22,10 +22,10 @@ def verify_registered_organisation(driver, context):
     driver.find_element_by_id(OrganisationsPage(driver).INPUT_SEARCH_TERM_ID).send_keys(context.org_name)
     driver.find_element_by_id("button-apply-filters").click()
     row = OrganisationPage(driver).get_organisation_row()
-    assert context.org_name == row['name']
-    assert context.eori == row['eori-number']
-    assert context.sic == row['sic-number']
-    assert context.vat == row['vat-number']
+    assert context.org_name == row["name"]
+    assert context.eori == row["eori-number"]
+    assert context.sic == row["sic-number"]
+    assert context.vat == row["vat-number"]
 
 
 @then("HMRC organisation is registered")
@@ -164,7 +164,7 @@ def click_organisation_to_edit(driver, context):
 @then("The organisation is listed on the organisations page")
 def check_organisation_list(driver, context):
     row = OrganisationPage(driver).get_organisation_row(context.org_id)
-    assert context.org_name == row['name']
-    assert context.eori == row['eori-number']
-    assert context.sic == row['sic-number']
-    assert context.vat == row['vat-number']
+    assert context.org_name == row["name"]
+    assert context.eori == row["eori-number"]
+    assert context.sic == row["sic-number"]
+    assert context.vat == row["vat-number"]
