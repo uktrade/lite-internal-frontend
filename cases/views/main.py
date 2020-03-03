@@ -51,7 +51,7 @@ class Cases(TemplateView):
         case_type = request.GET.get("case_type")
         status = request.GET.get("status")
         sort = request.GET.get("sort")
-        queue_id = request.GET.get("queue_id")
+        queue_id = request.GET.get("queue_id", ALL_CASES_QUEUE_ID)
         case_officer = request.GET.get("case_officer")
         assigned_user = request.GET.get("assigned_user")
 
