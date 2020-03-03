@@ -85,6 +85,7 @@ def fill_out_individual_registration_page(driver, first_last_name, eori, email, 
     organisations_form_page.enter_email(email)
     context.organisation_name = first_last_name
     organisations_form_page.enter_eori_number(eori)
+    context.eori = eori
     functions.click_submit(driver)
 
 
