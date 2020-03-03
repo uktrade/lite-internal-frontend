@@ -215,7 +215,7 @@
 
 	<script nonce="{{ request.csp_nonce }}">
 		tippy('.app-cases__row__attention-needed', {
-		  content: "This case hasn't been updated in over five days"
+		  content: "{% lcs 'cases.CasesListPage.NOT_UPDATED_RECENTLY' %}"
 		});
 
 		function toggleDropdown() {
