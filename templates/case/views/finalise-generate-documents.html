@@ -17,17 +17,17 @@
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
-			{% for document in required_documents %}
+			{% for decision in decisions %}
 				<tr class="govuk-table__row">
-					<th scope="row" class="govuk-table__header">{{ document.name }}</th>
-					{% if document.generated_document %}
+					<th scope="row" class="govuk-table__header">{{ decision.type.value }}</th>
+					{% if decision.document %}
 						<td class="govuk-table__cell">
 							<div data-status="done" class="lite-tag lite-tag--blue" style="margin: 0;">
 								Done
 							</div>
 						</td>
-						<td class="govuk-table__cell">{{ document.generated_document.user.first_name }} {{ document.generated_document.user.last_name }}</td>
-						<td class="govuk-table__cell">{{ document.generated_document.created_at }}</td>
+						<td class="govuk-table__cell">{{ decision.document.user.first_name }} {{ decision.document.generated_document.user.last_name }}</td>
+						<td class="govuk-table__cell">{{ decision.document.created_at }}</td>
 						<td class="govuk-table__cell">
 							<a class="govuk-button govuk-button--secondary" data-module="govuk-button" style="margin: 0;">
 								Regenerate

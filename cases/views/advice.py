@@ -368,28 +368,13 @@ class Finalise(TemplateView):
 
 class FinaliseGenerateDocuments(TemplateView):
     def get(self, request, pk):
-        required_documents = [
-            {
-                "name": "test",
-                "generated_document": None,
-            },
-            {
-                "name": "test2",
-                "generated_document": {
-                    "id": "123",
-                    "user": {
-                       "first_name": "Ben",
-                       "last_name": "Andrew"
-                    },
-                    "created_at": "2020-03-03 12:37:45"
-                },
-            },
-        ]
-        can_submit = all([docs["generated_document"] for docs in required_documents])
+        decisions, _ = get_final_case_advice(request, str(pk), documents=True)
+        decisions = decisions["advice"]
+        can_submit = all([decision["document"] for decision in decisions])
 
         context = {
             "title": "Generate Decision Documents",
             "can_submit": can_submit,
-            "required_documents": required_documents,
+            "decisions": decisions,
         }
         return render(request, "case/views/finalise-generate-documents.html", context)

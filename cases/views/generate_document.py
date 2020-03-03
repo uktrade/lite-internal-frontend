@@ -19,10 +19,9 @@ TEXT = "text"
 
 
 class SelectTemplate(TemplateView):
-    def get(self, request, pk):
-        page = request.GET.get("page")
-        if not page:
-            page = 1
+    def get(self, request, **kwargs):
+        pk = kwargs["pk"]
+        page = request.GET.get("page", 1)
         templates, _ = get_letter_templates(request, convert_dict_to_query_params({"case": pk, "page": page}))
         return form_page(request, select_template_form(templates["results"], templates["total_pages"], pk))
 
