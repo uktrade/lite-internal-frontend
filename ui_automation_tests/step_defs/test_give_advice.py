@@ -1,7 +1,6 @@
 from datetime import date
 
 from pytest_bdd import when, then, parsers, scenarios, given
-from selenium.webdriver.support.select import Select
 
 from pages.application_page import ApplicationPage
 from pages.give_advice_pages import GiveAdvicePages
@@ -177,7 +176,9 @@ def total_goods_value(driver, context):
 @then("I dont see clearance level")
 def dont_see_clearance_level(driver):
     driver.set_timeout_to(0)
-    assert len(GiveAdvicePages(driver).clearance_grading_present()) == 0, "clearance level is displayed when it shouldn't be"
+    assert (
+        len(GiveAdvicePages(driver).clearance_grading_present()) == 0
+    ), "clearance level is displayed when it shouldn't be"
     driver.set_timeout_to(10)
 
 
