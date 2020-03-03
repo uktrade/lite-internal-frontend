@@ -1,7 +1,6 @@
 from datetime import date
 
 from pytest_bdd import when, then, parsers, scenarios, given
-from selenium.webdriver.support.select import Select
 
 from pages.application_page import ApplicationPage
 from pages.give_advice_pages import GiveAdvicePages

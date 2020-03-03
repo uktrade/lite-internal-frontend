@@ -35,7 +35,6 @@ Feature: I want to record my user advice and any comments and conditions relatin
     When I go to application previously created
     And I click on view advice
     Then I see total goods value
-    And I dont see clearance level
     When I select all items in the advice view
     And I choose to 'approve' the licence
     Then I dont see clearance level
