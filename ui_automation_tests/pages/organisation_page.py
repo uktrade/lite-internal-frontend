@@ -1,4 +1,3 @@
-from pages.organisations_page import OrganisationsPage
 from shared.BasePage import BasePage
 
 from ui_automation_tests.shared.tools.helpers import paginated_item_exists
