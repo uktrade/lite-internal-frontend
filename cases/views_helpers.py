@@ -85,6 +85,7 @@ def _can_user_create_and_edit_advice(case, permissions):
         Permission.MANAGE_TEAM_ADVICE.value in permissions and not case.get("has_advice").get("my_user")
     )
 
+
 def render_form_page(get_advice, request, case, form, team=None):
     """
     :param get_advice: This is a service method to get the advice from a particular level
@@ -162,7 +163,7 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
         "consignee": selected_advice_data.get("consignee"),
         "data": pre_data,
         "level": user_team_final,
-        "show_clearance": CaseType.is_mod(case["case_type"]["sub_type"]["key"])
+        "show_clearance": CaseType.is_mod(case["case_type"]["sub_type"]["key"]),
     }
     return render(request, form, context)
 
