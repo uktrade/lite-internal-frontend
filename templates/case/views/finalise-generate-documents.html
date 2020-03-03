@@ -1,0 +1,66 @@
+{% extends 'layouts/base.html' %}
+
+{% block back_link %}{% endblock %}
+
+{% block body %}
+	<h1 class="govuk-heading-l">{{ title }}</h1>
+
+	<table class="govuk-table">
+		<thead class="govuk-table__head">
+			<tr class="govuk-table__row">
+				<th scope="col" class="govuk-table__header">Name</th>
+				<th scope="col" class="govuk-table__header">Status</th>
+				<th scope="col" class="govuk-table__header">Added by</th>
+				<th scope="col" class="govuk-table__header">Date</th>
+				<th scope="col" class="govuk-table__header"></th>
+				<th scope="col" class="govuk-table__header"></th>
+			</tr>
+		</thead>
+		<tbody class="govuk-table__body">
+			{% for document in required_documents %}
+				<tr class="govuk-table__row">
+					<th scope="row" class="govuk-table__header">{{ document.name }}</th>
+					{% if document.generated_document %}
+						<td class="govuk-table__cell">
+							<div data-status="done" class="lite-tag lite-tag--blue" style="margin: 0;">
+								Done
+							</div>
+						</td>
+						<td class="govuk-table__cell">{{ document.generated_document.user.first_name }} {{ document.generated_document.user.last_name }}</td>
+						<td class="govuk-table__cell">{{ document.generated_document.created_at }}</td>
+						<td class="govuk-table__cell">
+							<a class="govuk-button govuk-button--secondary" data-module="govuk-button" style="margin: 0;">
+								Regenerate
+							</a>
+						</td>
+						<td class="govuk-table__cell">
+							<a class="govuk-link" href="#">
+								View
+							</a>
+						</td>
+					{% else %}
+						<td class="govuk-table__cell">
+							<div data-status="done" class="lite-tag lite-tag--hollow" style="margin: 0;">
+								Not started
+							</div>
+						</td>
+						<td class="govuk-table__cell"></td>
+						<td class="govuk-table__cell"></td>
+						<td class="govuk-table__cell">
+							<a class="govuk-button" data-module="govuk-button" style="margin: 0;">
+								Generate
+							</a>
+						</td>
+						<td class="govuk-table__cell"></td>
+					{% endif %}
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{% if can_submit %}
+		<a class="govuk-button" data-module="govuk-button">
+			Confirm Documents
+		</a>
+	{% endif %}
+{% endblock %}

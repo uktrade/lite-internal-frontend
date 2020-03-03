@@ -363,4 +363,33 @@ class Finalise(TemplateView):
             )
             return form_page(request, form, data=data, errors=res.json()["errors"])
 
-        return redirect(reverse_lazy("cases:case", kwargs={"pk": case["id"]}))
+        return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": case["id"]}))
+
+
+class FinaliseGenerateDocuments(TemplateView):
+    def get(self, request, pk):
+        required_documents = [
+            {
+                "name": "test",
+                "generated_document": None,
+            },
+            {
+                "name": "test2",
+                "generated_document": {
+                    "id": "123",
+                    "user": {
+                       "first_name": "Ben",
+                       "last_name": "Andrew"
+                    },
+                    "created_at": "2020-03-03 12:37:45"
+                },
+            },
+        ]
+        can_submit = all([docs["generated_document"] for docs in required_documents])
+
+        context = {
+            "title": "Generate Decision Documents",
+            "can_submit": can_submit,
+            "required_documents": required_documents,
+        }
+        return render(request, "case/views/finalise-generate-documents.html", context)
