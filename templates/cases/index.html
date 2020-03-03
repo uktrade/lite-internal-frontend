@@ -179,7 +179,7 @@
 								</a>
 							</td>
 							<td class="cases-table__cell govuk-table__cell--numeric">
-								{% if case.is_recently_updated %}
+								{% if case.is_recently_updated and data.results.queue.id != '00000000-0000-0000-0000-000000000001' %}
 									<span class="app-cases__row__attention-needed">
 										!
 									</span>
