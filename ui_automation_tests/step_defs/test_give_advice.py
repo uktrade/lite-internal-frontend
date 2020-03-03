@@ -177,7 +177,9 @@ def total_goods_value(driver, context):
 @then("I dont see clearance level")
 def dont_see_clearance_level(driver):
     driver.set_timeout_to(0)
-    assert len(GiveAdvicePages(driver).clearance_grading_present()) == 0, "clearance level is displayed when it shouldn't be"
+    assert (
+        len(GiveAdvicePages(driver).clearance_grading_present()) == 0
+    ), "clearance level is displayed when it shouldn't be"
     driver.set_timeout_to(10)
 
 
