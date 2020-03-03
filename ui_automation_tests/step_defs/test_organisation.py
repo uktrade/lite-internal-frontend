@@ -19,13 +19,26 @@ def verify_registered_organisation(driver, context):
     # Assert that the success info bar is visible
     assert functions.element_with_css_selector_exists(driver, ".lite-info-bar")
     driver.find_element_by_id("show-filters-link").click()
-    driver.find_element_by_id(OrganisationsPage(driver).INPUT_SEARCH_TERM_ID).send_keys(context.org_name)
+    driver.find_element_by_id(OrganisationsPage(driver).INPUT_SEARCH_TERM_ID).send_keys(context.organisation_name)
     driver.find_element_by_id("button-apply-filters").click()
     row = OrganisationPage(driver).get_organisation_row()
-    assert context.org_name == row["name"]
+    assert context.organisation_name == row["name"]
     assert context.eori == row["eori-number"]
     assert context.sic == row["sic-number"]
     assert context.vat == row["vat-number"]
+
+
+@then("individual organisation is registered")
+def verify_registered_organisation(driver, context):
+    wait_until_page_is_loaded(driver)
+    # Assert that the success info bar is visible
+    assert functions.element_with_css_selector_exists(driver, ".lite-info-bar")
+    driver.find_element_by_id("show-filters-link").click()
+    driver.find_element_by_id(OrganisationsPage(driver).INPUT_SEARCH_TERM_ID).send_keys(context.organisation_name)
+    driver.find_element_by_id("button-apply-filters").click()
+    row = OrganisationPage(driver).get_organisation_row()
+    assert context.organisation_name == row["name"]
+    assert context.eori == row["eori-number"]
 
 
 @then("HMRC organisation is registered")
@@ -57,8 +70,8 @@ def select_organisation_type(driver, individual_or_commercial):
 def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, registration, context):
     if not context.org_registered_status:
         organisations_form_page = OrganisationsFormPage(driver)
-        context.org_name = name + utils.get_formatted_date_time_m_d_h_s()
-        organisations_form_page.enter_name(context.org_name)
+        context.organisation_name = name + utils.get_formatted_date_time_m_d_h_s()
+        organisations_form_page.enter_name(context.organisation_name)
 
         organisations_form_page.enter_eori_number(eori)
         context.eori = eori
@@ -81,9 +94,9 @@ def fill_out_company_details_page_and_continue(driver, name, eori, sic, vat, reg
 )
 def fill_out_individual_registration_page(driver, first_last_name, eori, email, context):
     organisations_form_page = OrganisationsFormPage(driver)
-    organisations_form_page.enter_individual_organisation_first_last_name(first_last_name)
+    context.organisation_name = first_last_name + utils.get_formatted_date_time_m_d_h_s()
+    organisations_form_page.enter_individual_organisation_first_last_name(context.organisation_name)
     organisations_form_page.enter_email(email)
-    context.organisation_name = first_last_name
     organisations_form_page.enter_eori_number(eori)
     context.eori = eori
     functions.click_submit(driver)
@@ -159,13 +172,16 @@ def i_go_to_hmrc(driver, internal_url, context):
 
 @when("I click on an organisation to edit")
 def click_organisation_to_edit(driver, context):
-    OrganisationPage(driver).click_edit_organisation(context.org_id)
+    OrganisationPage(driver).click_edit_organisation(driver, context)
 
 
 @then("The organisation is listed on the organisations page")
 def check_organisation_list(driver, context):
-    row = OrganisationPage(driver).get_organisation_row(context.org_id)
-    assert context.org_name == row["name"]
+    driver.find_element_by_id("show-filters-link").click()
+    driver.find_element_by_id(OrganisationsPage(driver).INPUT_SEARCH_TERM_ID).send_keys(context.organisation_name)
+    driver.find_element_by_id("button-apply-filters").click()
+    row = OrganisationPage(driver).get_organisation_row()
+    assert context.organisation_name == row["name"]
     assert context.eori == row["eori-number"]
     assert context.sic == row["sic-number"]
     assert context.vat == row["vat-number"]
