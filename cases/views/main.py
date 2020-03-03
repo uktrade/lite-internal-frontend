@@ -106,6 +106,7 @@ class Cases(TemplateView):
             "params_str": convert_dict_to_query_params(params),
             "updated_cases_banner_queue_id": updated_cases_banner_queue_id,
             "filters": filters,
+            "is_all_cases_queue": queue_id == DEFAULT_QUEUE_ID,
         }
 
         return render(request, "cases/index.html", context)
