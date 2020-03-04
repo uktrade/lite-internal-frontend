@@ -40,8 +40,14 @@ urlpatterns = [
         "<uuid:pk>/finalise-goods-countries/", advice.FinaliseGoodsCountries.as_view(), name="finalise_goods_countries"
     ),
     path("<uuid:pk>/finalise/", advice.Finalise.as_view(), name="finalise"),
-    path("<uuid:pk>/finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"),
-    path("<uuid:pk>/finalise/generate-document/<uuid:decision_id>/select-template/", generate_document.SelectTemplate.as_view(), name="finalise_document_template"),
+    path(
+        "<uuid:pk>/finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"
+    ),
+    path(
+        "<uuid:pk>/finalise/generate-document/<uuid:decision_id>/select-template/",
+        generate_document.SelectTemplate.as_view(),
+        name="finalise_document_template",
+    ),
     path("<uuid:pk>/ecju-queries/", ecju.ViewEcjuQueries.as_view(), name="ecju_queries"),
     path("<uuid:pk>/ecju-queries/add", ecju.CreateEcjuQuery.as_view(), name="ecju_queries_add"),
     path("<uuid:pk>/respond-to-clc-query/", goods_query.RespondCLCQuery.as_view(), name="respond_to_clc_query"),

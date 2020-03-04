@@ -6,8 +6,12 @@ from django.views.generic import TemplateView
 from lite_forms.components import BackLink
 
 from cases.forms.generate_document import select_template_form, edit_document_text_form, add_paragraphs_form
-from cases.services import post_generated_document, get_generated_document_preview, get_generated_document, \
-    get_final_case_advice
+from cases.services import (
+    post_generated_document,
+    get_generated_document_preview,
+    get_generated_document,
+    get_final_case_advice,
+)
 from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates, get_letter_template
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
