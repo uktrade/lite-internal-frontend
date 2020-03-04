@@ -57,7 +57,7 @@
    {% if type == 'approve' or type == 'proviso' %}
         {% if show_clearance %}
             <div class="govuk-form-group {% if errors|key_value:'option' %}govuk-form-group--error{% endif %}">
-                <div class="govuk-heading-m">Select a grading<br>
+                <div class="govuk-heading-m">{% lcs 'cases.Advice.SELECT_GRADING' %}<br>
                     <select id="pv_grading" name="pv_grading" class="govuk-select {% if error %}govuk-select--error{% endif %}" style="min-width: 300px;">
                     {% for grading in pv_gradings %}
                         {% for key, value in grading.items %}
