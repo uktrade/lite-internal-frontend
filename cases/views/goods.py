@@ -89,7 +89,7 @@ class ReviewGoodsClc(TemplateView):
 
     def get(self, request, *args, **kwargs):
         case = get_case(request, self.case_id)
-        if case["application"]["case_type"]["sub_type"]["key"] not in [CaseType.OPEN, CaseType.HMRC]:
+        if case["application"]["case_type"]["sub_type"]["key"] not in [CaseType.OPEN.value, CaseType.HMRC.value]:
             get_good_func = get_good
             form = review_goods_clc_query_form(request, self.back_link, is_goods_type=False)
         else:
