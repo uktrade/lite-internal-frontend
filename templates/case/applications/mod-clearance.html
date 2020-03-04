@@ -147,7 +147,7 @@
 					                	{{ good_on_application.good.description }}
 					                </td>
 									{% if case.case_type.sub_type.key == "exhibition_clearance"  %}
-										<td class="govuk-table__cell">{{ good_on_application.item_type|title }}</td>
+										<td class="govuk-table__cell">{{ good_on_application.other_item_type|title }}</td>
 									{% else %}
 										<td class="govuk-table__cell">{{ good_on_application.quantity }} {{ good_on_application.unit.value }}/£{{ good_on_application.value|intcomma }}</td>
 									{% endif %}
