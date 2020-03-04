@@ -41,7 +41,7 @@ class ReviewGoods(TemplateView):
         goods_postfix_url = "?" + convert_dict_to_query_params(parameters)
         case_type = case["application"]["case_type"]["sub_type"]["key"]
 
-        if case_type not in [CaseType.OPEN, CaseType.HMRC]:
+        if case_type not in [CaseType.OPEN.value, CaseType.HMRC.value]:
             for good in case["application"]["goods"]:
                 if good["good"]["id"] in goods_pk_list:
                     # flatten the good details onto the first layer of the dictionary
