@@ -37,6 +37,7 @@ from cases.views_helpers import (
 )
 from conf.constants import DECISIONS_LIST, Permission
 from core import helpers
+from core.helpers import convert_dict_to_query_params
 from lite_forms.generators import form_page, error_page
 
 
@@ -368,11 +369,12 @@ class Finalise(TemplateView):
 
 class FinaliseGenerateDocuments(TemplateView):
     def get(self, request, pk):
-        decisions, _ = get_final_case_advice(request, str(pk), documents=True)
+        decisions, _ = get_final_case_advice(request, str(pk), params=convert_dict_to_query_params({"documents": True}))
         decisions = decisions["advice"]
         can_submit = all([decision["document"] for decision in decisions])
 
         context = {
+            "case_id": str(pk),
             "title": "Generate Decision Documents",
             "can_submit": can_submit,
             "decisions": decisions,
