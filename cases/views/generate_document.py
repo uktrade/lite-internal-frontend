@@ -194,44 +194,37 @@ class PreviewDocument(TemplateView):
         )
 
 
-class CreateDocumentView(TemplateView):
-    def __init__(self, action: callable):
-        super().__init__()
-        self.action = action
-
-    def post(self, request, **kwargs):
+class CreateDocument(TemplateView):
+    def post(self, request, pk, tpk):
         text = request.POST.get(TEXT)
         if not text:
             return generate_document_error_page()
 
         data, status_code = post_generated_document(
-            request, str(kwargs["pk"]), {"template": str(kwargs["tpk"]), TEXT: text}
+            request, str(pk), {"template": str(tpk), TEXT: text, "visible_to_exporter": True}
         )
         if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
         else:
-            return self.action(request, data, kwargs)
+            return redirect(reverse_lazy("cases:documents", kwargs={"pk": str(pk)}))
 
 
-class CreateDocument(CreateDocumentView):
-    @staticmethod
-    def action(request, data, kwargs):  # noqa
-        return redirect(reverse_lazy("cases:documents", kwargs={"pk": str(kwargs["pk"])}))
+class CreateDocumentFinalAdvice(TemplateView):
+    def post(self, request, pk, decision_id, tpk):
+        text = request.POST.get(TEXT)
+        if not text:
+            return generate_document_error_page()
 
-    def __init__(self):
-        super().__init__(self.action)
-
-
-class CreateDocumentFinalAdvice(CreateDocumentView):
-    @staticmethod
-    def action(request, data, kwargs):  # noqa
-        status_code = post_final_case_advice_document(
-            request, str(kwargs["pk"]), {"generated_document": data, "decision": str(kwargs["decision_id"])}
+        data, status_code = post_generated_document(
+            request, str(pk), {"template": str(tpk), TEXT: text, "visible_to_exporter": False}
         )
-        if status_code != HTTPStatus.OK:
+        if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
         else:
-            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
-
-    def __init__(self):
-        super().__init__(self.action)
+            status_code = post_final_case_advice_document(
+                request, str(pk), {"generated_document": data, "decision": str(decision_id)}
+            )
+            if status_code != HTTPStatus.OK:
+                return generate_document_error_page()
+            else:
+                return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(pk)}))
