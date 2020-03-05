@@ -44,9 +44,14 @@ urlpatterns = [
         "<uuid:pk>/finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"
     ),
     path(
-        "<uuid:pk>/finalise/generate-document/<uuid:decision_id>/select-template/",
+        "<uuid:pk>/finalise/<uuid:decision_id>/generate-document/select-template/",
         generate_document.SelectTemplateFinalAdvice.as_view(),
         name="finalise_document_template",
+    ),
+    path(
+        "<uuid:pk>/finalise/<uuid:decision_id>/generate-document/<uuid:tpk>/edit/",
+        generate_document.EditTextFinalAdvice.as_view(),
+        name="finalise_document_edit_text",
     ),
     path("<uuid:pk>/ecju-queries/", ecju.ViewEcjuQueries.as_view(), name="ecju_queries"),
     path("<uuid:pk>/ecju-queries/add", ecju.CreateEcjuQuery.as_view(), name="ecju_queries_add"),

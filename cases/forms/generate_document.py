@@ -26,7 +26,7 @@ def select_template_form(templates, total_pages, case_id, back_link):
     )
 
 
-def edit_document_text_form(backlink, kwargs):
+def edit_document_text_form(backlink, kwargs, post_url):
     return Form(
         title=GenerateDocumentsPage.EditTextForm.HEADING,
         questions=[
@@ -40,7 +40,7 @@ def edit_document_text_form(backlink, kwargs):
         ],
         default_button_name=GenerateDocumentsPage.EditTextForm.BUTTON,
         back_link=backlink,
-        post_url=reverse_lazy("cases:generate_document_preview", kwargs=kwargs),
+        post_url=reverse_lazy(post_url, kwargs=kwargs),
     )
 
 
