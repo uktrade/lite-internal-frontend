@@ -356,8 +356,6 @@ def _get_total_goods_value(case):
     for good in case.get("application").get("goods", []):
         if good.get("value"):
             total_value += Decimal(good["value"]).quantize(Decimal(".01"))
-        else:
-            return None
     return total_value
 
 

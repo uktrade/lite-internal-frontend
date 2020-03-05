@@ -71,7 +71,7 @@ def str_date(value):
 @stringfilter
 def str_date_only(value):
     return_value = do_timezone(datetime.datetime.strptime(value, DATE_NO_TIME), "Europe/London")
-    return return_value.strftime("%d %B " "%Y")
+    return return_value.strftime("%d %B %Y")
 
 
 @register.filter()
