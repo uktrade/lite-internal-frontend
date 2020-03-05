@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -23,25 +24,51 @@ from picklists.services import get_picklists
 TEXT = "text"
 
 
-class SelectTemplate(TemplateView):
+class PickTemplateView(TemplateView):
+    def __init__(self, decision, back_url, success_url, back_text):
+        super().__init__()
+        self.decision = decision
+        self.back_url = back_url
+        self.success_url = success_url
+        self.back_text = back_text
+
     def get(self, request, **kwargs):
         pk = kwargs["pk"]
         page = request.GET.get("page", 1)
         params = {"case": pk, "page": page}
-        decision_id = kwargs.get("decision_id")
-        if decision_id:
-            params["decision"] = decision_id
+        if self.decision:
+            params["decision"] = kwargs.get("decision_id")
         templates, _ = get_letter_templates(request, convert_dict_to_query_params(params))
-        return form_page(request, select_template_form(templates["results"], templates["total_pages"], pk))
+        back_link = BackLink(text=self.back_text, url=reverse_lazy(self.back_url, kwargs={"pk": pk}),)
+        return form_page(
+            request, select_template_form(templates["results"], templates["total_pages"], pk, back_link=back_link)
+        )
 
     def post(self, request, **kwargs):
         template_id = request.POST.get("template")
         if template_id:
-            return redirect(
-                reverse_lazy("cases:generate_document_edit", kwargs={"pk": str(kwargs["pk"]), "tpk": template_id})
-            )
+            kwargs["tpk"] = template_id
+            return redirect(reverse_lazy(self.success_url, kwargs=kwargs))
         else:
-            return redirect(reverse_lazy("cases:generate_document", kwargs={"pk": str(kwargs["pk"])}))
+            return HttpResponseRedirect(request.path_info)
+
+
+class SelectTemplate(PickTemplateView):
+    def __init__(self):
+        decision = False
+        back_text = GenerateDocumentsPage.SelectTemplateForm.BACK_LINK
+        back_url = "cases:generate_document"
+        success_url = "cases:generate_document_edit"
+        super().__init__(decision, back_url, success_url, back_text)
+
+
+class SelectTemplateFinalAdvice(PickTemplateView):
+    def __init__(self):
+        decision = True
+        back_text = "Back to Final Advice"
+        back_url = "cases:finalise_documents"
+        success_url = "cases:generate_document_edit"
+        super().__init__(decision, back_url, success_url, back_text)
 
 
 class EditDocumentText(SingleFormView):

@@ -45,7 +45,7 @@ urlpatterns = [
     ),
     path(
         "<uuid:pk>/finalise/generate-document/<uuid:decision_id>/select-template/",
-        generate_document.SelectTemplate.as_view(),
+        generate_document.SelectTemplateFinalAdvice.as_view(),
         name="finalise_document_template",
     ),
     path("<uuid:pk>/ecju-queries/", ecju.ViewEcjuQueries.as_view(), name="ecju_queries"),

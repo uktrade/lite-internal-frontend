@@ -8,7 +8,7 @@ from lite_forms.components import Form, RadioButtonsImage, Option, BackLink, Che
 ADD_PARAGRAPH_KEY = "add_paragraphs"
 
 
-def select_template_form(templates, total_pages, case_id):
+def select_template_form(templates, total_pages, case_id, back_link):
     return Form(
         title=letter_templates.LetterTemplatesPage.PickTemplate.TITLE,
         questions=[
@@ -22,10 +22,7 @@ def select_template_form(templates, total_pages, case_id):
             )
         ],
         default_button_name=letter_templates.LetterTemplatesPage.PickTemplate.BUTTON,
-        back_link=BackLink(
-            text=GenerateDocumentsPage.SelectTemplateForm.BACK_LINK,
-            url=reverse_lazy("cases:documents", kwargs={"pk": case_id}),
-        ),
+        back_link=back_link,
     )
 
 
