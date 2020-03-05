@@ -97,7 +97,10 @@ class Cases(TemplateView):
                     title=CasesListPage.Filters.ASSIGNED_USER,
                     options=[Option("not_assigned", CasesListPage.Filters.NOT_ASSIGNED), *gov_users],
                 ),
-                conditional(data["results"]["is_work_queue"], Checkboxes(name="hidden", title="hidden cases", options=[Option("true", "Include hidden cases")]))
+                conditional(
+                    data["results"]["is_work_queue"],
+                    Checkboxes(name="hidden", options=[Option("true", "Show cases with open enquiries by your team")]),
+                ),
             ]
         )
 
