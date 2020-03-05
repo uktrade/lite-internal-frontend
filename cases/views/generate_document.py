@@ -215,7 +215,7 @@ class CreateDocumentView(TemplateView):
 
 class CreateDocument(CreateDocumentView):
     @staticmethod
-    def action(request, data, kwargs):
+    def action(request, data, kwargs):  # noqa
         return redirect(reverse_lazy("cases:documents", kwargs={"pk": str(kwargs["pk"])}))
 
     def __init__(self):
@@ -224,7 +224,7 @@ class CreateDocument(CreateDocumentView):
 
 class CreateDocumentFinalAdvice(CreateDocumentView):
     @staticmethod
-    def action(request, data, kwargs):
+    def action(request, data, kwargs):  # noqa
         status_code = post_final_case_advice_document(
             request, str(kwargs["pk"]), {"generated_document": data, "decision": str(kwargs["decision_id"])}
         )
