@@ -5,6 +5,21 @@
 {% block body %}
 	<h1 class="govuk-heading-l">{{ title }}</h1>
 
+	{% if errors %}
+		<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
+			<h2 class="govuk-error-summary__title">
+				Errors
+			</h2>
+			<div class="govuk-error-summary__body">
+				<ul class="govuk-list govuk-error-summary__list">
+					<li>
+						{{ errors }}
+					</li>
+				</ul>
+			</div>
+		</div>
+	{% endif %}
+
 	<table class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
@@ -59,8 +74,11 @@
 	</table>
 
 	{% if can_submit %}
-		<a class="govuk-button" data-module="govuk-button">
-			Confirm Documents
-		</a>
+		<form action="{% url "cases:finalise_documents" case_id %}" method="post">
+			{% csrf_token %}
+			<button type="submit" class="govuk-button" data-module="govuk-button">
+				Confirm Documents
+			</button>
+		</form>
 	{% endif %}
 {% endblock %}

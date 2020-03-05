@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
@@ -26,7 +28,7 @@ from cases.services import (
     _generate_data_and_keys,
     _generate_post_data_and_errors,
     get_application_default_duration,
-)
+    grant_licence)
 from cases.views_helpers import (
     get_case_advice,
     render_form_page,
@@ -368,7 +370,8 @@ class Finalise(TemplateView):
 
 
 class FinaliseGenerateDocuments(TemplateView):
-    def get(self, request, pk):
+    @staticmethod
+    def get_page(request, pk, errors=None):
         decisions, _ = get_final_case_advice(request, str(pk), params=convert_dict_to_query_params({"documents": True}))
         decisions = decisions["advice"]
         can_submit = all([decision["document"] for decision in decisions])
@@ -378,5 +381,14 @@ class FinaliseGenerateDocuments(TemplateView):
             "title": "Generate Decision Documents",
             "can_submit": can_submit,
             "decisions": decisions,
+            "errors": errors
         }
         return render(request, "case/views/finalise-generate-documents.html", context)
+
+    def get(self, request, pk):
+        return self.get_page(request, pk)
+
+    def post(self, request, pk):
+        data, status_code = grant_licence(request, str(pk))
+        if status_code != HTTPStatus.CREATED:
+            return self.get_page(request, pk, errors=data["errors"])

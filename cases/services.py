@@ -162,6 +162,11 @@ def get_final_case_advice(request, case_pk, params=None):
     return data.json(), data.status_code
 
 
+def grant_licence(request, case_pk):
+    data = put(request, CASE_URL + case_pk + "/grant-licence/", {})
+    return data.json(), data.status_code
+
+
 def coalesce_team_advice(request, case_pk):
     data = get(request, CASE_URL + case_pk + FINAL_ADVICE_URL)
     return data.json(), data.status_code
