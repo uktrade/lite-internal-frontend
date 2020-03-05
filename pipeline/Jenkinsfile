@@ -123,6 +123,7 @@ try
   catch (error)
   {
     error.message
+    currentBuild.result = "UNSTABLE"
   }
 }
 
