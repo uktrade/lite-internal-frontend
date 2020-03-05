@@ -13,6 +13,7 @@ from cases.services import (
     post_generated_document,
     get_generated_document_preview,
     get_generated_document,
+    post_final_case_advice_document,
 )
 from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates, get_letter_template
@@ -91,10 +92,7 @@ class EditDocumentTextView(SingleFormView):
         # Remove tpk ID kwarg
         back_link_kwargs = kwargs.copy()
         back_link_kwargs.pop("tpk", None)
-        backlink = BackLink(
-            text=self.back_text,
-            url=reverse_lazy(self.back_url, kwargs=back_link_kwargs),
-        )
+        backlink = BackLink(text=self.back_text, url=reverse_lazy(self.back_url, kwargs=back_link_kwargs),)
 
         # If regenerating, get existing text for a given document ID
         if "document_id" in request.GET:
@@ -192,9 +190,7 @@ class PreviewDocument(TemplateView):
             return generate_document_error_page()
 
         return render(
-            request,
-            "generated_documents/preview.html",
-            {"preview": preview["preview"], TEXT: text, "kwargs": kwargs},
+            request, "generated_documents/preview.html", {"preview": preview["preview"], TEXT: text, "kwargs": kwargs},
         )
 
 
@@ -208,18 +204,18 @@ class CreateDocumentView(TemplateView):
         if not text:
             return generate_document_error_page()
 
-        template_id = str(kwargs["tpk"])
-        case_id = str(kwargs["pk"])
-        status_code = post_generated_document(request, case_id, {"template": template_id, TEXT: text})
+        data, status_code = post_generated_document(
+            request, str(kwargs["pk"]), {"template": str(kwargs["tpk"]), TEXT: text}
+        )
         if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
         else:
-            return self.action(kwargs)
+            return self.action(request, data, kwargs)
 
 
 class CreateDocument(CreateDocumentView):
     @staticmethod
-    def action(kwargs):
+    def action(request, data, kwargs):
         return redirect(reverse_lazy("cases:documents", kwargs={"pk": str(kwargs["pk"])}))
 
     def __init__(self):
@@ -228,7 +224,10 @@ class CreateDocument(CreateDocumentView):
 
 class CreateDocumentFinalAdvice(CreateDocumentView):
     @staticmethod
-    def action(kwargs):
+    def action(request, data, kwargs):
+        status_code = post_final_case_advice_document(
+            request, str(kwargs["pk"]), {"generated_document": data, "decision": str(kwargs["decision_id"])}
+        )
         return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
 
     def __init__(self):
