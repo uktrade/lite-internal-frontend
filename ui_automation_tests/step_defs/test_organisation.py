@@ -27,7 +27,7 @@ def verify_registered_organisation(driver, context):
 
 
 @then("organisation is edited")
-def verify_registered_organisation(driver, context):
+def verify_edited_organisation(driver, context):
     wait_until_page_is_loaded(driver)
     # Assert that the success info bar is visible
     OrganisationsPage(driver).search_for_org_in_filter(context.organisation_name)
@@ -39,7 +39,7 @@ def verify_registered_organisation(driver, context):
 
 
 @then("individual organisation is registered")
-def verify_registered_organisation(driver, context):
+def verify_registered_individual_organisation(driver, context):
     wait_until_page_is_loaded(driver)
     # Assert that the success info bar is visible
     assert functions.element_with_css_selector_exists(driver, ".lite-info-bar")
@@ -56,7 +56,7 @@ def verify_hmrc_registered_organisation(driver, context):
 
 
 @when("I add a new commercial organisation")
-def i_choose_to_add_a_new_organisation(driver, context):
+def i_choose_to_add_a_new_commercial_organisation(driver, context):
     OrganisationsPage(driver).click_new_organisation_btn()
     organisations_form_page = OrganisationsFormPage(driver)
     organisations_form_page.select_type("commercial")
@@ -68,7 +68,7 @@ def i_choose_to_add_a_new_organisation(driver, context):
 
 
 @when("I add a new individual organisation")
-def i_choose_to_add_a_new_organisation(driver, context):
+def i_choose_to_add_a_new_individual_organisation(driver, context):
     OrganisationsPage(driver).click_new_organisation_btn()
     organisations_form_page = OrganisationsFormPage(driver)
     organisations_form_page.select_type("individual")
@@ -76,8 +76,8 @@ def i_choose_to_add_a_new_organisation(driver, context):
     organisations_form_page.fill_in_site_info_page_2(context)
 
 
-@when("I add a new hmrc organisation")
-def i_choose_to_add_a_new_organisation(driver, context):
+@when("I add a new HMRC organisation")
+def i_choose_to_add_a_new_hmrc_organisation(driver, context):
     OrganisationsPage(driver).click_new_organisation_btn()
     context.hmrc_org_name = fake.company() + " " + fake.company_suffix()
     organisations_form_page = OrganisationsFormPage(driver)

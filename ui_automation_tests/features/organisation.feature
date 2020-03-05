@@ -24,7 +24,7 @@ Feature: I want to add a company to LITE
   Scenario: Test registering a HMRC organisation
     Given I sign in to SSO or am signed into SSO
     When I go to HMRC
-    And I add a new hmrc organisation
+    And I add a new HMRC organisation
     And I go to organisations
     Then HMRC organisation is registered
 
