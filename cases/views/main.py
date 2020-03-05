@@ -99,7 +99,11 @@ class Cases(TemplateView):
                 ),
                 conditional(
                     data["results"]["is_work_queue"],
-                    Checkboxes(name="hidden", options=[Option("true", CasesListPage.Filters.HIDDEN)]),
+                    Checkboxes(
+                        name="hidden",
+                        options=[Option("true", CasesListPage.Filters.HIDDEN)],
+                        classes=["govuk-checkboxes--small"],
+                    ),
                 ),
             ]
         )
