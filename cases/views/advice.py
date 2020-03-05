@@ -392,3 +392,5 @@ class FinaliseGenerateDocuments(TemplateView):
         data, status_code = grant_licence(request, str(pk))
         if status_code != HTTPStatus.CREATED:
             return self.get_page(request, pk, errors=data["errors"])
+        else:
+            return redirect(reverse_lazy("cases:case", kwargs={"pk": pk}))
