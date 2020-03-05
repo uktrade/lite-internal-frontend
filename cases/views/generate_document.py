@@ -228,7 +228,10 @@ class CreateDocumentFinalAdvice(CreateDocumentView):
         status_code = post_final_case_advice_document(
             request, str(kwargs["pk"]), {"generated_document": data, "decision": str(kwargs["decision_id"])}
         )
-        return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
+        if status_code != HTTPStatus.OK:
+            return generate_document_error_page()
+        else:
+            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
 
     def __init__(self):
         super().__init__(self.action)

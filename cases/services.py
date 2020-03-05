@@ -246,6 +246,11 @@ def post_final_case_advice(request, case_pk, json):
     return data.json(), data.status_code
 
 
+def post_final_case_advice_document(request, case_pk, data):
+    data = post(request, CASE_URL + case_pk + FINAL_ADVICE_URL + "generate-document/", data)
+    return data.status_code
+
+
 def get_document(request, pk):
     data = get(request, DOCUMENTS_URL + pk)
     return data.json(), data.status_code
@@ -370,7 +375,7 @@ def get_decisions(request):
 # Generated Documents
 def post_generated_document(request, pk, json):
     data = post(request, CASE_URL + pk + GENERATED_DOCUMENTS_URL, json)
-    return data.status_code
+    return data.json()["generated_document"], data.status_code
 
 
 def get_generated_document_preview(request, pk, tpk, text):
