@@ -26,7 +26,7 @@ def select_template_form(templates, total_pages, case_id, back_link):
     )
 
 
-def edit_document_text_form(backlink, kwargs, post_url):
+def edit_document_text_form(backlink, kwargs, post_url, add_paragraphs_url):
     return Form(
         title=GenerateDocumentsPage.EditTextForm.HEADING,
         questions=[
@@ -34,7 +34,7 @@ def edit_document_text_form(backlink, kwargs, post_url):
             Link(
                 name=ADD_PARAGRAPH_KEY,
                 text=GenerateDocumentsPage.EditTextForm.ADD_PARAGRAPHS_LINK,
-                address=reverse_lazy("cases:generate_document_add_paragraphs", kwargs=kwargs),
+                address=reverse_lazy(add_paragraphs_url, kwargs=kwargs),
                 form_action=True,
             ),
         ],
@@ -44,7 +44,7 @@ def edit_document_text_form(backlink, kwargs, post_url):
     )
 
 
-def add_paragraphs_form(paragraphs, text, kwargs):
+def add_paragraphs_form(paragraphs, text, kwargs, url):
     return Form(
         title=GenerateDocumentsPage.AddParagraphsForm.HEADING,
         questions=[
@@ -54,7 +54,7 @@ def add_paragraphs_form(paragraphs, text, kwargs):
                 options=[Option(paragraph["text"], paragraph["name"], auto_check=False) for paragraph in paragraphs],
             ),
         ],
-        back_link=BackLink(),
+        back_link=BackLink(url=reverse_lazy(url, kwargs=kwargs)),
         default_button_name=GenerateDocumentsPage.AddParagraphsForm.BUTTON,
-        post_url=reverse_lazy("cases:generate_document_edit", kwargs=kwargs),
+        post_url=reverse_lazy(url, kwargs=kwargs),
     )
