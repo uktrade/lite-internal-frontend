@@ -28,7 +28,9 @@ from cases.services import (
     _generate_data_and_keys,
     _generate_post_data_and_errors,
     get_application_default_duration,
-    grant_licence)
+    grant_licence,
+    get_licence,
+)
 from cases.views_helpers import (
     get_case_advice,
     render_form_page,
@@ -311,6 +313,10 @@ class Finalise(TemplateView):
         case = get_case(request, str(kwargs["pk"]))
         case_type = case["application"]["case_type"]["sub_type"]["key"]
 
+        licence, status_code = get_licence(request, str(kwargs["pk"]))
+        if status_code == HTTPStatus.OK:
+            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
+
         if case_type == CaseType.STANDARD.value or case_type == CaseType.EXHIBITION.value:
             advice, _ = get_final_case_advice(request, str(kwargs["pk"]))
             data = advice["advice"]
@@ -381,7 +387,7 @@ class FinaliseGenerateDocuments(TemplateView):
             "title": "Generate Decision Documents",
             "can_submit": can_submit,
             "decisions": decisions,
-            "errors": errors
+            "errors": errors,
         }
         return render(request, "case/views/finalise-generate-documents.html", context)
 

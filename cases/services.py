@@ -163,7 +163,12 @@ def get_final_case_advice(request, case_pk, params=None):
 
 
 def grant_licence(request, case_pk):
-    data = put(request, CASE_URL + case_pk + "/grant-licence/", {})
+    data = put(request, CASE_URL + case_pk + "/licence/", {})
+    return data.json(), data.status_code
+
+
+def get_licence(request, case_pk):
+    data = get(request, CASE_URL + case_pk + "/licence/")
     return data.json(), data.status_code
 
 
