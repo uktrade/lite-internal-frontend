@@ -99,7 +99,7 @@ class Cases(TemplateView):
                 ),
                 conditional(
                     data["results"]["is_work_queue"],
-                    Checkboxes(name="hidden", options=[Option("true", "Show cases with open enquiries by your team")]),
+                    Checkboxes(name="hidden", options=[Option("true", CasesListPage.Filters.HIDDEN)]),
                 ),
             ]
         )
