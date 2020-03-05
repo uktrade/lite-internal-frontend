@@ -59,7 +59,7 @@ class SelectTemplate(PickTemplateView):
     def __init__(self):
         decision = False
         back_text = GenerateDocumentsPage.SelectTemplateForm.BACK_LINK
-        back_url = "cases:generate_document"
+        back_url = "cases:case"
         success_url = "cases:generate_document_edit"
         super().__init__(decision, back_url, success_url, back_text)
 
