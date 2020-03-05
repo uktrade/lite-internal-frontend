@@ -49,7 +49,7 @@
 	</div>
 
 	<div class="govuk-accordion app-accordion" data-module="govuk-accordion" id="accordion-default">
-		{% if case.case_type.sub_type.key == "exhibition_clearance"  %}
+		{% if case.case_type.sub_type.key  %}
 		<!-- Details -->
 			<div class="govuk-accordion__section">
 				<div class="govuk-accordion__section-header">
@@ -110,7 +110,7 @@
 								<th class="govuk-table__header" scope="col"></th>
 					            <th class="govuk-table__header" scope="col">{% lcs 'cases.ApplicationPage.Goods.Table.CLC' %}</th>
 								<th class="govuk-table__header" scope="col">{% lcs 'cases.ApplicationPage.Goods.Table.DESCRIPTION' %}</th>
-								{% if case.case_type.sub_type.key != "exhibition_clearance"  %}
+								{% if not case.case_type.sub_type.key|is_exhibition %}
 									<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.VALUE' %}</th>
 								{% else %}
 									<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.PRODUCT_TYPE' %}</th>
@@ -142,7 +142,7 @@
 					                <td class="govuk-table__cell">
 					                	{{ good_on_application.good.description }}
 					                </td>
-									{% if case.case_type.sub_type.key == "exhibition_clearance"  %}
+									{% if case.case_type.sub_type.key|is_exhibition %}
 										<td class="govuk-table__cell">{{ good_on_application.other_item_type|title }}</td>
 									{% else %}
 										<td class="govuk-table__cell">{{ good_on_application.quantity }} {{ good_on_application.unit.value }}/£{{ good_on_application.value|intcomma }}</td>
@@ -178,7 +178,7 @@
 							{% endfor %}
 						</tbody>
 					</table>
-					{% if case.case_type.sub_type.key != "exhibition_clearance"  %}
+					{% if not case.case_type.sub_type.key|is_exhibition %}
 						<p class="govuk-body govuk-!-margin-top-3 govuk-!-font-weight-bold">{% lcs 'STANDARD_CASE_TOTAL_VALUE' %} £{{ total_goods_value|intcomma }}</p>
 					{% endif %}
                 </form>
@@ -236,7 +236,7 @@
 		</div>
 
 		<!-- Inactive Parties -->
-		{% if case.case_type.sub_type.key != "exhibition_clearance"  %}
+		{% if not case.case_type.sub_type.key|is_exhibition %}
 			<div class="govuk-accordion__section">
 				<div class="govuk-accordion__section-header">
 					<h2 class="govuk-accordion__section-heading">
