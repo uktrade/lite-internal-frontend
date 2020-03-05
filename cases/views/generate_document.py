@@ -179,9 +179,9 @@ class AddDocumentParagraphsFinalAdvice(AddDocumentParagraphsView):
 
 
 class PreviewDocument(TemplateView):
-    def post(self, request, pk, tpk):
-        template_id = str(tpk)
-        case_id = str(pk)
+    def post(self, request, **kwargs):
+        template_id = str(kwargs["tpk"])
+        case_id = str(kwargs["pk"])
 
         text = request.POST.get(TEXT)
         if not text:

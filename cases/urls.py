@@ -60,7 +60,7 @@ urlpatterns = [
     ),
     path(
         "<uuid:pk>/finalise/<uuid:decision_id>/generate-document/<uuid:tpk>/preview/",
-        generate_document.AddDocumentParagraphsFinalAdvice.as_view(),
+        generate_document.PreviewDocument.as_view(),
         name="finalise_document_preview",
     ),
     path("<uuid:pk>/ecju-queries/", ecju.ViewEcjuQueries.as_view(), name="ecju_queries"),
