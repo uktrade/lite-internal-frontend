@@ -63,6 +63,11 @@ urlpatterns = [
         generate_document.PreviewDocument.as_view(),
         name="finalise_document_preview",
     ),
+    path(
+        "<uuid:pk>/finalise/<uuid:decision_id>/generate-document/<uuid:tpk>/create/",
+        generate_document.CreateDocumentFinalAdvice.as_view(),
+        name="finalise_document_create",
+    ),
     path("<uuid:pk>/ecju-queries/", ecju.ViewEcjuQueries.as_view(), name="ecju_queries"),
     path("<uuid:pk>/ecju-queries/add", ecju.CreateEcjuQuery.as_view(), name="ecju_queries_add"),
     path("<uuid:pk>/respond-to-clc-query/", goods_query.RespondCLCQuery.as_view(), name="respond_to_clc_query"),

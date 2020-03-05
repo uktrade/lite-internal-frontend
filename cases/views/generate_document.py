@@ -194,11 +194,15 @@ class PreviewDocument(TemplateView):
         return render(
             request,
             "generated_documents/preview.html",
-            {"preview": preview["preview"], TEXT: text, "pk": case_id, "tpk": template_id},
+            {"preview": preview["preview"], TEXT: text, "kwargs": kwargs},
         )
 
 
-class CreateDocument(TemplateView):
+class CreateDocumentView(TemplateView):
+    def __init__(self, action: callable):
+        super().__init__()
+        self.action = action
+
     def post(self, request, **kwargs):
         text = request.POST.get(TEXT)
         if not text:
@@ -210,4 +214,22 @@ class CreateDocument(TemplateView):
         if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
         else:
-            return redirect(reverse_lazy("cases:documents", kwargs={"pk": case_id}))
+            return self.action(kwargs)
+
+
+class CreateDocument(CreateDocumentView):
+    @staticmethod
+    def action(kwargs):
+        return redirect(reverse_lazy("cases:documents", kwargs={"pk": str(kwargs["pk"])}))
+
+    def __init__(self):
+        super().__init__(self.action)
+
+
+class CreateDocumentFinalAdvice(CreateDocumentView):
+    @staticmethod
+    def action(kwargs):
+        return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
+
+    def __init__(self):
+        super().__init__(self.action)
