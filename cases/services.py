@@ -154,11 +154,8 @@ def clear_team_advice(request, case_pk):
     return data.json(), data.status_code
 
 
-def get_final_case_advice(request, case_pk, params=None):
-    url = CASE_URL + case_pk + VIEW_FINAL_ADVICE_URL
-    if params:
-        url += "?" + params
-    data = get(request, url)
+def get_final_case_advice(request, case_pk):
+    data = get(request, CASE_URL + case_pk + VIEW_FINAL_ADVICE_URL)
     return data.json(), data.status_code
 
 

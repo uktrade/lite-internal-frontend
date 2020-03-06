@@ -313,10 +313,6 @@ class Finalise(TemplateView):
         case = get_case(request, str(kwargs["pk"]))
         case_type = case["application"]["case_type"]["sub_type"]["key"]
 
-        licence, status_code = get_licence(request, str(kwargs["pk"]))
-        if status_code == HTTPStatus.OK:
-            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
-
         if case_type == CaseType.STANDARD.value or case_type == CaseType.EXHIBITION.value:
             advice, _ = get_final_case_advice(request, str(kwargs["pk"]))
             data = advice["advice"]
