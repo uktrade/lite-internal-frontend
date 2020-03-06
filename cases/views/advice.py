@@ -30,7 +30,7 @@ from cases.services import (
     get_application_default_duration,
     grant_licence,
     get_licence,
-)
+    get_final_decision_documents)
 from cases.views_helpers import (
     get_case_advice,
     render_form_page,
@@ -374,8 +374,8 @@ class Finalise(TemplateView):
 class FinaliseGenerateDocuments(TemplateView):
     @staticmethod
     def get_page(request, pk, errors=None):
-        decisions, _ = get_final_case_advice(request, str(pk), params=convert_dict_to_query_params({"documents": True}))
-        decisions = decisions["advice"]
+        decisions, _ = get_final_decision_documents(request, str(pk))
+        decisions = decisions["documents"]
         can_submit = all([decision["document"] for decision in decisions])
 
         context = {

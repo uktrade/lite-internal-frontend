@@ -44,7 +44,7 @@
 						<td class="govuk-table__cell">{{ decision.document.user.first_name }} {{ decision.document.user.last_name }}</td>
 						<td class="govuk-table__cell">{{ decision.document.created_at|str_date }}</td>
 						<td class="govuk-table__cell">
-							<a href="{% url "cases:finalise_document_template" case_id decision.id %}" class="govuk-button govuk-button--secondary" data-module="govuk-button" style="margin: 0;">
+							<a href="{% url "cases:finalise_document_template" case_id decision.type.key %}" class="govuk-button govuk-button--secondary" data-module="govuk-button" style="margin: 0;">
 								Regenerate
 							</a>
 						</td>
@@ -62,7 +62,7 @@
 						<td class="govuk-table__cell"></td>
 						<td class="govuk-table__cell"></td>
 						<td class="govuk-table__cell">
-							<a href="{% url "cases:finalise_document_template" case_id decision.id %}" class="govuk-button" data-module="govuk-button" style="margin: 0;">
+							<a href="{% url "cases:finalise_document_template" case_id decision.type.key %}" class="govuk-button" data-module="govuk-button" style="margin: 0;">
 								Generate
 							</a>
 						</td>

@@ -44,27 +44,27 @@ urlpatterns = [
         "<uuid:pk>/finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"
     ),
     path(
-        "<uuid:pk>/finalise/<uuid:decision_id>/generate-document/select-template/",
+        "<uuid:pk>/finalise/<str:decision_key>/generate-document/select-template/",
         generate_document.SelectTemplateFinalAdvice.as_view(),
         name="finalise_document_template",
     ),
     path(
-        "<uuid:pk>/finalise/<uuid:decision_id>/generate-document/<uuid:tpk>/edit/",
+        "<uuid:pk>/finalise/<str:decision_key>/generate-document/<uuid:tpk>/edit/",
         generate_document.EditTextFinalAdvice.as_view(),
         name="finalise_document_edit_text",
     ),
     path(
-        "<uuid:pk>/finalise/<uuid:decision_id>/generate-document/<uuid:tpk>/add-paragraphs/",
+        "<uuid:pk>/finalise/<str:decision_key>/generate-document/<uuid:tpk>/add-paragraphs/",
         generate_document.AddDocumentParagraphsFinalAdvice.as_view(),
         name="finalise_document_add_paragraphs",
     ),
     path(
-        "<uuid:pk>/finalise/<uuid:decision_id>/generate-document/<uuid:tpk>/preview/",
+        "<uuid:pk>/finalise/<str:decision_key>/generate-document/<uuid:tpk>/preview/",
         generate_document.PreviewDocument.as_view(),
         name="finalise_document_preview",
     ),
     path(
-        "<uuid:pk>/finalise/<uuid:decision_id>/generate-document/<uuid:tpk>/create/",
+        "<uuid:pk>/finalise/<str:decision_key>/generate-document/<uuid:tpk>/create/",
         generate_document.CreateDocumentFinalAdvice.as_view(),
         name="finalise_document_create",
     ),

@@ -159,6 +159,11 @@ def get_final_case_advice(request, case_pk):
     return data.json(), data.status_code
 
 
+def get_final_decision_documents(request, case_pk):
+    data = get(request, CASE_URL + case_pk + "/final-advice-documents/")
+    return data.json(), data.status_code
+
+
 def grant_licence(request, case_pk):
     data = put(request, CASE_URL + case_pk + "/licence/", {})
     return data.json(), data.status_code
