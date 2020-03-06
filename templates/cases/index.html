@@ -180,9 +180,16 @@
 							</td>
 							<td class="cases-table__cell govuk-table__cell--numeric">
 								{% if not case.is_recently_updated and not is_all_cases_queue %}
-									<span class="app-cases__row__attention-needed">
+									<span class="app-cases__row__attention-needed" id="no-gov-input">
 										!
 									</span>
+								{% endif %}
+								{% if data.results.is_work_queue %}
+									{% if case.open_team_ecju_queries %}
+										<span class="app-cases__row__attention-needed" id="open-team-ecju">
+											!
+										</span>
+									{% endif %}
 								{% endif %}
 							</td>
 						</tr>
@@ -214,8 +221,11 @@
 	<script src="{% static 'javascripts/select-buttons.js' %}"></script>
 
 	<script nonce="{{ request.csp_nonce }}">
-		tippy('.app-cases__row__attention-needed', {
+		tippy('#no-gov-input', {
 		  content: "{% lcs 'cases.CasesListPage.NOT_UPDATED_RECENTLY' %}"
+		});
+		tippy('#open-team-ecju', {
+		  content: "{% lcs 'cases.CasesListPage.OPEN_TEAM_ECJU' %}"
 		});
 
 		function toggleDropdown() {
