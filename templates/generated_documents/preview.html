@@ -7,8 +7,8 @@
 				<h2 class="govuk-heading-l">{% block title %}{% lcs 'cases.ApplicationPage.Actions.GENERATE_DOCUMENT' %}{% endblock %}</h2>
 			</div>
             <div class="lite-app-bar__controls">
-				{% if kwargs.decision_id %}
-					<form action="{% url 'cases:finalise_document_create' kwargs.pk kwargs.decision_id kwargs.tpk %}" method="post">
+				{% if kwargs.decision_key %}
+					<form action="{% url 'cases:finalise_document_create' kwargs.pk kwargs.decision_key kwargs.tpk %}" method="post">
 				{% else %}
 					<form action="{% url 'cases:generate_document_create' kwargs.pk kwargs.tpk %}" method="post">
 				{% endif %}

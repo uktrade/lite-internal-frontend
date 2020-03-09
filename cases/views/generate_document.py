@@ -13,7 +13,6 @@ from cases.services import (
     post_generated_document,
     get_generated_document_preview,
     get_generated_document,
-    post_final_case_advice_document,
 )
 from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates, get_letter_template
@@ -39,7 +38,7 @@ class PickTemplateView(TemplateView):
         page = request.GET.get("page", 1)
         params = {"case": pk, "page": page}
         if self.decision:
-            params["decision"] = kwargs.get("decision_id")
+            params["decision"] = kwargs.get("decision_key")
         templates, _ = get_letter_templates(request, convert_dict_to_query_params(params))
         back_link = BackLink(text=self.back_text, url=reverse_lazy(self.back_url, kwargs={"pk": pk}),)
         return form_page(
@@ -210,21 +209,15 @@ class CreateDocument(TemplateView):
 
 
 class CreateDocumentFinalAdvice(TemplateView):
-    def post(self, request, pk, decision_id, tpk):
+    def post(self, request, pk, decision_key, tpk):
         text = request.POST.get(TEXT)
         if not text:
             return generate_document_error_page()
 
         data, status_code = post_generated_document(
-            request, str(pk), {"template": str(tpk), TEXT: text, "visible_to_exporter": False}
+            request, str(pk), {"template": str(tpk), TEXT: text, "visible_to_exporter": False,  "advice_type": decision_key}
         )
         if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
         else:
-            status_code = post_final_case_advice_document(
-                request, str(pk), {"generated_document": data, "decision": str(decision_id)}
-            )
-            if status_code != HTTPStatus.OK:
-                return generate_document_error_page()
-            else:
-                return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(pk)}))
+            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(pk)}))
