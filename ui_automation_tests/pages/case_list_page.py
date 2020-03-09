@@ -139,5 +139,5 @@ class CaseListPage(BasePage):
     def get_case_row_sla(self, row):
         return row.find_element_by_id(self.SLA_ID).text
 
-    def checkbox_to_show_team_ecju_query(self):
-        return self.driver.find_element_by_id(self.SHOW_TEAM_ECJU)
+    def click_checkbox_to_show_team_ecju_query(self):
+        return self.driver.find_element_by_id(self.SHOW_TEAM_ECJU).click()

@@ -235,11 +235,6 @@ def i_show_filters(driver, context):  # noqa
     CaseListPage(driver).click_show_filters_link()
 
 
-@then("I see filter to show cases with open team ecju queries")  # noqa
-def i_show_filters(driver, context):  # noqa
-    CaseListPage(driver).checkbox_to_show_team_ecju_query()
-
-
 @when("I go to users")  # noqa
 def go_to_users(driver, sso_sign_in, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/users/")
