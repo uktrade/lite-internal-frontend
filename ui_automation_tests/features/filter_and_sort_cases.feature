@@ -36,7 +36,7 @@ Feature: I want to filter and sort cases on a queue
     Then the case at index "0" has the status of "Submitted"
     And the case at index "1" has the status of "Under review"
     When I show filters
-    When I click filter to show cases with open team ecju queries
+    And I click filter to show cases with open team ecju queries
     Then "2" cases are shown
 
   @LT_914_sort_all_cases @regression
