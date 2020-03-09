@@ -1,7 +1,9 @@
-from flags.services import _get_team_flags
+from cases.services import get_case_types
+from core.services import get_control_list_entries, get_countries
+from flags.services import _get_team_flags, get_goods_flags, get_destination_flags, get_cases_flags
 from lite_content.lite_internal_frontend import strings
 from django.urls import reverse_lazy
-from lite_forms.components import TextInput, Select, Option, BackLink, Form, FormGroup, RadioButtons
+from lite_forms.components import TextInput, Select, Option, BackLink, Form, FormGroup, RadioButtons, AutocompleteInput
 
 _name = TextInput(title="Name", name="name")
 
@@ -37,21 +39,38 @@ def select_flagging_rule_type():
                 title="",
                 name="type",
                 options=[
-                    Option(key="Good", value="good"),
-                    Option(key="Destination", value="destination"),
-                    Option(key="Application", value="application"),
+                    Option(key="good", value="Good"),
+                    Option(key="destination", value="Destination"),
+                    Option(key="application", value="Application"),
                 ],
             )
         ],
     )
 
 
-def select_condtion_and_flag(type: str):
+def select_condition_and_flag(request, type: str):
+    if type == "good":
+        condition = AutocompleteInput(
+            title="good condition", name="condition", options=get_control_list_entries(request, convert_to_options=True)
+        )
+        flags = get_goods_flags(request=request, convert_to_options=True)
+    elif type == "destination":
+        condition = Select(
+            title="destination condition", name="condition", options=get_countries(request, convert_to_options=True)
+        )
+        flags = get_destination_flags(request=request, convert_to_options=True)
+    elif type == "application":
+        case_type_options = [Option(option["key"], option["value"]) for option in get_case_types(request)]
+        condition = Select(title="Application Type", name="condition", options=case_type_options)
+        flags = get_cases_flags(request=request, convert_to_options=True)
+    else:
+        condition = []
+        flags = []
     return Form(
         title="Flagging rule condition and flag",
-        questions=[Select(title="", name="condition", options=[],), Select(title="Flag", name="flag", options=[])],
+        questions=[condition, Select(title="Flag", name="flag", options=flags),],
     )
 
 
-def create_flagging_rules_formGroup():
-    return FormGroup([select_flagging_rule_type(), select_condtion_and_flag(type="")],)
+def create_flagging_rules_formGroup(request=None, type=None):
+    return FormGroup([select_flagging_rule_type(), select_condition_and_flag(request=request, type=type)],)

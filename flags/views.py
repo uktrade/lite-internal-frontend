@@ -229,7 +229,14 @@ class ManageFlagRules(TemplateView):
 
 
 class CreateFlagRules(MultiFormView):
-    forms = create_flagging_rules_formGroup()
+    forms = None
+    success_url = reverse_lazy("flags:flagging_rules")
 
     def init(self, request, **kwargs):
-        pass
+        type = request.POST.get("type", None)
+        self.forms = create_flagging_rules_formGroup(request=self.request, type=type)
+        self.action = self.happy_action
+
+    # Temporary until api endpoint is developed
+    def happy_action(self, request, something):
+        return {}, 200
