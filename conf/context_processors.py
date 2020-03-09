@@ -35,6 +35,7 @@ def lite_menu(request):
                 },
             ),
             {"title": "HMRC", "url": reverse_lazy("organisations:hmrc"), "icon": "menu/businesses"},
+            {"title": "Flag rules", "url": reverse_lazy("flags:flagging_rules"), "icon": "menu/flags"},
         ]
     except AttributeError:
         # Tests dont provide a user which causes has_permission to error,

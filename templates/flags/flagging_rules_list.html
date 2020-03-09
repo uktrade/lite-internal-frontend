@@ -1,0 +1,51 @@
+{% extends 'layouts/base.html' %}
+
+{% block back_link %}{% endblock %}
+
+{% block body %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h2 class="govuk-heading-l">Flagging rules</h2>
+			<p class="govuk-caption-m">
+				Flagging rules apply flags to cases automatically based on rules
+			</p>
+		</div>
+		<div class="lite-app-bar__controls">
+			<a href="{% url 'flags:create_flagging_rules' %}" class="govuk-button" draggable="false" role="button" id="add-a-flag-button">
+				create new flagging rule
+			</a>
+		</div>
+	</div>
+
+
+	<table class="govuk-table">
+		<thead class="govuk-table__head">
+			<tr class="govuk-table__row">
+				<th class="govuk-table__header" scope="col">Team</th>
+				<th class="govuk-table__header" scope="col">Type</th>
+				<th class="govuk-table__header" scope="col">Flag Name</th>
+				<th class="govuk-table__header" scope="col">Active</th>
+				<th class="govuk-table__header" scope="col"></th>
+			</tr>
+		</thead>
+		<tbody class="govuk-table__body">
+			{% for flagging_rule in data.flagging_rules %}
+				<tr class="govuk-table__row">
+					<td class="govuk-table__cell">
+						{{ flagging_rule.team }}
+					</td>
+					<td class="govuk-table__cell">
+						{{ flagging_rule.type }}
+					</td>
+					<td class="govuk-table__cell">
+						{{ flagging_rule.flag }}
+					</td>
+					<td class="govuk-table__cell">
+						{{ flagging_rule.status }}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

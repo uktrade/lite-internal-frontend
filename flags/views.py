@@ -9,12 +9,13 @@ from cases.forms.flags import flags_form, set_case_flags_form
 from cases.services import put_flag_assignments, get_good, get_goods_type, get_case, get_destination
 from conf.constants import FlagLevels
 from core.helpers import convert_dict_to_query_params
-from flags.forms import add_flag_form, edit_flag_form
+from flags.forms import add_flag_form, edit_flag_form, create_flagging_rules_formGroup
 from flags.services import get_cases_flags, get_goods_flags, get_organisation_flags, get_destination_flags
 from flags.services import get_flags, post_flags, get_flag, put_flag
 from lite_content.lite_internal_frontend import strings
 from lite_forms.components import Option
 from lite_forms.generators import form_page
+from lite_forms.views import MultiFormView
 from organisations.services import get_organisation
 from users.services import get_gov_user
 
@@ -216,3 +217,19 @@ class AssignFlags(TemplateView):
             return form_page(request, self.form, data=request.POST, errors=response["errors"])
 
         return redirect(self.url)
+
+
+class ManageFlagRules(TemplateView):
+    def get(self, request, **kwargs):
+
+        context = {
+            "title": "Flag Rules",
+        }
+        return render(request, "flags/flagging_rules_list.html", context)
+
+
+class CreateFlagRules(MultiFormView):
+    forms = create_flagging_rules_formGroup()
+
+    def init(self, request, **kwargs):
+        pass
