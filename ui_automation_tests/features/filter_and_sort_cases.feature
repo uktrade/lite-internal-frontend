@@ -16,7 +16,8 @@ Feature: I want to filter and sort cases on a queue
     And I click on new queue in dropdown
     Then "2" cases are shown
     When I show filters
-    And filter status has been changed to "Finalised"
+    Then I see filter to show cases with open team ecju queries
+    When filter status has been changed to "Finalised"
     Then there are no cases shown
     When I click clear filters
     When I show filters
