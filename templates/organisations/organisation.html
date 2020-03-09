@@ -97,8 +97,8 @@
             </dd>
         </div>
 		<div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-				Status
+			<dt class="govuk-summary-list__key">
+				{% lcs "organisations.OrganisationPage.Fields.STATUS" %}
             </dt>
             <dd class="govuk-summary-list__value">
 				<strong class="govuk-tag {% if organisation.status.key == 'in_review' %}govuk-tag--blue{% endif %}">

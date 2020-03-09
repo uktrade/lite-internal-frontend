@@ -31,36 +31,48 @@
 					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationsPage.Table.EORI_NUMBER" %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationsPage.Table.SIC_NUMBER" %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationsPage.Table.VAT_NUMBER" %}</th>
-					<th class="govuk-table__header" scope="col">Status</th>
+					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationsPage.Table.STATUS" %}</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for organisation in data.results %}
 					<tr class="govuk-table__row" id="{{ organisation.id }}">
 						<td class="govuk-table__cell" id="name">
-							<span class="govuk-table__header" aria-hidden="true">Name</span>
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "organisations.OrganisationsPage.Table.NAME" %}
+							</span>
 							<a class="govuk-link" href="{% url 'organisations:organisation' organisation.id %}">
 								{{ organisation.name|highlight_text:search_term }}
 							</a>
 						</td>
                         <td class="govuk-table__cell" id="type">
-							<span class="govuk-table__header" aria-hidden="true">Type</span>
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "organisations.OrganisationsPage.Table.TYPE" %}
+							</span>
 							{{ organisation.type.value }}
 						</td>
 						<td class="govuk-table__cell" id="eori-number">
-							<span class="govuk-table__header" aria-hidden="true">EORI number</span>
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "organisations.OrganisationsPage.Table.EORI_NUMBER" %}
+							</span>
 							{{ organisation.eori_number|default_na }}
 						</td>
 						<td class="govuk-table__cell" id="sic-number">
-							<span class="govuk-table__header" aria-hidden="true">SIC number</span>
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "organisations.OrganisationsPage.Table.SIC_NUMBER" %}
+							</span>
 							{{ organisation.sic_number|default_na }}
 						</td>
 						<td class="govuk-table__cell" id="vat-number">
-							<span class="govuk-table__header" aria-hidden="true">VAT number</span>
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "organisations.OrganisationsPage.Table.VAT_NUMBER" %}
+							</span>
 							{{ organisation.vat_number|default_na }}
 						</td>
 						<td class="govuk-table__cell" id="status">
-							<span class="govuk-table__header" aria-hidden="true">Status</span>
+							<span class="govuk-table__header" aria-hidden="true">
+								{% lcs "organisations.OrganisationsPage.Table.STATUS" %}
+							</span>
 							<strong class="govuk-tag {% if organisation.status.key == 'in_review' %}govuk-tag--blue{% endif %}">
 								{{ organisation.status.value }}
 							</strong>
