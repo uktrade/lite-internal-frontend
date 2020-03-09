@@ -1,3 +1,4 @@
+from datetime import date
 from http import HTTPStatus
 
 from django.shortcuts import redirect, render
@@ -5,11 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.constants import CaseType
-
-from datetime import date
-
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
-
 from cases.services import (
     post_user_case_advice,
     get_user_case_advice,
@@ -29,8 +26,8 @@ from cases.services import (
     _generate_post_data_and_errors,
     get_application_default_duration,
     grant_licence,
-    get_licence,
-    get_final_decision_documents)
+    get_final_decision_documents,
+)
 from cases.views_helpers import (
     get_case_advice,
     render_form_page,
@@ -41,7 +38,6 @@ from cases.views_helpers import (
 )
 from conf.constants import DECISIONS_LIST, Permission
 from core import helpers
-from core.helpers import convert_dict_to_query_params
 from lite_forms.generators import form_page, error_page
 
 

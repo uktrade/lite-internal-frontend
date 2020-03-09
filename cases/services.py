@@ -382,7 +382,7 @@ def get_decisions(request):
 # Generated Documents
 def post_generated_document(request, pk, json):
     data = post(request, CASE_URL + pk + GENERATED_DOCUMENTS_URL, json)
-    return data.json()["generated_document"], data.status_code
+    return data.status_code
 
 
 def get_generated_document_preview(request, pk, tpk, text):

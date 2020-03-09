@@ -199,7 +199,7 @@ class CreateDocument(TemplateView):
         if not text:
             return generate_document_error_page()
 
-        data, status_code = post_generated_document(
+        status_code = post_generated_document(
             request, str(pk), {"template": str(tpk), TEXT: text, "visible_to_exporter": True}
         )
         if status_code != HTTPStatus.CREATED:
@@ -214,8 +214,10 @@ class CreateDocumentFinalAdvice(TemplateView):
         if not text:
             return generate_document_error_page()
 
-        data, status_code = post_generated_document(
-            request, str(pk), {"template": str(tpk), TEXT: text, "visible_to_exporter": False,  "advice_type": decision_key}
+        status_code = post_generated_document(
+            request,
+            str(pk),
+            {"template": str(tpk), TEXT: text, "visible_to_exporter": False, "advice_type": decision_key},
         )
         if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
