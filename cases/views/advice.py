@@ -330,7 +330,7 @@ class Finalise(TemplateView):
                     "day": today.day,
                     "month": today.month,
                     "year": today.year,
-                    "licence_duration": duration,
+                    "duration": duration,
                 }
                 form = approve_licence_form(
                     case_id=case_id,
