@@ -4,8 +4,14 @@
 
 {% block body %}
 	<div class="lite-app-bar">
-		<h2 class="govuk-heading-l">Teams</h2>
-		<div class="lite-app-bar--right">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">
+				{% block title %}
+					Teams
+				{% endblock %}
+			</h1>
+		</div>
+		<div class="lite-app-bar__controls">
 			<a href="{% url 'teams:add' %}" class="govuk-button" draggable="false" role="button">
 				Add a team
 			</a>
