@@ -42,8 +42,8 @@ def put_flag(request, pk, json):
     return data.json(), data.status_code
 
 
-def get_flagging_rules(request):
-    data = get(request, FLAGGING_RULES)
+def get_flagging_rules(request, params):
+    data = get(request, FLAGGING_RULES + "?" + params)
     return data.json(), data.status_code
 
 

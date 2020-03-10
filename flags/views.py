@@ -228,10 +228,12 @@ class AssignFlags(TemplateView):
 
 class ManageFlagRules(TemplateView):
     def get(self, request, **kwargs):
-        flagging_rules, _ = get_flagging_rules(request)
+        params = {"page": int(request.GET.get("page", 1))}
+        data, _ = get_flagging_rules(request, convert_dict_to_query_params(params))
         context = {
             "title": "Flag Rules",
-            "flagging_rules": flagging_rules["results"],
+            "data": data,
+            "page": params.pop("page"),
         }
         return render(request, "flags/flagging_rules_list.html", context)
 

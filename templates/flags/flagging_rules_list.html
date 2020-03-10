@@ -30,7 +30,7 @@
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
-			{% for flagging_rule in flagging_rules %}
+			{% for flagging_rule in data.results %}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell">
 						{{ flagging_rule.team.name }}
@@ -58,5 +58,15 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	{% if data.total_pages > 1 %}
+		<br>
+		<div class="lite-pagination__container ">
+			{% for i in data.total_pages|times %}
+				<a href="{% url 'flags:flagging_rules' %}?page={{ i }}" class="lite-pagination__item {% if page == i %}lite-pagination__item--selected{% endif %}" id="page-{{ i }}">
+					{{ i }}
+				</a>
+			{% endfor %}
+		</div>
+	{% endif %}
 
 {% endblock %}
