@@ -33,11 +33,11 @@
 		</thead>
 		<tbody class="govuk-table__body">
 			{% for decision in decisions %}
-				<tr class="govuk-table__row">
+				<tr class="govuk-table__row" id="decision-{{ decision.type.key }}">
 					<th scope="row" class="govuk-table__header">{{ decision.type.value }}</th>
 					{% if decision.document %}
 						<td class="govuk-table__cell">
-							<div data-status="done" class="lite-tag lite-tag--blue" style="margin: 0;">
+							<div id="status-{{ decision.type.key }}" data-status="done" class="lite-tag lite-tag--blue" style="margin: 0;">
 								Done
 							</div>
 						</td>
@@ -55,14 +55,14 @@
 						</td>
 					{% else %}
 						<td class="govuk-table__cell">
-							<div data-status="done" class="lite-tag lite-tag--hollow" style="margin: 0;">
+							<div id="status-{{ decision.type.key }}" data-status="not-started" class="lite-tag lite-tag--hollow" style="margin: 0;">
 								Not started
 							</div>
 						</td>
 						<td class="govuk-table__cell"></td>
 						<td class="govuk-table__cell"></td>
 						<td class="govuk-table__cell">
-							<a href="{% url "cases:finalise_document_template" case_id decision.type.key %}" class="govuk-button" data-module="govuk-button" style="margin: 0;">
+							<a href="{% url "cases:finalise_document_template" case_id decision.type.key %}" class="govuk-button" data-module="govuk-button" id="generate-document-{{ decision.type.key }}" style="margin: 0;">
 								Generate
 							</a>
 						</td>
