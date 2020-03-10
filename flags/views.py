@@ -234,6 +234,7 @@ class ManageFlagRules(TemplateView):
             "title": "Flag Rules",
             "data": data,
             "page": params.pop("page"),
+            "team": get_gov_user(request)[0]["user"]["team"]["id"],
         }
         return render(request, "flags/flagging_rules_list.html", context)
 
