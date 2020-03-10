@@ -243,7 +243,7 @@ class ManageFlagRules(TemplateView):
         if request.GET.get("level"):
             params["level"] = request.GET.get("level")
         if request.GET.get("include_deactivated"):
-            params["only_my_team"] = request.GET.get("only_my_team")
+            params["include_deactivated"] = request.GET.get("include_deactivated")
 
         data, _ = get_flagging_rules(request, convert_dict_to_query_params(params))
 

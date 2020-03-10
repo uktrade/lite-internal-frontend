@@ -3,7 +3,7 @@ import functools
 from lite_forms.components import Option
 
 from conf.client import get, post, put
-from conf.constants import FLAGS_URL, FLAGGING_RULES
+from conf.constants import FLAGS_URL, FLAGGING_RULES, FLAGGING_RULE
 
 
 def get_flags(request):
@@ -53,10 +53,10 @@ def post_flagging_rules(self, request, json):
 
 
 def get_flagging_rule(request, pk):
-    data = get(request, FLAGGING_RULES + pk)
+    data = get(request, FLAGGING_RULE + pk)
     return data.json(), data.status_code
 
 
 def put_flagging_rule(request, pk, json):
-    data = post(request, FLAGGING_RULES + pk, json)
+    data = put(request, FLAGGING_RULE + pk, json)
     return data.json(), data.status_code
