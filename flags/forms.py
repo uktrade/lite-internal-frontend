@@ -52,11 +52,7 @@ def select_condition_and_flag(request, type: str):
     flags = []
     if type == "Good":
         title = strings.FlaggingRules.Create.Condition_and_flag.GOOD_TITLE
-        condition = AutocompleteInput(
-            title=strings.FlaggingRules.Create.Condition_and_flag.GOOD,
-            name="matching_value",
-            options=get_control_list_entries(request, convert_to_options=True),
-        )
+        condition = TextInput(title=strings.FlaggingRules.Create.Condition_and_flag.GOOD, name="matching_value",)
         flags = get_goods_flags(request=request, convert_to_options=True)
     elif type == "Destination":
         title = strings.FlaggingRules.Create.Condition_and_flag.DESTINATION_TITLE
