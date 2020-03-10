@@ -27,6 +27,7 @@
 				<th class="govuk-table__header" scope="col">Condition</th>
 				<th class="govuk-table__header" scope="col">{% lcs 'FlaggingRules.List.STATUS' %}</th>
 				<th class="govuk-table__header" scope="col"></th>
+				<th class="govuk-table__header" scope="col"></th>
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
@@ -46,6 +47,9 @@
 					</td>
 					<td class="govuk-table__cell">
 						{{ flagging_rule.status }}
+					</td>
+					<td class="govuk-table__cell">
+						Edit
 					</td>
 					<td class="govuk-table__cell">
 						{% if flagging_rule.status == 'Active' %}
