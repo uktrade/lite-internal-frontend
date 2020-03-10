@@ -1,7 +1,8 @@
 from enum import Enum
 
 ISO8601_FMT = "%Y-%m-%dT%H:%M:%S.%fZ"
-DEFAULT_QUEUE_ID = "00000000-0000-0000-0000-000000000001"
+DATE_FORMAT = "%Y-%m-%d"
+ALL_CASES_QUEUE_ID = "00000000-0000-0000-0000-000000000001"
 UPDATED_CASES_QUEUE_ID = "00000000-0000-0000-0000-000000000004"
 
 
@@ -66,6 +67,7 @@ STATUSES_URL = STATIC_URL + "statuses/"
 STATUS_PROPERTIES_URL = STATUSES_URL + "properties/"
 CONTROL_LIST_ENTRIES_URL = STATIC_URL + "control-list-entries/"
 GOV_PV_GRADINGS_URL = STATIC_URL + "private-venture-gradings/gov/"
+PV_GRADINGS_URL = STATIC_URL + "private-venture-gradings/"
 LETTER_LAYOUTS_URL = STATIC_URL + "letter-layouts/"
 DECISIONS_URL = STATIC_URL + "decisions/"
 
@@ -129,3 +131,7 @@ GOODS_QUERY_STATUSES = [Statuses.CLOSED, Statuses.SUBMITTED, Statuses.WITHDRAWN,
 
 class SystemTeamsID(Enum):
     ADMIN = "00000000-0000-0000-0000-000000000001"
+
+
+class CaseType:
+    EXHIBITION = "exhibition_clearance"

@@ -14,7 +14,7 @@
 			<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.DOCUMENTS' %}</th>
             <th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.FLAGS' %}</th>
 			{% if show_advice %}
-				<th class="govuk-table__header" style="width: 350px;">{% lcs 'cases.ApplicationPage.Goods.Table.FLAGS' %}</th>
+				<th class="govuk-table__header" style="width: 350px;">{% lcs 'cases.ApplicationPage.Goods.Table.ADVICE' %}</th>
 			{% endif %}
 		</tr>
 	</thead>
@@ -65,4 +65,7 @@
 		{% endfor %}
 	</tbody>
 </table>
-<p class="govuk-body govuk-!-margin-top-3 govuk-!-font-weight-bold">{% lcs 'STANDARD_CASE_TOTAL_VALUE' %} £{{ total_goods_value|intcomma }}</p>
+{% if case.case_type.sub_type.key != 'exhibition_clearance' %}
+	<p class="govuk-body govuk-!-margin-top-3 govuk-!-font-weight-bold">{% lcs 'STANDARD_CASE_TOTAL_VALUE' %} £{{ total_goods_value|intcomma }}</p>
+{% endif %}
+
