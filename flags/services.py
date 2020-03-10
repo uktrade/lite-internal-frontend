@@ -53,10 +53,10 @@ def post_flagging_rules(self, request, json):
 
 
 def get_flagging_rule(request, pk):
-    data = get(request, FLAGGING_RULE + pk)
+    data = get(request, FLAGGING_RULE + str(pk))
     return data.json(), data.status_code
 
 
 def put_flagging_rule(request, pk, json):
-    data = put(request, FLAGGING_RULE + pk, json)
+    data = put(request, FLAGGING_RULE + str(pk), json)
     return data.json(), data.status_code

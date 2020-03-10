@@ -285,7 +285,7 @@ class CreateFlagRules(MultiFormView):
 class EditFlaggingRules(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.data = get_flagging_rule(request, self.object_pk)["flagging_rule"]
+        self.data = get_flagging_rule(request, self.object_pk)[0]["flag"]
         self.form = select_condition_and_flag(request, type=self.data["level"])
         self.action = put_flagging_rule
         self.success_url = reverse_lazy("flags:flagging_rules")
