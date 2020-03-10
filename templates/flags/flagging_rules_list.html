@@ -41,7 +41,7 @@
 						{{ flagging_rule.level }}
 					</td>
 					<td class="govuk-table__cell">
-						{{ flagging_rule.flag }}
+						{{ flagging_rule.flag_name }}
 					</td>
 					<td class="govuk-table__cell">
 						{{ flagging_rule.matching_value }}
@@ -51,7 +51,7 @@
 					</td>
 					<td class="govuk-table__cell">
 						{% if flagging_rule.team.id == team %}
-							<a href="{% url 'flags:edit_flagging_rule' flagging_rule.id %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state govuk-!-margin-right-2">Edit</a>
+							<a href="{% url 'flags:edit_flagging_rule' flagging_rule.id %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state govuk-!-margin-right-2">{% lcs 'FlaggingRules.List.EDIT' %}</a>
 						{% endif %}
 					</td>
 					<td class="govuk-table__cell">

@@ -249,22 +249,21 @@ class ManageFlagRules(TemplateView):
 
         filters = FiltersBar(
             [
-                Select(name="level", title="Type", options=_levels),
+                Select(name="level", title=strings.FlaggingRules.List.Filter.Type, options=_levels),
                 Checkboxes(
                     name="only_my_team",
-                    options=[Option("true", "Only show my team")],
-                    classes=["govuk-checkboxes--small"],
+                    options=[Option("true", strings.FlaggingRules.List.Filter.MY_TEAM_ONLY)],
+                    classes=["govuk-checkboxes--small", "govuk-!-margin-top-6"],
                 ),
                 Checkboxes(
                     name="include_deactivated",
-                    options=[Option("true", "Include deactivated")],
-                    classes=["govuk-checkboxes--small"],
+                    options=[Option("true", strings.FlaggingRules.List.Filter.INCLUDE_DEACTIVATED)],
+                    classes=["govuk-checkboxes--small", "govuk-!-margin-top-6"],
                 ),
             ]
         )
 
         context = {
-            "title": "Flag Rules",
             "data": data,
             "page": params.pop("page"),
             "team": get_gov_user(request)[0]["user"]["team"]["id"],
