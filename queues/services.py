@@ -1,7 +1,9 @@
+from lite_content.lite_internal_frontend.users import AssignUserPage
 from lite_forms.components import Option
 
 from conf.client import get, post, put
 from conf.constants import QUEUES_URL, CASE_URL
+from http import HTTPStatus
 
 
 def get_queues(request, convert_to_options=False):
@@ -61,6 +63,16 @@ def get_queue_case_assignments(request, pk):
     return data.json(), data.status_code
 
 
-def put_queue_case_assignments(request, pk, json):
-    data = put(request, QUEUES_URL + pk + "/case-assignments/", json)
-    return data.json(), data.status_code
+def put_queue_case_assignments(request, pk, json, single_case=True):
+    # single_case being true is a flag that indicates an assignment is being set from within the case actions
+    if single_case:
+        queue = json.get("queue")
+        if queue:
+            json = {"case_assignments": [{"case_id": json.get('case_pk'), "users": [json.get('user_pk')]}]}
+            data = put(request, QUEUES_URL + queue + "/case-assignments/", json)
+            return data.json(), data.status_code
+        else:
+            return {"errors": {"queue": [AssignUserPage.QUEUE_ERROR_MESSAGE]}}, HTTPStatus.BAD_REQUEST
+    else:
+        data = put(request, QUEUES_URL + str(pk) + "/case-assignments/", json)
+        return data.json(), data.status_code

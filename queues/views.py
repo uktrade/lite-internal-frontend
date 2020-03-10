@@ -85,7 +85,7 @@ class CaseAssignments(TemplateView):
         for case_id in case_ids:
             data["case_assignments"].append({"case_id": case_id, "users": request.POST.getlist("users")})
 
-        response, _ = put_queue_case_assignments(request, queue_id, data)
+        response, _ = put_queue_case_assignments(request, queue_id, data, single_case=False)
         if "errors" in response:
             return form_page(
                 request,
