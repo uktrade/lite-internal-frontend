@@ -9,7 +9,6 @@ from cases.forms.flags import flags_form, set_case_flags_form
 from cases.services import put_flag_assignments, get_good, get_goods_type, get_case, get_destination
 from conf.constants import FlagLevels, Permission
 from core.helpers import convert_dict_to_query_params, has_permission
-from core.services import get_user_permissions
 from flags.forms import (
     add_flag_form,
     edit_flag_form,
