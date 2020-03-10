@@ -10,7 +10,14 @@ from cases.services import put_flag_assignments, get_good, get_goods_type, get_c
 from conf.constants import FlagLevels
 from core.helpers import convert_dict_to_query_params
 from flags.forms import add_flag_form, edit_flag_form, create_flagging_rules_formGroup
-from flags.services import get_cases_flags, get_goods_flags, get_organisation_flags, get_destination_flags
+from flags.services import (
+    get_cases_flags,
+    get_goods_flags,
+    get_organisation_flags,
+    get_destination_flags,
+    post_flagging_rules,
+    get_flagging_rules,
+)
 from flags.services import get_flags, post_flags, get_flag, put_flag
 from lite_content.lite_internal_frontend import strings
 from lite_forms.components import Option
@@ -221,9 +228,10 @@ class AssignFlags(TemplateView):
 
 class ManageFlagRules(TemplateView):
     def get(self, request, **kwargs):
-
+        flagging_rules, _ = get_flagging_rules(request)
         context = {
             "title": "Flag Rules",
+            "flagging_rules": flagging_rules["results"],
         }
         return render(request, "flags/flagging_rules_list.html", context)
 
@@ -231,15 +239,11 @@ class ManageFlagRules(TemplateView):
 class CreateFlagRules(MultiFormView):
     forms = None
     success_url = reverse_lazy("flags:flagging_rules")
+    action = post_flagging_rules
 
     def init(self, request, **kwargs):
-        type = request.POST.get("type", None)
+        type = request.POST.get("level", None)
         self.forms = create_flagging_rules_formGroup(request=self.request, type=type)
-        self.action = self.happy_action
-
-    # Temporary until api endpoint is developed
-    def happy_action(self, request, something):
-        return {}, 200
 
 
 class ChangeFlaggingRuleStatus(TemplateView):
@@ -263,7 +267,7 @@ class ChangeFlaggingRuleStatus(TemplateView):
             "user_id": str(kwargs["pk"]),
             "status": status,
         }
-        return render(request, "flags/change_status.html", context)
+        return render(request, "flags/change_flagging_rule_status.html", context)
 
     def post(self, request, **kwargs):
         status = kwargs["status"]
@@ -274,4 +278,4 @@ class ChangeFlaggingRuleStatus(TemplateView):
         # update to flagging rule update
         # put_flag(request, str(kwargs["pk"]), json={"status": request.POST["status"]})
 
-        return redirect(reverse_lazy("flags:change_flagging_rule_status"))
+        return redirect(reverse_lazy("flags:flagging_rules"))

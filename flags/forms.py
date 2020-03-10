@@ -36,11 +36,11 @@ def select_flagging_rule_type():
         title=strings.FlaggingRules.Create.Type.TITLE,
         questions=[
             RadioButtons(
-                name="type",
+                name="level",
                 options=[
-                    Option(key="good", value=strings.FlaggingRules.Create.Type.GOOD),
-                    Option(key="destination", value=strings.FlaggingRules.Create.Type.DESTINATION),
-                    Option(key="application", value=strings.FlaggingRules.Create.Type.APPLICATION),
+                    Option(key="Good", value=strings.FlaggingRules.Create.Type.GOOD),
+                    Option(key="Destination", value=strings.FlaggingRules.Create.Type.DESTINATION),
+                    Option(key="Case", value=strings.FlaggingRules.Create.Type.APPLICATION),
                 ],
             )
         ],
@@ -52,28 +52,28 @@ def select_condition_and_flag(request, type: str):
     title = ""
     condition = []
     flags = []
-    if type == "good":
+    if type == "Good":
         title = strings.FlaggingRules.Create.Condition_and_flag.GOOD_TITLE
         condition = AutocompleteInput(
             title=strings.FlaggingRules.Create.Condition_and_flag.GOOD,
-            name="condition",
+            name="matching_value",
             options=get_control_list_entries(request, convert_to_options=True),
         )
         flags = get_goods_flags(request=request, convert_to_options=True)
-    elif type == "destination":
+    elif type == "Destination":
         title = strings.FlaggingRules.Create.Condition_and_flag.DESTINATION_TITLE
         condition = Select(
             title=strings.FlaggingRules.Create.Condition_and_flag.DESTINATION,
-            name="condition",
+            name="matching_value",
             options=get_countries(request, convert_to_options=True),
         )
         flags = get_destination_flags(request=request, convert_to_options=True)
-    elif type == "application":
+    elif type == "Case":
         title = strings.FlaggingRules.Create.Condition_and_flag.APPLICATION_TITLE
         case_type_options = [Option(option["key"], option["value"]) for option in get_case_types(request)]
         condition = Select(
             title=strings.FlaggingRules.Create.Condition_and_flag.APPLICATION,
-            name="condition",
+            name="matching_value",
             options=case_type_options,
         )
         flags = get_cases_flags(request=request, convert_to_options=True)
