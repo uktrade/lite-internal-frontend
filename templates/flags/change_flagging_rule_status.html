@@ -1,0 +1,17 @@
+{% extends "layouts/base.html" %}
+
+{% block body %}
+	<h2 class="govuk-heading-l">{{ title }}</h2>
+	<p class="govuk-caption-m">{{ description }}</p>
+	<form method="post">
+		<div class="buttons-row">
+			{% csrf_token %}
+			{% if status == 'reactivate' %}
+				<button type="submit" name="status" value="Active" class="govuk-button">Reactivate Flagging Rule</button>
+			{% else %}
+				<button type="submit" name="status" value="Deactivated" class="govuk-button govuk-button--warning">Deactivate Flagging Rule</button>
+			{% endif %}
+			<a href="{% url 'flags:flagging_rules' %}" role="button" draggable="false" class="govuk-button govuk-button--secondary">Cancel</a>
+		</div>
+	</form>
+{% endblock %}

@@ -5,14 +5,14 @@
 {% block body %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h2 class="govuk-heading-l">Flagging rules</h2>
+			<h2 class="govuk-heading-l">{% lcs 'FlaggingRules.TITLE' %}</h2>
 			<p class="govuk-caption-m">
-				Flagging rules apply flags to cases automatically based on rules
+				{% lcs 'FlaggingRules.DESCRIPTION' %}
 			</p>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'flags:create_flagging_rules' %}" class="govuk-button" draggable="false" role="button" id="add-a-flag-button">
-				create new flagging rule
+				{% lcs 'FlaggingRules.CREATE' %}
 			</a>
 		</div>
 	</div>
@@ -21,10 +21,10 @@
 	<table class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th class="govuk-table__header" scope="col">Team</th>
-				<th class="govuk-table__header" scope="col">Type</th>
-				<th class="govuk-table__header" scope="col">Flag Name</th>
-				<th class="govuk-table__header" scope="col">Active</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'FlaggingRules.List.TEAM' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'FlaggingRules.List.TYPE' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'FlaggingRules.List.FLAG' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'FlaggingRules.List.STATUS' %}</th>
 				<th class="govuk-table__header" scope="col"></th>
 			</tr>
 		</thead>
@@ -42,6 +42,13 @@
 					</td>
 					<td class="govuk-table__cell">
 						{{ flagging_rule.status }}
+					</td>
+					<td>
+						{% if flag.status == 'Active' %}
+							<a href="{% url 'flags:change_flagging_rule_status' flag.id 'deactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state govuk-!-margin-right-2">{% lcs 'FlaggingRules.List.DEACTIVATE' %}</a>
+						{% elif flag.status == 'Deactivated' %}
+							<a href="{% url 'flags:change_flagging_rule_status' flag.id 'reactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state govuk-!-margin-right-2">{% lcs 'FlaggingRules.List.REACTIVATE' %}</a>
+						{% endif %}
 					</td>
 				</tr>
 			{% endfor %}

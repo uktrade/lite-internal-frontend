@@ -240,3 +240,38 @@ class CreateFlagRules(MultiFormView):
     # Temporary until api endpoint is developed
     def happy_action(self, request, something):
         return {}, 200
+
+
+class ChangeFlaggingRuleStatus(TemplateView):
+    def get(self, request, **kwargs):
+        status = kwargs["status"]
+
+        if status != "deactivate" and status != "reactivate":
+            raise Http404
+
+        if status == "deactivate":
+            title = strings.FlaggingRules.Status.DEACTIVATE_HEADING
+            description = strings.FlaggingRules.Status.DEACTIVATE_WARNING
+
+        if status == "reactivate":
+            title = strings.FlaggingRules.Status.REACTIVATE_HEADING
+            description = strings.FlaggingRules.Status.REACTIVATE_WARNING
+
+        context = {
+            "title": title,
+            "description": description,
+            "user_id": str(kwargs["pk"]),
+            "status": status,
+        }
+        return render(request, "flags/change_status.html", context)
+
+    def post(self, request, **kwargs):
+        status = kwargs["status"]
+
+        if status != "deactivate" and status != "reactivate":
+            raise Http404
+
+        # update to flagging rule update
+        # put_flag(request, str(kwargs["pk"]), json={"status": request.POST["status"]})
+
+        return redirect(reverse_lazy("flags:change_flagging_rule_status"))
