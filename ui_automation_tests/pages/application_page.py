@@ -44,6 +44,7 @@ class ApplicationPage(BasePage):
     LINK_ORGANISATION_ID = "link-organisation"
     EDIT_GOODS_FLAGS = "button-edit-goods-flags"  # ID
     CASE_OFFICER_ID = "case-officer"  # ID
+    ASSIGN_USER_ID = "assign-user"
     EXPAND_FLAGS_PARTIAL_ID = "expand-flags-"
     ASSIGNED_USERS_ID = "assigned_users"
     CASE_QUEUES_ID = "case_queues"
@@ -210,6 +211,9 @@ class ApplicationPage(BasePage):
 
     def get_case_officer_element(self):
         return self.driver.find_element_by_id(self.CASE_OFFICER_ID)
+
+    def get_assign_user_element(self):
+        return self.driver.find_element_by_id(self.ASSIGN_USER_ID)
 
     def get_generate_document_element(self):
         return self.driver.find_element_by_id(self.GENERATE_DOCUMENTS_BTN)
