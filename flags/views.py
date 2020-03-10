@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from cases.forms.flags import flags_form, set_case_flags_form
 from cases.services import put_flag_assignments, get_good, get_goods_type, get_case, get_destination
 from conf.constants import FlagLevels, Permission
-from core.helpers import convert_dict_to_query_params
+from core.helpers import convert_dict_to_query_params, has_permission
 from core.services import get_user_permissions
 from flags.forms import (
     add_flag_form,
@@ -237,8 +237,7 @@ class AssignFlags(TemplateView):
 
 class ManageFlagRules(TemplateView):
     def get(self, request, **kwargs):
-
-        if Permission.MANAGE_FLAGGING_RULES.value not in get_user_permissions(request):
+        if has_permission(request, Permission.MANAGE_FLAGGING_RULES):
             return redirect(reverse_lazy("cases:cases"))
 
         params = {"page": int(request.GET.get("page", 1))}
@@ -282,7 +281,7 @@ class CreateFlagRules(MultiFormView):
     action = post_flagging_rules
 
     def init(self, request, **kwargs):
-        if Permission.MANAGE_FLAGGING_RULES.value not in get_user_permissions(request):
+        if has_permission(request, Permission.MANAGE_FLAGGING_RULES):
             return redirect(reverse_lazy("cases:cases"))
 
         type = request.POST.get("level", None)
@@ -291,7 +290,7 @@ class CreateFlagRules(MultiFormView):
 
 class EditFlaggingRules(SingleFormView):
     def init(self, request, **kwargs):
-        if Permission.MANAGE_FLAGGING_RULES.value not in get_user_permissions(request):
+        if has_permission(request, Permission.MANAGE_FLAGGING_RULES):
             return redirect(reverse_lazy("cases:cases"))
 
         self.object_pk = kwargs["pk"]
@@ -303,7 +302,7 @@ class EditFlaggingRules(SingleFormView):
 
 class ChangeFlaggingRuleStatus(TemplateView):
     def get(self, request, **kwargs):
-        if Permission.MANAGE_FLAGGING_RULES.value not in get_user_permissions(request):
+        if has_permission(request, Permission.MANAGE_FLAGGING_RULES):
             return redirect(reverse_lazy("cases:cases"))
 
         status = kwargs["status"]
