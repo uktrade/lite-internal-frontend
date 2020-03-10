@@ -31,19 +31,17 @@ def edit_flag_form():
     return Form(title="Edit Flag", questions=[_name,], back_link=_back_link)
 
 
+_levels = [
+    Option(key="Good", value=strings.FlaggingRules.Create.Type.GOOD),
+    Option(key="Destination", value=strings.FlaggingRules.Create.Type.DESTINATION),
+    Option(key="Case", value=strings.FlaggingRules.Create.Type.APPLICATION),
+]
+
+
 def select_flagging_rule_type():
     return Form(
         title=strings.FlaggingRules.Create.Type.TITLE,
-        questions=[
-            RadioButtons(
-                name="level",
-                options=[
-                    Option(key="Good", value=strings.FlaggingRules.Create.Type.GOOD),
-                    Option(key="Destination", value=strings.FlaggingRules.Create.Type.DESTINATION),
-                    Option(key="Case", value=strings.FlaggingRules.Create.Type.APPLICATION),
-                ],
-            )
-        ],
+        questions=[RadioButtons(name="level", options=_levels,)],
         back_link=BackLink(strings.FlaggingRules.Create.BACKLINK, reverse_lazy("flags:flagging_rules")),
     )
 

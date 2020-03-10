@@ -6,10 +6,16 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.forms.flags import flags_form, set_case_flags_form
-from cases.services import put_flag_assignments, get_good, get_goods_type, get_case, get_destination
+from cases.services import put_flag_assignments, get_good, get_goods_type, get_case, get_destination, get_case_types
 from conf.constants import FlagLevels
 from core.helpers import convert_dict_to_query_params
-from flags.forms import add_flag_form, edit_flag_form, create_flagging_rules_formGroup
+from flags.forms import (
+    add_flag_form,
+    edit_flag_form,
+    create_flagging_rules_formGroup,
+    select_condition_and_flag,
+    _levels,
+)
 from flags.services import (
     get_cases_flags,
     get_goods_flags,
@@ -17,12 +23,14 @@ from flags.services import (
     get_destination_flags,
     post_flagging_rules,
     get_flagging_rules,
+    put_flagging_rule,
+    get_flagging_rule,
 )
 from flags.services import get_flags, post_flags, get_flag, put_flag
 from lite_content.lite_internal_frontend import strings
-from lite_forms.components import Option
+from lite_forms.components import Option, FiltersBar, Select, Checkboxes
 from lite_forms.generators import form_page
-from lite_forms.views import MultiFormView
+from lite_forms.views import MultiFormView, SingleFormView
 from organisations.services import get_organisation
 from users.services import get_gov_user
 
@@ -229,24 +237,58 @@ class AssignFlags(TemplateView):
 class ManageFlagRules(TemplateView):
     def get(self, request, **kwargs):
         params = {"page": int(request.GET.get("page", 1))}
+
+        if request.GET.get("only_my_team"):
+            params["only_my_team"] = request.GET.get("only_my_team")
+        if request.GET.get("level"):
+            params["level"] = request.GET.get("level")
+        if request.GET.get("include_deactivated"):
+            params["only_my_team"] = request.GET.get("only_my_team")
+
         data, _ = get_flagging_rules(request, convert_dict_to_query_params(params))
+
+        filters = FiltersBar(
+            [
+                Select(name="level", title="Type", options=_levels),
+                Checkboxes(
+                    name="only_my_team",
+                    options=[Option("true", "Only show my team")],
+                    classes=["govuk-checkboxes--small"],
+                ),
+                Checkboxes(
+                    name="include_deactivated",
+                    options=[Option("true", "Include deactivated")],
+                    classes=["govuk-checkboxes--small"],
+                ),
+            ]
+        )
+
         context = {
             "title": "Flag Rules",
             "data": data,
             "page": params.pop("page"),
             "team": get_gov_user(request)[0]["user"]["team"]["id"],
+            "filters": filters,
         }
         return render(request, "flags/flagging_rules_list.html", context)
 
 
 class CreateFlagRules(MultiFormView):
-    forms = None
     success_url = reverse_lazy("flags:flagging_rules")
     action = post_flagging_rules
 
     def init(self, request, **kwargs):
         type = request.POST.get("level", None)
         self.forms = create_flagging_rules_formGroup(request=self.request, type=type)
+
+
+class EditFlaggingRules(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.data = get_flagging_rule(request, self.object_pk)["flagging_rule"]
+        self.form = select_condition_and_flag(request, type=self.data["level"])
+        self.action = put_flagging_rule
+        self.success_url = reverse_lazy("flags:flagging_rules")
 
 
 class ChangeFlaggingRuleStatus(TemplateView):
@@ -267,7 +309,6 @@ class ChangeFlaggingRuleStatus(TemplateView):
         context = {
             "title": title,
             "description": description,
-            "user_id": str(kwargs["pk"]),
             "status": status,
         }
         return render(request, "flags/change_flagging_rule_status.html", context)
@@ -279,6 +320,6 @@ class ChangeFlaggingRuleStatus(TemplateView):
             raise Http404
 
         # update to flagging rule update
-        # put_flag(request, str(kwargs["pk"]), json={"status": request.POST["status"]})
+        put_flagging_rule(request, str(kwargs["pk"]), json={"status": request.POST["status"]})
 
         return redirect(reverse_lazy("flags:flagging_rules"))
