@@ -365,7 +365,7 @@ class CaseOfficer(TemplateView):
 
 class UserWorkQueue(SingleFormView):
     def init(self, request, **kwargs):
-        self.case_pk = kwargs["pk"]
+        self.object_pk = kwargs["pk"]
         self.form = assign_user_and_work_queue(request)
         self.action = get_gov_user_from_form_selection
 
@@ -375,15 +375,15 @@ class UserWorkQueue(SingleFormView):
 
     def get_success_url(self):
         user_id = self.get_validated_data().get("user").get("id")
-        return reverse_lazy("cases:assign_user_queue", kwargs={"pk": self.case_pk, "user_pk": user_id})
+        return reverse_lazy("cases:assign_user_queue", kwargs={"pk": self.object_pk, "user_pk": user_id})
 
 
 class UserTeamQueue(SingleFormView):
     def init(self, request, **kwargs):
         user_pk = str(kwargs["user_pk"])
-        self.case_pk = kwargs["pk"]
+        self.object_pk = kwargs["pk"]
         self.form = users_team_queues(request, str(kwargs['pk']), user_pk)
         self.action = put_queue_case_assignments
 
     def get_success_url(self):
-        return reverse_lazy("cases:case", kwargs={"pk": self.case_pk})
+        return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
