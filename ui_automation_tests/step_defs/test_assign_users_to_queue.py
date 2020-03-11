@@ -1,6 +1,8 @@
 from pytest_bdd import when, then, parsers, scenarios, given
 from pages.case_list_page import CaseListPage
 from pages.shared import Shared
+
+from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.shared import functions
 
 from ui_automation_tests.pages.assign_user_page import AssignUserPage
@@ -137,3 +139,9 @@ def create_queue(context, api_client_config):
 @then("I see a user is assigned")
 def case_officer_is_set(driver, internal_info):
     assert internal_info["name"] in AssignUserPage(driver).get_assigned_user()
+
+
+@when("I click assign user Button")  # noqa
+def i_click_assign_user_button(driver):
+    application_page = ApplicationPage(driver)
+    application_page.click_assign_user_button()

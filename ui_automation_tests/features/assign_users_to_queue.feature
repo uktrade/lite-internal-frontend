@@ -41,7 +41,6 @@ Feature: I want to assign one or more specific users to a case in a work queue
 
 
   @LT_1295_assign_user_to_case_and_queue @regression
-  Scenario: Assign a user and queue to a case
     Given I sign in to SSO or am signed into SSO
     And a new queue has been created
     And I create open application or open application has been previously created

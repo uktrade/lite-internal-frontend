@@ -333,9 +333,3 @@ def go_to_users(driver, sso_sign_in, internal_url):  # noqa
 @given("an Exhibition Clearance is created")  # noqa
 def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance):
     pass
-
-
-@when("I click assign user Button")  # noqa
-def i_click_assign_user_button(driver):
-    application_page = ApplicationPage(driver)
-    application_page.click_assign_user_button()
