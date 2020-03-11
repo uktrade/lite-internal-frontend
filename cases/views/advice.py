@@ -27,7 +27,7 @@ from cases.services import (
     get_application_default_duration,
     grant_licence,
     get_final_decision_documents,
-)
+    get_licence)
 from cases.views_helpers import (
     get_case_advice,
     render_form_page,
@@ -307,6 +307,11 @@ class Finalise(TemplateView):
     """
 
     def get(self, request, *args, **kwargs):
+        # Redirect if licence already exists
+        licence, status_code = get_licence(request, str(kwargs["pk"]))
+        if status_code == HTTPStatus.OK:
+            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
+
         case = get_case(request, str(kwargs["pk"]))
         case_type = case["application"]["case_type"]["sub_type"]["key"]
 
