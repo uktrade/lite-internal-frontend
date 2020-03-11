@@ -57,6 +57,9 @@ def get_flagging_rule(request, pk):
     return data.json(), data.status_code
 
 
-def put_flagging_rule(request, pk, json):
+def put_flagging_rule(self, request, pk, json):
+    data = json
+    if json.get("form_name"):
+        data["status"] = json.get("form_name")
     data = put(request, FLAGGING_RULE + str(pk), json)
     return data.json(), data.status_code

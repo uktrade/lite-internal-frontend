@@ -27,8 +27,7 @@
 				<th class="govuk-table__header" scope="col">{% lcs 'FlaggingRules.List.FLAG' %}</th>
 				<th class="govuk-table__header" scope="col">{% lcs 'FlaggingRules.List.CONDITION' %}</th>
 				<th class="govuk-table__header" scope="col">{% lcs 'FlaggingRules.List.STATUS' %}</th>
-				<th class="govuk-table__header" scope="col"></th>
-				<th class="govuk-table__header" scope="col"></th>
+				<th class="govuk-table__header" scope="col">{% lcs 'FlaggingRules.List.ACTIONS' %}</th>
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
@@ -49,18 +48,20 @@
 					<td class="govuk-table__cell">
 						{{ flagging_rule.status }}
 					</td>
-					<td class="govuk-table__cell">
+					<td class="govuk-table__cell govuk-table__cell--tight">
 						{% if flagging_rule.team.id == team %}
-							<a href="{% url 'flags:edit_flagging_rule' flagging_rule.id %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state govuk-!-margin-right-2">{% lcs 'FlaggingRules.List.EDIT' %}</a>
-						{% endif %}
-					</td>
-					<td class="govuk-table__cell">
-						{% if flagging_rule.team.id == team %}
-							{% if flagging_rule.status == 'Active' %}
-								<a href="{% url 'flags:change_flagging_rule_status' flagging_rule.id 'deactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state govuk-!-margin-right-2">{% lcs 'FlaggingRules.List.DEACTIVATE' %}</a>
-							{% elif flagging_rule.status == 'Deactivated' %}
-								<a href="{% url 'flags:change_flagging_rule_status' flagging_rule.id 'reactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state govuk-!-margin-right-2">{% lcs 'FlaggingRules.List.REACTIVATE' %}</a>
-							{% endif %}
+							<ul class="govuk-table__cell__actions-list">
+								<li class="govuk-table__cell__actions-list-item">
+									<a href="{% url 'flags:edit_flagging_rule' flagging_rule.id %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">{% lcs 'FlaggingRules.List.EDIT' %}</a>
+								</li>
+								<li class="govuk-table__cell__actions-list-item">
+									{% if flagging_rule.status == 'Active' %}
+										<a href="{% url 'flags:change_flagging_rule_status' flagging_rule.id 'Deactivated' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">{% lcs 'FlaggingRules.List.DEACTIVATE' %}</a>
+									{% elif flagging_rule.status == 'Deactivated' %}
+										<a href="{% url 'flags:change_flagging_rule_status' flagging_rule.id 'Active' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">{% lcs 'FlaggingRules.List.REACTIVATE' %}</a>
+									{% endif %}
+								</li>
+							</ul>
 						{% endif %}
 					</td>
 				</tr>

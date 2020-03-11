@@ -16,6 +16,7 @@ from flags.forms import (
     create_flagging_rules_formGroup,
     select_condition_and_flag,
     _levels,
+    deactivate_or_activate_flagging_rule_form,
 )
 from flags.services import (
     get_cases_flags,
@@ -300,38 +301,30 @@ class EditFlaggingRules(SingleFormView):
         self.success_url = reverse_lazy("flags:flagging_rules")
 
 
-class ChangeFlaggingRuleStatus(TemplateView):
-    def get(self, request, **kwargs):
+class ChangeFlaggingRuleStatus(SingleFormView):
+    action = put_flagging_rule
+    success_url = reverse_lazy("flags:flagging_rules")
+
+    def init(self, request, **kwargs):
         if Permission.MANAGE_FLAGGING_RULES.value not in get_user_permissions(request):
             return redirect(reverse_lazy("cases:cases"))
 
         status = kwargs["status"]
+        self.object_pk = kwargs["pk"]
 
-        if status != "deactivate" and status != "reactivate":
+        if status != "Deactivated" and status != "Active":
             raise Http404
 
-        if status == "deactivate":
+        if status == "Deactivated":
             title = strings.FlaggingRules.Status.DEACTIVATE_HEADING
             description = strings.FlaggingRules.Status.DEACTIVATE_WARNING
+            confirm_text = "deactivate flagging rule"
 
-        if status == "reactivate":
+        if status == "Active":
             title = strings.FlaggingRules.Status.REACTIVATE_HEADING
             description = strings.FlaggingRules.Status.REACTIVATE_WARNING
+            confirm_text = "reactivate flagging rule"
 
-        context = {
-            "title": title,
-            "description": description,
-            "status": status,
-        }
-        return render(request, "flags/change_flagging_rule_status.html", context)
-
-    def post(self, request, **kwargs):
-        status = kwargs["status"]
-
-        if status != "deactivate" and status != "reactivate":
-            raise Http404
-
-        # update to flagging rule update
-        put_flagging_rule(request, str(kwargs["pk"]), json={"status": request.POST["status"]})
-
-        return redirect(reverse_lazy("flags:flagging_rules"))
+        self.form = deactivate_or_activate_flagging_rule_form(
+            title=title, description=description, confirm_text=confirm_text, status=status
+        )
