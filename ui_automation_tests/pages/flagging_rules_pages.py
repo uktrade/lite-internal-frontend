@@ -1,7 +1,5 @@
-import shared.tools.helpers as utils
 from selenium.webdriver.support.select import Select
 from shared.BasePage import BasePage
-from pages.shared import Shared
 
 
 class FlaggingRulePages(BasePage):

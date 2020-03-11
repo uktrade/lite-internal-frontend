@@ -1,5 +1,5 @@
 from cases.services import get_case_types
-from core.services import get_control_list_entries, get_countries
+from core.services import get_countries
 from flags.services import get_goods_flags, get_destination_flags, get_cases_flags
 from lite_content.lite_internal_frontend import strings
 from django.urls import reverse_lazy
