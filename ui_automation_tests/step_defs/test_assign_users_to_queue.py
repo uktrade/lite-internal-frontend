@@ -26,14 +26,14 @@ def assign_user_to_case(driver, internal_info, context):
 @then("user is assignee on case list")
 def user_is_on_case_list(driver, context):
     assert context.user_name in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
-            "user name " + context.user_name + " is not an assignee on case list"
+        "user name " + context.user_name + " is not an assignee on case list"
     )
 
 
 @then("user is not an assignee on case list")
 def user_is_not_on_case_list(driver, context):
     assert context.user_name in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
-            "user name " + context.user_name + " is an assignee on case list"
+        "user name " + context.user_name + " is an assignee on case list"
     )
 
 
@@ -79,11 +79,11 @@ def filter_search_for_assign_users(driver, internal_info):
 def assign_user_to_case(driver, enabled_disabled):
     if enabled_disabled == "enabled":
         assert (
-                "disabled" not in CaseListPage(driver).get_class_name_of_assign_users_button()
+            "disabled" not in CaseListPage(driver).get_class_name_of_assign_users_button()
         ), "assign users button is not enabled"
     elif enabled_disabled == "disabled":
         assert (
-                "disabled" in CaseListPage(driver).get_class_name_of_assign_users_button()
+            "disabled" in CaseListPage(driver).get_class_name_of_assign_users_button()
         ), "assign users button is not disabled"
 
 

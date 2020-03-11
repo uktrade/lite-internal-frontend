@@ -382,7 +382,7 @@ class UserTeamQueue(SingleFormView):
     def init(self, request, **kwargs):
         user_pk = str(kwargs["user_pk"])
         self.object_pk = kwargs["pk"]
-        self.form = users_team_queues(request, str(kwargs['pk']), user_pk)
+        self.form = users_team_queues(request, str(kwargs["pk"]), user_pk)
         self.action = put_queue_case_assignments
 
     def get_success_url(self):
