@@ -41,7 +41,7 @@ from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
 from queues.services import get_cases_search_data, put_queue_case_assignments
-from users.services import get_gov_user, get_gov_user_from_form_selection
+from users.services import get_gov_user_from_form_selection
 
 
 class Cases(TemplateView):

@@ -335,7 +335,7 @@ def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance):
     pass
 
 
-@when("I click assign user Button")
+@when("I click assign user Button")  # noqa
 def i_click_assign_user_button(driver):
     application_page = ApplicationPage(driver)
     application_page.click_assign_user_button()
