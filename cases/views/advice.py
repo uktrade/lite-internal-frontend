@@ -373,7 +373,7 @@ class FinaliseGenerateDocuments(TemplateView):
     def get_page(request, pk, errors=None):
         decisions, _ = get_final_decision_documents(request, str(pk))
         decisions = decisions["documents"]
-        can_submit = all([decision["document"] for decision in decisions])
+        can_submit = all([decision.get("document") for decision in decisions.values()])
 
         context = {
             "case_id": str(pk),
