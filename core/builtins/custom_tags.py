@@ -202,7 +202,7 @@ def default_na(value):
     """
     Returns N/A if the parameter given is none
     """
-    if value:
+    if value is not None:
         return value
     else:
         return mark_safe(f'<span class="lite-hint">{strings.NOT_APPLICABLE}</span>')  # nosec
