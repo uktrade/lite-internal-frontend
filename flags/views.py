@@ -23,10 +23,10 @@ from flags.services import (
     get_goods_flags,
     get_organisation_flags,
     get_destination_flags,
-    post_flagging_rules,
     get_flagging_rules,
     put_flagging_rule,
     get_flagging_rule,
+    post_flagging_rules,
 )
 from flags.services import get_flags, post_flags, get_flag, put_flag
 from lite_content.lite_internal_frontend import strings
@@ -278,15 +278,14 @@ class ManageFlagRules(TemplateView):
 
 
 class CreateFlagRules(MultiFormView):
-    success_url = reverse_lazy("flags:flagging_rules")
-    action = post_flagging_rules
-
     def init(self, request, **kwargs):
         if Permission.MANAGE_FLAGGING_RULES.value not in get_user_permissions(request):
             return redirect(reverse_lazy("cases:cases"))
 
         type = request.POST.get("level", None)
         self.forms = create_flagging_rules_formGroup(request=self.request, type=type)
+        self.action = post_flagging_rules
+        self.success_url = reverse_lazy("flags:flagging_rules")
 
 
 class EditFlaggingRules(SingleFormView):

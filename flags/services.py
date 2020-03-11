@@ -47,7 +47,7 @@ def get_flagging_rules(request, params):
     return data.json(), data.status_code
 
 
-def post_flagging_rules(_, request, json):
+def post_flagging_rules(request, json):
     data = post(request, FLAGGING_RULES, json)
     return data.json(), data.status_code
 
