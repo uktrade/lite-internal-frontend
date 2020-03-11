@@ -396,7 +396,7 @@ def get_generated_document_preview(request, pk, tpk, text):
 
 
 def get_generated_document(request, pk, dpk):
-    data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_URL + dpk + "/")
+    data = get(request, CASE_URL + str(pk) + GENERATED_DOCUMENTS_URL + str(dpk) + "/")
     return data.json(), data.status_code
 
 
