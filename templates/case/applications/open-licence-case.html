@@ -26,8 +26,8 @@
 		</div>
 		<div class="govuk-grid-row">
 			<div class="govuk-grid-column-one-quarter">
-				<p class="app-case-board__heading">{% lcs 'CASE_INFO_TYPE' %}</p>
-				<p>{{ case.application.case_type.sub_type.value }}</p>
+				<p class="app-case-board__heading">{% lcs 'CASE_INFO_REFERENCE_NUMBER' %}</p>
+				<p>{{ case.application.reference_number_on_information_form|default_na }}</p>
 			</div>
 			<div class="govuk-grid-column-one-quarter">
 				<p class="app-case-board__heading">{% lcs 'CASE_INFO_EXPORT_TYPE' %}</p>
@@ -40,6 +40,23 @@
 			<div class="govuk-grid-column-one-quarter">
 				<p class="app-case-board__heading">{% lcs 'CASE_INFO_LAST_UPDATED' %}</p>
 				<p>{{ case.application.updated_at|str_date }}</p>
+			</div>
+		</div>
+		<div class="govuk-grid-row">
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.EndUseDetails.INFORMED_TO_APPLY' %}</p>
+				<p>{{ case.application.is_military_end_use_controls }}</p>
+				<p>{{ case.application.military_end_use_controls_ref|default:"" }}</p>
+			</div>
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.EndUseDetails.INFORMED_WMD' %}</p>
+				<p>{{ case.application.is_informed_wmd }}</p>
+				<p>{{ case.application.informed_wmd_ref|default:"" }}</p>
+			</div>
+			<div class="govuk-grid-column-one-quarter">
+				<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.EndUseDetails.SUSPECTED_WMD' %}</p>
+				<p>{{ case.application.is_suspected_wmd }}</p>
+				<p>{{ case.application.suspected_wmd_ref|default:"" }}</p>
 			</div>
 		</div>
 	</div>
