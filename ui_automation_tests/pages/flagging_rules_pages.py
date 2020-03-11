@@ -1,6 +1,8 @@
 from selenium.webdriver.support.select import Select
 from shared.BasePage import BasePage
 
+from ui_automation_tests.shared import functions
+
 
 class FlaggingRulePages(BasePage):
     RADIO_BTN_FLAGGING_RULE_TYPE_ID = "level"
@@ -12,8 +14,9 @@ class FlaggingRulePages(BasePage):
     BTN_CREATE_NEW_FLAGGING_RULE = "add-a-flag-button"
     INCLUDE_DEACTIVATED = "Include deactivated"
     BUTTON_APPLY_FILTERS_ID = "button-apply-filters"
-    REACTIVATE_FLAG_BUTTON = "a[href*='/reactivate/']"  # CSS
-    DEACTIVATE_FLAG_BUTTON = "a[href*='/deactivate/']"  # CSS
+    REACTIVATE_FLAG_BUTTON = "a[href*='/Active/']"  # CSS
+    DEACTIVATE_FLAG_BUTTON = "a[href*='/Deactivated/']"  # CSS
+    CONFIRM_DEACTIVATE_DEACTIVATE = "confirm-yes"
 
     def click_include_deactivated(self):
         self.driver.find_element_by_id(self.INCLUDE_DEACTIVATED).click()
@@ -40,9 +43,8 @@ class FlaggingRulePages(BasePage):
         select = Select(self.driver.find_element_by_id(self.SELECT_FLAG_ID))
         select.select_by_visible_text(flag)
 
-    def select_country(self, country):
-        select = Select(self.driver.find_element_by_id(self.MATCHING_VALUE_ID))
-        select.select_by_visible_text(country)
+    def enter_country(self, country):
+        functions.send_keys_to_autocomplete(self.driver, self.MATCHING_VALUE_ID, country)
 
     def select_case_type(self, case_type):
         select = Select(self.driver.find_element_by_id(self.MATCHING_VALUE_ID))
@@ -50,6 +52,9 @@ class FlaggingRulePages(BasePage):
 
     def click_on_deactivate_flag(self):
         self.driver.find_element_by_css_selector(self.DEACTIVATE_FLAG_BUTTON).click()
+
+    def click_confirm_deactivate_activate(self):
+        self.driver.find_element_by_id(self.CONFIRM_DEACTIVATE_DEACTIVATE).click()
 
     def click_on_reactivate_flag(self):
         self.driver.find_element_by_css_selector(self.REACTIVATE_FLAG_BUTTON).click()

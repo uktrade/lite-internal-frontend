@@ -47,7 +47,7 @@ def get_flagging_rules(request, params):
     return data.json(), data.status_code
 
 
-def post_flagging_rules(self, request, json):
+def post_flagging_rules(_, request, json):
     data = post(request, FLAGGING_RULES, json)
     return data.json(), data.status_code
 
@@ -57,7 +57,7 @@ def get_flagging_rule(request, pk):
     return data.json(), data.status_code
 
 
-def put_flagging_rule(self, request, pk, json):
+def put_flagging_rule(request, pk, json):
     data = json
     if json.get("form_name"):
         data["status"] = json.get("form_name")

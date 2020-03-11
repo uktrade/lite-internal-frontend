@@ -54,6 +54,7 @@ def count_active_flags(driver, context):
 @when("I deactivate the first active flagging rule")
 def deactivate_first_active_flag(driver):
     FlaggingRulePages(driver).click_on_deactivate_flag()
+    FlaggingRulePages(driver).click_confirm_deactivate_activate()
     Shared(driver).click_submit()
 
 
@@ -107,7 +108,7 @@ def create_flagging_rule(driver, context, type, condition):
     if type == "Case":
         flagging_rules_page.select_case_type(condition)
     elif type == "Destination":
-        flagging_rules_page.select_country(condition)
+        flagging_rules_page.enter_country(condition)
     elif type == "Good":
         flagging_rules_page.enter_control_list(condition)
 
