@@ -91,10 +91,10 @@ def deactivate_or_activate_flagging_rule_form(title, description, confirm_text, 
     return confirm_form(
         title=title,
         description=description,
-        back_link_text="Back to flagging rules",
+        back_link_text=strings.FlaggingRules.Status.BACK,
         back_url=reverse_lazy("flags:flagging_rules"),
         yes_label=confirm_text,
-        no_label="Cancel",
+        no_label=strings.FlaggingRules.Status.CANCEL,
         hidden_field=status,
         confirmation_name="confirm",
     )

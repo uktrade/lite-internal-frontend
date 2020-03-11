@@ -318,12 +318,12 @@ class ChangeFlaggingRuleStatus(SingleFormView):
         if status == "Deactivated":
             title = strings.FlaggingRules.Status.DEACTIVATE_HEADING
             description = strings.FlaggingRules.Status.DEACTIVATE_WARNING
-            confirm_text = "deactivate flagging rule"
+            confirm_text = strings.FlaggingRules.Status.DEACTIVATE_CONFIRM
 
         if status == "Active":
             title = strings.FlaggingRules.Status.REACTIVATE_HEADING
             description = strings.FlaggingRules.Status.REACTIVATE_WARNING
-            confirm_text = "reactivate flagging rule"
+            confirm_text = strings.FlaggingRules.Status.REACTIVATE_CONFIRM
 
         self.form = deactivate_or_activate_flagging_rule_form(
             title=title, description=description, confirm_text=confirm_text, status=status
@@ -336,7 +336,7 @@ class ChangeFlaggingRuleStatus(SingleFormView):
                 request,
                 self.get_form(),
                 data=self.get_data(),
-                errors={"confirm": ["Select to confirm or not"]},
+                errors={"confirm": [strings.FlaggingRules.Status.NO_SELECTION_ERROR]},
                 extra_data=self.context,
             )
         elif request.POST.get("confirm") == "no":
