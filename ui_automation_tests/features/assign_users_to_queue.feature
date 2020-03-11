@@ -38,3 +38,19 @@ Feature: I want to assign one or more specific users to a case in a work queue
 #    When I select the checkbox for previously created case to be assigned
 #    And I search for SSO users name to assign
 #    Then only SSO users name is displayed in user list for assign cases
+
+
+  @LT_1295_assign_user_to_case_and_queue @regression
+  Scenario: Assign a user and queue to a case
+    Given I sign in to SSO or am signed into SSO
+    And a new queue has been created
+    And I create open application or open application has been previously created
+    When I go to application previously created
+    And I click assign user Button
+    And filter by test user email to assign a user
+    Then I should see one user with the test user name
+    When I click the user and click continue
+    And filter by queue name
+    And I click the queue and click continue
+    Then I see a user is assigned
+

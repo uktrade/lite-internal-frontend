@@ -239,3 +239,8 @@ class ApplicationPage(BasePage):
 
     def get_type_of_case_from_page(self):
         return self.driver.find_element_by_id(self.TYPE_OF_CASE).text
+
+    def click_assign_user_button(self):
+        self.click_drop_down()
+        scroll_to_element_by_id(self.driver, self.ASSIGN_USER_ID)
+        self.driver.find_element_by_id(self.ASSIGN_USER_ID).click()
