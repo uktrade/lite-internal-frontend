@@ -328,3 +328,18 @@ class ChangeFlaggingRuleStatus(SingleFormView):
         self.form = deactivate_or_activate_flagging_rule_form(
             title=title, description=description, confirm_text=confirm_text, status=status
         )
+
+    def post(self, request, **kwargs):
+        self.init(request, **kwargs)
+        if not request.POST.get("confirm"):
+            return form_page(
+                request,
+                self.get_form(),
+                data=self.get_data(),
+                errors={"confirm": ["Select to confirm or not"]},
+                extra_data=self.context,
+            )
+        elif request.POST.get("confirm") == "no":
+            return redirect(self.success_url)
+
+        return super(ChangeFlaggingRuleStatus, self).post(request, **kwargs)

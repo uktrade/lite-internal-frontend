@@ -96,5 +96,5 @@ def deactivate_or_activate_flagging_rule_form(title, description, confirm_text, 
         yes_label=confirm_text,
         no_label="Cancel",
         hidden_field=status,
-        confirmation_name="?",
+        confirmation_name="confirm",
     )
