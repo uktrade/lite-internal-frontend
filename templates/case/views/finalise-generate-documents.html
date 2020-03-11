@@ -8,7 +8,7 @@
 	{% if errors %}
 		<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" data-module="govuk-error-summary">
 			<h2 class="govuk-error-summary__title">
-				Errors
+				{% lcs 'cases.GenerateFinalDecisionDocumentsPage.ERRORS_TITLE' %}
 			</h2>
 			<div class="govuk-error-summary__body">
 				<ul class="govuk-list govuk-error-summary__list">
@@ -23,10 +23,10 @@
 	<table class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th scope="col" class="govuk-table__header">Name</th>
-				<th scope="col" class="govuk-table__header">Status</th>
-				<th scope="col" class="govuk-table__header">Added by</th>
-				<th scope="col" class="govuk-table__header">Date</th>
+				<th scope="col" class="govuk-table__header">{% lcs 'cases.GenerateFinalDecisionDocumentsPage.Table.NAME_COLUMN' %}</th>
+				<th scope="col" class="govuk-table__header">{% lcs 'cases.GenerateFinalDecisionDocumentsPage.Table.STATUS_COLUMN' %}</th>
+				<th scope="col" class="govuk-table__header">{% lcs 'cases.GenerateFinalDecisionDocumentsPage.Table.USER_COLUMN' %}</th>
+				<th scope="col" class="govuk-table__header">{% lcs 'cases.GenerateFinalDecisionDocumentsPage.Table.DATE_COLUMN' %}</th>
 				<th scope="col" class="govuk-table__header"></th>
 				<th scope="col" class="govuk-table__header"></th>
 			</tr>
@@ -38,32 +38,32 @@
 					{% if decision.document %}
 						<td class="govuk-table__cell">
 							<div id="status-{{ decision.type.key }}" data-status="done" class="lite-tag lite-tag--blue" style="margin: 0;">
-								Done
+								{% lcs 'cases.GenerateFinalDecisionDocumentsPage.DONE_STATUS' %}
 							</div>
 						</td>
 						<td class="govuk-table__cell">{{ decision.document.user.first_name }} {{ decision.document.user.last_name }}</td>
 						<td class="govuk-table__cell">{{ decision.document.created_at|str_date }}</td>
 						<td class="govuk-table__cell">
 							<a href="{% url "cases:finalise_document_template" case_id decision.type.key %}" class="govuk-button govuk-button--secondary" data-module="govuk-button" style="margin: 0;">
-								Regenerate
+								{% lcs 'cases.GenerateFinalDecisionDocumentsPage.RE_CREATE_DOCUMENT' %}
 							</a>
 						</td>
 						<td class="govuk-table__cell">
 							<a class="govuk-link" href="{% url 'cases:document' case_id decision.document.id %}">
-								View
+								{% lcs 'cases.GenerateFinalDecisionDocumentsPage.VIEW_DOCUMENT' %}
 							</a>
 						</td>
 					{% else %}
 						<td class="govuk-table__cell">
 							<div id="status-{{ decision.type.key }}" data-status="not-started" class="lite-tag lite-tag--hollow" style="margin: 0;">
-								Not started
+								{% lcs 'cases.GenerateFinalDecisionDocumentsPage.NOT_STARTED_STATUS' %}
 							</div>
 						</td>
 						<td class="govuk-table__cell"></td>
 						<td class="govuk-table__cell"></td>
 						<td class="govuk-table__cell">
 							<a href="{% url "cases:finalise_document_template" case_id decision.type.key %}" class="govuk-button" data-module="govuk-button" id="generate-document-{{ decision.type.key }}" style="margin: 0;">
-								Generate
+								{% lcs 'cases.GenerateFinalDecisionDocumentsPage.ADD_DOCUMENT' %}
 							</a>
 						</td>
 						<td class="govuk-table__cell"></td>
@@ -77,7 +77,7 @@
 		<form action="{% url "cases:finalise_documents" case_id %}" method="post">
 			{% csrf_token %}
 			<button type="submit" class="govuk-button" data-module="govuk-button">
-				Confirm Documents
+				{% lcs 'cases.GenerateFinalDecisionDocumentsPage.SUBMIT' %}
 			</button>
 		</form>
 	{% endif %}

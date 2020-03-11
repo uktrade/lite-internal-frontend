@@ -38,6 +38,7 @@ from cases.views_helpers import (
 )
 from conf.constants import DECISIONS_LIST, Permission
 from core import helpers
+from lite_content.lite_internal_frontend.cases import GenerateFinalDecisionDocumentsPage
 from lite_forms.generators import form_page, error_page
 
 
@@ -376,7 +377,7 @@ class FinaliseGenerateDocuments(TemplateView):
 
         context = {
             "case_id": str(pk),
-            "title": "Generate Decision Documents",
+            "title": GenerateFinalDecisionDocumentsPage.TITLE,
             "can_submit": can_submit,
             "decisions": decisions,
             "errors": errors,
