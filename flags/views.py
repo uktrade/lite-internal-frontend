@@ -301,7 +301,6 @@ class EditFlaggingRules(SingleFormView):
 
 
 class ChangeFlaggingRuleStatus(SingleFormView):
-    action = put_flagging_rule
     success_url = reverse_lazy("flags:flagging_rules")
 
     def init(self, request, **kwargs):
@@ -327,6 +326,7 @@ class ChangeFlaggingRuleStatus(SingleFormView):
         self.form = deactivate_or_activate_flagging_rule_form(
             title=title, description=description, confirm_text=confirm_text, status=status
         )
+        self.action = put_flagging_rule
 
     def post(self, request, **kwargs):
         self.init(request, **kwargs)
