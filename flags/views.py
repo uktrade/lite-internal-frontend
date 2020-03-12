@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from cases.forms.flags import flags_form, set_case_flags_form
 from cases.services import put_flag_assignments, get_good, get_goods_type, get_case, get_destination
 from conf.constants import FlagLevels, Permission
-from core.helpers import convert_dict_to_query_params
+from core.helpers import convert_dict_to_query_params, get_params_if_exist
 from core.services import get_user_permissions
 from flags.forms import (
     add_flag_form,
@@ -242,13 +242,7 @@ class ManageFlagRules(TemplateView):
             return redirect(reverse_lazy("cases:cases"))
 
         params = {"page": int(request.GET.get("page", 1))}
-
-        if request.GET.get("only_my_team"):
-            params["only_my_team"] = request.GET.get("only_my_team")
-        if request.GET.get("level"):
-            params["level"] = request.GET.get("level")
-        if request.GET.get("include_deactivated"):
-            params["include_deactivated"] = request.GET.get("include_deactivated")
+        params = get_params_if_exist(request, ["only_my_team", "level", "include_deactivated"], params)
 
         data, _ = get_flagging_rules(request, convert_dict_to_query_params(params))
 
