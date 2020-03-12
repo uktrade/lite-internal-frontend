@@ -267,6 +267,7 @@ class ManageFlagRules(TemplateView):
             "page": params.pop("page"),
             "team": get_gov_user(request)[0]["user"]["team"]["id"],
             "filters": filters,
+            "params_str": convert_dict_to_query_params(params),
         }
         return render(request, "flags/flagging_rules_list.html", context)
 
