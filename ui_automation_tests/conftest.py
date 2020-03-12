@@ -249,7 +249,7 @@ def enter_response(driver, controlled, control_list_entry, report, comment):  # 
     clc_query_page = GoodsQueriesPages(driver)
     clc_query_page.click_is_good_controlled(controlled)
     clc_query_page.type_in_to_control_list_entry(control_list_entry)
-    clc_query_page.choose_report_summary(report)
+    clc_query_page.choose_report_summary(1)
     clc_query_page.enter_a_comment(controlled)
     Shared(driver).click_submit()
 

@@ -27,8 +27,10 @@ def click_continue(driver, controlled, control_list_entry, report, comment, cont
     query_page.click_is_good_controlled(controlled)
     query_page.type_in_to_control_list_entry(control_list_entry)
     context.goods_control_list_entry = control_list_entry
-    query_page.choose_report_summary(report)
+    query_page.choose_report_summary(1)
+    context.report = report
     query_page.enter_a_comment(comment)
+    context.comment = comment
     Shared(driver).click_submit()
 
 
@@ -39,4 +41,4 @@ def check_control_list_code(driver, context):
     if len(rows) == 0:
         assert False, "Table rows not found"
     for row in rows:
-        assert context.goods_control_list_entry in row.text
+        assert context.goods_control_list_entry and context.comment and context.report in row.text

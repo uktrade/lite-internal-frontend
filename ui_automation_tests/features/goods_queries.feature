@@ -4,14 +4,14 @@ Feature: I want to respond to clc queries
   I want to respond to a CLC query with the correct control list classification code to use for a good  or an NLR as applicable
   So that an exporter can apply for a licence with that code and without me needing to assess the goods again
 
-  @LT_1138_respond @clc @smoke
+  @LT_1138_respond @clc @smoke @rory
   Scenario: respond to a clc type of query
     Given I sign in to SSO or am signed into SSO
     And I create report summary picklist
     And I create a clc query
     When I go to goods query previously created
     And I click Respond to clc query
-    And I respond "yes", "ML1a", "1", "Because the good is controlled" and click continue
+    And I respond "yes", "ML1a", "My standard advice would be this.", "Because the good is controlled" and click continue
     And I submit response
     When I click progress application
     And I select status "Closed" and save
