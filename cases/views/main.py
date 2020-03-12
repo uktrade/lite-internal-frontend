@@ -40,7 +40,7 @@ from lite_forms.components import FiltersBar, AutocompleteInput, Option, HiddenF
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
-from queues.services import get_cases_search_data, put_queue_case_assignments
+from queues.services import get_cases_search_data, put_queue_single_case_assignment
 from users.services import get_gov_user_from_form_selection
 
 
@@ -383,7 +383,7 @@ class UserTeamQueue(SingleFormView):
         user_pk = str(kwargs["user_pk"])
         self.object_pk = kwargs["pk"]
         self.form = users_team_queues(request, str(kwargs["pk"]), user_pk)
-        self.action = put_queue_case_assignments
+        self.action = put_queue_single_case_assignment
 
     def get_success_url(self):
         return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
