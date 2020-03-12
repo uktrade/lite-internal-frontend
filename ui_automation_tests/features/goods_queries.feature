@@ -11,7 +11,7 @@ Feature: I want to respond to clc queries
     And I create a clc query
     When I go to goods query previously created
     And I click Respond to clc query
-    And I respond "yes", "ML1a", "My standard advice would be this.", "Because the good is controlled" and click continue
+    And I respond "yes", "ML1a", "1", "Because the good is controlled" and click continue
     And I submit response
     When I click progress application
     And I select status "Closed" and save
