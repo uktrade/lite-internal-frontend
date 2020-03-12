@@ -22,21 +22,21 @@
 
 	{% include "filters.html" %}
 
-    <table class="govuk-table">
-        <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-                <th class="govuk-table__header" scope="col">Name</th>
-                <th class="govuk-table__header" scope="col">Email</th>
-                <th class="govuk-table__header" scope="col">Team</th>
-                <th class="govuk-table__header" scope="col">Role</th>
-                <th class="govuk-table__header" scope="col">Status</th>
-                <th class="govuk-table__header" scope="col"></th>
-            </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-            {% for user in data.results %}
-                <tr class="govuk-table__row" id="row-{{ forloop.counter }}">
-                    <td class="govuk-table__cell">
+	<table class="govuk-table">
+		<thead class="govuk-table__head">
+			<tr class="govuk-table__row">
+				<th class="govuk-table__header" scope="col">Name</th>
+				<th class="govuk-table__header" scope="col">Email</th>
+				<th class="govuk-table__header" scope="col">Team</th>
+				<th class="govuk-table__header" scope="col">Role</th>
+				<th class="govuk-table__header" scope="col">Status</th>
+				<th class="govuk-table__header" scope="col"></th>
+			</tr>
+		</thead>
+		<tbody class="govuk-table__body">
+			{% for user in data.results %}
+				<tr class="govuk-table__row" id="row-{{ forloop.counter }}">
+					<td class="govuk-table__cell">
 						{% if user.first_name %}
 							<a href="{% url 'users:user' user.id %}" class="govuk-link govuk-link--no-visited-state">
 								{{ user.first_name }} {{ user.last_name }}
@@ -46,26 +46,26 @@
 								{% lcs 'users.ManagePage.PENDING' %}
 							</strong>
 						{% endif %}
-                    </td>
-                    <td class="govuk-table__cell" id="{{ user.email }}">{{ user.email }}</td>
-                    <td class="govuk-table__cell">
-                        <a href="{% url 'teams:team' user.team.id %}" class="govuk-link govuk-link--no-visited-state">
-                            {{ user.team.name }}
-                        </a>
-                    </td>
-                    <td class="govuk-table__cell">{{ user.role.name }}</td>
-                    <td class="govuk-table__cell">{{ user.status }}</td>
-                    <td class="govuk-table__cell">
-                        {% if super_user or not user.role.name == 'Super User' %}
-                            <a href="{% url 'users:edit' user.id %}" class="govuk-link govuk-link--no-visited-state" id="edit-{{ user.email }}">
-                                {% lcs 'USERS_LIST_PAGE_EDIT' %}
-                            </a>
+					</td>
+					<td class="govuk-table__cell" id="{{ user.email }}">{{ user.email }}</td>
+					<td class="govuk-table__cell">
+						<a href="{% url 'teams:team' user.team.id %}" class="govuk-link govuk-link--no-visited-state">
+							{{ user.team.name }}
+						</a>
+					</td>
+					<td class="govuk-table__cell">{{ user.role.name }}</td>
+					<td class="govuk-table__cell">{{ user.status }}</td>
+					<td class="govuk-table__cell">
+						{% if super_user or not user.role.name == 'Super User' %}
+							<a href="{% url 'users:edit' user.id %}" class="govuk-link govuk-link--no-visited-state" id="edit-{{ user.email }}">
+								{% lcs 'USERS_LIST_PAGE_EDIT' %}
+							</a>
 						{% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
 	{% include "includes/pagination.html" %}
 {% endblock %}

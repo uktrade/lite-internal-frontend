@@ -98,7 +98,7 @@ class ChangeFlagStatus(TemplateView):
             "user_id": str(kwargs["pk"]),
             "status": status,
         }
-        return render(request, "flags/change_status.html", context)
+        return render(request, "flags/change-status.html", context)
 
     def post(self, request, **kwargs):
         status = kwargs["status"]

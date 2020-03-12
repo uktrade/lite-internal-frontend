@@ -22,7 +22,7 @@ class Team(TemplateView):
             "title": "Users - " + team["team"]["name"],
             "users": users["users"],
         }
-        return render(request, "teams/own_team.html", context)
+        return render(request, "teams/own-team.html", context)
 
 
 class TeamsList(TemplateView):

@@ -6,10 +6,12 @@
 
 {% block body %}
 	<div class="lite-app-bar">
-		<h2 class="govuk-heading-l">{% lcs 'Queues.QueueList.PAGE_HEADING' %}</h2>
-		<div class="lite-app-bar--right">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">{% lcs 'Queues.QueueList.PAGE_HEADING' %}</h1>
+		</div>
+		<div class="lite-app-bar__controls">
 			<a href="{% url 'queues:add' %}" class="govuk-button" draggable="false" role="button">
-				Add a Queue
+				Add a queue
 			</a>
 		</div>
 	</div>
@@ -25,7 +27,7 @@
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for queue in queues %}
-					<tr class="govuk-table__row" style="vertical-align: top;">
+					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
 							{{ queue.name|default:"Untitled" }}
 						</td>
@@ -34,10 +36,10 @@
 						</td>
 						<td class="govuk-table__cell">
 							{% if user_data.user.team.id == queue.team.id %}
-								<a href="{% url 'queues:edit' queue.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">Edit</a>
+								<a href="{% url 'queues:edit' queue.id %}" class="govuk-link govuk-link--no-visited-state">Edit</a>
 							{% else %}
-                                				None
-                            				{% endif %}
+												None
+											{% endif %}
 						</td>
 					</tr>
 				{% endfor %}
@@ -46,5 +48,4 @@
 	{% else %}
 		<p class="govuk-caption-l">There are no registered queues at the moment.</p>
 	{% endif %}
-
 {% endblock %}
