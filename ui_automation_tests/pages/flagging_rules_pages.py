@@ -50,8 +50,8 @@ class FlaggingRulePages(BasePage):
         select = Select(self.driver.find_element_by_id(self.MATCHING_VALUE_ID))
         select.select_by_value(case_type)
 
-    def click_on_deactivate_flag(self):
-        self.driver.find_element_by_css_selector(self.DEACTIVATE_FLAG_BUTTON).click()
+    def click_on_deactivate_flag(self, element):
+        element.find_element_by_css_selector(self.DEACTIVATE_FLAG_BUTTON).click()
 
     def click_confirm_deactivate_activate(self):
         self.driver.find_element_by_id(self.CONFIRM_DEACTIVATE_DEACTIVATE).click()
