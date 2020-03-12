@@ -269,7 +269,7 @@ class ManageFlagRules(TemplateView):
             "filters": filters,
             "params_str": convert_dict_to_query_params(params),
         }
-        return render(request, "flags/flagging_rules_list.html", context)
+        return render(request, "flags/flagging-rules-list.html", context)
 
 
 class CreateFlagRules(MultiFormView):
