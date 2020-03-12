@@ -199,10 +199,7 @@ def get_end_user(application: dict):
 
 @register.filter()
 def friendly_boolean_or_default_na(value):
-    if value is None:
-        return mark_safe(f'<span class="lite-hint">{strings.NOT_APPLICABLE}</span>')
-    else:
-        return friendly_boolean(value)
+    return default_na(value) if value is None else friendly_boolean(value)
 
 
 @register.filter()
