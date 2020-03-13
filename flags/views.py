@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -29,7 +30,7 @@ from flags.services import (
     post_flagging_rules,
 )
 from flags.services import get_flags, post_flags, get_flag, put_flag
-from lite_content.lite_internal_frontend import strings
+from lite_content.lite_internal_frontend import strings, flags
 from lite_forms.components import Option, FiltersBar, Select, Checkboxes
 from lite_forms.generators import form_page
 from lite_forms.views import MultiFormView, SingleFormView
@@ -57,22 +58,19 @@ class FlagsList(TemplateView):
         context = {
             "data": data,
             "status": status,
-            "title": "Flags",
             "user_data": user_data,
         }
         return render(request, "flags/index.html", context)
 
 
-class AddFlag(TemplateView):
-    def get(self, request, **kwargs):
-        return form_page(request, add_flag_form())
+class AddFlag(SingleFormView):
+    def init(self, request, **kwargs):
+        self.form = add_flag_form()
+        self.action = post_flags
 
-    def post(self, request, **kwargs):
-        response, status_code = post_flags(request, request.POST)
-        if status_code != 201:
-            return form_page(request, add_flag_form(), data=request.POST, errors=response.get("errors"))
-
-        return redirect(reverse_lazy("flags:flags"))
+    def get_success_url(self):
+        messages.success(self.request, flags.FlagsList.SUCCESS_MESSAGE)
+        return reverse("flags:flags")
 
 
 class EditFlag(TemplateView):

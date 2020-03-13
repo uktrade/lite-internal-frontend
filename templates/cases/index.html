@@ -90,12 +90,11 @@
 							<td class="cases-table__cell">
 								{% if case.sla_remaining_days != None %}
 									<div class="pie-wrapper progress-{{ case|get_sla_percentage }} {{ case.sla_remaining_days|get_sla_ring_colour }}" id="sla">
-										<span class="label"><strong>{{ case.sla_days }}</strong></span>
+										<span class="label">{{ case.sla_days }}</span>
 										<div class="pie">
 											<div class="left-side half-circle"></div>
 											<div class="right-side half-circle"></div>
 										</div>
-										<div class="shadow"></div>
 									</div>
 								{% endif %}
 							</td>
