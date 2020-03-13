@@ -31,6 +31,7 @@ from flags.services import (
 )
 from flags.services import get_flags, post_flags, get_flag, put_flag
 from lite_content.lite_internal_frontend import strings, flags
+from lite_content.lite_internal_frontend.flags import UpdateFlag
 from lite_forms.components import Option, FiltersBar, Select, Checkboxes
 from lite_forms.generators import form_page
 from lite_forms.views import MultiFormView, SingleFormView
@@ -43,22 +44,32 @@ class FlagsList(TemplateView):
         data, _ = get_flags(request)
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
-        status = kwargs.get("status", "active")
+        status = request.GET.get("status", "active")
 
         if status == "active":
             status = "no_deactivated"
-            flags = []
+            flags_data = []
             for flag in data["flags"]:
                 if flag["status"] == "Deactivated":
                     status = "active"
                 if flag["status"] == "Active":
-                    flags.append(flag)
-            data["flags"] = flags
+                    flags_data.append(flag)
+            data["flags"] = flags_data
+
+        filters = FiltersBar(
+        [
+                Checkboxes(
+                    name="status",
+                    options=[Option("deactivated", flags.FlagsList.INCLUDE_DEACTIVATED)],
+                    classes=["govuk-checkboxes--small"],
+                ),
+        ])
 
         context = {
             "data": data,
             "status": status,
             "user_data": user_data,
+            "filters": filters,
         }
         return render(request, "flags/index.html", context)
 
@@ -100,10 +111,10 @@ class ChangeFlagStatus(TemplateView):
             raise Http404
 
         if status == "deactivate":
-            description = strings.Flags.UpdateFlag.Status.DEACTIVATE_WARNING
+            description = UpdateFlag.Status.DEACTIVATE_WARNING
 
         if status == "reactivate":
-            description = strings.Flags.UpdateFlag.Status.REACTIVATE_WARNING
+            description = UpdateFlag.Status.REACTIVATE_WARNING
 
         context = {
             "title": "Are you sure you want to {} this flag?".format(status),
