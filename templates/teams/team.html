@@ -22,6 +22,7 @@
 					<th class="govuk-table__header" scope="col">Name</th>
 					<th class="govuk-table__header" scope="col">Email</th>
 					<th class="govuk-table__header" scope="col">Status</th>
+					<th class="govuk-table__header" scope="col">Actions</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -29,9 +30,7 @@
 					<tr class="govuk-table__row" id="row-{{ forloop.counter }}">
 						<td class="govuk-table__cell">
 							{% if user.first_name %}
-								<a href="{% url 'users:user' user.id %}" class="govuk-link govuk-link--no-visited-state">
-									{{ user.first_name }} {{ user.last_name }}
-								</a>
+								{{ user.first_name }} {{ user.last_name }}
 							{% else %}
 								<strong class="govuk-tag govuk-tag--blue">
 									Pending
@@ -40,6 +39,9 @@
 						</td>
 						<td class="govuk-table__cell" id="{{ user.email }}">{{ user.email }}</td>
 						<td class="govuk-table__cell">{{ user.status }}</td>
+						<td class="govuk-table__cell">
+							<a id="link-{{ user.email }}" href="{% url 'users:user' user.id %}" class="govuk-link govuk-link--no-visited-state">{% lcs 'users.UsersPage.Table.VIEW' %}</a>
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>

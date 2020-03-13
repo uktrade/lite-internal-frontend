@@ -38,11 +38,6 @@ class UsersPage(BasePage):
     def click_on_manage_roles(self):
         self.driver.find_element_by_id(self.MANAGE_ROLES_BUTTON).click()
 
-    def click_user_by_index(self, index):
-        self.driver.find_element_by_css_selector(
-            f".govuk-table__row:nth-of-type({index}) .govuk-table__cell:first-of-type a"
-        ).click()
-
     def click_change_email_link(self):
         self.driver.find_element_by_id(self.LINK_CHANGE_EMAIL_ID).click()
 
