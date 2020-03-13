@@ -11,7 +11,6 @@ class UsersPage(BasePage):
     EMAIL = "email"
     TEAM = "team"
     ROLE = "role"
-    EDIT_BUTTONS_IN_TABLE = '.govuk-table__cell a[href*="edit"]'
     EDIT_BUTTON_ON_USERS_PAGE = "edit_button"
     DEACTIVATE_BUTTON_CSS = '.govuk-button[href*="deactivate"]'
     REACTIVATE_BUTTON_CSS = '.govuk-button[href*="reactivate"]'
@@ -43,8 +42,10 @@ class UsersPage(BasePage):
     def click_on_manage_roles(self):
         self.driver.find_element_by_id(self.MANAGE_ROLES_BUTTON).click()
 
-    def click_edit_button_by_index(self, index):
-        self.driver.find_elements_by_css_selector(self.EDIT_BUTTONS_IN_TABLE)[index].click()
+    def click_user_by_index(self, index):
+        self.driver.find_element_by_css_selector(
+            f".govuk-table__row:nth-of-type({index}) .govuk-table__cell:first-of-type a"
+        ).click()
 
     def click_edit_button_on_users_page(self):
         self.driver.find_element_by_id(self.EDIT_BUTTON_ON_USERS_PAGE).click()
