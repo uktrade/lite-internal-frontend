@@ -73,17 +73,14 @@ class AddFlag(SingleFormView):
         return reverse("flags:flags")
 
 
-class EditFlag(TemplateView):
-    def get(self, request, **kwargs):
-        data, _ = get_flag(request, str(kwargs["pk"]))
-        return form_page(request, edit_flag_form(), data=data["flag"])
-
-    def post(self, request, **kwargs):
-        response, status_code = put_flag(request, str(kwargs["pk"]), request.POST)
-        if status_code != 200:
-            return form_page(request, edit_flag_form(), data=request.POST, errors=response.get("errors"))
-
-        return redirect(reverse_lazy("flags:flags"))
+class EditFlag(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = str(kwargs["pk"])
+        flag, _ = get_flag(request, self.object_pk)
+        self.form = edit_flag_form()
+        self.data = flag["flag"]
+        self.action = put_flag
+        self.success_url = reverse("flags:flags")
 
 
 class ViewFlag(TemplateView):
