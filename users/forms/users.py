@@ -1,8 +1,7 @@
 from django.urls import reverse_lazy
 
-from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.users import AddUserForm, EditUserForm
-from lite_forms.components import Form, Select, TextInput, BackLink, Summary
+from lite_forms.components import Form, Select, TextInput, BackLink
 from lite_forms.helpers import conditional
 from teams.services import get_teams
 from users.services import get_roles
