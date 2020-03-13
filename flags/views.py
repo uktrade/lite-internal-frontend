@@ -57,13 +57,14 @@ class FlagsList(TemplateView):
             data["flags"] = flags_data
 
         filters = FiltersBar(
-        [
+            [
                 Checkboxes(
                     name="status",
                     options=[Option("deactivated", flags.FlagsList.INCLUDE_DEACTIVATED)],
                     classes=["govuk-checkboxes--small"],
                 ),
-        ])
+            ]
+        )
 
         context = {
             "data": data,
