@@ -11,7 +11,11 @@
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-xl">
 				{% block title %}
-					{{ data.user.first_name }} {{ data.user.last_name }}
+					{% if data.user.first_name %}
+						{{ data.user.first_name }} {{ data.user.last_name }}
+					{% else %}
+						{{ data.user.email }}
+					{% endif %}
 				{% endblock %}
 			</h1>
 		</div>
@@ -19,11 +23,11 @@
 			{% if can_deactivate %}
 				{% if request.user.lite_api_user_id|stringformat:"s" != data.user.id|stringformat:"s" %}
 					{% if data.user.status == 'Active' %}
-						<a href="{% url 'users:change_status' data.user.id 'deactivate' %}" role="button" draggable="false" class="govuk-button govuk-button--warning govuk-!-margin-right-2">
+						<a id="button-deactivate-user" href="{% url 'users:change_status' data.user.id 'deactivate' %}" role="button" draggable="false" class="govuk-button govuk-button--secondary">
 							{% lcs 'users.UserProfile.DEACTIVATE_BUTTON' %}
 						</a>
 					{% elif data.user.status == 'Deactivated' %}
-						<a href="{% url 'users:change_status' data.user.id 'reactivate' %}" role="button" draggable="false" class="govuk-button govuk-!-margin-right-2">
+						<a id="button-reactivate-user" href="{% url 'users:change_status' data.user.id 'reactivate' %}" role="button" draggable="false" class="govuk-button govuk-button--secondary">
 							{% lcs 'users.UserProfile.REACTIVATE_BUTTON' %}
 						</a>
 					{% endif %}
@@ -33,24 +37,26 @@
 	</div>
 
 	<dl class="govuk-summary-list">
-		<div class="govuk-summary-list__row">
-			<dt class="govuk-summary-list__key">
-				{% lcs 'users.UserProfile.SummaryList.FIRST_NAME' %}
-			</dt>
-			<dd class="govuk-summary-list__value">
-				{{ data.user.first_name }}
-			</dd>
-			<dd class="govuk-summary-list__actions"></dd>
-		</div>
-		<div class="govuk-summary-list__row">
-			<dt class="govuk-summary-list__key">
-				{% lcs 'users.UserProfile.SummaryList.LAST_NAME' %}
-			</dt>
-			<dd class="govuk-summary-list__value">
-				{{ data.user.last_name }}
-			</dd>
-			<dd class="govuk-summary-list__actions"></dd>
-		</div>
+		{% if data.user.first_name %}
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs 'users.UserProfile.SummaryList.FIRST_NAME' %}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ data.user.first_name }}
+				</dd>
+				<dd class="govuk-summary-list__actions"></dd>
+			</div>
+			<div class="govuk-summary-list__row">
+				<dt class="govuk-summary-list__key">
+					{% lcs 'users.UserProfile.SummaryList.LAST_NAME' %}
+				</dt>
+				<dd class="govuk-summary-list__value">
+					{{ data.user.last_name }}
+				</dd>
+				<dd class="govuk-summary-list__actions"></dd>
+			</div>
+		{% endif %}
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
 				{% lcs 'users.UserProfile.SummaryList.EMAIL' %}
