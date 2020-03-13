@@ -28,13 +28,13 @@ def add_flag_form():
         title=CreateFlagForm.TITLE,
         description=CreateFlagForm.DESCRIPTION,
         questions=[
-            TextInput(title=CreateFlagForm.Name.TITLE,
-                      description=CreateFlagForm.Name.DESCRIPTION,
-                      name="name"),
-            Select(title=CreateFlagForm.Level.TITLE,
-                   description=CreateFlagForm.Level.DESCRIPTION,
-                   name="level",
-                   options=options),
+            TextInput(title=CreateFlagForm.Name.TITLE, description=CreateFlagForm.Name.DESCRIPTION, name="name"),
+            Select(
+                title=CreateFlagForm.Level.TITLE,
+                description=CreateFlagForm.Level.DESCRIPTION,
+                name="level",
+                options=options,
+            ),
         ],
         default_button_name=CreateFlagForm.SUBMIT_BUTTON,
         back_link=BackLink(CreateFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
@@ -42,14 +42,12 @@ def add_flag_form():
 
 
 def edit_flag_form():
-    return Form(title=EditFlagForm.TITLE,
-                questions=[
-                    TextInput(title=EditFlagForm.Name.TITLE,
-                              description=EditFlagForm.Name.DESCRIPTION,
-                              name="name")
-                ],
-                back_link=BackLink(EditFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
-                default_button_name=EditFlagForm.SUBMIT_BUTTON)
+    return Form(
+        title=EditFlagForm.TITLE,
+        questions=[TextInput(title=EditFlagForm.Name.TITLE, description=EditFlagForm.Name.DESCRIPTION, name="name")],
+        back_link=BackLink(EditFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
+        default_button_name=EditFlagForm.SUBMIT_BUTTON,
+    )
 
 
 def select_flagging_rule_type():
