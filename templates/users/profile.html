@@ -9,8 +9,10 @@
 {% block two_thirds %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-l">
-				{% block title %}{{ data.user.first_name }} {{ data.user.last_name }}{% endblock %}
+			<h1 class="govuk-heading-xl">
+				{% block title %}
+					{{ data.user.first_name }} {{ data.user.last_name }}
+				{% endblock %}
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
