@@ -3,13 +3,21 @@
 {% load svg %}
 
 {% block back_link %}
-	<a href="{% url 'users:users' %}" class="govuk-back-link">Back to Users</a>
+	<a href="{% url 'users:users' %}" class="govuk-back-link">
+		{% lcs 'roles.ManageRolesPage.BACK_LINK' %}
+	</a>
 {% endblock %}
 
 {% block body %}
+	{% include 'includes/messages.html' %}
+	
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-l">{{ title }}</h1>
+			<h1 class="govuk-heading-l">
+				{% block title %}
+					{% lcs 'roles.ManageRolesPage.TITLE' %}
+				{% endblock %}
+			</h1>
 			<p class="govuk-caption-m">
 				{% lcs 'roles.ManageRolesPage.DESCRIPTION' %}
 			</p>
@@ -26,9 +34,9 @@
 	<table class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th class="govuk-table__header" scope="col"> {% lcs 'roles.ManageRolesPage.Table.HEADER' %} </th>
-				<th class="govuk-table__header" scope="col"> {% lcs 'roles.ManageRolesPage.Table.PERMISSIONS_TITLE' %} </th>
-				<th class="govuk-table__header" scope="col"></th>
+				<th class="govuk-table__header" scope="col">{% lcs 'roles.ManageRolesPage.Table.HEADER' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'roles.ManageRolesPage.Table.PERMISSIONS_TITLE' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'roles.ManageRolesPage.Table.ACTIONS' %}</th>
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
@@ -62,7 +70,7 @@
 						{% if not role.id == super_user_role_id %}
 							{% if 'ADMINISTER_ROLES' in user_permissions %}
 								{% if role.id != user_role_id %}
-									<a href="{% url 'users:edit_role' role.id %}" class="govuk-link govuk-link--no-visited-state"> {% lcs 'roles.ManageRolesPage.Table.EDIT_BUTTON' %} </a>
+									<a href="{% url 'users:edit_role' role.id %}" class="govuk-link govuk-link--no-visited-state">{% lcs 'roles.ManageRolesPage.Table.EDIT' %}</a>
 								{% endif %}
 							{% endif %}
 						{% endif %}

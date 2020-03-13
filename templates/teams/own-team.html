@@ -12,7 +12,7 @@
 		</div>
 		<div class="lite-tabs__controls">
 			<a id="button-invite-user" href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
-				{% lcs 'Users.INVITE' %}
+				{% lcs 'users.UsersPage.INVITE_BUTTON' %}
 			</a>
 		</div>
 	</div>
@@ -24,7 +24,6 @@
 					<th class="govuk-table__header" scope="col">Name</th>
 					<th class="govuk-table__header" scope="col">Email</th>
 					<th class="govuk-table__header" scope="col">Status</th>
-					<th class="govuk-table__header" scope="col"></th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -36,16 +35,13 @@
 								{{ user.first_name }} {{ user.last_name }}
 							</a>
 						{% else %}
-							<strong class="govuk-tag govuk-phase-banner__content__tag ">
+							<strong class="govuk-tag govuk-tag--blue">
 								Pending
 							</strong>
 						{% endif %}
 					</td>
 					<td class="govuk-table__cell">{{ user.email }}</td>
 					<td class="govuk-table__cell">{{ user.status }}</td>
-					<td class="govuk-table__cell">
-						<a href="{% url 'users:edit' user.id %}" class="govuk-link govuk-link--no-visited-state">Edit</a>
-					</td>
 				</tr>
 			{% endfor %}
 			</tbody>
