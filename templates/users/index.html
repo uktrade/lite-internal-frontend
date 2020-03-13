@@ -4,11 +4,13 @@
 
 {% block body %}
 	{% include 'includes/messages.html' %}
-	
+
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
-				{% lcs 'users.UsersPage.TITLE' %}
+				{% block title %}
+					{% lcs 'users.UsersPage.TITLE' %}
+				{% endblock %}
 			</h1>
 			<p class="govuk-caption-m">
 				{% lcs 'users.UsersPage.DESCRIPTION' %}
@@ -45,8 +47,8 @@
 								{{ user.first_name }} {{ user.last_name }}
 							</a>
 						{% else %}
-							<strong class="govuk-tag govuk-phase-banner__content__tag ">
-								{% lcs 'users.ManagePage.PENDING' %}
+							<strong class="govuk-tag govuk-tag--blue">
+								{% lcs 'users.UsersPage.Table.PENDING' %}
 							</strong>
 						{% endif %}
 					</td>
