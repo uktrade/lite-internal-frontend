@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from conf.constants import Permission
 from core.helpers import has_permission
 from lite_content.lite_internal_frontend import strings
+from lite_content.lite_internal_frontend.queues import QueuesList
 from lite_content.lite_internal_frontend.users import UsersPage
 from lite_forms.helpers import conditional
 
@@ -24,7 +25,7 @@ def lite_menu(request):
             {"title": "Organisations", "url": reverse_lazy("organisations:organisations"), "icon": "menu/businesses"},
             {"title": "Teams", "url": reverse_lazy("teams:teams"), "icon": "menu/teams"},
             {"title": "My Team", "url": reverse_lazy("teams:team"), "icon": "menu/teams"},
-            {"title": "Queues", "url": reverse_lazy("queues:queues"), "icon": "menu/queues"},
+            {"title": QueuesList.TITLE, "url": reverse_lazy("queues:queues"), "icon": "menu/queues"},
             {"title": UsersPage.TITLE, "url": reverse_lazy("users:users"), "icon": "menu/users"},
             {"title": "Flags", "url": reverse_lazy("flags:flags"), "icon": "menu/flags"},
             conditional(
