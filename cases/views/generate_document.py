@@ -189,9 +189,7 @@ class PreviewDocument(TemplateView):
             return generate_document_error_page()
 
         return render(
-            request,
-            "generated-documents/preview.html",
-            {"preview": preview["preview"], TEXT: text, "kwargs": kwargs},
+            request, "generated-documents/preview.html", {"preview": preview["preview"], TEXT: text, "kwargs": kwargs},
         )
 
 
