@@ -13,11 +13,11 @@ from ui_automation_tests.shared.tools.utils import get_lite_client
 scenarios("../features/finalise_case.feature", strict_gherkin=False)
 
 
-@given("I approve all elements of the application at user and team level")
-def approve_application_objects(context, api_client_config):
+@given(parsers.parse('I "{decision}" all elements of the application at user and team level'))
+def approve_application_objects(context, api_client_config, decision):
     lite_client = get_lite_client(context, api_client_config)  # noqa
 
-    context.advice_type = "approve"
+    context.advice_type = decision
     text = "abc"
     note = ""
     data = [
@@ -73,6 +73,15 @@ def licence_audit(driver, context):
     latest_audit = ApplicationPage(driver).get_text_of_audit_trail_item(0)
     assert context.licence_duration in latest_audit
     assert context.licence_start_date in latest_audit
+
+
+@then("The case is finalised and a document is created in the audits")
+def licence_audit(driver, context):
+    case_page = ApplicationPage(driver)
+    document_audit = case_page.get_text_of_audit_trail_item(0)
+    assert context.document_template_name in document_audit
+    status_audit = case_page.get_text_of_audit_trail_item(1)
+    assert "finalised" in status_audit
 
 
 @then("The generated decision document is visible")
