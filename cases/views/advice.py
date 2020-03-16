@@ -307,11 +307,6 @@ class Finalise(TemplateView):
     """
 
     def get(self, request, *args, **kwargs):
-        # Redirect if licence already exists
-        _, status_code = get_licence(request, str(kwargs["pk"]))
-        if status_code == HTTPStatus.OK:
-            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
-
         case = get_case(request, str(kwargs["pk"]))
         case_type = case["application"]["case_type"]["sub_type"]["key"]
 
@@ -330,6 +325,11 @@ class Finalise(TemplateView):
 
         for item in data:
             if item[search_key]["key"] == "approve" or item[search_key]["key"] == "proviso":
+                # Redirect if licence already exists
+                _, status_code = get_licence(request, str(kwargs["pk"]))
+                if status_code == HTTPStatus.OK:
+                    return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
+
                 today = date.today()
 
                 form_data = {
