@@ -191,7 +191,7 @@ class PreviewDocument(TemplateView):
         return render(
             request,
             "generated-documents/preview.html",
-            {"preview": preview["preview"], TEXT: text, "pk": case_id, "tpk": template_id},
+            {"preview": preview["preview"], TEXT: text, "kwargs": kwargs},
         )
 
 
