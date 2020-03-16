@@ -6,11 +6,13 @@
 	{% endif %}
 {% endblock %}
 
+{% block title %}
+	{% lcs 'teams.TeamPage.Tabs.MEMBERS' %} - {{ team.name }}
+{% endblock %}
+
 {% block body %}
 	<h1 class="govuk-heading-l">
-		{% block title %}
-			{{ team.name }}
-		{% endblock %}
+		{{ team.name }}
 	</h1>
 
 	{% if is_user_in_team %}

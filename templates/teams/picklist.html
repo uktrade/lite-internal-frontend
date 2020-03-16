@@ -2,6 +2,10 @@
 
 {% block back_link %}{% endblock %}
 
+{% block title %}
+	{% lcs 'teams.TeamPage.Tabs.PICKLISTS' %} - {{ team.name }}
+{% endblock %}
+
 {% block body %}
 	<h1 class="govuk-heading-l">{{ team.name }}</h1>
 
