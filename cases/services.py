@@ -33,7 +33,8 @@ from conf.constants import (
     CLC_RESPONSE_URL,
     PV_GRADING_RESPONSE_URL,
     DECISIONS_URL,
-    FINALISE_CASE_URL)
+    FINALISE_CASE_URL,
+)
 
 
 # Case types

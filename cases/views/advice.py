@@ -27,7 +27,8 @@ from cases.services import (
     get_application_default_duration,
     grant_licence,
     get_final_decision_documents,
-    get_licence)
+    get_licence,
+)
 from cases.views_helpers import (
     get_case_advice,
     render_form_page,
