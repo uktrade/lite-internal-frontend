@@ -308,7 +308,7 @@ class Finalise(TemplateView):
 
     def get(self, request, *args, **kwargs):
         # Redirect if licence already exists
-        licence, status_code = get_licence(request, str(kwargs["pk"]))
+        _, status_code = get_licence(request, str(kwargs["pk"]))
         if status_code == HTTPStatus.OK:
             return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
 
