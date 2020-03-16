@@ -22,7 +22,7 @@ from conf.constants import (
     VIEW_FINAL_ADVICE_URL,
     GOOD_CLC_REVIEW_URL,
     MANAGE_STATUS_URL,
-    FINALISE_URL,
+    FINAL_DECISION_URL,
     DURATION_URL,
     GENERATED_DOCUMENTS_URL,
     GENERATED_DOCUMENTS_PREVIEW_URL,
@@ -33,7 +33,7 @@ from conf.constants import (
     CLC_RESPONSE_URL,
     PV_GRADING_RESPONSE_URL,
     DECISIONS_URL,
-)
+    FINALISE_CASE_URL)
 
 
 # Case types
@@ -60,7 +60,7 @@ def put_application_status(request, pk, json):
 
 
 def finalise_application(request, pk, json):
-    return put(request, f"{APPLICATIONS_URL}{pk}{FINALISE_URL}", json)
+    return put(request, f"{APPLICATIONS_URL}{pk}{FINAL_DECISION_URL}", json)
 
 
 def get_application_default_duration(request, pk):
@@ -165,12 +165,12 @@ def get_final_decision_documents(request, case_pk):
 
 
 def grant_licence(request, case_pk):
-    data = put(request, CASE_URL + case_pk + "/licence/", {})
+    data = put(request, CASE_URL + case_pk + FINALISE_CASE_URL, {})
     return data.json(), data.status_code
 
 
 def get_licence(request, case_pk):
-    data = get(request, CASE_URL + case_pk + "/licence/")
+    data = get(request, CASE_URL + case_pk + FINALISE_CASE_URL)
     return data.json(), data.status_code
 
 
