@@ -54,6 +54,12 @@ def put_case(request, pk, json):
     return data.json(), data.status_code
 
 
+# Queue assignment actions
+def post_completed_queues(request, pk, json):
+    data = post(request, CASE_URL + str(pk) + "/done/", json)
+    return data.json(), data.status_code
+
+
 # Applications
 def put_application_status(request, pk, json):
     data = put(request, APPLICATIONS_URL + pk + MANAGE_STATUS_URL, json)

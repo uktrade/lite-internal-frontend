@@ -13,6 +13,7 @@ from cases.constants import CaseType
 from cases.forms.assign_users import assign_case_officer_form, assign_user_and_work_queue, users_team_queues
 from cases.forms.attach_documents import attach_documents_form
 from cases.forms.change_status import change_status_form
+from cases.forms.done_with_case import done_with_case_form
 from cases.forms.move_case import move_case_form
 from cases.helpers import get_updated_cases_banner_queue_id
 from cases.services import (
@@ -27,7 +28,7 @@ from cases.services import (
     get_case_officer,
     put_case_officer,
     delete_case_officer,
-)
+    post_completed_queues)
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
 from conf.constants import ALL_CASES_QUEUE_ID, GENERATED_DOCUMENT
@@ -200,6 +201,13 @@ class ViewCase(TemplateView):
             return error_page(request, error)
 
         return redirect(reverse("cases:case", kwargs={"pk": case_id}) + "#case_notes")
+
+
+class CaseProcessedByUser(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = str(kwargs["pk"])
+        self.action = post_completed_queues
+        self.form = done_with_case_form(request, self.object_pk)
 
 
 class ViewAdvice(TemplateView):

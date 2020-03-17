@@ -27,6 +27,9 @@
 		</div>
 		<div class="lite-app-bar__controls">
 			<div class="govuk-!-margin-right-3">
+				<a role="button" draggable="false" id="done" class="govuk-button" href="{% url 'cases:done' case.id %}">
+					I'm Done
+				</a>
 				{% block additional_controls %}
 				{% endblock %}
 			</div>

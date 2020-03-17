@@ -7,6 +7,7 @@ app_name = "cases"
 urlpatterns = [
     path("", main.Cases.as_view(), name="cases"),
     path("<uuid:pk>/", main.ViewCase.as_view(), name="case"),
+    path("<uuid:pk>/done/", main.CaseProcessedByUser.as_view(), name="done"),
     path("<uuid:pk>/change-status/", main.ChangeStatus.as_view(), name="manage"),
     path("<uuid:pk>/move/", main.MoveCase.as_view(), name="move"),
     path("<uuid:pk>/documents/", main.Documents.as_view(), name="documents"),
