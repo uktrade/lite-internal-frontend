@@ -15,14 +15,18 @@ def review_goods_clc_query_form(request, back_url, is_goods_type):
                 title="Is this good controlled?",
                 name="is_good_controlled",
                 options=[
-                    Option(key=conditional(is_goods_type, "True", "yes"), value="Yes", components=[
-                        control_list_entry_question(
-                            control_list_entries=get_control_list_entries(None, convert_to_options=True),
-                            title="What is the correct control list entry?",
-                            name="control_code",
-                            inset_text=False,
-                        ),
-                    ]),
+                    Option(
+                        key=conditional(is_goods_type, "True", "yes"),
+                        value="Yes",
+                        components=[
+                            control_list_entry_question(
+                                control_list_entries=get_control_list_entries(None, convert_to_options=True),
+                                title="What is the correct control list entry?",
+                                name="control_code",
+                                inset_text=False,
+                            ),
+                        ],
+                    ),
                     Option(key=conditional(is_goods_type, "False", "no"), value="No"),
                 ],
             ),
