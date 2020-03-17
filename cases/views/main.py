@@ -10,6 +10,7 @@ from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from cases.constants import CaseType
+from cases.forms.additional_contacts import add_additional_contact_form
 from cases.forms.assign_users import assign_case_officer_form, assign_user_and_work_queue, users_team_queues
 from cases.forms.attach_documents import attach_documents_form
 from cases.forms.change_status import change_status_form
@@ -256,6 +257,47 @@ class MoveCase(SingleFormView):
     def get_success_url(self):
         messages.success(self.request, cases.Manage.MoveCase.SUCCESS_MESSAGE)
         return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
+
+
+class AdditionalContacts(TemplateView):
+    def get(self, request, **kwargs):
+        """
+        List all documents belonging to a case
+        """
+        case_id = str(kwargs["pk"])
+        case = get_case(request, case_id)
+        # additional_contacts = get_case_additional_contacts(request, case_id)
+        additional_contacts = [
+            {
+                "name": "Matt Berninger",
+                "address": {
+                    "address_line_1": "22 Lymington Road",
+                    "address_line_2": "Flat 5",
+                    "city": "London",
+                    "region": "Greater London",
+                    "postcode": "NW6 1HY",
+                    "country": {"key": "GB", "name": "United Kingdom",},
+                },
+                "email": "matt@americanmary.com",
+                "telephone_number": "07752 382519",
+                "details": "Best slow dancer in the universe",
+            }
+        ]
+
+        context = {
+            "case": case,
+            "additional_contacts": additional_contacts,
+        }
+        return render(request, "case/views/additional-contacts.html", context)
+
+
+class AddAnAdditionalContact(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        self.form = add_additional_contact_form(request, case)
+        # self.action = post_case_additional_contacts
+        self.success_url = reverse("cases:additional_contacts", kwargs={"pk": self.object_pk})
 
 
 class Documents(TemplateView):
