@@ -333,23 +333,23 @@ def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance): 
 
 
 @when("I combine all advice")  # noqa
-def combine_all_advice(driver):
+def combine_all_advice(driver):  # noqa
     GiveAdvicePages(driver).combine_advice()
 
 
 @when("I finalise the advice")  # noqa
-def finalise(driver):
+def finalise(driver):  # noqa
     GiveAdvicePages(driver).finalise()
 
 
 @when("I select the template previously created")  # noqa
-def selected_created_template(driver, context):
+def selected_created_template(driver, context):  # noqa
     GeneratedDocument(driver).click_letter_template(context.document_template_id)
     Shared(driver).click_submit()
 
 
 @when("I click on the Documents button")  # noqa
-def click_documents(driver):
+def click_documents(driver):  # noqa
     application_page = ApplicationPage(driver)
     application_page.click_documents_button()
 
