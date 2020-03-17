@@ -15,8 +15,8 @@ def add_additional_contact_form(request, case):
             TextInput(title=AddAdditionalContact.Name.TITLE, name="name"),
             TextInput(title=AddAdditionalContact.Email.TITLE, name="email"),
             TextInput(
-                title=AddAdditionalContact.TelephoneNumber.TITLE,
-                description=AddAdditionalContact.TelephoneNumber.DESCRIPTION,
+                title=AddAdditionalContact.PhoneNumber.TITLE,
+                description=AddAdditionalContact.PhoneNumber.DESCRIPTION,
                 name="phone_number",
             ),
             Heading(text=AddAdditionalContact.ADDRESS_HEADING, heading_style=HeadingStyle.M),

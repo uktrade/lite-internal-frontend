@@ -1,9 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	<a href="{% url 'cases:case' case.id %}" class="govuk-back-link">
-		{% lcs 'cases.ReviewGoodsSummary.BACK_LINK' %}
-	</a>
+	{% include "case/views/includes/breadcrumbs.html" with text='cases.AdditionalContacts.TITLE' %}
 {% endblock %}
 
 {% block title %}
@@ -27,7 +25,7 @@
 					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.NAME' %}</th>
 					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.ADDRESS' %}</th>
 					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.EMAIL' %}</th>
-					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.TELEPHONE_NUMBER' %}</th>
+					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.PHONE_NUMBER' %}</th>
 					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.DETAILS' %}</th>
 				</tr>
 			</thead>
@@ -47,7 +45,7 @@
 							{{ contact.email }}
 						</td>
 						<td class="govuk-table__cell">
-							<span class="govuk-table__header" aria-hidden="true">{% lcs 'cases.AdditionalContacts.Table.TELEPHONE_NUMBER' %}</span>
+							<span class="govuk-table__header" aria-hidden="true">{% lcs 'cases.AdditionalContacts.Table.PHONE_NUMBER' %}</span>
 							{{ contact.telephone_number }}
 						</td>
 						<td class="govuk-table__cell">
