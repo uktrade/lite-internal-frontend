@@ -282,7 +282,7 @@ def status_has_been_changed_in_header(driver, context, internal_info):  # noqa
 
 
 @given("I create a clc query")  # noqa
-def create_clc_query(driver, apply_for_clc_query, context): # noqa
+def create_clc_query(driver, apply_for_clc_query, context):  # noqa
     pass
 
 
