@@ -28,7 +28,8 @@ from cases.services import (
     get_case_officer,
     put_case_officer,
     delete_case_officer,
-    post_completed_queues)
+    put_unassign_queues
+)
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
 from conf.constants import ALL_CASES_QUEUE_ID, GENERATED_DOCUMENT
@@ -206,8 +207,9 @@ class ViewCase(TemplateView):
 class CaseProcessedByUser(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
-        self.action = post_completed_queues
+        self.action = put_unassign_queues
         self.form = done_with_case_form(request, self.object_pk)
+        self.success_url = reverse_lazy("cases:cases")
 
 
 class ViewAdvice(TemplateView):

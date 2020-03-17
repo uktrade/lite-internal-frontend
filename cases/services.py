@@ -60,8 +60,8 @@ def get_user_case_queues(request, pk):
     return data.json(), data.status_code
 
 
-def post_completed_queues(request, pk, json):
-    data = post(request, CASE_URL + str(pk) + "/assigned-queues/", json)
+def put_unassign_queues(request, pk, json):
+    data = put(request, CASE_URL + str(pk) + "/assigned-queues/", json)
     return data.json(), data.status_code
 
 
