@@ -28,6 +28,8 @@ from cases.services import (
     get_case_officer,
     put_case_officer,
     delete_case_officer,
+    get_case_additional_contacts,
+    post_case_additional_contacts,
 )
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
@@ -266,23 +268,7 @@ class AdditionalContacts(TemplateView):
         """
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
-        # additional_contacts = get_case_additional_contacts(request, case_id)
-        additional_contacts = [
-            {
-                "name": "Matt Berninger",
-                "address": {
-                    "address_line_1": "22 Lymington Road",
-                    "address_line_2": "Flat 5",
-                    "city": "London",
-                    "region": "Greater London",
-                    "postcode": "NW6 1HY",
-                    "country": {"key": "GB", "name": "United Kingdom",},
-                },
-                "email": "matt@americanmary.com",
-                "telephone_number": "07752 382519",
-                "details": "Best slow dancer in the universe",
-            }
-        ]
+        additional_contacts = get_case_additional_contacts(request, case_id)
 
         context = {
             "case": case,
@@ -296,7 +282,7 @@ class AddAnAdditionalContact(SingleFormView):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
         self.form = add_additional_contact_form(request, case)
-        # self.action = post_case_additional_contacts
+        self.action = post_case_additional_contacts
         self.success_url = reverse("cases:additional_contacts", kwargs={"pk": self.object_pk})
 
 
