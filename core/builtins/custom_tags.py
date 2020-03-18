@@ -367,7 +367,8 @@ def missing_title():
         '<div class="app-missing-title-banner">'
         '<div class="govuk-width-container">'
         '<h2 class="app-missing-title-banner__heading">You need to set a title!</h2>'
-        'You can do this by adding <span class="app-missing-title-banner__code">{% block title %}<span class="app-missing-title-banner__code--tint">My first title!</span>{% endblock %}</span> to your HTML'
+        'You can do this by adding <span class="app-missing-title-banner__code">{% block title %}'
+        '<span class="app-missing-title-banner__code--tint">My first title!</span>{% endblock %}</span> to your HTML'
         "</div>"
         "</div>"
     )
