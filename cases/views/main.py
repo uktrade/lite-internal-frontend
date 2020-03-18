@@ -43,7 +43,7 @@ from lite_forms.components import FiltersBar, AutocompleteInput, Option, HiddenF
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
-from queues.services import get_cases_search_data, put_queue_single_case_assignment
+from queues.services import get_cases_search_data, put_queue_single_case_assignment, get_queue
 from users.services import get_gov_user_from_form_selection
 
 
@@ -143,6 +143,13 @@ class ViewCase(TemplateView):
         case_type = case["case_type"]["type"]["key"]
         case_sub_type = case["case_type"]["sub_type"]["key"]
         user_assigned_queues, _ = get_user_case_queues(request, case_id)
+        queue_id = request.GET.get("queue_id")
+        is_system_queue = True
+
+        if queue_id:
+            queue = get_queue(request, queue_id)
+            if queue.get("queue"):
+                is_system_queue = queue["queue"].get("is_system_queue", True)
 
         if "application" in case:
             status_props, _ = get_status_properties(request, case["application"]["status"]["key"])
@@ -157,6 +164,7 @@ class ViewCase(TemplateView):
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
             "user_assigned_queues": user_assigned_queues["queues"],
+            "is_system_queue": is_system_queue
         }
 
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
@@ -213,6 +221,15 @@ class CaseProcessedByUser(SingleFormView):
         self.action = put_unassign_queues
         self.form = done_with_case_form(request, self.object_pk)
         self.success_url = reverse_lazy("cases:cases")
+
+
+class CaseProcessedByUserForQueue(TemplateView):
+    def get(self, request, pk, queue_id):
+        _, status_code = put_unassign_queues(request, str(pk), {"queues": [str(queue_id)]})
+        if status_code != HTTPStatus.OK:
+            # If this fails, revert to standard unassign view
+            return redirect(reverse_lazy("cases:done", kwargs={"pk": pk}))
+        return redirect(reverse_lazy("cases:cases"))
 
 
 class ViewAdvice(TemplateView):
