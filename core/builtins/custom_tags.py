@@ -61,10 +61,10 @@ def get_const_string(value):
 def str_date(value):
     return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), "Europe/London")
     return (
-            return_value.strftime("%-I:%M")
-            + return_value.strftime("%p").lower()
-            + " "
-            + return_value.strftime("%d %B " "%Y")
+        return_value.strftime("%-I:%M")
+        + return_value.strftime("%p").lower()
+        + " "
+        + return_value.strftime("%d %B " "%Y")
     )
 
 
@@ -130,7 +130,7 @@ def group_list(items, split):
     """
     Groups items in a list based on a specified size
     """
-    return [items[x: x + split] for x in range(0, len(items), split)]
+    return [items[x : x + split] for x in range(0, len(items), split)]
 
 
 @register.filter
@@ -360,12 +360,14 @@ def missing_title():
     if not settings.DEBUG:
         return
 
-    return '</title>' \
-           '</head>' \
-           '<body style="margin-top: 75px;">' \
-           '<div class="app-missing-title-banner">' \
-           '<div class="govuk-width-container">' \
-           '<h2 class="app-missing-title-banner__heading">You need to set a title!</h2>' \
-           'You can do this by adding <span class="app-missing-title-banner__code">{% block title %}<span class="app-missing-title-banner__code--tint">My first title!</span>{% endblock %}</span> to your HTML' \
-           '</div>' \
-           '</div>'
+    return (
+        "</title>"
+        "</head>"
+        '<body style="margin-top: 75px;">'
+        '<div class="app-missing-title-banner">'
+        '<div class="govuk-width-container">'
+        '<h2 class="app-missing-title-banner__heading">You need to set a title!</h2>'
+        'You can do this by adding <span class="app-missing-title-banner__code">{% block title %}<span class="app-missing-title-banner__code--tint">My first title!</span>{% endblock %}</span> to your HTML'
+        "</div>"
+        "</div>"
+    )
