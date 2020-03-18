@@ -283,6 +283,7 @@ class AddAnAdditionalContact(SingleFormView):
         case = get_case(request, self.object_pk)
         self.form = add_additional_contact_form(request, case)
         self.action = post_case_additional_contacts
+        self.success_message = cases.AdditionalContacts.SUCCESS_MESSAGE
         self.success_url = reverse("cases:additional_contacts", kwargs={"pk": self.object_pk})
 
 

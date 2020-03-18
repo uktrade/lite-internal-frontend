@@ -9,6 +9,8 @@
 {% endblock %}
 
 {% block body %}
+	{% include 'includes/messages.html' %}
+
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">{% lcs 'cases.AdditionalContacts.TITLE' %}</h1>
@@ -22,17 +24,21 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
+					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.DETAILS' %}</th>
 					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.NAME' %}</th>
 					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.ADDRESS' %}</th>
 					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.EMAIL' %}</th>
 					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.PHONE_NUMBER' %}</th>
-					<th scope="col" class="govuk-table__header">{% lcs 'cases.AdditionalContacts.Table.DETAILS' %}</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for contact in additional_contacts %}
 					<tr class="govuk-table__row">
 						<td scope="row" class="govuk-table__header">
+							<span class="govuk-table__header" aria-hidden="true">{% lcs 'cases.AdditionalContacts.Table.DETAILS' %}</span>
+							{{ contact.details }}
+						</td>
+						<td class="govuk-table__cell">
 							<span class="govuk-table__header" aria-hidden="true">{% lcs 'cases.AdditionalContacts.Table.NAME' %}</span>
 							{{ contact.name }}
 						</td>
@@ -47,10 +53,6 @@
 						<td class="govuk-table__cell">
 							<span class="govuk-table__header" aria-hidden="true">{% lcs 'cases.AdditionalContacts.Table.PHONE_NUMBER' %}</span>
 							{{ contact.phone_number }}
-						</td>
-						<td class="govuk-table__cell">
-							<span class="govuk-table__header" aria-hidden="true">{% lcs 'cases.AdditionalContacts.Table.DETAILS' %}</span>
-							{{ contact.details }}
 						</td>
 					</tr>
 				{% endfor %}
