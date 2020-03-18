@@ -82,6 +82,44 @@
 			</div>
 		{% endif %}
 
+		{% if case.application.case_type.sub_type.key == "f680_clearance" %}
+		<!-- Additiona Details -->
+			<div class="govuk-accordion__section">
+				<div class="govuk-accordion__section-header">
+					<h2 class="govuk-accordion__section-heading">
+						<span class="govuk-accordion__section-button" id="accordion-goods">
+							{% lcs 'cases.ApplicationPage.AdditionalInformation.TITLE' %}
+						</span>
+					</h2>
+				</div>
+				<div id="accordion-goods-content" class="govuk-accordion__section-content" aria-labelledby="accordion-goods">
+					<div class="govuk-grid-row">
+						<div class="govuk-grid-column-one-quarter">
+							<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.Info.F680_CLEARANCE_TYPES' %}</p>
+							{% for clearance_type in case.application.types %}
+								<p>{{ clearance_type.name.value|default_na }}</p>
+							{% endfor %}
+						</div>
+						<div class="govuk-grid-column-one-quarter">
+							<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.EndUseDetails.INFORMED_TO_APPLY_TITLE' %}</p>
+							<p>{{ case.application.is_military_end_use_controls|friendly_boolean }}</p>
+							<p>{{ case.application.military_end_use_controls_ref|default:"" }}</p>
+						</div>
+						<div class="govuk-grid-column-one-quarter">
+							<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.EndUseDetails.INFORMED_WMD_TITLE' %}</p>
+							<p>{{ case.application.is_informed_wmd|friendly_boolean }}</p>
+							<p>{{ case.application.informed_wmd_ref|default:"" }}</p>
+						</div>
+						<div class="govuk-grid-column-one-quarter">
+							<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.EndUseDetails.SUSPECTED_WMD_TITLE' %}</p>
+							<p>{{ case.application.is_suspected_wmd|friendly_boolean }}</p>
+							<p>{{ case.application.suspected_wmd_ref|default:"" }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
 		<!-- Goods -->
 		<div class="govuk-accordion__section">
 			<div class="govuk-accordion__section-header">
