@@ -16,6 +16,7 @@ class Shared(BasePage):
     ROWS_IN_CASES_TABLE = ".govuk-table__body .govuk-table__row"  # CSS
     LINKS_IN_LITE_TABLE = ".govuk-table__cell a"  # CSS
     INFO_BAR = ".lite-info-bar"  # CSS
+    LITE_NOTICE_SELECTOR = ".lite-information-text__text"
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(self.SUBMIT_BUTTON).click()

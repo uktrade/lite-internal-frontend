@@ -218,6 +218,9 @@ class ApplicationPage(BasePage):
     def get_case_officer_element(self):
         return self.driver.find_element_by_id(self.CASE_OFFICER_ID)
 
+    def get_additional_contacts_element(self):
+        return self.driver.find_element_by_id(self.LINK_ADDITIONAL_CONTACTS_ID)
+
     def get_assign_user_element(self):
         return self.driver.find_element_by_id(self.ASSIGN_USER_ID)
 
