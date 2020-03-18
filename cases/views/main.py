@@ -29,7 +29,8 @@ from cases.services import (
     put_case_officer,
     delete_case_officer,
     put_unassign_queues,
-    get_user_case_queues)
+    get_user_case_queues,
+)
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
 from conf.constants import ALL_CASES_QUEUE_ID, GENERATED_DOCUMENT
@@ -155,7 +156,7 @@ class ViewCase(TemplateView):
             "permissible_statuses": get_permissible_statuses(request, case_type),
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
-            "user_assigned_queues": user_assigned_queues["queues"]
+            "user_assigned_queues": user_assigned_queues["queues"],
         }
 
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
