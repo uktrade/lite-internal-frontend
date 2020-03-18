@@ -164,7 +164,7 @@ class ViewCase(TemplateView):
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
             "user_assigned_queues": user_assigned_queues["queues"],
-            "is_system_queue": is_system_queue
+            "is_system_queue": is_system_queue,
         }
 
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
