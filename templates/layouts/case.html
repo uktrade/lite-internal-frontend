@@ -33,7 +33,7 @@
 					{% else %}
 						<a role="button" draggable="false" id="done" class="govuk-button" href="{% url 'cases:done_for_queue' case.id request.GET.queue_id %}">
 					{% endif %}
-							I'm Done
+							{% lcs 'cases.ApplicationPage.DONE_WITH_CASE' %}
 						</a>
 				{% endif %}
 				{% block additional_controls %}
