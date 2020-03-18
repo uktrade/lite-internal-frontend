@@ -280,8 +280,7 @@ class AdditionalContacts(TemplateView):
 class AddAnAdditionalContact(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        case = get_case(request, self.object_pk)
-        self.form = add_additional_contact_form(request, case)
+        self.form = add_additional_contact_form(request, self.object_pk)
         self.action = post_case_additional_contacts
         self.success_message = cases.AdditionalContacts.SUCCESS_MESSAGE
         self.success_url = reverse("cases:additional_contacts", kwargs={"pk": self.object_pk})
