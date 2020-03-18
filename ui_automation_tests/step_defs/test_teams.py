@@ -75,5 +75,6 @@ def see_team_user_added(driver, added_not_added, context, internal_info):
         assert internal_info["email"] in table, "User is not displayed in team list"
         assert "Active" in table, "User is not displayed in team list"
     elif added_not_added == "not added":
-        assert functions.element_with_css_selector_exists(driver, Shared(driver).LITE_NOTICE_SELECTOR), \
-            "Users are potentially displayed for a just created Team List"
+        assert functions.element_with_css_selector_exists(
+            driver, Shared(driver).LITE_NOTICE_SELECTOR
+        ), "Users are potentially displayed for a just created Team List"
