@@ -5,7 +5,7 @@ Feature: I want to add additional contacts to a case
   @LT_1253_Additional_contacts @regression
   Scenario: Add an additional contact to a case
     Given I sign in to SSO or am signed into SSO
-    And I create standard application or standard application has been previously created
+    And I create open application or open application has been previously created
     When I go to application previously created
     And I click on the additional contacts button
     And I click the add button
