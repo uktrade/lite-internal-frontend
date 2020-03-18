@@ -109,6 +109,7 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_id(self.LINK_ADDITIONAL_CONTACTS_ID).click()
 
     def click_drop_down(self):
+        # This is going to be removed as part of the case refactor
         self.driver.find_element_by_css_selector(self.ACTIONS_DROPDOWN).click()
 
     def select_status(self, status):

@@ -26,9 +26,6 @@ def dropdown_contains_correct_functionality(driver):
     assert application_page.get_generate_document_element()
     assert application_page.get_assign_user_element()
     assert application_page.get_additional_contacts_element()
-    # This tests that the expected elements are the only ones that appear, and that any new functionality added
-    # should be tested if not tested elsewhere.
-    assert application_page.get_action_dropdown_entries_count() == 8
 
 
 @then("the status has been changed in the end user advisory")
