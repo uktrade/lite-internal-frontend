@@ -28,8 +28,8 @@ from cases.services import (
     get_case_officer,
     put_case_officer,
     delete_case_officer,
-    put_unassign_queues
-)
+    put_unassign_queues,
+    get_user_case_queues)
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
 from conf.constants import ALL_CASES_QUEUE_ID, GENERATED_DOCUMENT
@@ -141,6 +141,7 @@ class ViewCase(TemplateView):
         case = get_case(request, case_id)
         case_type = case["case_type"]["type"]["key"]
         case_sub_type = case["case_type"]["sub_type"]["key"]
+        user_assigned_queues, _ = get_user_case_queues(request, case_id)
 
         if "application" in case:
             status_props, _ = get_status_properties(request, case["application"]["status"]["key"])
@@ -154,6 +155,7 @@ class ViewCase(TemplateView):
             "permissible_statuses": get_permissible_statuses(request, case_type),
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
+            "user_assigned_queues": user_assigned_queues["queues"]
         }
 
         if case_sub_type == CaseType.END_USER_ADVISORY.value:

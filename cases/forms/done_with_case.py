@@ -10,7 +10,7 @@ def done_with_case_form(request, case_pk):
         questions=[
             Checkboxes(
                 name="queues[]",
-                options=[Option(queue["id"], queue["name"]) for queue in queues["results"]],
+                options=[Option(queue["id"], queue["name"]) for queue in queues["queues"]],
                 title="",
                 description="Select which queues you are done with this case on",
                 optional=False,
