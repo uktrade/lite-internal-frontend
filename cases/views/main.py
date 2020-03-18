@@ -220,7 +220,13 @@ class CaseProcessedByUser(SingleFormView):
         self.object_pk = str(kwargs["pk"])
         self.action = put_unassign_queues
         self.form = done_with_case_form(request, self.object_pk)
-        self.success_url = reverse_lazy("cases:cases")
+
+    def get_success_url(self):
+        queue_id = self.request.GET.get("queue_id")
+        if queue_id:
+            return reverse_lazy("cases:cases") + "?queue_id=" + queue_id
+        else:
+            return reverse_lazy("cases:cases")
 
 
 class CaseProcessedByUserForQueue(TemplateView):
@@ -229,7 +235,7 @@ class CaseProcessedByUserForQueue(TemplateView):
         if status_code != HTTPStatus.OK:
             # If this fails, revert to standard unassign view
             return redirect(reverse_lazy("cases:done", kwargs={"pk": pk}))
-        return redirect(reverse_lazy("cases:cases"))
+        return redirect(reverse_lazy("cases:cases") + "?queue_id=" + str(queue_id))
 
 
 class ViewAdvice(TemplateView):
