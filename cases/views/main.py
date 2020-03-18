@@ -33,7 +33,7 @@ from cases.services import (
 )
 from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
-from conf.constants import ALL_CASES_QUEUE_ID, GENERATED_DOCUMENT
+from conf.constants import ALL_CASES_QUEUE_ID, GENERATED_DOCUMENT, Statuses
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.helpers import convert_dict_to_query_params
 from core.services import get_status_properties, get_user_permissions, get_permissible_statuses
@@ -153,8 +153,13 @@ class ViewCase(TemplateView):
 
         if "application" in case:
             status_props, _ = get_status_properties(request, case["application"]["status"]["key"])
+            can_set_done = (
+                not status_props["is_terminal"]
+                and case["application"]["status"]["key"] != Statuses.APPLICANT_EDITING
+            )
         else:
             status_props, _ = get_status_properties(request, case["query"]["status"]["key"])
+            can_set_done = False
 
         context = {
             "activity": get_activity(request, case_id),
@@ -164,6 +169,7 @@ class ViewCase(TemplateView):
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
             "user_assigned_queues": user_assigned_queues["queues"],
+            "can_set_done": can_set_done,
             "is_system_queue": is_system_queue,
         }
 

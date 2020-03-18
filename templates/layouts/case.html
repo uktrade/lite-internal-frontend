@@ -27,7 +27,7 @@
 		</div>
 		<div class="lite-app-bar__controls">
 			<div class="govuk-!-margin-right-3">
-				{% if user_assigned_queues %}
+				{% if user_assigned_queues and can_set_done %}
 					{% if is_system_queue %}
 						<a role="button" draggable="false" id="done" class="govuk-button" href="{% url 'cases:done' case.id %}?queue_id={{ request.GET.queue_id }}">
 					{% else %}
