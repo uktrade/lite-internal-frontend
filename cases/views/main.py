@@ -158,7 +158,9 @@ class ViewCase(TemplateView):
             )
         else:
             status_props, _ = get_status_properties(request, case["query"]["status"]["key"])
-            can_set_done = False
+            can_set_done = (
+                not status_props["is_terminal"] and case["query"]["status"]["key"] != Statuses.APPLICANT_EDITING
+            )
 
         context = {
             "activity": get_activity(request, case_id),
