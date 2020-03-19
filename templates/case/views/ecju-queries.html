@@ -37,14 +37,14 @@
 						</div>
 						<div class="govuk-accordion__section-content">
 							<p class='govuk-body' id="open-question-full">
-								{{ query.question }}
+								{{ query.question }} - {{ query.query_type.value }}
 							</p>
 						</div>
 					</div>
 				{% else %}
 					<div class="govuk-accordion__section-header">
 						<span class="govuk-accordion__section-button" id="open-question">
-							{{ query.question }}
+							{{ query.question }} - {{ query.query_type.value }}
 						</span>
 						<p class="govuk-label"><b>{{ query.raised_by_user_name }}</b>: {{ query.created_at|str_date }}</p>
 					</div>

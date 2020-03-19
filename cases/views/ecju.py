@@ -98,15 +98,15 @@ class CreateEcjuQuery(TemplateView):
             picklist_item_text = get_picklist_item(request, picklist_selection)["text"]
         else:
             picklist_item_text = ""
-
-        form = create_ecju_query_write_or_edit_form(reverse("cases:ecju_queries_add", kwargs={"pk": case_id}))
+        query_type = request.GET.get("query_type")
+        form = create_ecju_query_write_or_edit_form(reverse("cases:ecju_queries_add", kwargs={"pk": case_id}) + "?query_type=" + query_type)
         data = {"question": picklist_item_text}
 
         return form_page(request, form, data=data)
 
     def _handle_ecju_query_write_or_edit_post(self, case_id, request):
         # Post the form data to API for validation only
-        data = {"question": request.POST.get("question"), "validate_only": True}
+        data = {"question": request.POST.get("question"), "query_type": request.GET.get("query_type"), "validate_only": True}
         ecju_query, status_code = post_ecju_query(request, case_id, data)
 
         if status_code != 200:
@@ -117,7 +117,7 @@ class CreateEcjuQuery(TemplateView):
             return form_page(request, form)
 
     def _handle_ecju_query_confirmation_post(self, case_id, request):
-        data = {"question": request.POST.get("question")}
+        data = {"question": request.POST.get("question"), "query_type": request.GET.get("query_type")}
 
         if request.POST.get("ecju_query_confirmation").lower() == "yes":
             ecju_query, status_code = post_ecju_query(request, case_id, data)
@@ -127,7 +127,8 @@ class CreateEcjuQuery(TemplateView):
             else:
                 return redirect(reverse("cases:ecju_queries", kwargs={"pk": case_id}))
         elif request.POST.get("ecju_query_confirmation").lower() == "no":
-            form = create_ecju_query_write_or_edit_form(reverse("cases:ecju_queries_add", kwargs={"pk": case_id}))
+            query_type = request.GET.get("query_type")
+            form = create_ecju_query_write_or_edit_form(reverse("cases:ecju_queries_add", kwargs={"pk": case_id}) + "?query_type=" + query_type)
 
             return form_page(request, form, data=data)
         else:
@@ -140,6 +141,7 @@ class CreateEcjuQuery(TemplateView):
     def _handle_ecju_query_form_errors(self, case_id, ecju_query, request):
         errors = ecju_query.get("errors")
         errors = {error: message for error, message in errors.items()}
-        form = create_ecju_query_write_or_edit_form(reverse("cases:ecju_queries_add", kwargs={"pk": case_id}))
-        data = {"question": request.POST.get("question")}
+        query_type = request.GET.get("query_type")
+        form = create_ecju_query_write_or_edit_form(reverse("cases:ecju_queries_add", kwargs={"pk": case_id}) + "?query_type=" + query_type)
+        data = {"question": request.POST.get("question"), "query_type": request.GET.get("query_type")}
         return form_page(request, form, data=data, errors=errors)
