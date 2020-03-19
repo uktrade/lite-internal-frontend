@@ -1,7 +1,6 @@
 from _decimal import Decimal
 
 from cases.helpers import clean_advice
-from cases.validators import validate_query_type_question
 from conf.client import post, get, put, delete
 from conf.constants import (
     CASE_URL,

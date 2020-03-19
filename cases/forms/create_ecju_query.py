@@ -1,5 +1,5 @@
 from lite_content.lite_internal_frontend.strings import cases
-from lite_forms.components import Form, BackLink, Select, TextArea, HiddenField, RadioButtons
+from lite_forms.components import Form, BackLink, TextArea, HiddenField, RadioButtons
 from lite_forms.generators import confirm_form
 
 
