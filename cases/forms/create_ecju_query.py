@@ -3,14 +3,16 @@ from lite_forms.components import Form, BackLink, Select, TextArea, HiddenField,
 from lite_forms.generators import confirm_form
 
 
-def choose_picklist_type_form(options):
+def choose_picklist_type_form(options, case_url):
     return Form(
+        title="type_form",
         questions=[
             RadioButtons(
-                name="type form",
+                name="ecju_query_type",
                 options=options
             )
-        ]
+        ],
+        back_link=BackLink("Back to " + cases.EcjuQueries.TITLE, case_url)
     )
 
 

@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 
-def validate_query_type_question(_, json):
+def validate_query_type_question(_, __, json):
     if json.get("ecju_query_type"):
         return json, HTTPStatus.OK
 

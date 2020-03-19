@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.forms.create_ecju_query import (
@@ -43,33 +43,19 @@ class ViewEcjuQueries(TemplateView):
 
 
 class ChooseECJUQueryType(SingleFormView):
-    def get(self, request, **kwargs):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
         picklist_type_choices = [
             Option("ecju_query", "Standard ECJU Query"),
             Option("pre_visit_questionnaire", "Pre-Visit Questionnaire Questions (ECJU Query)"),
             Option("compliance_actions", "Compliance Actions (ECJU Query")
         ]
-
-    def init(self, request, **kwargs):
-        self.object_pk = kwargs["pk"]
-        case = get_case(request, self.object_pk)
-        self.data = case
-        self.form = choose_picklist_type_form(request, case)
+        self.form = choose_picklist_type_form(picklist_type_choices, reverse("cases:ecju_queries", kwargs={"pk": str(kwargs["pk"])}))
         self.action = validate_query_type_question
 
     def get_success_url(self):
-        messages.success(self.request, cases.Manage.MoveCase.SUCCESS_MESSAGE)
-        return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
+        return reverse_lazy("cases:ecju_queries_add", kwargs={"pk": self.object_pk}) + "?query_type=" + self._validated_data.get("ecju_query_type")
 
-
-def validate_opening_question(_, json):
-    if json.get("licence_type"):
-        return json, HTTPStatus.OK
-
-    return (
-        {"errors": {"licence_type": ["Select the type of licence or clearance you need"]}},
-        HTTPStatus.BAD_REQUEST,
-    )
 
 class CreateEcjuQuery(TemplateView):
     NEW_QUESTION_DDL_ID = "new_question"
@@ -79,13 +65,13 @@ class CreateEcjuQuery(TemplateView):
         Show form for creating an ECJU query with a selection of template picklist questions
         """
         case_id = str(kwargs["pk"])
-        query_type = request.GET.get("type")
+        query_type = request.GET.get("query_type")
         picklists = get_picklists(request, query_type, False)
         picklists = picklists.get("picklist_items")
         picklist_choices = [Option(self.NEW_QUESTION_DDL_ID, "Write a new question")] + [
             Option(picklist.get("id"), picklist.get("name")) for picklist in picklists
         ]
-        form = choose_ecju_query_type_form(reverse("cases:ecju_queries", kwargs={"pk": case_id}), picklist_choices)
+        form = choose_ecju_query_type_form(reverse("cases:choose_ecju_query_type", kwargs={"pk": case_id}), picklist_choices)
 
         return form_page(request, form, extra_data={"case_id": case_id})
 
