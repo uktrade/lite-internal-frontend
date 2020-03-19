@@ -2,7 +2,7 @@
 
 {% block back_link %}
 	{% if not is_user_in_team %}
-		<a href="/" class="govuk-back-link">Back</a>
+		<a href="{% url 'teams:teams' %}" class="govuk-back-link">{% lcs 'teams.TeamPage.BACK_LINK' %}</a>
 	{% endif %}
 {% endblock %}
 
