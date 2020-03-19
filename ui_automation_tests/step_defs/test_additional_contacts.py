@@ -39,4 +39,4 @@ def click_post_note(driver, context):
 
 @then("I can see the new contact in the list")
 def click_post_note(driver, context):
-    assert context.additional_contact_email in Shared(driver).get_text_of_body()
+    assert context.additional_contact_email in Shared(driver).get_text_of_table()
