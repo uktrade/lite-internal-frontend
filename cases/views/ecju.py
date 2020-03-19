@@ -6,10 +6,12 @@ from cases.forms.create_ecju_query import (
     choose_ecju_query_type_form,
     create_ecju_query_write_or_edit_form,
     create_ecju_create_confirmation_form,
-)
+    choose_picklist_type_form)
 from cases.services import get_ecju_queries, post_ecju_query, get_case
+from cases.validators import validate_query_type_question
 from lite_forms.components import Option, HiddenField
 from lite_forms.generators import form_page, error_page
+from lite_forms.views import SingleFormView
 from picklists.services import get_picklists, get_picklist_item
 
 
@@ -40,6 +42,35 @@ class ViewEcjuQueries(TemplateView):
         return render(request, "case/views/ecju-queries.html", context)
 
 
+class ChooseECJUQueryType(SingleFormView):
+    def get(self, request, **kwargs):
+        picklist_type_choices = [
+            Option("ecju_query", "Standard ECJU Query"),
+            Option("pre_visit_questionnaire", "Pre-Visit Questionnaire Questions (ECJU Query)"),
+            Option("compliance_actions", "Compliance Actions (ECJU Query")
+        ]
+
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        self.data = case
+        self.form = choose_picklist_type_form(request, case)
+        self.action = validate_query_type_question
+
+    def get_success_url(self):
+        messages.success(self.request, cases.Manage.MoveCase.SUCCESS_MESSAGE)
+        return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
+
+
+def validate_opening_question(_, json):
+    if json.get("licence_type"):
+        return json, HTTPStatus.OK
+
+    return (
+        {"errors": {"licence_type": ["Select the type of licence or clearance you need"]}},
+        HTTPStatus.BAD_REQUEST,
+    )
+
 class CreateEcjuQuery(TemplateView):
     NEW_QUESTION_DDL_ID = "new_question"
 
@@ -48,7 +79,8 @@ class CreateEcjuQuery(TemplateView):
         Show form for creating an ECJU query with a selection of template picklist questions
         """
         case_id = str(kwargs["pk"])
-        picklists = get_picklists(request, "ecju_query", False)
+        query_type = request.GET.get("type")
+        picklists = get_picklists(request, query_type, False)
         picklists = picklists.get("picklist_items")
         picklist_choices = [Option(self.NEW_QUESTION_DDL_ID, "Write a new question")] + [
             Option(picklist.get("id"), picklist.get("name")) for picklist in picklists

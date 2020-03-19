@@ -1,6 +1,17 @@
 from lite_content.lite_internal_frontend.strings import cases
-from lite_forms.components import Form, BackLink, Select, TextArea, HiddenField
+from lite_forms.components import Form, BackLink, Select, TextArea, HiddenField, RadioButtons
 from lite_forms.generators import confirm_form
+
+
+def choose_picklist_type_form(options):
+    return Form(
+        questions=[
+            RadioButtons(
+                name="type form",
+                options=options
+            )
+        ]
+    )
 
 
 def choose_ecju_query_type_form(case_url, picklists):

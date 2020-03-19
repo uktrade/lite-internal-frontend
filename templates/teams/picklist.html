@@ -24,7 +24,13 @@
 					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=proviso">Provisos</a>
 				</li>
 				<li class="lite-subnav__link {{ 'ecju_query'|add_subnav_selected_class:request.get_full_path }}">
-					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=ecju_query">ECJU Queries</a>
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=ecju_query">Standard ECJU Queries</a>
+				</li>
+				<li class="lite-subnav__link {{ 'pre_visit_questionnaire'|add_subnav_selected_class:request.get_full_path }}">
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=pre_visit_questionnaire">Pre-Visit Questionnaire questions (ECJU Query)</a>
+				</li>
+				<li class="lite-subnav__link {{ 'compliance_actions'|add_subnav_selected_class:request.get_full_path }}">
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=compliance_actions">Compliance Actions (ECJU Query)</a>
 				</li>
 				<li class="lite-subnav__link {{ 'letter_paragraph'|add_subnav_selected_class:request.get_full_path }}">
 					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type=letter_paragraph">Letter Paragraphs</a>
