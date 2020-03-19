@@ -6,13 +6,8 @@ from lite_forms.generators import confirm_form
 def choose_picklist_type_form(options, case_url):
     return Form(
         title=cases.EcjuQueries.AddQuery.CHOOSE_TYPE,
-        questions=[
-            RadioButtons(
-                name="ecju_query_type",
-                options=options
-            )
-        ],
-        back_link=BackLink("Back to " + cases.EcjuQueries.TITLE, case_url)
+        questions=[RadioButtons(name="ecju_query_type", options=options)],
+        back_link=BackLink("Back to " + cases.EcjuQueries.TITLE, case_url),
     )
 
 
@@ -21,9 +16,7 @@ def choose_ecju_query_type_form(case_url, picklists):
         title=cases.EcjuQueries.AddQuery.DROPDOWN_TITLE,
         questions=[
             RadioButtons(
-                description=cases.EcjuQueries.AddQuery.DROPDOWN_DESCRIPTION,
-                name="picklist",
-                options=picklists,
+                description=cases.EcjuQueries.AddQuery.DROPDOWN_DESCRIPTION, name="picklist", options=picklists,
             ),
             HiddenField(name="form_name", value="ecju_query_type_select"),
         ],

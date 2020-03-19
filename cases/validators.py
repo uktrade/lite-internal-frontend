@@ -9,4 +9,5 @@ def validate_query_type_question(_, __, json):
 
     return (
         {"errors": {"ecju_query_type": [strings.cases.EcjuQueries.AddQuery.SELECT_A_TYPE]}},
-        HTTPStatus.BAD_REQUEST,)
+        HTTPStatus.BAD_REQUEST,
+    )
