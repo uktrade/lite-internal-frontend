@@ -162,8 +162,8 @@ def im_done_button(driver):
 
 
 @when("I unassign myself for my work queue")
-def unassign_queue(driver):
-    UnassignQueuePage(driver).check_unassign_checkbox()
+def unassign_queue(driver, context):
+    UnassignQueuePage(driver).check_unassign_checkbox(context.queue_name)
     functions.click_submit(driver)
 
 
