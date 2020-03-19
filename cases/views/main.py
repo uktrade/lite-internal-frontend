@@ -154,8 +154,7 @@ class ViewCase(TemplateView):
         if "application" in case:
             status_props, _ = get_status_properties(request, case["application"]["status"]["key"])
             can_set_done = (
-                not status_props["is_terminal"]
-                and case["application"]["status"]["key"] != Statuses.APPLICANT_EDITING
+                not status_props["is_terminal"] and case["application"]["status"]["key"] != Statuses.APPLICANT_EDITING
             )
         else:
             status_props, _ = get_status_properties(request, case["query"]["status"]["key"])
