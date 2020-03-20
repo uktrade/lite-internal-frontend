@@ -50,7 +50,7 @@ from users.services import get_gov_user_from_form_selection
 class Cases(TemplateView):
     def get(self, request, **kwargs):
         """
-        Show a list of cases pertaining to that queue
+        Show a list of cases pertaining to that queue.
         """
         case_type = request.GET.get("case_type")
         status = request.GET.get("status")
