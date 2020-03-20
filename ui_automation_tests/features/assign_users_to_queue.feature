@@ -63,7 +63,7 @@ Feature: I want to assign one or more specific users to a case in a work queue
     When I go to application previously created
     Then I see a user is assigned
     When I click I'm done
-    And I unassign myself for my work queue
+    And I unassign myself from my newly created work queue
     And I go to my work queue
     Then My case is not in the queue
 
