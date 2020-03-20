@@ -241,10 +241,9 @@ class CaseProcessedByUser(SingleFormView):
 
 class CaseProcessedByUserForQueue(TemplateView):
     def get(self, request, pk, queue_id):
-        _, status_code = put_unassign_queues(request, str(pk), {"queues": [str(queue_id)]})
+        data, status_code = put_unassign_queues(request, str(pk), {"queues": [str(queue_id)]})
         if status_code != HTTPStatus.OK:
-            # If this fails, go back to the case page
-            return redirect(reverse_lazy("cases:case", kwargs={"pk": pk}))
+            return error_page(request, description=data["errors"]["queues"][0],)
         return redirect(reverse_lazy("cases:cases") + "?queue_id=" + str(queue_id))
 
 
