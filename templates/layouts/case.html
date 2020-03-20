@@ -30,11 +30,13 @@
 				{% if can_set_done %}
 					{% if user_assigned_queues and is_system_queue %}
 						<a role="button" draggable="false" id="done" class="govuk-button" href="{% url 'cases:done' case.id %}?queue_id={{ request.GET.queue_id }}">
-					{% else %}
-						<a role="button" draggable="false" id="done" class="govuk-button" href="{% url 'cases:done_for_queue' case.id request.GET.queue_id %}">
-					{% endif %}
 							{% lcs 'cases.ApplicationPage.DONE_WITH_CASE' %}
 						</a>
+					{% elif request.GET.queue_id %}
+						<a role="button" draggable="false" id="done" class="govuk-button" href="{% url 'cases:done_for_queue' case.id request.GET.queue_id %}">
+							{% lcs 'cases.ApplicationPage.DONE_WITH_CASE' %}
+						</a>
+					{% endif %}
 				{% endif %}
 				{% block additional_controls %}
 				{% endblock %}
