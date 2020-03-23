@@ -47,7 +47,7 @@ class LetterTemplates(BasePage):
             self.driver.find_element_by_id(id_selector).click()
 
     def select_visible_to_exporter(self, value):
-        self.driver.find_element_by_id(self.VISIBLE_TO_EXPORTER_PARTIAL_ID+value).click()
+        self.driver.find_element_by_id(self.VISIBLE_TO_EXPORTER_PARTIAL_ID + value).click()
 
     def click_licence_layout(self, template_id):
         self.driver.find_element_by_id(template_id).click()
