@@ -21,7 +21,8 @@ from organisations.services import (
     post_organisations,
     put_organisation,
     validate_post_organisation,
-    get_organisation_members)
+    get_organisation_members,
+)
 
 
 class OrganisationList(TemplateView):
@@ -82,9 +83,21 @@ class OrganisationView(TemplateView):
         context = {
             "organisation": self.organisation,
             "tabs": [
-                Tab("details", "Details", reverse_lazy("organisations:organisation", kwargs={"pk": self.organisation_id})),
-                Tab("members", "Members", reverse_lazy("organisations:organisation_members", kwargs={"pk": self.organisation_id})),
-                Tab("sites", "Sites", reverse_lazy("organisations:organisation_sites", kwargs={"pk": self.organisation_id})),
+                Tab(
+                    "details",
+                    "Details",
+                    reverse_lazy("organisations:organisation", kwargs={"pk": self.organisation_id}),
+                ),
+                Tab(
+                    "members",
+                    "Members",
+                    reverse_lazy("organisations:organisation_members", kwargs={"pk": self.organisation_id}),
+                ),
+                Tab(
+                    "sites",
+                    "Sites",
+                    reverse_lazy("organisations:organisation_sites", kwargs={"pk": self.organisation_id}),
+                ),
             ],
         }
         context.update(self.get_additional_context())

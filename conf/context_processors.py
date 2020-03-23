@@ -24,7 +24,11 @@ def lite_menu(request):
     try:
         pages = [
             {"title": "Cases", "url": reverse_lazy("cases:cases"), "icon": "menu/cases"},
-            {"title": OrganisationsPage.TITLE, "url": reverse_lazy("organisations:organisations"), "icon": "menu/businesses"},
+            {
+                "title": OrganisationsPage.TITLE,
+                "url": reverse_lazy("organisations:organisations"),
+                "icon": "menu/businesses",
+            },
             {"title": "Teams", "url": reverse_lazy("teams:teams"), "icon": "menu/teams"},
             {"title": "My Team", "url": reverse_lazy("teams:team"), "icon": "menu/teams"},
             {"title": QueuesList.TITLE, "url": reverse_lazy("queues:queues"), "icon": "menu/queues"},

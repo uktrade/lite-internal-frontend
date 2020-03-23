@@ -5,8 +5,8 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationPage.Sites.NAME" %}</th>
-					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationPage.Sites.ADDRESS" %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationPage.Sites.Table.NAME" %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs "organisations.OrganisationPage.Sites.Table.ADDRESS" %}</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -33,7 +33,5 @@
 				{% endfor %}
 			</tbody>
 		</table>
-	{% else %}
-		{% include 'includes/notice.html' with text='organisations.OrganisationPage.Sites.NO_SITES' %}
 	{% endif %}
 {% endblock %}

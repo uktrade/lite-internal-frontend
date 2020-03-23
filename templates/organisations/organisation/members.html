@@ -5,9 +5,9 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">Name</th>
-					<th class="govuk-table__header" scope="col">Email</th>
-					<th class="govuk-table__header" scope="col">Role</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'organisations.OrganisationPage.Members.Table.NAME' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'organisations.OrganisationPage.Members.Table.EMAIL' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'organisations.OrganisationPage.Members.Table.ROLE' %}</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -28,7 +28,5 @@
 				{% endfor %}
 			</tbody>
 		</table>
-	{% else %}
-		{% include 'includes/notice.html' with text='organisations.OrganisationPage.Members.NO_CONTENT_NOTICE' %}
 	{% endif %}
 {% endblock %}

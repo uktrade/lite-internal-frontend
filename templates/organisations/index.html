@@ -14,7 +14,7 @@
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
-			{% govuk_link_button id='register-hmrc-organisation' text='cases.AdditionalContacts.ADD_A_CaaaONTACT' url='organisations:register_hmrc' %}
+			{% govuk_link_button id='register-hmrc-organisation' text='organisations.OrganisationsPage.ADD_HMRC_BUTTON' url='organisations:register_hmrc' %}
 			{% govuk_link_button id='register-organisation' text='organisations.OrganisationsPage.ADD_BUTTON' url='organisations:register' %}
 		</div>
 	</div>
@@ -78,9 +78,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		{% if data.total_pages > 1 %}
-			{% include "includes/pagination.html" %}
-		{% endif %}
+		{% include "includes/pagination.html" %}
 	{% else %}
 		{% include "includes/notice.html" with text="organisations.OrganisationsPage.ACTIVE_FILTER_NO_ORGANISATIONS" %}
 	{% endif %}
