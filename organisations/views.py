@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 
 from conf.constants import Permission
 from core.helpers import convert_dict_to_query_params
+from core.objects import Tab
 from core.services import get_user_permissions
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.organisations import OrganisationsPage
@@ -15,12 +16,12 @@ from lite_forms.views import MultiFormView
 from organisations.forms import register_business_forms, register_hmrc_organisation_forms, edit_business_forms
 from organisations.services import (
     get_organisations,
-    get_organisations_sites,
+    get_organisation_sites,
     get_organisation,
     post_organisations,
     put_organisation,
     validate_post_organisation,
-)
+    get_organisation_members)
 
 
 class OrganisationList(TemplateView):
@@ -66,33 +67,46 @@ class OrganisationList(TemplateView):
         return render(request, "organisations/index.html", context)
 
 
-class OrganisationDetail(TemplateView):
-    """
-    Show an organisation.
-    """
+class OrganisationView(TemplateView):
+    organisation_id = None
+    organisation = None
+    additional_context = {}
+
+    def get_additional_context(self):
+        return self.additional_context
 
     def get(self, request, **kwargs):
-        organisation_pk = str(kwargs["pk"])
-        data, _ = get_organisation(request, organisation_pk)
-        sites, _ = get_organisations_sites(request, organisation_pk)
+        self.organisation_id = kwargs["pk"]
+        self.organisation = get_organisation(request, self.organisation_id)
 
         context = {
-            "organisation": data,
-            "title": data["name"],
-            "sites": sites["sites"],
-            "can_manage_organisations": Permission.MANAGE_ORGANISATIONS.value in get_user_permissions(request),
+            "organisation": self.organisation,
+            "tabs": [
+                Tab("details", "Details", reverse_lazy("organisations:organisation", kwargs={"pk": self.organisation_id})),
+                Tab("members", "Members", reverse_lazy("organisations:organisation_members", kwargs={"pk": self.organisation_id})),
+                Tab("sites", "Sites", reverse_lazy("organisations:organisation_sites", kwargs={"pk": self.organisation_id})),
+            ],
         }
-        return render(request, "organisations/organisation.html", context)
+        context.update(self.get_additional_context())
+        return render(request, f"organisations/organisation/{self.template_name}.html", context)
 
 
-class HMRCList(TemplateView):
-    def get(self, request, **kwargs):
-        data, _ = get_organisations(request, convert_dict_to_query_params({"org_type": "hmrc"}))
-        context = {
-            "data": data,
-            "title": "Organisations",
-        }
-        return render(request, "organisations/hmrc/index.html", context)
+class OrganisationDetails(OrganisationView):
+    template_name = "details"
+
+
+class OrganisationMembers(OrganisationView):
+    template_name = "members"
+
+    def get_additional_context(self):
+        return {"members": get_organisation_members(self.request, self.organisation_id)}
+
+
+class OrganisationSites(OrganisationView):
+    template_name = "sites"
+
+    def get_additional_context(self):
+        return {"sites": get_organisation_sites(self.request, self.organisation_id)}
 
 
 class RegisterBusiness(TemplateView):
@@ -150,7 +164,7 @@ class EditOrganisation(MultiFormView):
 
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        organisation, _ = get_organisation(request, str(self.object_pk))
+        organisation = get_organisation(request, str(self.object_pk))
         self.data = organisation
         individual = request.POST.get("type") == "individual"
         self.forms = edit_business_forms(request, individual)

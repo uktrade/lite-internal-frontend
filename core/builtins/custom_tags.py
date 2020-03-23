@@ -237,6 +237,14 @@ def get_address(data):
             address["country"]["name"],
         ]
         return ", ".join([x for x in address if x])
+    if data and "foreign_address" in data:
+        address = data["foreign_address"]
+
+        address = [
+            address["address"],
+            address["country"]["name"],
+        ]
+        return ", ".join([x for x in address if x])
     return ""
 
 
@@ -376,3 +384,8 @@ def missing_title():
         "</div>"
         "</div>"
     )
+
+
+@register.filter()
+def equals(ob1, ob2):
+    return ob1 == ob2
