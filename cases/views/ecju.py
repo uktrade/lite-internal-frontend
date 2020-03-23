@@ -49,7 +49,7 @@ class ChooseECJUQueryType(SingleFormView):
         picklist_type_choices = [
             Option("ecju_query", "Standard ECJU Query"),
             Option("pre_visit_questionnaire", "Pre-Visit Questionnaire Questions (ECJU Query)"),
-            Option("compliance_actions", "Compliance Actions (ECJU Query"),
+            Option("compliance_actions", "Compliance Actions (ECJU Query)"),
         ]
         self.form = choose_picklist_type_form(
             picklist_type_choices, reverse("cases:ecju_queries", kwargs={"pk": str(kwargs["pk"])})
@@ -82,7 +82,7 @@ class CreateEcjuQuery(TemplateView):
             reverse("cases:choose_ecju_query_type", kwargs={"pk": case_id}), picklist_choices
         )
 
-        return form_page(request, form, extra_data={"case_id": case_id})
+        return form_page(request, form, extra_data={"case_id": case_id}, data={"picklist": self.NEW_QUESTION_DDL_ID})
 
     def post(self, request, **kwargs):
         """
