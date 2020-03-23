@@ -8,7 +8,7 @@ from core.helpers import convert_dict_to_query_params
 from core.objects import Tab
 from core.services import get_user_permissions
 from lite_content.lite_internal_frontend import strings
-from lite_content.lite_internal_frontend.organisations import OrganisationsPage
+from lite_content.lite_internal_frontend.organisations import OrganisationsPage, OrganisationPage
 from lite_forms.components import FiltersBar, TextInput, Select, Option
 from lite_forms.generators import form_page
 from lite_forms.submitters import submit_paged_form
@@ -85,17 +85,17 @@ class OrganisationView(TemplateView):
             "tabs": [
                 Tab(
                     "details",
-                    "Details",
+                    OrganisationPage.Details.TITLE,
                     reverse_lazy("organisations:organisation", kwargs={"pk": self.organisation_id}),
                 ),
                 Tab(
                     "members",
-                    "Members",
+                    OrganisationPage.Members.TITLE,
                     reverse_lazy("organisations:organisation_members", kwargs={"pk": self.organisation_id}),
                 ),
                 Tab(
                     "sites",
-                    "Sites",
+                    OrganisationPage.Sites.TITLE,
                     reverse_lazy("organisations:organisation_sites", kwargs={"pk": self.organisation_id}),
                 ),
             ],
