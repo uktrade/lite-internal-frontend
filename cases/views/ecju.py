@@ -132,7 +132,11 @@ class CreateEcjuQuery(TemplateView):
             return form_page(request, form)
 
     def _handle_ecju_query_confirmation_post(self, case_id, request):
-        data = {"question": request.POST.get("question"), "query_type": request.GET.get("query_type")}
+        data = {
+            "question": request.POST.get("question"),
+            "query_type": request.GET.get("query_type"),
+            "ecju_query_confirmation": "Yes",
+        }
 
         if request.POST.get("ecju_query_confirmation").lower() == "yes":
             ecju_query, status_code = post_ecju_query(request, case_id, data)
