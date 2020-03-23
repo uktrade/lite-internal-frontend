@@ -1,6 +1,5 @@
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 
 from conf.constants import Permission
@@ -10,10 +9,8 @@ from core.services import get_user_permissions
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.organisations import OrganisationsPage, OrganisationPage
 from lite_forms.components import FiltersBar, TextInput, Select, Option
-from lite_forms.generators import form_page
-from lite_forms.submitters import submit_paged_form
 from lite_forms.views import MultiFormView
-from organisations.forms import register_business_forms, register_hmrc_organisation_forms, edit_business_forms
+from organisations.forms import register_organisation_forms
 from organisations.services import (
     get_organisations,
     get_organisation_sites,
@@ -122,49 +119,21 @@ class OrganisationSites(OrganisationView):
         return {"sites": get_organisation_sites(self.request, self.organisation_id)}
 
 
-class RegisterBusiness(TemplateView):
-    forms = None
-
-    def dispatch(self, request, *args, **kwargs):
-        individual = request.POST.get("type") == "individual"
-        name = request.POST.get("name")
-        self.forms = register_business_forms(individual, name) if name else register_business_forms(individual)
-
-        return super(RegisterBusiness, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request, **kwargs):
-        return form_page(request, self.forms.forms[0])
-
-    def post(self, request, **kwargs):
-        response, _ = submit_paged_form(request, self.forms, post_organisations)
-
-        if response:
-            return response
-
-        messages.success(request, strings.ORGANISATION_CREATION_SUCCESS)
-        return redirect("organisations:organisations")
+class RegisterOrganisation(MultiFormView):
+    def init(self, request, **kwargs):
+        self.forms = register_organisation_forms(request)
+        self.action = post_organisations
+        self.success_message = strings.ORGANISATION_CREATION_SUCCESS
+        self.success_url = reverse("organisations:organisations")
 
 
-class RegisterHMRC(TemplateView):
-    forms = None
-
-    def dispatch(self, request, *args, **kwargs):
-        name = request.POST.get("name")
-        self.forms = register_hmrc_organisation_forms(name) if name else register_hmrc_organisation_forms()
-
-        return super(RegisterHMRC, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request, **kwargs):
-        return form_page(request, self.forms.forms[0])
-
-    def post(self, request, **kwargs):
-        response, _ = submit_paged_form(request, self.forms, post_organisations)
-
-        if response:
-            return response
-
-        messages.success(request, strings.HMRC_ORGANISATION_CREATION_SUCCESS)
-        return redirect("organisations:hmrc")
+class RegisterHMRC(MultiFormView):
+    def init(self, request, **kwargs):
+        pass
+#         self.forms = register_hmrc_organisation_forms()
+#         self.action = post_organisations
+#         self.success_message = strings.HMRC_ORGANISATION_CREATION_SUCCESS
+#         self.success_url = reverse("organisations:organisations")
 
 
 class EditOrganisation(MultiFormView):

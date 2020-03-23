@@ -11,7 +11,7 @@ urlpatterns = [
     path("<uuid:pk>/members/", views.OrganisationMembers.as_view(), name="organisation_members"),
     path("<uuid:pk>/sites/", views.OrganisationSites.as_view(), name="organisation_sites"),
     path("<uuid:pk>/assign-flags/", AssignFlags.as_view(), name="assign_flags"),
-    path("register/", views.RegisterBusiness.as_view(), name="register"),
+    path("register/", views.RegisterOrganisation.as_view(), name="register"),
     path("<uuid:pk>/edit/", views.EditOrganisation.as_view(), name="edit"),
     path("register-hmrc/", views.RegisterHMRC.as_view(), name="register_hmrc"),
 ]
