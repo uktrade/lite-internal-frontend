@@ -6,6 +6,7 @@ from cases.forms.assign_users import assign_users_form
 from lite_forms.generators import form_page, error_page
 from lite_forms.views import SingleFormView
 from queues.forms import edit_queue_form, new_queue_form
+from queues.helpers import get_assigned_users_from_cases
 from queues.services import (
     get_queue,
     get_queues,
@@ -62,9 +63,7 @@ class CaseAssignments(TemplateView):
             return error_page(request, "Invalid case selection")
 
         # Get assigned users
-        assigned_users = [
-            assignment["user"] for assignment in case_assignments["case_assignments"] if assignment["case"] in case_ids
-        ]
+        assigned_users = get_assigned_users_from_cases(case_ids, case_assignments["case_assignments"])
         return form_page(
             request,
             assign_users_form(request, user_data["user"]["team"]["id"], queue["queue"], len(case_ids) > 1),
