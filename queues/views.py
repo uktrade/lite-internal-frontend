@@ -80,7 +80,8 @@ class CaseAssignments(TemplateView):
         case_ids = request.GET.get("cases").split(",")
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
-        data = {"case_assignments": []}
+        # Any assignments not selected should be removed (hence clear_existing_assignments)
+        data = {"case_assignments": [], "remove_existing_assignments": True}
 
         # Append case and users to case assignments
         for case_id in case_ids:
