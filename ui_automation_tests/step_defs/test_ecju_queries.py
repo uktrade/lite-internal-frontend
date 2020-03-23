@@ -30,6 +30,12 @@ def i_click_add_an_ecju_query(driver):
     ecju_queries_pages.click_add_an_ecju_query_btn()
 
 
+@when("I select standard ECJU Query for my query type")
+def i_select_standard_ecju_query(driver):
+    ecju_queries_page = EcjuQueriesPages(driver)
+    ecju_queries_page.click_standard_ecju_query()
+
+
 @when("I select a standard ECJU picklist question")
 def i_select_standard_picklist_question(driver, context):
     ecju_queries_pages = EcjuQueriesPages(driver)
