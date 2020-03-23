@@ -10,7 +10,7 @@ from lite_forms.components import (
     Checkboxes,
     Option,
     RadioButtonsImage,
-)
+    RadioButtons)
 
 from letter_templates.services import get_letter_layouts
 from lite_forms.helpers import conditional
@@ -86,6 +86,17 @@ def add_letter_template(request):
                     ],
                     default_button_name=strings.LetterTemplates.AddLetterTemplate.CaseTypes.CONTINUE_BUTTON,
                 ),
+            ),
+            Form(
+                title="Visible to exporter",
+                description="Should documents created with this template be visible to exporters?",
+                questions=[
+                      RadioButtons(
+                          name="visible_to_exporter",
+                          options=[Option(key="True", value="Yes"), Option(key="False", value="No"), ],
+                      ),
+                ],
+                default_button_name="Continue",
             ),
             Form(
                 title=strings.LetterTemplates.AddLetterTemplate.Layout.TITLE,
