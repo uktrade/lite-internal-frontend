@@ -89,15 +89,22 @@ def add_letter_template(request):
                 ),
             ),
             Form(
-                title="Visible to exporter",
-                description="Should documents created with this template be visible to exporters?",
+                title=strings.LetterTemplates.AddLetterTemplate.VisibleToExporter.TITLE,
+                description=strings.LetterTemplates.AddLetterTemplate.VisibleToExporter.DESCRIPTION,
                 questions=[
                     RadioButtons(
                         name="visible_to_exporter",
-                        options=[Option(key="True", value="Yes"), Option(key="False", value="No"),],
+                        options=[
+                            Option(
+                                key="True", value=strings.LetterTemplates.AddLetterTemplate.VisibleToExporter.YES_OPTION
+                            ),
+                            Option(
+                                key="False", value=strings.LetterTemplates.AddLetterTemplate.VisibleToExporter.NO_OPTION
+                            ),
+                        ],
                     ),
                 ],
-                default_button_name="Continue",
+                default_button_name=strings.LetterTemplates.AddLetterTemplate.VisibleToExporter.BUTTON,
             ),
             Form(
                 title=strings.LetterTemplates.AddLetterTemplate.Layout.TITLE,
