@@ -13,7 +13,9 @@ from lite_forms.components import (
     Option,
     RadioButtons,
     HiddenField,
-    BackLink, EmailInput)
+    BackLink,
+    EmailInput,
+)
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
 
@@ -70,14 +72,18 @@ def register_individual_form(in_uk):
     return Form(
         title=RegisterAnOrganisation.COMMERCIAL_TITLE,
         questions=[
-            TextInput(title=RegisterAnOrganisation.IndividualName.TITLE,
-                      description=RegisterAnOrganisation.IndividualName.DESCRIPTION,
-                      name="name"),
+            TextInput(
+                title=RegisterAnOrganisation.IndividualName.TITLE,
+                description=RegisterAnOrganisation.IndividualName.DESCRIPTION,
+                name="name",
+            ),
             EmailInput(title=RegisterAnOrganisation.EMAIL, name="user.email"),
-            TextInput(title=RegisterAnOrganisation.EORINumber.TITLE,
-                      description=RegisterAnOrganisation.EORINumber.DESCRIPTION,
-                      name="eori_number",
-                      optional=not in_uk),
+            TextInput(
+                title=RegisterAnOrganisation.EORINumber.TITLE,
+                description=RegisterAnOrganisation.EORINumber.DESCRIPTION,
+                name="eori_number",
+                optional=not in_uk,
+            ),
             TextInput(
                 title=RegisterAnOrganisation.UkVatNumber.TITLE,
                 description=RegisterAnOrganisation.UkVatNumber.DESCRIPTION,

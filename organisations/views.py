@@ -130,6 +130,8 @@ class RegisterOrganisation(MultiFormView):
 class RegisterHMRC(MultiFormView):
     def init(self, request, **kwargs):
         pass
+
+
 #         self.forms = register_hmrc_organisation_forms()
 #         self.action = post_organisations
 #         self.success_message = strings.HMRC_ORGANISATION_CREATION_SUCCESS
