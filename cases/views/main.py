@@ -139,6 +139,9 @@ class Cases(TemplateView):
 
 
 def get_additional_information(case):
+    """
+    Returns an additional information component to be rendered by templates.
+    """
     field_titles = {
         "electronic_warfare_requirement": applications.AdditionalInformation.ELECTRONIC_WARFARE_REQUIREMENT,
         "expedited": applications.AdditionalInformation.EXPEDITED,
