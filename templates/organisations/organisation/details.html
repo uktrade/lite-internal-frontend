@@ -1,5 +1,9 @@
 {% extends 'organisations/organisation/base.html' %}
 
+{% block controls %}
+	{% govuk_link_button id='edit-organisation' text='organisations.OrganisationPage.Details.EDIT_BUTTON' url='organisations:edit' url_param=organisation.id %}
+{% endblock %}
+
 {% block contents %}
 	<dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-width-two-thirds">
 		{% if organisation.eori_number %}

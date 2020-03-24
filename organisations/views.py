@@ -10,7 +10,7 @@ from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.organisations import OrganisationsPage, OrganisationPage
 from lite_forms.components import FiltersBar, TextInput, Select, Option
 from lite_forms.views import MultiFormView
-from organisations.forms import register_organisation_forms
+from organisations.forms import register_organisation_forms, edit_business_forms
 from organisations.services import (
     get_organisations,
     get_organisation_sites,

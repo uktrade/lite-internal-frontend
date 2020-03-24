@@ -54,7 +54,7 @@ def register_organisation_forms(request):
                         name="location",
                         options=[
                             Option(key="united_kingdom", value="In the United Kingdom"),
-                            Option(key="individual", value="Outside of the United Kingdom"),
+                            Option(key="abroad", value="Outside of the United Kingdom"),
                         ],
                     )
                 ],
@@ -178,69 +178,68 @@ def create_admin_user_form():
 #     )
 
 
-# def edit_individual_form(permission_to_edit_org_name):
-#     return Form(
-#         title=RegisterAnOrganisation.EDIT_INDIVIDUAL_TITLE,
-#         questions=[
-#             conditional(
-#                 permission_to_edit_org_name, TextInput(title=REGISTER_BUSINESS_FIRST_AND_LAST_NAME, name="name"),
-#             ),
-#             TextInput(title=RegisterAnOrganisation.EMAIL, name="user.email"),
-#             TextInput(title=RegisterAnOrganisation.EORI_NUMBER, name="eori_number"),
-#             TextInput(
-#                 title=RegisterAnOrganisation.UkVatNumber.TITLE,
-#                 description=RegisterAnOrganisation.UkVatNumber.DESCRIPTION,
-#                 optional=True,
-#                 name="vat_number",
-#             ),
-#         ],
-#         default_button_name=strings.CONTINUE,
-#     )
-#
-#
-# def edit_commercial_form(permission_to_edit_org_name):
-#     return Form(
-#         title=RegisterAnOrganisation.EDIT_COMMERCIAL_TITLE,
-#         questions=[
-#             conditional(
-#                 permission_to_edit_org_name, TextInput(title=REGISTER_BUSINESS_FIRST_AND_LAST_NAME, name="name"),
-#             ),
-#             TextInput(title=RegisterAnOrganisation.EORI_NUMBER, name="eori_number"),
-#             TextInput(
-#                 title=RegisterAnOrganisation.SicNumber.TITLE,
-#                 description=RegisterAnOrganisation.SicNumber.DESCRIPTION,
-#                 name="sic_number",
-#             ),
-#             TextInput(
-#                 title=RegisterAnOrganisation.UkVatNumber.TITLE,
-#                 description=RegisterAnOrganisation.UkVatNumber.DESCRIPTION,
-#                 name="vat_number",
-#             ),
-#             TextInput(
-#                 title=RegisterAnOrganisation.CRN,
-#                 description=RegisterAnOrganisation.CRN_DESCRIPTION,
-#                 name="registration_number",
-#             ),
-#         ],
-#         default_button_name=CONTINUE,
-#     )
+def edit_individual_form(permission_to_edit_org_name):
+    return Form(
+        title=RegisterAnOrganisation.EDIT_INDIVIDUAL_TITLE,
+        questions=[
+            conditional(
+                permission_to_edit_org_name, TextInput(title="", name="name"),
+            ),
+            TextInput(title=RegisterAnOrganisation.EMAIL, name="user.email"),
+            TextInput(title=RegisterAnOrganisation.EMAIL, name="eori_number"),
+            TextInput(
+                title=RegisterAnOrganisation.UkVatNumber.TITLE,
+                description=RegisterAnOrganisation.UkVatNumber.DESCRIPTION,
+                optional=True,
+                name="vat_number",
+            ),
+        ],
+        default_button_name=strings.CONTINUE,
+    )
 
 
-# def edit_business_forms(request, individual=False):
-#     user_permissions = get_user_permissions(request)
-#     permission_to_edit_org_name = (
-#         Permission.MANAGE_ORGANISATIONS.value in user_permissions
-#         and Permission.REOPEN_CLOSED_CASES.value in user_permissions
-#     )
-#
-#     return FormGroup(
-#         [
-#             individual_or_commercial(),
-#             conditional(
-#                 individual,
-#                 edit_individual_form(permission_to_edit_org_name),
-#                 edit_commercial_form(permission_to_edit_org_name),
-#             ),
-#         ],
-#         show_progress_indicators=True,
-#     )
+def edit_commercial_form(permission_to_edit_org_name):
+    return Form(
+        title=RegisterAnOrganisation.EDIT_COMMERCIAL_TITLE,
+        questions=[
+            conditional(
+                permission_to_edit_org_name, TextInput(title="", name="name"),
+            ),
+            TextInput(title=RegisterAnOrganisation.EMAIL, name="eori_number"),
+            TextInput(
+                title=RegisterAnOrganisation.SicNumber.TITLE,
+                description=RegisterAnOrganisation.SicNumber.DESCRIPTION,
+                name="sic_number",
+            ),
+            TextInput(
+                title=RegisterAnOrganisation.UkVatNumber.TITLE,
+                description=RegisterAnOrganisation.UkVatNumber.DESCRIPTION,
+                name="vat_number",
+            ),
+            TextInput(
+                title="",
+                description="",
+                name="registration_number",
+            ),
+        ],
+        default_button_name=strings.CONTINUE,
+    )
+
+
+def edit_business_forms(request, individual=False):
+    user_permissions = get_user_permissions(request)
+    permission_to_edit_org_name = (
+        Permission.MANAGE_ORGANISATIONS.value in user_permissions
+        and Permission.REOPEN_CLOSED_CASES.value in user_permissions
+    )
+
+    return FormGroup(
+        [
+            # individual_or_commercial(), # Add back!
+            conditional(
+                individual,
+                edit_individual_form(permission_to_edit_org_name),
+                edit_commercial_form(permission_to_edit_org_name),
+            ),
+        ],
+    )

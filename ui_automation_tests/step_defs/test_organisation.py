@@ -60,9 +60,10 @@ def i_choose_to_add_a_new_commercial_organisation(driver, context):
     OrganisationsPage(driver).click_new_organisation_button()
     organisations_form_page = OrganisationsFormPage(driver)
     organisations_form_page.select_type("commercial")
+    organisations_form_page.select_location("united_kingdom")
     organisations_form_page.fill_in_company_info_page_1(context)
     organisations_form_page = OrganisationsFormPage(driver)
-    organisations_form_page.fill_in_site_info_page_2(context)
+    organisations_form_page.enter_site_details(context, "united_kingdom")
     context.email = fake.free_email()
     organisations_form_page.enter_email(context.email)
 
@@ -72,8 +73,9 @@ def i_choose_to_add_a_new_individual_organisation(driver, context):
     OrganisationsPage(driver).click_new_organisation_button()
     organisations_form_page = OrganisationsFormPage(driver)
     organisations_form_page.select_type("individual")
+    organisations_form_page.select_location("abroad")
     organisations_form_page.fill_in_individual_info_page_1(context)
-    organisations_form_page.fill_in_site_info_page_2(context)
+    organisations_form_page.enter_site_details(context, "abroad")
 
 
 @when("I add a new HMRC organisation")
@@ -82,7 +84,7 @@ def i_choose_to_add_a_new_hmrc_organisation(driver, context):
     context.hmrc_org_name = fake.company() + " " + fake.company_suffix()
     organisations_form_page = OrganisationsFormPage(driver)
     organisations_form_page.enter_name(context.hmrc_org_name)
-    organisations_form_page.fill_in_site_info_page_2(context)
+    organisations_form_page.enter_site_details(context, "united_kingdom")
     context.email = fake.free_email()
     organisations_form_page.enter_email(context.email)
 
