@@ -174,7 +174,7 @@ def get_additional_information(case):
                         if isinstance(value, dict)
                         else value
                     ),
-                    "SubAnswer": case.get(f"{field}_description") if case.get(field) is True else None
+                    "SubAnswer": case.get(f"{field}_description") if case.get(field) is True else None,
                 }
             )
 
