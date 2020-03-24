@@ -5,13 +5,15 @@ Feature: I want to create ECJU queries
   So that I can ask them for additional information or to correct an issue with the case they have submitted
 
 
-  @LT_1192_add @regression
+  @LT_1192_add @regression @LT_1493_query
   Scenario: Add an ECJU Query to a case
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
     And I create an ecju query picklist
     When I go to application previously created
     And I click the ECJU Queries button
+    And I click Choose an ECJU Query Type
+    And I select standard ECJU Query for my query type
     And I click Add an ECJU Query
     And I select a standard ECJU picklist question
     And I click continue
