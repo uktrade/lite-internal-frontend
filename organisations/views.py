@@ -10,7 +10,7 @@ from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.organisations import OrganisationsPage, OrganisationPage
 from lite_forms.components import FiltersBar, TextInput, Select, Option
 from lite_forms.views import MultiFormView
-from organisations.forms import register_organisation_forms, edit_business_forms
+from organisations.forms import register_organisation_forms, edit_business_forms, register_hmrc_organisation_forms
 from organisations.services import (
     get_organisations,
     get_organisation_sites,
@@ -129,13 +129,10 @@ class RegisterOrganisation(MultiFormView):
 
 class RegisterHMRC(MultiFormView):
     def init(self, request, **kwargs):
-        pass
-
-
-#         self.forms = register_hmrc_organisation_forms()
-#         self.action = post_organisations
-#         self.success_message = strings.HMRC_ORGANISATION_CREATION_SUCCESS
-#         self.success_url = reverse("organisations:organisations")
+        self.forms = register_hmrc_organisation_forms()
+        self.action = post_organisations
+        self.success_message = strings.HMRC_ORGANISATION_CREATION_SUCCESS
+        self.success_url = reverse("organisations:organisations")
 
 
 class EditOrganisation(MultiFormView):
@@ -150,8 +147,7 @@ class EditOrganisation(MultiFormView):
         self.object_pk = kwargs["pk"]
         organisation = get_organisation(request, str(self.object_pk))
         self.data = organisation
-        individual = request.POST.get("type") == "individual"
-        self.forms = edit_business_forms(request, individual)
+        self.forms = edit_business_forms(request)
         self.success_url = reverse_lazy("organisations:organisations")
 
     def on_submission(self, request, **kwargs):

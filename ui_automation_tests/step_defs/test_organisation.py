@@ -80,7 +80,7 @@ def i_choose_to_add_a_new_individual_organisation(driver, context):
 
 @when("I add a new HMRC organisation")
 def i_choose_to_add_a_new_hmrc_organisation(driver, context):
-    OrganisationsPage(driver).click_new_organisation_button()
+    OrganisationsPage(driver).click_new_hmrc_organisation_button()
     context.hmrc_org_name = fake.company() + " " + fake.company_suffix()
     organisations_form_page = OrganisationsFormPage(driver)
     organisations_form_page.enter_name(context.hmrc_org_name)

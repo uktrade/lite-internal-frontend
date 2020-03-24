@@ -158,24 +158,24 @@ def create_admin_user_form():
     )
 
 
-# def register_hmrc_organisation_forms():
-#     return FormGroup(
-#         [
-#             Form(
-#                 title="Register an HMRC organisation",
-#                 questions=[
-#                     HiddenField(name="type", value="hmrc"),
-#                     TextInput(title="Name of HMRC organisation", name="name"),
-#                     TextInput(title=RegisterAnOrganisation.NAME_OF_SITE, name="site.name"),
-#                     Heading("Where are they based?", HeadingStyle.M),
-#                     *address_questions(get_countries(None, True), "site.address."),
-#                 ],
-#                 default_button_name="Continue",
-#             ),
-#             create_admin_user_form(),
-#         ],
-#         show_progress_indicators=True,
-#     )
+def register_hmrc_organisation_forms():
+    return FormGroup(
+        [
+            Form(
+                title="Register an HMRC organisation",
+                questions=[
+                    HiddenField(name="type", value="hmrc"),
+                    TextInput(title="Name of HMRC organisation", name="name"),
+                    TextInput(title=RegisterAnOrganisation.NAME_OF_SITE, name="site.name"),
+                    Heading("Where are they based?", HeadingStyle.M),
+                    *address_questions(None, "site.address."),
+                ],
+                default_button_name="Continue",
+            ),
+            create_admin_user_form(),
+        ],
+        show_progress_indicators=True,
+    )
 
 
 def edit_individual_form(permission_to_edit_org_name):
@@ -226,7 +226,8 @@ def edit_commercial_form(permission_to_edit_org_name):
     )
 
 
-def edit_business_forms(request, individual=False):
+def edit_business_forms(request):
+    individual = request.POST.get("type") == "individual"
     user_permissions = get_user_permissions(request)
     permission_to_edit_org_name = (
         Permission.MANAGE_ORGANISATIONS.value in user_permissions
