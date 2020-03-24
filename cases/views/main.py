@@ -35,8 +35,10 @@ from cases.services import post_case_documents, get_case_documents, get_document
 from conf import settings
 from conf.constants import ALL_CASES_QUEUE_ID, GENERATED_DOCUMENT
 from conf.settings import AWS_STORAGE_BUCKET_NAME
+from core.builtins.custom_tags import friendly_boolean
 from core.helpers import convert_dict_to_query_params
 from core.services import get_status_properties, get_user_permissions, get_permissible_statuses
+from lite_content.lite_exporter_frontend import applications
 from lite_content.lite_internal_frontend import cases
 from lite_content.lite_internal_frontend.cases import CasesListPage
 from lite_forms.components import FiltersBar, AutocompleteInput, Option, HiddenField, Select, Checkboxes
@@ -136,6 +138,45 @@ class Cases(TemplateView):
         )
 
 
+def get_additional_information(case):
+    field_titles = {
+        "electronic_warfare_requirement": applications.AdditionalInformation.ELECTRONIC_WARFARE_REQUIREMENT,
+        "expedited": applications.AdditionalInformation.EXPEDITED,
+        "expedited_date": applications.AdditionalInformation.EXPEDITED_DATE,
+        "foreign_technology": applications.AdditionalInformation.FOREIGN_TECHNOLOGY,
+        "foreign_technology_description": applications.AdditionalInformation.FOREIGN_TECHNOLOGY_DESCRIPTION,
+        "foreign_technology_type": applications.AdditionalInformation.FOREIGN_TECHNOLOGY_TYPE,
+        "locally_manufactured": applications.AdditionalInformation.LOCALLY_MANUFACTURED,
+        "locally_manufactured_description": applications.AdditionalInformation.LOCALLY_MANUFACTURED_DESCRIPTION,
+        "mtcr_type": applications.AdditionalInformation.MTCR_TYPE,
+        "uk_service_equipment": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT,
+        "uk_service_equipment_description": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT_DESCRIPTION,
+        "uk_service_equipment_type": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT_TYPE,
+        "value": applications.AdditionalInformation.VALUE,
+    }
+
+    values_to_print = []
+
+    for field, title in field_titles.items():
+        value = case.get(field)
+        if value is not None:
+            values_to_print.append(
+                {
+                    "Number": len(values_to_print) + 1,
+                    "Description": title,
+                    "Answer": (
+                        friendly_boolean(value)
+                        if isinstance(value, bool)
+                        else value["value"]
+                        if isinstance(value, dict)
+                        else value
+                    ),
+                }
+            )
+
+    return values_to_print
+
+
 class ViewCase(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
@@ -173,6 +214,8 @@ class ViewCase(TemplateView):
         ]:
             if case_sub_type != CaseType.EXHIBITION.value:
                 context["total_goods_value"] = _get_total_goods_value(case)
+            if case_sub_type == CaseType.F680.value:
+                context["case"]["application"]["additional_information"] = get_additional_information(case["application"])
             return render(request, "case/applications/mod-clearance.html", context)
         elif case_type == CaseType.APPLICATION.value:
             context["total_goods_value"] = _get_total_goods_value(case)
@@ -180,7 +223,6 @@ class ViewCase(TemplateView):
                 return render(request, "case/applications/open-licence-case.html", context)
             elif case_sub_type == CaseType.STANDARD.value:
                 return render(request, "case/applications/standard-licence-case.html", context)
-
         raise Exception("Invalid case_sub_type: {}".format(case_sub_type))
 
     def post(self, request, **kwargs):
