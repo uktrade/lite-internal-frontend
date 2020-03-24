@@ -182,9 +182,7 @@ def edit_individual_form(permission_to_edit_org_name):
     return Form(
         title=RegisterAnOrganisation.EDIT_INDIVIDUAL_TITLE,
         questions=[
-            conditional(
-                permission_to_edit_org_name, TextInput(title="", name="name"),
-            ),
+            conditional(permission_to_edit_org_name, TextInput(title="", name="name"),),
             TextInput(title=RegisterAnOrganisation.EMAIL, name="user.email"),
             TextInput(title=RegisterAnOrganisation.EMAIL, name="eori_number"),
             TextInput(
@@ -202,9 +200,7 @@ def edit_commercial_form(permission_to_edit_org_name):
     return Form(
         title=RegisterAnOrganisation.EDIT_COMMERCIAL_TITLE,
         questions=[
-            conditional(
-                permission_to_edit_org_name, TextInput(title="", name="name"),
-            ),
+            conditional(permission_to_edit_org_name, TextInput(title="", name="name"),),
             TextInput(title=RegisterAnOrganisation.EMAIL, name="eori_number"),
             TextInput(
                 title=RegisterAnOrganisation.SicNumber.TITLE,
@@ -216,11 +212,7 @@ def edit_commercial_form(permission_to_edit_org_name):
                 description=RegisterAnOrganisation.UkVatNumber.DESCRIPTION,
                 name="vat_number",
             ),
-            TextInput(
-                title="",
-                description="",
-                name="registration_number",
-            ),
+            TextInput(title="", description="", name="registration_number",),
         ],
         default_button_name=strings.CONTINUE,
     )
