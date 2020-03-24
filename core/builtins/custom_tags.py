@@ -12,6 +12,7 @@ from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
+from conf import settings
 from conf.constants import ISO8601_FMT, DATE_FORMAT
 
 from lite_content.lite_internal_frontend import strings
@@ -346,5 +347,32 @@ def get_sla_ring_colour(remaining_days):
 
 @register.filter()
 def is_exhibition(case_type):
-    result = True if case_type == CaseType.EXHIBITION else False
-    return result
+    return case_type == CaseType.EXHIBITION
+
+
+@register.filter()
+def is_f680(case_type):
+    return case_type == CaseType.F680
+
+
+@register.simple_tag
+@mark_safe
+def missing_title():
+    """
+    Adds a missing title banner to the page
+    """
+    if not settings.DEBUG:
+        return
+
+    return (
+        "</title>"
+        "</head>"
+        '<body style="margin-top: 75px;">'
+        '<div class="app-missing-title-banner">'
+        '<div class="govuk-width-container">'
+        '<h2 class="app-missing-title-banner__heading">You need to set a title!</h2>'
+        'You can do this by adding <span class="app-missing-title-banner__code">{% block title %}'
+        '<span class="app-missing-title-banner__code--tint">My first title!</span>{% endblock %}</span> to your HTML'
+        "</div>"
+        "</div>"
+    )
