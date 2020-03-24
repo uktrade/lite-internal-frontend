@@ -96,10 +96,10 @@ def add_letter_template(request):
                         name="visible_to_exporter",
                         options=[
                             Option(
-                                key="True", value=strings.LetterTemplates.AddLetterTemplate.VisibleToExporter.YES_OPTION
+                                key=True, value=strings.LetterTemplates.AddLetterTemplate.VisibleToExporter.YES_OPTION
                             ),
                             Option(
-                                key="False", value=strings.LetterTemplates.AddLetterTemplate.VisibleToExporter.NO_OPTION
+                                key=False, value=strings.LetterTemplates.AddLetterTemplate.VisibleToExporter.NO_OPTION
                             ),
                         ],
                     ),
