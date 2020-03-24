@@ -97,11 +97,6 @@ def i_go_to_organisations(driver, internal_url, context):
     driver.get(internal_url.rstrip("/") + "/organisations")
 
 
-@when("I go to HMRC")
-def i_go_to_hmrc(driver, internal_url, context):
-    driver.get(internal_url.rstrip("/") + "/organisations/hmrc/")
-
-
 @when("I click the organisation")
 def click_organisation(driver, context):
     OrganisationsPage(driver).click_organisation(context.organisation_name)
