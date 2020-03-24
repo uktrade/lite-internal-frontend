@@ -44,48 +44,6 @@
 						<p>{{ clearance_type.name.value|default_na }}</p>
 					{% endfor %}
 				</div>
-				<div class="govuk-grid-column-one-quarter">
-					<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.AdditionalInformation.EXPEDITED' %}</p>
-					<p>{{ case.application.questions.expedited|friendly_boolean }}</p>
-					{% if case.application.questions.expedited_date %}
-						<p>{{ case.application.questions.expedited_date }}</p>
-					{% endif %}
-
-				</div>
-				<div class="govuk-grid-column-one-quarter">
-					<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.AdditionalInformation.ELECTRONIC_WARFARE_REQUIREMENT' %}</p>
-					<p>{{ case.application.questions.electronic_warfare_requirement|friendly_boolean }}</p>
-					{% if case.application.questions.electronic_warfare_requirement_attachment %}
-						<a class="govuk-link govuk-link--no-visited-state" id="electronic_warfare_requirement_attachment" href="{% url 'cases:document' case.id case.application.questions.electronic_warfare_requirement_attachment %}">
-							{% lcs 'cases.Manage.Documents.DOWNLOAD_DOCUMENT' %}
-						</a>
-					{% endif %}
-				</div>
-				<div class="govuk-grid-column-one-quarter">
-					<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.AdditionalInformation.FOREIGN_TECHNOLOGY' %}</p>
-					<p>{{ case.application.questions.foreign_technology|friendly_boolean }}</p>
-					{% if case.application.questions.foreign_technology_description %}
-						<p>{{ case.application.questions.foreign_technology_description }}</p>
-					{% endif %}
-				</div>
-			</div>
-			<div class="govuk-grid-row">
-				<div class="govuk-grid-column-one-quarter">
-					<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.AdditionalInformation.LOCALLY_MANUFACTURED' %}</p>
-					<p>{{ case.application.questions.locally_manufactured|friendly_boolean }}</p>
-					{% if case.application.questions.locally_manufactured_description %}
-						<p>{{ case.application.questions.locally_manufactured_description }}</p>
-					{% endif %}
-				</div>
-
-				<div class="govuk-grid-column-one-quarter">
-					<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.AdditionalInformation.MTCR_TYPE' %}</p>
-					<p>{{ case.application.questions.mtcr_type.value }}</p>
-				</div>
-				<div class="govuk-grid-column-one-quarter">
-					<p class="app-case-board__heading">{% lcs 'cases.ApplicationPage.AdditionalInformation.VALUE' %}</p>
-					<p>£{{ case.application.questions.value|intcomma }}</p>
-				</div>
 			</div>
 		{%  endif %}
 	</div>
