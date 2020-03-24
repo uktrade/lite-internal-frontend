@@ -150,13 +150,10 @@ def get_additional_information(case):
         "expedited": applications.AdditionalInformation.EXPEDITED,
         "expedited_date": applications.AdditionalInformation.EXPEDITED_DATE,
         "foreign_technology": applications.AdditionalInformation.FOREIGN_TECHNOLOGY,
-        "foreign_technology_description": applications.AdditionalInformation.FOREIGN_TECHNOLOGY_DESCRIPTION,
         "foreign_technology_type": applications.AdditionalInformation.FOREIGN_TECHNOLOGY_TYPE,
         "locally_manufactured": applications.AdditionalInformation.LOCALLY_MANUFACTURED,
-        "locally_manufactured_description": applications.AdditionalInformation.LOCALLY_MANUFACTURED_DESCRIPTION,
         "mtcr_type": applications.AdditionalInformation.MTCR_TYPE,
         "uk_service_equipment": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT,
-        "uk_service_equipment_description": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT_DESCRIPTION,
         "uk_service_equipment_type": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT_TYPE,
         "value": applications.AdditionalInformation.VALUE,
     }
@@ -177,6 +174,7 @@ def get_additional_information(case):
                         if isinstance(value, dict)
                         else value
                     ),
+                    "SubAnswer": case.get(f"{field}_description") if case.get(field) is True else None
                 }
             )
 
