@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from conf.constants import Permission
+from core.services import get_countries
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.organisations import (
     RegisterAnOrganisation,
@@ -22,8 +22,6 @@ from lite_forms.components import (
 )
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
-
-from core.services import get_countries, get_user_permissions
 
 
 def register_organisation_forms(request):
