@@ -2,7 +2,11 @@ from django.urls import reverse
 
 from conf.constants import Permission
 from lite_content.lite_internal_frontend import strings
-from lite_content.lite_internal_frontend.organisations import RegisterAnOrganisation
+from lite_content.lite_internal_frontend.organisations import (
+    RegisterAnOrganisation,
+    EditIndividualOrganisationPage,
+    EditCommercialOrganisationPage,
+)
 from lite_forms.common import address_questions, foreign_address_questions
 from lite_forms.components import (
     Form,
@@ -178,46 +182,70 @@ def register_hmrc_organisation_forms():
     )
 
 
-def edit_individual_form(organisation, can_edit_name):
+def edit_commercial_form(organisation, can_edit_name):
     return Form(
-        title=RegisterAnOrganisation.EDIT_INDIVIDUAL_TITLE,
+        title=EditCommercialOrganisationPage.TITLE,
         questions=[
-            conditional(can_edit_name, TextInput(title="Name", name="name"),),
+            conditional(
+                can_edit_name,
+                TextInput(
+                    title=EditCommercialOrganisationPage.Name.TITLE,
+                    description=EditCommercialOrganisationPage.Name.DESCRIPTION,
+                    name="name",
+                ),
+            ),
             TextInput(title="Eori number", name="eori_number"),
             TextInput(
-                title=RegisterAnOrganisation.UkVatNumber.TITLE,
-                description=RegisterAnOrganisation.UkVatNumber.DESCRIPTION,
+                title=EditCommercialOrganisationPage.SICNumber.TITLE,
+                description=EditCommercialOrganisationPage.SICNumber.DESCRIPTION,
+                name="sic_number",
+            ),
+            TextInput(
+                title=EditCommercialOrganisationPage.VATNumber.TITLE,
+                description=EditCommercialOrganisationPage.VATNumber.DESCRIPTION,
+                name="vat_number",
+            ),
+            TextInput(
+                title=EditCommercialOrganisationPage.RegistrationNumber.TITLE,
+                description=EditCommercialOrganisationPage.RegistrationNumber.DESCRIPTION,
+                name="registration_number",
+            ),
+        ],
+        back_link=BackLink(
+            EditCommercialOrganisationPage.BACK_LINK,
+            reverse("organisations:organisation", kwargs={"pk": organisation["id"]}),
+        ),
+        default_button_name=EditIndividualOrganisationPage.SUBMIT_BUTTON,
+    )
+
+
+def edit_individual_form(organisation, can_edit_name):
+    return Form(
+        title=EditIndividualOrganisationPage.TITLE,
+        questions=[
+            conditional(
+                can_edit_name,
+                TextInput(
+                    title=EditIndividualOrganisationPage.Name.TITLE,
+                    description=EditIndividualOrganisationPage.Name.DESCRIPTION,
+                    name="name",
+                ),
+            ),
+            TextInput(
+                title=EditIndividualOrganisationPage.EORINumber.TITLE,
+                description=EditIndividualOrganisationPage.Name.DESCRIPTION,
+                name="eori_number",
+            ),
+            TextInput(
+                title=EditIndividualOrganisationPage.VATNumber.TITLE,
+                description=EditIndividualOrganisationPage.VATNumber.DESCRIPTION,
                 optional=True,
                 name="vat_number",
             ),
         ],
         back_link=BackLink(
-            "Back to organisation", reverse("organisations:organisation", kwargs={"pk": organisation["id"]})
+            EditIndividualOrganisationPage.BACK_LINK,
+            reverse("organisations:organisation", kwargs={"pk": organisation["id"]}),
         ),
-        default_button_name="Save and return",
-    )
-
-
-def edit_commercial_form(organisation, can_edit_name):
-    return Form(
-        title=RegisterAnOrganisation.EDIT_COMMERCIAL_TITLE,
-        questions=[
-            conditional(can_edit_name, TextInput(title="Organisation name", name="name")),
-            TextInput(title="Eori number", name="eori_number"),
-            TextInput(
-                title=RegisterAnOrganisation.SicNumber.TITLE,
-                description=RegisterAnOrganisation.SicNumber.DESCRIPTION,
-                name="sic_number",
-            ),
-            TextInput(
-                title=RegisterAnOrganisation.UkVatNumber.TITLE,
-                description=RegisterAnOrganisation.UkVatNumber.DESCRIPTION,
-                name="vat_number",
-            ),
-            TextInput(title="Company registration number", description="", name="registration_number",),
-        ],
-        back_link=BackLink(
-            "Back to organisation", reverse("organisations:organisation", kwargs={"pk": organisation["id"]})
-        ),
-        default_button_name="Save and return",
+        default_button_name=EditIndividualOrganisationPage.SUBMIT_BUTTON,
     )
