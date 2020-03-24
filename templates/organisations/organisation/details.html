@@ -10,7 +10,7 @@
 				{{ organisation.name }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a id='edit-organisation' class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:edit' organisation.id %}#name">{% lcs 'generic.CHANGE' %}</a>
+				<a id="link-edit-organisation" class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:edit' organisation.id %}#name">{% lcs 'generic.CHANGE' %}</a>
 			</dd>
 		</div>
 		{% if organisation.eori_number %}
