@@ -9,15 +9,19 @@ from core.services import get_user_permissions
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.organisations import OrganisationsPage, OrganisationPage
 from lite_forms.components import FiltersBar, TextInput, Select, Option
-from lite_forms.views import MultiFormView
-from organisations.forms import register_organisation_forms, edit_business_forms, register_hmrc_organisation_forms
+from lite_forms.views import MultiFormView, SingleFormView
+from organisations.forms import (
+    register_organisation_forms,
+    register_hmrc_organisation_forms,
+    edit_commercial_form,
+    edit_individual_form,
+)
 from organisations.services import (
     get_organisations,
     get_organisation_sites,
     get_organisation,
     post_organisations,
     put_organisation,
-    validate_post_organisation,
     get_organisation_members,
 )
 
@@ -135,23 +139,20 @@ class RegisterHMRC(MultiFormView):
         self.success_url = reverse("organisations:organisations")
 
 
-class EditOrganisation(MultiFormView):
-    forms = None
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.validate_action = validate_post_organisation
-        self.post_action = put_organisation
-
+class EditOrganisation(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         organisation = get_organisation(request, str(self.object_pk))
         self.data = organisation
-        self.forms = edit_business_forms(request)
-        self.success_url = reverse_lazy("organisations:organisations")
-
-    def on_submission(self, request, **kwargs):
-        if int(self.request.POST.get("form_pk")) == len(self.forms.forms) - 1:
-            self.action = self.post_action
-        else:
-            self.action = self.validate_action
+        user_permissions = get_user_permissions(request)
+        permission_to_edit_org_name = (
+            Permission.MANAGE_ORGANISATIONS.value in user_permissions
+            and Permission.REOPEN_CLOSED_CASES.value in user_permissions
+        )
+        self.form = (
+            edit_commercial_form(self.data, permission_to_edit_org_name)
+            if self.data["type"]["key"] == "commercial"
+            else edit_individual_form(self.data, permission_to_edit_org_name)
+        )
+        self.action = put_organisation
+        self.success_url = reverse_lazy("organisations:organisation", kwargs={"pk": self.object_pk})

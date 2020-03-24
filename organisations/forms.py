@@ -178,13 +178,12 @@ def register_hmrc_organisation_forms():
     )
 
 
-def edit_individual_form(permission_to_edit_org_name):
+def edit_individual_form(organisation, can_edit_name):
     return Form(
         title=RegisterAnOrganisation.EDIT_INDIVIDUAL_TITLE,
         questions=[
-            conditional(permission_to_edit_org_name, TextInput(title="", name="name"),),
-            TextInput(title=RegisterAnOrganisation.EMAIL, name="user.email"),
-            TextInput(title=RegisterAnOrganisation.EMAIL, name="eori_number"),
+            conditional(can_edit_name, TextInput(title="Name", name="name"),),
+            TextInput(title="Eori number", name="eori_number"),
             TextInput(
                 title=RegisterAnOrganisation.UkVatNumber.TITLE,
                 description=RegisterAnOrganisation.UkVatNumber.DESCRIPTION,
@@ -192,16 +191,19 @@ def edit_individual_form(permission_to_edit_org_name):
                 name="vat_number",
             ),
         ],
-        default_button_name=strings.CONTINUE,
+        back_link=BackLink(
+            "Back to organisation", reverse("organisations:organisation", kwargs={"pk": organisation["id"]})
+        ),
+        default_button_name="Save and return",
     )
 
 
-def edit_commercial_form(permission_to_edit_org_name):
+def edit_commercial_form(organisation, can_edit_name):
     return Form(
         title=RegisterAnOrganisation.EDIT_COMMERCIAL_TITLE,
         questions=[
-            conditional(permission_to_edit_org_name, TextInput(title="", name="name"),),
-            TextInput(title=RegisterAnOrganisation.EMAIL, name="eori_number"),
+            conditional(can_edit_name, TextInput(title="Organisation name", name="name")),
+            TextInput(title="Eori number", name="eori_number"),
             TextInput(
                 title=RegisterAnOrganisation.SicNumber.TITLE,
                 description=RegisterAnOrganisation.SicNumber.DESCRIPTION,
@@ -212,27 +214,10 @@ def edit_commercial_form(permission_to_edit_org_name):
                 description=RegisterAnOrganisation.UkVatNumber.DESCRIPTION,
                 name="vat_number",
             ),
-            TextInput(title="", description="", name="registration_number",),
+            TextInput(title="Company registration number", description="", name="registration_number",),
         ],
-        default_button_name=strings.CONTINUE,
-    )
-
-
-def edit_business_forms(request):
-    individual = request.POST.get("type") == "individual"
-    user_permissions = get_user_permissions(request)
-    permission_to_edit_org_name = (
-        Permission.MANAGE_ORGANISATIONS.value in user_permissions
-        and Permission.REOPEN_CLOSED_CASES.value in user_permissions
-    )
-
-    return FormGroup(
-        [
-            # individual_or_commercial(), # Add back!
-            conditional(
-                individual,
-                edit_individual_form(permission_to_edit_org_name),
-                edit_commercial_form(permission_to_edit_org_name),
-            ),
-        ],
+        back_link=BackLink(
+            "Back to organisation", reverse("organisations:organisation", kwargs={"pk": organisation["id"]})
+        ),
+        default_button_name="Save and return",
     )

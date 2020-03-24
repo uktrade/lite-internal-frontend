@@ -1,11 +1,18 @@
 {% extends 'organisations/organisation/base.html' %}
 
-{% block controls %}
-	{% govuk_link_button id='edit-organisation' text='organisations.OrganisationPage.Details.EDIT_BUTTON' url='organisations:edit' url_param=organisation.id %}
-{% endblock %}
-
 {% block contents %}
 	<dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-width-two-thirds">
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				{% lcs 'organisations.OrganisationPage.Details.SummaryList.NAME' %}
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ organisation.name }}
+			</dd>
+			<dd class="govuk-summary-list__actions">
+				<a id='edit-organisation' class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:edit' organisation.id %}#name">{% lcs 'generic.CHANGE' %}</a>
+			</dd>
+		</div>
 		{% if organisation.eori_number %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
@@ -14,7 +21,9 @@
 				<dd class="govuk-summary-list__value">
 					{{ organisation.eori_number }}
 				</dd>
-				<dd class="govuk-summary-list__actions"></dd>
+				<dd class="govuk-summary-list__actions">
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:edit' organisation.id %}#eori_number">{% lcs 'generic.CHANGE' %}</a>
+				</dd>
 			</div>
 		{% endif %}
 		{% if organisation.sic_number %}
@@ -25,20 +34,22 @@
 				<dd class="govuk-summary-list__value">
 					{{ organisation.sic_number }}
 				</dd>
-				<dd class="govuk-summary-list__actions"></dd>
-			</div>
-		{% endif %}
-		{% if organisation.vat_number %}
-			<div class="govuk-summary-list__row">
-				<dt class="govuk-summary-list__key">
-					{% lcs 'organisations.OrganisationPage.Details.SummaryList.VAT_NUMBER' %}
-				</dt>
-				<dd class="govuk-summary-list__value">
-					{{ organisation.vat_number }}
+				<dd class="govuk-summary-list__actions">
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:edit' organisation.id %}#sic_number">{% lcs 'generic.CHANGE' %}</a>
 				</dd>
-				<dd class="govuk-summary-list__actions"></dd>
 			</div>
 		{% endif %}
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				{% lcs 'organisations.OrganisationPage.Details.SummaryList.VAT_NUMBER' %}
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ organisation.vat_number|default_na }}
+			</dd>
+			<dd class="govuk-summary-list__actions">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:edit' organisation.id %}#vat_number">{% lcs 'generic.CHANGE' %}</a>
+			</dd>
+		</div>
 		{% if organisation.registration_number %}
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
@@ -47,7 +58,9 @@
 				<dd class="govuk-summary-list__value">
 					{{ organisation.registration_number }}
 				</dd>
-				<dd class="govuk-summary-list__actions"></dd>
+				<dd class="govuk-summary-list__actions">
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:edit' organisation.id %}#registration_number">{% lcs 'generic.CHANGE' %}</a>
+				</dd>
 			</div>
 		{% endif %}
 		<div class="govuk-summary-list__row">
