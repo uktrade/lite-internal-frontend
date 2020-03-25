@@ -4,7 +4,11 @@
 	<dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-width-two-thirds">
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
-				{% lcs 'organisations.OrganisationPage.Details.SummaryList.NAME' %}
+				{% if organisation.type.key == 'individual' %}
+					{% lcs 'organisations.OrganisationPage.Details.SummaryList.FIRST_AND_LAST_NAME' %}
+				{% else %}
+					{% lcs 'organisations.OrganisationPage.Details.SummaryList.NAME' %}
+				{% endif %}
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ organisation.name }}
