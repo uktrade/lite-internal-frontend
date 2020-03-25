@@ -158,7 +158,7 @@ def create_default_site_form(in_uk):
         title=RegisterAnOrganisation.CREATE_DEFAULT_SITE,
         questions=[
             TextInput(title=RegisterAnOrganisation.NAME_OF_SITE, name="site.name"),
-            Heading(RegisterAnOrganisation.WHERE_IS_THE_EXPORTER_BASED, HeadingStyle.M),
+            Heading(RegisterAnOrganisation.WhereIsTheExporterBased.TITLE, HeadingStyle.M),
             *conditional(
                 in_uk,
                 address_questions(None, "site.address."),
