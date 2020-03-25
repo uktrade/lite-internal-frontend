@@ -1,5 +1,8 @@
+from http import HTTPStatus
+
 from conf.client import get, post, put
 from conf.constants import ORGANISATIONS_URL, SITES_URL, USERS_URL
+from lite_content.lite_internal_frontend.organisations import RegisterAnOrganisation
 
 
 def get_organisations(request, params):
@@ -8,6 +11,17 @@ def get_organisations(request, params):
 
 
 def post_organisations(request, json):
+    errors = {}
+
+    if not json.get("type"):
+        errors["type"] = [RegisterAnOrganisation.CommercialOrIndividual.ERROR]
+
+    if not json.get("location"):
+        errors["location"] = [RegisterAnOrganisation.WhereIsTheExporterBased.ERROR]
+
+    if errors:
+        return {"errors": errors}, HTTPStatus.BAD_REQUEST
+
     data = post(request, ORGANISATIONS_URL, json)
     return data.json(), data.status_code
 
