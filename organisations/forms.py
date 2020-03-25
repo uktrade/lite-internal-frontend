@@ -64,7 +64,7 @@ def register_organisation_forms(request):
             ),
             conditional(is_individual, register_individual_form(in_uk), register_commercial_form(in_uk)),
             create_default_site_form(in_uk),
-            conditional(not is_individual, create_admin_user_form(),),
+            conditional(not is_individual, create_admin_user_form(), ),
         ],
         show_progress_indicators=True,
     )
@@ -154,7 +154,7 @@ def create_default_site_form(in_uk):
 def create_admin_user_form():
     return Form(
         title="Create an admin user for this organisation",
-        questions=[TextInput(title=RegisterAnOrganisation.EMAIL, name="user.email"),],
+        questions=[TextInput(title=RegisterAnOrganisation.EMAIL, name="user.email"), ],
         default_button_name="Submit",
         helpers=[HelpSection("Help", RegisterAnOrganisation.DEFAULT_USER)],
     )
@@ -180,7 +180,7 @@ def register_hmrc_organisation_forms():
     )
 
 
-def edit_commercial_form(organisation, can_edit_name):
+def edit_commercial_form(organisation, can_edit_name, are_fields_optional):
     return Form(
         title=EditCommercialOrganisationPage.TITLE,
         questions=[
@@ -192,21 +192,27 @@ def edit_commercial_form(organisation, can_edit_name):
                     name="name",
                 ),
             ),
-            TextInput(title="Eori number", name="eori_number"),
+            TextInput(title=EditCommercialOrganisationPage.EORINumber.TITLE,
+                      description=EditCommercialOrganisationPage.EORINumber.DESCRIPTION,
+                      name="eori_number",
+                      optional=are_fields_optional),
             TextInput(
                 title=EditCommercialOrganisationPage.SICNumber.TITLE,
                 description=EditCommercialOrganisationPage.SICNumber.DESCRIPTION,
                 name="sic_number",
+                optional=are_fields_optional
             ),
             TextInput(
                 title=EditCommercialOrganisationPage.VATNumber.TITLE,
                 description=EditCommercialOrganisationPage.VATNumber.DESCRIPTION,
                 name="vat_number",
+                optional=are_fields_optional
             ),
             TextInput(
                 title=EditCommercialOrganisationPage.RegistrationNumber.TITLE,
                 description=EditCommercialOrganisationPage.RegistrationNumber.DESCRIPTION,
                 name="registration_number",
+                optional=are_fields_optional
             ),
         ],
         back_link=BackLink(
@@ -217,7 +223,7 @@ def edit_commercial_form(organisation, can_edit_name):
     )
 
 
-def edit_individual_form(organisation, can_edit_name):
+def edit_individual_form(organisation, can_edit_name, are_fields_optional):
     return Form(
         title=EditIndividualOrganisationPage.TITLE,
         questions=[
@@ -233,6 +239,7 @@ def edit_individual_form(organisation, can_edit_name):
                 title=EditIndividualOrganisationPage.EORINumber.TITLE,
                 description=EditIndividualOrganisationPage.Name.DESCRIPTION,
                 name="eori_number",
+                optional=are_fields_optional
             ),
             TextInput(
                 title=EditIndividualOrganisationPage.VATNumber.TITLE,

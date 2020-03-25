@@ -144,15 +144,16 @@ class EditOrganisation(SingleFormView):
         self.object_pk = kwargs["pk"]
         organisation = get_organisation(request, str(self.object_pk))
         self.data = organisation
-        user_permissions = get_user_permissions(request)
-        permission_to_edit_org_name = (
-            Permission.MANAGE_ORGANISATIONS.value in user_permissions
-            and Permission.REOPEN_CLOSED_CASES.value in user_permissions
-        )
-        self.form = (
-            edit_commercial_form(self.data, permission_to_edit_org_name)
-            if self.data["type"]["key"] == "commercial"
-            else edit_individual_form(self.data, permission_to_edit_org_name)
-        )
         self.action = put_organisation
         self.success_url = reverse_lazy("organisations:organisation", kwargs={"pk": self.object_pk})
+
+    def get_form(self):
+        user_permissions = get_user_permissions(self.request)
+        permission_to_edit_org_name = (
+                Permission.MANAGE_ORGANISATIONS.value in user_permissions
+                and Permission.REOPEN_CLOSED_CASES.value in user_permissions
+        )
+        are_fields_optional = "foreign_address" in self.data["primary_site"]
+        form = edit_commercial_form if self.data["type"]["key"] == "commercial" else edit_individual_form
+
+        return form(self.data, permission_to_edit_org_name, are_fields_optional)
