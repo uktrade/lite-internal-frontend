@@ -36,13 +36,22 @@ def register_organisation_forms(request):
     return FormGroup(
         [
             Form(
-                title=RegisterAnOrganisation.COMMERCIAL_OR_PRIVATE_INDIVIDUAL,
+                title=RegisterAnOrganisation.CommercialOrIndividual.TITLE,
+                description=RegisterAnOrganisation.CommercialOrIndividual.DESCRIPTION,
                 questions=[
                     RadioButtons(
                         name="type",
                         options=[
-                            Option(key="commercial", value="Commercial"),
-                            Option(key="individual", value="Individual"),
+                            Option(
+                                key="commercial",
+                                value=RegisterAnOrganisation.CommercialOrIndividual.COMMERCIAL_TITLE,
+                                description=RegisterAnOrganisation.CommercialOrIndividual.COMMERCIAL_DESCRIPTION,
+                            ),
+                            Option(
+                                key="individual",
+                                value=RegisterAnOrganisation.CommercialOrIndividual.INDIVIDUAL_TITLE,
+                                description=RegisterAnOrganisation.CommercialOrIndividual.INDIVIDUAL_DESCRIPTION,
+                            ),
                         ],
                     )
                 ],
@@ -50,13 +59,22 @@ def register_organisation_forms(request):
                 default_button_name=strings.CONTINUE,
             ),
             Form(
-                title="Where is the organisation based?",
+                title=RegisterAnOrganisation.WhereIsTheExporterBased.TITLE,
+                description=RegisterAnOrganisation.WhereIsTheExporterBased.DESCRIPTION,
                 questions=[
                     RadioButtons(
                         name="location",
                         options=[
-                            Option(key="united_kingdom", value="In the United Kingdom"),
-                            Option(key="abroad", value="Outside of the United Kingdom"),
+                            Option(
+                                key="united_kingdom",
+                                value=RegisterAnOrganisation.WhereIsTheExporterBased.IN_THE_UK_TITLE,
+                                description=RegisterAnOrganisation.WhereIsTheExporterBased.IN_THE_UK_DESCRIPTION,
+                            ),
+                            Option(
+                                key="abroad",
+                                value=RegisterAnOrganisation.WhereIsTheExporterBased.ABROAD_TITLE,
+                                description=RegisterAnOrganisation.WhereIsTheExporterBased.ABROAD_DESCRIPTION,
+                            ),
                         ],
                     )
                 ],
@@ -64,7 +82,7 @@ def register_organisation_forms(request):
             ),
             conditional(is_individual, register_individual_form(in_uk), register_commercial_form(in_uk)),
             create_default_site_form(in_uk),
-            conditional(not is_individual, create_admin_user_form(), ),
+            conditional(not is_individual, create_admin_user_form(),),
         ],
         show_progress_indicators=True,
     )
@@ -72,7 +90,7 @@ def register_organisation_forms(request):
 
 def register_individual_form(in_uk):
     return Form(
-        title=RegisterAnOrganisation.COMMERCIAL_TITLE,
+        title=RegisterAnOrganisation.INDIVIDUAL_TITLE,
         questions=[
             TextInput(
                 title=RegisterAnOrganisation.IndividualName.TITLE,
@@ -154,7 +172,7 @@ def create_default_site_form(in_uk):
 def create_admin_user_form():
     return Form(
         title="Create an admin user for this organisation",
-        questions=[TextInput(title=RegisterAnOrganisation.EMAIL, name="user.email"), ],
+        questions=[TextInput(title=RegisterAnOrganisation.EMAIL, name="user.email"),],
         default_button_name="Submit",
         helpers=[HelpSection("Help", RegisterAnOrganisation.DEFAULT_USER)],
     )
@@ -192,27 +210,29 @@ def edit_commercial_form(organisation, can_edit_name, are_fields_optional):
                     name="name",
                 ),
             ),
-            TextInput(title=EditCommercialOrganisationPage.EORINumber.TITLE,
-                      description=EditCommercialOrganisationPage.EORINumber.DESCRIPTION,
-                      name="eori_number",
-                      optional=are_fields_optional),
+            TextInput(
+                title=EditCommercialOrganisationPage.EORINumber.TITLE,
+                description=EditCommercialOrganisationPage.EORINumber.DESCRIPTION,
+                name="eori_number",
+                optional=are_fields_optional,
+            ),
             TextInput(
                 title=EditCommercialOrganisationPage.SICNumber.TITLE,
                 description=EditCommercialOrganisationPage.SICNumber.DESCRIPTION,
                 name="sic_number",
-                optional=are_fields_optional
+                optional=are_fields_optional,
             ),
             TextInput(
                 title=EditCommercialOrganisationPage.VATNumber.TITLE,
                 description=EditCommercialOrganisationPage.VATNumber.DESCRIPTION,
                 name="vat_number",
-                optional=are_fields_optional
+                optional=are_fields_optional,
             ),
             TextInput(
                 title=EditCommercialOrganisationPage.RegistrationNumber.TITLE,
                 description=EditCommercialOrganisationPage.RegistrationNumber.DESCRIPTION,
                 name="registration_number",
-                optional=are_fields_optional
+                optional=are_fields_optional,
             ),
         ],
         back_link=BackLink(
@@ -239,7 +259,7 @@ def edit_individual_form(organisation, can_edit_name, are_fields_optional):
                 title=EditIndividualOrganisationPage.EORINumber.TITLE,
                 description=EditIndividualOrganisationPage.Name.DESCRIPTION,
                 name="eori_number",
-                optional=are_fields_optional
+                optional=are_fields_optional,
             ),
             TextInput(
                 title=EditIndividualOrganisationPage.VATNumber.TITLE,
