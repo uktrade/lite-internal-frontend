@@ -1,7 +1,6 @@
 from shared.BasePage import BasePage
-from shared.tools.helpers import select_visible_text_from_dropdown
 
-from ui_automation_tests.shared.tools.helpers import highlight, get_element_index_by_text
+from ui_automation_tests.shared.tools.helpers import get_element_index_by_text
 
 
 class EcjuQueriesPages(BasePage):
