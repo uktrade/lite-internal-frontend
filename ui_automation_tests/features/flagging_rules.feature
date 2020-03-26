@@ -5,7 +5,7 @@ Feature: I want to add case-level flags to a case and view them
   So that all users viewing the case can quickly and easily see the aspects which might require more attention
 
   @LT_985_create @regression
-#  Scenario: Create flagging rules
+  Scenario: Create flagging rules
 #    Given I sign in to SSO or am signed into SSO
 #    When I add a flag at level Case
 #    And I go to flagging rules list
