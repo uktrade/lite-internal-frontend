@@ -57,18 +57,17 @@ class Cases(TemplateView):
         """
         Show a list of cases pertaining to that queue.
         """
+        queue_pk = kwargs["queue_pk"]
         case_type = request.GET.get("case_type")
         status = request.GET.get("status")
         sort = request.GET.get("sort")
-        queue_id = request.GET.get("queue_id", ALL_CASES_QUEUE_ID)
         case_officer = request.GET.get("case_officer")
         assigned_user = request.GET.get("assigned_user")
         hidden = request.GET.get("hidden")
 
         # Page parameters
         params = {"page": int(request.GET.get("page", 1))}
-        if queue_id:
-            params["queue_id"] = queue_id
+        params["queue_id"] = queue_pk
         if sort:
             params["sort"] = sort
         if status:
@@ -83,7 +82,7 @@ class Cases(TemplateView):
             params["hidden"] = hidden
 
         data = get_cases_search_data(request, convert_dict_to_query_params(params))
-        updated_cases_banner_queue_id = get_updated_cases_banner_queue_id(queue_id, data["results"]["queues"])
+        updated_cases_banner_queue_id = get_updated_cases_banner_queue_id(queue_pk, data["results"]["queues"])
 
         # Filter bar
         filters = data["results"]["filters"]
@@ -93,7 +92,7 @@ class Cases(TemplateView):
 
         filters = FiltersBar(
             [
-                conditional(queue_id, HiddenField(name="queue_id", value=queue_id)),
+                conditional(queue_pk, HiddenField(name="queue_id", value=queue_pk)),
                 Select(name="case_type", title=CasesListPage.Filters.CASE_TYPE, options=case_types),
                 Select(name="status", title=CasesListPage.Filters.CASE_STATUS, options=statuses),
                 AutocompleteInput(
@@ -118,7 +117,6 @@ class Cases(TemplateView):
         )
 
         context = {
-            "title": data["results"]["queue"]["name"],
             "data": data,
             "queue": data["results"]["queue"],
             "page": params.pop("page"),
@@ -126,7 +124,7 @@ class Cases(TemplateView):
             "params_str": convert_dict_to_query_params(params),
             "updated_cases_banner_queue_id": updated_cases_banner_queue_id,
             "filters": filters,
-            "is_all_cases_queue": queue_id == ALL_CASES_QUEUE_ID,
+            "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
         }
 
         return render(request, "cases/index.html", context)

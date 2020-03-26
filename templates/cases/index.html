@@ -4,6 +4,10 @@
 
 {% block back_link %}{% endblock %}
 
+{% block title %}
+	{{ queue.name }}
+{% endblock %}
+
 {% block body %}
 	{% if updated_cases_banner_queue_id %}
 		<a id="exporter-amendments-banner" class="lite-info-bar lite-info-bar--link lite-info-bar--no-animation" href="?queue_id={{ updated_cases_banner_queue_id }}">
@@ -34,7 +38,7 @@
 	<div class="app-dropdown__container" id="queues">
 		<div class="app-dropdown__list">
 			{% for queue in data.results.queues %}
-			<a href="?queue_id={{ queue.id }}" id="{{ queue.name }}" class="app-dropdown__item {% if queue.id == data.results.queue.id %}app-dropdown__item--selected{% endif %}">
+			<a href="{% url 'cases:cases' queue.id %}" id="{{ queue.name }}" class="app-dropdown__item {% if queue.id == data.results.queue.id %}app-dropdown__item--selected{% endif %}">
 				{{ queue.name }}
 				<span class="app-dropdown__item__count">{{ queue.case_count }}</span>
 			</a>
@@ -115,7 +119,7 @@
 								{% endif %}
 							</td>
 							<td class="cases-table__cell">
-								<a class="govuk-link govuk-!-font-weight-bold" id="case-{{ case.id }}" href="{% url 'cases:case' case.id %}?queue_id={{ data.results.queue.id }}&queue_name={{ data.results.queue.name }}">
+								<a href="{% url 'cases:case' queue.id case.id %}" class="govuk-link govuk-!-font-weight-bold" id="case-{{ case.id }}">
 									{{ case.reference_code }}
 								</a>
 								<p class="govuk-body">
