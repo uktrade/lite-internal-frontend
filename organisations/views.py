@@ -23,7 +23,8 @@ from organisations.services import (
     post_organisations,
     put_organisation,
     get_organisation_members,
-    post_hmrc_organisations)
+    post_hmrc_organisations,
+)
 
 
 class OrganisationList(TemplateView):
