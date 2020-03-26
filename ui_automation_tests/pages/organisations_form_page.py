@@ -101,7 +101,6 @@ class OrganisationsFormPage(BasePage):
         context.eori = "12345"
         self.enter_individual_organisation_first_last_name(context.organisation_name)
         self.enter_email(fake.free_email())
-        self.enter_eori_number(context.eori)
         functions.click_submit(self.driver)
 
     def enter_site_details(self, context, location):

@@ -23,7 +23,7 @@ from organisations.services import (
     post_organisations,
     put_organisation,
     get_organisation_members,
-)
+    post_hmrc_organisations)
 
 
 class OrganisationList(TemplateView):
@@ -134,7 +134,7 @@ class RegisterOrganisation(MultiFormView):
 class RegisterHMRC(MultiFormView):
     def init(self, request, **kwargs):
         self.forms = register_hmrc_organisation_forms()
-        self.action = post_organisations
+        self.action = post_hmrc_organisations
         self.success_message = strings.HMRC_ORGANISATION_CREATION_SUCCESS
         self.success_url = reverse("organisations:organisations")
 
@@ -153,7 +153,7 @@ class EditOrganisation(SingleFormView):
             Permission.MANAGE_ORGANISATIONS.value in user_permissions
             and Permission.REOPEN_CLOSED_CASES.value in user_permissions
         )
-        are_fields_optional = "address" in self.data["primary_site"]["address"]
+        are_fields_optional = "address" in self.data["primary_site"]["address"].get("address_line_1")
         form = edit_commercial_form if self.data["type"]["key"] == "commercial" else edit_individual_form
 
         return form(self.data, permission_to_edit_org_name, are_fields_optional)

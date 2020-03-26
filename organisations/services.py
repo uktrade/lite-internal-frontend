@@ -26,6 +26,11 @@ def post_organisations(request, json):
     return data.json(), data.status_code
 
 
+def post_hmrc_organisations(request, json):
+    data = post(request, ORGANISATIONS_URL, json)
+    return data.json(), data.status_code
+
+
 def put_organisation(request, pk, json):
     if "status" in json:
         del json["status"]

@@ -43,7 +43,6 @@ def verify_registered_individual_organisation(driver, context):
     OrganisationsPage(driver).search_for_org_in_filter(context.organisation_name)
     row = OrganisationPage(driver).get_organisation_row()
     assert context.organisation_name in row["name"]
-    assert context.eori in row["eori-number"]
 
 
 @then("HMRC organisation is registered")
