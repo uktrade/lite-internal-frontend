@@ -55,7 +55,7 @@ class OrganisationsFormPage(BasePage):
         site_address_line_1.send_keys(text)
 
     def enter_address(self, text):
-        address = self.driver.find_element_by_id("site.foreign_address.address")
+        address = self.driver.find_element_by_id("site.address.address")
         address.clear()
         address.send_keys(text)
 
@@ -75,7 +75,7 @@ class OrganisationsFormPage(BasePage):
         site_address_region.send_keys(text)
 
     def enter_country(self, text):
-        functions.send_keys_to_autocomplete(self.driver, "site.foreign_address.country", text)
+        functions.send_keys_to_autocomplete(self.driver, "site.address.country", text)
 
     def enter_individual_organisation_first_last_name(self, text):
         self.driver.find_element_by_id("name").send_keys(text)

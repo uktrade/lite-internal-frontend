@@ -81,7 +81,7 @@
 			<dd class="govuk-summary-list__value">
 				{{ organisation.primary_site.name }}
 				<span class="govuk-hint">
-					{% if organisation.primary_site.address %}
+					{% if organisation.primary_site.address.address_line_1 %}
 						{{ organisation.primary_site.address.address_line_1 }}<br/>
 						{% if organisation.primary_site.address.address_line_2 %}
 							{{ organisation.primary_site.address.address_line_2 }}<br/>
@@ -90,8 +90,8 @@
 						{{ organisation.primary_site.address.postcode }}<br/>
 						{{ organisation.primary_site.address.country.name }}
 					{% else %}
-						{{ organisation.primary_site.foreign_address.address }}
-						{{ organisation.primary_site.foreign_address.country.name }}
+						{{ organisation.primary_site.address.address }}
+						{{ organisation.primary_site.address.country.name }}
 					{% endif %}
 				</span>
 			</dd>

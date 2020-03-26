@@ -228,22 +228,21 @@ def get_address(data):
         if isinstance(address, str):
             return address + ", " + data["country"]["name"]
 
-        address = [
-            address["address_line_1"],
-            address["address_line_2"],
-            address["city"],
-            address["region"],
-            address["postcode"],
-            address["country"]["name"],
-        ]
-        return ", ".join([x for x in address if x])
-    if data and "foreign_address" in data:
-        address = data["foreign_address"]
+        if "address_line_1" in address:
+            address = [
+                address["address_line_1"],
+                address["address_line_2"],
+                address["city"],
+                address["region"],
+                address["postcode"],
+                address["country"]["name"],
+            ]
+        else:
+            address = [
+                address["address"],
+                address["country"]["name"],
+            ]
 
-        address = [
-            address["address"],
-            address["country"]["name"],
-        ]
         return ", ".join([x for x in address if x])
     return ""
 

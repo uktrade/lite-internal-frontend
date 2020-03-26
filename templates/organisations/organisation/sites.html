@@ -16,7 +16,7 @@
 							{{ site.name }}
 						</td>
 						<td class="govuk-table__cell">
-							{% if site.address %}
+							{% if site.address.address_line_1 %}
 								{{ site.address.address_line_1 }}<br/>
 								{% if site.address.address_line_2 %}
 									{{ site.address.address_line_2 }}<br/>
@@ -25,8 +25,8 @@
 								{{ site.address.postcode }}<br/>
 								{{ site.address.country.name }}
 							{% else %}
-								{{ site.foreign_address.address }}<br/>
-								{{ site.foreign_address.country.name }}
+								{{ site.address.address }}<br/>
+								{{ site.address.country.name }}
 							{% endif %}
 						</td>
 					</tr>

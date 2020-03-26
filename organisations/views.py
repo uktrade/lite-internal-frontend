@@ -153,7 +153,7 @@ class EditOrganisation(SingleFormView):
             Permission.MANAGE_ORGANISATIONS.value in user_permissions
             and Permission.REOPEN_CLOSED_CASES.value in user_permissions
         )
-        are_fields_optional = "foreign_address" in self.data["primary_site"]
+        are_fields_optional = "address" in self.data["primary_site"]["address"]
         form = edit_commercial_form if self.data["type"]["key"] == "commercial" else edit_individual_form
 
         return form(self.data, permission_to_edit_org_name, are_fields_optional)
