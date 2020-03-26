@@ -4,7 +4,7 @@ from pages.shared import Shared
 
 from ui_automation_tests.pages.flagging_rules_pages import FlaggingRulePages
 
-scenarios("../features/flagging_rules.feature", strict_gherkin=False)
+# scenarios("../features/flagging_rules.feature", strict_gherkin=False)
 
 
 @when("I go to flagging rules list")
