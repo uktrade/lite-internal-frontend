@@ -4,7 +4,7 @@ from django.views.generic import RedirectView
 
 
 class Index(RedirectView):
-    url = reverse_lazy("queues:queues")
+    url = reverse_lazy("queues:cases")
 
 
 def menu(request):

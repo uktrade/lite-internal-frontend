@@ -8,9 +8,7 @@ from core.helpers import convert_dict_to_query_params
 from lite_content.lite_internal_frontend.cases import CasesListPage
 from lite_forms.components import HiddenField, FiltersBar, Option, AutocompleteInput, Checkboxes, Select
 from lite_forms.helpers import conditional
-from queues.services import (
-    get_queues,
-    get_cases_search_data)
+from queues.services import get_queues, get_cases_search_data
 from users.services import get_gov_user
 
 

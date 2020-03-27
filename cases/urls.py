@@ -39,13 +39,9 @@ urlpatterns = [
         advice.GiveFinalAdviceDetail.as_view(),
         name="give_final_advice_detail",
     ),
-    path(
-        "finalise-goods-countries/", advice.FinaliseGoodsCountries.as_view(), name="finalise_goods_countries"
-    ),
+    path("finalise-goods-countries/", advice.FinaliseGoodsCountries.as_view(), name="finalise_goods_countries"),
     path("finalise/", advice.Finalise.as_view(), name="finalise"),
-    path(
-        "finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"
-    ),
+    path("finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"),
     path(
         "finalise/<str:decision_key>/generate-document/select-template/",
         generate_document.SelectTemplateFinalAdvice.as_view(),
@@ -75,15 +71,9 @@ urlpatterns = [
     path("ecju-queries/choose-type", ecju.ChooseECJUQueryType.as_view(), name="choose_ecju_query_type"),
     path("ecju-queries/add", ecju.CreateEcjuQuery.as_view(), name="ecju_queries_add"),
     path("respond-to-clc-query/", goods_query.RespondCLCQuery.as_view(), name="respond_to_clc_query"),
+    path("respond-to-clc-query/flags/", goods_query.RespondCLCFlags.as_view(), name="respond_to_clc_query_flags",),
     path(
-        "respond-to-clc-query/flags/",
-        goods_query.RespondCLCFlags.as_view(),
-        name="respond_to_clc_query_flags",
-    ),
-    path(
-        "respond-to-pv-grading-query/",
-        goods_query.RespondPVGradingQuery.as_view(),
-        name="respond_to_pv_grading_query",
+        "respond-to-pv-grading-query/", goods_query.RespondPVGradingQuery.as_view(), name="respond_to_pv_grading_query",
     ),
     path(
         "respond-to-pv-grading-query/flags/",
@@ -118,11 +108,7 @@ urlpatterns = [
         generate_document.CreateDocument.as_view(),
         name="generate_document_create",
     ),
-    path(
-        "assign-destination-flags/",
-        destinations.AssignDestinationFlags.as_view(),
-        name="assign_destination_flags",
-    ),
+    path("assign-destination-flags/", destinations.AssignDestinationFlags.as_view(), name="assign_destination_flags",),
     path("case-officer/", main.CaseOfficer.as_view(), name="case_officer"),
     path("assign-user/", main.UserWorkQueue.as_view(), name="assign_user"),
     path("assign-user-queue/<uuid:user_pk>/", main.UserTeamQueue.as_view(), name="assign_user_queue"),

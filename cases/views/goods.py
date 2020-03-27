@@ -25,13 +25,13 @@ class ReviewGoods(TemplateView):
 
         permissions = get_user_permissions(request)
         if "REVIEW_GOODS" not in permissions:
-            return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
+            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
 
         goods_pk_list = request.GET.getlist("items", request.GET.getlist("goods"))
         goods = []
 
         if not goods_pk_list:
-            return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
+            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
 
         case = get_case(request, case_id)
 
@@ -76,7 +76,7 @@ class ReviewGoodsClc(TemplateView):
 
         permissions = get_user_permissions(request)
         if "REVIEW_GOODS" not in permissions:
-            return redirect(reverse_lazy("cases:case", kwargs={"pk": self.case_id}))
+            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case_id}))
 
         self.goods = request.GET.getlist("items", request.GET.getlist("goods"))
 

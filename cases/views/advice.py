@@ -398,4 +398,4 @@ class FinaliseGenerateDocuments(TemplateView):
         if status_code != HTTPStatus.CREATED:
             return self.get_page(request, pk, errors=data["errors"])
         else:
-            return redirect(reverse_lazy("cases:case", kwargs={"pk": pk}))
+            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": pk}))

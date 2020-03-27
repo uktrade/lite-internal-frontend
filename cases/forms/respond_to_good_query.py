@@ -69,7 +69,10 @@ def respond_to_clc_query_form(request, case):
             HiddenField("validate_only", True),
         ],
         default_button_name=cases.RespondClCQueryForm.BUTTON,
-        back_link=BackLink(cases.RespondClCQueryForm.BACK, reverse_lazy("cases:case", kwargs={"pk": case["id"]})),
+        back_link=BackLink(
+            cases.RespondClCQueryForm.BACK,
+            reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]}),
+        ),
     )
 
 
@@ -100,5 +103,8 @@ def respond_to_grading_query_form(case):
             HiddenField("validate_only", True),
         ],
         default_button_name=cases.RespondGradingQueryForm.BUTTON,
-        back_link=BackLink(cases.RespondGradingQueryForm.BACK, reverse_lazy("cases:case", kwargs={"pk": case["id"]})),
+        back_link=BackLink(
+            cases.RespondGradingQueryForm.BACK,
+            reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]}),
+        ),
     )

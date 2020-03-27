@@ -19,18 +19,12 @@ def current_queue(request):
     queue_pk = request.resolver_match.kwargs["queue_pk"]
     queue = get_queue(request, queue_pk)
 
-    print('\n')
-    print('queue')
+    print("\n")
+    print("queue")
     print(queue)
-    print('\n')
+    print("\n")
 
-    return {
-        "queue": {
-            "id": queue_pk,
-            "name": queue["name"],
-            "is_system_queue": queue["is_system_queue"]
-        }
-    }
+    return {"queue": {"id": queue_pk, "name": queue["name"], "is_system_queue": queue["is_system_queue"]}}
 
 
 def export_vars(request):

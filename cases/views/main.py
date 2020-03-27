@@ -43,7 +43,7 @@ from lite_content.lite_exporter_frontend import applications
 from lite_content.lite_internal_frontend import cases
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
-from queues.services import put_queue_single_case_assignment
+from queues.services import put_queue_single_case_assignment, get_queue
 from users.services import get_gov_user_from_form_selection
 
 
@@ -118,7 +118,7 @@ class ViewCase(TemplateView):
             "user_assigned_queues": user_assigned_queues["queues"],
             "can_set_done": can_set_done,
             # "is_system_queue": is_system_queue,  # TODO REMIND ME
-            "queue_pk": kwargs["queue_pk"]
+            "queue_pk": kwargs["queue_pk"],
         }
 
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
@@ -169,7 +169,7 @@ class ViewCase(TemplateView):
                 error = "\n".join(error_list)
             return error_page(request, error)
 
-        return redirect(reverse("cases:case", kwargs={"pk": case_id}) + "#case_notes")
+        return redirect(reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}) + "#case_notes")
 
 
 class CaseProcessedByUser(SingleFormView):
@@ -218,7 +218,7 @@ class ChangeStatus(SingleFormView):
         self.case_sub_type = case["case_type"]["sub_type"]["key"]
         permissible_statuses = get_permissible_statuses(request, self.case_type)
         self.data = case["application"] if "application" in case else case["query"]
-        self.form = change_status_form(case, permissible_statuses)
+        self.form = change_status_form(get_queue(request, kwargs["queue_pk"]), case, permissible_statuses)
 
     def get_action(self):
         if (
@@ -234,7 +234,7 @@ class ChangeStatus(SingleFormView):
 
     def get_success_url(self):
         messages.success(self.request, cases.ChangeStatusPage.SUCCESS_MESSAGE)
-        return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
+        return reverse_lazy("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
 
 
 class MoveCase(SingleFormView):
@@ -242,12 +242,12 @@ class MoveCase(SingleFormView):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
         self.data = case
-        self.form = move_case_form(request, case)
+        self.form = move_case_form(request, get_queue(request, kwargs["queue_pk"]), case)
         self.action = put_case_queues
 
     def get_success_url(self):
         messages.success(self.request, cases.Manage.MoveCase.SUCCESS_MESSAGE)
-        return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
+        return reverse_lazy("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
 
 
 class AdditionalContacts(TemplateView):
@@ -377,7 +377,7 @@ class CaseOfficer(TemplateView):
                 errors=response.json()["errors"],
             )
 
-        return redirect(reverse_lazy("cases:case", kwargs={"pk": case_id}))
+        return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
 
 
 class UserWorkQueue(SingleFormView):
@@ -403,4 +403,4 @@ class UserTeamQueue(SingleFormView):
         self.action = put_queue_single_case_assignment
 
     def get_success_url(self):
-        return reverse_lazy("cases:case", kwargs={"pk": self.object_pk})
+        return reverse_lazy("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})

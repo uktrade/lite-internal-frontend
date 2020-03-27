@@ -52,7 +52,8 @@ class ChooseECJUQueryType(SingleFormView):
             Option("compliance_actions", "Compliance Actions (ECJU Query)"),
         ]
         self.form = choose_picklist_type_form(
-            picklist_type_choices, reverse("cases:ecju_queries", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]})
+            picklist_type_choices,
+            reverse("cases:ecju_queries", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]}),
         )
         self.action = validate_query_type_question
 
@@ -148,7 +149,9 @@ class CreateEcjuQuery(TemplateView):
         elif request.POST.get("ecju_query_confirmation").lower() == "no":
             query_type = request.GET.get("query_type")
             form = create_ecju_query_write_or_edit_form(
-                reverse("cases:ecju_queries_add", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id}) + "?query_type=" + query_type
+                reverse("cases:ecju_queries_add", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id})
+                + "?query_type="
+                + query_type
             )
 
             return form_page(request, form, data=data)
@@ -164,7 +167,9 @@ class CreateEcjuQuery(TemplateView):
         errors = {error: message for error, message in errors.items()}
         query_type = request.GET.get("query_type")
         form = create_ecju_query_write_or_edit_form(
-            reverse("cases:ecju_queries_add", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id}) + "?query_type=" + query_type
+            reverse("cases:ecju_queries_add", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id})
+            + "?query_type="
+            + query_type
         )
         data = {"question": request.POST.get("question"), "query_type": request.GET.get("query_type")}
         return form_page(request, form, data=data, errors=errors)
