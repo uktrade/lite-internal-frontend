@@ -33,7 +33,6 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = json.loads(env("ALLOWED_HOSTS")) if env("ALLOWED_HOSTS") else []
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",

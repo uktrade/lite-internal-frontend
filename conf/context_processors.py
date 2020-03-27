@@ -23,7 +23,7 @@ def export_vars(request):
 def lite_menu(request):
     try:
         pages = [
-            {"title": "Cases", "url": reverse_lazy("cases:cases"), "icon": "menu/cases"},
+            {"title": "Cases", "url": reverse_lazy("core:index"), "icon": "menu/cases"},
             {
                 "title": OrganisationsPage.TITLE,
                 "url": reverse_lazy("organisations:organisations"),
@@ -31,7 +31,7 @@ def lite_menu(request):
             },
             {"title": "Teams", "url": reverse_lazy("teams:teams"), "icon": "menu/teams"},
             {"title": "My Team", "url": reverse_lazy("teams:team"), "icon": "menu/teams"},
-            {"title": QueuesList.TITLE, "url": reverse_lazy("queues:queues"), "icon": "menu/queues"},
+            # {"title": QueuesList.TITLE, "url": reverse_lazy("queues:queues"), "icon": "menu/queues"},
             {"title": UsersPage.TITLE, "url": reverse_lazy("users:users"), "icon": "menu/users"},
             {"title": FlagsList.TITLE, "url": reverse_lazy("flags:flags"), "icon": "menu/flags"},
             conditional(

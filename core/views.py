@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import RedirectView
 
 
-def hub(request):
-    return redirect("/cases/")
+class Index(RedirectView):
+    url = reverse_lazy("queues:queues")
 
 
 def menu(request):
