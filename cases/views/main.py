@@ -43,7 +43,7 @@ from lite_content.lite_exporter_frontend import applications
 from lite_content.lite_internal_frontend import cases
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
-from queues.services import put_queue_single_case_assignment, get_queue
+from queues.services import put_queue_single_case_assignment
 from users.services import get_gov_user_from_form_selection
 
 
@@ -95,12 +95,7 @@ class ViewCase(TemplateView):
         case_sub_type = case["case_type"]["sub_type"]["key"]
         user_assigned_queues, _ = get_user_case_queues(request, case_id)
         queue_id = request.GET.get("queue_id")
-        is_system_queue = True
-
-        if queue_id:
-            queue = get_queue(request, queue_id)
-            if queue.get("queue"):
-                is_system_queue = queue["queue"].get("is_system_queue", True)
+        # is_system_queue = True  # TODO REMIND ME
 
         if "application" in case:
             status_props, _ = get_status_properties(request, case["application"]["status"]["key"])
@@ -122,7 +117,8 @@ class ViewCase(TemplateView):
             "status_is_terminal": status_props["is_terminal"],
             "user_assigned_queues": user_assigned_queues["queues"],
             "can_set_done": can_set_done,
-            "is_system_queue": is_system_queue,
+            # "is_system_queue": is_system_queue,  # TODO REMIND ME
+            "queue_pk": kwargs["queue_pk"]
         }
 
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
@@ -303,7 +299,7 @@ class AttachDocuments(TemplateView):
         case_id = str(kwargs["pk"])
         get_case(request, case_id)
 
-        form = attach_documents_form(reverse("cases:documents", kwargs={"pk": case_id}))
+        form = attach_documents_form(reverse("cases:documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
 
         return form_page(request, form, extra_data={"case_id": case_id})
 
@@ -333,7 +329,7 @@ class AttachDocuments(TemplateView):
         if "errors" in case_documents:
             return error_page(None, "We had an issue uploading your files. Try again later.")
 
-        return redirect(reverse("cases:documents", kwargs={"pk": case_id}))
+        return redirect(reverse("cases:documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
 
 
 class Document(TemplateView):

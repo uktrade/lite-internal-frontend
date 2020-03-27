@@ -7,9 +7,30 @@ from core.helpers import has_permission
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.flags import FlagsList
 from lite_content.lite_internal_frontend.organisations import OrganisationsPage
-from lite_content.lite_internal_frontend.queues import QueuesList
 from lite_content.lite_internal_frontend.users import UsersPage
 from lite_forms.helpers import conditional
+from queues.services import get_queue
+
+
+def current_queue(request):
+    if "queue_pk" not in request.resolver_match.kwargs:
+        return {}
+
+    queue_pk = request.resolver_match.kwargs["queue_pk"]
+    queue = get_queue(request, queue_pk)
+
+    print('\n')
+    print('queue')
+    print(queue)
+    print('\n')
+
+    return {
+        "queue": {
+            "id": queue_pk,
+            "name": queue["name"],
+            "is_system_queue": queue["is_system_queue"]
+        }
+    }
 
 
 def export_vars(request):

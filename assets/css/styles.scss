@@ -2,7 +2,6 @@
 $lite-transition-speed: 0.3s !default;
 $govuk-page-width: 1200px !default;
 $govuk-root-font-size: 18px !default;
-// $govuk-brand-colour: #cf102d;
 $govuk-font-family: -apple-system, BlinkMacSystemFont, Arial, Sans-Serif;
 
 @import "../shared/node_modules/govuk-frontend/govuk/all"; // GOV.UK Design System
@@ -14,3 +13,51 @@ $govuk-font-family: -apple-system, BlinkMacSystemFont, Arial, Sans-Serif;
 @import "placeholder";
 // Temporary file for odd bits of SCSS
 // Will be cleaned up every story
+
+.govuk-header {
+	border-bottom: none;
+}
+
+.govuk-header__container {
+	border-bottom: none;
+	margin-bottom: 0;
+}
+
+.govuk-phase-banner {
+	display: none;
+}
+
+.govuk-breadcrumbs {
+	position: relative;
+	margin: 0;
+	padding: govuk-spacing(3) 0;
+	z-index: 0;
+	margin-bottom: govuk-spacing(3);
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50vw);
+		width: 100vw;
+		background-color: govuk-shade($govuk-brand-colour, 25%);
+		z-index: -1;
+	}
+
+	.govuk-breadcrumbs__list-item, a {
+		color: rgba(govuk-colour("white"), 0.75)!important;
+		margin-bottom: 0;
+		font-weight: bold;
+
+		&::before {
+			border-color: govuk-colour("white")!important;
+		}
+	}
+
+	a {
+		color: govuk-colour("white")!important;
+		text-decoration: none;
+	}
+}

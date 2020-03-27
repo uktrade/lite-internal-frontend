@@ -78,6 +78,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "conf.context_processors.current_queue",
                 "conf.context_processors.export_vars",
                 "conf.context_processors.lite_menu",
             ],
