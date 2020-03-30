@@ -1,7 +1,7 @@
 <dl class="govuk-summary-list">
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">
-			Created at
+			{% lcs 'cases.QueryPage.CREATED_AT_SUMMARY' %}
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ case.query.created_at|str_date }}
@@ -9,7 +9,7 @@
 	</div>
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">
-			Updated at
+			{% lcs 'cases.QueryPage.UPDATED_AT_SUMMARY' %}
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ case.query.updated_at|str_date }}
@@ -17,7 +17,7 @@
 	</div>
 	<div class="govuk-summary-list__row">
 		<dt class="govuk-summary-list__key">
-			Status
+			{% lcs 'cases.QueryPage.STATUS_SUMMARY' %}
 		</dt>
 		<dd class="govuk-summary-list__value">
 			{{ case.query.status.value }}
