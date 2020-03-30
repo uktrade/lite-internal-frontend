@@ -28,7 +28,7 @@ class AuthView(RedirectView):
 
 class AuthCallbackView(View):
     def get(self, request, *args, **kwargs):
-        logging.info(f"Login callback received from Staff SSO")
+        logging.info("Login callback received from Staff SSO")
 
         auth_code = request.GET.get("code", None)
 
