@@ -80,7 +80,8 @@ class CreateEcjuQuery(TemplateView):
             Option(picklist.get("id"), picklist.get("name")) for picklist in picklists
         ]
         form = choose_ecju_query_type_form(
-            reverse("cases:choose_ecju_query_type", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}), picklist_choices
+            reverse("cases:choose_ecju_query_type", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}),
+            picklist_choices,
         )
 
         return form_page(request, form, extra_data={"case_id": case_id}, data={"picklist": self.NEW_QUESTION_DDL_ID})
@@ -110,7 +111,9 @@ class CreateEcjuQuery(TemplateView):
             picklist_item_text = ""
         query_type = request.GET.get("query_type")
         form = create_ecju_query_write_or_edit_form(
-            reverse("cases:ecju_queries_add", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id}) + "?query_type=" + query_type
+            reverse("cases:ecju_queries_add", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id})
+            + "?query_type="
+            + query_type
         )
         data = {"question": picklist_item_text}
 
@@ -145,7 +148,9 @@ class CreateEcjuQuery(TemplateView):
             if status_code != 201:
                 return self._handle_ecju_query_form_errors(case_id, ecju_query, request)
             else:
-                return redirect(reverse("cases:ecju_queries", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id}))
+                return redirect(
+                    reverse("cases:ecju_queries", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id})
+                )
         elif request.POST.get("ecju_query_confirmation").lower() == "no":
             query_type = request.GET.get("query_type")
             form = create_ecju_query_write_or_edit_form(

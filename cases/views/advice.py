@@ -205,7 +205,9 @@ class ViewFinalAdvice(TemplateView):
         if request.POST.get("action") == "delete":
             clear_final_advice(request, self.case.get("id"))
 
-            return redirect(reverse("cases:final_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case.get("id")}))
+            return redirect(
+                reverse("cases:final_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case.get("id")})
+            )
 
         return render_form_page(get_final_case_advice, request, self.case, self.form)
 
@@ -329,7 +331,11 @@ class Finalise(TemplateView):
                 # Redirect if licence already exists
                 _, status_code = get_licence(request, str(kwargs["pk"]))
                 if status_code == HTTPStatus.OK:
-                    return redirect(reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}))
+                    return redirect(
+                        reverse_lazy(
+                            "cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}
+                        )
+                    )
 
                 today = date.today()
 
@@ -371,7 +377,9 @@ class Finalise(TemplateView):
             )
             return form_page(request, form, data=data, errors=res.json()["errors"])
 
-        return redirect(reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]}))
+        return redirect(
+            reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]})
+        )
 
 
 class FinaliseGenerateDocuments(TemplateView):

@@ -12,8 +12,15 @@ from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
 from queues.forms import new_queue_form, edit_queue_form
-from queues.services import get_queues, get_cases_search_data, post_queues, get_queue, put_queue, \
-    get_queue_case_assignments, put_queue_case_assignments
+from queues.services import (
+    get_queues,
+    get_cases_search_data,
+    post_queues,
+    get_queue,
+    put_queue,
+    get_queue_case_assignments,
+    put_queue_case_assignments,
+)
 from users.services import get_gov_user
 
 
