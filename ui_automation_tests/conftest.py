@@ -162,7 +162,8 @@ def select_status_save(driver, status, context):  # noqa
 
 
 @when("I click on new queue in dropdown")  # noqa
-def new_queue_shown_in_dropdown(driver, context):  # noqa
+@when("I click on edited queue in dropdown")  # noqa
+def queue_shown_in_dropdown(driver, context):  # noqa
     CaseListPage(driver).click_on_queue_name(context.queue_name)
 
 
@@ -171,14 +172,9 @@ def system_queue_shown_in_dropdown(driver, queue_name):  # noqa
     CaseListPage(driver).click_on_queue_name(queue_name)
 
 
-@when("I enter in queue name Review")  # noqa
-def add_a_queue(driver, context, add_queue):  # noqa
-    pass
-
-
 @when("I go to queues")  # noqa
 def go_to_queues(driver, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/queues/")
+    driver.get(internal_url.rstrip("/") + "/queues/manage/")
 
 
 @when("I add case to newly created queue")  # noqa
