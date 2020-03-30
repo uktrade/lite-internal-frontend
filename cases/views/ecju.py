@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
@@ -144,7 +146,7 @@ class CreateEcjuQuery(TemplateView):
             if confirmation.lower() == "yes":
                 ecju_query, status_code = post_ecju_query(request, case_id, data)
 
-                if status_code != 201:
+                if status_code != HTTPStatus.CREATED:
                     return self._handle_ecju_query_form_errors(case_id, ecju_query, request)
                 else:
                     return redirect(reverse("cases:ecju_queries", kwargs={"pk": case_id}))
