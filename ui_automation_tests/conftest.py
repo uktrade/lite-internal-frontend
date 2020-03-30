@@ -98,7 +98,7 @@ def pytest_exception_interact(node, report):
 
 @when("I go to the case")  # noqa
 def i_go_to_the_case(driver, context, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/cases/" + context.case_id)
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.case_id)
 
 
 @when("I go to the internal homepage")  # noqa
@@ -118,12 +118,12 @@ def sign_into_sso(driver, sso_sign_in):  # noqa
 
 @when("I go to application previously created")  # noqa
 def click_on_created_application(driver, context, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/cases/" + context.case_id)
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.case_id)
 
 
 @when("I go to open application previously created")  # noqa
 def click_on_created_application(driver, context, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/cases/" + context.case_id)
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.case_id)
 
 
 @given("I create standard application or standard application has been previously created")  # noqa

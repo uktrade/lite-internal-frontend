@@ -105,7 +105,7 @@ class CoalesceUserAdvice(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         coalesce_user_advice(request, case_id)
-        return redirect(reverse("cases:team_advice_view", kwargs={"pk": case_id}))
+        return redirect(reverse("cases:team_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
 
 
 class ViewTeamAdvice(TemplateView):
@@ -205,7 +205,7 @@ class ViewFinalAdvice(TemplateView):
         if request.POST.get("action") == "delete":
             clear_final_advice(request, self.case.get("id"))
 
-            return redirect(reverse("cases:final_advice_view", kwargs={"pk": self.case.get("id")}))
+            return redirect(reverse("cases:final_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case.get("id")}))
 
         return render_form_page(get_final_case_advice, request, self.case, self.form)
 
@@ -329,7 +329,7 @@ class Finalise(TemplateView):
                 # Redirect if licence already exists
                 _, status_code = get_licence(request, str(kwargs["pk"]))
                 if status_code == HTTPStatus.OK:
-                    return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(kwargs["pk"])}))
+                    return redirect(reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}))
 
                 today = date.today()
 
@@ -371,7 +371,7 @@ class Finalise(TemplateView):
             )
             return form_page(request, form, data=data, errors=res.json()["errors"])
 
-        return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": case["id"]}))
+        return redirect(reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]}))
 
 
 class FinaliseGenerateDocuments(TemplateView):
@@ -398,4 +398,4 @@ class FinaliseGenerateDocuments(TemplateView):
         if status_code != HTTPStatus.CREATED:
             return self.get_page(request, pk, errors=data["errors"])
         else:
-            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": pk}))
+            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": pk}))

@@ -177,13 +177,7 @@ class CaseProcessedByUser(SingleFormView):
         self.object_pk = str(kwargs["pk"])
         self.action = put_unassign_queues
         self.form = done_with_case_form(request, self.object_pk)
-
-    def get_success_url(self):
-        queue_id = self.request.GET.get("queue_id")
-        if queue_id:
-            return reverse_lazy("cases:cases") + "?queue_id=" + queue_id
-        else:
-            return reverse_lazy("cases:cases")
+        self.success_url = reverse_lazy("queues:cases", kwargs={"queue_pk": self.kwargs["queue_pk"]})
 
 
 class CaseProcessedByUserForQueue(TemplateView):
@@ -191,7 +185,7 @@ class CaseProcessedByUserForQueue(TemplateView):
         data, status_code = put_unassign_queues(request, str(pk), {"queues": [str(queue_id)]})
         if status_code != HTTPStatus.OK:
             return error_page(request, description=data["errors"]["queues"][0],)
-        return redirect(reverse_lazy("cases:cases") + "?queue_id=" + str(queue_id))
+        return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.kwargs["queue_pk"]}))
 
 
 class ViewAdvice(TemplateView):
@@ -269,10 +263,12 @@ class AdditionalContacts(TemplateView):
 class AddAnAdditionalContact(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.form = add_additional_contact_form(request, self.object_pk)
+        self.form = add_additional_contact_form(request, self.kwargs["queue_pk"], self.object_pk)
         self.action = post_case_additional_contacts
         self.success_message = cases.AdditionalContacts.SUCCESS_MESSAGE
-        self.success_url = reverse("cases:additional_contacts", kwargs={"pk": self.object_pk})
+        self.success_url = reverse(
+            "cases:additional_contacts", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk}
+        )
 
 
 class Documents(TemplateView):
@@ -387,12 +383,15 @@ class UserWorkQueue(SingleFormView):
         self.action = get_gov_user_from_form_selection
 
     @staticmethod
-    def _get_form_data(request, case_pk, json):
+    def _get_form_data(_, __, json):
         return json, HTTPStatus.OK
 
     def get_success_url(self):
         user_id = self.get_validated_data().get("user").get("id")
-        return reverse_lazy("cases:assign_user_queue", kwargs={"pk": self.object_pk, "user_pk": user_id})
+        return reverse_lazy(
+            "cases:assign_user_queue",
+            kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk, "user_pk": user_id},
+        )
 
 
 class UserTeamQueue(SingleFormView):

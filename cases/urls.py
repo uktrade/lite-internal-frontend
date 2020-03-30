@@ -4,6 +4,7 @@ from cases.views import main, advice, goods, goods_query, ecju, generate_documen
 from flags.views import AssignFlags
 
 app_name = "cases"
+
 urlpatterns = [
     path("", main.ViewCase.as_view(), name="case"),
     path("done/", main.CaseProcessedByUser.as_view(), name="done"),
