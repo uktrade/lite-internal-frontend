@@ -7,8 +7,7 @@ app_name = "cases"
 
 urlpatterns = [
     path("", main.ViewCase.as_view(), name="case"),
-    path("done/", main.CaseProcessedByUser.as_view(), name="done"),
-    path("done/<uuid:queue_id>", main.CaseProcessedByUserForQueue.as_view(), name="done_for_queue"),
+    path("done/", main.CaseImDoneView.as_view(), name="done"),
     path("change-status/", main.ChangeStatus.as_view(), name="manage"),
     path("move/", main.MoveCase.as_view(), name="move"),
     path("additional-contacts/", main.AdditionalContacts.as_view(), name="additional_contacts"),

@@ -94,7 +94,7 @@ class GiveUserAdviceDetail(TemplateView):
         return super(GiveUserAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice_details(post_user_case_advice, request, self.case, self.form, "user")
+        return post_advice_details(post_user_case_advice, request, self.case, self.form, "user", **kwargs)
 
 
 class CoalesceUserAdvice(TemplateView):
@@ -169,7 +169,7 @@ class GiveTeamAdviceDetail(TemplateView):
         return super(GiveTeamAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice_details(post_team_case_advice, request, self.case, self.form, "team")
+        return post_advice_details(post_team_case_advice, request, self.case, self.form, "team", **kwargs)
 
 
 class CoalesceTeamAdvice(TemplateView):
@@ -180,7 +180,7 @@ class CoalesceTeamAdvice(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         coalesce_team_advice(request, case_id)
-        return redirect(reverse("cases:final_advice_view", kwargs={"pk": case_id}))
+        return redirect(reverse("cases:final_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
 
 
 class ViewFinalAdvice(TemplateView):
@@ -241,7 +241,7 @@ class GiveFinalAdviceDetail(TemplateView):
         return super(GiveFinalAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice_details(post_final_case_advice, request, self.case, self.form, "final")
+        return post_advice_details(post_final_case_advice, request, self.case, self.form, "final", **kwargs)
 
 
 class FinaliseGoodsCountries(TemplateView):
@@ -346,6 +346,7 @@ class Finalise(TemplateView):
                     "duration": duration,
                 }
                 form = approve_licence_form(
+                    queue_pk=kwargs["queue_pk"],
                     case_id=case_id,
                     is_open_licence=is_open_licence,
                     duration=duration,
@@ -353,7 +354,7 @@ class Finalise(TemplateView):
                 )
                 return form_page(request, form, data=form_data)
 
-        return form_page(request, deny_licence_form(case_id, is_open_licence))
+        return form_page(request, deny_licence_form(kwargs["queue_pk"], case_id, is_open_licence))
 
     def post(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))
@@ -370,6 +371,7 @@ class Finalise(TemplateView):
 
         if res.status_code == 400:
             form = approve_licence_form(
+                queue_pk=kwargs["queue_pk"],
                 case_id=case["id"],
                 is_open_licence=is_open_licence,
                 duration=data.get("licence_duration") or get_application_default_duration(request, str(kwargs["pk"])),

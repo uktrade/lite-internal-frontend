@@ -94,8 +94,9 @@ class ViewCase(TemplateView):
         case_type = case["case_type"]["type"]["key"]
         case_sub_type = case["case_type"]["sub_type"]["key"]
         user_assigned_queues, _ = get_user_case_queues(request, case_id)
-        queue_id = request.GET.get("queue_id")
-        # is_system_queue = True  # TODO REMIND ME
+        queue_id = kwargs["queue_pk"]
+        queue = get_queue(request, queue_id)
+        is_system_queue = queue["is_system_queue"]
 
         if "application" in case:
             status_props, _ = get_status_properties(request, case["application"]["status"]["key"])
@@ -108,6 +109,8 @@ class ViewCase(TemplateView):
                 not status_props["is_terminal"] and case["query"]["status"]["key"] != Statuses.APPLICANT_EDITING
             )
 
+        can_set_done = can_set_done and (is_system_queue and user_assigned_queues) or not is_system_queue
+
         context = {
             "activity": get_activity(request, case_id),
             "case": case,
@@ -115,10 +118,7 @@ class ViewCase(TemplateView):
             "permissible_statuses": get_permissible_statuses(request, case_type),
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
-            "user_assigned_queues": user_assigned_queues["queues"],
             "can_set_done": can_set_done,
-            # "is_system_queue": is_system_queue,  # TODO REMIND ME
-            "queue_pk": kwargs["queue_pk"],
         }
 
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
@@ -172,20 +172,35 @@ class ViewCase(TemplateView):
         return redirect(reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}) + "#case_notes")
 
 
-class CaseProcessedByUser(SingleFormView):
-    def init(self, request, **kwargs):
-        self.object_pk = str(kwargs["pk"])
-        self.action = put_unassign_queues
-        self.form = done_with_case_form(request, self.object_pk)
-        self.success_url = reverse_lazy("queues:cases", kwargs={"queue_pk": self.kwargs["queue_pk"]})
+class CaseImDoneView(TemplateView):
+    case_pk = None
+    queue_pk = None
+    is_system_queue = None
 
+    def dispatch(self, request, *args, **kwargs):
+        self.case_pk = kwargs["pk"]
+        self.queue_pk = kwargs["queue_pk"]
+        queue = get_queue(request, self.queue_pk)
+        self.is_system_queue = queue["is_system_queue"]
 
-class CaseProcessedByUserForQueue(TemplateView):
-    def get(self, request, pk, queue_id):
-        data, status_code = put_unassign_queues(request, str(pk), {"queues": [str(queue_id)]})
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, **kwargs):
+        if self.is_system_queue:
+            return form_page(request, done_with_case_form(request, self.case_pk))
+        else:
+            data, status_code = put_unassign_queues(request, self.case_pk, {"queues": [str(self.queue_pk)]})
+            if status_code != HTTPStatus.OK:
+                return error_page(request, description=data["errors"]["queues"][0],)
+            return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
+
+    def post(self, request, **kwargs):
+        data, status_code = put_unassign_queues(request, self.case_pk, {"queues": request.POST.getlist("queues[]")})
+
         if status_code != HTTPStatus.OK:
             return error_page(request, description=data["errors"]["queues"][0],)
-        return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.kwargs["queue_pk"]}))
+
+        return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
 
 
 class ViewAdvice(TemplateView):

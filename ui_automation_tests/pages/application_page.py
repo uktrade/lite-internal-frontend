@@ -53,7 +53,7 @@ class ApplicationPage(BasePage):
     CASE_COPY_OF_ID = "case-copy-of"
     TYPE_OF_CASE = "case-type"  # ID
     DESTINATION_CHECKBOX = "destinations"  # NAME
-    IM_DONE_BUTTON_ID = "done"
+    IM_DONE_BUTTON_ID = "link-done"
     CASE_LINK_PARTIAL_ID = "case-"
 
     def get_case_copy_of_field_href(self):

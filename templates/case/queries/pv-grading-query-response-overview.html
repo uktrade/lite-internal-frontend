@@ -7,7 +7,7 @@
 
 	<p class="govuk-body-m">{% lcs 'cases.GradingResponseOverview.WARNING' %}</p>
 
-	<form action="{% url 'cases:respond_to_pv_grading_query' case.id %}" method="post">
+	<form action="{% url 'cases:respond_to_pv_grading_query' queue.id case.id %}" method="post">
 
 		{% hidden_field 'prefix' data.prefix %}
 		{% hidden_field 'grading' data.grading%}

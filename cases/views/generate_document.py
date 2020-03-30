@@ -145,7 +145,10 @@ class RegenerateExistingDocument(TemplateView):
             )
 
         return redirect(
-            reverse_lazy("cases:generate_document_edit", kwargs={"pk": case_id, "tpk": document["template"]})
+            reverse_lazy(
+                "cases:generate_document_edit",
+                kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id, "tpk": document["template"]},
+            )
             + "?document_id="
             + document_id
         )

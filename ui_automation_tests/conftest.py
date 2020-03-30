@@ -302,7 +302,7 @@ def filter_status_change(driver, context, status):  # noqa
 
 @when("I go to the case list page")  # noqa
 def case_list_page(driver, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/cases/")
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/")
 
 
 @then("I should see my case in the cases list")  # noqa

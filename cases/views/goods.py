@@ -21,7 +21,9 @@ class ReviewGoods(TemplateView):
             params["goods"] = request.GET.getlist("goods")
             params["level"] = "goods"
             post_url = "?" + convert_dict_to_query_params(params)
-            return redirect(reverse_lazy("cases:assign_flags", kwargs={"pk": case_id}) + post_url)
+            return redirect(
+                reverse_lazy("cases:assign_flags", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}) + post_url
+            )
 
         permissions = get_user_permissions(request)
         if "REVIEW_GOODS" not in permissions:
@@ -35,8 +37,10 @@ class ReviewGoods(TemplateView):
 
         case = get_case(request, case_id)
 
-        edit_flags_url = reverse_lazy("cases:assign_flags", kwargs={"pk": case_id})
-        review_goods_clc_url = reverse_lazy("cases:review_goods_clc", kwargs={"pk": case_id})
+        edit_flags_url = reverse_lazy("cases:assign_flags", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id})
+        review_goods_clc_url = reverse_lazy(
+            "cases:review_goods_clc", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}
+        )
         parameters = {"level": "goods", "origin": "review_goods", "goods": goods_pk_list}
         goods_postfix_url = "?" + convert_dict_to_query_params(parameters)
         case_type = case["application"]["case_type"]["sub_type"]["key"]
