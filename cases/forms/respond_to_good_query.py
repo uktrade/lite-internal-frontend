@@ -22,7 +22,7 @@ from core.services import get_control_list_entries, get_gov_pv_gradings
 from picklists.services import get_picklists
 
 
-def respond_to_clc_query_form(request, case):
+def respond_to_clc_query_form(request, queue_pk, case):
     return Form(
         title=cases.RespondClCQueryForm.TITLE,
         questions=[
@@ -70,13 +70,12 @@ def respond_to_clc_query_form(request, case):
         ],
         default_button_name=cases.RespondClCQueryForm.BUTTON,
         back_link=BackLink(
-            cases.RespondClCQueryForm.BACK,
-            reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]}),
+            cases.RespondClCQueryForm.BACK, reverse_lazy("cases:case", kwargs={"queue_pk": queue_pk, "pk": case["id"]}),
         ),
     )
 
 
-def respond_to_grading_query_form(case):
+def respond_to_grading_query_form(queue_pk, case):
     pv_gradings = get_gov_pv_gradings(request=None, convert_to_options=True)
     return Form(
         title=cases.RespondGradingQueryForm.TITLE,
@@ -105,6 +104,6 @@ def respond_to_grading_query_form(case):
         default_button_name=cases.RespondGradingQueryForm.BUTTON,
         back_link=BackLink(
             cases.RespondGradingQueryForm.BACK,
-            reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]}),
+            reverse_lazy("cases:case", kwargs={"queue_pk": queue_pk, "pk": case["id"]}),
         ),
     )

@@ -400,12 +400,12 @@ class FinaliseGenerateDocuments(TemplateView):
         }
         return render(request, "case/views/finalise-generate-documents.html", context)
 
-    def get(self, request, pk):
+    def get(self, request, pk, **kwargs):
         return self.get_page(request, pk)
 
-    def post(self, request, pk):
+    def post(self, request, pk, **kwargs):
         data, status_code = grant_licence(request, str(pk))
         if status_code != HTTPStatus.CREATED:
             return self.get_page(request, pk, errors=data["errors"])
         else:
-            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": pk}))
+            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": pk}))

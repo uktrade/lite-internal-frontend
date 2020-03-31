@@ -87,7 +87,10 @@ class ReviewGoodsClc(TemplateView):
         parameters = {"goods": self.goods}
         goods_postfix_url = "?" + convert_dict_to_query_params(parameters)
 
-        self.back_link = reverse_lazy("cases:review_goods", kwargs={"pk": self.case_id}) + goods_postfix_url
+        self.back_link = (
+            reverse_lazy("cases:review_goods", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case_id})
+            + goods_postfix_url
+        )
 
         return super(ReviewGoodsClc, self).dispatch(request, *args, **kwargs)
 

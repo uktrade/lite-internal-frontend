@@ -10,7 +10,7 @@
 
 {% block body %}
 	{% if updated_cases_banner_queue_id %}
-		<a id="exporter-amendments-banner" class="lite-info-bar lite-info-bar--link lite-info-bar--no-animation" href="{% url 'queues:cases' updated_cases_banner_queue_id }}">
+		<a id="exporter-amendments-banner" class="lite-info-bar lite-info-bar--link lite-info-bar--no-animation" href="{% url 'queues:cases' updated_cases_banner_queue_id %}">
 			{% lcs 'cases.CasesListPage.EXPORTER_AMENDMENTS_BANNER' %}
 		</a>
 	{% endif %}
@@ -66,7 +66,7 @@
 						<th class="cases-table__header" scope="col">Queue</th>
 						<th class="cases-table__header" scope="col">Flags</th>
 						<th class="cases-table__header" scope="col">
-							<a href="{% url 'queues:cases' %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" id="sort-status" class="app-table__sortable-header {{ 'status'|table_sort:params }}">
+							<a href="{% url 'queues:cases' queue.id %}?{{ params_str }}&sort={{ 'status'|table_sort_text:params }}" id="sort-status" class="app-table__sortable-header {{ 'status'|table_sort:params }}">
 								{% lcs 'cases.CasesListPage.STATUS' %}
 								{% svg 'chevron' %}
 							</a>

@@ -135,7 +135,7 @@ class EditTextFinalAdvice(EditDocumentTextView):
 
 
 class RegenerateExistingDocument(TemplateView):
-    def get(self, request, pk, dpk):
+    def get(self, request, queue_pk, pk, dpk):
         case_id = str(pk)
         document_id = str(dpk)
         document, status_code = get_generated_document(request, case_id, document_id)
@@ -147,7 +147,7 @@ class RegenerateExistingDocument(TemplateView):
         return redirect(
             reverse_lazy(
                 "cases:generate_document_edit",
-                kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id, "tpk": document["template"]},
+                kwargs={"queue_pk": queue_pk, "pk": case_id, "tpk": document["template"]},
             )
             + "?document_id="
             + document_id
@@ -201,7 +201,7 @@ class PreviewDocument(TemplateView):
 
 
 class CreateDocument(TemplateView):
-    def post(self, request, pk, tpk):
+    def post(self, request, queue_pk, pk, tpk):
         text = request.POST.get(TEXT)
         if not text:
             return generate_document_error_page()
@@ -212,13 +212,11 @@ class CreateDocument(TemplateView):
         if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
         else:
-            return redirect(
-                reverse_lazy("cases:documents", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": str(pk)})
-            )
+            return redirect(reverse_lazy("cases:documents", kwargs={"queue_pk": queue_pk, "pk": str(pk)}))
 
 
 class CreateDocumentFinalAdvice(TemplateView):
-    def post(self, request, pk, decision_key, tpk):
+    def post(self, request, queue_pk, pk, decision_key, tpk):
         text = request.POST.get(TEXT)
         if not text:
             return generate_document_error_page()
@@ -231,4 +229,4 @@ class CreateDocumentFinalAdvice(TemplateView):
         if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
         else:
-            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"pk": str(pk)}))
+            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": queue_pk, "pk": pk}))
