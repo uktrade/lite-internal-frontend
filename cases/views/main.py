@@ -114,6 +114,7 @@ class ViewCase(TemplateView):
         context = {
             "activity": get_activity(request, case_id),
             "case": case,
+            "queue": queue,
             "permissions": get_user_permissions(request),
             "permissible_statuses": get_permissible_statuses(request, case_type),
             "status_is_read_only": status_props["is_read_only"],
