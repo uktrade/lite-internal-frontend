@@ -102,9 +102,8 @@ class Cases(TemplateView):
 
     def post(self, request, **kwargs):
         """ Assign users depending on what cases were selected. """
-        queue_id = request.GET.get("queue_id", ALL_CASES_QUEUE_ID)
         return redirect(
-            reverse("queues:case_assignments", kwargs={"pk": queue_id})
+            reverse("queues:case_assignments", kwargs={"pk": kwargs["queue_pk"]})
             + "?cases="
             + ",".join(request.POST.getlist("cases"))
         )
@@ -160,7 +159,7 @@ class CaseAssignments(TemplateView):
         ]
         return form_page(
             request,
-            assign_users_form(request, user_data["user"]["team"]["id"], queue["queue"], len(case_ids) > 1),
+            assign_users_form(request, user_data["user"]["team"]["id"], queue, len(case_ids) > 1),
             data={"users": assigned_users},
         )
 
@@ -184,10 +183,10 @@ class CaseAssignments(TemplateView):
         if "errors" in response:
             return form_page(
                 request,
-                assign_users_form(request, user_data["user"]["team"]["id"], queue["queue"], len(case_ids) > 1),
+                assign_users_form(request, user_data["user"]["team"]["id"], queue, len(case_ids) > 1),
                 data=request.POST,
                 errors=response["errors"],
             )
 
         # If there is no response (no forms left to go through), go to the case page
-        return redirect(reverse("queues:cases"))
+        return redirect(reverse("queues:cases", kwargs={"queue_pk": queue_id}))
