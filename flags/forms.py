@@ -5,7 +5,8 @@ from lite_content.lite_internal_frontend import strings
 from django.urls import reverse_lazy
 
 from lite_content.lite_internal_frontend.flags import CreateFlagForm, EditFlagForm
-from lite_forms.components import TextInput, Select, Option, BackLink, Form, FormGroup, RadioButtons, AutocompleteInput
+from lite_forms.components import TextInput, Select, Option, BackLink, Form, FormGroup, RadioButtons, AutocompleteInput, \
+    NumberInput
 from lite_forms.generators import confirm_form
 
 options = [
@@ -35,6 +36,25 @@ def add_flag_form():
                 name="level",
                 options=options,
             ),
+            RadioButtons(
+                title="Colour",
+                name="colour",
+                classes=["app-radiobuttons--flag-colours"],
+                options=[
+                    Option("default", "Default"),
+                    Option("red", "Red", classes=["app-radiobuttons--flag-colours"]),
+                    Option("yellow", "Yellow", classes=[""]),
+                    Option("green", "Green", classes=[""]),
+                    Option("blue", "Blue", classes=[""]),
+                    Option("purple", "Purple", classes=[""]),
+                    Option("orange", "Orange", classes=[""]),
+                    Option("brown", "Brown", classes=[""]),
+                    Option("turquoise", "Turquoise", classes=[""]),
+                    Option("pink", "Pink", classes=[""]),
+                ]
+            ),
+            TextInput(name="label", title="Label"),
+            NumberInput(name="priority", title="Priority")
         ],
         default_button_name=CreateFlagForm.SUBMIT_BUTTON,
         back_link=BackLink(CreateFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
