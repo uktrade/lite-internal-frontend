@@ -2,7 +2,6 @@ from django.urls import reverse_lazy
 
 from conf.constants import UPDATED_CASES_QUEUE_ID
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
-from lite_content.lite_internal_frontend.strings import QUEUE_ALL_CASES
 from lite_forms.components import Breadcrumbs, BackLink, HiddenField
 from lite_forms.generators import error_page
 
