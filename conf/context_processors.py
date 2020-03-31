@@ -14,12 +14,15 @@ from queues.services import get_queue
 
 
 def current_queue(request):
-    try:
-        queue_pk = request.resolver_match.kwargs["queue_pk"]
-        queue = get_queue(request, queue_pk)
-        return {"queue": queue}
-    except AttributeError:
-        return {}
+    if "queue_pk" in request.resolver_match.kwargs:
+        try:
+            queue_pk = request.resolver_match.kwargs["queue_pk"]
+            queue = get_queue(request, queue_pk)
+            return {"queue": queue}
+        except AttributeError:
+            pass
+
+    return {}
 
 
 def export_vars(request):
