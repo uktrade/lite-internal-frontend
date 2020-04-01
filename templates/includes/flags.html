@@ -1,9 +1,9 @@
 {% if flags %}
-	<div class="app-flags">
+	<ul class="app-flags">
 		{% for flag in flags %}
-			<span class="app-flag app-flag--{{ flag.colour }}">{{ flag.name }}</span>
+			<li class="app-flag app-flag--{{ flag.colour }}"><span class="govuk-visually-hidden">{{ flag.label }}</span> {{ flag.name }}</li>
 		{% endfor %}
-	</div>
+	</ul>
 {% else %}
 	{% include "includes/notice.html" with text=no_content small=True %}
 {% endif %}
