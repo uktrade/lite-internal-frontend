@@ -66,6 +66,10 @@ class AddFlag(SingleFormView):
     def init(self, request, **kwargs):
         self.form = add_flag_form()
         self.action = post_flags
+        self.data = {
+            "colour": "default",
+            "priority": 0
+        }
         self.success_message = flags.FlagsList.SUCCESS_MESSAGE
         self.success_url = reverse("flags:flags")
 

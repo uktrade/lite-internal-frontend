@@ -47,6 +47,7 @@ def add_flag_form():
             ),
             RadioButtons(
                 title="Colour",
+                description="You can help convey information through use of colour",
                 name="colour",
                 classes=["app-radios--flag-colours"],
                 options=[
@@ -62,8 +63,10 @@ def add_flag_form():
                     Option("pink", "Pink", classes=["app-radios__item--pink"]),
                 ],
             ),
-            TextInput(name="label", title="Label"),
-            NumberInput(name="priority", title="Priority"),
+            TextInput(name="label",
+                      title="Colour meaning",
+                      description="We'll show this value when you hover over the flag to provide more information"),
+            NumberInput(name="priority", title="Priority", description="This relates to ordering"),
         ],
         default_button_name=CreateFlagForm.SUBMIT_BUTTON,
         back_link=BackLink(CreateFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
