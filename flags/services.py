@@ -1,10 +1,9 @@
 import functools
 
-from core.helpers import convert_dict_to_query_params, convert_parameters_to_query_params
-from lite_forms.components import Option
-
 from conf.client import get, post, put, patch
 from conf.constants import FLAGS_URL, FLAGGING_RULES
+from core.helpers import convert_parameters_to_query_params
+from lite_forms.components import Option
 
 
 def get_flags(request, page=1, only_show_deactivated=False, team_pk=None):
