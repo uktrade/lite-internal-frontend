@@ -18,7 +18,7 @@ from lite_forms.components import (
 )
 from lite_forms.generators import confirm_form
 
-options = [
+level_options = [
     Option("Case", "Case"),
     Option("Organisation", "Organisation"),
     Option("Destination", "Destination"),
@@ -43,7 +43,7 @@ def add_flag_form():
                 title=CreateFlagForm.Level.TITLE,
                 description=CreateFlagForm.Level.DESCRIPTION,
                 name="level",
-                options=options,
+                options=level_options,
             ),
             RadioButtons(
                 title="Colour",

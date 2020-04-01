@@ -17,6 +17,7 @@ from flags.forms import (
     select_condition_and_flag,
     _levels,
     deactivate_or_activate_flagging_rule_form,
+    level_options,
 )
 from flags.services import (
     get_cases_flags,
@@ -31,21 +32,26 @@ from flags.services import (
 from flags.services import get_flags, post_flags, get_flag, update_flag
 from lite_content.lite_internal_frontend import strings, flags
 from lite_content.lite_internal_frontend.flags import UpdateFlag
-from lite_forms.components import Option, FiltersBar, Select, Checkboxes
+from lite_forms.components import Option, FiltersBar, Select, Checkboxes, TextInput
 from lite_forms.generators import form_page
 from lite_forms.views import MultiFormView, SingleFormView
 from organisations.services import get_organisation
 from queues.services import get_queue
+from teams.services import get_teams
 from users.services import get_gov_user
 
 
 class FlagsList(TemplateView):
     def get(self, request, **kwargs):
-        data = get_flags(request, request.GET.get("page"), request.GET.get("only_show_deactivated"))
+        data = get_flags(request, **request.GET)
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
         filters = FiltersBar(
             [
+                TextInput(name="name", title="name"),
+                Select(name="level", title="level", options=level_options),
+                TextInput(name="priority", title="priority"),
+                Select(name="team", title="team", options=get_teams(request, True)),
                 Checkboxes(
                     name="only_show_deactivated",
                     options=[Option(True, flags.FlagsList.SHOW_DEACTIVATED_FLAGS)],
