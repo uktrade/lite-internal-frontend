@@ -3,7 +3,7 @@ import functools
 from core.helpers import convert_dict_to_query_params, convert_parameters_to_query_params
 from lite_forms.components import Option
 
-from conf.client import get, post, put
+from conf.client import get, post, put, patch
 from conf.constants import FLAGS_URL, FLAGGING_RULES
 
 
@@ -40,8 +40,8 @@ def get_flag(request, pk):
     return data.json()
 
 
-def put_flag(request, pk, json):
-    data = put(request, FLAGS_URL + pk + "/", json)
+def update_flag(request, pk, json):
+    data = patch(request, FLAGS_URL + pk + "/", json)
     return data.json(), data.status_code
 
 

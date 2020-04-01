@@ -29,7 +29,7 @@ from flags.services import (
     get_flagging_rule,
     post_flagging_rules,
 )
-from flags.services import get_flags, post_flags, get_flag, put_flag
+from flags.services import get_flags, post_flags, get_flag, update_flag
 from lite_content.lite_internal_frontend import strings, flags
 from lite_content.lite_internal_frontend.flags import UpdateFlag
 from lite_forms.components import Option, FiltersBar, Select, Checkboxes
@@ -77,7 +77,7 @@ class EditFlag(SingleFormView):
         flag = get_flag(request, self.object_pk)
         self.form = edit_flag_form()
         self.data = flag
-        self.action = put_flag
+        self.action = update_flag
         self.success_url = reverse("flags:flags")
 
 
@@ -109,7 +109,7 @@ class ChangeFlagStatus(TemplateView):
         if status != "deactivate" and status != "reactivate":
             raise Http404
 
-        put_flag(request, str(kwargs["pk"]), json={"status": request.POST["status"]})
+        update_flag(request, str(kwargs["pk"]), json={"status": request.POST["status"]})
 
         return redirect(reverse_lazy("flags:flags"))
 
