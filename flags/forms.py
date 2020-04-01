@@ -74,7 +74,28 @@ def add_flag_form():
 def edit_flag_form():
     return Form(
         title=EditFlagForm.TITLE,
-        questions=[TextInput(title=EditFlagForm.Name.TITLE, description=EditFlagForm.Name.DESCRIPTION, name="name")],
+        questions=[
+            TextInput(title=EditFlagForm.Name.TITLE, description=EditFlagForm.Name.DESCRIPTION, name="name"),
+            RadioButtons(
+                title="Colour",
+                name="colour",
+                classes=["app-radios--flag-colours"],
+                options=[
+                    Option("default", "Default"),
+                    Option("red", "Red", classes=["app-radios__item--red"]),
+                    Option("yellow", "Yellow", classes=["app-radios__item--yellow"]),
+                    Option("green", "Green", classes=["app-radios__item--green"]),
+                    Option("blue", "Blue", classes=["app-radios__item--blue"]),
+                    Option("purple", "Purple", classes=["app-radios__item--purple"]),
+                    Option("orange", "Orange", classes=["app-radios__item--orange"]),
+                    Option("brown", "Brown", classes=["app-radios__item--brown"]),
+                    Option("turquoise", "Turquoise", classes=["app-radios__item--turquoise"]),
+                    Option("pink", "Pink", classes=["app-radios__item--pink"]),
+                ],
+            ),
+            TextInput(name="label", title="Label"),
+            NumberInput(name="priority", title="Priority"),
+        ],
         back_link=BackLink(EditFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
         default_button_name=EditFlagForm.SUBMIT_BUTTON,
     )
