@@ -15,7 +15,7 @@ spec:
     role: worker
   containers:
   - name: lite-selenium-test
-    image: quay.io/uktrade/lite-selenium-base
+    image: quay.io/uktrade/lite-selenium-base:morelibs
     imagePullPolicy: Always
     command:
     - cat
