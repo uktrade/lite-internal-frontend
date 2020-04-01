@@ -1,22 +1,3 @@
-$app-flag-red-foreground: govuk-colour("red");
-$app-flag-red-background: govuk-tint(govuk-colour("red"), 35%);
-$app-flag-yellow-foreground: govuk-colour("yellow");
-$app-flag-yellow-background: govuk-tint(govuk-colour("yellow"), 35%);
-$app-flag-green-foreground: govuk-colour("green");
-$app-flag-green-background: govuk-tint(govuk-colour("green"), 35%);
-$app-flag-blue-foreground: govuk-colour("blue");
-$app-flag-blue-background: govuk-tint(govuk-colour("blue"), 35%);
-$app-flag-purple-foreground: govuk-colour("purple");
-$app-flag-purple-background: govuk-tint(govuk-colour("purple"), 35%);
-$app-flag-orange-foreground: govuk-colour("orange");
-$app-flag-orange-background: govuk-tint(govuk-colour("orange"), 35%);
-$app-flag-brown-foreground: govuk-colour("brown");
-$app-flag-brown-background: govuk-tint(govuk-colour("brown"), 35%);
-$app-flag-turquoise-foreground: govuk-colour("turquoise");
-$app-flag-turquoise-background: govuk-tint(govuk-colour("turquoise"), 35%);
-$app-flag-pink-foreground: govuk-colour("pink");
-$app-flag-pink-background: govuk-tint(govuk-colour("pink"), 35%);
-
 .js-enabled {
 	.app-radios--flag-colours {
 		.govuk-radios__item {
@@ -63,55 +44,55 @@ $app-flag-pink-background: govuk-tint(govuk-colour("pink"), 35%);
 	.app-radios__item {
 		&--red {
 			label::before {
-				background: $app-flag-red-foreground;
+				background: govuk-colour("red");
 			}
 		}
 
 		&--yellow {
 			label::before {
-				background: $app-flag-yellow-foreground;
+				background: govuk-colour("yellow");
 			}
 		}
 
 		&--green {
 			label::before {
-				background: $app-flag-green-foreground;
+				background: govuk-colour("green");
 			}
 		}
 
 		&--blue {
 			label::before {
-				background: $app-flag-blue-foreground;
+				background: govuk-colour("blue");
 			}
 		}
 
 		&--purple {
 			label::before {
-				background: $app-flag-purple-foreground;
+				background: govuk-colour("purple");
 			}
 		}
 
 		&--orange {
 			label::before {
-				background: $app-flag-orange-foreground;
+				background: govuk-colour("orange");
 			}
 		}
 
 		&--brown {
 			label::before {
-				background: $app-flag-brown-foreground;
+				background: govuk-colour("brown");
 			}
 		}
 
 		&--turquoise {
 			label::before {
-				background: $app-flag-turquoise-foreground;
+				background: govuk-colour("turquoise");
 			}
 		}
 
 		&--pink {
 			label::before {
-				background: $app-flag-pink-foreground;
+				background: govuk-colour("pink");
 			}
 		}
 	}
