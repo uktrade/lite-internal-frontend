@@ -5,8 +5,17 @@ from lite_content.lite_internal_frontend import strings
 from django.urls import reverse_lazy
 
 from lite_content.lite_internal_frontend.flags import CreateFlagForm, EditFlagForm
-from lite_forms.components import TextInput, Select, Option, BackLink, Form, FormGroup, RadioButtons, AutocompleteInput, \
-    NumberInput
+from lite_forms.components import (
+    TextInput,
+    Select,
+    Option,
+    BackLink,
+    Form,
+    FormGroup,
+    RadioButtons,
+    AutocompleteInput,
+    NumberInput,
+)
 from lite_forms.generators import confirm_form
 
 options = [
@@ -51,13 +60,14 @@ def add_flag_form():
                     Option("brown", "Brown", classes=["app-radios__item--brown"]),
                     Option("turquoise", "Turquoise", classes=["app-radios__item--turquoise"]),
                     Option("pink", "Pink", classes=["app-radios__item--pink"]),
-                ]
+                ],
             ),
             TextInput(name="label", title="Label"),
-            NumberInput(name="priority", title="Priority")
+            NumberInput(name="priority", title="Priority"),
         ],
         default_button_name=CreateFlagForm.SUBMIT_BUTTON,
         back_link=BackLink(CreateFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
+        javascript_imports=["/assets/javascripts/add-edit-flags.js"],
     )
 
 

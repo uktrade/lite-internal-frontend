@@ -36,37 +36,55 @@
 .app-flag {
 	@include govuk-font($size: 16, $weight: bold);
 	position: relative;
-	background-color: govuk-colour("light-grey");
-	border-left: 2px solid govuk-colour("black");
+	display: inline-block;
+	background-color: govuk-shade(govuk-colour("light-grey"), 2.5);
+	border-left: 2px solid currentColor;
 	color: govuk-colour("black");
 	line-height: 40px!important;
 	padding: 0 govuk-spacing(3);
 	margin-right: govuk-spacing(2);
 	margin-bottom: govuk-spacing(2);
+	min-width: 42px;
+	text-align: center;
+	box-sizing: border-box;
 
-	&--action {
-		position: relative;
-		text-decoration: none;
-		border-radius: 0;
-		outline: 0;
-		-webkit-appearance: none;
-		color: $govuk-link-colour;
-		font-weight: normal;
-		text-transform: none;
-		letter-spacing: normal;
-		font-size: 16px;
-		text-decoration: underline;
-		background-color: transparent;
-		border-left: none;
-		padding: 0;
-		margin-left: govuk-spacing(2);
+	&--yellow {
+		background: govuk-tint(govuk-colour("yellow"), 80);
+		color: govuk-shade(govuk-colour("yellow"), 50);
+	}
 
-		&:hover {
-			color: $govuk-link-hover-colour;
-		}
+	&--blue {
+		background: govuk-tint(govuk-colour("blue"), 85);
+		color: govuk-colour("blue");
+	}
 
-		&:active {
-			color: $govuk-link-active-colour;
-		}
+	&--purple {
+		background: govuk-tint(govuk-colour("purple"), 85);
+		color: govuk-colour("purple");
+	}
+
+	&--pink {
+		background: govuk-tint(govuk-colour("pink"), 85);
+		color: govuk-colour("pink");
+	}
+
+	&--red {
+		background: govuk-tint(govuk-colour("red"), 85);
+		color: govuk-colour("red");
+	}
+
+	&--green {
+		background: govuk-tint(govuk-colour("green"), 85);
+		color: govuk-colour("green");
+	}
+
+	&--orange {
+		background: govuk-tint(govuk-colour("orange"), 85);
+		color: govuk-colour("orange");
+	}
+
+	&--turquoise {
+		background: govuk-tint(govuk-colour("turquoise"), 85);
+		color: govuk-colour("turquoise");
 	}
 }

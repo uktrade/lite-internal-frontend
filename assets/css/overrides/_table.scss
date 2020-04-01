@@ -2,3 +2,9 @@
 	@include govuk-font($size: 27, $weight: bold);
 	margin-bottom: govuk-spacing(3);
 }
+
+.govuk-table--middle-vertical-align {
+	.govuk-table__header, .govuk-table__cell {
+		vertical-align: middle;
+	}
+}

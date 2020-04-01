@@ -17,21 +17,31 @@ $app-flag-turquoise-background: govuk-tint(govuk-colour("turquoise"), 35%);
 $app-flag-pink-foreground: govuk-colour("pink");
 $app-flag-pink-background: govuk-tint(govuk-colour("pink"), 35%);
 
+.js-enabled {
+	.app-radios--flag-colours {
+		.govuk-radios__item {
+			label {
+				padding: 0;
+				margin-right: govuk-spacing(2);
+
+				span {
+					display: none;
+				}
+			}
+		}
+	}
+}
+
 .app-radios--flag-colours {
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
+	margin-bottom:  - govuk-spacing(3);
 
 	.govuk-radios__item {
-		margin-bottom: 0;
-
-		span {
-			display: none;
-		}
+		margin-bottom: govuk-spacing(3);
 
 		label {
-			padding: 0;
-			margin-right: govuk-spacing(2);
-
 			&::before {
 				background: govuk-colour("dark-grey");
 			}
@@ -39,13 +49,12 @@ $app-flag-pink-background: govuk-tint(govuk-colour("pink"), 35%);
 			&::after {
 				top: 8px;
 				left: 8px;
-				right: 18px;
 				bottom: 8px;
+				width: 20px;
 				background: govuk-colour("white");
 				border-color: govuk-colour("black");
 				border-radius: 100%;
 				border-width: 2px;
-				width: auto;
 				height: auto;
 			}
 		}

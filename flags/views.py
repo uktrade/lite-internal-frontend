@@ -42,26 +42,14 @@ from users.services import get_gov_user
 
 class FlagsList(TemplateView):
     def get(self, request, **kwargs):
-        data, _ = get_flags(request)
+        data = get_flags(request, request.GET.get("page"), request.GET.get("only_show_deactivated"))
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
-
-        status = request.GET.get("status", "active")
-
-        if status == "active":
-            status = "no_deactivated"
-            flags_data = []
-            for flag in data["flags"]:
-                if flag["status"] == "Deactivated":
-                    status = "active"
-                if flag["status"] == "Active":
-                    flags_data.append(flag)
-            data["flags"] = flags_data
 
         filters = FiltersBar(
             [
                 Checkboxes(
-                    name="status",
-                    options=[Option("deactivated", flags.FlagsList.INCLUDE_DEACTIVATED)],
+                    name="only_show_deactivated",
+                    options=[Option(True, flags.FlagsList.SHOW_DEACTIVATED_FLAGS)],
                     classes=["govuk-checkboxes--small"],
                 ),
             ]
@@ -69,7 +57,6 @@ class FlagsList(TemplateView):
 
         context = {
             "data": data,
-            "status": status,
             "user_data": user_data,
             "filters": filters,
         }
@@ -80,28 +67,18 @@ class AddFlag(SingleFormView):
     def init(self, request, **kwargs):
         self.form = add_flag_form()
         self.action = post_flags
-
-    def get_success_url(self):
-        messages.success(self.request, flags.FlagsList.SUCCESS_MESSAGE)
-        return reverse("flags:flags")
+        self.success_message = flags.FlagsList.SUCCESS_MESSAGE
+        self.success_url = reverse("flags:flags")
 
 
 class EditFlag(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
-        flag, _ = get_flag(request, self.object_pk)
+        flag = get_flag(request, self.object_pk)
         self.form = edit_flag_form()
-        self.data = flag["flag"]
+        self.data = flag
         self.action = put_flag
         self.success_url = reverse("flags:flags")
-
-
-class ViewFlag(TemplateView):
-    def get(self, request, **kwargs):
-        data, _ = get_flag(request, str(kwargs["pk"]))
-
-        context = {"data": data, "title": data["flag"]["name"]}
-        return render(request, "flags/profile.html", context)
 
 
 class ChangeFlagStatus(TemplateView):
