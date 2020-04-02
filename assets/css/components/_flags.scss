@@ -61,4 +61,9 @@
 		background: govuk-tint(govuk-colour("turquoise"), 85);
 		color: govuk-colour("turquoise");
 	}
+
+	&--brown {
+		background: govuk-tint(govuk-colour("brown"), 85);
+		color: govuk-colour("brown");
+	}
 }
