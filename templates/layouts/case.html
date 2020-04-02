@@ -111,15 +111,11 @@
 		{% endfor %}
 	</div>
 
+	<h2 class="govuk-heading-s">Case flags <a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-9" href="{% url 'cases:assign_flags' queue.id case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags">Change case flags</a></h2>
+
 	{% include "includes/flags.html" with flags=case.flags %}
 
-	<a href="{% url 'cases:assign_flags' queue.id case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags">
-		{% if case.flags %}
-			{% lcs 'EDIT_CASE_FLAGS' %}
-		{% else %}
-			{% lcs 'SET_CASE_FLAGS' %}
-		{% endif %}
-	</a>
+	<h2 class="govuk-heading-s">All flags</h2>
 
 	{% include "includes/flags.html" with flags=case.all_flags %}
 
