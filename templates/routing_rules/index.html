@@ -1,0 +1,72 @@
+{% extends 'layouts/base.html' %}
+
+{% block back_link %}{% endblock %}
+
+{% block body %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">
+				{% block title %}
+					Routing Rules
+				{% endblock %}
+			</h1>
+		</div>
+		<div class="lite-app-bar__controls">
+			<a href="{% url 'routing_rules:create' %}" class="govuk-button" draggable="false" role="button" id="add-a-flag-button">
+				Create new routing rule
+			</a>
+		</div>
+	</div>
+
+	{% include "filters.html" %}
+
+	{% if data.results %}
+		<table class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th class="govuk-table__header" scope="col">Team</th>
+					<th class="govuk-table__header" scope="col">Queue</th>
+					<th class="govuk-table__header" scope="col">Tier</th>
+					<th class="govuk-table__header" scope="col">Status</th>
+					<th class="govuk-table__header" scope="col">Actions</th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body">
+				{% for rule in data.results %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell">
+							<a href="{% url 'teams:team' rule.team.id %}" class="govuk-link govuk-link--no-visited-state">
+								{{ rule.team.name }}
+							</a>
+						</td>
+						<td class="govuk-table__cell">
+							{{ rule.queue.name }}
+						</td>
+						<td class="govuk-table__cell">
+							{{ rule.tier }}
+						</td>
+						<td class="govuk-table__cell">
+							{{ rule.active }}
+						</td>
+						<td class="govuk-table__cell govuk-table__cell--tight">
+							<ul class="govuk-table__cell__actions-list">
+								<li class="govuk-table__cell__actions-list-item">
+									{% if rule.active == True %}
+{#										<a href="{% url 'flags:change_status' flag.id 'deactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">{% lcs 'flags.FlagsList.Table.DEACTIVATE' %}</a>#}
+									{% elif rule.active == False %}
+{#										<a href="{% url 'flags:change_status' flag.id 'reactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">{% lcs 'flags.FlagsList.Table.REACTIVATE' %}</a>#}
+									{% endif %}
+								</li>
+								<li class="govuk-table__cell__actions-list-item">
+{#									<a href="{% url 'flags:edit' flag.id %}" class="govuk-link govuk-link--no-visited-state">{% lcs 'flags.FlagsList.Table.EDIT' %}</a>#}
+								</li>
+							</ul>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		{% include "includes/notice.html" with text="No routing rules curently exists" %}
+	{% endif %}
+{% endblock %}

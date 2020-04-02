@@ -1,0 +1,109 @@
+from django.urls import reverse_lazy
+
+from cases.services import get_case_types, get_flags_for_team_of_level
+from core.services import get_statuses, get_countries
+from lite_forms.components import (
+    FormGroup,
+    Form,
+    Select,
+    AutocompleteInput,
+    TextInput,
+    Checkboxes,
+    Option,
+    RadioButtons,
+    BackLink,
+)
+from lite_forms.helpers import conditional
+from teams.services import get_users_team_queues, get_users_by_team
+from users.services import get_gov_user
+
+additional_rules = [
+    Option("users", "Users"),
+    Option("case_types", "Case Types"),
+    Option("flags", "Flags"),
+    Option("country", "Country"),
+]
+
+
+def initial_routing_rule_questions(request):
+    return Form(
+        title="Create a new routing rule",
+        questions=[
+            Select(title="Select a case status", name="status", options=get_statuses(request, True)),
+            AutocompleteInput(
+                title="Select a team work queue",
+                name="queue",
+                options=get_users_team_queues(request, request.user.lite_api_user_id, True),
+            ),
+            TextInput(title="Enter a tier number", name="tier"),
+            Checkboxes(
+                title="Select the combination of options you need to create the case routing rule",
+                name="additional_rules[]",
+                options=additional_rules,
+            ),
+        ],
+        back_link=BackLink("Back to routing rules", reverse_lazy("routing_rules:list")),
+    )
+
+
+def select_case_type(request):
+    return Form(
+        title="Select case types",
+        questions=[
+            Checkboxes(
+                name="case_types[]",
+                options=[
+                    Option(option["id"], option["reference"]["value"]) for option in get_case_types(request, False)
+                ],
+            )
+        ],
+    )
+
+
+def select_flags(request):
+    return Form(
+        title="Select flags",
+        questions=[
+            Checkboxes(
+                name="flags[]",
+                options=[
+                    Option(flag["id"], flag["name"])
+                    for flag in get_flags_for_team_of_level(request, level="")[0]["flags"]
+                ],
+            )
+        ],
+    )
+
+
+def select_country(request):
+    return Form(
+        title="Select a country",
+        questions=[AutocompleteInput(name="country", options=get_countries(request, convert_to_options=True),)],
+    )
+
+
+def select_team_member(request):
+    return Form(
+        title="Select a team member to assign the case to",
+        questions=[
+            RadioButtons(
+                name="user",
+                options=[
+                    Option(user["id"], user["email"])
+                    for user in get_users_by_team(request, get_gov_user(request)[0]["user"]["team"]["id"])[0]["users"]
+                ],
+            )
+        ],
+    )
+
+
+def routing_rule_formgroup(request, additional_rules=list()):
+    return FormGroup(
+        [
+            initial_routing_rule_questions(request),
+            conditional("case_types" in additional_rules, select_case_type(request)),
+            conditional("flags" in additional_rules, select_flags(request)),
+            conditional("country" in additional_rules, select_country(request)),
+            conditional("users" in additional_rules, select_team_member(request)),
+        ]
+    )
