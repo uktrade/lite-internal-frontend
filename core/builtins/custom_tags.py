@@ -330,20 +330,36 @@ def is_system_team(id: str):
 
 @register.filter()
 def get_sla_percentage(case):
+    if case["case_type"]["sub_type"]["key"] == CaseType.HMRC:
+        return _round_percentage((case["sla_hours_since_raised"] / 48) * 100)
+
     if case["sla_remaining_days"] <= 0:
         return "100"
     else:
-        percentage = (case["sla_days"] / (case["sla_days"] + case["sla_remaining_days"])) * 100
-        # Round up to nearest 10
-        if percentage == 0:
-            return "10"
-        else:
-            percentage = math.ceil(percentage / 10) * 10
-            return str(percentage)
+        return _round_percentage((case["sla_days"] / (case["sla_days"] + case["sla_remaining_days"])) * 100)
+
+
+def _round_percentage(percentage):
+    # Round up to nearest 10
+    if percentage == 0:
+        return "10"
+    else:
+        percentage = math.ceil(percentage / 10) * 10
+        return str(percentage)
 
 
 @register.filter()
-def get_sla_ring_colour(remaining_days):
+def get_sla_ring_colour(case):
+    if case["case_type"]["sub_type"]["key"] == CaseType.HMRC:
+        hours_since_raised = case["sla_hours_since_raised"]
+
+        if hours_since_raised >= 48:
+            return "red"
+        else:
+            return "yellow"
+
+    remaining_days = case["sla_remaining_days"]
+
     if remaining_days > 5:
         return "green"
     elif remaining_days >= 0:
