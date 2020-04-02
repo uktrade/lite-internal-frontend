@@ -95,10 +95,10 @@
 								{% if case.sla_hours_since_raised or case.sla_remaining_days %}
 									{% if case.sla_hours_since_raised %}
 										<div class="pie-wrapper progress-{{ case|get_sla_hours_percentage }} {{ case|get_sla_hours_ring_colour }}" id="sla">
-											<span class="label">{{ case.sla_days }}</span>
+											<span class="label">{{ case.sla_hours_since_raised }}</span>
 									{% elif case.sla_remaining_days %}
 										<div class="pie-wrapper progress-{{ case|get_sla_percentage }} {{ case|get_sla_ring_colour }}" id="sla">
-											<span class="label">{{ case.sla_hours_since_raised }}</span>
+											<span class="label">{{ case.sla_days }}</span>
 									{% endif %}
 										<div class="pie">
 											<div class="left-side half-circle"></div>
