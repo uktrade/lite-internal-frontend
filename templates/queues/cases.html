@@ -92,9 +92,14 @@
 								</div>
 							</td>
 							<td class="cases-table__cell">
-								{% if case.sla_remaining_days != None or case.sla_hours_since_raised != None %}
-									<div class="pie-wrapper progress-{{ case|get_sla_percentage }} {{ case|get_sla_ring_colour }}" id="sla">
-										<span class="label">{% if case.sla_remaining_days %}{{ case.sla_days }}{% else %}{{ case.sla_hours_since_raised }}{% endif %}</span>
+								{% if case.sla_remaining_days or case.sla_hours_since_raised %}
+									{% if case.sla_remaining_days %}
+										<div class="pie-wrapper progress-{{ case|get_sla_percentage }} {{ case|get_sla_ring_colour }}" id="sla">
+											<span class="label">{{ case.sla_days }}</span>
+									{% elif case.sla_hours_since_raised %}
+										<div class="pie-wrapper progress-{{ case|get_hours_sla_percentage }} {{ case|get_hours_sla_ring_colour }}" id="sla">
+											<span class="label">{{ case.sla_hours_since_raised }}</span>
+									{% endif %}
 										<div class="pie">
 											<div class="left-side half-circle"></div>
 											<div class="right-side half-circle"></div>
