@@ -7,4 +7,4 @@ Feature: Add a HMRC query
     And I create HMRC query
     When I go to the case
     Then I see HMRC query
-
+    And I should see my case SLA
