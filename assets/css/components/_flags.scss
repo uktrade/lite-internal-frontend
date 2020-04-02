@@ -5,21 +5,43 @@
 	justify-content: flex-start;
 	flex-wrap: wrap;
 	margin-bottom: govuk-spacing(4);
+
+	&--list {
+		margin: 0;
+
+		.app-flag {
+			display: flex;
+			justify-content: flex-start;
+			margin-right: 0;
+			text-align: left;
+			margin-bottom: govuk-spacing(1);
+			padding: 0 govuk-spacing(2);
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width: 100%;
+
+			&:last-of-type {
+				margin-bottom: 0;
+			}
+		}
+	}
 }
 
 .app-flag {
 	@include govuk-font($size: 16, $weight: bold);
 	position: relative;
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	background-color: govuk-shade(govuk-colour("light-grey"), 2.5);
 	border-left: 2px solid currentColor;
 	color: govuk-colour("black");
-	line-height: 40px!important;
+	min-height: 40px!important;
 	padding: 0 govuk-spacing(3);
 	margin-right: govuk-spacing(2);
 	margin-bottom: govuk-spacing(2);
 	min-width: 42px;
-	text-align: center;
 	box-sizing: border-box;
 
 	&--yellow {

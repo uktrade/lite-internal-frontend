@@ -117,7 +117,9 @@
 										{% endif %}
 									<td class="govuk-table__cell">
 										{% for flag in good_on_application.flags %}
-											{{ flag.name }}<br>
+											<div class="app-flag app-flag--{{ flag.colour }}">
+												{{ flag.name }}
+											</div>
 										{% endfor %}
 									</td>
 									{% if show_advice %}
