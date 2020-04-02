@@ -93,7 +93,7 @@
 							</td>
 							<td class="cases-table__cell">
 								{% if case.sla_remaining_days or case.sla_hours_since_raised %}
-									{% if case.sla_remaining_days %}
+									{% if case.sla_remaining_days and case.case_type.sub_type.key != 'hmrc'%}
 										<div class="pie-wrapper progress-{{ case|get_sla_percentage }} {{ case|get_sla_ring_colour }}" id="sla">
 											<span class="label">{{ case.sla_days }}</span>
 									{% elif case.sla_hours_since_raised %}
