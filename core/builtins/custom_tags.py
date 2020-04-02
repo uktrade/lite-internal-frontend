@@ -357,7 +357,6 @@ def get_sla_ring_colour(case):
     remaining_days = case["sla_remaining_days"]
 
     if case["case_type"]["sub_type"]["key"] == CaseType.HMRC and not have_goods_departed:
-
         if case["sla_hours_since_raised"] >= 48:
             return "red"
         else:
