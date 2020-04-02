@@ -339,7 +339,7 @@ def get_sla_percentage(case):
 
 
 @register.filter()
-def get_hours_sla_percentage(case):
+def get_sla_hours_percentage(case):
     sla_hours_since_raised = case["sla_hours_since_raised"]
     return _round_percentage((sla_hours_since_raised / 48) * 100)
 
@@ -365,7 +365,7 @@ def get_sla_ring_colour(case):
 
 
 @register.filter()
-def get_hours_sla_ring_colour(case):
+def get_sla_hours_ring_colour(case):
     sla_hours_since_raised = case["sla_hours_since_raised"]
 
     if sla_hours_since_raised >= 48:
