@@ -331,7 +331,7 @@ def is_system_team(id: str):
 @register.filter()
 def get_sla_percentage(case):
     if case["case_type"]["sub_type"]["key"] == CaseType.HMRC:
-        return _get_hmrc_sla_percentage(case["sla_hours_since_raised"])
+        return _round_percentage((case["sla_hours_since_raised"] / 48) * 100)
 
     remaining_days = case["sla_remaining_days"]
 
@@ -339,10 +339,6 @@ def get_sla_percentage(case):
         return "100"
     else:
         return _round_percentage((case["sla_days"] / (case["sla_days"] + case["sla_remaining_days"])) * 100)
-
-
-def _get_hmrc_sla_percentage(sla_hours_since_raised):
-    return _round_percentage((sla_hours_since_raised / 48) * 100)
 
 
 def _round_percentage(percentage):
