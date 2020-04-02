@@ -23,6 +23,28 @@ def click_include_deactivated(driver):
     FlaggingRulePages(driver).click_apply_filters_button()
 
 
+@when(parsers.parse('I add a flagging rule of type "{type}", with condition "{condition}", flag and answer "{answer}"'))
+def create_flagging_rule(driver, context, type, condition, answer):
+    flagging_rules_page = FlaggingRulePages(driver)
+    flagging_rules_page.create_new_flagging_rule()
+
+    flagging_rules_page.select_flagging_rule_type(type)
+
+    Shared(driver).click_submit()
+
+    if type == "Case":
+        flagging_rules_page.select_case_type(condition)
+    elif type == "Destination":
+        flagging_rules_page.enter_country(condition)
+    elif type == "Good":
+        flagging_rules_page.enter_control_list(condition)
+
+    flagging_rules_page.select_flag(context.flag_name)
+    flagging_rules_page.select_is_for_verified_goods_only(answer)
+
+    Shared(driver).click_submit()
+
+
 @when(parsers.parse('I add a flagging rule of type "{type}", with condition "{condition}", and flag'))
 def create_flagging_rule(driver, context, type, condition):
     flagging_rules_page = FlaggingRulePages(driver)
