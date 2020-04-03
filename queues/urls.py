@@ -6,7 +6,9 @@ from queues import views
 app_name = "queues"
 
 urlpatterns = [
-    path("", views.Cases.as_view(), name="cases", kwargs={"queue_pk": ALL_CASES_QUEUE_ID, "disable_queue_lookup": True}),
+    path(
+        "", views.Cases.as_view(), name="cases", kwargs={"queue_pk": ALL_CASES_QUEUE_ID, "disable_queue_lookup": True}
+    ),
     path("<uuid:queue_pk>/", views.Cases.as_view(), name="cases", kwargs={"disable_queue_lookup": True}),
     path("manage/", views.QueuesList.as_view(), name="manage"),
     path("add/", views.AddQueue.as_view(), name="add"),
