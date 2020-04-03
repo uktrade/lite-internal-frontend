@@ -92,8 +92,8 @@
 								</div>
 							</td>
 							<td class="cases-table__cell">
-								{% if case.sla_hours_since_raised or case.sla_remaining_days %}
-									{% if case.sla_hours_since_raised and case.case_type.sub_type.key == 'hmrc'%}
+								{% if case.sla_hours_since_raised != None or case.sla_remaining_days != None %}
+									{% if case.sla_hours_since_raised != None and case.case_type.sub_type.key == 'hmrc'%}
 										<div class="pie-wrapper progress-{{ case|get_sla_hours_percentage }} {{ case|get_sla_hours_ring_colour }}" id="sla">
 											<span class="label">{{ case.sla_hours_since_raised }}</span>
 											<div class="pie">
@@ -101,7 +101,7 @@
 												<div class="right-side half-circle"></div>
 											</div>
 										</div>
-									{% elif case.sla_remaining_days and case.case_type.sub_type.key != 'hmrc'%}
+									{% elif case.sla_remaining_days != None and case.case_type.sub_type.key != 'hmrc'%}
 										<div class="pie-wrapper progress-{{ case|get_sla_percentage }} {{ case|get_sla_ring_colour }}" id="sla">
 											<span class="label">{{ case.sla_days }}</span>
 											<div class="pie">
