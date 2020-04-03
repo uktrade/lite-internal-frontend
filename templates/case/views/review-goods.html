@@ -55,7 +55,7 @@
 						{% if good.report_summary %}
 							{{ good.report_summary }}
 						{% else %}
-							<span class="lite-hint">{% lcs 'cases.ReviewGoodsSummary.NotSet.REPORT_SUMMARY' %}</span>
+							<span class="govuk-hint">{% lcs 'cases.ReviewGoodsSummary.NotSet.REPORT_SUMMARY' %}</span>
 						{% endif %}
 					</td>
 					<td class="govuk-table__cell">{{ good.is_good_controlled.value|friendly_boolean }}</td>
@@ -64,7 +64,7 @@
 						{% if good.comment %}
 							{{ good.comment}}
 						{% else %}
-							<span class="lite-hint">{% lcs 'cases.ReviewGoodsSummary.NotSet.COMMENT' %}</span>
+							<span class="govuk-hint">{% lcs 'cases.ReviewGoodsSummary.NotSet.COMMENT' %}</span>
 						{% endif %}
 					</td>
 					{% if case_sub_type.key == "standard" %}
@@ -76,7 +76,7 @@
 								{{ flag.name}} <br>
 							{% endfor %}
 						{% else %}
-							<span class="lite-hint">{% lcs 'cases.ReviewGoodsSummary.NotSet.FLAGS' %}</span>
+							<span class="govuk-hint">{% lcs 'cases.ReviewGoodsSummary.NotSet.FLAGS' %}</span>
 						{% endif %}
 					</td>
 				</tr>

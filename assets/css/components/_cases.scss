@@ -35,10 +35,14 @@
 	border-bottom: 2px solid govuk-colour("light-grey");
 	margin: 0;
     vertical-align: top;
-	padding: govuk-spacing(3) govuk-spacing(3) 0 0;
+	padding: govuk-spacing(3) govuk-spacing(4) 0 0;
 
     &--tight {
         padding-right: 0!important;
+    }
+
+    &--nowrap {
+        white-space: nowrap;
     }
 }
 
