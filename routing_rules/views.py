@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
+from core.helpers import get_params_if_exist, convert_dict_to_query_params
 from lite_forms.components import FiltersBar, Option, Checkboxes
 from lite_forms.views import MultiFormView
 from routing_rules.forms import routing_rule_formgroup
@@ -12,7 +13,10 @@ from users.services import get_gov_user
 
 class RoutingRulesList(TemplateView):
     def get(self, request, **kwargs):
-        data, _ = get_routing_rules(request)
+        params = {"page": int(request.GET.get("page", 1))}
+
+        data, _ = get_routing_rules(request, convert_dict_to_query_params(params))
+
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
         status = request.GET.get("status", "active")
