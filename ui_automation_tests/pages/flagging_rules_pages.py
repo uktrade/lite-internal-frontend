@@ -51,7 +51,7 @@ class FlaggingRulePages(BasePage):
         select.select_by_value(case_type)
 
     def select_is_for_verified_goods_only(self, answer):
-        if answer == 'True':
+        if answer == "True":
             self.driver.find_element_by_css_selector("[id$=-True]").click()
         else:
             self.driver.find_element_by_css_selector("[id$=-False]").click()
