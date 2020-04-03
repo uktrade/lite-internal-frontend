@@ -5,5 +5,15 @@
 		{% endfor %}
 	</ul>
 {% else %}
-	{% include "includes/notice.html" with text=no_content small=True %}
+	{% if not list %}
+		<div class="govuk-!-margin-bottom-4">
+			{% if no_content %}
+				{% include 'includes/notice.html' with text=no_content small=True %}
+			{% else %}
+				{% include 'includes/notice.html' with text='generic.NO_FLAGS_SET' small=True %}
+			{% endif %}
+		</div>
+	{% else %}
+		<span class="govuk-hint govuk-!-margin-0">{% lcs 'generic.NO_FLAGS_SET' %}</span>
+	{% endif %}
 {% endif %}
