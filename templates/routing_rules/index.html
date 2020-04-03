@@ -52,9 +52,13 @@
 							<ul class="govuk-table__cell__actions-list">
 								<li class="govuk-table__cell__actions-list-item">
 									{% if rule.active == True %}
-{#										<a href="{% url 'flags:change_status' flag.id 'deactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">{% lcs 'flags.FlagsList.Table.DEACTIVATE' %}</a>#}
+										<a href="{% url 'routing_rules:change_status' rule.id 'deactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">
+											Deactivate
+										</a>
 									{% elif rule.active == False %}
-{#										<a href="{% url 'flags:change_status' flag.id 'reactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">{% lcs 'flags.FlagsList.Table.REACTIVATE' %}</a>#}
+										<a href="{% url 'routing_rules:change_status' rule.id 'reactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">
+											Activate
+										</a>
 									{% endif %}
 								</li>
 								<li class="govuk-table__cell__actions-list-item">

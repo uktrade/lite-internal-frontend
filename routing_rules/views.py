@@ -1,11 +1,12 @@
-from django.shortcuts import render
-from django.urls import reverse
+from django.http import Http404
+from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from lite_forms.components import FiltersBar, Option, Checkboxes
 from lite_forms.views import MultiFormView
 from routing_rules.forms import routing_rule_formgroup
-from routing_rules.services import get_routing_rules, post_routing_rule
+from routing_rules.services import get_routing_rules, post_routing_rule, put_routing_rule_status
 from users.services import get_gov_user
 
 
@@ -41,3 +42,36 @@ class CreateRoutingRule(MultiFormView):
             self.forms = routing_rule_formgroup(request)
         self.success_url = reverse("routing_rules:list")
         self.action = post_routing_rule
+
+
+class ChangeRoutingRuleActiveStatus(TemplateView):
+    def get(self, request, **kwargs):
+        status = kwargs["status"]
+        description = ""
+
+        if status != "deactivate" and status != "reactivate":
+            raise Http404
+
+        if status == "deactivate":
+            description = "you are deactivating the flag"
+
+        if status == "reactivate":
+            description = "you are reactivating the flag"
+
+        context = {
+            "title": "Are you sure you want to {} this routing rule?".format(status),
+            "description": description,
+            "user_id": str(kwargs["pk"]),
+            "status": status,
+        }
+        return render(request, "routing_rules/change-status.html", context)
+
+    def post(self, request, **kwargs):
+        status = kwargs["status"]
+
+        if status != "deactivate" and status != "reactivate":
+            raise Http404
+
+        put_routing_rule_status(request, str(kwargs["pk"]), status)
+
+        return redirect(reverse_lazy("routing_rules:list"))
