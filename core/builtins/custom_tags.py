@@ -349,7 +349,8 @@ def _round_percentage(percentage):
     if percentage == 0:
         return "10"
     else:
-        return str(math.ceil(percentage / 10) * 10)
+        percentage = math.ceil(percentage / 10) * 10
+        return str(percentage)
 
 
 @register.filter()
