@@ -211,7 +211,7 @@ def default_na(value):
     if value is not None and len(value):
         return value
     else:
-        return mark_safe(f'<span class="govuk-hint">{strings.NOT_APPLICABLE}</span>')  # nosec
+        return mark_safe(f'<span class="govuk-hint govuk-!-margin-0">{strings.NOT_APPLICABLE}</span>')  # nosec
 
 
 @register.filter()
