@@ -21,16 +21,11 @@
 		</div>
 	</div>
 
-	<div class="app-flags" id="application-case-flags">
-		{% for flag in case.flags %}
-			<div class="app-flag" id="{{ flag.name }}">
-				{{ flag.name }}
-			</div>
-		{% endfor %}
-		<a href="{{ edit_flags_url }}" id="button-edit-goods-flags" class="app-flag app-flag--action">
-			{% lcs 'cases.ReviewGoodsSummary.SET_FLAGS' %}
-		</a>
-	</div>
+	{% include 'includes/flags.html' with flags=case.flags %}
+
+	<a href="{{ edit_flags_url }}" id="button-edit-goods-flags" class="app-flag app-flag--action">
+		{% lcs 'cases.ReviewGoodsSummary.SET_FLAGS' %}
+	</a>
 
 	<!-- Goods -->
 	<table class="govuk-table" id="goods">
