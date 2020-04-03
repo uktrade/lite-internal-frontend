@@ -77,7 +77,7 @@ def edit_flagging_rule(driver, context, condition):
 
 
 @then(parsers.parse('I see the flagging rule in the list as "{status}"'))
-def create_flagging_rule_for_good(driver, context, status):
+def create_flagging_rule(driver, context, status):
     assert status in utils.find_paginated_item_by_id(context.flag_id, driver).find_element_by_xpath("..").text
 
 
