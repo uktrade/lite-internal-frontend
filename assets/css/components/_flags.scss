@@ -39,7 +39,7 @@
 	align-items: center;
 	justify-content: center;
 	background-color: govuk-shade(govuk-colour("light-grey"), 2.5);
-	border-left: 2px solid currentColor;
+	border-left: 3px solid currentColor;
 	color: govuk-colour("black");
 	min-height: 40px!important;
 	padding: 0 govuk-spacing(3);
@@ -48,7 +48,7 @@
 
 	&--yellow {
 		background: govuk-tint(govuk-colour("yellow"), 80);
-		color: govuk-shade(govuk-colour("yellow"), 50);
+		color: govuk-shade(govuk-colour("yellow"), 30);
 	}
 
 	&--blue {
@@ -78,7 +78,7 @@
 
 	&--orange {
 		background: govuk-tint(govuk-colour("orange"), 85);
-		color: govuk-colour("orange");
+		color: saturate(govuk-shade(govuk-colour("orange"), 15), 10);
 	}
 
 	&--turquoise {
