@@ -95,7 +95,7 @@
 					{% include 'includes/flags.html' with flags=good.flags %}
 				</dd>
 				<dd class="govuk-summary-list__actions">
-					<a href="#">{% lcs 'generic.CHANGE' %}</a>
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' queue.id case.id %}?level=goods&items={{ good.id }}&origin=case">{% lcs 'generic.CHANGE' %}</a>
 				</dd>
 			</div>
 		</dl>
