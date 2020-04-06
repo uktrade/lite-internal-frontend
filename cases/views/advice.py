@@ -131,7 +131,7 @@ class ViewTeamAdvice(TemplateView):
         if request.POST.get("action") == "delete":
             clear_team_advice(request, self.case.get("id"))
 
-            return redirect(reverse("cases:team_advice_view", kwargs={"pk": self.case.get("id")}))
+            return redirect(reverse("cases:team_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case.get("id")}))
 
         elif request.POST.get("action") == "team":
             return get_case_advice(get_team_case_advice, request, self.case, "team", {"id": request.POST.get("team")})

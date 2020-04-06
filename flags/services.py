@@ -4,6 +4,7 @@ from conf.client import get, post, put, patch
 from conf.constants import FLAGS_URL, FLAGGING_RULES
 from core.helpers import convert_parameters_to_query_params
 from lite_forms.components import Option
+from users.services import get_gov_user
 
 
 def get_flags(request, page=1, name=None, level=None, priority=None, only_show_deactivated=False, team=None):
@@ -12,7 +13,8 @@ def get_flags(request, page=1, name=None, level=None, priority=None, only_show_d
 
 
 def _get_team_flags(level, request, convert_to_options=False, include_deactivated=False):
-    team_pk = None  # request.user.team THIS IS TODO!!
+    user, _ = get_gov_user(request)
+    team_pk = user["user"]["team"]["id"]
     data = get(
         request,
         f"{FLAGS_URL}?level={level}&team={team_pk}&include_deactivated={include_deactivated}&disable_pagination=True",

@@ -6,18 +6,10 @@ from ui_automation_tests.shared.tools.helpers import paginated_item_exists
 class OrganisationPage(BasePage):
 
     LINK_ORGANISATION_FLAGS_ID = "link-organisation-flags"
-    FLAG_CLASS = "app-flag"
     LINK_EDIT_ORGANISATION_ID = "link-edit-organisation"
 
     def click_edit_organisation_flags(self):
         self.driver.find_element_by_id(self.LINK_ORGANISATION_FLAGS_ID).click()
-
-    def is_organisation_flag_applied(self, flag_name):
-        flags = self.driver.find_elements_by_class_name(self.FLAG_CLASS)
-
-        for flag in flags:
-            if flag_name.lower() in flag.text.lower():
-                return True
 
     def click_edit_organisation_link(self):
         self.driver.find_element_by_id(self.LINK_EDIT_ORGANISATION_ID).click()

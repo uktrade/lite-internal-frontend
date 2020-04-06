@@ -147,10 +147,6 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_css_selector(self.ACTIONS_DROPDOWN).click()
         self.driver.find_element_by_css_selector(self.VIEW_ADVICE).click()
 
-    def is_flag_applied(self, flag_id):
-        count = len(self.driver.find_elements_by_id(flag_id))
-        return count > 0
-
     def is_good_flag_applied(self, flag_name):
         return flag_name in self.driver.find_element_by_id("goods").text
 
