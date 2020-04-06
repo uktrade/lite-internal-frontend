@@ -301,7 +301,7 @@ class FinaliseGoodsCountries(TemplateView):
             context["error"] = data.get("errors")
             return render(request, "case/finalise-open-goods-countries.html", context)
 
-        return redirect(reverse_lazy("cases:finalise", kwargs={"pk": kwargs["pk"]}))
+        return redirect(reverse_lazy("cases:finalise", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]}))
 
 
 class Finalise(TemplateView):
