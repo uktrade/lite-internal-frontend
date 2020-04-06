@@ -76,7 +76,7 @@ def select_flags(request):
                 name="flags[]",
                 options=[
                     Option(flag["id"], flag["name"])
-                    for flag in get_flags_for_team_of_level(request, level="")[0]["flags"]
+                    for flag in get_flags_for_team_of_level(request, level="", include_system_flags=True)[0]["flags"]
                 ],
             )
         ],
