@@ -3,11 +3,18 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
-from core.helpers import get_params_if_exist, convert_dict_to_query_params
+from core.helpers import convert_dict_to_query_params
 from lite_forms.components import FiltersBar, Option, Checkboxes
 from lite_forms.views import MultiFormView
-from routing_rules.forms import routing_rule_formgroup
-from routing_rules.services import get_routing_rules, post_routing_rule, put_routing_rule_status
+from routing_rules.forms import routing_rule_form_group
+from routing_rules.services import (
+    get_routing_rules,
+    post_routing_rule,
+    put_routing_rule_active_status,
+    get_routing_rule,
+    put_routing_rule,
+    validate_put_routing_rule,
+)
 from users.services import get_gov_user
 
 
@@ -41,9 +48,9 @@ class RoutingRulesList(TemplateView):
 class CreateRoutingRule(MultiFormView):
     def init(self, request, **kwargs):
         if request.method == "POST":
-            self.forms = routing_rule_formgroup(request, request.POST.getlist("additional_rules[]"))
+            self.forms = routing_rule_form_group(request, request.POST.getlist("additional_rules[]"))
         else:
-            self.forms = routing_rule_formgroup(request)
+            self.forms = routing_rule_form_group(request)
         self.success_url = reverse("routing_rules:list")
         self.action = post_routing_rule
 
@@ -76,6 +83,28 @@ class ChangeRoutingRuleActiveStatus(TemplateView):
         if status != "deactivate" and status != "reactivate":
             raise Http404
 
-        put_routing_rule_status(request, str(kwargs["pk"]), status)
+        put_routing_rule_active_status(request, str(kwargs["pk"]), status)
 
         return redirect(reverse_lazy("routing_rules:list"))
+
+
+class EditRoutingRules(MultiFormView):
+    def init(self, request, **kwargs):
+        if request.method == "POST":
+            try:
+                additional_rules = request.POST.getlist("additional_rules[]")
+            except AttributeError:
+                additional_rules = [request.POST.get("additional_rules[]", None)]
+            self.forms = routing_rule_form_group(request, additional_rules, edit=True)
+            if (len(self.get_forms().forms) - 1) == int(request.POST.get("form_pk", 0)):
+                self.action = put_routing_rule
+            else:
+                self.action = validate_put_routing_rule
+
+        else:
+            self.forms = routing_rule_form_group(request, edit=True)
+            self.action = put_routing_rule
+
+        self.object_pk = kwargs["pk"]
+        self.data = get_routing_rule(request, self.object_pk)[0]
+        self.success_url = reverse_lazy("routing_rules:list")

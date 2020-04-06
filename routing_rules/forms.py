@@ -12,6 +12,7 @@ from lite_forms.components import (
     Option,
     RadioButtons,
     BackLink,
+    HiddenField,
 )
 from lite_forms.helpers import conditional
 from teams.services import get_users_team_queues, get_users_by_team
@@ -25,9 +26,15 @@ additional_rules = [
 ]
 
 
-def initial_routing_rule_questions(request):
+def initial_routing_rule_questions(request, edit: bool):
+
+    if edit:
+        title = "Edit the routing rule"
+    else:
+        title = "Create a new routing rule"
+
     return Form(
-        title="Create a new routing rule",
+        title=title,
         questions=[
             Select(title="Select a case status", name="status", options=get_statuses(request, True)),
             AutocompleteInput(
@@ -36,6 +43,7 @@ def initial_routing_rule_questions(request):
                 options=get_users_team_queues(request, request.user.lite_api_user_id, True),
             ),
             TextInput(title="Enter a tier number", name="tier"),
+            HiddenField(name="additional_rules[]", value=None),
             Checkboxes(
                 title="Select the combination of options you need to create the case routing rule",
                 name="additional_rules[]",
@@ -97,10 +105,10 @@ def select_team_member(request):
     )
 
 
-def routing_rule_formgroup(request, additional_rules=list()):
+def routing_rule_form_group(request, additional_rules=list(), edit=False):
     return FormGroup(
         [
-            initial_routing_rule_questions(request),
+            initial_routing_rule_questions(request, edit),
             conditional("case_types" in additional_rules, select_case_type(request)),
             conditional("flags" in additional_rules, select_flags(request)),
             conditional("country" in additional_rules, select_country(request)),
