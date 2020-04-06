@@ -23,7 +23,7 @@ def click_include_deactivated(driver):
     FlaggingRulePages(driver).click_apply_filters_button()
 
 
-@when(parsers.parse('I add a goods flagging rule with condition "{condition}", flag and answer "{answer}"'))
+@when(parsers.parse('I add a goods flagging rule with condition "{condition}", flag and answer "{answer}" for only apply to verified goods'))
 def create_goods_flagging_rule(driver, context, condition, answer):
     flagging_rules_page = FlaggingRulePages(driver)
     flagging_rules_page.create_new_flagging_rule()
