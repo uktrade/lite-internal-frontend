@@ -15,8 +15,8 @@ def _get_team_flags(level, request, convert_to_options=False, include_deactivate
     team_pk = None  # request.user.team THIS IS TODO!!
     data = get(
         request,
-        f"{FLAGS_URL}?level={level}&team={team_pk}&include_deactivated={include_deactivated}?disable_pagination=True",
-    ).json()["results"]
+        f"{FLAGS_URL}?level={level}&team={team_pk}&include_deactivated={include_deactivated}&disable_pagination=True",
+    ).json()
 
     if convert_to_options:
         return [Option(key=flag["id"], value=flag["name"]) for flag in data]
