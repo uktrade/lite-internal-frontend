@@ -9,7 +9,6 @@ Feature: I want to respond to an End User Advisory query
     Given I sign in to SSO or am signed into SSO
     And I create eua query or eua query has been previously created
     When I go to end user advisory previously created
-    Then I should see flags can be added
     And I should see the ability to add case notes
     And The dropdown should contain Move Case, Documents, and Ecju queries
 

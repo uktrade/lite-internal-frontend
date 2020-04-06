@@ -29,7 +29,6 @@ class ApplicationPage(BasePage):
     EDIT_DESTINATION_FLAGS_BUTTON = "button-edit-destinations-flags"  # ID
     CHECKBOX_INPUT = ".govuk-checkboxes__input"
     VIEW_ADVICE = 'a[href*="/user-advice-view/"]'
-    CASE_FLAGS = "application-case-flags"
     MOVE_CASE_BUTTON = '[href*="move"]'  # CSS
     STATUS = "status"  # ID
     AUDIT_TRAIL_ITEM = ".app-activity__item"  # CSS
@@ -205,9 +204,6 @@ class ApplicationPage(BasePage):
 
     def end_user_document_link_is_enabled(self):
         return self.driver.find_element_by_id(self.DOWNLOAD_END_USER_DOCUMENT).is_enabled()
-
-    def get_case_flag_element(self):
-        return self.driver.find_element_by_id(self.CASE_FLAGS)
 
     def get_document_element(self):
         return self.driver.find_element_by_css_selector(self.DOCUMENTS_BTN)
