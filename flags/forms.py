@@ -46,8 +46,8 @@ def add_flag_form():
                 options=level_options,
             ),
             RadioButtons(
-                title="Colour",
-                description="You can help convey information through use of colour",
+                title=CreateFlagForm.Colour.TITLE,
+                description=CreateFlagForm.Colour.DESCRIPTION,
                 name="colour",
                 classes=["app-radios--flag-colours"],
                 options=[
@@ -63,12 +63,10 @@ def add_flag_form():
                     Option("pink", "Pink", classes=["app-radios__item--pink"]),
                 ],
             ),
-            TextInput(
-                name="label",
-                title="Colour meaning",
-                description="We'll show this value when you hover over the flag to provide more information",
+            TextInput(name="label", title=CreateFlagForm.Label.TITLE, description=CreateFlagForm.Label.DESCRIPTION,),
+            NumberInput(
+                name="priority", title=CreateFlagForm.Priority.TITLE, description=CreateFlagForm.Priority.DESCRIPTION
             ),
-            NumberInput(name="priority", title="Priority", description="This relates to ordering"),
         ],
         default_button_name=CreateFlagForm.SUBMIT_BUTTON,
         back_link=BackLink(CreateFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
@@ -82,7 +80,8 @@ def edit_flag_form():
         questions=[
             TextInput(title=EditFlagForm.Name.TITLE, description=EditFlagForm.Name.DESCRIPTION, name="name"),
             RadioButtons(
-                title="Colour",
+                title=EditFlagForm.Colour.TITLE,
+                description=EditFlagForm.Colour.DESCRIPTION,
                 name="colour",
                 classes=["app-radios--flag-colours"],
                 options=[
@@ -98,8 +97,10 @@ def edit_flag_form():
                     Option("pink", "Pink", classes=["app-radios__item--pink"]),
                 ],
             ),
-            TextInput(name="label", title="Label"),
-            NumberInput(name="priority", title="Priority"),
+            TextInput(name="label", title=EditFlagForm.Label.TITLE, description=EditFlagForm.Label.DESCRIPTION),
+            NumberInput(
+                name="priority", title=EditFlagForm.Priority.TITLE, description=EditFlagForm.Priority.DESCRIPTION
+            ),
         ],
         back_link=BackLink(EditFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
         default_button_name=EditFlagForm.SUBMIT_BUTTON,
