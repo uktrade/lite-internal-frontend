@@ -3,9 +3,14 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
-from core.helpers import convert_dict_to_query_params
-from lite_forms.components import FiltersBar, Option, Checkboxes
+from cases.services import get_case_types
+from conf.constants import Permission
+from core.helpers import convert_dict_to_query_params, has_permission, get_params_if_exist
+from core.services import get_statuses
+from lite_forms.components import FiltersBar, Option, Checkboxes, Select, AutocompleteInput, TextInput
+from lite_forms.helpers import conditional
 from lite_forms.views import MultiFormView
+from queues.services import get_queues
 from routing_rules.forms import routing_rule_form_group
 from routing_rules.services import (
     get_routing_rules,
@@ -15,12 +20,14 @@ from routing_rules.services import (
     put_routing_rule,
     validate_put_routing_rule,
 )
+from teams.services import get_teams, get_users_team_queues
 from users.services import get_gov_user
 
 
 class RoutingRulesList(TemplateView):
     def get(self, request, **kwargs):
         params = {"page": int(request.GET.get("page", 1))}
+        params = get_params_if_exist(request, ["case_status", "team", "queue", "tier", "only_active"], params)
 
         data, _ = get_routing_rules(request, convert_dict_to_query_params(params))
 
@@ -30,8 +37,26 @@ class RoutingRulesList(TemplateView):
 
         filters = FiltersBar(
             [
+                Select(title="Case Status", name="case_status", options=get_statuses(request, True),),
+                *conditional(
+                    has_permission(request, Permission.MANAGE_ALL_ROUTING_RULES),
+                    [
+                        Select(title="Team", name="team", options=get_teams(request, True)),
+                        AutocompleteInput(
+                            title="Queue", name="queue", options=get_queues(request, convert_to_options=True),
+                        ),
+                    ],
+                    [
+                        AutocompleteInput(
+                            title="Queue",
+                            name="queue",
+                            options=get_users_team_queues(request, request.user.lite_api_user_id, True),
+                        ),
+                    ],
+                ),
+                TextInput(title="Enter a tier number", name="tier"),
                 Checkboxes(
-                    name="active", options=[Option("deactivated", "Deactivated")], classes=["govuk-checkboxes--small"],
+                    name="only_active", options=[Option(True, "Only show active")], classes=["govuk-checkboxes--small"],
                 ),
             ]
         )
