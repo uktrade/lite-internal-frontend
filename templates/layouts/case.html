@@ -6,6 +6,10 @@
 
 {% block body_classes %}app-template__body{% endblock %}
 
+{% block title %}
+	{{ case.reference_code }} - {{ case.application.organisation.name }}
+{% endblock %}
+
 {% block body %}
 	{% include 'includes/messages.html' %}
 
@@ -18,17 +22,24 @@
 	<div class="app-case-header app-case-header--sticky">
 		<div class="app-case-header__stuff">
 			<div class="app-case-header__content" style="flex-direction: row; align-items: center; justify-content: flex-start;">
-				<h1 class="app-case-header__heading">
-					{{ case.reference_code }}
-				</h1>
-				<a class="app-case-header__link govuk-!-margin-left-2" style="opacity: .7;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a>
+				<p class="app-case-header__heading">
+					{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: .7;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a>
+				</p>
 			</div>
 			<div class="app-case-header__controls">
-				<span class="app-case-header__candy">
-					{% svg 'user' %}
-					BAE Systems
+				<span class="app-case-header__candy" data-tooltip="19 goods">
+					{% svg 'goods' %}
+					19
 				</span>
-				<span class="app-case-header__candy">
+				<span class="app-case-header__candy" data-tooltip="12 countries">
+					{% svg 'globe' %}
+					12
+				</span>
+				<span class="app-case-header__candy" data-tooltip="7 flags">
+					{% svg 'menu/flags' %}
+					7
+				</span>
+				<span class="app-case-header__candy" data-tooltip="Case officer">
 					{% svg 'user' %}
 					Matt Berninger
 				</span>
@@ -49,18 +60,23 @@
 					</li>
 				</ol>
 				<h1 class="app-case-header__heading">
-					{% block title %}
-						{{ case.reference_code }}
-					{% endblock %}
+					{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a>
 				</h1>
-				<!-- <p class="app-case-header__text">by <a class="app-case-header__link" href="{% url 'organisations:organisation' case.application.organisation.id %}">Organisation</a></p> -->
 			</div>
 			<div class="app-case-header__controls">
-				<span class="app-case-header__candy">
-					{% svg 'user' %}
-					BAE Systems
+				<span class="app-case-header__candy" data-tooltip="19 goods">
+					{% svg 'goods' %}
+					19
 				</span>
-				<span class="app-case-header__candy">
+				<span class="app-case-header__candy" data-tooltip="12 countries">
+					{% svg 'globe' %}
+					12
+				</span>
+				<span class="app-case-header__candy" data-tooltip="7 flags">
+					{% svg 'menu/flags' %}
+					7
+				</span>
+				<span class="app-case-header__candy" data-tooltip="Case officer">
 					{% svg 'user' %}
 					Matt Berninger
 				</span>
@@ -70,23 +86,60 @@
 				</span>
 			</div>
 		</div>
-		<!-- { include "includes/flags.html" with flags=case.all_flags|slice:7 } -->
 	</div>
 
-	<div class="app-case-tab-bar">
+	<div id="tab-bar" class="app-case-tab-bar">
 		<div class="lite-tabs__container">
 			<div class="lite-tabs">
 				<a href="#" class="lite-tabs__tab lite-tabs__tab--selected">
 					Details
 				</a>
+				<a href="#" class="lite-tabs__tab">
+					Stuff
+				</a>
+				<a href="#" class="lite-tabs__tab">
+					Stuff
+				</a>
+				<a href="#" class="lite-tabs__tab">
+					Stuff
+				</a>
+				<a href="#" class="lite-tabs__tab">
+					Stuff
+				</a>
+				<a href="#" class="lite-tabs__tab">
+					Stuff
+				</a>
 			</div>
 		</div>
 	</div>
 
-	{% block details %}{% endblock %}
+	<br>
+
+	<p class="govuk-hint">{% lorem %}</p><br>
+	<p class="govuk-hint">{% lorem %}</p><br>
+	<p class="govuk-hint">{% lorem %}</p><br>
+	<p class="govuk-hint">{% lorem %}</p>
+
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+	{% block detailas %}{% endblock %}
 {% endblock %}
 
 {% block javascript %}
+	<script type="text/javascript">
+		window.addEventListener('scroll', function (e) {
+			var scrollPosition = window.scrollY;
+
+			if (scrollPosition > 110) {
+				$("#tab-bar").addClass("app-case-tab-bar--float");
+			} else {
+				$("#tab-bar").removeClass("app-case-tab-bar--float");
+			}
+
+			$(".app-case-header--sticky .app-case-header__stuff").css({opacity: (scrollPosition - 150) / 10});
+		});
+	</script>
 	<script src="{% static "javascripts/select-buttons.js" %}"></script>
 	<script src="{% static "javascripts/more-actions.js" %}"></script>
 	<script src="{% static "javascripts/modal.js" %}"></script>
