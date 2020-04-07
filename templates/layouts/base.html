@@ -115,6 +115,8 @@
 	<script src="{% static 'all.js' %}"></script>
 	<script src="{% static 'javascripts/helpers.js' %}"></script>
 	<script src="{% static 'javascripts/back-link.js' %}"></script>
+	<script src="{% static 'javascripts/ResizeSensor.js' %}"></script>
+	<script src="{% static 'javascripts/ElementQueries.js' %}"></script>
 
 	<script nonce="{{ request.csp_nonce }}">
 		window.GOVUKFrontend.initAll()
@@ -140,6 +142,12 @@
 			animation: 'scale-subtle',
       		trigger: 'click',
 			theme: 'light',
+		});
+
+		tippy('.app-flag--label', {
+			content(reference) {
+				return reference.getAttribute('data-label');
+			},
 		});
 	</script>
 
