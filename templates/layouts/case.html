@@ -110,13 +110,25 @@
 							<br>
 						</div>
 					</div>
-					<span class="app-case-header__candy" data-tooltip="Case officer">
+					<span id="candy-case-officer" class="app-case-header__candy" data-tooltip="Case officer and assigned users">
 						{% svg 'user' %}
-						Matt Berninger
+						Jessica Maxwell
 					</span>
-					<span class="app-case-header__candy">
+					<div id="popup-case-officer" class="">
+						<div style="min-width: 300px; padding: 0 10px;">
+							<p class="govuk-heading-m" style="margin-top: 10px; margin-bottom: 20px;">Case officer</p>
+							<p>Jessica Maxwell</p>
+							<br>
+							<p class="govuk-heading-m" style="margin-top: 10px; margin-bottom: 20px;">Assigned users</p>
+							<p>Anthony Lord</p>
+						</div>
+					</div>
+					<span class="app-case-header__candy" data-tooltip="SLA">
 						{% svg 'user' %}
 						5 days left
+					</span>
+					<span class="app-case-header__candy" data-tooltip="Status">
+						Submitted
 					</span>
 				</div>
 			</div>
@@ -185,6 +197,18 @@
 		flags.style.display = 'block';
 		tippy("#candy-flags", {
 			content: flags,
+			allowHTML: true,
+			interactive: true,
+			animation: 'scale-subtle',
+			trigger: 'click',
+			theme: 'light',
+			placement: 'bottom'
+		});
+
+		const users = document.getElementById('popup-case-officer');
+		users.style.display = 'block';
+		tippy("#candy-case-officer", {
+			content: users,
 			allowHTML: true,
 			interactive: true,
 			animation: 'scale-subtle',
