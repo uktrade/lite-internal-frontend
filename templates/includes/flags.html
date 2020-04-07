@@ -3,6 +3,7 @@
 		{% for flag in flags %}
 			<li data-label="{{ flag.label }}" class="app-flag {% if flag.label %}app-flag--label{% endif %} app-flag--{{ flag.colour }}"><span class="govuk-visually-hidden">{{ flag.label }}</span> {{ flag.name }}</li>
 		{% endfor %}
+						<a href="#" class="app-case-header__text app-case-header__link" style="margin-top: 10px; margin-left: 10px;">Change flags</a>
 	</ul>
 {% else %}
 	{% if not list %}

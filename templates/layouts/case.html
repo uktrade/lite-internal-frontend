@@ -11,14 +11,6 @@
 {% endblock %}
 
 {% block body %}
-	{% include 'includes/messages.html' %}
-
-	{% if case.audit_notification %}
-		<a id="audit-notification" class="lite-info-bar lite-info-bar--link lite-info-bar--no-animation" href="#case-activity-{{ case.audit_notification.audit_id }}">
-			{% lcs 'CASE_CHANGES' %}
-		</a>
-	{% endif %}
-
 	<div class="app-case-header__container">
 		<div class="app-case-header">
 			<div class="app-case-header__stuff">
@@ -39,6 +31,7 @@
 					</span>
 					<div id="popup-goods" class="">
 						<table class="govuk-table govuk-!-margin-0" style="min-width: 300px;">
+							<p class="govuk-heading-m" style="margin-top: 10px; margin-bottom: 20px;">19 goods</p>
 							<thead class="govuk-table__head">
 								<tr class="govuk-table__row">
 									<td class="govuk-table__header">Name</td>
@@ -77,6 +70,7 @@
 						<table class="govuk-table govuk-!-margin-0" style="min-width: 300px;">
 							<thead class="govuk-table__head">
 								<tr class="govuk-table__row">
+									<p class="govuk-heading-m" style="margin-top: 10px; margin-bottom: 20px;">12 countries</p>
 									<td class="govuk-table__header">Name</td>
 									<td class="govuk-table__header">Code</td>
 								</tr>
@@ -110,16 +104,10 @@
 						7
 					</span>
 					<div id="popup-flags" class="">
-						<div style="min-width: 300px;">
-							<div class="app-flag">Flag #1</div>
-							<div class="app-flag">Flag #1</div>
-							<div class="app-flag">Flag #1</div>
-							<div class="app-flag">Flag #1</div>
-							<div class="app-flag">Flag #1</div>
-							<div class="app-flag">Flag #1</div>
-							<div class="app-flag">Flag #1</div>
-							<div class="app-flag">Flag #1</div>
-							<div class="app-flag">Flag #1</div>
+						<div style="min-width: 300px; padding: 0 10px; margin-bottom: -20px;">
+							<p class="govuk-heading-m" style="margin-top: 10px; margin-bottom: 20px;">7 flags</p>
+							{% include 'includes/flags.html' with flags=case.all_flags list=True %}
+							<br>
 						</div>
 					</div>
 					<span class="app-case-header__candy" data-tooltip="Case officer">
@@ -132,6 +120,9 @@
 					</span>
 				</div>
 			</div>
+			<div style="margin-bottom: -30px;">
+				{% include 'includes/flags.html' with flags=case.all_flags %}
+			</div>
 		</div>
 		<div id="tab-bar" class="app-case-tab-bar">
 			<div class="lite-tabs__container">
@@ -140,26 +131,26 @@
 						Details
 					</a>
 					<a href="#" class="lite-tabs__tab">
-						Stuff
+						Advice and decision
 					</a>
 					<a href="#" class="lite-tabs__tab">
-						Stuff
+						ECJU queries
 					</a>
 					<a href="#" class="lite-tabs__tab">
-						Stuff
+						Documents
 					</a>
 					<a href="#" class="lite-tabs__tab">
-						Stuff
+						Additional contacts
 					</a>
 					<a href="#" class="lite-tabs__tab">
-						Stuff
+						Case notes and timeline
 					</a>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<br>
+	<br><br>
 
 	{% block details %}{% endblock %}
 {% endblock %}
@@ -175,6 +166,7 @@
 			animation: 'scale-subtle',
       		trigger: 'click',
 			theme: 'light',
+			placement: 'bottom'
 		});
 
 		const countries = document.getElementById('popup-countries');
@@ -186,6 +178,7 @@
 			animation: 'scale-subtle',
 			trigger: 'click',
 			theme: 'light',
+			placement: 'bottom'
 		});
 
 		const flags = document.getElementById('popup-flags');
@@ -197,6 +190,7 @@
 			animation: 'scale-subtle',
 			trigger: 'click',
 			theme: 'light',
+			placement: 'bottom'
 		});
 
 		window.addEventListener('scroll', function (e) {
@@ -214,7 +208,6 @@
 		});
 	</script>
 	<script src="{% static "javascripts/select-buttons.js" %}"></script>
-	<script src="{% static "javascripts/more-actions.js" %}"></script>
 	<script src="{% static "javascripts/modal.js" %}"></script>
 	<script src="{% static "javascripts/case.js" %}"></script>
 {% endblock %}
