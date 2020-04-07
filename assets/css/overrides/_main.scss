@@ -1,3 +1,9 @@
-.lite-main-wrapper--case {
-	padding-top: govuk-spacing(3);
+.app-template__body {
+	.app-header {
+		border-bottom: none;
+	}
+
+	.govuk-main-wrapper {
+		padding-top: 0;
+	}
 }

@@ -13,12 +13,3 @@ $govuk-font-family: -apple-system, BlinkMacSystemFont, Arial, Sans-Serif;
 @import "placeholder";
 // Temporary file for odd bits of SCSS
 // Will be cleaned up every story
-
-.govuk-header {
-	border-bottom-color: $govuk-brand-colour;
-}
-
-.govuk-header__container {
-	border-bottom: none;
-	margin-bottom: 0;
-}

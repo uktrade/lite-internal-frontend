@@ -1,3 +1,11 @@
+.app-hidden {
+    display: none;
+}
+
+.app-case-board {
+    @include govuk-font($size: 16);
+}
+
 .app-expanded-row__item {
     display: none;
 }

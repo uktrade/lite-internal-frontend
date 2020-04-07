@@ -119,7 +119,7 @@
     z-index: 0;
     box-sizing: border-box;
     padding: govuk-spacing(6) 0;
-    margin-top: -168px;
+    margin-top: -54px;
 
     &__stuff {
         display: grid;
@@ -188,10 +188,10 @@
         @include govuk-font($size: 19, $weight: bold);
         color: govuk-colour("white");
         margin: 0;
-        opacity: .8;
     }
 
     &__link {
+        @include govuk-font($size: 19, $weight: bold);
         color: govuk-colour("white");
         text-decoration: none;
     }
@@ -209,6 +209,15 @@
         color: mix(govuk-colour("light-grey"), #182D4E, 80);
         margin: 0;
         text-decoration: none;
+        border-bottom: 2px solid transparent;
+
+        &:hover {
+            border-bottom: 2px solid currentColor;
+        }
+
+        &:active {
+            color: mix(govuk-colour("light-grey"), #182D4E, 40);
+        }
 
         &::before {
             right: -10px;
@@ -282,12 +291,11 @@
 .app-case-header--sticky {
     position: sticky;
     top: 0px;
-    background: red;
     padding: govuk-spacing(3) 0;
     margin: 0;
 
     h1 {
-        font-size: 19px;
+        @include govuk-font($size: 19, $weight: bold);
     }
 
     .app-case-header__stuff {
@@ -315,7 +323,6 @@
     margin: 0;
 
     .lite-tabs__tab {
-        @include govuk-font($size: 19, $weight: bold);
         margin-bottom: 0;
         padding: govuk-spacing(1) 0;
         border-top: 2px solid transparent;

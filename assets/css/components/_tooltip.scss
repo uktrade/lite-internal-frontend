@@ -15,3 +15,20 @@ $tooltip-background-colour: govuk-colour("black");
 .tippy-box[data-placement^='bottom'] > .tippy-arrow::before {
     border-bottom-color: $tooltip-background-colour;
 }
+
+.tippy-box[data-theme~='light'] {
+    background-color: govuk-colour("white");
+    color: $govuk-text-colour;
+    filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.2)) drop-shadow(0 2px 5px rgba(0, 0, 0, 0.15));
+    outline: none;
+}
+
+.tippy-box[data-theme~='light'][data-placement^='top'] > .tippy-arrow::before {
+    border-top-color: govuk-colour("white");
+}
+
+.tippy-box[data-theme~='light'][data-placement^='bottom'] > .tippy-arrow::before {
+    border-bottom-color: govuk-colour("white");
+}
+
+.tippy-box[data-animation=scale-subtle][data-placement^=top]{transform-origin:bottom}.tippy-box[data-animation=scale-subtle][data-placement^=bottom]{transform-origin:top}.tippy-box[data-animation=scale-subtle][data-placement^=left]{transform-origin:right}.tippy-box[data-animation=scale-subtle][data-placement^=right]{transform-origin:left}.tippy-box[data-animation=scale-subtle][data-state=hidden]{transform:scale(.8);opacity:0}
