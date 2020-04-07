@@ -19,96 +19,142 @@
 		</a>
 	{% endif %}
 
-	<div class="app-case-header app-case-header--sticky">
-		<div class="app-case-header__stuff">
-			<div class="app-case-header__content" style="flex-direction: row; align-items: center; justify-content: flex-start;">
-				<p class="app-case-header__heading">
-					{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: .7;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a>
-				</p>
-			</div>
-			<div class="app-case-header__controls">
-				<span class="app-case-header__candy" data-tooltip="19 goods">
-					{% svg 'goods' %}
-					19
-				</span>
-				<span class="app-case-header__candy" data-tooltip="12 countries">
-					{% svg 'globe' %}
-					12
-				</span>
-				<span class="app-case-header__candy" data-tooltip="7 flags">
-					{% svg 'menu/flags' %}
-					7
-				</span>
-				<span class="app-case-header__candy" data-tooltip="Case officer">
-					{% svg 'user' %}
-					Matt Berninger
-				</span>
-				<span class="app-case-header__candy">
-					{% svg 'user' %}
-					5 days left
-				</span>
+	<div class="app-case-header__container">
+		<div class="app-case-header">
+			<div class="app-case-header__stuff">
+				<div class="app-case-header__content">
+					<ol class="app-case-header__breadcrumbs-list">
+						<li class="app-case-header__breadcrumbs-list-item">
+							<a class="app-case-header__breadcrumbs-link" href="{% url 'queues:cases' queue.id %}">{{ queue.name }}</a>
+						</li>
+					</ol>
+					<h1 class="app-case-header__heading">
+						{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a>
+					</h1>
+				</div>
+				<div class="app-case-header__controls">
+					<span id="candy-goods" class="app-case-header__candy" data-tooltip="19 goods">
+						{% svg 'goods' %}
+						19
+					</span>
+					<div id="popup-goods" class="">
+						<table class="govuk-table govuk-!-margin-0" style="min-width: 300px;">
+							<thead class="govuk-table__head">
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Name</td>
+									<td class="govuk-table__header">CLC</td>
+								</tr>
+							</thead>
+							<tbody class="govuk-table__body">
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Good #1</td>
+									<td class="govuk-table__cell">ML1a</td>
+								</tr>
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Good #2</td>
+									<td class="govuk-table__cell">ML1a</td>
+								</tr>
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Good #3</td>
+									<td class="govuk-table__cell">ML1a</td>
+								</tr>
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Good #4</td>
+									<td class="govuk-table__cell">ML1a</td>
+								</tr>
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Good #5</td>
+									<td class="govuk-table__cell">ML1a</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<span id="candy-countries" class="app-case-header__candy" data-tooltip="12 countries">
+						{% svg 'globe' %}
+						12
+					</span>
+					<div id="popup-countries">
+						<table class="govuk-table govuk-!-margin-0" style="min-width: 300px;">
+							<thead class="govuk-table__head">
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Name</td>
+									<td class="govuk-table__header">Code</td>
+								</tr>
+							</thead>
+							<tbody class="govuk-table__body">
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Poland</td>
+									<td class="govuk-table__cell">PL</td>
+								</tr>
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Poland</td>
+									<td class="govuk-table__cell">PL</td>
+								</tr>
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Poland</td>
+									<td class="govuk-table__cell">PL</td>
+								</tr>
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Poland</td>
+									<td class="govuk-table__cell">PL</td>
+								</tr>
+								<tr class="govuk-table__row">
+									<td class="govuk-table__header">Poland</td>
+									<td class="govuk-table__cell">PL</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<span id="candy-flags" class="app-case-header__candy" data-tooltip="7 flags">
+						{% svg 'menu/flags' %}
+						7
+					</span>
+					<div id="popup-flags" class="">
+						<div style="min-width: 300px;">
+							<div class="app-flag">Flag #1</div>
+							<div class="app-flag">Flag #1</div>
+							<div class="app-flag">Flag #1</div>
+							<div class="app-flag">Flag #1</div>
+							<div class="app-flag">Flag #1</div>
+							<div class="app-flag">Flag #1</div>
+							<div class="app-flag">Flag #1</div>
+							<div class="app-flag">Flag #1</div>
+							<div class="app-flag">Flag #1</div>
+						</div>
+					</div>
+					<span class="app-case-header__candy" data-tooltip="Case officer">
+						{% svg 'user' %}
+						Matt Berninger
+					</span>
+					<span class="app-case-header__candy">
+						{% svg 'user' %}
+						5 days left
+					</span>
+				</div>
 			</div>
 		</div>
-	</div>
-
-	<div class="app-case-header">
-		<div class="app-case-header__stuff">
-			<div class="app-case-header__content">
-				<ol class="app-case-header__breadcrumbs-list">
-					<li class="app-case-header__breadcrumbs-list-item">
-						<a class="app-case-header__breadcrumbs-link" href="{% url 'queues:cases' queue.id %}">{{ queue.name }}</a>
-					</li>
-				</ol>
-				<h1 class="app-case-header__heading">
-					{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a>
-				</h1>
-			</div>
-			<div class="app-case-header__controls">
-				<span class="app-case-header__candy" data-tooltip="19 goods">
-					{% svg 'goods' %}
-					19
-				</span>
-				<span class="app-case-header__candy" data-tooltip="12 countries">
-					{% svg 'globe' %}
-					12
-				</span>
-				<span class="app-case-header__candy" data-tooltip="7 flags">
-					{% svg 'menu/flags' %}
-					7
-				</span>
-				<span class="app-case-header__candy" data-tooltip="Case officer">
-					{% svg 'user' %}
-					Matt Berninger
-				</span>
-				<span class="app-case-header__candy">
-					{% svg 'user' %}
-					5 days left
-				</span>
-			</div>
-		</div>
-	</div>
-
-	<div id="tab-bar" class="app-case-tab-bar">
-		<div class="lite-tabs__container">
-			<div class="lite-tabs">
-				<a href="#" class="lite-tabs__tab lite-tabs__tab--selected">
-					Details
-				</a>
-				<a href="#" class="lite-tabs__tab">
-					Stuff
-				</a>
-				<a href="#" class="lite-tabs__tab">
-					Stuff
-				</a>
-				<a href="#" class="lite-tabs__tab">
-					Stuff
-				</a>
-				<a href="#" class="lite-tabs__tab">
-					Stuff
-				</a>
-				<a href="#" class="lite-tabs__tab">
-					Stuff
-				</a>
+		<div id="tab-bar" class="app-case-tab-bar">
+			<div class="lite-tabs__container">
+				<div class="lite-tabs">
+					<a href="#" class="lite-tabs__tab lite-tabs__tab--selected">
+						Details
+					</a>
+					<a href="#" class="lite-tabs__tab">
+						Stuff
+					</a>
+					<a href="#" class="lite-tabs__tab">
+						Stuff
+					</a>
+					<a href="#" class="lite-tabs__tab">
+						Stuff
+					</a>
+					<a href="#" class="lite-tabs__tab">
+						Stuff
+					</a>
+					<a href="#" class="lite-tabs__tab">
+						Stuff
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -128,16 +174,51 @@
 
 {% block javascript %}
 	<script type="text/javascript">
+		const goods = document.getElementById('popup-goods');
+		goods.style.display = 'block';
+		tippy("#candy-goods", {
+			content: goods,
+		 	allowHTML: true,
+			interactive: true,
+			animation: 'scale-subtle',
+      		trigger: 'click',
+			theme: 'light',
+		});
+
+		const countries = document.getElementById('popup-countries');
+		countries.style.display = 'block';
+		tippy("#candy-countries", {
+			content: countries,
+			allowHTML: true,
+			interactive: true,
+			animation: 'scale-subtle',
+			trigger: 'click',
+			theme: 'light',
+		});
+
+		const flags = document.getElementById('popup-flags');
+		flags.style.display = 'block';
+		tippy("#candy-flags", {
+			content: flags,
+			allowHTML: true,
+			interactive: true,
+			animation: 'scale-subtle',
+			trigger: 'click',
+			theme: 'light',
+		});
+
 		window.addEventListener('scroll', function (e) {
 			var scrollPosition = window.scrollY;
 
-			if (scrollPosition > 110) {
+			if (scrollPosition > 80) {
 				$("#tab-bar").addClass("app-case-tab-bar--float");
 			} else {
 				$("#tab-bar").removeClass("app-case-tab-bar--float");
 			}
 
-			$(".app-case-header--sticky .app-case-header__stuff").css({opacity: (scrollPosition - 150) / 10});
+			var padding = Math.max(15, 30 - (scrollPosition / 3));
+			$(".app-case-header").css({"padding-top": padding, "padding-bottom": padding});
+			$(".app-case-header__breadcrumbs-list").css({"opacity": 1 - (scrollPosition / 10), "transform": "translateY(" + -(30 - padding) + "px)", "margin-top": -(30 - padding) + "px", "margin-bottom": -(15 - padding) + "px"});
 		});
 	</script>
 	<script src="{% static "javascripts/select-buttons.js" %}"></script>
