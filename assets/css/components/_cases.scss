@@ -222,7 +222,7 @@
     }
 
     &__heading {
-        @include govuk-font($size: 27, $weight: bold);
+        @include govuk-font($size: 24, $weight: bold);
         color: govuk-colour("white");
         margin: 0;
         margin-bottom: 2px;
@@ -333,6 +333,7 @@
     top: 58px;
     margin: 0;
     z-index: 0;
+    margin-bottom: govuk-spacing(6);
 
     .lite-tabs__tab {
         margin-bottom: 0;
@@ -369,5 +370,49 @@
 
     &--float::after {
         opacity: 1;
+    }
+}
+
+.app-case-tab-view {
+    display: none;
+
+    &--visible {
+        display: block;
+    }
+}
+
+.app-case-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 100px;
+
+    &__row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: govuk-spacing(2) 0;
+
+        dt {
+            @include govuk-font($size: 16, $weight: bold);
+        }
+    }
+}
+
+.app-case-separator {
+    @include govuk-responsive-margin(6, "bottom");
+    position: relative;
+    height: govuk-spacing(6);
+    z-index: 0;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 100vw;
+        transform: translateX(-50vw);
+        bottom: 0;
+        background-color: govuk-colour("light-grey");
+        z-index: -1;
     }
 }

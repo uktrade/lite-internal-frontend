@@ -6,13 +6,11 @@ from flags.views import AssignFlags
 app_name = "cases"
 
 urlpatterns = [
-    path("", main.ViewCase.as_view(), name="case", kwargs={"disable_queue_lookup": True}),
+    path("", main.ViewCase.as_view(), name="case", kwargs={"disable_queue_lookup": True, "tab": "details"}),
     path("done/", main.CaseImDoneView.as_view(), name="done"),
     path("change-status/", main.ChangeStatus.as_view(), name="manage"),
     path("move/", main.MoveCase.as_view(), name="move"),
-    path("additional-contacts/", main.AdditionalContacts.as_view(), name="additional_contacts"),
     path("additional-contacts/add/", main.AddAnAdditionalContact.as_view(), name="add_additional_contact"),
-    path("documents/", main.Documents.as_view(), name="documents"),
     path("attach/", main.AttachDocuments.as_view(), name="attach_documents"),
     path("documents/<str:file_pk>/", main.Document.as_view(), name="document"),
     path("assign-flags/", AssignFlags.as_view(), name="assign_flags"),
@@ -67,7 +65,6 @@ urlpatterns = [
         generate_document.CreateDocumentFinalAdvice.as_view(),
         name="finalise_document_create",
     ),
-    path("ecju-queries/", ecju.ViewEcjuQueries.as_view(), name="ecju_queries"),
     path("ecju-queries/choose-type", ecju.ChooseECJUQueryType.as_view(), name="choose_ecju_query_type"),
     path("ecju-queries/add", ecju.CreateEcjuQuery.as_view(), name="ecju_queries_add"),
     path("respond-to-clc-query/", goods_query.RespondCLCQuery.as_view(), name="respond_to_clc_query"),
@@ -112,4 +109,5 @@ urlpatterns = [
     path("case-officer/", main.CaseOfficer.as_view(), name="case_officer"),
     path("assign-user/", main.UserWorkQueue.as_view(), name="assign_user"),
     path("assign-user-queue/<uuid:user_pk>/", main.UserTeamQueue.as_view(), name="assign_user_queue"),
+    path("<str:tab>/", main.ViewCase.as_view(), name="case", kwargs={"disable_queue_lookup": True}),
 ]

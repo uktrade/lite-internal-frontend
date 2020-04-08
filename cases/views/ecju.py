@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
+from cases import services
 from cases.forms.create_ecju_query import (
     choose_ecju_query_type_form,
     create_ecju_query_write_or_edit_form,
@@ -18,31 +19,16 @@ from lite_forms.views import SingleFormView
 from picklists.services import get_picklists, get_picklist_item
 
 
-class ViewEcjuQueries(TemplateView):
-    def _get_ecju_queries(self, request, case_id):
-        ecju_queries = get_ecju_queries(request, case_id)[0]
-        open_ecju_queries = list()
-        closed_ecju_queries = list()
-        for query in ecju_queries.get("ecju_queries"):
-            if query.get("response"):
-                closed_ecju_queries.append(query)
-            else:
-                open_ecju_queries.append(query)
-        return open_ecju_queries, closed_ecju_queries
-
-    def get(self, request, **kwargs):
-        """
-        Get all ECJU queries for the given case, divided into open and close
-        """
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-        open_ecju_queries, closed_ecju_queries = self._get_ecju_queries(request, case_id)
-        context = {
-            "case": case,
-            "open_ecju_queries": open_ecju_queries,
-            "closed_ecju_queries": closed_ecju_queries,
-        }
-        return render(request, "case/views/ecju-queries.html", context)
+def get_ecju_queries(request, case_id):
+    ecju_queries = services.get_ecju_queries(request, case_id)[0]
+    open_ecju_queries = list()
+    closed_ecju_queries = list()
+    for query in ecju_queries.get("ecju_queries"):
+        if query.get("response"):
+            closed_ecju_queries.append(query)
+        else:
+            open_ecju_queries.append(query)
+    return open_ecju_queries, closed_ecju_queries
 
 
 class ChooseECJUQueryType(SingleFormView):
@@ -55,7 +41,7 @@ class ChooseECJUQueryType(SingleFormView):
         ]
         self.form = choose_picklist_type_form(
             picklist_type_choices,
-            reverse("cases:ecju_queries", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]}),
+            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "ecju-queries"}),
         )
         self.action = validate_query_type_question
 
@@ -154,7 +140,7 @@ class CreateEcjuQuery(TemplateView):
                     return self._handle_ecju_query_form_errors(case_id, ecju_query, request)
                 else:
                     return redirect(
-                        reverse("cases:ecju_queries", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id})
+                        reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id, "tab": "ecju-queries"})
                     )
             else:
                 query_type = request.GET.get("query_type")

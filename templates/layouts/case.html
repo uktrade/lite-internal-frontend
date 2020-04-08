@@ -143,45 +143,15 @@
 					</div>
 				</div>
 			</div>
-			<div id="case-flags">
+			<!-- <div id="case-flags">
 				<div style="margin-bottom: -30px;">
 					{% include 'includes/flags.html' with flags=case.all_flags|slice:6 %}
 				</div>
-			</div>
-		</div>
-		<div id="tab-bar" class="app-case-tab-bar">
-			<div class="lite-tabs__container">
-				<div class="lite-tabs">
-					<a href="#" class="lite-tabs__tab lite-tabs__tab--selected">
-						Details
-					</a>
-					<a href="#" class="lite-tabs__tab">
-						Advice and decision
-					</a>
-					<a href="#" class="lite-tabs__tab">
-						ECJU queries
-					</a>
-					<a href="#" class="lite-tabs__tab">
-						Documents
-					</a>
-					<a href="#" class="lite-tabs__tab">
-						Additional contacts
-					</a>
-					<a href="#" class="lite-tabs__tab">
-						Case notes and timeline
-					</a>
-				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 
-	<br>
-
 	{% block details %}{% endblock %}
-
-	<br>
-
-	{% include 'case/tabs/activity.html' %}
 {% endblock %}
 
 {% block javascript %}
