@@ -105,9 +105,15 @@
 	</div>
 
 	{% block footer %}
-		<footer class="govuk-footer " role="contentinfo">
-			<div class="govuk-width-container ">
-				TO DO!
+		<footer class="app-footer" role="contentinfo">
+			<div class="govuk-width-container app-footer__container">
+				<div>
+					{% svg 'crest' %}
+					Department for International Trade
+				</div>
+				<div>
+					© Crown copyright
+				</div>
 			</div>
 		</footer>
 	{% endblock %}

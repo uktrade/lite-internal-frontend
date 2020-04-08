@@ -152,6 +152,22 @@
         align-items: center;
         justify-content: flex-end;
 
+        .app-case-header__candy-bar {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            background: rgba(govuk-colour("white"), 0.15);
+            border-radius: 5px;
+            max-height: 40px;
+            overflow: hidden;
+            padding: 0 5px;
+            margin-right: govuk-spacing(2);
+
+            &:last-of-type {
+                margin: 0;
+            }
+        }
+
         .app-case-header__candy {
             @include govuk-font($size: 16, $weight: bold);
             position: relative;
@@ -160,8 +176,7 @@
             justify-content: center;
             color: govuk-colour("white");
             min-width: 28px;
-            min-height: 28px;
-            margin-right: govuk-spacing(3);
+            height: 40px;
             padding: 0 govuk-spacing(2);
             cursor: pointer;
 
@@ -177,18 +192,6 @@
                 &::before {
                     opacity: .4;
                 }
-            }
-
-            &::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                right: 0;
-                background: govuk-colour("white");
-                border-radius: 30px;
-                opacity: .15;
             }
 
             &:last-of-type {
@@ -267,6 +270,31 @@
         		content: "";
         		display: block;
         	}
+        }
+    }
+
+    .app-flag {
+        z-index: 0;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: inherit;
+            z-index: -1;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            bottom: 2px;
+            background: currentColor;
+            width: 3px;
         }
     }
 
