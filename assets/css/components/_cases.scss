@@ -157,11 +157,11 @@
             align-items: center;
             justify-content: flex-end;
             background: rgba(govuk-colour("white"), 0.15);
-            border-radius: 5px;
             max-height: 40px;
             overflow: hidden;
             padding: 0 5px;
             margin-right: govuk-spacing(2);
+            box-shadow: 0 2px 0 rgba(black, 0.2);
 
             &:last-of-type {
                 margin: 0;
@@ -180,9 +180,20 @@
             padding: 0 govuk-spacing(2);
             cursor: pointer;
 
+            &:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: white;
+                opacity: 0;
+            }
+
             &:hover {
                 &::before {
-                    opacity: .3;
+                    opacity: .1;
                 }
             }
 
@@ -190,7 +201,7 @@
                 transform: scale(.95);
 
                 &::before {
-                    opacity: .4;
+                    opacity: .2;
                 }
             }
 
