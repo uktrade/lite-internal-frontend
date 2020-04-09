@@ -7,7 +7,7 @@
 
 	@for $i from 1 through 10 {
 		&[min-width~="#{$i * 200}"]) {
-			grid-template-columns: repeat(#{$i + 1}, 1fr)
+			grid-template-columns: repeat(#{$i}, 1fr)
 		}
 	}
 
@@ -44,8 +44,8 @@
 	background-color: govuk-shade(govuk-colour("light-grey"), 2.5);
 	border-left: 3px solid currentColor;
 	color: govuk-colour("black");
-	min-height: 40px!important;
-	padding: 0 govuk-spacing(3);
+	min-height: 36px!important;
+	padding: 0 govuk-spacing(2);
 	min-width: 42px;
 	box-sizing: border-box;
 
