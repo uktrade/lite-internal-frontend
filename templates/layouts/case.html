@@ -10,8 +10,9 @@
 	{{ case.reference_code }} - {{ case.application.organisation.name }}
 {% endblock %}
 
-{% block body %}
+{% block header %}
 	<div class="app-case-header__container">
+		<div class="app-case-header__aurora" style="background: {{ case.all_flags|aurora }}"></div>
 		<div class="app-case-header">
 			<div class="app-case-header__stuff">
 				<div class="app-case-header__content">
@@ -20,7 +21,7 @@
 							<a class="app-case-header__breadcrumbs-link" href="{% url 'queues:cases' queue.id %}">{{ queue.name }}</a>
 						</li>
 					</ol>
-					<h1 class="app-case-header__heading">
+					<h1 class="app-case-header__heading" style="z-index: 10;">
 						{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a>
 					</h1>
 				</div>
@@ -144,6 +145,18 @@
 			</div> -->
 		</div>
 	</div>
+{% endblock %}
+
+{% block body %}
+	<!-- <div style="height: 200px; width: 200px; background: {{ case.all_flags|aurora }}"></div> -->
+
+	<br>
+
+	<p>{{ case.all_flags|aurora }}</p>
+
+	{% include 'includes/flags.html' with flags=case.all_flags %}
+
+	<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' queue.id case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags">Change case flags</a>
 
 	{% block details %}{% endblock %}
 {% endblock %}

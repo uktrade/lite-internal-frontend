@@ -126,9 +126,11 @@
     position: relative;
     position: sticky;
     top: 0;
+    overflow: hidden;
 }
 
 .app-case-header {
+    @extend .govuk-width-container;
     z-index: 0;
     box-sizing: border-box;
     padding: govuk-spacing(6) 0;
@@ -415,4 +417,14 @@
         // border-bottom: 2px solid govuk-shade(govuk-colour("light-grey"), 2);
         z-index: -1;
     }
+}
+
+.app-case-header__aurora {
+    position: absolute;
+    top: -10vh;
+    bottom: -10vh;
+    left: 0;
+    right: 0;
+    background-color: $govuk-brand-colour;
+    opacity: .3;
 }

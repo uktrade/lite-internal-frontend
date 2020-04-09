@@ -1,10 +1,12 @@
 from __future__ import division
 
 import datetime
+import itertools
 import json
 import math
 import re
 import warnings
+from collections import Counter, OrderedDict
 from html import escape
 
 from django import template
@@ -412,3 +414,45 @@ def missing_title():
 @register.filter()
 def equals(ob1, ob2):
     return ob1 == ob2
+
+
+@register.filter()
+def aurora(flags):
+    colours = {
+        "default": "#21334F",
+        "red": "#d4351c",
+        "orange": "#f47738",
+        "blue": "#1d70b8",
+        "yellow": "#ffdd00",
+        "green": "#00703c",
+        "pink": "#d53880",
+        "purple": "#4c2c92",
+        "brown": "#b58840",
+        "turquoise": "#28a197"
+    }
+
+    bucket = [colours[flag["colour"]] for flag in flags]
+
+    if len(set(bucket)) != len(bucket):
+        bucket = list(OrderedDict.fromkeys(item for items, c in Counter(bucket).most_common() for item in [items] * c))
+
+    print('\n')
+    print(bucket)
+    print('\n')
+
+    if not bucket:
+        return
+
+    while len(bucket) < 4:
+        bucket.extend(bucket)
+
+    gradients = [
+        f"radial-gradient(ellipse at center left, {bucket[0]}, transparent)",
+        f"radial-gradient(ellipse at center right, {bucket[1]}, transparent)",
+        f"radial-gradient(ellipse at top, {bucket[2]}, transparent)",
+        f"radial-gradient(ellipse at bottom, {bucket[3]}, transparent)"
+    ]
+
+    # return "linear-gradient(45deg, " + ",".join(bucket[:3]) + ")"
+
+    return ",".join(gradients)
