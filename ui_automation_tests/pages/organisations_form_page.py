@@ -15,6 +15,10 @@ class OrganisationsFormPage(BasePage):
         self.driver.find_element_by_id("type-" + individual_or_commercial).click()
         functions.click_submit(self.driver)
 
+    def select_location(self, united_kingdom_or_abroad):
+        self.driver.find_element_by_id("location-" + united_kingdom_or_abroad).click()
+        functions.click_submit(self.driver)
+
     def enter_name(self, text):
         name = self.driver.find_element_by_id("name")
         name.clear()
@@ -50,6 +54,11 @@ class OrganisationsFormPage(BasePage):
         site_address_line_1.clear()
         site_address_line_1.send_keys(text)
 
+    def enter_address(self, text):
+        address = self.driver.find_element_by_id("site.address.address")
+        address.clear()
+        address.send_keys(text)
+
     def enter_post_code(self, text):
         site_address_postcode = self.driver.find_element_by_id("site.address.postcode")
         site_address_postcode.clear()
@@ -66,8 +75,7 @@ class OrganisationsFormPage(BasePage):
         site_address_region.send_keys(text)
 
     def enter_country(self, text):
-        country_tb = self.driver.find_element_by_id("site.address.country")
-        country_tb.send_keys(text)
+        functions.send_keys_to_autocomplete(self.driver, "site.address.country", text)
 
     def enter_individual_organisation_first_last_name(self, text):
         self.driver.find_element_by_id("name").send_keys(text)
@@ -79,29 +87,31 @@ class OrganisationsFormPage(BasePage):
     def fill_in_company_info_page_1(self, context):
         context.organisation_name = fake.company() + " " + fake.company_suffix()
         self.enter_name(context.organisation_name)
-        context.eori = fake.ein()
+        context.eori = "12345"
         self.enter_eori_number(context.eori)
-        context.sic = fake.ein()
+        context.sic = "12345"
         self.enter_sic_number(context.sic)
-        context.vat = fake.ein()
+        context.vat = "GB1234567"
         self.enter_vat_number(context.vat)
-        self.enter_registration_number(fake.ein())
+        self.enter_registration_number(12345678)
         functions.click_submit(self.driver)
 
     def fill_in_individual_info_page_1(self, context):
         context.organisation_name = fake.name()
-        context.eori = fake.ein()
+        context.eori = "12345"
         self.enter_individual_organisation_first_last_name(context.organisation_name)
         self.enter_email(fake.free_email())
-        self.enter_eori_number(context.eori)
         functions.click_submit(self.driver)
 
-    def fill_in_site_info_page_2(self, context):
+    def enter_site_details(self, context, location):
         context.site_name = fake.company()
         self.enter_site_name(context.site_name)
-        self.enter_address_line_1(fake.street_address())
-        self.enter_region(fake.city())
-        self.enter_post_code(fake.postcode())
-        self.enter_city(fake.state())
-        self.enter_country("Ukraine")
+        if location == "united_kingdom":
+            self.enter_address_line_1(fake.street_address())
+            self.enter_region(fake.city())
+            self.enter_post_code(fake.postcode())
+            self.enter_city(fake.state())
+        else:
+            self.enter_address(fake.street_address())
+            self.enter_country("Ukraine")
         functions.click_submit(self.driver)

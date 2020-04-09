@@ -29,7 +29,6 @@ class ApplicationPage(BasePage):
     EDIT_DESTINATION_FLAGS_BUTTON = "button-edit-destinations-flags"  # ID
     CHECKBOX_INPUT = ".govuk-checkboxes__input"
     VIEW_ADVICE = 'a[href*="/user-advice-view/"]'
-    CASE_FLAGS = "application-case-flags"
     MOVE_CASE_BUTTON = '[href*="move"]'  # CSS
     STATUS = "status"  # ID
     AUDIT_TRAIL_ITEM = ".app-activity__item"  # CSS
@@ -44,6 +43,8 @@ class ApplicationPage(BasePage):
     LINK_ORGANISATION_ID = "link-organisation"
     EDIT_GOODS_FLAGS = "button-edit-goods-flags"  # ID
     CASE_OFFICER_ID = "case-officer"  # ID
+    LINK_ADDITIONAL_CONTACTS_ID = "link-additional-contacts"
+    ASSIGN_USER_ID = "assign-user"
     EXPAND_FLAGS_PARTIAL_ID = "expand-flags-"
     ASSIGNED_USERS_ID = "assigned_users"
     CASE_QUEUES_ID = "case_queues"
@@ -51,6 +52,8 @@ class ApplicationPage(BasePage):
     CASE_COPY_OF_ID = "case-copy-of"
     TYPE_OF_CASE = "case-type"  # ID
     DESTINATION_CHECKBOX = "destinations"  # NAME
+    BUTTON_IM_DONE_ID = "button-done"
+    CASE_LINK_PARTIAL_ID = "case-"
 
     def get_case_copy_of_field_href(self):
         return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
@@ -101,7 +104,13 @@ class ApplicationPage(BasePage):
         scroll_to_element_by_id(self.driver, self.CASE_OFFICER_ID)
         self.driver.find_element_by_id(self.CASE_OFFICER_ID).click()
 
+    def click_additional_contacts_link(self):
+        self.click_drop_down()
+        scroll_to_element_by_id(self.driver, self.LINK_ADDITIONAL_CONTACTS_ID)
+        self.driver.find_element_by_id(self.LINK_ADDITIONAL_CONTACTS_ID).click()
+
     def click_drop_down(self):
+        # This is going to be removed as part of the case refactor
         self.driver.find_element_by_css_selector(self.ACTIONS_DROPDOWN).click()
 
     def select_status(self, status):
@@ -137,10 +146,6 @@ class ApplicationPage(BasePage):
     def click_view_advice(self):
         self.driver.find_element_by_css_selector(self.ACTIONS_DROPDOWN).click()
         self.driver.find_element_by_css_selector(self.VIEW_ADVICE).click()
-
-    def is_flag_applied(self, flag_id):
-        count = len(self.driver.find_elements_by_id(flag_id))
-        return count > 0
 
     def is_good_flag_applied(self, flag_name):
         return flag_name in self.driver.find_element_by_id("goods").text
@@ -196,9 +201,6 @@ class ApplicationPage(BasePage):
     def end_user_document_link_is_enabled(self):
         return self.driver.find_element_by_id(self.DOWNLOAD_END_USER_DOCUMENT).is_enabled()
 
-    def get_case_flag_element(self):
-        return self.driver.find_element_by_id(self.CASE_FLAGS)
-
     def get_document_element(self):
         return self.driver.find_element_by_css_selector(self.DOCUMENTS_BTN)
 
@@ -210,6 +212,12 @@ class ApplicationPage(BasePage):
 
     def get_case_officer_element(self):
         return self.driver.find_element_by_id(self.CASE_OFFICER_ID)
+
+    def get_additional_contacts_element(self):
+        return self.driver.find_element_by_id(self.LINK_ADDITIONAL_CONTACTS_ID)
+
+    def get_assign_user_element(self):
+        return self.driver.find_element_by_id(self.ASSIGN_USER_ID)
 
     def get_generate_document_element(self):
         return self.driver.find_element_by_id(self.GENERATE_DOCUMENTS_BTN)
@@ -235,3 +243,14 @@ class ApplicationPage(BasePage):
 
     def get_type_of_case_from_page(self):
         return self.driver.find_element_by_id(self.TYPE_OF_CASE).text
+
+    def click_assign_user_button(self):
+        self.click_drop_down()
+        scroll_to_element_by_id(self.driver, self.ASSIGN_USER_ID)
+        self.driver.find_element_by_id(self.ASSIGN_USER_ID).click()
+
+    def click_im_done_button(self):
+        self.driver.find_element_by_id(self.BUTTON_IM_DONE_ID).click()
+
+    def click_on_case_link(self, case_id):
+        self.driver.find_element_by_id(self.CASE_LINK_PARTIAL_ID + case_id).click()

@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from urllib.parse import urlencode
 
 from conf.client import get, post, put
@@ -7,6 +8,7 @@ from conf.constants import (
     GOV_USERS_PERMISSIONS_URL,
     SUPER_USER_ROLE_ID,
 )
+from lite_content.lite_internal_frontend.users import AssignUserPage
 from lite_forms.components import Option
 
 
@@ -40,10 +42,18 @@ def get_gov_users(request, params=None, convert_to_options=False):
 
 def get_gov_user(request, pk=None):
     if pk:
-        data = get(request, GOV_USERS_URL + pk)
+        data = get(request, GOV_USERS_URL + str(pk))
     else:
         data = get(request, GOV_USERS_URL + "me/")
     return data.json(), data.status_code
+
+
+def get_gov_user_from_form_selection(request, pk, json):
+    user = json.get("user")
+    if user:
+        data = get(request, GOV_USERS_URL + json.get("user"))
+        return data.json(), data.status_code
+    return {"errors": {"user": [AssignUserPage.USER_ERROR_MESSAGE]}}, HTTPStatus.BAD_REQUEST
 
 
 def post_gov_users(request, json):
@@ -52,13 +62,11 @@ def post_gov_users(request, json):
 
 
 def put_gov_user(request, pk, json):
-    data = put(request, GOV_USERS_URL + pk + "/", json)
+    data = put(request, GOV_USERS_URL + str(pk) + "/", json)
     return data.json(), data.status_code
 
 
 # Roles and Permissions
-
-
 def get_roles(request, convert_to_options=False):
     data = get(request, GOV_USERS_ROLES_URL)
 

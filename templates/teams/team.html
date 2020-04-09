@@ -1,62 +1,66 @@
 {% extends 'layouts/base.html' %}
 
-{% load humanize %}
-
 {% block back_link %}
-	<a href="/" class="govuk-back-link">Back</a>
+	{% if not is_user_in_team %}
+		<a href="{% url 'teams:teams' %}" class="govuk-back-link">{% lcs 'teams.TeamPage.BACK_LINK' %}</a>
+	{% endif %}
 {% endblock %}
 
-	{% if userDeactivated == "true" %}
-		<div class="information information-animated">
+{% block title %}
+	{% lcs 'teams.TeamPage.Tabs.MEMBERS' %} - {{ team.name }}
+{% endblock %}
+
+{% block body %}
+	<h1 class="govuk-heading-l">
+		{{ team.name }}
+	</h1>
+
+	{% if is_user_in_team %}
+		<div class="lite-tabs__container">
+			<div class="lite-tabs">
+				<p class="lite-tabs__tab lite-tabs__tab--selected">{% lcs 'teams.TeamPage.Tabs.MEMBERS' %}</p>
+				<a href="{% url 'picklists:picklists' %}" class="lite-tabs__tab">{% lcs 'teams.TeamPage.Tabs.PICKLISTS' %}</a>
+			</div>
+			<div class="lite-tabs__controls">
+				<a id="button-add-user" href="{% url 'users:add' %}" class="govuk-button" draggable="false" role="button">
+					{% lcs 'teams.TeamPage.ADD_A_MEMBER_BUTTON' %}
+				</a>
+			</div>
 		</div>
 	{% endif %}
 
-{% block body %}
-
-	<h2 class="govuk-heading-l">{{ title }}</h2>
-
-	<div class="lite-tabs--fade">
-		<div class="lite-tabs">
-			<a class="lite-tabs__tab lite-tabs__tab--selected">Users</a>
-<!--			<a class="lite-tabs__tab">Queues</a>-->
-		</div>
-	</div>
-
-	{% if users|length %}
+	{% if users %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">Name</th>
-					<th class="govuk-table__header" scope="col">Email</th>
-					<th class="govuk-table__header" scope="col">Status</th>
-                    <th class="govuk-table__header" scope="col"></th>
+					<th class="govuk-table__header" scope="col">{% lcs 'teams.TeamPage.Table.NAME' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'teams.TeamPage.Table.EMAIL' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'teams.TeamPage.Table.STATUS' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'teams.TeamPage.Table.ACTIONS' %}</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for user in users %}
-                <tr class="govuk-table__row" id="row-{{ forloop.counter }}" {% if not user.first_name %}style="background-color: rgba(40, 161, 151, 0.025);"{% endif %}>
-                    <td class="govuk-table__cell">
-						{% if user.first_name %}
-							<a href="{% url 'users:user' user.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">
+					<tr class="govuk-table__row" id="row-{{ forloop.counter }}">
+						<td class="govuk-table__header" scope="row">
+							{% if user.first_name %}
 								{{ user.first_name }} {{ user.last_name }}
-							</a>
-						{% else %}
-							<strong class="govuk-tag govuk-phase-banner__content__tag ">
-								Pending
-							</strong>
-						{% endif %}
-                    </td>
-                    <td class="govuk-table__cell" id="{{ user.email }}">{{ user.email }}</td>
-                    <td class="govuk-table__cell">{{ user.status }}</td>
-                    <td class="govuk-table__cell">
-                        <a href="{% url 'users:edit' user.id %}" style="margin: 0;" class="govuk-link govuk-link--no-visited-state">Edit</a>
-                    </td>
-                </tr>
-            {% endfor %}
+							{% else %}
+								<strong class="govuk-tag govuk-tag--blue">
+									{% lcs 'teams.TeamPage.Table.PENDING' %}
+								</strong>
+							{% endif %}
+						</td>
+						<td class="govuk-table__cell" id="{{ user.email }}">{{ user.email }}</td>
+						<td class="govuk-table__cell">{{ user.status }}</td>
+						<td class="govuk-table__cell">
+							<a id="link-{{ user.email }}" href="{% url 'users:user' user.id %}" class="govuk-link govuk-link--no-visited-state">{% lcs 'teams.TeamPage.Table.VIEW' %}</a>
+						</td>
+					</tr>
+				{% endfor %}
 			</tbody>
 		</table>
 	{% else %}
-		<p class="govuk-caption-l">You don't have any users at the moment.</p>
+		{% include "includes/notice.html" with text='teams.TeamPage.NO_CONTENT_NOTICE' %}
 	{% endif %}
-
 {% endblock %}

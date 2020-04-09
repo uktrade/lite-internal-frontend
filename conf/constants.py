@@ -30,6 +30,7 @@ ECJU_QUERIES_URL = "/ecju-queries/"
 END_USER_ADVISORY_URL = "/queries/end-user-advisories/"
 CASE_DENIAL_REASONS_URL = "/denial-reasons/"
 SITES_URL = "/sites/"
+USERS_URL = "/users/"
 TEAMS_URL = "/teams/"
 QUEUES_URL = "/queues/"
 AUTHENTICATION_URL = "/gov-users/authenticate/"
@@ -38,6 +39,7 @@ GOV_USERS_ROLES_URL = "/gov-users/roles/"
 GOV_USERS_PERMISSIONS_URL = "/gov-users/permissions/"
 FLAGS_URL = "/flags/"
 ASSIGN_FLAGS_URL = FLAGS_URL + "assign/"
+FLAGGING_RULES = FLAGS_URL + "rules/"
 FLAGS_CASE_LEVEL_FOR_TEAM = "/flags/?level=Case&team=True"
 FLAGS_GOOD_LEVEL_FOR_TEAM = "/flags/?level=Good&team=True"
 FLAGS_ORGANISATION_LEVEL_FOR_TEAM = "/flags/?level=Organisation&team=True"
@@ -48,7 +50,7 @@ PICKLIST_URL = "/picklist/"
 LETTER_TEMPLATES_URL = "/letter-templates/"
 GOOD_CLC_REVIEW_URL = "/goods/controlcode/"
 MANAGE_STATUS_URL = "/status/"
-FINALISE_URL = "/finalise/"
+FINAL_DECISION_URL = "/final-decision/"
 DURATION_URL = "/duration/"
 NOTIFICATIONS_URL = "/gov_users/notifications/"
 GENERATED_DOCUMENTS_URL = "/generated-documents/"
@@ -57,6 +59,7 @@ PREVIEW_URL = "/preview/"
 GENERATE_PREVIEW_URL = "generate-preview/"
 DESTINATION_URL = CASE_URL + "destinations/"
 CASE_OFFICER_URL = "/case-officer/"
+FINALISE_CASE_URL = "/finalise/"
 
 # Static URLs
 STATIC_URL = "/static/"
@@ -101,6 +104,7 @@ class Permission(Enum):
     RESPOND_PV_GRADING = "RESPOND_PV_GRADING"
     MANAGE_ORGANISATIONS = "MANAGE_ORGANISATIONS"
     REOPEN_CLOSED_CASES = "REOPEN_CLOSED_CASES"
+    MANAGE_FLAGGING_RULES = "MANAGE_FLAGGING_RULES"
 
 
 class FlagLevels:
@@ -135,3 +139,5 @@ class SystemTeamsID(Enum):
 
 class CaseType:
     EXHIBITION = "exhibition_clearance"
+    F680 = "f680_clearance"
+    HMRC = "hmrc"

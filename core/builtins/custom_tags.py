@@ -12,6 +12,7 @@ from django.template.defaultfilters import stringfilter, safe
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
+from conf import settings
 from conf.constants import ISO8601_FMT, DATE_FORMAT
 
 from lite_content.lite_internal_frontend import strings
@@ -198,14 +199,19 @@ def get_end_user(application: dict):
 
 
 @register.filter()
+def friendly_boolean_or_default_na(value):
+    return default_na(value) if value is None else friendly_boolean(value)
+
+
+@register.filter()
 def default_na(value):
     """
     Returns N/A if the parameter given is none
     """
-    if value:
+    if value is not None and len(value):
         return value
     else:
-        return mark_safe(f'<span class="lite-hint">{strings.NOT_APPLICABLE}</span>')  # nosec
+        return mark_safe(f'<span class="govuk-hint govuk-!-margin-0">{strings.NOT_APPLICABLE}</span>')  # nosec
 
 
 @register.filter()
@@ -222,14 +228,21 @@ def get_address(data):
         if isinstance(address, str):
             return address + ", " + data["country"]["name"]
 
-        address = [
-            address["address_line_1"],
-            address["address_line_2"],
-            address["city"],
-            address["region"],
-            address["postcode"],
-            address["country"]["name"],
-        ]
+        if "address_line_1" in address:
+            address = [
+                address["address_line_1"],
+                address["address_line_2"],
+                address["city"],
+                address["region"],
+                address["postcode"],
+                address["country"]["name"],
+            ]
+        else:
+            address = [
+                address["address"],
+                address["country"]["name"],
+            ]
+
         return ", ".join([x for x in address if x])
     return ""
 
@@ -317,20 +330,34 @@ def is_system_team(id: str):
 
 @register.filter()
 def get_sla_percentage(case):
-    if case["sla_remaining_days"] <= 0:
+    remaining_days = case["sla_remaining_days"]
+
+    if remaining_days <= 0:
         return "100"
     else:
-        percentage = (case["sla_days"] / (case["sla_days"] + case["sla_remaining_days"])) * 100
-        # Round up to nearest 10
-        if percentage == 0:
-            return "10"
-        else:
-            percentage = math.ceil(percentage / 10) * 10
-            return str(percentage)
+        return _round_percentage((case["sla_days"] / (case["sla_days"] + case["sla_remaining_days"])) * 100)
 
 
 @register.filter()
-def get_sla_ring_colour(remaining_days):
+def get_sla_hours_percentage(case):
+    sla_hours_since_raised = case["sla_hours_since_raised"]
+    return _round_percentage((sla_hours_since_raised / 48) * 100)
+
+
+def _round_percentage(percentage):
+    # Round up to nearest 10
+    if percentage == 0:
+        return "10"
+    elif percentage >= 100:
+        return "100"
+    else:
+        return str(math.ceil(percentage / 10) * 10)
+
+
+@register.filter()
+def get_sla_ring_colour(case):
+    remaining_days = case["sla_remaining_days"]
+
     if remaining_days > 5:
         return "green"
     elif remaining_days >= 0:
@@ -340,6 +367,48 @@ def get_sla_ring_colour(remaining_days):
 
 
 @register.filter()
+def get_sla_hours_ring_colour(case):
+    sla_hours_since_raised = case["sla_hours_since_raised"]
+
+    if sla_hours_since_raised >= 48:
+        return "red"
+    else:
+        return "yellow"
+
+
+@register.filter()
 def is_exhibition(case_type):
-    result = True if case_type == CaseType.EXHIBITION else False
-    return result
+    return case_type == CaseType.EXHIBITION
+
+
+@register.filter()
+def is_f680(case_type):
+    return case_type == CaseType.F680
+
+
+@register.simple_tag
+@mark_safe
+def missing_title():
+    """
+    Adds a missing title banner to the page
+    """
+    if not settings.DEBUG:
+        return
+
+    return (
+        "</title>"
+        "</head>"
+        '<body style="margin-top: 73px;">'
+        '<div class="app-missing-title-banner">'
+        '<div class="govuk-width-container">'
+        '<h2 class="app-missing-title-banner__heading">You need to set a title!</h2>'
+        'You can do this by adding <span class="app-missing-title-banner__code">{% block title %}'
+        '<span class="app-missing-title-banner__code--tint">My first title!</span>{% endblock %}</span> to your HTML'
+        "</div>"
+        "</div>"
+    )
+
+
+@register.filter()
+def equals(ob1, ob2):
+    return ob1 == ob2

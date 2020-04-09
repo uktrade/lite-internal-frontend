@@ -22,7 +22,7 @@ from conf.constants import (
     VIEW_FINAL_ADVICE_URL,
     GOOD_CLC_REVIEW_URL,
     MANAGE_STATUS_URL,
-    FINALISE_URL,
+    FINAL_DECISION_URL,
     DURATION_URL,
     GENERATED_DOCUMENTS_URL,
     GENERATED_DOCUMENTS_PREVIEW_URL,
@@ -33,6 +33,8 @@ from conf.constants import (
     CLC_RESPONSE_URL,
     PV_GRADING_RESPONSE_URL,
     DECISIONS_URL,
+    FINALISE_CASE_URL,
+    QUEUES_URL,
 )
 
 
@@ -48,8 +50,20 @@ def get_case(request, pk):
     return data.json()["case"]
 
 
-def put_case(request, pk, json):
-    data = put(request, CASE_URL + str(pk), json)
+# Case Queues
+def put_case_queues(request, pk, json):
+    data = put(request, CASE_URL + str(pk) + QUEUES_URL, json)
+    return data.json(), data.status_code
+
+
+# Queue assignment actions
+def get_user_case_queues(request, pk):
+    data = get(request, CASE_URL + str(pk) + "/assigned-queues/")
+    return data.json()["queues"], data.status_code
+
+
+def put_unassign_queues(request, pk, json):
+    data = put(request, CASE_URL + str(pk) + "/assigned-queues/", json)
     return data.json(), data.status_code
 
 
@@ -60,7 +74,7 @@ def put_application_status(request, pk, json):
 
 
 def finalise_application(request, pk, json):
-    return put(request, f"{APPLICATIONS_URL}{pk}{FINALISE_URL}", json)
+    return put(request, f"{APPLICATIONS_URL}{pk}{FINAL_DECISION_URL}", json)
 
 
 def get_application_default_duration(request, pk):
@@ -156,6 +170,21 @@ def clear_team_advice(request, case_pk):
 
 def get_final_case_advice(request, case_pk):
     data = get(request, CASE_URL + case_pk + VIEW_FINAL_ADVICE_URL)
+    return data.json(), data.status_code
+
+
+def get_final_decision_documents(request, case_pk):
+    data = get(request, CASE_URL + case_pk + "/final-advice-documents/")
+    return data.json(), data.status_code
+
+
+def grant_licence(request, case_pk):
+    data = put(request, CASE_URL + case_pk + FINALISE_CASE_URL, {})
+    return data.json(), data.status_code
+
+
+def get_licence(request, case_pk):
+    data = get(request, CASE_URL + case_pk + FINALISE_CASE_URL)
     return data.json(), data.status_code
 
 
@@ -381,7 +410,7 @@ def get_generated_document_preview(request, pk, tpk, text):
 
 
 def get_generated_document(request, pk, dpk):
-    data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_URL + dpk + "/")
+    data = get(request, CASE_URL + str(pk) + GENERATED_DOCUMENTS_URL + str(dpk) + "/")
     return data.json(), data.status_code
 
 
@@ -403,3 +432,13 @@ def put_case_officer(request, pk, user_pk):
 def delete_case_officer(request, pk):
     data = delete(request, CASE_URL + pk + CASE_OFFICER_URL)
     return data, data.status_code
+
+
+def get_case_additional_contacts(request, pk):
+    response = get(request, CASE_URL + str(pk) + "/additional-contacts/")
+    return response.json()
+
+
+def post_case_additional_contacts(request, pk, json):
+    response = post(request, CASE_URL + str(pk) + "/additional-contacts/", json=json)
+    return response.json(), response.status_code

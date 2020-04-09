@@ -81,7 +81,6 @@
 				</div>
 			</div>
 		{% endif %}
-
 		<!-- Goods -->
 		<div class="govuk-accordion__section">
 			<div class="govuk-accordion__section-header">
@@ -92,15 +91,15 @@
 				</h2>
 			</div>
 			<div id="accordion-goods-content" class="govuk-accordion__section-content" aria-labelledby="accordion-goods">
-                <form action="{% url 'cases:review_goods' case.id %}" method="get">
-                {% if 'REVIEW_GOODS' in permissions and not status_is_terminal %}
-                    <button id="button-review-goods" name="action" value="review-goods" class="govuk-button" data-module="govuk-button">
-                        {% lcs 'cases.ApplicationPage.REVIEW_GOODS' %}
-                    </button>
-                {% endif %}
-                    <button id="button-edit-goods-flags" name="action" value="edit-flags" class="govuk-button" data-module="govuk-button">
-                        {% lcs 'cases.ApplicationPage.EDIT_FLAGS' %}
-                    </button>
+				<form action="{% url 'cases:review_goods' queue.id case.id %}" method="get">
+				{% if 'REVIEW_GOODS' in permissions and not status_is_terminal %}
+					<button id="button-review-goods" name="action" value="review-goods" class="govuk-button" data-module="govuk-button">
+						{% lcs 'cases.ApplicationPage.REVIEW_GOODS' %}
+					</button>
+				{% endif %}
+					<button id="button-edit-goods-flags" name="action" value="edit-flags" class="govuk-button" data-module="govuk-button">
+						{% lcs 'cases.ApplicationPage.EDIT_FLAGS' %}
+					</button>
 					<table class="govuk-table" id="goods">
 						<thead class="govuk-table__head">
 							<tr class="govuk-table__row">
@@ -108,7 +107,7 @@
 									<button type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
 								</th>
 								<th class="govuk-table__header" scope="col"></th>
-					            <th class="govuk-table__header" scope="col">{% lcs 'cases.ApplicationPage.Goods.Table.CLC' %}</th>
+								<th class="govuk-table__header" scope="col">{% lcs 'cases.ApplicationPage.Goods.Table.CLC' %}</th>
 								<th class="govuk-table__header" scope="col">{% lcs 'cases.ApplicationPage.Goods.Table.DESCRIPTION' %}</th>
 								{% if not case.case_type.sub_type.key|is_exhibition %}
 									<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.VALUE' %}</th>
@@ -117,17 +116,17 @@
 								{% endif %}
 								<th class="govuk-table__header">{% lcs 'GOOD_INCORPORATED' %}</th>
 								<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.DOCUMENTS' %}</th>
-					            <th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.FLAGS' %}</th>
+								<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.FLAGS' %}</th>
 
 								{% if show_advice %}
-									<th class="govuk-table__header" style="width: 350px;">{% lcs 'cases.ApplicationPage.Goods.Table.FLAGS' %}</th>
+									<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.Goods.Table.FLAGS' %}</th>
 								{% endif %}
 							</tr>
 						</thead>
 						<tbody class="govuk-table__body">
 							{% for good_on_application in case.application.goods %}
 								<tr class="govuk-table__row">
-					                <td class="govuk-table__cell govuk-table__cell--checkbox">
+									<td class="govuk-table__cell govuk-table__cell--checkbox">
 										<div class="govuk-checkboxes govuk-checkboxes--small">
 											<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good_on_application.good.id }}" id="{{ good_on_application.good.id }}">
 											<label class="govuk-label govuk-checkboxes__label" for="{{ good_on_application.good.id }}"></label>
@@ -139,9 +138,9 @@
 									<td class="govuk-table__cell">
 										{{ good_on_application.good.control_code|default_na }}
 									</td>
-					                <td class="govuk-table__cell">
-					                	{{ good_on_application.good.description }}
-					                </td>
+									<td class="govuk-table__cell">
+										{{ good_on_application.good.description }}
+									</td>
 									{% if case.case_type.sub_type.key|is_exhibition %}
 										<td class="govuk-table__cell">{{ good_on_application.other_item_type|title }}</td>
 									{% else %}
@@ -149,22 +148,20 @@
 									{% endif %}
 									<td class="govuk-table__cell">{{ good_on_application.is_good_incorporated|friendly_boolean }}</td>
 									<td class="govuk-table__cell">
-					                    {% if good_on_application.good.documents %}
-					                        {% for document in good_on_application.good.documents %}
-					                            {% if document.safe == True %}
-					                                <a class="govuk-link govuk-link--no-visited-state" id="good_document" href="{% url 'cases:document' case.id document.id %}">
-					                                    {% lcs 'cases.Manage.Documents.DOWNLOAD_DOCUMENT' %}
-					                                </a>
-					                            {% endif %}
-					                        {% endfor %}
-					                    {% else %}
-					                        {% lcs 'cases.ApplicationPage.Goods.MISSING_DOCUMENT_REASON_PREFIX' %}{{ good_on_application.good.missing_document_reason.value }}
-					                    {% endif %}
-					                <td class="govuk-table__cell">
-					                    {% for flag in good_on_application.flags %}
-					                        {{ flag.name }}<br>
-					                    {% endfor %}
-					                </td>
+										{% if good_on_application.good.documents %}
+											{% for document in good_on_application.good.documents %}
+												{% if document.safe == True %}
+													<a class="govuk-link govuk-link--no-visited-state" id="good_document" href="{% url 'cases:document' queue.id case.id document.id %}">
+														{% lcs 'cases.Manage.Documents.DOWNLOAD_DOCUMENT' %}
+													</a>
+												{% endif %}
+											{% endfor %}
+										{% else %}
+											{% lcs 'cases.ApplicationPage.Goods.MISSING_DOCUMENT_REASON_PREFIX' %}{{ good_on_application.good.missing_document_reason.value }}
+										{% endif %}
+									<td class="govuk-table__cell">
+										{% include 'includes/flags.html' with flags=good_on_application.flags list=True %}
+									</td>
 									{% if show_advice %}
 										<td class="govuk-table__cell">
 											{% for advice in all_advice %}
@@ -181,9 +178,54 @@
 					{% if not case.case_type.sub_type.key|is_exhibition %}
 						<p class="govuk-body govuk-!-margin-top-3 govuk-!-font-weight-bold">{% lcs 'STANDARD_CASE_TOTAL_VALUE' %} £{{ total_goods_value|intcomma }}</p>
 					{% endif %}
-                </form>
-            </div>
+				</form>
+			</div>
 		</div>
+
+		<!-- Additional Information -->
+		{% if case.case_type.sub_type.key|is_f680 %}
+			<div class="govuk-accordion__section">
+				<div class="govuk-accordion__section-header">
+					<h2 class="govuk-accordion__section-heading">
+						<span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+							{% lcs 'cases.ApplicationPage.AdditionalInformation.TITLE' %}
+						</span>
+					</h2>
+				</div>
+				<div id="accordion-additional-information-content" class="govuk-accordion__section-content" aria-labelledby="accordion-additional-information-details">
+					<table class="govuk-table" id="additional-information">
+						<thead class="govuk-table__head">
+							<tr class="govuk-table__row">
+								<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.AdditionalInformation.NUMBER_COLUMN' %}</th>
+								<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.AdditionalInformation.DESCRIPTION_COLUMN' %}</th>
+								<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.AdditionalInformation.ANSWER_COLUMN' %}</th>
+							</tr>
+						</thead>
+						<tbody class="govuk-table__body">
+							{% for info in case.application.additional_information %}
+								<tr class="govuk-table__row">
+									<td class="govuk-table__cell govuk-table__cell--line-number">
+										{{ info.Number }}
+									</td>
+									<td class="govuk-table__cell govuk-!-font-weight-bold">
+										{{ info.Description }}
+									</td>
+									<td class="govuk-table__cell">
+										{{ info.Answer|default:"" }}
+										{% if info.SubAnswer %}
+											<br>
+											{{ info.SubAnswer }}
+										{% endif %}
+									</td>
+
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		{% endif %}
+
 
 		<!-- Goods location -->
 		{% if case.application.goods_locations %}
@@ -216,6 +258,43 @@
 			</div>
 		{% endif %}
 
+		<!-- End Use Details -->
+		{% if case.case_type.sub_type.key|is_f680 %}
+			<div class="govuk-accordion__section">
+				<div class="govuk-accordion__section-header">
+					<h2 class="govuk-accordion__section-heading">
+						<span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+							{% lcs 'cases.ApplicationPage.EndUseDetails.TITLE' %}
+						</span>
+					</h2>
+				</div>
+				<div id="accordion-end-use-details-content" class="govuk-accordion__section-content" aria-labelledby="accordion-end-use-details">
+					<table class="govuk-table" id="end-use-details">
+						<thead class="govuk-table__head">
+							<tr class="govuk-table__row">
+								<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.EndUseDetails.NUMBER_COLUMN' %}</th>
+								<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.EndUseDetails.DESCRIPTION_COLUMN' %}</th>
+								<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.EndUseDetails.ANSWER_COLUMN' %}</th>
+							</tr>
+						</thead>
+						<tbody class="govuk-table__body">
+							<tr class="govuk-table__row">
+								<td class="govuk-table__cell govuk-table__cell--line-number">
+									1.
+								</td>
+								<td class="govuk-table__cell govuk-!-font-weight-bold">
+									{% lcs 'cases.ApplicationPage.EndUseDetails.INTENDED_END_USE_TITLE' %}
+								</td>
+								<td class="govuk-table__cell">
+									{{ case.application.intended_end_use|default:"" }}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		{% endif %}
+
 		<!-- Parties -->
 		<div class="govuk-accordion__section">
 			<div class="govuk-accordion__section-header">
@@ -226,11 +305,11 @@
 				</h2>
 			</div>
 			<div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
-                <form action="{% url 'cases:assign_destination_flags' case.id %}" method="get">
-                <button id="button-edit-destinations-flags" class="govuk-button" data-module="govuk-button">
-                    {% lcs 'cases.ApplicationPage.EDIT_DESTINATION_FLAGS' %}
-                </button>
-			    {% include "case/includes/parties.html" %}
+				<form action="{% url 'cases:assign_destination_flags' queue.id case.id %}" method="get">
+				<button id="button-edit-destinations-flags" class="govuk-button" data-module="govuk-button">
+					{% lcs 'cases.ApplicationPage.EDIT_DESTINATION_FLAGS' %}
+				</button>
+				{% include "case/includes/parties.html" %}
 			</form>
 			</div>
 		</div>

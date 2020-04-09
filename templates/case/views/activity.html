@@ -9,14 +9,14 @@
 	<div class="lite-case-note__container">
 		<textarea id="input-case-note" name="text" cols="80" class="lite-case-note__textarea"></textarea>
 		<div class="lite-case-note__controls">
-            <div class="govuk-checkboxes govuk-checkboxes--small">
+			<div class="govuk-checkboxes govuk-checkboxes--small">
 				<div class="govuk-checkboxes__item">
 					<input class="govuk-checkboxes__input" type="checkbox" id="is_visible_to_exporter" name="is_visible_to_exporter" value="True">
 					<label class="govuk-label govuk-checkboxes__label" for="is_visible_to_exporter">{% lcs 'cases.Tabs.Activity.MAKE_VISIBLE_TO_EXPORTER' %}</label>
 				</div>
 			</div>
 			<div class="lite-case-note__controls-buttons">
-				<a id="link-case-note-cancel" href="{% url 'cases:case' case.id %}" class="govuk-link govuk-link--no-visited-state" type="button" draggable="false">
+				<a id="link-case-note-cancel" href="{% url 'cases:case' queue.id case.id %}" class="govuk-link govuk-link--no-visited-state" type="button" draggable="false">
 					{% lcs 'cases.Tabs.Activity.CANCEL_POST' %}
 				</a>
 				<button id="button-case-note-post" class="govuk-button" type="submit">
@@ -33,11 +33,11 @@
 <script src="{% static 'javascripts/pluralize.js' %}"></script>
 <script src="{% static 'javascripts/case-notes.js' %}"></script>
 <script nonce="{{ request.csp_nonce }}">
-    function confirmVisible() {
-        let is_visible_for_exporter = document.getElementById('is_visible_to_exporter')
-        if (is_visible_for_exporter.checked) {
-            return confirm("This message will be visible to the exporter, are you sure you wish to continue?")
-        }
-        return true;
-    }
+	function confirmVisible() {
+		let is_visible_for_exporter = document.getElementById('is_visible_to_exporter')
+		if (is_visible_for_exporter.checked) {
+			return confirm("This message will be visible to the exporter, are you sure you wish to continue?")
+		}
+		return true;
+	}
 </script>

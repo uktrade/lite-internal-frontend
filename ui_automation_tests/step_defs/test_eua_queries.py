@@ -24,9 +24,8 @@ def dropdown_contains_correct_functionality(driver):
     assert application_page.is_change_status_available()
     assert application_page.get_case_officer_element()
     assert application_page.get_generate_document_element()
-    # This tests that the expected elements are the only ones that appear, and that any new functionality added
-    # should be tested if not tested elsewhere.
-    assert application_page.get_action_dropdown_entries_count() == 6
+    assert application_page.get_assign_user_element()
+    assert application_page.get_additional_contacts_element()
 
 
 @then("the status has been changed in the end user advisory")
@@ -34,12 +33,6 @@ def check_status_has_changed(driver):
     assert "closed" in ApplicationPage(driver).get_text_of_case_note_subject(0)
 
 
-@then("I should see flags can be added")
-def flags_are_available(driver):
-    application_page = ApplicationPage(driver)
-    assert application_page.get_case_flag_element()
-
-
 @when("I go to end user advisory previously created")  # noqa
 def click_on_created_eua(driver, context, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/cases/" + context.eua_id)
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.eua_id)

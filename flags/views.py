@@ -7,75 +7,84 @@ from django.views.generic import TemplateView
 
 from cases.forms.flags import flags_form, set_case_flags_form
 from cases.services import put_flag_assignments, get_good, get_goods_type, get_case, get_destination
-from conf.constants import FlagLevels
-from core.helpers import convert_dict_to_query_params
-from flags.forms import add_flag_form, edit_flag_form
-from flags.services import get_cases_flags, get_goods_flags, get_organisation_flags, get_destination_flags
-from flags.services import get_flags, post_flags, get_flag, put_flag
-from lite_content.lite_internal_frontend import strings
-from lite_forms.components import Option
+from conf.constants import FlagLevels, Permission
+from core.helpers import convert_dict_to_query_params, get_params_if_exist
+from core.services import get_user_permissions
+from flags.forms import (
+    add_flag_form,
+    edit_flag_form,
+    create_flagging_rules_formGroup,
+    select_condition_and_flag,
+    _levels,
+    deactivate_or_activate_flagging_rule_form,
+    level_options,
+)
+from flags.services import (
+    get_cases_flags,
+    get_goods_flags,
+    get_organisation_flags,
+    get_destination_flags,
+    get_flagging_rules,
+    put_flagging_rule,
+    get_flagging_rule,
+    post_flagging_rules,
+)
+from flags.services import get_flags, post_flags, get_flag, update_flag
+from lite_content.lite_internal_frontend import strings, flags
+from lite_content.lite_internal_frontend.flags import UpdateFlag
+from lite_forms.components import Option, FiltersBar, Select, Checkboxes, TextInput
 from lite_forms.generators import form_page
+from lite_forms.views import MultiFormView, SingleFormView
 from organisations.services import get_organisation
+from queues.services import get_queue
+from teams.services import get_teams
 from users.services import get_gov_user
 
 
 class FlagsList(TemplateView):
     def get(self, request, **kwargs):
-        data, _ = get_flags(request)
+        data = get_flags(request, **request.GET)
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
-        status = kwargs.get("status", "active")
-
-        if status == "active":
-            status = "no_deactivated"
-            flags = []
-            for flag in data["flags"]:
-                if flag["status"] == "Deactivated":
-                    status = "active"
-                if flag["status"] == "Active":
-                    flags.append(flag)
-            data["flags"] = flags
+        filters = FiltersBar(
+            [
+                TextInput(name="name", title="name"),
+                Select(name="level", title="level", options=level_options),
+                TextInput(name="priority", title="priority"),
+                Select(name="team", title="team", options=get_teams(request, True)),
+                Checkboxes(
+                    name="only_show_deactivated",
+                    options=[Option(True, flags.FlagsList.SHOW_DEACTIVATED_FLAGS)],
+                    classes=["govuk-checkboxes--small"],
+                ),
+            ]
+        )
 
         context = {
             "data": data,
-            "status": status,
-            "title": "Flags",
             "user_data": user_data,
+            "filters": filters,
         }
         return render(request, "flags/index.html", context)
 
 
-class AddFlag(TemplateView):
-    def get(self, request, **kwargs):
-        return form_page(request, add_flag_form())
-
-    def post(self, request, **kwargs):
-        response, status_code = post_flags(request, request.POST)
-        if status_code != 201:
-            return form_page(request, add_flag_form(), data=request.POST, errors=response.get("errors"))
-
-        return redirect(reverse_lazy("flags:flags"))
+class AddFlag(SingleFormView):
+    def init(self, request, **kwargs):
+        self.form = add_flag_form()
+        self.action = post_flags
+        self.data = {"colour": "default", "priority": 0}
+        self.success_message = flags.FlagsList.SUCCESS_MESSAGE
+        self.success_url = reverse("flags:flags")
 
 
-class EditFlag(TemplateView):
-    def get(self, request, **kwargs):
-        data, _ = get_flag(request, str(kwargs["pk"]))
-        return form_page(request, edit_flag_form(), data=data["flag"])
-
-    def post(self, request, **kwargs):
-        response, status_code = put_flag(request, str(kwargs["pk"]), request.POST)
-        if status_code != 200:
-            return form_page(request, edit_flag_form(), data=request.POST, errors=response.get("errors"))
-
-        return redirect(reverse_lazy("flags:flags"))
-
-
-class ViewFlag(TemplateView):
-    def get(self, request, **kwargs):
-        data, _ = get_flag(request, str(kwargs["pk"]))
-
-        context = {"data": data, "title": data["flag"]["name"]}
-        return render(request, "flags/profile.html", context)
+class EditFlag(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = str(kwargs["pk"])
+        flag = get_flag(request, self.object_pk)
+        self.form = edit_flag_form()
+        self.data = flag
+        self.action = update_flag
+        self.success_url = reverse("flags:flags")
 
 
 class ChangeFlagStatus(TemplateView):
@@ -87,10 +96,10 @@ class ChangeFlagStatus(TemplateView):
             raise Http404
 
         if status == "deactivate":
-            description = strings.Flags.UpdateFlag.Status.DEACTIVATE_WARNING
+            description = UpdateFlag.Status.DEACTIVATE_WARNING
 
         if status == "reactivate":
-            description = strings.Flags.UpdateFlag.Status.REACTIVATE_WARNING
+            description = UpdateFlag.Status.REACTIVATE_WARNING
 
         context = {
             "title": "Are you sure you want to {} this flag?".format(status),
@@ -98,7 +107,7 @@ class ChangeFlagStatus(TemplateView):
             "user_id": str(kwargs["pk"]),
             "status": status,
         }
-        return render(request, "flags/change_status.html", context)
+        return render(request, "flags/change-status.html", context)
 
     def post(self, request, **kwargs):
         status = kwargs["status"]
@@ -106,7 +115,7 @@ class ChangeFlagStatus(TemplateView):
         if status != "deactivate" and status != "reactivate":
             raise Http404
 
-        put_flag(request, str(kwargs["pk"]), json={"status": request.POST["status"]})
+        update_flag(request, str(kwargs["pk"]), json={"status": request.POST["status"]})
 
         return redirect(reverse_lazy("flags:flags"))
 
@@ -126,11 +135,11 @@ class AssignFlags(TemplateView):
 
         self.level = request.GET.get("level")
 
-        kwargs = {"pk": self.objects[0]} if self.level == "organisations" else {"pk": str(kwargs["pk"])}
+        pks = {"pk": self.objects[0]} if self.level == "organisations" else {"pk": str(kwargs["pk"])}
         origin = request.GET.get("origin", "case")
 
         if origin == "good":
-            kwargs["good_pk"] = self.objects[0]
+            pks["good_pk"] = self.objects[0]
 
         # Retrieve the list of flags depending on type
         if self.level == FlagLevels.CASES:
@@ -144,9 +153,9 @@ class AssignFlags(TemplateView):
             flags = get_destination_flags(request)
 
         self.url = (
-            reverse("organisations:organisation", kwargs=kwargs)
+            reverse("organisations:organisation", kwargs=pks)
             if self.level == "organisations"
-            else reverse("cases:" + origin, kwargs=kwargs)
+            else reverse("cases:" + origin, kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]})
         )
 
         # Perform pre-population of the flags if there is only one object to be flagged
@@ -166,7 +175,7 @@ class AssignFlags(TemplateView):
 
         if self.level == FlagLevels.CASES:
             case = get_case(request, kwargs["pk"])
-            self.form = set_case_flags_form(flags, case)
+            self.form = set_case_flags_form(get_queue(request, kwargs["queue_pk"]), flags, case)
 
         return super(AssignFlags, self).dispatch(request, *args, **kwargs)
 
@@ -179,7 +188,7 @@ class AssignFlags(TemplateView):
         elif self.level == FlagLevels.CASES:
             obj = {"case": get_case(request, self.objects[0])}
         elif self.level == FlagLevels.ORGANISATIONS:
-            obj, _ = get_organisation(request, self.objects[0])
+            obj = get_organisation(request, self.objects[0])
             object_flags = obj.get("flags")
         elif self.level == FlagLevels.DESTINATIONS:
             obj = get_destination(request, self.objects[0])
@@ -216,3 +225,106 @@ class AssignFlags(TemplateView):
             return form_page(request, self.form, data=request.POST, errors=response["errors"])
 
         return redirect(self.url)
+
+
+class ManageFlagRules(TemplateView):
+    def get(self, request, **kwargs):
+        if Permission.MANAGE_FLAGGING_RULES.value not in get_user_permissions(request):
+            return redirect(reverse_lazy("cases:cases"))
+
+        params = {"page": int(request.GET.get("page", 1))}
+        params = get_params_if_exist(request, ["only_my_team", "level", "include_deactivated"], params)
+
+        data, _ = get_flagging_rules(request, convert_dict_to_query_params(params))
+
+        filters = FiltersBar(
+            [
+                Select(name="level", title=strings.FlaggingRules.List.Filter.Type, options=_levels),
+                Checkboxes(
+                    name="only_my_team",
+                    options=[Option("true", strings.FlaggingRules.List.Filter.MY_TEAM_ONLY)],
+                    classes=["govuk-checkboxes--small", "govuk-!-margin-top-6"],
+                ),
+                Checkboxes(
+                    name="include_deactivated",
+                    options=[Option("true", strings.FlaggingRules.List.Filter.INCLUDE_DEACTIVATED)],
+                    classes=["govuk-checkboxes--small", "govuk-!-margin-top-6"],
+                ),
+            ]
+        )
+
+        context = {
+            "data": data,
+            "page": params.pop("page"),
+            "team": get_gov_user(request)[0]["user"]["team"]["id"],
+            "filters": filters,
+            "params_str": convert_dict_to_query_params(params),
+        }
+        return render(request, "flags/flagging-rules-list.html", context)
+
+
+class CreateFlagRules(MultiFormView):
+    def init(self, request, **kwargs):
+        if Permission.MANAGE_FLAGGING_RULES.value not in get_user_permissions(request):
+            return redirect(reverse_lazy("cases:cases"))
+
+        type = request.POST.get("level", None)
+        self.forms = create_flagging_rules_formGroup(request=self.request, type=type)
+        self.action = post_flagging_rules
+        self.success_url = reverse_lazy("flags:flagging_rules")
+
+
+class EditFlaggingRules(SingleFormView):
+    def init(self, request, **kwargs):
+        if Permission.MANAGE_FLAGGING_RULES.value not in get_user_permissions(request):
+            return redirect(reverse_lazy("cases:cases"))
+
+        self.object_pk = kwargs["pk"]
+        self.data = get_flagging_rule(request, self.object_pk)[0]["flag"]
+        self.form = select_condition_and_flag(request, type=self.data["level"])
+        self.action = put_flagging_rule
+        self.success_url = reverse_lazy("flags:flagging_rules")
+
+
+class ChangeFlaggingRuleStatus(SingleFormView):
+    success_url = reverse_lazy("flags:flagging_rules")
+
+    def init(self, request, **kwargs):
+        if Permission.MANAGE_FLAGGING_RULES.value not in get_user_permissions(request):
+            return redirect(reverse_lazy("cases:cases"))
+
+        status = kwargs["status"]
+        self.object_pk = kwargs["pk"]
+
+        if status != "Deactivated" and status != "Active":
+            raise Http404
+
+        if status == "Deactivated":
+            title = strings.FlaggingRules.Status.DEACTIVATE_HEADING
+            description = strings.FlaggingRules.Status.DEACTIVATE_WARNING
+            confirm_text = strings.FlaggingRules.Status.DEACTIVATE_CONFIRM
+
+        if status == "Active":
+            title = strings.FlaggingRules.Status.REACTIVATE_HEADING
+            description = strings.FlaggingRules.Status.REACTIVATE_WARNING
+            confirm_text = strings.FlaggingRules.Status.REACTIVATE_CONFIRM
+
+        self.form = deactivate_or_activate_flagging_rule_form(
+            title=title, description=description, confirm_text=confirm_text, status=status
+        )
+        self.action = put_flagging_rule
+
+    def post(self, request, **kwargs):
+        self.init(request, **kwargs)
+        if not request.POST.get("confirm"):
+            return form_page(
+                request,
+                self.get_form(),
+                data=self.get_data(),
+                errors={"confirm": [strings.FlaggingRules.Status.NO_SELECTION_ERROR]},
+                extra_data=self.context,
+            )
+        elif request.POST.get("confirm") == "no":
+            return redirect(self.success_url)
+
+        return super(ChangeFlaggingRuleStatus, self).post(request, **kwargs)

@@ -1,13 +1,12 @@
+from datetime import date
+from http import HTTPStatus
+
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.constants import CaseType
-
-from datetime import date
-
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
-
 from cases.services import (
     post_user_case_advice,
     get_user_case_advice,
@@ -26,6 +25,9 @@ from cases.services import (
     _generate_data_and_keys,
     _generate_post_data_and_errors,
     get_application_default_duration,
+    grant_licence,
+    get_final_decision_documents,
+    get_licence,
 )
 from cases.views_helpers import (
     get_case_advice,
@@ -37,6 +39,7 @@ from cases.views_helpers import (
 )
 from conf.constants import DECISIONS_LIST, Permission
 from core import helpers
+from lite_content.lite_internal_frontend.cases import GenerateFinalDecisionDocumentsPage
 from lite_forms.generators import form_page, error_page
 
 
@@ -91,7 +94,7 @@ class GiveUserAdviceDetail(TemplateView):
         return super(GiveUserAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice_details(post_user_case_advice, request, self.case, self.form, "user")
+        return post_advice_details(post_user_case_advice, request, self.case, self.form, "user", **kwargs)
 
 
 class CoalesceUserAdvice(TemplateView):
@@ -102,7 +105,7 @@ class CoalesceUserAdvice(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         coalesce_user_advice(request, case_id)
-        return redirect(reverse("cases:team_advice_view", kwargs={"pk": case_id}))
+        return redirect(reverse("cases:team_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
 
 
 class ViewTeamAdvice(TemplateView):
@@ -128,7 +131,9 @@ class ViewTeamAdvice(TemplateView):
         if request.POST.get("action") == "delete":
             clear_team_advice(request, self.case.get("id"))
 
-            return redirect(reverse("cases:team_advice_view", kwargs={"pk": self.case.get("id")}))
+            return redirect(
+                reverse("cases:team_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case.get("id")})
+            )
 
         elif request.POST.get("action") == "team":
             return get_case_advice(get_team_case_advice, request, self.case, "team", {"id": request.POST.get("team")})
@@ -166,7 +171,7 @@ class GiveTeamAdviceDetail(TemplateView):
         return super(GiveTeamAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice_details(post_team_case_advice, request, self.case, self.form, "team")
+        return post_advice_details(post_team_case_advice, request, self.case, self.form, "team", **kwargs)
 
 
 class CoalesceTeamAdvice(TemplateView):
@@ -177,7 +182,7 @@ class CoalesceTeamAdvice(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         coalesce_team_advice(request, case_id)
-        return redirect(reverse("cases:final_advice_view", kwargs={"pk": case_id}))
+        return redirect(reverse("cases:final_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
 
 
 class ViewFinalAdvice(TemplateView):
@@ -202,7 +207,9 @@ class ViewFinalAdvice(TemplateView):
         if request.POST.get("action") == "delete":
             clear_final_advice(request, self.case.get("id"))
 
-            return redirect(reverse("cases:final_advice_view", kwargs={"pk": self.case.get("id")}))
+            return redirect(
+                reverse("cases:final_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case.get("id")})
+            )
 
         return render_form_page(get_final_case_advice, request, self.case, self.form)
 
@@ -236,7 +243,7 @@ class GiveFinalAdviceDetail(TemplateView):
         return super(GiveFinalAdviceDetail, self).dispatch(request, *args, **kwargs)
 
     def post(self, request, **kwargs):
-        return post_advice_details(post_final_case_advice, request, self.case, self.form, "final")
+        return post_advice_details(post_final_case_advice, request, self.case, self.form, "final", **kwargs)
 
 
 class FinaliseGoodsCountries(TemplateView):
@@ -296,7 +303,7 @@ class FinaliseGoodsCountries(TemplateView):
             context["error"] = data.get("errors")
             return render(request, "case/finalise-open-goods-countries.html", context)
 
-        return redirect(reverse_lazy("cases:finalise", kwargs={"pk": kwargs["pk"]}))
+        return redirect(reverse_lazy("cases:finalise", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]}))
 
 
 class Finalise(TemplateView):
@@ -323,15 +330,25 @@ class Finalise(TemplateView):
 
         for item in data:
             if item[search_key]["key"] == "approve" or item[search_key]["key"] == "proviso":
+                # Redirect if licence already exists
+                _, status_code = get_licence(request, str(kwargs["pk"]))
+                if status_code == HTTPStatus.OK:
+                    return redirect(
+                        reverse_lazy(
+                            "cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}
+                        )
+                    )
+
                 today = date.today()
 
                 form_data = {
                     "day": today.day,
                     "month": today.month,
                     "year": today.year,
-                    "licence_duration": duration,
+                    "duration": duration,
                 }
                 form = approve_licence_form(
+                    queue_pk=kwargs["queue_pk"],
                     case_id=case_id,
                     is_open_licence=is_open_licence,
                     duration=duration,
@@ -339,7 +356,7 @@ class Finalise(TemplateView):
                 )
                 return form_page(request, form, data=form_data)
 
-        return form_page(request, deny_licence_form(case_id, is_open_licence))
+        return form_page(request, deny_licence_form(kwargs["queue_pk"], case_id, is_open_licence))
 
     def post(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))
@@ -356,6 +373,7 @@ class Finalise(TemplateView):
 
         if res.status_code == 400:
             form = approve_licence_form(
+                queue_pk=kwargs["queue_pk"],
                 case_id=case["id"],
                 is_open_licence=is_open_licence,
                 duration=data.get("licence_duration") or get_application_default_duration(request, str(kwargs["pk"])),
@@ -363,4 +381,33 @@ class Finalise(TemplateView):
             )
             return form_page(request, form, data=data, errors=res.json()["errors"])
 
-        return redirect(reverse_lazy("cases:case", kwargs={"pk": case["id"]}))
+        return redirect(
+            reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]})
+        )
+
+
+class FinaliseGenerateDocuments(TemplateView):
+    @staticmethod
+    def get_page(request, pk, errors=None):
+        decisions, _ = get_final_decision_documents(request, str(pk))
+        decisions = decisions["documents"]
+        can_submit = all([decision.get("document") for decision in decisions.values()])
+
+        context = {
+            "case_id": str(pk),
+            "title": GenerateFinalDecisionDocumentsPage.TITLE,
+            "can_submit": can_submit,
+            "decisions": decisions,
+            "errors": errors,
+        }
+        return render(request, "case/views/finalise-generate-documents.html", context)
+
+    def get(self, request, pk, **kwargs):
+        return self.get_page(request, pk)
+
+    def post(self, request, pk, **kwargs):
+        data, status_code = grant_licence(request, str(pk))
+        if status_code != HTTPStatus.CREATED:
+            return self.get_page(request, pk, errors=data["errors"])
+        else:
+            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": pk}))

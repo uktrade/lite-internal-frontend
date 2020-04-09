@@ -94,18 +94,6 @@ def go_to_final_advice(driver):
     page.go_to_final_advice()
 
 
-@when("I combine all advice")
-def combine_all_advice(driver):
-    page = GiveAdvicePages(driver)
-    page.combine_advice()
-
-
-@when("I finalise the licence")
-def finalise(driver):
-    page = GiveAdvicePages(driver)
-    page.finalise()
-
-
 @when("I finalise the goods and countries")
 def finalise_goods_and_countries(driver):
     page = GiveAdvicePages(driver)
@@ -139,14 +127,12 @@ def todays_date_is_filled_in(driver):
 
 @then("I see refusal flag is attached")
 def refusal_flag_displayed(driver):
-    assert ApplicationPage(driver).is_flag_applied("Refusal Advice")
+    assert Shared(driver).is_flag_applied("Refusal Advice")
 
 
 @then("I see refusal flag is not attached")
 def refusal_flag_not_displayed(driver):
-    driver.set_timeout_to(0)
-    assert not ApplicationPage(driver).is_flag_applied("Refusal Advice")
-    driver.set_timeout_to(10)
+    assert not Shared(driver).is_flag_applied("Refusal Advice")
 
 
 @when("I clear advice")

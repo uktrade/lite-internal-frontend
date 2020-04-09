@@ -3,7 +3,7 @@
 }
 
 .app-expanded-row__item--invert {
-    display: inline-block;
+    display: block;
 }
 
 .app-panel {
@@ -25,14 +25,6 @@
 		margin-bottom: 0;
 		padding-bottom: 0;
 	}
-}
-
-.govuk-summary-list__key {
-	border-bottom: 2px solid darken(govuk-colour("light-grey"), 2%);
-}
-
-.govuk-summary-list__value {
-	border-bottom: 2px solid darken(govuk-colour("light-grey"), 2%);
 }
 
 .app-inset-text {

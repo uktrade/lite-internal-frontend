@@ -1,5 +1,5 @@
 import os
-
+from django.conf import settings
 from pytest_bdd import given, when, then, parsers
 
 from pages.goods_queries_pages import GoodsQueriesPages  # noqa
@@ -24,14 +24,17 @@ from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
     add_a_standard_advice_picklist,
     add_a_report_summary_picklist,
 )
+from ui_automation_tests.pages.generate_document_page import GeneratedDocument
+from ui_automation_tests.pages.give_advice_pages import GiveAdvicePages
 from ui_automation_tests.shared.fixtures.apply_for_application import *  # noqa
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.sso_sign_in import sso_sign_in  # noqa
 from ui_automation_tests.shared.fixtures.core import (  # noqa
     context,
-    api_client_config,
+    api_test_client,
     exporter_info,
     internal_info,
+    api_client,
 )
 from ui_automation_tests.shared.fixtures.urls import internal_url, sso_sign_in_url, api_url  # noqa
 
@@ -46,6 +49,12 @@ from ui_automation_tests.shared.tools.helpers import paginated_item_exists
 
 
 def pytest_addoption(parser):
+    settings.configure(
+        DIRECTORY_SSO_API_CLIENT_API_KEY=os.environ.get("DIRECTORY_SSO_API_CLIENT_API_KEY"),
+        DIRECTORY_SSO_API_CLIENT_BASE_URL=os.environ.get("DIRECTORY_SSO_API_CLIENT_BASE_URL"),
+        DIRECTORY_SSO_API_CLIENT_DEFAULT_TIMEOUT=30,
+        DIRECTORY_SSO_API_CLIENT_SENDER_ID="directory",
+    )
     env = str(os.environ.get("ENVIRONMENT"))
     if env == "None":
         env = "dev"
@@ -95,8 +104,8 @@ def pytest_exception_interact(node, report):
 
 
 @when("I go to the case")  # noqa
-def i_go_to_the_case(driver, context, internal_url):
-    driver.get(internal_url.rstrip("/") + "/cases/" + context.case_id)
+def i_go_to_the_case(driver, context, internal_url):  # noqa
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.case_id)
 
 
 @when("I go to the internal homepage")  # noqa
@@ -116,12 +125,12 @@ def sign_into_sso(driver, sso_sign_in):  # noqa
 
 @when("I go to application previously created")  # noqa
 def click_on_created_application(driver, context, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/cases/" + context.case_id)
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.case_id)
 
 
 @when("I go to open application previously created")  # noqa
 def click_on_created_application(driver, context, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/cases/" + context.case_id)
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.case_id)
 
 
 @given("I create standard application or standard application has been previously created")  # noqa
@@ -141,7 +150,7 @@ def i_click_continue(driver):  # noqa
 
 @when("I go to flags")  # noqa
 def go_to_flags(driver, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/flags")
+    driver.get(internal_url.rstrip("/") + "/flags/")
 
 
 @when("I click progress application")  # noqa
@@ -160,7 +169,8 @@ def select_status_save(driver, status, context):  # noqa
 
 
 @when("I click on new queue in dropdown")  # noqa
-def new_queue_shown_in_dropdown(driver, context):  # noqa
+@when("I click on edited queue in dropdown")  # noqa
+def queue_shown_in_dropdown(driver, context):  # noqa
     CaseListPage(driver).click_on_queue_name(context.queue_name)
 
 
@@ -169,14 +179,9 @@ def system_queue_shown_in_dropdown(driver, queue_name):  # noqa
     CaseListPage(driver).click_on_queue_name(queue_name)
 
 
-@when("I enter in queue name Review")  # noqa
-def add_a_queue(driver, context, add_queue):  # noqa
-    pass
-
-
 @when("I go to queues")  # noqa
 def go_to_queues(driver, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/queues/")
+    driver.get(internal_url.rstrip("/") + "/queues/manage/")
 
 
 @when("I add case to newly created queue")  # noqa
@@ -213,11 +218,6 @@ def see_queue_in_queue_list(driver, context):  # noqa
     assert QueuesPages(driver).is_case_on_the_list(context.case_id) == 1, (
         "previously created application is not displayed " + context.case_id
     )
-
-
-@when("I add a flag at level Organisation")  # noqa
-def add_an_organisation_flag(driver, add_organisation_flag):  # noqa
-    pass
 
 
 @when("I go to the organisation which submitted the case")  # noqa
@@ -287,41 +287,41 @@ def status_has_been_changed_in_header(driver, context, internal_info):  # noqa
 
 
 @given("I create a clc query")  # noqa
-def create_clc_query(driver, apply_for_clc_query, context):
+def create_clc_query(driver, apply_for_clc_query, context):  # noqa
     pass
 
 
 @when(parsers.parse('filter status has been changed to "{status}"'))  # noqa
-def filter_status_change(driver, context, status):
+def filter_status_change(driver, context, status):  # noqa
     CaseListPage(driver).select_filter_status_from_dropdown(status)
     CaseListPage(driver).click_apply_filters_button()
 
 
 @when(parsers.parse('I change the user filter to "{status}"'))  # noqa
-def filter_status_change(driver, context, status):
+def filter_status_change(driver, context, status):  # noqa
     CaseListPage(driver).select_filter_user_status_from_dropdown(status)
     CaseListPage(driver).click_apply_filters_button()
 
 
 @when("I go to the case list page")  # noqa
-def case_list_page(driver, internal_url):
-    driver.get(internal_url.rstrip("/") + "/cases/")
+def case_list_page(driver, internal_url):  # noqa
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/")
 
 
 @then("I should see my case in the cases list")  # noqa
-def case_in_cases_list(driver, context):
+def case_in_cases_list(driver, context):  # noqa
     assert paginated_item_exists(context.case_id, driver)
     context.case_row = CaseListPage(driver).get_case_row(context.case_id)
     assert context.reference_code in context.case_row.text
 
 
 @then("I should see my case SLA")  # noqa
-def case_sla(driver, context):
+def case_sla(driver, context):  # noqa
     assert CaseListPage(driver).get_case_row_sla(context.case_row) == "0"
 
 
 @then("I see the case page")  # noqa
-def i_see_the_case_page(driver, context):
+def i_see_the_case_page(driver, context):  # noqa
     assert driver.find_element_by_id(ApplicationPage.HEADING_ID).text == context.reference_code
 
 
@@ -331,5 +331,47 @@ def go_to_users(driver, sso_sign_in, internal_url):  # noqa
 
 
 @given("an Exhibition Clearance is created")  # noqa
-def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance):
+def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance):  # noqa
+    pass
+
+
+@when("I combine all advice")  # noqa
+def combine_all_advice(driver):  # noqa
+    GiveAdvicePages(driver).combine_advice()
+
+
+@when("I finalise the advice")  # noqa
+def finalise(driver):  # noqa
+    GiveAdvicePages(driver).finalise()
+
+
+@when("I select the template previously created")  # noqa
+def selected_created_template(driver, context):  # noqa
+    GeneratedDocument(driver).click_letter_template(context.document_template_id)
+    Shared(driver).click_submit()
+
+
+@when("I click on the Documents button")  # noqa
+def click_documents(driver):  # noqa
+    application_page = ApplicationPage(driver)
+    application_page.click_documents_button()
+
+
+@when("I add a flag at level Case")  # noqa
+def add_a_case_flag(driver, add_case_flag):  # noqa
+    pass
+
+
+@when("I add a flag at level Good")  # noqa
+def add_a_flag(driver, add_good_flag):  # noqa
+    pass
+
+
+@when("I add a flag at level Destination")  # noqa
+def add_a_flag(driver, add_destination_flag):  # noqa
+    pass
+
+
+@when("I add a flag at level Organisation")  # noqa
+def add_a_flag(driver, add_organisation_flag):  # noqa
     pass

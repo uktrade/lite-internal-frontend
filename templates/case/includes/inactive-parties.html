@@ -29,15 +29,13 @@
 					<td class="govuk-table__cell">{{ party.website|linkify }}</td>
 					<td class="govuk-table__cell">
 						{% if party.document %}
-							<a href="{% url 'cases:document' case.id party.document.id %}">
+							<a href="{% url 'cases:document' queue.id case.id party.document.id %}">
 								{{ party.document.name }}
 							</a>
 						{% endif %}
 					</td>
 					<td class="govuk-table__cell">
-						{% for flag in party.flags %}
-							{{ flag.name }}<br>
-						{% endfor %}
+						{% include 'includes/flags.html' with flags=party.flags list=True %}
 					</td>
 				</tr>
 			{% endfor %}

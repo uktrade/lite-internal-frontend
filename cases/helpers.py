@@ -1,8 +1,9 @@
 from django.urls import reverse_lazy
 
 from conf.constants import UPDATED_CASES_QUEUE_ID
-from lite_content.lite_internal_frontend.strings import QUEUE_ALL_CASES
+from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_forms.components import Breadcrumbs, BackLink, HiddenField
+from lite_forms.generators import error_page
 
 
 def clean_advice(json):
@@ -107,7 +108,7 @@ def get_updated_cases_banner_queue_id(current_queue_id, queues):
                 return UPDATED_CASES_QUEUE_ID
 
 
-def case_view_breadcrumbs(case: dict, current_view: str):
+def case_view_breadcrumbs(queue: dict, case: dict, current_view: str):
     """
     Returns a Breadcrumb bar suitable for forms
     Pulls the reference code from case
@@ -115,8 +116,16 @@ def case_view_breadcrumbs(case: dict, current_view: str):
     """
     return Breadcrumbs(
         [
-            BackLink(QUEUE_ALL_CASES, reverse_lazy("cases:cases")),
-            BackLink(case["reference_code"], reverse_lazy("cases:case", kwargs={"pk": case["id"]})),
+            BackLink(queue["name"], reverse_lazy("queues:cases", kwargs={"queue_pk": queue["id"]})),
+            BackLink(
+                case["reference_code"], reverse_lazy("cases:case", kwargs={"queue_pk": queue["id"], "pk": case["id"]})
+            ),
             BackLink(current_view),
         ]
+    )
+
+
+def generate_document_error_page():
+    return error_page(
+        None, title=GenerateDocumentsPage.TITLE, description=GenerateDocumentsPage.ERROR, show_back_link=True,
     )

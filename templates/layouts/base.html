@@ -4,7 +4,15 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>{% block title %}{{ title }}{% endblock %} - {% lcs 'Common.SERVICE_NAME' %}</title>
+	<title>
+		{% block title %}
+			{% if title %}
+				{{ title }}
+			{% else %}
+				{% missing_title %}
+			{% endif %}
+		{% endblock %} - {% lcs 'Common.SERVICE_NAME' %}
+	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="theme-color" content="#0b0c0c" />
 
@@ -38,7 +46,7 @@
 
 <body class="govuk-template__body ">
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ ENVIRONMENT_VARIABLES.GOOGLE_ANALYTICS_KEY }}"
-	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	height="0" width="0"></iframe></noscript>
 
 	<script nonce="{{ request.csp_nonce }}">
 		document.body.className = (
@@ -138,6 +146,8 @@
 	<script src="{% static 'all.js' %}"></script>
 	<script src="{% static 'javascripts/helpers.js' %}"></script>
 	<script src="{% static 'javascripts/back-link.js' %}"></script>
+	<script src="{% static 'javascripts/ResizeSensor.js' %}"></script>
+	<script src="{% static 'javascripts/ElementQueries.js' %}"></script>
 
 	<script nonce="{{ request.csp_nonce }}">
 		window.GOVUKFrontend.initAll()
@@ -150,6 +160,12 @@
 			$('#lite-menu-background').toggle();
 			$('#lite-menu').toggleClass('lite-menu--visible');
 		}
+
+		tippy('.app-flag--label', {
+			content(reference) {
+				return reference.getAttribute('data-label');
+			},
+		});
 	</script>
 
 </body>
