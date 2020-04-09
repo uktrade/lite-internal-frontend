@@ -1,5 +1,5 @@
 <div class="app-case-summary">
-	<dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-font-size-16">
+	<dl class="govuk-summary-list govuk-summary-list--no-border">
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
 				Exporter reference
@@ -46,7 +46,7 @@
 		</div>
 	</dl>
 
-	<dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-font-size-16">
+	<dl class="govuk-summary-list govuk-summary-list--no-border">
 		<div class="govuk-summary-list__row">
 			<dt class="govuk-summary-list__key">
 				Type
@@ -92,32 +92,21 @@
 			</dd>
 		</div>
 	</dl>
-
-	<div>
-		<div class="app-case-summary__row govuk-!-font-size-16">
-			<dt>
-				Flags
-			</dt>
-			<dd>
-				<a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-9" href="{% url 'cases:assign_flags' queue.id case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags">Change</a>
-			</dd>
-		</div>
-		{% include 'includes/flags.html' with flags=case.flags %}
-	</div>
 </div>
 
 <div class="app-case-separator"></div>
 
-{% include 'case/views/open-goods.html' %}
+{% include 'case/tabs/details/goods.html' %}
 
 <div class="app-case-separator"></div>
 
-{% include 'case/views/open-destinations.html' %}
+{% include 'case/tabs/details/countries.html' %}
 
 <div class="app-case-separator"></div>
 
 <!-- End Use Details -->
 <table class="govuk-table" id="end-use-details">
+	<caption class="govuk-table__caption">End use details</caption>
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
 			<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.EndUseDetails.NUMBER_COLUMN' %}</th>
@@ -177,10 +166,11 @@
 </table>
 
 <!-- Temporary export details -->
-{% if case.application.export_type.value == 'Temporary' %}
+{% if case.application.export_type.key == 'temporary' %}
 	<div class="app-case-separator"></div>
 
 	<table class="govuk-table" id="temporary-export-details">
+		<caption class="govuk-table__caption">Export details</caption>
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
 				<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.TemporaryExportDetails.NUMBER_COLUMN' %}</th>
@@ -233,6 +223,7 @@
 
 <!-- Route of goods -->
 <table class="govuk-table" id="route-of-goods">
+	<caption class="govuk-table__caption">Route of goods</caption>
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
 			<th class="govuk-table__header">{% lcs 'cases.ApplicationPage.RouteOfGoods.DESCRIPTION_COLUMN' %}</th>

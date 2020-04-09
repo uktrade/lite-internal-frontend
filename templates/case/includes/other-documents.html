@@ -1,5 +1,6 @@
 {% if case.application.additional_documents %}
 	<table class="govuk-table" id="supporting-documentation">
+		<caption class="govuk-table__caption">Supporting documentation</caption>
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
 				<th class="govuk-table__header" scope="col">{% lcs 'SUPPORTING_DOCUMENTATION_NAME' %}</th>
@@ -29,7 +30,6 @@
 		</tbody>
 	</table>
 {% else %}
-	<p class="govuk-hint">
-		{% lcs 'SUPPORTING_DOCUMENTATION_NO_DOCUMENTATION' %}
-	</p>
+	<p class="govuk-table__caption" style="width: 100%; display: block;">Supporting documentation</p>
+	{% include "includes/notice.html" with text='SUPPORTING_DOCUMENTATION_NO_DOCUMENTATION' %}
 {% endif %}
