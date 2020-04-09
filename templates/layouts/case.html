@@ -150,13 +150,13 @@
 {% block body %}
 	<!-- <div style="height: 200px; width: 200px; background: {{ case.all_flags|aurora }}"></div> -->
 
-	<br>
+	<!-- <br> -->
 
-	<p>{{ case.all_flags|aurora }}</p>
+	<!-- <p>{{ case.all_flags|aurora }}</p> -->
 
-	{% include 'includes/flags.html' with flags=case.all_flags %}
+	<!-- {% include 'includes/flags.html' with flags=case.all_flags %} -->
 
-	<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' queue.id case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags">Change case flags</a>
+	<!-- <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' queue.id case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags">Change case flags</a> -->
 
 	{% block details %}{% endblock %}
 {% endblock %}
