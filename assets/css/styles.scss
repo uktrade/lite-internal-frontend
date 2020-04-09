@@ -14,3 +14,12 @@ $govuk-brand-colour: #21334F !default;
 @import "placeholder";
 // Temporary file for odd bits of SCSS
 // Will be cleaned up every story
+
+.modal {
+	max-width: 600px;
+	padding-top: govuk-spacing(3);
+
+	h1 {
+		display: none;
+	}
+}

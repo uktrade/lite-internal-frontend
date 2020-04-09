@@ -248,6 +248,15 @@
         list-style-type: none;
     }
 
+    &__breadcrumbs-list-item {
+        display: inline-block;
+        margin-left: govuk-spacing(3);
+
+        &:first-of-type {
+            margin-left: 0;
+        }
+    }
+
     &__breadcrumbs-link {
         @extend .govuk-breadcrumbs__list-item;
         @include govuk-font($size: 16, $weight: bold, $line-height: 1);

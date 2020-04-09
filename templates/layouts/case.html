@@ -2,8 +2,6 @@
 
 {% load svg static %}
 
-{% block back_link %}{% endblock %}
-
 {% block body_classes %}app-template__body{% endblock %}
 
 {% block title %}
@@ -20,9 +18,18 @@
 						<li class="app-case-header__breadcrumbs-list-item">
 							<a class="app-case-header__breadcrumbs-link" href="{% url 'queues:cases' queue.id %}">{{ queue.name }}</a>
 						</li>
+						{% if page.back_link.url %}
+							<li class="app-case-header__breadcrumbs-list-item">
+								<a class="app-case-header__breadcrumbs-link" href="{{ page.back_link.url }}">{{ case.reference_code }}</a>
+							</li>
+						{% endif %}
 					</ol>
 					<h1 class="app-case-header__heading" style="z-index: 10;">
-						{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a>
+						{% if page.title %}
+							{{ page.title }}
+						{% else %}
+							{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a>
+						{% endif %}
 					</h1>
 				</div>
 				<div class="app-case-header__controls">
@@ -138,7 +145,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="case-flags">
+			<div id="case-flags" style="display: none;">
 				<div style="margin-top: 20px; margin-bottom: -30px;">
 					{% include 'includes/flags.html' with flags=case.all_flags|slice:6 %}
 				</div>
@@ -158,8 +165,14 @@
 
 	<!-- <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' queue.id case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags">Change case flags</a> -->
 
-	{% block details %}{% endblock %}
-	{% block two_thirds %}{% endblock %}
+	{% block details %}
+		<div class="modal-bg">
+
+		</div>
+		<div class="modal">
+			{% block two_thirds %}{% endblock %}
+		</div>
+	{% endblock %}
 {% endblock %}
 
 {% block javascript %}
@@ -224,7 +237,7 @@
 			var padding = Math.max(15, 30 - (scrollPosition / 3));
 			var paddingFlags = Math.min(56, scrollPosition);
 			$(".app-case-header").css({"padding-top": padding, "padding-bottom": padding});
-			$(".app-case-header__breadcrumbs-list").css({"opacity": 1 - (scrollPosition / 10), "transform": "translateY(" + -(30 - padding) + "px)", "margin-top": -(30 - padding) + "px", "margin-bottom": -(15 - padding) + "px"});
+			$(".app-case-header__breadcrumbs-list").css({"opacity": 1 - (scrollPosition / 10), "transform": "translateY(" + -(30 - padding) + "px)", "margin-top": -(30 - padding) + "px", "margin-bottom": -(20 - padding) + "px"});
 			$("#case-flags").css({"opacity": 1 - (scrollPosition / 10), "transform": "translateY(" + -(30 - padding) + "px)", "margin-top": -paddingFlags + "px"});
 		});
 	</script>

@@ -298,11 +298,11 @@ class AddAnAdditionalContact(SingleFormView):
 class AttachDocuments(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
-        get_case(request, case_id)
+        case = get_case(request, case_id)
 
         form = attach_documents_form(reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "documents"}))
 
-        return form_page(request, form, extra_data={"case_id": case_id})
+        return form_page(request, form, extra_data={"case_id": case_id, "case": case})
 
     @csrf_exempt
     def post(self, request, **kwargs):

@@ -80,15 +80,16 @@
 	</header>
 
 	{% block header %}
+		<div class="govuk-width-container">
+			<section role="banner" data-module="header">
+				{% block back_link %}
+					<a href="#" class="govuk-back-link lite-js-only">Back</a>
+				{% endblock %}
+			</section>
+		</div>
 	{% endblock %}
 
 	<div class="govuk-width-container">
-		<section role="banner" data-module="header">
-			{% block back_link %}
-				<a href="#" class="govuk-back-link lite-js-only">Back</a>
-			{% endblock %}
-		</section>
-
 		<main class="govuk-main-wrapper" id="main-content" role="main">
 			{% block body %}{% endblock %}
 		</main>
