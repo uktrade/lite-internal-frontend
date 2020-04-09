@@ -447,10 +447,10 @@ def aurora(flags):
         bucket.extend(bucket)
 
     gradients = [
-        f"radial-gradient(ellipse at center left, {bucket[0]}, transparent)",
-        f"radial-gradient(ellipse at center right, {bucket[1]}, transparent)",
-        f"radial-gradient(ellipse at top, {bucket[2]}, transparent)",
-        f"radial-gradient(ellipse at bottom, {bucket[3]}, transparent)"
+        f"radial-gradient(ellipse at top left, {bucket[0]}, transparent)",
+        f"radial-gradient(ellipse at top right, {bucket[1]}, transparent)",
+        f"radial-gradient(ellipse at bottom left, {bucket[2]}, transparent)",
+        f"radial-gradient(ellipse at bottom right, {bucket[3]}, transparent)"
     ]
 
     # return "linear-gradient(45deg, " + ",".join(bucket[:3]) + ")"

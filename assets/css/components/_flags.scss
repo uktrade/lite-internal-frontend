@@ -36,7 +36,7 @@
 }
 
 .app-flag {
-	@include govuk-font($size: 16, $weight: bold);
+	@include govuk-font($size: 19, $weight: bold);
 	position: relative;
 	display: inline-flex;
 	align-items: center;
@@ -50,8 +50,8 @@
 	box-sizing: border-box;
 
 	&--yellow {
-		background: govuk-tint(govuk-colour("yellow"), 80);
-		color: govuk-shade(govuk-colour("yellow"), 30);
+		background: govuk-tint(govuk-colour("yellow"), 75);
+		color: govuk-shade(govuk-colour("yellow"), 55);
 	}
 
 	&--blue {

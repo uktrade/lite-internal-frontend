@@ -168,7 +168,7 @@
         }
 
         .app-case-header__candy {
-            @include govuk-font($size: 16, $weight: bold);
+            @include govuk-font($size: 19, $weight: bold);
             position: relative;
             display: flex;
             align-items: center;
@@ -209,8 +209,8 @@
             }
 
             svg {
-                width: 16px;
-                height: 16px;
+                width: 20px;
+                height: 20px;
                 margin-right: govuk-spacing(2);
 
                 * {
@@ -330,7 +330,7 @@
 
 .app-case-tab-bar {
     position: sticky;
-    top: 58px;
+    top: 65px;
     margin: 0;
     z-index: 0;
     margin-bottom: govuk-spacing(6);
@@ -363,9 +363,10 @@
         height: 2px;
         transform: translateX(-50vw);
         bottom: 0;
-        // background: govuk-shade(govuk-colour("light-grey"), 2);
+        background: govuk-shade(govuk-colour("light-grey"), 2);
         z-index: -1;
         transition: opacity .2s ease;
+        opacity: 0;
     }
 
     &--float::after {
@@ -403,28 +404,14 @@
     position: relative;
     height: govuk-spacing(2);
     z-index: 0;
-
-    &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        width: 100vw;
-        transform: translateX(-50vw);
-        bottom: 0;
-        // background-color: govuk-colour("light-grey");
-        // border-top: 2px solid govuk-shade(govuk-colour("light-grey"), 2);
-        // border-bottom: 2px solid govuk-shade(govuk-colour("light-grey"), 2);
-        z-index: -1;
-    }
 }
 
 .app-case-header__aurora {
     position: absolute;
-    top: -10vh;
-    bottom: -10vh;
+    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
-    background-color: $govuk-brand-colour;
+    background-color: white;
     opacity: .3;
 }
