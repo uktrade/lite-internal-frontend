@@ -40,8 +40,7 @@ class FlaggingRulePages(BasePage):
         self.driver.find_element_by_id(self.MATCHING_VALUE_ID).send_keys(text)
 
     def select_flag(self, flag):
-        select = Select(self.driver.find_element_by_id(self.SELECT_FLAG_ID))
-        select.select_by_visible_text(flag)
+        Select(self.driver.find_element_by_id(self.SELECT_FLAG_ID)).select_by_visible_text(flag)
 
     def enter_country(self, country):
         functions.send_keys_to_autocomplete(self.driver, self.MATCHING_VALUE_ID, country)
@@ -49,6 +48,12 @@ class FlaggingRulePages(BasePage):
     def select_case_type(self, case_type):
         select = Select(self.driver.find_element_by_id(self.MATCHING_VALUE_ID))
         select.select_by_value(case_type)
+
+    def select_is_for_verified_goods_only(self, answer):
+        if answer == "True":
+            self.driver.find_element_by_css_selector("[id$=-True]").click()
+        else:
+            self.driver.find_element_by_css_selector("[id$=-False]").click()
 
     def click_on_deactivate_flag(self, element):
         element.find_element_by_css_selector(self.DEACTIVATE_FLAG_BUTTON).click()

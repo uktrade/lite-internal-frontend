@@ -5,10 +5,21 @@ from lite_content.lite_internal_frontend import strings
 from django.urls import reverse_lazy
 
 from lite_content.lite_internal_frontend.flags import CreateFlagForm, EditFlagForm
-from lite_forms.components import TextInput, Select, Option, BackLink, Form, FormGroup, RadioButtons, AutocompleteInput
+from lite_content.lite_internal_frontend.strings import FlaggingRules
+from lite_forms.components import (
+    TextInput,
+    Select,
+    Option,
+    BackLink,
+    Form,
+    FormGroup,
+    RadioButtons,
+    AutocompleteInput,
+    NumberInput,
+)
 from lite_forms.generators import confirm_form
 
-options = [
+level_options = [
     Option("Case", "Case"),
     Option("Organisation", "Organisation"),
     Option("Destination", "Destination"),
@@ -33,20 +44,68 @@ def add_flag_form():
                 title=CreateFlagForm.Level.TITLE,
                 description=CreateFlagForm.Level.DESCRIPTION,
                 name="level",
-                options=options,
+                options=level_options,
+            ),
+            RadioButtons(
+                title=CreateFlagForm.Colour.TITLE,
+                description=CreateFlagForm.Colour.DESCRIPTION,
+                name="colour",
+                classes=["app-radios--flag-colours"],
+                options=[
+                    Option("default", "Default"),
+                    Option("red", "Red", classes=["app-radios__item--red"]),
+                    Option("yellow", "Yellow", classes=["app-radios__item--yellow"]),
+                    Option("green", "Green", classes=["app-radios__item--green"]),
+                    Option("blue", "Blue", classes=["app-radios__item--blue"]),
+                    Option("purple", "Purple", classes=["app-radios__item--purple"]),
+                    Option("orange", "Orange", classes=["app-radios__item--orange"]),
+                    Option("brown", "Brown", classes=["app-radios__item--brown"]),
+                    Option("turquoise", "Turquoise", classes=["app-radios__item--turquoise"]),
+                    Option("pink", "Pink", classes=["app-radios__item--pink"]),
+                ],
+            ),
+            TextInput(name="label", title=CreateFlagForm.Label.TITLE, description=CreateFlagForm.Label.DESCRIPTION,),
+            NumberInput(
+                name="priority", title=CreateFlagForm.Priority.TITLE, description=CreateFlagForm.Priority.DESCRIPTION
             ),
         ],
         default_button_name=CreateFlagForm.SUBMIT_BUTTON,
         back_link=BackLink(CreateFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
+        javascript_imports=["/assets/javascripts/add-edit-flags.js"],
     )
 
 
 def edit_flag_form():
     return Form(
         title=EditFlagForm.TITLE,
-        questions=[TextInput(title=EditFlagForm.Name.TITLE, description=EditFlagForm.Name.DESCRIPTION, name="name")],
+        questions=[
+            TextInput(title=EditFlagForm.Name.TITLE, description=EditFlagForm.Name.DESCRIPTION, name="name"),
+            RadioButtons(
+                title=EditFlagForm.Colour.TITLE,
+                description=EditFlagForm.Colour.DESCRIPTION,
+                name="colour",
+                classes=["app-radios--flag-colours"],
+                options=[
+                    Option("default", "Default"),
+                    Option("red", "Red", classes=["app-radios__item--red"]),
+                    Option("yellow", "Yellow", classes=["app-radios__item--yellow"]),
+                    Option("green", "Green", classes=["app-radios__item--green"]),
+                    Option("blue", "Blue", classes=["app-radios__item--blue"]),
+                    Option("purple", "Purple", classes=["app-radios__item--purple"]),
+                    Option("orange", "Orange", classes=["app-radios__item--orange"]),
+                    Option("brown", "Brown", classes=["app-radios__item--brown"]),
+                    Option("turquoise", "Turquoise", classes=["app-radios__item--turquoise"]),
+                    Option("pink", "Pink", classes=["app-radios__item--pink"]),
+                ],
+            ),
+            TextInput(name="label", title=EditFlagForm.Label.TITLE, description=EditFlagForm.Label.DESCRIPTION),
+            NumberInput(
+                name="priority", title=EditFlagForm.Priority.TITLE, description=EditFlagForm.Priority.DESCRIPTION
+            ),
+        ],
         back_link=BackLink(EditFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
         default_button_name=EditFlagForm.SUBMIT_BUTTON,
+        javascript_imports=["/assets/javascripts/add-edit-flags.js"],
     )
 
 
@@ -63,10 +122,20 @@ def select_condition_and_flag(request, type: str):
     title = ""
     condition = []
     flags = []
+    is_for_verified_goods_only = None
+
     if type == "Good":
         title = strings.FlaggingRules.Create.Condition_and_flag.GOOD_TITLE
         condition = TextInput(title=strings.FlaggingRules.Create.Condition_and_flag.GOOD, name="matching_value",)
         flags = get_goods_flags(request=request, convert_to_options=True)
+        is_for_verified_goods_only = RadioButtons(
+            name="is_for_verified_goods_only",
+            options=[
+                Option(key=True, value=FlaggingRules.Create.Condition_and_flag.YES_OPTION),
+                Option(key=False, value=FlaggingRules.Create.Condition_and_flag.NO_OPTION),
+            ],
+            title=FlaggingRules.Create.Condition_and_flag.GOODS_QUESTION,
+        )
     elif type == "Destination":
         title = strings.FlaggingRules.Create.Condition_and_flag.DESTINATION_TITLE
         condition = AutocompleteInput(
@@ -90,6 +159,7 @@ def select_condition_and_flag(request, type: str):
         questions=[
             condition,
             Select(title=strings.FlaggingRules.Create.Condition_and_flag.FLAG, name="flag", options=flags),
+            is_for_verified_goods_only,
         ],
     )
 

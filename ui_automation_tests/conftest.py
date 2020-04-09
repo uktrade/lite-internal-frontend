@@ -1,5 +1,5 @@
 import os
-
+from django.conf import settings
 from pytest_bdd import given, when, then, parsers
 
 from pages.goods_queries_pages import GoodsQueriesPages  # noqa
@@ -34,6 +34,7 @@ from ui_automation_tests.shared.fixtures.core import (  # noqa
     api_test_client,
     exporter_info,
     internal_info,
+    api_client,
 )
 from ui_automation_tests.shared.fixtures.urls import internal_url, sso_sign_in_url, api_url  # noqa
 
@@ -48,6 +49,12 @@ from ui_automation_tests.shared.tools.helpers import paginated_item_exists, get_
 
 
 def pytest_addoption(parser):
+    settings.configure(
+        DIRECTORY_SSO_API_CLIENT_API_KEY=os.environ.get("DIRECTORY_SSO_API_CLIENT_API_KEY"),
+        DIRECTORY_SSO_API_CLIENT_BASE_URL=os.environ.get("DIRECTORY_SSO_API_CLIENT_BASE_URL"),
+        DIRECTORY_SSO_API_CLIENT_DEFAULT_TIMEOUT=30,
+        DIRECTORY_SSO_API_CLIENT_SENDER_ID="directory",
+    )
     env = str(os.environ.get("ENVIRONMENT"))
     if env == "None":
         env = "dev"
@@ -143,7 +150,7 @@ def i_click_continue(driver):  # noqa
 
 @when("I go to flags")  # noqa
 def go_to_flags(driver, internal_url):  # noqa
-    driver.get(internal_url.rstrip("/") + "/flags")
+    driver.get(internal_url.rstrip("/") + "/flags/")
 
 
 @when("I click progress application")  # noqa
