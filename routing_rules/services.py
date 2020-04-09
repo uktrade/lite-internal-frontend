@@ -12,7 +12,12 @@ def get_routing_rule(request, id):
     return data.json(), data.status_code
 
 
-def _remove_none_from_checkbox(json):
+def _remove_none_from_post_data_additional_rules_list(json):
+    """
+    removes hidden field value from json field "additional_rules" list,
+        which is there to ensure field exists for editing purposes
+    :param json: this is data that is going to be posted
+    """
     data = json
     additional_rules = json.get("additional_rules", None)
     if "None" in additional_rules:
@@ -26,7 +31,7 @@ def _remove_none_from_checkbox(json):
 
 
 def post_routing_rule(request, json):
-    data = _remove_none_from_checkbox(json)
+    data = _remove_none_from_post_data_additional_rules_list(json)
     response = post(request, ROUTING_RULES_URL, data)
     return response.json(), response.status_code
 
@@ -38,7 +43,7 @@ def validate_put_routing_rule(request, id, json):
 
 
 def put_routing_rule(request, id, json):
-    data = _remove_none_from_checkbox(json)
+    data = _remove_none_from_post_data_additional_rules_list(json)
     response = put(request, ROUTING_RULES_URL + str(id), data)
     return response.json(), response.status_code
 

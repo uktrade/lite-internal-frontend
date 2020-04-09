@@ -27,9 +27,8 @@ additional_rules = [
 ]
 
 
-def initial_routing_rule_questions(request, edit: bool):
-
-    if edit:
+def initial_routing_rule_questions(request, is_editing: bool):
+    if is_editing:
         title = "Edit the routing rule"
     else:
         title = "Create a new routing rule"

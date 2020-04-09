@@ -123,11 +123,10 @@ class ChangeRoutingRuleActiveStatus(SingleFormView):
 class EditRoutingRules(MultiFormView):
     def init(self, request, **kwargs):
         if request.method == "POST":
-            try:
-                additional_rules = request.POST.getlist("additional_rules[]")
-            except AttributeError:
-                additional_rules = [request.POST.get("additional_rules[]", None)]
+            additional_rules = request.POST.getlist("additional_rules[]", [])
             self.forms = routing_rule_form_group(request, additional_rules, edit=True)
+
+            # we only want to update the data during the last form post
             if (len(self.get_forms().forms) - 1) == int(request.POST.get("form_pk", 0)):
                 self.action = put_routing_rule
             else:
