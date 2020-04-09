@@ -30,4 +30,5 @@ def add_additional_contact_form(request, queue_id, case_id):
             reverse_lazy("cases:case", kwargs={"queue_pk": queue_id, "pk": case_id, "tab": "additional-contacts"}),
         ),
         default_button_name=AddAdditionalContact.SUBMIT_BUTTON,
+        container="case",
     )
