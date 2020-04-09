@@ -49,5 +49,9 @@ def put_routing_rule(request, id, json):
 
 
 def put_routing_rule_active_status(request, id, json):
-    data = put(request, ROUTING_RULES_URL + str(id) + ROUTING_RULES_STATUS_URL, json)
+    data = json
+    # the confirm name is the name of the form
+    data["status"] = data["form_name"]
+
+    data = put(request, ROUTING_RULES_URL + str(id) + ROUTING_RULES_STATUS_URL, data)
     return data.json(), data.status_code
