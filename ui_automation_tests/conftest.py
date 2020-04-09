@@ -377,8 +377,8 @@ def add_a_flag(driver, add_organisation_flag):  # noqa
     pass
 
 
-@given("a new queue has been created")
-def create_queue(context, api_test_client):
+@given("a new queue has been created")  # noqa
+def create_queue(context, api_test_client):  # noqa
     api_test_client.queues.add_queue("queue" + get_formatted_date_time_m_d_h_s())
     context.queue_name = api_test_client.context["queue_name"]
     context.queue_id = api_test_client.context["queue_id"]
