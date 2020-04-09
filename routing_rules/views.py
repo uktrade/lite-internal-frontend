@@ -75,7 +75,7 @@ class CreateRoutingRule(MultiFormView):
         if request.method == "POST":
             self.forms = routing_rule_form_group(request, request.POST.getlist("additional_rules[]"))
         else:
-            self.forms = routing_rule_form_group(request)
+            self.forms = routing_rule_form_group(request, list())
         self.success_url = reverse("routing_rules:list")
         self.action = post_routing_rule
 
@@ -124,7 +124,7 @@ class EditRoutingRules(MultiFormView):
     def init(self, request, **kwargs):
         if request.method == "POST":
             additional_rules = request.POST.getlist("additional_rules[]", [])
-            self.forms = routing_rule_form_group(request, additional_rules, edit=True)
+            self.forms = routing_rule_form_group(request, additional_rules, is_editing=True)
 
             # we only want to update the data during the last form post
             if (len(self.get_forms().forms) - 1) == int(request.POST.get("form_pk", 0)):
@@ -133,7 +133,7 @@ class EditRoutingRules(MultiFormView):
                 self.action = validate_put_routing_rule
 
         else:
-            self.forms = routing_rule_form_group(request, edit=True)
+            self.forms = routing_rule_form_group(request, list(), is_editing=True)
             self.action = put_routing_rule
 
         self.object_pk = kwargs["pk"]

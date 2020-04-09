@@ -68,7 +68,7 @@ def select_case_type(request):
     )
 
 
-def select_flags(request):
+def select_flags(request, team_id):
     return Form(
         title="Select flags",
         questions=[
@@ -76,7 +76,9 @@ def select_flags(request):
                 name="flags[]",
                 options=[
                     Option(flag["id"], flag["name"])
-                    for flag in get_flags_for_team_of_level(request, level="", include_system_flags=True)[0]["flags"]
+                    for flag in get_flags_for_team_of_level(
+                        request, level="", team_id=team_id, include_system_flags=True
+                    )[0]
                 ],
             )
         ],
@@ -90,31 +92,27 @@ def select_country(request):
     )
 
 
-def select_team_member(request):
+def select_team_member(request, team_id):
     return Form(
         title="Select a team member to assign the case to",
         questions=[
             RadioButtons(
                 name="user",
-                options=[
-                    Option(user["id"], user["email"])
-                    for user in get_users_by_team(request, get_gov_user(request)[0]["user"]["team"]["id"])[0]["users"]
-                ],
+                options=[Option(user["id"], user["email"]) for user in get_users_by_team(request, team_id)[0]["users"]],
             )
         ],
     )
 
 
-def routing_rule_form_group(request, additional_rules=None, edit=False):
-    if additional_rules is None:
-        additional_rules = []
+def routing_rule_form_group(request, additional_rules, is_editing=False):
+    team_id = get_gov_user(request)[0]["user"]["team"]["id"]
     return FormGroup(
         [
-            initial_routing_rule_questions(request, edit),
+            initial_routing_rule_questions(request, is_editing),
             conditional("case_types" in additional_rules, select_case_type(request)),
-            conditional("flags" in additional_rules, select_flags(request)),
+            conditional("flags" in additional_rules, select_flags(request, team_id)),
             conditional("country" in additional_rules, select_country(request)),
-            conditional("users" in additional_rules, select_team_member(request)),
+            conditional("users" in additional_rules, select_team_member(request, team_id)),
         ]
     )
 

@@ -308,7 +308,7 @@ def post_goods_control_code(request, case_id, json):
 
 
 # Good Flags
-def get_flags_for_team_of_level(request, level, include_system_flags=False):
+def get_flags_for_team_of_level(request, level, team_id, include_system_flags=False):
     """
 
     :param request:
@@ -316,7 +316,17 @@ def get_flags_for_team_of_level(request, level, include_system_flags=False):
     :param include_system_flags: used to indicate adding system flags to list of team flags returned
     :return:
     """
-    data = get(request, FLAGS_URL + "?level=" + level + "&team=True&include_system_flags=" + str(include_system_flags))
+    data = get(
+        request,
+        FLAGS_URL
+        + "?level="
+        + level
+        + "&team="
+        + str(team_id)
+        + "&include_system_flags="
+        + str(include_system_flags)
+        + "&disable_pagination=True",
+    )
     return data.json(), data.status_code
 
 
