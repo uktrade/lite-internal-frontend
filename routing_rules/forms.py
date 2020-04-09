@@ -14,15 +14,16 @@ from lite_forms.components import (
     BackLink,
     HiddenField,
 )
+from lite_forms.generators import confirm_form
 from lite_forms.helpers import conditional
 from teams.services import get_users_team_queues, get_users_by_team
 from users.services import get_gov_user
 
 additional_rules = [
-    Option("users", "Users"),
     Option("case_types", "Case Types"),
     Option("flags", "Flags"),
     Option("country", "Country"),
+    Option("users", "Users"),
 ]
 
 
@@ -114,4 +115,17 @@ def routing_rule_form_group(request, additional_rules=list(), edit=False):
             conditional("country" in additional_rules, select_country(request)),
             conditional("users" in additional_rules, select_team_member(request)),
         ]
+    )
+
+
+def deactivate_or_activate_routing_rule_form(title, description, confirm_text, status):
+    return confirm_form(
+        title=title,
+        description=description,
+        back_link_text="Back to routing rules list",
+        back_url=reverse_lazy("routing_rules:list"),
+        yes_label=confirm_text,
+        no_label="Cancel",
+        hidden_field=status,
+        confirmation_name="confirm",
     )

@@ -43,6 +43,6 @@ def put_routing_rule(request, id, json):
     return response.json(), response.status_code
 
 
-def put_routing_rule_active_status(request, id, status):
-    data = put(request, ROUTING_RULES_URL + id + ROUTING_RULES_STATUS_URL + status, {})
+def put_routing_rule_active_status(request, id, json):
+    data = put(request, ROUTING_RULES_URL + str(id) + ROUTING_RULES_STATUS_URL, json)
     return data.json(), data.status_code

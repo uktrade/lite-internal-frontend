@@ -12,7 +12,7 @@
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
-			<a href="{% url 'routing_rules:create' %}" class="govuk-button" draggable="false" role="button" id="add-a-flag-button">
+			<a href="{% url 'routing_rules:create' %}" class="govuk-button" draggable="false" role="button" id="create-routing-rule">
 				Create new routing rule
 			</a>
 		</div>
@@ -39,14 +39,18 @@
 								{{ rule.team.name }}
 							</a>
 						</td>
-						<td class="govuk-table__cell">
+						<td class="govuk-table__cell" id={{rule.queue.id}}>
 							{{ rule.queue.name }}
 						</td>
 						<td class="govuk-table__cell">
 							{{ rule.tier }}
 						</td>
 						<td class="govuk-table__cell">
-							{{ rule.active }}
+							{% if rule.active %}
+								Active
+							{% else %}
+								Deactivated
+							{% endif %}
 						</td>
 						<td class="govuk-table__cell govuk-table__cell--tight">
 							<ul class="govuk-table__cell__actions-list">

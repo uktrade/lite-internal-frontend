@@ -3,15 +3,15 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
-from cases.services import get_case_types
 from conf.constants import Permission
 from core.helpers import convert_dict_to_query_params, has_permission, get_params_if_exist
 from core.services import get_statuses
 from lite_forms.components import FiltersBar, Option, Checkboxes, Select, AutocompleteInput, TextInput
+from lite_forms.generators import form_page
 from lite_forms.helpers import conditional
-from lite_forms.views import MultiFormView
+from lite_forms.views import MultiFormView, SingleFormView
 from queues.services import get_queues
-from routing_rules.forms import routing_rule_form_group
+from routing_rules.forms import routing_rule_form_group, deactivate_or_activate_routing_rule_form
 from routing_rules.services import (
     get_routing_rules,
     post_routing_rule,
@@ -80,37 +80,44 @@ class CreateRoutingRule(MultiFormView):
         self.action = post_routing_rule
 
 
-class ChangeRoutingRuleActiveStatus(TemplateView):
-    def get(self, request, **kwargs):
+class ChangeRoutingRuleActiveStatus(SingleFormView):
+    success_url = reverse_lazy("routing_rules:list")
+
+    def init(self, request, **kwargs):
         status = kwargs["status"]
-        description = ""
+        self.object_pk = kwargs["pk"]
 
         if status != "deactivate" and status != "reactivate":
             raise Http404
 
         if status == "deactivate":
-            description = "you are deactivating the flag"
+            title = "Are you sure you want to deactivate this routing rule?"
+            description = "you are deactivating the routing rule"
+            confirm = "deactivate this routing rule"
+        else:
+            title = "Are you sure you want to activate this routing rule?"
+            description = "you are deactivating the routing rule"
+            confirm = "activate this routing rule"
 
-        if status == "reactivate":
-            description = "you are reactivating the flag"
-
-        context = {
-            "title": "Are you sure you want to {} this routing rule?".format(status),
-            "description": description,
-            "user_id": str(kwargs["pk"]),
-            "status": status,
-        }
-        return render(request, "routing_rules/change-status.html", context)
+        self.form = deactivate_or_activate_routing_rule_form(
+            title=title, description=description, confirm_text=confirm, status=status
+        )
+        self.action = put_routing_rule_active_status
 
     def post(self, request, **kwargs):
-        status = kwargs["status"]
+        self.init(request, **kwargs)
+        if not request.POST.get("confirm"):
+            return form_page(
+                request,
+                self.get_form(),
+                data=self.get_data(),
+                errors={"confirm": ["Select to confirm or not"]},
+                extra_data=self.context,
+            )
+        elif request.POST.get("confirm") == "no":
+            return redirect(self.success_url)
 
-        if status != "deactivate" and status != "reactivate":
-            raise Http404
-
-        put_routing_rule_active_status(request, str(kwargs["pk"]), status)
-
-        return redirect(reverse_lazy("routing_rules:list"))
+        return super(ChangeRoutingRuleActiveStatus, self).post(request, **kwargs)
 
 
 class EditRoutingRules(MultiFormView):
