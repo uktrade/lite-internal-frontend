@@ -105,7 +105,9 @@ def select_team_member(request):
     )
 
 
-def routing_rule_form_group(request, additional_rules=[], edit=False):
+def routing_rule_form_group(request, additional_rules=None, edit=False):
+    if additional_rules is None:
+        additional_rules = []
     return FormGroup(
         [
             initial_routing_rule_questions(request, edit),
