@@ -67,7 +67,7 @@ class RoutingRulesList(TemplateView):
             "user_data": user_data,
             "filters": filters,
         }
-        return render(request, "routing_rules/index.html", context)
+        return render(request, "routing-rules/index.html", context)
 
 
 class CreateRoutingRule(MultiFormView):
