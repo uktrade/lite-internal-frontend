@@ -30,9 +30,9 @@ additional_rules = [
 
 def initial_routing_rule_questions(request, is_editing: bool):
     if is_editing:
-        title = "Edit the routing rule"
+        title = Forms.EDIT_TITLE
     else:
-        title = "Create a new routing rule"
+        title = Forms.CREATE_TITLE
 
     return Form(
         title=title,
@@ -130,10 +130,10 @@ def deactivate_or_activate_routing_rule_form(activate, status):
     return confirm_form(
         title=title,
         description=description,
-        back_link_text="Back to routing rules list",
+        back_link_text=Forms.BACK_BUTTON,
         back_url=reverse_lazy("routing_rules:list"),
         yes_label=yes_label,
         no_label=no_label,
         hidden_field=status,
-        confirmation_name=Forms.BACK_BUTTON,
+        confirmation_name="confirm",
     )
