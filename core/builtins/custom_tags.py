@@ -417,7 +417,7 @@ def equals(ob1, ob2):
 @register.filter()
 def aurora(flags):
     colours = {
-        "default": "#21334F",
+        "default": "#626a6e",
         "red": "#d4351c",
         "orange": "#f47738",
         "blue": "#1d70b8",
