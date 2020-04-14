@@ -52,6 +52,7 @@ def new_ecju_query_form(request, queue_pk, pk):
                 ],
                 default_button_name="Send",
                 container="case",
+                javascript_imports=["/assets/javascripts/ecju-query.js"]
             ),
         ]
     )
