@@ -7,13 +7,13 @@
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
 				{% block title %}
-					Routing Rules
+					{% lcs 'routing_rules.RoutingRulesList.TITLE' %}
 				{% endblock %}
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'routing_rules:create' %}" class="govuk-button" draggable="false" role="button" id="create-routing-rule">
-				Create new routing rule
+				{% lcs 'routing_rules.RoutingRulesList.CREATE_BUTTON' %}
 			</a>
 		</div>
 	</div>
@@ -39,7 +39,7 @@
 								{{ rule.team.name }}
 							</a>
 						</td>
-						<td class="govuk-table__cell" id={{rule.queue.id}}>
+						<td class="govuk-table__cell" id={{ rule.queue.id }}>
 							{{ rule.queue.name }}
 						</td>
 						<td class="govuk-table__cell">
@@ -47,9 +47,9 @@
 						</td>
 						<td class="govuk-table__cell">
 							{% if rule.active %}
-								Active
+								{% lcs 'routing_rules.RoutingRulesList.ACTIVE' %}
 							{% else %}
-								Deactivated
+								{% lcs 'routing_rules.RoutingRulesList.DEACTIVATED' %}
 							{% endif %}
 						</td>
 						<td class="govuk-table__cell govuk-table__cell--tight">
@@ -57,16 +57,16 @@
 								<li class="govuk-table__cell__actions-list-item">
 									{% if rule.active == True %}
 										<a href="{% url 'routing_rules:change_status' rule.id 'deactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">
-											Deactivate
+											{% lcs 'routing_rules.RoutingRulesList.DEACTIVATE' %}
 										</a>
 									{% elif rule.active == False %}
 										<a href="{% url 'routing_rules:change_status' rule.id 'reactivate' %}" role="button" draggable="false" class="govuk-link govuk-link--no-visited-state">
-											Activate
+											{% lcs 'routing_rules.RoutingRulesList.REACTIVATE' %}
 										</a>
 									{% endif %}
 								</li>
 								<li class="govuk-table__cell__actions-list-item">
-									<a href="{% url 'routing_rules:edit' rule.id %}" class="govuk-link govuk-link--no-visited-state">{% lcs 'flags.FlagsList.Table.EDIT' %}</a>
+									<a href="{% url 'routing_rules:edit' rule.id %}" class="govuk-link govuk-link--no-visited-state">{% lcs 'routing_rules.RoutingRulesList.EDIT' %}</a>
 								</li>
 							</ul>
 						</td>

@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 from conf.constants import Permission
 from core.helpers import convert_dict_to_query_params, has_permission, get_params_if_exist
 from core.services import get_statuses
+from lite_content.lite_internal_frontend.routing_rules import Filter
 from lite_forms.components import FiltersBar, Option, Checkboxes, Select, AutocompleteInput, TextInput
 from lite_forms.generators import form_page
 from lite_forms.helpers import conditional
@@ -37,26 +38,26 @@ class RoutingRulesList(TemplateView):
 
         filters = FiltersBar(
             [
-                Select(title="Case Status", name="case_status", options=get_statuses(request, True),),
+                Select(title=Filter.CASE_STATUS, name="case_status", options=get_statuses(request, True),),
                 *conditional(
                     has_permission(request, Permission.MANAGE_ALL_ROUTING_RULES),
                     [
-                        Select(title="Team", name="team", options=get_teams(request, True)),
+                        Select(title=Filter.TEAM, name="team", options=get_teams(request, True)),
                         AutocompleteInput(
-                            title="Queue", name="queue", options=get_queues(request, convert_to_options=True),
+                            title=Filter.QUEUE, name="queue", options=get_queues(request, convert_to_options=True),
                         ),
                     ],
                     [
                         AutocompleteInput(
-                            title="Queue",
+                            title=Filter.QUEUE,
                             name="queue",
                             options=get_users_team_queues(request, request.user.lite_api_user_id, True),
                         ),
                     ],
                 ),
-                TextInput(title="Enter a tier number", name="tier"),
+                TextInput(title=Filter.TIER, name="tier"),
                 Checkboxes(
-                    name="only_active", options=[Option(True, "Only show active")], classes=["govuk-checkboxes--small"],
+                    name="only_active", options=[Option(True, Filter.ACTIVE_ONLY)], classes=["govuk-checkboxes--small"],
                 ),
             ]
         )
@@ -90,18 +91,7 @@ class ChangeRoutingRuleActiveStatus(SingleFormView):
         if status != "deactivate" and status != "reactivate":
             raise Http404
 
-        if status == "deactivate":
-            title = "Are you sure you want to deactivate this routing rule?"
-            description = "you are deactivating the routing rule"
-            confirm = "deactivate this routing rule"
-        else:
-            title = "Are you sure you want to activate this routing rule?"
-            description = "you are deactivating the routing rule"
-            confirm = "activate this routing rule"
-
-        self.form = deactivate_or_activate_routing_rule_form(
-            title=title, description=description, confirm_text=confirm, status=status
-        )
+        self.form = deactivate_or_activate_routing_rule_form(activate=status == "reactivate", status=status)
         self.action = put_routing_rule_active_status
 
     def post(self, request, **kwargs):
