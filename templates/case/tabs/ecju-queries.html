@@ -1,6 +1,6 @@
-<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:new_ecju_query' queue.id case.id %}">
-	{% lcs 'cases.EcjuQueries.AddQuery.ADD_BUTTON_LABEL' %}
-</a>
+{% make_list queue.id case.id as button_params %}
+{% govuk_link_button id='new-query' text='cases.EcjuQueries.AddQuery.ADD_BUTTON_LABEL' url='cases:new_ecju_query' url_param=button_params %}
+
 
 {% if open_ecju_queries or closed_ecju_queries %}
 	{% if open_ecju_queries %}
