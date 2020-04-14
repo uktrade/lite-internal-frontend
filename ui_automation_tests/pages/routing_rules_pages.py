@@ -37,12 +37,14 @@ class RoutingRulesPage(BasePage):
 
     def select_all_additional_rules(self):
         rules = self.driver.find_elements_by_css_selector(self.CHECKBOX_ADDITIONAL_RULES)
+        assert len(rules) == 4
         for rule in rules:
             if not rule.is_selected():
                 rule.click()
 
     def select_no_additional_rules(self):
         rules = self.driver.find_elements_by_css_selector(self.CHECKBOX_ADDITIONAL_RULES)
+        assert len(rules) == 4
         for rule in rules:
             if rule.is_selected():
                 rule.click()

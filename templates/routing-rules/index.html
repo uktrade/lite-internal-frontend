@@ -75,7 +75,7 @@
 			</tbody>
 		</table>
 	{% else %}
-		{% include "includes/notice.html" with text="No routing rules curently exists" %}
+		{% include "includes/notice.html" with text='routing_rules.RoutingRulesList.NO_CONTENT_NOTICE' %}
 	{% endif %}
 	{% if data.total_pages > 1 %}
 		<br>
