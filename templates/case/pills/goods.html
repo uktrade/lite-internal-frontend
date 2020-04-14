@@ -1,0 +1,19 @@
+{% if case.application.goods %}
+	<div class="app-menu__header">
+		{{ case.application.goods|length }} good{{ case.application.goods|pluralize }}
+	</div>
+	<p class="govuk-body govuk-!-margin-3">
+		{% for good in case.application.goods %}
+			{{ good.control_code }}
+		{% endfor %}
+	</p>
+{% else %}
+	<div class="app-menu__header">
+		{{ case.application.goods_types|length }} good{{ case.application.goods_types|pluralize }}
+	</div>
+	<p class="govuk-body govuk-!-margin-3">
+		{% for good in case.application.goods_types %}
+			{{ good.control_code }}
+		{% endfor %}
+	</p>
+{% endif %}

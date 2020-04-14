@@ -1,7 +1,6 @@
 from __future__ import division
 
 import datetime
-import itertools
 import json
 import math
 import re
@@ -16,9 +15,8 @@ from django.utils.safestring import mark_safe
 
 from conf import settings
 from conf.constants import ISO8601_FMT, DATE_FORMAT
-
-from lite_content.lite_internal_frontend import strings
 from conf.constants import SystemTeamsID, CaseType
+from lite_content.lite_internal_frontend import strings
 
 register = template.Library()
 STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
@@ -428,17 +426,13 @@ def aurora(flags):
         "pink": "#d53880",
         "purple": "#4c2c92",
         "brown": "#b58840",
-        "turquoise": "#28a197"
+        "turquoise": "#28a197",
     }
 
     bucket = [colours[flag["colour"]] for flag in flags]
 
     if len(set(bucket)) != len(bucket):
         bucket = list(OrderedDict.fromkeys(item for items, c in Counter(bucket).most_common() for item in [items] * c))
-
-    print('\n')
-    print(bucket)
-    print('\n')
 
     if not bucket:
         return
@@ -450,9 +444,14 @@ def aurora(flags):
         f"radial-gradient(ellipse at top left, {bucket[0]}, transparent)",
         f"radial-gradient(ellipse at top right, {bucket[1]}, transparent)",
         f"radial-gradient(ellipse at bottom left, {bucket[2]}, transparent)",
-        f"radial-gradient(ellipse at bottom right, {bucket[3]}, transparent)"
+        f"radial-gradient(ellipse at bottom right, {bucket[3]}, transparent)",
     ]
 
-    # return "linear-gradient(45deg, " + ",".join(bucket[:3]) + ")"
-
     return ",".join(gradients)
+
+
+@register.filter()
+def multiply(num1, num2):
+    if not num1:
+        return 0
+    return num1 * num2

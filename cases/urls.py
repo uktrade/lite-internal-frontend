@@ -65,8 +65,7 @@ urlpatterns = [
         generate_document.CreateDocumentFinalAdvice.as_view(),
         name="finalise_document_create",
     ),
-    path("ecju-queries/choose-type", ecju.ChooseECJUQueryType.as_view(), name="choose_ecju_query_type"),
-    path("ecju-queries/add", ecju.CreateEcjuQuery.as_view(), name="ecju_queries_add"),
+    path("ecju-queries/new/", ecju.NewECJUQueryView.as_view(), name="new_ecju_query"),
     path("respond-to-clc-query/", goods_query.RespondCLCQuery.as_view(), name="respond_to_clc_query"),
     path("respond-to-clc-query/flags/", goods_query.RespondCLCFlags.as_view(), name="respond_to_clc_query_flags",),
     path(

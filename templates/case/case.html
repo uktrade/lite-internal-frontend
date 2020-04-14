@@ -1,18 +1,6 @@
 {% extends 'layouts/case.html' %}
 
 {% block details %}
-	<div id="tab-bar" class="app-case-tab-bar">
-		<div class="lite-tabs__container">
-			<div class="lite-tabs">
-				{% for tab in tabs %}
-					<a id="{{ tab.id }}" href="{% url 'cases:case' queue.id case.id tab.url %}" class="lite-tabs__tab {% if tab.url == current_tab %}lite-tabs__tab--selected{% endif %}">
-						{{ tab.name }}
-					</a>
-				{% endfor %}
-			</div>
-		</div>
-	</div>
-
 	{% include 'includes/messages.html' %}
 
 	{% for tab in tabs %}

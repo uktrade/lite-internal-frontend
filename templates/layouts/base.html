@@ -68,7 +68,7 @@
 				Sign out
 			</a>
 			<span class="app-header__separator"></span>
-			<a id="link-menu" class="app-header__link" href="{% url 'core:menu' %}" data-tooltip="Show menu">
+			<a id="link-menu" tabindex="0" class="app-header__link" href="{% url 'core:menu' %}" data-tooltip="Show menu">
 				{% svg 'menu' %}
 			</a>
 			<span class="app-header__separator"></span>
@@ -97,7 +97,7 @@
 
 	<div id="lite-menu" class="app-menu app-hidden">
 		{% for item in LITE_MENU %}
-			<a class="app-menu__item {% if item.url == CURRENT_PATH %}app-menu__item--selected{% endif %}" href="{{ item.url }}">
+			<a class="app-menu__item app-menu__item--icon {% if item.url == CURRENT_PATH %}app-menu__item--selected{% endif %}" href="{{ item.url }}">
 				<div class="app-menu__icon">
 					{% svg item.icon %}
 				</div>

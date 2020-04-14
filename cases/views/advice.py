@@ -55,12 +55,6 @@ class ViewUserAdvice(TemplateView):
         self.case, self.form = give_advice_dispatch("user", request, **kwargs)
         return super(ViewUserAdvice, self).dispatch(request, *args, **kwargs)
 
-    def get(self, request, **kwargs):
-        """
-        Show all advice that has been given for a case
-        """
-        return get_case_advice(get_user_case_advice, request, self.case, "user")
-
     def post(self, request, **kwargs):
         return render_form_page(get_user_case_advice, request, self.case, self.form)
 

@@ -101,7 +101,9 @@ class EditDocumentTextView(SingleFormView):
             self.data = {TEXT: document[TEXT]}
             backlink = BackLink(
                 text=GenerateDocumentsPage.EditTextForm.BACK_LINK_REGENERATE,
-                url=reverse_lazy("cases:documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}),
+                url=reverse_lazy(
+                    "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "documents"}
+                ),
             )
 
         # if not returning to this page from adding paragraphs (going to page first time) get template text
@@ -141,7 +143,9 @@ class RegenerateExistingDocument(TemplateView):
         document, status_code = get_generated_document(request, case_id, document_id)
         if status_code != HTTPStatus.OK:
             return redirect(
-                reverse_lazy("cases:documents", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id})
+                reverse_lazy(
+                    "cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": case_id, "tab": "documents"}
+                )
             )
 
         return redirect(
@@ -212,7 +216,9 @@ class CreateDocument(TemplateView):
         if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
         else:
-            return redirect(reverse_lazy("cases:documents", kwargs={"queue_pk": queue_pk, "pk": str(pk)}))
+            return redirect(
+                reverse_lazy("cases:case", kwargs={"queue_pk": queue_pk, "pk": str(pk), "tab": "documents"})
+            )
 
 
 class CreateDocumentFinalAdvice(TemplateView):

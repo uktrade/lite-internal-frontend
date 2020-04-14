@@ -103,13 +103,12 @@ class ViewCase(TemplateView):
         if "application" in case:
             status_props, _ = get_status_properties(request, case["application"]["status"]["key"])
             can_set_done = (
-                    not status_props["is_terminal"] and case["application"]["status"][
-                "key"] != Statuses.APPLICANT_EDITING
+                not status_props["is_terminal"] and case["application"]["status"]["key"] != Statuses.APPLICANT_EDITING
             )
         else:
             status_props, _ = get_status_properties(request, case["query"]["status"]["key"])
             can_set_done = (
-                    not status_props["is_terminal"] and case["query"]["status"]["key"] != Statuses.APPLICANT_EDITING
+                not status_props["is_terminal"] and case["query"]["status"]["key"] != Statuses.APPLICANT_EDITING
             )
 
         can_set_done = can_set_done and (is_system_queue and user_assigned_queues) or not is_system_queue
@@ -120,7 +119,7 @@ class ViewCase(TemplateView):
             Tab("ecju-queries", "ECJU queries", "ecju-queries"),
             Tab("documents", "Documents", "documents"),
             Tab("additional-contacts", "Additional contacts", "additional-contacts"),
-            Tab("activity", "Case notes and timeline", "activity")
+            Tab("activity", "Case notes and timeline", "activity"),
         ]
 
         case_documents, _ = get_case_documents(request, case_id)
@@ -192,7 +191,9 @@ class ViewCase(TemplateView):
                 error = "\n".join(error_list)
             return error_page(request, error)
 
-        return redirect(reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "activity"}))
+        return redirect(
+            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "activity"})
+        )
 
 
 class CaseImDoneView(TemplateView):
@@ -214,14 +215,14 @@ class CaseImDoneView(TemplateView):
         else:
             data, status_code = put_unassign_queues(request, self.case_pk, {"queues": [str(self.queue_pk)]})
             if status_code != HTTPStatus.OK:
-                return error_page(request, description=data["errors"]["queues"][0], )
+                return error_page(request, description=data["errors"]["queues"][0],)
             return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
 
     def post(self, request, **kwargs):
         data, status_code = put_unassign_queues(request, self.case_pk, {"queues": request.POST.getlist("queues[]")})
 
         if status_code != HTTPStatus.OK:
-            return error_page(request, description=data["errors"]["queues"][0], )
+            return error_page(request, description=data["errors"]["queues"][0],)
 
         return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
 
@@ -254,9 +255,9 @@ class ChangeStatus(SingleFormView):
 
     def get_action(self):
         if (
-                self.case_type == CaseType.APPLICATION.value
-                or self.case_sub_type == CaseType.HMRC.value
-                or self.case_sub_type == CaseType.EXHIBITION.value
+            self.case_type == CaseType.APPLICATION.value
+            or self.case_sub_type == CaseType.HMRC.value
+            or self.case_sub_type == CaseType.EXHIBITION.value
         ):
             return put_application_status
         elif self.case_sub_type == CaseType.END_USER_ADVISORY.value:
@@ -290,7 +291,8 @@ class AddAnAdditionalContact(SingleFormView):
         self.success_message = cases.AdditionalContacts.SUCCESS_MESSAGE
         self.context = {"case": get_case(request, self.object_pk)}
         self.success_url = reverse(
-            "cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk, "tab": "additional-contacts"}
+            "cases:case",
+            kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk, "tab": "additional-contacts"},
         )
 
 
@@ -300,7 +302,9 @@ class AttachDocuments(TemplateView):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
 
-        form = attach_documents_form(reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "documents"}))
+        form = attach_documents_form(
+            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "documents"})
+        )
 
         return form_page(request, form, extra_data={"case_id": case_id, "case": case})
 
@@ -330,7 +334,9 @@ class AttachDocuments(TemplateView):
         if "errors" in case_documents:
             return error_page(None, "We had an issue uploading your files. Try again later.")
 
-        return redirect(reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "documents"}))
+        return redirect(
+            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "documents"})
+        )
 
 
 class Document(TemplateView):
@@ -359,7 +365,7 @@ class Document(TemplateView):
 class CaseOfficer(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
-        return form_page(request, assign_case_officer_form(request, get_case_officer(request, case_id)[0]), )
+        return form_page(request, assign_case_officer_form(request, get_case_officer(request, case_id)[0]),)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])

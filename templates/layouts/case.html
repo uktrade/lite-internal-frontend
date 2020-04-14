@@ -28,120 +28,61 @@
 						{% if page.title %}
 							{{ page.title }}
 						{% else %}
-							{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}">{{ case.application.organisation.name }}</a>
+							{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}?return_to={{ CURRENT_PATH }}">{{ case.application.organisation.name }}</a>
 						{% endif %}
 					</h1>
 				</div>
 				<div class="app-case-header__controls">
 					<div class="app-case-header__candy-bar">
-						<span id="candy-goods" class="app-case-header__candy" data-tooltip="19 goods">
+						<span id="candy-goods" class="app-case-header__candy" data-tooltip="{{ case.application.goods|length|default:case.application.goods_types|length }} goods">
 							{% svg 'goods' %}
-							19
+							{{ case.application.goods|length|default:case.application.goods_types|length }}
 						</span>
-						<div id="popup-goods" class="">
-							<table class="govuk-table govuk-!-margin-0" style="min-width: 300px;">
-								<p class="govuk-heading-m" style="margin-top: 10px; margin-bottom: 20px;">19 goods</p>
-								<thead class="govuk-table__head">
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Name</td>
-										<td class="govuk-table__header">CLC</td>
-									</tr>
-								</thead>
-								<tbody class="govuk-table__body">
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Good #1</td>
-										<td class="govuk-table__cell">ML1a</td>
-									</tr>
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Good #2</td>
-										<td class="govuk-table__cell">ML1a</td>
-									</tr>
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Good #3</td>
-										<td class="govuk-table__cell">ML1a</td>
-									</tr>
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Good #4</td>
-										<td class="govuk-table__cell">ML1a</td>
-									</tr>
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Good #5</td>
-										<td class="govuk-table__cell">ML1a</td>
-									</tr>
-								</tbody>
-							</table>
+						<div id="popup-goods">
+							{% include 'case/pills/goods.html' %}
 						</div>
-						<span id="candy-countries" class="app-case-header__candy" data-tooltip="12 countries">
+						<span id="candy-countries" class="app-case-header__candy" data-tooltip="{{ case.application.destinations.data|length }} destination{{ case.application.destinations.data|pluralize }}">
 							{% svg 'globe' %}
-							12
+							{{ case.application.destinations.data|length }}
 						</span>
 						<div id="popup-countries">
-							<table class="govuk-table govuk-!-margin-0" style="min-width: 300px;">
-								<thead class="govuk-table__head">
-									<tr class="govuk-table__row">
-										<p class="govuk-heading-m" style="margin-top: 10px; margin-bottom: 20px;">12 countries</p>
-										<td class="govuk-table__header">Name</td>
-										<td class="govuk-table__header">Code</td>
-									</tr>
-								</thead>
-								<tbody class="govuk-table__body">
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Poland</td>
-										<td class="govuk-table__cell">PL</td>
-									</tr>
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Poland</td>
-										<td class="govuk-table__cell">PL</td>
-									</tr>
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Poland</td>
-										<td class="govuk-table__cell">PL</td>
-									</tr>
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Poland</td>
-										<td class="govuk-table__cell">PL</td>
-									</tr>
-									<tr class="govuk-table__row">
-										<td class="govuk-table__header">Poland</td>
-										<td class="govuk-table__cell">PL</td>
-									</tr>
-								</tbody>
-							</table>
+							{% include 'case/pills/countries.html' %}
 						</div>
-						<span id="candy-flags" class="app-case-header__candy" data-tooltip="7 flags">
+						<span id="candy-flags" class="app-case-header__candy" data-tooltip="{{ case.flags|length }} flag{{ case.flags|pluralize }}">
 							{% svg 'menu/flags' %}
-							7
+							{{ case.flags|length }}
 						</span>
-						<div id="popup-flags" class="">
-							<div style="min-width: 300px; padding: 0 10px; margin-bottom: -20px;">
-								<p class="govuk-heading-m" style="margin-top: 10px; margin-bottom: 20px;">7 flags</p>
-								{% include 'includes/flags.html' with flags=case.all_flags list=True %}
-								<br>
-							</div>
+						<div id="popup-flags">
+							{% include 'case/pills/flags.html' %}
 						</div>
 					</div>
 
 					<div class="app-case-header__candy-bar">
 						<span id="candy-case-officer" class="app-case-header__candy" data-tooltip="Case officer and assigned users">
-							{% svg 'user' %}
-							Jessica Maxwell
+							{% svg 'menu/users' %}
+							{% if case.case_officer %}
+								{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}
+							{% else %}
+								Not assigned
+							{% endif %}
 						</span>
 						<div id="popup-case-officer" class="">
-							<div style="min-width: 300px; padding: 0 10px;">
-								<p class="govuk-heading-m" style="margin-top: 10px; margin-bottom: 20px;">Case officer</p>
-								<p>Jessica Maxwell</p>
-								<br>
-								<p class="govuk-heading-m" style="margin-top: 10px; margin-bottom: 20px;">Assigned users</p>
-								<p>Anthony Lord</p>
-							</div>
+							{% include 'case/pills/case-officer.html' %}
 						</div>
 						<span class="app-case-header__candy" data-tooltip="SLA">
-							{% svg 'user' %}
+							{% svg 'sla' %}
 							5 days left
 						</span>
-						<span class="app-case-header__candy" data-tooltip="Status">
-							Submitted
+						<span class="app-case-header__candy app-case-header__candy--big" data-tooltip="Status">
+							{{ case.application.status.value }}
 						</span>
+						<div class="pie-wrapper progress-10 green" id="sla">
+							<span class="label">0</span>
+							<div class="pie">
+								<div class="left-side half-circle"></div>
+								<div class="right-side half-circle"></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -151,11 +92,29 @@
 				</div>
 			</div>
 		</div>
+		<div id="tab-bar" class="app-case-tab-bar">
+			<div class="govuk-width-container lite-tabs__container">
+				<div class="lite-tabs">
+					{% for tab in tabs %}
+						<a id="{{ tab.id }}" href="{% url 'cases:case' queue.id case.id tab.url %}" class="lite-tabs__tab {% if tab.url == current_tab %}lite-tabs__tab--selected{% endif %}">
+							{{ tab.name }}
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
 	</div>
 {% endblock %}
 
 {% block body %}
-	<!-- <div style="height: 200px; width: 200px; background: {{ case.all_flags|aurora }}"></div> -->
+
+	<div class="">
+		{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
+			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' queue.id case.id %}">
+				{% lcs 'cases.ApplicationPage.Actions.DECISION' %}
+			</a>
+		{% endif %}
+	</div>
 
 	<!-- <br> -->
 

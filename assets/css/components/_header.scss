@@ -1,5 +1,5 @@
 .app-header {
-	background: govuk-shade($govuk-brand-colour, 70);
+	background: govuk-shade($govuk-brand-colour, 85);
 	border-bottom: 10px solid $govuk-brand-colour;
 }
 
@@ -10,7 +10,7 @@
 }
 
 .app-header__link {
-	@include govuk-font($size: 16, $weight: bold);
+	@include govuk-font($size: 16);
 	position: relative;
 	display: inline-flex;
 	align-items: center;
@@ -22,15 +22,6 @@
 	min-height: 50px;
 	z-index: 0;
 	cursor: pointer;
-
-	&:focus {
-		color: $govuk-focus-text-colour;
-
-		&::before {
-			background-color: $govuk-focus-colour;
-			opacity: 1;
-		}
-	}
 
 	&::before {
 		content: "";
@@ -49,10 +40,13 @@
 		}
 	}
 
-	&:active {
+	&:active, &:focus {
+		color: $govuk-focus-text-colour;
+		outline: $govuk-focus-width solid transparent;
+
 		&::before {
-			background: rgba(govuk-colour("light-grey"), 0.2);
-			color: govuk-colour("white");
+			background-color: $govuk-focus-colour;
+			opacity: 1;
 		}
 	}
 

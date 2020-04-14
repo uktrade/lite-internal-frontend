@@ -5,7 +5,7 @@
 				Exporter reference
 			</dt>
 			<dd class="govuk-summary-list__value">
-				Application 123
+				{{ case.application.name }}
 			</dd>
 			<dd class="govuk-summary-list__actions"></dd>
 		</div>
@@ -14,7 +14,7 @@
 				Submitted at
 			</dt>
 			<dd class="govuk-summary-list__value">
-				13:12 5 April 2020
+				{{ case.application.submitted_at|str_date }}
 			</dd>
 			<dd class="govuk-summary-list__actions"></dd>
 		</div>
@@ -23,12 +23,16 @@
 				Status
 			</dt>
 			<dd class="govuk-summary-list__value">
-				Submitted
+				{{ case.application.status.value }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">
-					Change
-				</a>
+				{% if permissible_statuses %}
+					{% if not status_is_terminal or 'REOPEN_CLOSED_CASES' in permissions %}
+						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:manage' queue.id case.id %}">
+							Change
+						</a>
+					{% endif %}
+				{% endif %}
 			</dd>
 		</div>
 		<div class="govuk-summary-list__row">
@@ -36,10 +40,18 @@
 				Asssigned queues
 			</dt>
 			<dd class="govuk-summary-list__value">
-				Assigned Queue #1
+				{% if case.queue_names %}
+					<ol class="govuk-list">
+						{% for queue_name in case.queue_names %}
+							<li>{{ queue_name }}</li>
+						{% endfor %}
+					</ol>
+				{% else %}
+					<span class="govuk-hint">Not assigned to any queues</span>
+				{% endif %}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:move' queue.id case.id %}">
 					Change
 				</a>
 			</dd>
@@ -52,7 +64,7 @@
 				Type
 			</dt>
 			<dd class="govuk-summary-list__value">
-				Standard Individual Export Licence
+				{{ case.case_type.reference.value }}
 			</dd>
 			<dd class="govuk-summary-list__actions"></dd>
 		</div>
@@ -61,7 +73,7 @@
 				Last updated
 			</dt>
 			<dd class="govuk-summary-list__value">
-				13:17 6 April 2020
+				{{ case.application.updated_at|str_date }}
 			</dd>
 			<dd class="govuk-summary-list__actions"></dd>
 		</div>
@@ -70,10 +82,14 @@
 				Case officer
 			</dt>
 			<dd class="govuk-summary-list__value">
-				Jessica Maxwell
+				{% if case.case_officer %}
+					<a class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}">{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}</a>
+				{% else %}
+					<span class="govuk-hint">Not assigned</span>
+				{% endif %}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:case_officer' queue.id case.id %}">
 					Change
 				</a>
 			</dd>
@@ -83,10 +99,21 @@
 				Assigned users
 			</dt>
 			<dd class="govuk-summary-list__value">
-				Anthony Lord
+				{% for queue_name, users in case.assigned_users.items %}
+					<span class="govuk-label">{{ queue_name }}</span>
+					<ol class="govuk-list">
+						{% for user in users %}
+							<li>
+								<a href="{% url 'users:user' user.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link govuk-link--no-visited-state">{{ user.first_name }} {{ user.last_name }}</a>
+							</li>
+						{% endfor %}
+					</ol>
+				{% empty %}
+					<span class="govuk-hint">{% lcs 'cases.ApplicationPage.NO_USERS_ASSIGNED' %}</span>
+				{% endfor %}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link govuk-link--no-visited-state" href="#">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_user' queue.id case.id %}">
 					Change
 				</a>
 			</dd>
