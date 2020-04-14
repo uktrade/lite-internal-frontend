@@ -71,5 +71,5 @@
 		</div>
 	{% endif %}
 {% else %}
-	<p class="govuk-caption-l">{% lcs 'cases.EcjuQueries.CASE_HAS_NO_QUERIES' %}</p>
+	{% include 'includes/notice.html' with text='cases.EcjuQueries.CASE_HAS_NO_QUERIES' %}
 {% endif %}
