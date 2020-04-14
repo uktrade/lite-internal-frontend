@@ -172,7 +172,7 @@ $case-header-text-colour: govuk-colour("white");
         }
 
         .app-case-header__candy {
-            @include govuk-font($size: 16);
+            @include govuk-font($size: 16, $weight: bold);
             position: relative;
             display: flex;
             align-items: center;

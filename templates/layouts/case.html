@@ -55,9 +55,6 @@
 						<div id="popup-flags">
 							{% include 'case/pills/flags.html' %}
 						</div>
-					</div>
-
-					<div class="app-case-header__candy-bar">
 						<span id="candy-case-officer" class="app-case-header__candy" data-tooltip="Case officer and assigned users">
 							{% svg 'menu/users' %}
 							{% if case.case_officer %}
@@ -69,10 +66,9 @@
 						<div id="popup-case-officer" class="">
 							{% include 'case/pills/case-officer.html' %}
 						</div>
-						<span class="app-case-header__candy" data-tooltip="SLA">
-							{% svg 'sla' %}
-							5 days left
-						</span>
+					</div>
+
+					<div class="app-case-header__candy-bar">
 						<span class="app-case-header__candy app-case-header__candy--big" data-tooltip="Status">
 							{{ case.application.status.value }}
 						</span>
