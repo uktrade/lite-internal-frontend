@@ -284,6 +284,10 @@ $case-header-text-colour: govuk-colour("white");
         }
     }
 
+    .label {
+        color: white;
+    }
+
     // .app-flag {
     //     z-index: 0;
     //     border-left: none;
@@ -397,6 +401,7 @@ $case-header-text-colour: govuk-colour("white");
     bottom: 0;
     left: 0;
     right: 0;
+    opacity: .5;
 
     &::after {
         content: "";
@@ -408,6 +413,6 @@ $case-header-text-colour: govuk-colour("white");
         background-image: url("/assets/images/aurora.png");
         background-position: bottom center;
         background-size: cover;
-        opacity: .8;
+        opacity: .6;
     }
 }
