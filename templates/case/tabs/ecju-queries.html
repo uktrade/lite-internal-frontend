@@ -2,74 +2,57 @@
 {% govuk_link_button id='new-query' text='cases.EcjuQueries.AddQuery.ADD_BUTTON_LABEL' url='cases:new_ecju_query' url_param=button_params %}
 
 
-{% if open_ecju_queries or closed_ecju_queries %}
-	{% if open_ecju_queries %}
-		<h3 class="govuk-heading-m">{% lcs 'cases.EcjuQueries.OPEN' %}</h3>
-		<div class="govuk-accordion" data-module="govuk-accordion">
-		{% for query in open_ecju_queries %}
-			{% if query.question|length > 200 %}
-				<div class="govuk-accordion__section">
-					<div class="govuk-accordion__section-header">
-						<div class="govuk-accordion__section-heading">
-							<div class="govuk-accordion__section-button" id="open-question" >
-								{{ query.question|slice:":200" }}...
-							</div>
-						</div>
-						<p class="govuk-label"><b>{{ query.raised_by_user_name }}</b>: {{ query.created_at|str_date }}</p>
-					</div>
-					<div class="govuk-accordion__section-content">
-						<p class='govuk-body' id="open-question-full">
-							{{ query.question }} - {{ query.query_type.value }}
-						</p>
-					</div>
+{% if open_ecju_queries %}
+	<h3 class="govuk-heading-m">Open queries</h3>
+	{% for ecju_query in open_ecju_queries %}
+		<div class="app-ecju-query" id="open-ecju-query">
+			<div class="app-ecju-query__item">
+				<p class="app-ecju-query__heading">{{ ecju_query.raised_by_user_name }}</p>
+				<div class="app-ecju-query__text">
+					{{ ecju_query.question }}
 				</div>
-			{% else %}
-				<div class="govuk-accordion__section-header">
-					<span class="govuk-accordion__section-button" id="open-question">
-						{{ query.question }} - {{ query.query_type.value }}
-					</span>
-					<p class="govuk-label"><b>{{ query.raised_by_user_name }}</b>: {{ query.created_at|str_date }}</p>
-				</div>
-			{% endif %}
-		{% endfor %}
-		</div>
-	{% endif %}
-	{% if closed_ecju_queries %}
-		<h3 class="govuk-heading-m">{% lcs 'cases.EcjuQueries.CLOSED' %}</h3>
-		<div class="govuk-accordion" data-module="govuk-accordion">
-		{% for query in closed_ecju_queries %}
-			<div class="govuk-accordion__section ">
-				<div class="govuk-accordion__section-header">
-					<div class="govuk-accordion__section-heading" id="closed-query">
-						<div class="govuk-accordion__section-button">
-							<div id="closed-question">
-								{% if query.question|length > 200 %}
-									{{ query.question|slice:":200" }}...
-								{% else %}
-									{{ query.question }}
-								{% endif %}
-								<p class="govuk-hint govuk-!-font-size-16">{{ query.raised_by_user_name }}: {{ query.created_at|str_date }}</p>
-							</div>
-							<div id="closed-answer">
-								{% if query.response|length > 200 %}
-									{{ query.response|slice:":200" }}...
-								{% else %}
-									{{ query.response }}
-								{% endif %}
-								<p class="govuk-hint govuk-!-font-size-16">{{ query.responded_by_user_name }}: {{ query.responded_at|str_date }}</p>
-							</div>
-					</div>
-				</div>
-				<div class="govuk-accordion__section-content">
-					<p class='govuk-body' id="closed-question-full">{{ query.question }}</p>
-					<p class="govuk-hint govuk-!-font-size-16">{{ query.raised_by_user_name }}: {{ query.created_at|str_date }}</p>
-					<p class='govuk-body' id="closed-answer-full">{{ query.response }}</p>
-					<p class="govuk-hint govuk-!-font-size-16">{{ query.responded_by_user_name }}: {{ query.responded_at|str_date }}</p>
-				</div>
+				<p class="app-ecju-query__date">
+					<span class="govuk-visually-hidden">Created at </span>{{ ecju_query.created_at|str_date }}
+				</p>
 			</div>
-		{% endfor %}
 		</div>
-	{% endif %}
-{% else %}
+		<hr class="lite-horizontal-separator">
+	{% endfor %}
+{% endif %}
+
+{% if closed_ecju_queries %}
+	<h3 class="govuk-heading-m">Closed queries</h3>
+	<p class="govuk-caption-m">Queries are automatically closed when the exporter responds to them.</p>
+	<br><br>
+	{% for ecju_query in closed_ecju_queries %}
+		<div class="app-ecju-query" id="closed-ecju-query">
+			<div class="app-ecju-query__item">
+				<p class="app-ecju-query__heading">{{ ecju_query.raised_by_user_name }}</p>
+				<div class="app-ecju-query__text">
+					{{ ecju_query.question }}
+				</div>
+				<p class="app-ecju-query__date">
+					<span class="govuk-visually-hidden">Created at </span>{{ ecju_query.created_at|str_date }}
+				</p>
+			</div>
+			<div class="app-ecju-query__item app-ecju-query__item--right">
+				<p class="app-ecju-query__heading">
+					<a class="govuk-link govuk-link--no-visited-state">
+						{{ ecju_query.responded_by_user_name }}
+					</a>
+				</p>
+				<div class="app-ecju-query__text">
+					{{ ecju_query.response }}
+				</div>
+				<p class="app-ecju-query__date">
+					<span class="govuk-visually-hidden">Created at </span>{{ ecju_query.responded_at|str_date }}
+				</p>
+			</div>
+		</div>
+		<hr class="lite-horizontal-separator">
+	{% endfor %}
+{% endif %}
+
+{% if not open_ecju_queries and not closed_ecju_queries %}
 	{% include 'includes/notice.html' with text='cases.EcjuQueries.CASE_HAS_NO_QUERIES' %}
 {% endif %}
