@@ -76,10 +76,10 @@ class RoutingRulesPage(BasePage):
         self.driver.find_element_by_css_selector(self.RADIO_BUTTONS).click()
 
     def click_on_deactivate_rule(self, element):
-        element.find_element_by_id(self.DEACTIVATE_ROUTING_RULE_BUTTON).click()
+        element.find_element_by_id(self.DEACTIVATE_ROUTING_RULE_BUTTON_ID).click()
 
     def click_on_reactivate_rule(self, element):
-        element.find_element_by_id(self.REACTIVATE_ROUTING_RULE_BUTTON).click()
+        element.find_element_by_id(self.REACTIVATE_ROUTING_RULE_BUTTON_ID).click()
 
     def click_confirm_deactivate_activate(self):
         self.driver.find_element_by_id(self.CONFIRM_DEACTIVATE_REACTIVATE).click()
@@ -88,4 +88,4 @@ class RoutingRulesPage(BasePage):
         return utils.find_paginated_item_by_id(queue_id, self.driver).find_element_by_xpath("..")
 
     def edit_row_by_queue_id(self, queue_id):
-        self.find_row_by_queue_id(queue_id).find_element_by_id(self.EDIT_ROUTING_RULE_BUTTON).click()
+        self.find_row_by_queue_id(queue_id).find_element_by_id(self.EDIT_ROUTING_RULE_BUTTON_ID).click()
