@@ -21,7 +21,7 @@ class RoutingRulesPage(BasePage):
     RADIO_BUTTONS = ".govuk-radios__input"
 
     def create_new_routing_rule(self):
-        self.driver.find_element_by_id(self.BTN_CREATE_NEW_ROUTING_RULE).click()
+        self.driver.find_element_by_id(self.BTN_CREATE_NEW_ROUTING_RULE_ID).click()
 
     def initial_details_form(self, case_status=None, queue=None, tier=None, additional_rules=None):
         if case_status:
@@ -64,18 +64,10 @@ class RoutingRulesPage(BasePage):
         self.driver.find_element_by_id(self.TEXT_TIER_ID).send_keys(text)
 
     def select_case_type_by_text(self, text):
-        checkbox_parents = self.driver.find_elements_by_css_selector(self.CHECKBOX_AND_LABEL)
-        for parent in checkbox_parents:
-            if parent.text == text:
-                parent.find_element_by_css_selector("input").click()
-                break
+        self.driver.find_element_by_id(text).click()
 
     def select_flag(self, flag_name):
-        checkbox_parents = self.driver.find_elements_by_css_selector(self.CHECKBOX_AND_LABEL)
-        for parent in checkbox_parents:
-            if parent.text == flag_name:
-                parent.find_element_by_css_selector("input").click()
-                break
+        self.driver.find_element_by_id(flag_name).click()
 
     def enter_country(self, country):
         functions.send_keys_to_autocomplete(self.driver, self.TEXT_COUNTRY_ID, country)
