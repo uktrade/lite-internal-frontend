@@ -75,7 +75,7 @@ def select_flags(request, team_id):
                     Option(flag["id"], flag["name"])
                     for flag in get_flags_for_team_of_level(
                         request, level="", team_id=team_id, include_system_flags=True
-                    )[0]
+                    )[0]["results"]
                 ],
             )
         ],
