@@ -10,15 +10,15 @@ class RoutingRulesPage(BasePage):
     TEXT_QUEUE_ID = "queue"
     TEXT_COUNTRY_ID = "country"
     SELECT_CASE_STATUS_ID = "status"
-    BTN_CREATE_NEW_ROUTING_RULE = "create-routing-rule"
-    EDIT_ROUTING_RULE_BUTTON = "edit"  # CSS
-    REACTIVATE_ROUTING_RULE_BUTTON = "reactivate"  # CSS
-    DEACTIVATE_ROUTING_RULE_BUTTON = "deactivate"  # CSS
+    BTN_CREATE_NEW_ROUTING_RULE_ID = "create-routing-rule"
+    EDIT_ROUTING_RULE_BUTTON_ID = "edit"
+    REACTIVATE_ROUTING_RULE_BUTTON_ID = "reactivate"
+    DEACTIVATE_ROUTING_RULE_BUTTON_ID = "deactivate"
     CONFIRM_DEACTIVATE_REACTIVATE = "confirm-yes"
     CHECKBOX_ADDITIONAL_RULES = "input[name='additional_rules[]'][type='checkbox']"  # CSS
     SELECT_FLAG_ID = "flag"
-    CHECKBOX_AND_LABEL = "[class=govuk-checkboxes__item]"
-    RADIO_BUTTONS = "input[class=govuk-radios__input]"
+    CHECKBOX_AND_LABEL = ".govuk-checkboxes__item"
+    RADIO_BUTTONS = ".govuk-radios__input"
 
     def create_new_routing_rule(self):
         self.driver.find_element_by_id(self.BTN_CREATE_NEW_ROUTING_RULE).click()
