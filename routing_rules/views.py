@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from conf.constants import Permission
 from core.helpers import convert_dict_to_query_params, has_permission, get_params_if_exist
 from core.services import get_statuses
-from lite_content.lite_internal_frontend.routing_rules import Filter
+from lite_content.lite_internal_frontend.routing_rules import Filter, CONFIRM_FORM_ERROR
 from lite_forms.components import FiltersBar, Option, Checkboxes, Select, AutocompleteInput, TextInput
 from lite_forms.generators import form_page
 from lite_forms.helpers import conditional
@@ -101,7 +101,7 @@ class ChangeRoutingRuleActiveStatus(SingleFormView):
                 request,
                 self.get_form(),
                 data=self.get_data(),
-                errors={"confirm": ["Select to confirm or not"]},
+                errors={"confirm": [CONFIRM_FORM_ERROR]},
                 extra_data=self.context,
             )
         elif request.POST.get("confirm") == "no":

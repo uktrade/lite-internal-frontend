@@ -39,6 +39,9 @@ from conf.constants import (
 
 
 # Case types
+from core.helpers import convert_parameters_to_query_params
+
+
 def get_case_types(request, type_only=True):
     data = get(request, CASE_TYPES_URL + "?type_only=" + str(type_only))
     return data.json()["case_types"]
@@ -310,23 +313,12 @@ def post_goods_control_code(request, case_id, json):
 # Good Flags
 def get_flags_for_team_of_level(request, level, team_id, include_system_flags=False):
     """
-
-    :param request:
+    :param request: headers for the request
     :param level: 'cases', 'goods'
     :param include_system_flags: used to indicate adding system flags to list of team flags returned
     :return:
     """
-    data = get(
-        request,
-        FLAGS_URL
-        + "?level="
-        + level
-        + "&team="
-        + str(team_id)
-        + "&include_system_flags="
-        + str(include_system_flags)
-        + "&disable_pagination=True",
-    )
+    data = get(request, FLAGS_URL + convert_parameters_to_query_params(locals()))
     return data.json(), data.status_code
 
 

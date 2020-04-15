@@ -2,8 +2,8 @@ from pytest_bdd import when, then, scenarios, parsers
 import shared.tools.helpers as utils
 from pages.shared import Shared
 
-from ui_automation_tests.pages.flagging_rules_pages import FlaggingRulePages
 from ui_automation_tests.pages.routing_rules_pages import RoutingRulesPage
+from ui_automation_tests.shared import functions
 
 scenarios("../features/routing_rules.feature", strict_gherkin=False)
 
@@ -29,45 +29,44 @@ def create_routing_rule(driver, context, tier, case_status):
     routing_rules_page.initial_details_form(
         tier=tier, case_status=case_status, queue=context.queue_name, additional_rules=True
     )
-    Shared(driver).click_submit()
+    functions.click_submit(driver)
 
     routing_rules_page.select_case_type_by_text("Standard Individual Export Licence")
-    Shared(driver).click_submit()
+    functions.click_submit(driver)
 
     routing_rules_page.select_flag(context.flag_name)
-    Shared(driver).click_submit()
+    functions.click_submit(driver)
 
     routing_rules_page.enter_country("China")
-    Shared(driver).click_submit()
+    functions.click_submit(driver)
 
     routing_rules_page.select_first_user()
-    Shared(driver).click_submit()
+    functions.click_submit(driver)
 
 
 @when(parsers.parse('I edit my routing rule with tier "{tier}", a status of "{case_status}", and no additional rules'))
 def edit_flagging_rule(driver, context, tier, case_status):
-    # select edit for my flagging rule
-    utils.find_paginated_item_by_id(context.queue_id, driver).find_element_by_xpath("..").find_element_by_link_text(
-        "Edit"
-    ).click()
-
     routing_rules_page = RoutingRulesPage(driver)
+    routing_rules_page.edit_row_by_queue_id(context.queue_id)
+
     routing_rules_page.initial_details_form(
         tier=tier, case_status=case_status, queue=context.queue_name, additional_rules=False
     )
-    Shared(driver).click_submit()
+    functions.click_submit(driver)
 
 
 @then(parsers.parse('I see the routing rule in the list as "{status}" and tier "{tier}"'))
 def routing_rule_status(driver, context, status, tier):
-    text = utils.find_paginated_item_by_id(context.queue_id, driver).find_element_by_xpath("..").text
+    text = RoutingRulesPage(driver).find_row_by_queue_id(context.queue_id).text
     assert status in text
     assert tier in text
 
 
 @when("I deactivate my routing rule")
 def deactivate_rule(driver, context):
-    row = utils.find_paginated_item_by_id(context.queue_id, driver).find_element_by_xpath("..")
-    RoutingRulesPage(driver).click_on_deactivate_rule(row)
-    RoutingRulesPage(driver).click_confirm_deactivate_activate()
-    Shared(driver).click_submit()
+    routing_rules_page = RoutingRulesPage(driver)
+
+    row = routing_rules_page.find_row_by_queue_id(context.queue_id)
+    routing_rules_page.click_on_deactivate_rule(row)
+    routing_rules_page.click_confirm_deactivate_activate()
+    functions.click_submit(driver)

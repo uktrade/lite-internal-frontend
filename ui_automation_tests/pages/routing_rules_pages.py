@@ -2,6 +2,7 @@ from selenium.webdriver.support.select import Select
 from shared.BasePage import BasePage
 
 from ui_automation_tests.shared import functions
+import shared.tools.helpers as utils
 
 
 class RoutingRulesPage(BasePage):
@@ -10,12 +11,14 @@ class RoutingRulesPage(BasePage):
     TEXT_COUNTRY_ID = "country"
     SELECT_CASE_STATUS_ID = "status"
     BTN_CREATE_NEW_ROUTING_RULE = "create-routing-rule"
+    EDIT_ROUTING_RULE_BUTTON = "a[href*='/edit/']"  # CSS
     REACTIVATE_ROUTING_RULE_BUTTON = "a[href*='/reactivate/']"  # CSS
     DEACTIVATE_ROUTING_RULE_BUTTON = "a[href*='/deactivate/']"  # CSS
     CONFIRM_DEACTIVATE_REACTIVATE = "confirm-yes"
     CHECKBOX_ADDITIONAL_RULES = "input[name='additional_rules[]'][type='checkbox']"  # CSS
     SELECT_FLAG_ID = "flag"
     CHECKBOX_AND_LABEL = "[class=govuk-checkboxes__item]"
+    RADIO_BUTTONS = "input[class=govuk-radios__input]"
 
     def create_new_routing_rule(self):
         self.driver.find_element_by_id(self.BTN_CREATE_NEW_ROUTING_RULE).click()
@@ -37,14 +40,14 @@ class RoutingRulesPage(BasePage):
 
     def select_all_additional_rules(self):
         rules = self.driver.find_elements_by_css_selector(self.CHECKBOX_ADDITIONAL_RULES)
-        assert len(rules) == 4
+        assert len(rules) == 4, "expecting 4 options to be selectable"
         for rule in rules:
             if not rule.is_selected():
                 rule.click()
 
     def select_no_additional_rules(self):
         rules = self.driver.find_elements_by_css_selector(self.CHECKBOX_ADDITIONAL_RULES)
-        assert len(rules) == 4
+        assert len(rules) == 4, "expecting 4 options to be selectable"
         for rule in rules:
             if rule.is_selected():
                 rule.click()
@@ -61,14 +64,14 @@ class RoutingRulesPage(BasePage):
         self.driver.find_element_by_id(self.TEXT_TIER_ID).send_keys(text)
 
     def select_case_type_by_text(self, text):
-        checkbox_parents = self.driver.find_elements_by_css_selector("[class=govuk-checkboxes__item]")
+        checkbox_parents = self.driver.find_elements_by_css_selector(self.CHECKBOX_AND_LABEL)
         for parent in checkbox_parents:
             if parent.text == text:
                 parent.find_element_by_css_selector("input").click()
                 break
 
     def select_flag(self, flag_name):
-        checkbox_parents = self.driver.find_elements_by_css_selector("[class=govuk-checkboxes__item]")
+        checkbox_parents = self.driver.find_elements_by_css_selector(self.CHECKBOX_AND_LABEL)
         for parent in checkbox_parents:
             if parent.text == flag_name:
                 parent.find_element_by_css_selector("input").click()
@@ -78,7 +81,7 @@ class RoutingRulesPage(BasePage):
         functions.send_keys_to_autocomplete(self.driver, self.TEXT_COUNTRY_ID, country)
 
     def select_first_user(self):
-        self.driver.find_element_by_css_selector("input[class=govuk-radios__input]").click()
+        self.driver.find_element_by_css_selector(self.RADIO_BUTTONS).click()
 
     def click_on_deactivate_rule(self, element):
         element.find_element_by_css_selector(self.DEACTIVATE_ROUTING_RULE_BUTTON).click()
@@ -88,3 +91,9 @@ class RoutingRulesPage(BasePage):
 
     def click_on_reactivate_rule(self):
         self.driver.find_element_by_css_selector(self.REACTIVATE_FLAG_BUTTON).click()
+
+    def find_row_by_queue_id(self, queue_id):
+        return utils.find_paginated_item_by_id(queue_id, self.driver).find_element_by_xpath("..")
+
+    def edit_row_by_queue_id(self, queue_id):
+        self.find_row_by_queue_id(queue_id).find_element_by_css_selector(self.EDIT_ROUTING_RULE_BUTTON).click()

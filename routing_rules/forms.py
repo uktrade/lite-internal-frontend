@@ -116,7 +116,6 @@ def routing_rule_form_group(request, additional_rules, is_editing=False):
 
 def deactivate_or_activate_routing_rule_form(activate, status):
     if activate:
-
         title = ActivateForm.TITLE
         description = ActivateForm.DESCRIPTION
         yes_label = ActivateForm.YES_LABEL
