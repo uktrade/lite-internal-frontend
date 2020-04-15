@@ -24,11 +24,16 @@
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">Team</th>
-					<th class="govuk-table__header" scope="col">Queue</th>
-					<th class="govuk-table__header" scope="col">Tier</th>
-					<th class="govuk-table__header" scope="col">Status</th>
-					<th class="govuk-table__header" scope="col">Actions</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'routing_rules.RoutingRulesList.Table.TEAM' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'routing_rules.RoutingRulesList.Table.CASE_STATUS' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'routing_rules.RoutingRulesList.Table.TIER' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'routing_rules.RoutingRulesList.Table.CASE_TYPES' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'routing_rules.RoutingRulesList.Table.FLAGS' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'routing_rules.RoutingRulesList.Table.COUNTRY' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'routing_rules.RoutingRulesList.Table.QUEUE' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'routing_rules.RoutingRulesList.Table.USERS' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'routing_rules.RoutingRulesList.Table.STATUS' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'routing_rules.RoutingRulesList.Table.ACTIONS' %}</th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -40,10 +45,39 @@
 							</a>
 						</td>
 						<td class="govuk-table__cell" id={{ rule.queue.id }}>
-							{{ rule.queue.name }}
+							{{ rule.status.value }}
 						</td>
 						<td class="govuk-table__cell">
 							{{ rule.tier }}
+						</td>
+						<td class="govuk-table__cell">
+							{% if rule.case_types %}
+								{% for type in rule.case_types %}
+									{{ type.reference.value }}
+									<br>
+								{% endfor %}
+							{% else %}
+								Not set
+							{% endif %}
+						</td>
+						<td class="govuk-table__cell">
+							{% if rule.flags %}
+								{% for flag in rule.flags %}
+									{{ flag.name }}
+									<br>
+								{% endfor %}
+							{% else %}
+								Not set
+							{% endif %}
+						</td>
+						<td class="govuk-table__cell">
+							{{ rule.country.name|default:"Not set" }}
+						</td>
+						<td class="govuk-table__cell" id={{ rule.queue.id }}>
+							{{ rule.queue.name }}
+						</td>
+						<td class="govuk-table__cell">
+							{{ rule.user.email|default:"Not set" }}
 						</td>
 						<td class="govuk-table__cell">
 							{% if rule.active %}
