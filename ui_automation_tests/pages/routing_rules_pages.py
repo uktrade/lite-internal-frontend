@@ -39,18 +39,22 @@ class RoutingRulesPage(BasePage):
             self.select_no_additional_rules()
 
     def select_all_additional_rules(self):
-        rules = self.driver.find_elements_by_css_selector(self.CHECKBOX_ADDITIONAL_RULES)
+        rules = self._get_rules()
         assert len(rules) == 4, "expecting 4 options to be selectable"
         for rule in rules:
             if not rule.is_selected():
                 rule.click()
 
     def select_no_additional_rules(self):
-        rules = self.driver.find_elements_by_css_selector(self.CHECKBOX_ADDITIONAL_RULES)
-        assert len(rules) == 4, "expecting 4 options to be selectable"
+        rules = self._get_rules()
         for rule in rules:
             if rule.is_selected():
                 rule.click()
+
+    def _get_rules(self):
+        rules = self.driver.find_elements_by_css_selector(self.CHECKBOX_ADDITIONAL_RULES)
+        assert len(rules) == 4, "expecting 4 options to be selectable"
+        return rules
 
     def enter_queue(self, text):
         functions.send_keys_to_autocomplete(self.driver, self.TEXT_QUEUE_ID, text)

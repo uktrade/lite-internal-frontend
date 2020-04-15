@@ -36,12 +36,10 @@ from conf.constants import (
     FINALISE_CASE_URL,
     QUEUES_URL,
 )
-
-
-# Case types
 from core.helpers import convert_parameters_to_query_params
 
 
+# Case types
 def get_case_types(request, type_only=True):
     data = get(request, CASE_TYPES_URL + "?type_only=" + str(type_only))
     return data.json()["case_types"]
