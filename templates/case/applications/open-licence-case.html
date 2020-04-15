@@ -33,6 +33,18 @@
 				<p class="app-case-board__heading">{% lcs 'CASE_INFO_EXPORT_TYPE' %}</p>
 				<p>{{ case.application.export_type.value }}</p>
 			</div>
+			{% if case.application.tc_activity %}
+				<div class="govuk-grid-column-one-quarter">
+					<p class="app-case-board__heading">{% lcs 'CASE_INFO_EXPORT_TYPE' %}</p>
+					<p>{{ case.application.tc_activity.value }}</p>
+				</div>
+			{% endif %}
+			{% if case.application.tc_product_category %}
+				<div class="govuk-grid-column-one-quarter">
+					<p class="app-case-board__heading">{% lcs 'CASE_INFO_EXPORT_TYPE' %}</p>
+					<p>{{ case.application.tc_product_category.value }}</p>
+				</div>
+			{%  endif %}
 			<div class="govuk-grid-column-one-quarter">
 				<p class="app-case-board__heading">{% lcs 'CASE_INFO_USAGE' %}</p>
 				<p>{{ case.application.usage|default_na }}</p>
