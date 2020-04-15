@@ -40,7 +40,6 @@ class RoutingRulesPage(BasePage):
 
     def select_all_additional_rules(self):
         rules = self._get_rules()
-        assert len(rules) == 4, "expecting 4 options to be selectable"
         for rule in rules:
             if not rule.is_selected():
                 rule.click()
@@ -89,6 +88,7 @@ class RoutingRulesPage(BasePage):
         self.driver.find_element_by_id(self.CONFIRM_DEACTIVATE_REACTIVATE).click()
 
     def find_row_by_queue_id(self, queue_id):
+        # the queue_id is assigned to a td, and we need the tr, so xpath is used to get the parent element.
         return utils.find_paginated_item_by_id(queue_id, self.driver).find_element_by_xpath("..")
 
     def edit_row_by_queue_id(self, queue_id):
