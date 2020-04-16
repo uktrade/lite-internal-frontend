@@ -311,6 +311,14 @@ class Finalise(TemplateView):
     Finalise a case and change the case status to finalised
     """
 
+    @staticmethod
+    def _get_goods(request, pk, case_type):
+        goods = []
+        if case_type == CaseType.STANDARD.value:
+            goods, status_code = get_finalise_application_goods(request, pk)
+            goods = goods["goods"]
+        return goods
+
     def get(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))
         case_type = case["application"]["case_type"]["sub_type"]["key"]
@@ -337,11 +345,6 @@ class Finalise(TemplateView):
                     )
                 )
 
-            goods = []
-            if case_type == CaseType.STANDARD.value:
-                goods, status_code = get_finalise_application_goods(request, str(kwargs["pk"]))
-                goods = goods["goods"]
-
             today = date.today()
             form_data = {
                 "day": today.day,
@@ -356,7 +359,7 @@ class Finalise(TemplateView):
                 is_open_licence=is_open_licence,
                 duration=duration,
                 editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
-                goods=goods,
+                goods=self._get_goods(request, str(kwargs["pk"]), case_type),
             )
             return form_page(request, form, data=form_data)
         else:
@@ -376,12 +379,14 @@ class Finalise(TemplateView):
             return error_page(request, "You do not have permission.")
 
         if res.status_code == 400:
+            case_type = case["application"]["case_type"]["sub_type"]["key"]
             form = approve_licence_form(
                 queue_pk=kwargs["queue_pk"],
                 case_id=case["id"],
                 is_open_licence=is_open_licence,
                 duration=data.get("licence_duration") or get_application_default_duration(request, str(kwargs["pk"])),
                 editable_duration=has_permission,
+                goods=self._get_goods(request, str(kwargs["pk"]), case_type),
             )
             return form_page(request, form, data=data, errors=res.json()["errors"])
 
