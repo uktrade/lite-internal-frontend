@@ -28,7 +28,7 @@ from cases.services import (
     grant_licence,
     get_final_decision_documents,
     get_licence,
-)
+    get_finalise_application_goods)
 from cases.views_helpers import (
     get_case_advice,
     render_form_page,
@@ -317,46 +317,50 @@ class Finalise(TemplateView):
 
         if case_type == CaseType.STANDARD.value or case_type == CaseType.EXHIBITION.value:
             advice, _ = get_final_case_advice(request, str(kwargs["pk"]))
-            data = advice["advice"]
-            search_key = "type"
+            items = [item["type"]["key"] for item in advice["advice"]]
             is_open_licence = False
         else:
             data = get_good_countries_decisions(request, str(kwargs["pk"]))["data"]
-            search_key = "decision"
+            items = [item["decision"]["key"] for item in data]
             is_open_licence = True
 
         case_id = case["id"]
         duration = get_application_default_duration(request, str(kwargs["pk"]))
 
-        for item in data:
-            if item[search_key]["key"] == "approve" or item[search_key]["key"] == "proviso":
-                # Redirect if licence already exists
-                _, status_code = get_licence(request, str(kwargs["pk"]))
-                if status_code == HTTPStatus.OK:
-                    return redirect(
-                        reverse_lazy(
-                            "cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}
-                        )
+        if "approve" in items or "proviso" in items:
+            # Redirect if licence already exists
+            _, status_code = get_licence(request, str(kwargs["pk"]))
+            if status_code == HTTPStatus.OK:
+                return redirect(
+                    reverse_lazy(
+                        "cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}
                     )
-
-                today = date.today()
-
-                form_data = {
-                    "day": today.day,
-                    "month": today.month,
-                    "year": today.year,
-                    "duration": duration,
-                }
-                form = approve_licence_form(
-                    queue_pk=kwargs["queue_pk"],
-                    case_id=case_id,
-                    is_open_licence=is_open_licence,
-                    duration=duration,
-                    editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
                 )
-                return form_page(request, form, data=form_data)
 
-        return form_page(request, deny_licence_form(kwargs["queue_pk"], case_id, is_open_licence))
+            goods = []
+            if case_type == CaseType.STANDARD.value:
+                goods, status_code = get_finalise_application_goods(request, str(kwargs["pk"]))
+                goods = goods["goods"]
+
+            today = date.today()
+            form_data = {
+                "day": today.day,
+                "month": today.month,
+                "year": today.year,
+                "duration": duration,
+            }
+
+            form = approve_licence_form(
+                queue_pk=kwargs["queue_pk"],
+                case_id=case_id,
+                is_open_licence=is_open_licence,
+                duration=duration,
+                editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
+                goods=goods,
+            )
+            return form_page(request, form, data=form_data)
+        else:
+            return form_page(request, deny_licence_form(kwargs["queue_pk"], case_id, is_open_licence))
 
     def post(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))

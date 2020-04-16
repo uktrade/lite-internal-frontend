@@ -412,3 +412,8 @@ def missing_title():
 @register.filter()
 def equals(ob1, ob2):
     return ob1 == ob2
+
+
+@register.filter
+def multiply(value, arg):
+    return float(value) * float(arg)
