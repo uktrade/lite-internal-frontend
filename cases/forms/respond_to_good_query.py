@@ -2,7 +2,7 @@ from django.template.defaultfilters import default
 from django.urls import reverse_lazy
 
 from lite_content.lite_internal_frontend import cases
-from lite_forms.common import control_list_entry_question
+from lite_forms.common import control_list_entries_question
 from lite_forms.components import (
     Form,
     BackLink,
@@ -45,7 +45,7 @@ def respond_to_clc_query_form(request, queue_pk, case):
                         key="yes",
                         value=cases.RespondClCQueryForm.Controlled.YES,
                         components=[
-                            control_list_entry_question(
+                            control_list_entries_question(
                                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
                                 title=cases.RespondClCQueryForm.CONTROL_LIST_ENTRY,
                                 name="control_code",
