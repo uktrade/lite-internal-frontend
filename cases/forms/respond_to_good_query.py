@@ -48,8 +48,7 @@ def respond_to_clc_query_form(request, queue_pk, case):
                             control_list_entries_question(
                                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
                                 title=cases.RespondClCQueryForm.CONTROL_LIST_ENTRY,
-                                name="control_code",
-                                inset_text=False,
+                                name="control_list_entries",
                             ),
                         ],
                     ),

@@ -22,8 +22,7 @@ def review_goods_clc_query_form(request, back_url, is_goods_type):
                             control_list_entries_question(
                                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
                                 title="What is the correct control list entry?",
-                                name="control_code",
-                                inset_text=False,
+                                name="control_list_entries",
                             ),
                         ],
                     ),
@@ -35,7 +34,6 @@ def review_goods_clc_query_form(request, back_url, is_goods_type):
                 name="report_summary",
                 options=get_picklists(request, "report_summary", convert_to_options=True, include_none=True),
                 description="You only need to do this if the item is controlled",
-                classes=["test"],
             ),
             TextArea(title="Good's comment", name="comment", extras={"max_length": 500,}, optional=True),
         ],
