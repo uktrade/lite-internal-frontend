@@ -1,7 +1,5 @@
 {% extends 'layouts/base.html' %}
 
-{% load humanize %}
-
 {% block back_link %}
 	<a href="{% url 'cases:case' queue.id case_id %}" class="govuk-back-link">
 		{% lcs 'cases.ReviewGoodsSummary.BACK_LINK' %}
@@ -20,11 +18,11 @@
 		</div>
 	</div>
 
-	{% include 'includes/flags.html' with flags=case.flags %}
-
-	<a href="{{ edit_flags_url }}" id="button-edit-goods-flags" class="app-flag app-flag--action">
-		{% lcs 'cases.ReviewGoodsSummary.SET_FLAGS' %}
-	</a>
+	<div class="govuk-!-margin-bottom-3">
+		<a href="{{ edit_flags_url }}" id="button-edit-goods-flags" class="govuk-link govuk-link--no-visited-state">
+			{% lcs 'cases.ReviewGoodsSummary.SET_FLAGS' %}
+		</a>
+	</div>
 
 	<!-- Goods -->
 	<table class="govuk-table" id="goods">
