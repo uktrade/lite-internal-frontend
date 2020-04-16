@@ -42,7 +42,7 @@
 				<p>{{ case.application.updated_at|str_date }}</p>
 			</div>
 		</div>
-		{% if case.case_type.reference.key == 'sicl' or case.case_type.reference.key == 'oicl' %}
+		{% if case.case_type.reference.key == 'oicl' %}
 			<div class="govuk-grid-row">
 				<div class="govuk-grid-column-one-quarter">
 					<p class="app-case-board__heading">{% lcs 'CASE_INFO_TC_ACTIVITY' %}</p>
