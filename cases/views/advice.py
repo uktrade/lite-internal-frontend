@@ -316,6 +316,8 @@ class Finalise(TemplateView):
         goods = []
         if case_type == CaseType.STANDARD.value:
             goods, status_code = get_finalise_application_goods(request, pk)
+            if status_code != HTTPStatus.OK:
+                return error_page(request, "Approved goods could not be fetched")
             goods = goods["goods"]
         return goods
 
