@@ -124,7 +124,7 @@ class ReviewGoodsClc(TemplateView):
         form_data = {
             "objects": self.goods,
             "comment": request.POST.get("comment"),
-            "control_code": request.POST.get("control_code", None),
+            "control_list_entries": request.POST.getlist("control_list_entries[]", []),
             "is_good_controlled": request.POST.get("is_good_controlled"),
         }
 
