@@ -30,7 +30,7 @@ def review_goods_clc_query_form(request, back_url, is_goods_type):
                 ],
             ),
             RadioButtons(
-                title="Which report summary would you like to use? (optional)",
+                title="Which report summary would you like to use?",
                 name="report_summary",
                 options=get_picklists(request, "report_summary", convert_to_options=True, include_none=True),
                 description="You only need to do this if the item is controlled",

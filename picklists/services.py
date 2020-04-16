@@ -11,7 +11,7 @@ def get_picklists(request, picklist_type, show_deactivated=False, convert_to_opt
         options = []
 
         if include_none:
-            options.append(Option(None, "None", "None"))
+            options.append(Option(None, "None"))
 
         for item in data["picklist_items"]:
             options.append(Option(item["id"], item["name"], item["text"]))
