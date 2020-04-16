@@ -53,7 +53,9 @@
 						{% endif %}
 					</td>
 					<td class="govuk-table__cell">{{ good.is_good_controlled.value|friendly_boolean }}</td>
-					<td class="govuk-table__cell">{{ good.control_code|default_na }}</td>
+					<td class="govuk-table__cell">
+						{% include 'includes/control-list-entries.html' with control_list_entries=good.control_list_entries %}
+					</td>
 					<td class="govuk-table__cell">
 						{% if good.comment %}
 							{{ good.comment}}
