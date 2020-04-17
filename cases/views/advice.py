@@ -40,7 +40,7 @@ from cases.views_helpers import (
 )
 from conf.constants import DECISIONS_LIST, Permission
 from core import helpers
-from lite_content.lite_internal_frontend.cases import GenerateFinalDecisionDocumentsPage
+from lite_content.lite_internal_frontend.cases import GenerateFinalDecisionDocumentsPage, FinaliseLicenceForm
 from lite_forms.generators import form_page, error_page
 
 
@@ -318,7 +318,7 @@ class Finalise(TemplateView):
         if case_type == CaseType.STANDARD.value:
             goods, status_code = get_finalise_application_goods(request, pk)
             if status_code != HTTPStatus.OK:
-                return error_page(request, "Approved goods could not be fetched")
+                return error_page(request, FinaliseLicenceForm.GOODS_ERROR)
             goods = goods["goods"]
         return goods
 
@@ -378,10 +378,10 @@ class Finalise(TemplateView):
 
         res = finalise_application(request, application_id, data)
 
-        if res.status_code == 403:
+        if res.status_code == HTTPStatus.FORBIDDEN:
             return error_page(request, "You do not have permission.")
 
-        if res.status_code == 400:
+        if res.status_code == HTTPStatus.BAD_REQUEST:
             case_type = case["application"]["case_type"]["sub_type"]["key"]
             form = approve_licence_form(
                 queue_pk=kwargs["queue_pk"],
