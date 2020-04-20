@@ -88,8 +88,8 @@ def generated_decision_document(driver, context):
 @then("I see the applied for goods details on the licence page")
 def applied_for_goods_details(driver, context):
     page = GrantLicencePage(driver)
-    good_on_app_id = context.good["id"]
-    assert str(context.good["quantity"]) == page.get_good_quantity(good_on_app_id)
-    assert str(context.good["value"]) == page.get_good_value(good_on_app_id)
+    good_on_app_id = context.goods[0]["id"]
+    assert str(context.goods[0]["quantity"]) == page.get_good_quantity(good_on_app_id)
+    assert str(context.goods[0]["value"]) == page.get_good_value(good_on_app_id)
     context.licence_duration = page.get_duration_in_finalise_view()
     context.licence_start_date = datetime.now().strftime(DATE_FORMAT)
