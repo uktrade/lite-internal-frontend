@@ -5,7 +5,7 @@ from conf.constants import PICKLIST_URL
 
 
 def get_picklists_list(request, picklist_type):
-    data = get(request, PICKLIST_URL + "?full_detail=True&type=" + picklist_type)
+    data = get(request, PICKLIST_URL + "?type=" + picklist_type)
     return data.json()
 
 
