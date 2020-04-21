@@ -5,7 +5,7 @@ from letter_templates.helpers import get_template_content
 from letter_templates.services import get_letter_paragraphs, get_letter_preview
 from lite_content.lite_internal_frontend.letter_templates import LetterTemplatesPage
 from lite_forms.generators import error_page
-from picklists.services import get_picklists
+from picklists.services import get_picklists_for_input
 
 
 def get_order_paragraphs_page(request, template_content):
@@ -33,7 +33,7 @@ class LetterParagraphs(TemplateView):
 
     @staticmethod
     def _add_letter_paragraph(request, template_content):
-        all_letter_paragraphs = get_picklists(request, "letter_paragraph")
+        all_letter_paragraphs = get_picklists_for_input(request, "letter_paragraph")
         context = {
             "name": template_content["name"],
             "layout": template_content["layout"],

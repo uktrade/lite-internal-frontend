@@ -10,7 +10,7 @@ from cases.forms.advice import advice_recommendation_form
 from cases.helpers import check_matching_advice, add_hidden_advice_data, clean_advice
 from cases.services import get_case, _get_total_goods_value
 from core.services import get_denial_reasons, get_user_permissions, get_status_properties, get_pv_gradings
-from picklists.services import get_picklists
+from picklists.services import get_picklists_for_input
 from teams.services import get_teams
 from users.services import get_gov_user
 from conf.constants import Permission, APPLICATION_CASE_TYPES, CLEARANCE_CASE_TYPES, CONFLICTING
@@ -139,8 +139,8 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
         return form_page(request, form, errors={"type": ["Select a decision"]})
 
     # Render the advice detail page
-    proviso_picklist_items = get_picklists(request, "proviso")
-    advice_picklist_items = get_picklists(request, "standard_advice")
+    proviso_picklist_items = get_picklists_for_input(request, "proviso")
+    advice_picklist_items = get_picklists_for_input(request, "standard_advice")
     static_denial_reasons, _ = get_denial_reasons(request, False)
 
     form = "case/give-advice.html"
@@ -180,8 +180,8 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final, 
     response, _ = post_case_advice(request, case.get("id"), data)
 
     if "errors" in response:
-        proviso_picklist_items = get_picklists(request, "proviso")
-        advice_picklist_items = get_picklists(request, "standard_advice")
+        proviso_picklist_items = get_picklists_for_input(request, "proviso")
+        advice_picklist_items = get_picklists_for_input(request, "standard_advice")
         static_denial_reasons, _ = get_denial_reasons(request, False)
 
         data = clean_advice(data)

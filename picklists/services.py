@@ -4,8 +4,21 @@ from conf.client import get, post, put
 from conf.constants import PICKLIST_URL
 
 
-def get_picklists(request, picklist_type, show_deactivated=False, convert_to_options=False, include_none=False):
-    data = get(request, PICKLIST_URL + "?type=" + picklist_type + "&show_deactivated=" + str(show_deactivated)).json()
+def get_picklists_list(request, picklist_type):
+    data = get(request, PICKLIST_URL + "?type=" + picklist_type)
+    return data.json()
+
+
+def get_picklists_for_input(request, picklist_type, show_deactivated=False, convert_to_options=False, include_none=False):
+    data = get(
+        request,
+        PICKLIST_URL
+        + "?type="
+        + picklist_type
+        + "&show_deactivated="
+        + str(show_deactivated)
+        + "disable_pagination=True",
+    ).json()
 
     if convert_to_options:
         options = []
