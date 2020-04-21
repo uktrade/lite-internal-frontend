@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from lite_forms.components import Form, TextInput, BackLink, DateInput, Label, HiddenField, GoodsLicenceList
+from lite_forms.components import Form, TextInput, BackLink, DateInput, Label, HiddenField, Custom
 from lite_forms.helpers import conditional
 from lite_content.lite_internal_frontend import cases
 
@@ -23,7 +23,7 @@ def approve_licence_form(queue_pk, case_id, is_open_licence, duration, editable_
                 Label(text=f"Duration: {duration} months"),
             ),
             HiddenField(name="action", value="approve"),
-            conditional(goods, GoodsLicenceList(goods=goods,)),
+            conditional(goods, Custom("case/goods_licence_list.html", data=goods,)),
         ],
         back_link=conditional(
             is_open_licence,
