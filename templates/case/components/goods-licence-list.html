@@ -25,14 +25,23 @@
 					{% if good.advice.proviso %}{{ good.advice.proviso }}{% endif %}
 				</td>
 				<td class="govuk-table__cell">
-					<input class="govuk-input" id="quantity-{{ good.id }}" type="text" name="quantity-{{ good.id }}" value="{{ good.quantity }}"/><br>
+					<input class="govuk-input" id="quantity-{{ good.id }}" type="text" name="quantity-{{ good.id }}" value="{{ good.quantity }}" onchange="updateValue('{{ good.id }}', '{{ good.value }}')"/><br>
 					{% lcs 'cases.FinaliseLicenceForm.GoodsTable.APPLIED_FOR_TEXT' %}{{ good.quantity|intcomma }} {{ good.unit.value }}
 				</td>
 				<td class="govuk-table__cell">
-					<input class="govuk-input" id="value-{{ good.id }}" type="text" name="value-{{ good.id }}" value="{{ good.value }}"/><br>
-					{% lcs 'cases.FinaliseLicenceForm.GoodsTable.APPLIED_FOR_TEXT' %}£{{ good.value|intcomma }}
+					<input class="govuk-input" id="value-{{ good.id }}" type="text" name="value-{{ good.id }}" value="{{ good.value|multiply:good.quantity|floatformat:2 }}"/><br>
+					{% lcs 'cases.FinaliseLicenceForm.GoodsTable.APPLIED_FOR_TEXT' %}£{{ good.value|intcomma }} / {{ good.unit.value }}
 				</td>
 			</tr>
 		{% endfor %}
 	</tbody>
 </table>
+
+{% block javascript %}
+<script>
+	function updateValue(id, value_per_item) {
+		let quantity = document.getElementById("quantity-"+id).value;
+		document.getElementById("value-"+id).value = (quantity * value_per_item).toFixed(2);
+	}
+</script>
+{% endblock %}
