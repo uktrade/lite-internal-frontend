@@ -16,7 +16,6 @@ from picklists.forms import (
     edit_letter_paragraph_form,
 )
 from picklists.services import (
-    get_picklists_for_input,
     get_picklist_item,
     put_picklist_item,
     get_picklists_list)
