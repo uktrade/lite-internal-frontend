@@ -23,7 +23,7 @@ def approve_licence_form(queue_pk, case_id, is_open_licence, duration, editable_
                 Label(text=f"Duration: {duration} months"),
             ),
             HiddenField(name="action", value="approve"),
-            conditional(goods, Custom("case/goods_licence_list.html", data=goods,)),
+            conditional(goods, Custom("case/components/goods-licence-list.html", data=goods,)),
         ],
         back_link=conditional(
             is_open_licence,
