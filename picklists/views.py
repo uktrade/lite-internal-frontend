@@ -15,10 +15,7 @@ from picklists.forms import (
     edit_picklist_item_form,
     edit_letter_paragraph_form,
 )
-from picklists.services import (
-    get_picklist_item,
-    put_picklist_item,
-    get_picklists_list)
+from picklists.services import get_picklist_item, put_picklist_item, get_picklists_list
 from picklists.validators import validate_and_post_picklist_item, validate_and_put_picklist_item
 from teams.services import get_team
 from users.services import get_gov_user
