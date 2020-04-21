@@ -18,7 +18,7 @@ def get_picklists_for_input(request, picklist_type, show_deactivated=False, conv
         + "&show_deactivated="
         + str(show_deactivated)
         + "disable_pagination=True",
-    ).json()
+    ).json()["results"]
 
     if convert_to_options:
         options = []
