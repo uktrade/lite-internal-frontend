@@ -16,9 +16,11 @@
 	<form action="{% url 'cases:respond_to_clc_query' queue.id case.id %}" method="post">
 
 		{% hidden_field 'is_good_controlled' data.is_good_controlled %}
-		{% hidden_field 'control_list_entries[]' data.control_code %}
 		{% hidden_field 'report_summary' data.report_summary %}
 		{% hidden_field 'comment' data.comment %}
+		{% for control_list_entry in data|get:'control_list_entries' %}
+			{% hidden_field 'control_list_entries[]' control_list_entry %}
+		{% endfor %}
 
 		{% csrf_token %}
 
