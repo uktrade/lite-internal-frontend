@@ -89,7 +89,9 @@ def generated_decision_document(driver, context):
 def applied_for_goods_details(driver, context):
     page = GrantLicencePage(driver)
     good_on_app_id = context.goods[0]["id"]
-    assert str(context.goods[0]["quantity"]) == page.get_good_quantity(good_on_app_id)
-    assert str(context.goods[0]["value"]) == page.get_good_value(good_on_app_id)
+    assert context.goods[0]["quantity"] == float(page.get_good_quantity(good_on_app_id))
+    assert round(float(context.goods[0]["value"]) * context.goods[0]["quantity"], 2) == float(
+        page.get_good_value(good_on_app_id)
+    )
     context.licence_duration = page.get_duration_in_finalise_view()
     context.licence_start_date = datetime.now().strftime(DATE_FORMAT)
