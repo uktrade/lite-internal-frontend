@@ -21,6 +21,8 @@ class ApplicationPage(BasePage):
     GENERATE_DOCUMENTS_BTN = "generate-document"  # id
     ECJU_QUERIES_BTN = '[href*="ecju-queries"]'  # css
     PROGRESS_APP_BTN = "change-status"  # ID
+    RERUN_ROUTING_RULES_BTN = "rerun-routing-rules"  # ID
+    CONFIRM_RERUN_ROUTING_RULES = "confirm-yes"
     ACTIVITY_CASE_NOTE_SUBJECT = ".app-activity__list .govuk-body"
     ACTIVITY_DATES = ".app-activity__item .govuk-hint"
     IS_VISIBLE_TO_EXPORTER_CHECKBOX_ID = "is_visible_to_exporter"
@@ -86,6 +88,14 @@ class ApplicationPage(BasePage):
         self.click_drop_down()
         scroll_to_element_by_id(self.driver, self.PROGRESS_APP_BTN)
         self.driver.find_element_by_id(self.PROGRESS_APP_BTN).click()
+
+    def click_rerun_routing_rules(self):
+        self.click_drop_down()
+        scroll_to_element_by_id(self.driver, self.RERUN_ROUTING_RULES_BTN)
+        self.driver.find_element_by_id(self.RERUN_ROUTING_RULES_BTN).click()
+
+    def click_confirm_rerun_routing_rules(self):
+        self.driver.find_element_by_id(self.CONFIRM_RERUN_ROUTING_RULES).click()
 
     def click_documents_button(self):
         self.click_drop_down()
@@ -254,3 +264,6 @@ class ApplicationPage(BasePage):
 
     def click_on_case_link(self, case_id):
         self.driver.find_element_by_id(self.CASE_LINK_PARTIAL_ID + case_id).click()
+
+    def get_case_queues(self):
+        return self.driver.find_element_by_id(self.CASE_QUEUES_ID)
