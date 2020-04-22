@@ -115,8 +115,7 @@
 				</dt>
 			{% endif %}
 				<dd class="govuk-summary-list__value">
-					{% lcs 'cases.ClcQuery.GoodDetails.Clc.NO_CONTROL_CODE' as default %}
-					{{ good.control_code|default:default }}
+					{% include 'includes/control-list-entries.html' with control_list_entries=good.control_list_entries %}
 				</dd>
 			</div>
 			{% if good.is_good_controlled.key == "unsure" %}

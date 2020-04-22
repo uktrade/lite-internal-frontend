@@ -44,7 +44,7 @@
 			<p class="govuk-heading-s">{% lcs 'cases.GradingResponseOverview.Details.CONTROL_HEADING' %}</p>
 			<div class="app-summary-list__item">
 				<p class="govuk-caption-m">{% lcs 'cases.GradingResponseOverview.Details.CONTROL_LIST_ENTRY' %}</p>
-				<p class="govuk-body-m">{{ case.query.good.control_code|default_na }}</p>
+				{% include 'includes/control-list-entries.html' with control_list_entries=case.query.good.control_list_entries %}
 			</div>
 
 			<p class="govuk-heading-s">{% lcs 'cases.GradingResponseOverview.Details.Documents.DOCUMENTS' %}</p>
