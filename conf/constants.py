@@ -15,7 +15,7 @@ class GoodSystemFlags:
 ORGANISATIONS_URL = "/organisations/"
 CASE_URL = "/cases/"
 GOOD_URL = "/goods/"
-GOODS_TYPE_URL = "/goodstype/"
+GOODS_TYPE_URL = "/goods-types/"
 APPLICATIONS_URL = "/applications/"
 CASE_NOTES_URL = "/case-notes/"
 CASE_FLAGS_URL = "/flags/"

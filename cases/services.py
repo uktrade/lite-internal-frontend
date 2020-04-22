@@ -303,7 +303,7 @@ def get_good(request, pk):
 
 def get_goods_type(request, pk):
     data = get(request, GOODS_TYPE_URL + pk)
-    return data.json(), data.status_code
+    return {"good": data.json()}, data.status_code
 
 
 def post_goods_control_code(request, case_id, json):
