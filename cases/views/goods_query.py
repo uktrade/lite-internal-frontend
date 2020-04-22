@@ -62,7 +62,7 @@ class RespondCLCQuery(TemplateView):
 
         # Remove validate only key and go to overview page
         if response_data["is_good_controlled"] == "no":
-            response_data.pop("control_list_entries")
+            response_data.pop("control_list_entries[]")
 
         context = {
             "data": response_data,
