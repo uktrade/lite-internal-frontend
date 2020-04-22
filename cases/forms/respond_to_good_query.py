@@ -48,7 +48,6 @@ def respond_to_clc_query_form(request, queue_pk, case):
                             control_list_entries_question(
                                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
                                 title=cases.RespondClCQueryForm.CONTROL_LIST_ENTRY,
-                                name="control_list_entries",
                             ),
                         ],
                     ),
@@ -60,7 +59,6 @@ def respond_to_clc_query_form(request, queue_pk, case):
                 name="report_summary",
                 options=get_picklists(request, "report_summary", convert_to_options=True, include_none=True),
                 description=cases.RespondClCQueryForm.ReportSummary.DESCRIPTION,
-                classes=["test"],
             ),
             TextArea(
                 title=cases.RespondClCQueryForm.COMMENT, name="comment", optional=True, extras={"max_length": 500,}

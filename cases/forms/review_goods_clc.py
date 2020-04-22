@@ -22,7 +22,6 @@ def review_goods_clc_query_form(request, back_url, is_goods_type):
                             control_list_entries_question(
                                 control_list_entries=get_control_list_entries(None, convert_to_options=True),
                                 title="What is the correct control list entry?",
-                                name="control_list_entries",
                             ),
                         ],
                     ),
