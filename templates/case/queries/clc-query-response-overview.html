@@ -102,7 +102,7 @@
 
 			<div class="app-summary-list__item">
 				<p class="govuk-caption-m">{% lcs 'cases.ClcResponseOverview.Response.COMMENT' %}</p>
-				<p class="govuk-body-m">{{ data.comment }}</p>
+				<p class="govuk-body-m">{{ data.comment|default_na }}</p>
 			</div>
 		</div>
 
