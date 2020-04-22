@@ -37,7 +37,9 @@
 					<p class="govuk-body-m">{{ good.is_good_controlled.value }}</p>
 
 					<h4 class="govuk-heading-s">{% lcs 'cases.ClcQuery.Verified.Clc.CONTROL_CODE' %}</h4>
-					<p class="govuk-body-m">{{ good.control_code|default_na }}</p>
+					<p class="govuk-body-m">
+						{% include 'includes/control-list-entries.html' with control_list_entries=case.query.good.control_list_entries %}
+					</p>
 
 					<h4 class="govuk-heading-s">{% lcs 'cases.ClcQuery.Verified.Clc.REPORT' %}</h4>
 					<p class="govuk-body-m">{{ case.query.good.report_summary|default_na }}</p>
