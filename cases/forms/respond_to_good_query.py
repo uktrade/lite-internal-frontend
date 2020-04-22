@@ -82,7 +82,6 @@ def respond_to_grading_query_form(queue_pk, case):
             Heading(case["reference_code"], HeadingStyle.S),
             Summary(values={"Description": case["query"]["good"]["description"]}, classes=["app-inset-text"],),
             Group(
-                name="grading",
                 components=[
                     TextInput(title=cases.RespondGradingQueryForm.Grading.PREFIX, name="prefix", optional=True),
                     Select(
