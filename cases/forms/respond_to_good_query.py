@@ -30,8 +30,8 @@ def respond_to_clc_query_form(request, queue_pk, case):
             Summary(
                 values={
                     cases.RespondClCQueryForm.Summary.DESCRIPTION: case["query"]["good"]["description"],
-                    cases.RespondClCQueryForm.Summary.CONTROL_LIST_ENTRY: default(
-                        case["query"]["good"].get("control_code"),
+                    cases.RespondClCQueryForm.Summary.CONTROL_LIST_ENTRIES: default(
+                        case["query"]["good"].get("control_list_entries"),
                         cases.RespondClCQueryForm.Summary.NO_CONTROL_LIST_ENTRY,
                     ),
                 },
