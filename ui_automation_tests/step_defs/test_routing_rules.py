@@ -1,7 +1,6 @@
 from pytest_bdd import when, then, scenarios, parsers
-import shared.tools.helpers as utils
-from pages.shared import Shared
 
+import shared.tools.helpers as utils
 from ui_automation_tests.pages.routing_rules_pages import RoutingRulesPage
 from ui_automation_tests.shared import functions
 
