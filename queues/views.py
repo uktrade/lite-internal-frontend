@@ -111,7 +111,8 @@ class Cases(TemplateView):
 
 class QueuesList(TemplateView):
     def get(self, request, **kwargs):
-        queues = get_queues(request)
+        page = request.GET.get("page", 1)
+        queues = get_queues(request, page=page, disable_pagination=False)
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
         context = {
