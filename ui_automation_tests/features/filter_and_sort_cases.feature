@@ -4,7 +4,7 @@ Feature: I want to filter and sort cases on a queue
   I want to filter and sort the cases in the work queue I am viewing
   So that I can easily find the cases I am most interested in
 
-  @LT_914_filter_and_sort @smoke
+  @LT_914_filter_and_sort @smoke @MS
   Scenario: Filter and sort
     Given I sign in to SSO or am signed into SSO
     And a queue has been created
@@ -32,12 +32,12 @@ Feature: I want to filter and sort cases on a queue
     And I go to the internal homepage
     And I click on new queue in dropdown
     And I sort cases by status
-    Then "2" cases are shown
-    Then the case at index "0" has the status of "Under review"
-    And the case at index "1" has the status of "CLC review"
+    # Application is removed due to case routing rules and change of status
+    Then "1" cases are shown
+    And the case at index "0" has the status of "CLC review"
     When I show filters
     And I click filter to show cases with open team ecju queries
-    Then "2" cases are shown
+    Then "1" cases are shown
 
 #  @LT_914_sort_all_cases @regression
 #  Scenario: Sort all cases
