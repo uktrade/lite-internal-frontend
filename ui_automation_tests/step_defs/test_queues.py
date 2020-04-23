@@ -52,4 +52,4 @@ def see_number_of_checkboxes_selected(driver, context, num):
 
 @then("queue change is in audit trail")
 def queue_change_in_audit(driver, context):
-    assert "moved the case to: " + context.queue_name in ApplicationPage(driver).get_text_of_audit_trail_item(0)
+    assert "moved the case to " + context.queue_name in ApplicationPage(driver).get_text_of_audit_trail_item(0)
