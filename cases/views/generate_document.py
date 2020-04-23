@@ -164,7 +164,7 @@ class AddDocumentParagraphsView(SingleFormView):
         return json, HTTPStatus.OK
 
     def init(self, request, **kwargs):
-        letter_paragraphs = get_picklists_for_input(request, "letter_paragraph")["picklist_items"]
+        letter_paragraphs = get_picklists_for_input(request, "letter_paragraph")
         self.form = add_paragraphs_form(letter_paragraphs, request.POST[TEXT], kwargs, self.back_url)
         self.redirect = False
         self.action = self._get_form_data

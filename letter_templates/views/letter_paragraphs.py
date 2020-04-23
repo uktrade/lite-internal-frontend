@@ -42,7 +42,7 @@ class LetterParagraphs(TemplateView):
             "decisions": template_content["decisions"],
             "letter_paragraphs": [
                 paragraph
-                for paragraph in all_letter_paragraphs["picklist_items"]
+                for paragraph in all_letter_paragraphs
                 if paragraph["id"] not in template_content["letter_paragraphs"]
             ],
             "existing_letter_paragraphs": template_content["letter_paragraphs"],

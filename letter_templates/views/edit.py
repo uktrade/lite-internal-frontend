@@ -87,7 +87,7 @@ class EditParagraphs(TemplateView):
         context = {
             "letter_paragraphs": [
                 paragraph
-                for paragraph in all_letter_paragraphs["picklist_items"]
+                for paragraph in all_letter_paragraphs
                 if paragraph["id"] not in existing_paragraphs
             ],
             "existing_letter_paragraphs": existing_paragraphs,
