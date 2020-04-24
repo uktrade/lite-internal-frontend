@@ -308,6 +308,8 @@ def get_good(request, pk):
 
 def get_goods_type(request, pk):
     data = get(request, GOODS_TYPE_URL + pk)
+    # API doesn't structure the endpoints in a way that flags (currently) works,
+    # so wrap data in dictionary
     return {"good": data.json()}, data.status_code
 
 
