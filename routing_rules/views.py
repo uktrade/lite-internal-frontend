@@ -73,10 +73,13 @@ class RoutingRulesList(TemplateView):
 
 class CreateRoutingRule(MultiFormView):
     def init(self, request, **kwargs):
+        select_team = has_permission(request, Permission.MANAGE_ALL_ROUTING_RULES)
         if request.method == "POST":
-            self.forms = routing_rule_form_group(request, request.POST.getlist("additional_rules[]"))
+            self.forms = routing_rule_form_group(
+                request=request, additional_rules=request.POST.getlist("additional_rules[]"), select_team=select_team,
+            )
         else:
-            self.forms = routing_rule_form_group(request, list())
+            self.forms = routing_rule_form_group(request=request, additional_rules=list(), select_team=select_team,)
         self.success_url = reverse("routing_rules:list")
         self.action = post_routing_rule
 

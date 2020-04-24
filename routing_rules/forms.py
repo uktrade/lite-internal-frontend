@@ -17,7 +17,7 @@ from lite_forms.components import (
 )
 from lite_forms.generators import confirm_form
 from lite_forms.helpers import conditional
-from teams.services import get_users_team_queues, get_users_by_team
+from teams.services import get_users_team_queues, get_users_by_team, get_teams
 from users.services import get_gov_user
 
 additional_rules = [
@@ -28,7 +28,15 @@ additional_rules = [
 ]
 
 
-def initial_routing_rule_questions(request, is_editing: bool):
+def select_a_team(request):
+    return Form(
+        title="Select a team to create routing rules for",
+        questions=[RadioButtons(name="team", options=get_teams(request, True))],
+        back_link=BackLink(Forms.BACK_BUTTON, reverse_lazy("routing_rules:list")),
+    )
+
+
+def initial_routing_rule_questions(request, is_editing: bool, back_to_list=True):
     if is_editing:
         title = Forms.EDIT_TITLE
     else:
@@ -101,10 +109,11 @@ def select_team_member(request, team_id):
     )
 
 
-def routing_rule_form_group(request, additional_rules, is_editing=False):
-    team_id = get_gov_user(request)[0]["user"]["team"]["id"]
+def routing_rule_form_group(request, additional_rules, team_id=None, is_editing=False, select_team=False):
+    team_id = get_gov_user(request)[0]["user"]["team"]["id"] if not team_id else team_id
     return FormGroup(
         [
+            conditional(select_team, select_a_team(request),),
             initial_routing_rule_questions(request, is_editing),
             conditional("case_types" in additional_rules, select_case_type(request)),
             conditional("flags" in additional_rules, select_flags(request, team_id)),
