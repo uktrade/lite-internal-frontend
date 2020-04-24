@@ -259,23 +259,23 @@ def status_has_been_changed_in_header(driver, context, internal_info):  # noqa
     application_page = ApplicationPage(driver)
     if context.status.lower() == "under review":
         assert (
-            "Under review" in application_page.get_text_of_application_summary_board()
+            "Under review" in application_page.get_text_of_audit_trail()
         ), "status has not been shown as approved in audit trail"
     elif context.status.lower() == "withdrawn":
         assert (
-            context.status in application_page.get_text_of_application_summary_board()
+            context.status in application_page.get_text_of_audit_trail()
         ), "status has not been shown as approved in audit trail"
     elif context.status.lower() == "pv grading review":
         assert (
-            context.status in application_page.get_text_of_application_summary_board()
+            context.status in application_page.get_text_of_audit_trail()
         ), "status has not been shown as approved in audit trail"
     elif context.status.lower() == "clc review":
         assert (
-            context.status in application_page.get_text_of_application_summary_board()
+            context.status in application_page.get_text_of_audit_trail()
         ), "status has not been shown as approved in audit trail"
     else:
         assert (
-            context.status.lower() in application_page.get_text_of_application_summary_board()
+            context.status.lower() in application_page.get_text_of_audit_trail()
         ), "status has not been shown as approved in audit trail"
 
     assert utils.search_for_correct_date_regex_in_element(
