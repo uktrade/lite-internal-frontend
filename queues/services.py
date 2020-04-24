@@ -13,7 +13,7 @@ def get_queues(request, disable_pagination=True, page=1, convert_to_options=Fals
     if convert_to_options:
         return [
             Option(queue.get("id"), queue.get("name"), description=queue.get("team").get("name"))
-            for queue in data["results"]
+            for queue in data
         ]
     else:
         return data
