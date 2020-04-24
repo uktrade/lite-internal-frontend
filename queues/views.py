@@ -116,7 +116,7 @@ class QueuesList(TemplateView):
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
         context = {
-            "queues": queues,
+            "data": queues,
             "user_data": user_data,
         }
         return render(request, "queues/manage.html", context)
