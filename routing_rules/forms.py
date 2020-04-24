@@ -2,7 +2,13 @@ from django.urls import reverse_lazy
 
 from cases.services import get_case_types, get_flags_for_team_of_level
 from core.services import get_statuses, get_countries
-from lite_content.lite_internal_frontend.routing_rules import Additional_rules, DeactivateForm, ActivateForm, Forms, Teams
+from lite_content.lite_internal_frontend.routing_rules import (
+    Additional_rules,
+    DeactivateForm,
+    ActivateForm,
+    Forms,
+    Teams,
+)
 from lite_forms.components import (
     FormGroup,
     Form,
