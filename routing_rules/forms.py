@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 
 from cases.services import get_case_types, get_flags_for_team_of_level
 from core.services import get_statuses, get_countries
-from lite_content.lite_internal_frontend.routing_rules import Additional_rules, DeactivateForm, ActivateForm, Forms
+from lite_content.lite_internal_frontend.routing_rules import Additional_rules, DeactivateForm, ActivateForm, Forms, Teams
 from lite_forms.components import (
     FormGroup,
     Form,
@@ -30,7 +30,7 @@ additional_rules = [
 
 def select_a_team(request):
     return Form(
-        title="Select a team to create routing rules for",
+        title=Teams.TITLE,
         questions=[RadioButtons(name="team", options=get_teams(request, True))],
         back_link=BackLink(Forms.BACK_BUTTON, reverse_lazy("routing_rules:list")),
     )
