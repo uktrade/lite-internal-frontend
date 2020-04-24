@@ -171,7 +171,7 @@ class ApplicationPage(BasePage):
         elements = self.driver.find_elements_by_css_selector(self.AUDIT_TRAIL_ITEM)
         text = ""
         for element in elements:
-            text += element
+            text += element.text
         return text
 
     def get_text_of_application_summary_board(self):
