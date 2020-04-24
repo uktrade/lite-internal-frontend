@@ -8,7 +8,7 @@ from http import HTTPStatus
 
 
 def get_queues(request, disable_pagination=True, page=1, convert_to_options=False):
-    data = get(request, QUEUES_URL + "?page=" + str(page) + "&disable_pagination=" + str(disable_pagination)).json()
+    data = get(request, QUEUES_URL + f"?page={page}&disable_pagination={disable_pagination}").json()
 
     if convert_to_options:
         return [

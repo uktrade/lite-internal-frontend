@@ -50,7 +50,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		{% include "includes/pagination.html" with data=queues %}
+		{% pagination with data=queues %}
 	{% else %}
 		{% include "includes/notice.html" with text='queues.QueuesList.NO_CONTENT_NOTICE' %}
 	{% endif %}
