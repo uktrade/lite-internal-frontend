@@ -43,3 +43,10 @@ def put_team(request, pk, json):
 def get_users_by_team(request, pk):
     data = get(request, TEAMS_URL + pk + "/users")
     return data.json(), data.status_code
+
+
+def get_team_queues(request, pk, convert_to_option=False):
+    data = get(request, TEAMS_URL + pk + "/queues/")
+    if convert_to_option:
+        return [Option(key=queue["id"], value=queue["name"], description=None) for queue in data.json()["queues"]]
+    return data.json(), data.status_code
