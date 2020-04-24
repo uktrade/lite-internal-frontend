@@ -83,7 +83,10 @@ class CreateRoutingRule(MultiFormView):
                 select_team=select_team,
             )
         else:
-            self.forms = routing_rule_form_group(request=request, additional_rules=list(), select_team=select_team,)
+            team_id = get_gov_user(request)[0]["user"]["team"]["id"]
+            self.forms = routing_rule_form_group(
+                request=request, additional_rules=list(), team_id=team_id, select_team=select_team,
+            )
         self.success_url = reverse("routing_rules:list")
         self.action = post_routing_rule
 
