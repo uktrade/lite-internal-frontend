@@ -5,7 +5,7 @@ from lite_forms.components import Form, BackLink, RadioButtons, Option, TextArea
 
 from core.services import get_control_list_entries
 from lite_forms.helpers import conditional
-from picklists.services import get_picklists
+from picklists.services import get_picklists_for_input
 
 
 def review_goods_clc_query_form(request, back_url, is_goods_type):
@@ -33,7 +33,7 @@ def review_goods_clc_query_form(request, back_url, is_goods_type):
                 title=goods.ReviewGoods.ReportSummary.TITLE,
                 description=goods.ReviewGoods.ReportSummary.DESCRIPTION,
                 name="report_summary",
-                options=get_picklists(request, "report_summary", convert_to_options=True, include_none=True),
+                options=get_picklists_for_input(request, "report_summary", convert_to_options=True, include_none=True),
             ),
             TextArea(title=goods.ReviewGoods.Comment.TITLE, name="comment", extras={"max_length": 500,}, optional=True),
         ],
