@@ -1,6 +1,6 @@
 from django.urls import path
 
-from cases.views import main, advice, goods, goods_query, ecju, generate_document, destinations
+from cases.views import main, advice, generate_document, ecju, goods_query, goods, destinations
 from flags.views import AssignFlags
 
 app_name = "cases"
@@ -108,5 +108,6 @@ urlpatterns = [
     path("case-officer/", main.CaseOfficer.as_view(), name="case_officer"),
     path("assign-user/", main.UserWorkQueue.as_view(), name="assign_user"),
     path("assign-user-queue/<uuid:user_pk>/", main.UserTeamQueue.as_view(), name="assign_user_queue"),
+    path("rerun-routing-rules/", main.RerunRoutingRules.as_view(), name="rerun_routing_rules",),
     path("<str:tab>/", main.ViewCase.as_view(), name="case", kwargs={"disable_queue_lookup": True}),
 ]

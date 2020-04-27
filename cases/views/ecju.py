@@ -3,7 +3,10 @@ from django.urls import reverse
 from cases import services
 from cases.forms.create_ecju_query import new_ecju_query_form
 from cases.services import get_case
+from cases.validators import validate_query_type_question
+from lite_forms.components import Option
 from lite_forms.views import MultiFormView
+from picklists.services import get_picklists_for_input
 
 
 def get_ecju_queries(request, case_id):
@@ -31,7 +34,6 @@ class NewECJUQueryView(MultiFormView):
         self.success_message = "ECJU query sent successfully"
         self.success_url = reverse(
             "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk, "tab": "ecju-queries"}
-        )
 
 
 # class ChooseECJUQueryType(SingleFormView):

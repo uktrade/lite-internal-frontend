@@ -19,7 +19,7 @@ from letter_templates.services import get_letter_templates, get_letter_template
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_forms.generators import form_page
 from lite_forms.views import SingleFormView
-from picklists.services import get_picklists
+from picklists.services import get_picklists_for_input
 
 
 TEXT = "text"
@@ -44,7 +44,7 @@ class PickTemplateView(TemplateView):
             text=self.back_text, url=reverse_lazy(self.back_url, kwargs={"queue_pk": kwargs["queue_pk"], "pk": pk}),
         )
         return form_page(
-            request, select_template_form(templates["results"], templates["total_pages"], pk, back_link=back_link)
+            request, select_template_form(templates["results"], templates, back_link=back_link), data=templates
         )
 
     def post(self, request, **kwargs):
@@ -168,7 +168,7 @@ class AddDocumentParagraphsView(SingleFormView):
         return json, HTTPStatus.OK
 
     def init(self, request, **kwargs):
-        letter_paragraphs = get_picklists(request, "letter_paragraph")["picklist_items"]
+        letter_paragraphs = get_picklists_for_input(request, "letter_paragraph")
         self.form = add_paragraphs_form(letter_paragraphs, request.POST[TEXT], kwargs, self.back_url)
         self.redirect = False
         self.action = self._get_form_data

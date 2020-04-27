@@ -454,4 +454,14 @@ def aurora(flags):
 def multiply(num1, num2):
     if not num1:
         return 0
-    return num1 * num2
+    return float(num1) * float(num2)
+
+
+def join_list(_list, _join=", "):
+    return _join.join(_list)
+
+
+@register.filter()
+def join_key_value_list(_list, _join=", "):
+    _list = [x["value"] for x in _list]
+    return join_list(_list, _join)

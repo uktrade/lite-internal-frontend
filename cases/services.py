@@ -36,6 +36,7 @@ from conf.constants import (
     FINALISE_CASE_URL,
     QUEUES_URL,
 )
+from core.helpers import convert_parameters_to_query_params
 
 
 # Case types
@@ -73,6 +74,11 @@ def put_application_status(request, pk, json):
     return data.json(), data.status_code
 
 
+def get_finalise_application_goods(request, pk):
+    data = get(request, f"{APPLICATIONS_URL}{pk}{FINAL_DECISION_URL}")
+    return data.json(), data.status_code
+
+
 def finalise_application(request, pk, json):
     return put(request, f"{APPLICATIONS_URL}{pk}{FINAL_DECISION_URL}", json)
 
@@ -83,6 +89,10 @@ def get_application_default_duration(request, pk):
 
 # Goods Queries
 def put_goods_query_clc(request, pk, json):
+    # This is a workaround due to RespondCLCQuery not using a SingleFormView
+    if "control_list_entries[]" in json:
+        json["control_list_entries"] = json.getlist("control_list_entries[]")
+
     data = put(request, GOODS_QUERIES_URL + pk + CLC_RESPONSE_URL, json)
     return data.json(), data.status_code
 
@@ -298,7 +308,9 @@ def get_good(request, pk):
 
 def get_goods_type(request, pk):
     data = get(request, GOODS_TYPE_URL + pk)
-    return data.json(), data.status_code
+    # API doesn't structure the endpoints in a way that flags (currently) works,
+    # so wrap data in dictionary
+    return {"good": data.json()}, data.status_code
 
 
 def post_goods_control_code(request, case_id, json):
@@ -308,14 +320,14 @@ def post_goods_control_code(request, case_id, json):
 
 
 # Good Flags
-def get_flags_for_team_of_level(request, level):
+def get_flags_for_team_of_level(request, level, team_id, include_system_flags=False):
     """
-
-    :param request:
+    :param request: headers for the request
     :param level: 'cases', 'goods'
+    :param include_system_flags: used to indicate adding system flags to list of team flags returned
     :return:
     """
-    data = get(request, FLAGS_URL + "?level=" + level + "&team=True")
+    data = get(request, FLAGS_URL + convert_parameters_to_query_params(locals()) + "&disable_pagination=True")
     return data.json(), data.status_code
 
 
@@ -441,4 +453,9 @@ def get_case_additional_contacts(request, pk):
 
 def post_case_additional_contacts(request, pk, json):
     response = post(request, CASE_URL + str(pk) + "/additional-contacts/", json=json)
+    return response.json(), response.status_code
+
+
+def put_rerun_case_routing_rules(request, pk, json):
+    response = put(request, CASE_URL + str(pk) + "/rerun-routing-rules/", json={})
     return response.json(), response.status_code

@@ -15,7 +15,7 @@ class GoodSystemFlags:
 ORGANISATIONS_URL = "/organisations/"
 CASE_URL = "/cases/"
 GOOD_URL = "/goods/"
-GOODS_TYPE_URL = "/goodstype/"
+GOODS_TYPE_URL = "/goods-types/"
 APPLICATIONS_URL = "/applications/"
 CASE_NOTES_URL = "/case-notes/"
 CASE_FLAGS_URL = "/flags/"
@@ -48,7 +48,7 @@ CLC_RESPONSE_URL = "/clc-response/"
 PV_GRADING_RESPONSE_URL = "/pv-grading-response/"
 PICKLIST_URL = "/picklist/"
 LETTER_TEMPLATES_URL = "/letter-templates/"
-GOOD_CLC_REVIEW_URL = "/goods/controlcode/"
+GOOD_CLC_REVIEW_URL = "/goods/control-list-entries/"
 MANAGE_STATUS_URL = "/status/"
 FINAL_DECISION_URL = "/final-decision/"
 DURATION_URL = "/duration/"
@@ -60,6 +60,8 @@ GENERATE_PREVIEW_URL = "generate-preview/"
 DESTINATION_URL = CASE_URL + "destinations/"
 CASE_OFFICER_URL = "/case-officer/"
 FINALISE_CASE_URL = "/finalise/"
+ROUTING_RULES_URL = "/routing-rules/"
+ROUTING_RULES_STATUS_URL = "/status/"
 
 # Static URLs
 STATIC_URL = "/static/"
@@ -105,6 +107,8 @@ class Permission(Enum):
     MANAGE_ORGANISATIONS = "MANAGE_ORGANISATIONS"
     REOPEN_CLOSED_CASES = "REOPEN_CLOSED_CASES"
     MANAGE_FLAGGING_RULES = "MANAGE_FLAGGING_RULES"
+    MANAGE_TEAM_ROUTING_RULES = "MANAGE_TEAM_ROUTING_RULES"
+    MANAGE_ALL_ROUTING_RULES = "MANAGE_ALL_ROUTING_RULES"
 
 
 class FlagLevels:
