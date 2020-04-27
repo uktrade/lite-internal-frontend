@@ -172,7 +172,7 @@ $case-header-text-colour: govuk-colour("white");
         }
 
         .app-case-header__candy {
-            @include govuk-font($size: 16, $weight: bold);
+            @include govuk-font($size: 14, $weight: bold);
             position: relative;
             display: flex;
             align-items: center;
@@ -183,28 +183,26 @@ $case-header-text-colour: govuk-colour("white");
             padding: 0 govuk-spacing(2);
             cursor: pointer;
             z-index: 0;
-            border-top: 2px solid transparent;
-            border-bottom: 2px solid transparent;
+            background-color: rgba($case-header-text-colour, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: govuk-spacing(2) govuk-spacing(3);
 
             &:hover {
-                border-bottom-color: rgba(govuk-colour("white"), 0.5);
+                background: rgba($case-header-text-colour, 0.2);
             }
 
             &:active {
-                border-bottom-color: govuk-colour("white");
+                background: rgba($case-header-text-colour, 0.3);
             }
 
             &:last-of-type {
                 margin-right: 0;
             }
 
-            &--big {
-                padding: govuk-spacing(2) govuk-spacing(3);
-            }
-
             svg {
-                width: 20px;
-                height: 20px;
+                width: 18px;
+                height: 18px;
                 margin-right: govuk-spacing(2);
                 fill: currentColor;
 
@@ -327,12 +325,17 @@ $case-header-text-colour: govuk-colour("white");
     margin: 0;
     z-index: 0;
     margin-bottom: govuk-spacing(6);
-    padding-top: 10px;
 
     .lite-tabs__tab {
         margin-bottom: 0;
         padding: govuk-spacing(1) 0;
         border-top: 2px solid transparent;
+    }
+
+    .lite-tabs__controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     &::before {
@@ -405,18 +408,5 @@ $case-header-text-colour: govuk-colour("white");
     bottom: 0;
     left: 0;
     right: 0;
-    opacity: .5;
-
-    &::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 50px;
-        background-image: url("/assets/images/aurora.png");
-        background-position: bottom center;
-        background-size: cover;
-        opacity: .6;
-    }
+    opacity: .3;
 }

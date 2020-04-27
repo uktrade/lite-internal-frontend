@@ -72,13 +72,6 @@
 						<span class="app-case-header__candy app-case-header__candy--big" data-tooltip="Status">
 							{{ case.application.status.value }}
 						</span>
-						<div class="pie-wrapper progress-10 green" id="sla">
-							<span class="label">0</span>
-							<div class="pie">
-								<div class="left-side half-circle"></div>
-								<div class="right-side half-circle"></div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -96,6 +89,9 @@
 							{{ tab.name }}
 						</a>
 					{% endfor %}
+				</div>
+				<div class="lite-tabs__controls">
+					{% govuk_link_button text='Im done' url='queues:cases' classes='govuk-button--secondary' %}
 				</div>
 			</div>
 		</div>
