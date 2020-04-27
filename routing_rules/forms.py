@@ -50,7 +50,7 @@ def initial_routing_rule_questions(request, team_id, is_editing: bool):
         title=title,
         questions=[
             Select(title=Forms.CASE_STATUS, name="status", options=get_statuses(request, True)),
-            AutocompleteInput(title=Forms.QUEUE, name="queue", options=get_team_queues(request, team_id, True),),
+            AutocompleteInput(title=Forms.QUEUE, name="queue", options=get_team_queues(request, team_id, True, True),),
             TextInput(title=Forms.TIER, name="tier"),
             HiddenField(name="additional_rules[]", value=None),
             Checkboxes(title=Forms.ADDITIONAL_RULES, name="additional_rules[]", options=additional_rules,),
