@@ -66,7 +66,7 @@
 									{% if flag.status == "Active" %}
 										{{ flag.name }}
 									{% else %}
-										<div class="deactivated">{{ flag.name }}</div>
+										<div class="app-routing-rule__item--deactivated">{{ flag.name }}</div>
 									{% endif %}
 									<br>
 								{% endfor %}
@@ -85,7 +85,7 @@
 							{% if rule.user.status == "Active" %}
 								{{ rule.user.email }}
 							{% else %}
-								<div class="deactivated">{{ rule.user.email }}</div>
+								<div class="app-routing-rule__item--deactivated">{{ rule.user.email }}</div>
 							{% endif %}
 						{% else %}
 							Not set
