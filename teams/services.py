@@ -51,5 +51,5 @@ def get_team_queues(request, pk, convert_to_options=False, ignore_pagination=Fal
     post_fix = "?disable_pagination=True" if ignore_pagination else ""
     data = get(request, TEAMS_URL + pk + "/queues/" + post_fix)
     if convert_to_options:
-        return [Option(key=queue["id"], value=queue["name"], description=None) for queue in data.json()["results"]]
+        return [Option(key=queue["id"], value=queue["name"], description=None) for queue in data.json()]
     return data.json()
