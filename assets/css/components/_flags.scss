@@ -36,7 +36,7 @@
 }
 
 .app-flag {
-	@include govuk-font($size: 19, $weight: bold);
+	@include govuk-font($size: 16, $weight: bold);
 	position: relative;
 	display: inline-flex;
 	align-items: center;

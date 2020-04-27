@@ -7,7 +7,7 @@
 				<th scope="col" class="govuk-table__header">#</th>
 				<th scope="col" class="govuk-table__header">Description</th>
 				<th scope="col" class="govuk-table__header">Controlled</th>
-				<th scope="col" class="govuk-table__header">CLCs</th>
+				<th scope="col" class="govuk-table__header">Control list entries</th>
 				<th scope="col" class="govuk-table__header">Incorporated</th>
 				<th scope="col" class="govuk-table__header">Flags</th>
 			</tr>
@@ -18,7 +18,9 @@
 					<td class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
 					<td class="govuk-table__cell">{{ good.description }}</td>
 					<td class="govuk-table__cell">{{ good.is_good_controlled|friendly_boolean }}</td>
-					<td class="govuk-table__cell">{{ good.control_code }}</td>
+					<td class="govuk-table__cell">
+						{% include 'includes/control-list-entries.html' with control_list_entries=good.control_list_entries %}
+					</td>
 					<td class="govuk-table__cell">{{ good.is_good_incorporated|friendly_boolean }}</td>
 					<td class="govuk-table__cell">
 						{% include 'includes/flags.html' with flags=good.flags list=True %}
