@@ -7,7 +7,6 @@ from lite_content.lite_internal_frontend.routing_rules import (
     DeactivateForm,
     ActivateForm,
     Forms,
-    Teams,
 )
 from lite_forms.components import (
     FormGroup,
@@ -23,8 +22,7 @@ from lite_forms.components import (
 )
 from lite_forms.generators import confirm_form
 from lite_forms.helpers import conditional
-from teams.services import get_users_team_queues, get_users_by_team, get_teams, get_team_queues
-from users.services import get_gov_user
+from teams.services import get_users_by_team, get_teams, get_team_queues
 
 additional_rules = [
     Option("case_types", Additional_rules.CASE_TYPES),
@@ -36,13 +34,13 @@ additional_rules = [
 
 def select_a_team(request):
     return Form(
-        title=Teams.TITLE,
+        title=Forms.TEAM,
         questions=[RadioButtons(name="team", options=get_teams(request, True))],
         back_link=BackLink(Forms.BACK_BUTTON, reverse_lazy("routing_rules:list")),
     )
 
 
-def initial_routing_rule_questions(request, team_id, is_editing: bool, back_to_list: bool = True):
+def initial_routing_rule_questions(request, team_id, is_editing: bool):
     if is_editing:
         title = Forms.EDIT_TITLE
     else:
