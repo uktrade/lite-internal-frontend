@@ -11,10 +11,7 @@ def get_queues(request, disable_pagination=True, page=1, convert_to_options=Fals
     data = get(request, QUEUES_URL + f"?page={page}&disable_pagination={disable_pagination}").json()
 
     if convert_to_options:
-        return [
-            Option(queue.get("id"), queue.get("name"), description=queue.get("team").get("name"))
-            for queue in data
-        ]
+        return [Option(queue.get("id"), queue.get("name"), description=queue.get("team").get("name")) for queue in data]
     else:
         return data
 
