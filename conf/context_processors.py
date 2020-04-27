@@ -3,7 +3,7 @@ import os
 from django.urls import reverse_lazy
 
 from conf.constants import Permission
-from core.helpers import has_permission, has_permissions
+from core.helpers import has_permission, has_permission_in_list
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.flags import FlagsList
 from lite_content.lite_internal_frontend.organisations import OrganisationsPage
@@ -58,8 +58,8 @@ def lite_menu(request):
                 {"title": "Flagging rules", "url": reverse_lazy("flags:flagging_rules"), "icon": "menu/flags"},
             ),
             conditional(
-                has_permissions(
-                    request, [Permission.MANAGE_TEAM_ROUTING_RULES, Permission.MANAGE_ALL_ROUTING_RULES], False
+                has_permission_in_list(
+                    request, [Permission.MANAGE_TEAM_ROUTING_RULES, Permission.MANAGE_ALL_ROUTING_RULES]
                 ),
                 {"title": "Routing rules", "url": reverse_lazy("routing_rules:list"), "icon": "menu/flags"},
             ),

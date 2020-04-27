@@ -42,21 +42,17 @@ def has_permission(request, permission: Permission):
     return permission.value in user_permissions
 
 
-def has_permissions(request, permissions: [Permission], has_all_permissions: bool = True):
+def has_permission_in_list(request, permissions: [Permission]):
     """
-    Returns whether the user has one or all permissions depending on has_all_permissions value
+    Returns whether the user has one permission in the list of permissions
     """
     user_permissions = get_user_permissions(request)
 
     for permission in permissions:
-        if permission.value not in user_permissions:
-            if has_all_permissions:
-                return False
-        else:
-            if not has_all_permissions:
-                return True
+        if permission.value in user_permissions:
+            return True
 
-    return has_all_permissions
+    return False
 
 
 def decorate_patterns_with_permission(patterns, permission: Permission):
