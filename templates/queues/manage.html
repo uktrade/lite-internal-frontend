@@ -27,7 +27,7 @@
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for queue in data.results %}
-					<tr class="govuk-table__row">
+					<tr class="govuk-table__row" id="{{ queue.name }}">
 						<td class="govuk-table__cell">
 							{{ queue.name }}
 						</td>
