@@ -56,10 +56,7 @@ def has_permissions(request, permissions: [Permission], has_all_permissions: boo
             if not has_all_permissions:
                 return True
 
-    if has_all_permissions:
-        return True
-    else:
-        return False
+    return has_all_permissions
 
 
 def decorate_patterns_with_permission(patterns, permission: Permission):
