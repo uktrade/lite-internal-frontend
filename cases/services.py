@@ -457,4 +457,4 @@ def put_rerun_case_routing_rules(request, pk, json):
 
 def get_blocking_flags(request, case_pk):
     data = get(request, CASE_FLAGS_URL + case_pk + "?blocks_approval=True")
-    return data.json()
+    return data.json()["flags"]
