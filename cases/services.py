@@ -9,7 +9,6 @@ from conf.constants import (
     ACTIVITY_URL,
     DOCUMENTS_URL,
     END_USER_ADVISORY_URL,
-    CASE_FLAGS_URL,
     ECJU_QUERIES_URL,
     GOOD_URL,
     FLAGS_URL,
@@ -121,12 +120,6 @@ def get_case_notes(request, pk):
 
 def post_case_notes(request, pk, json):
     data = post(request, CASE_URL + pk + CASE_NOTES_URL, json)
-    return data.json(), data.status_code
-
-
-# Case Flags
-def put_case_flags(request, pk, flags):
-    data = put(request, CASE_URL + pk + CASE_FLAGS_URL, flags)
     return data.json(), data.status_code
 
 
