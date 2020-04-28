@@ -16,6 +16,7 @@ from lite_forms.components import (
     RadioButtons,
     AutocompleteInput,
     NumberInput,
+    Checkboxes,
 )
 from lite_forms.generators import confirm_form
 
@@ -68,6 +69,7 @@ def add_flag_form():
             NumberInput(
                 name="priority", title=CreateFlagForm.Priority.TITLE, description=CreateFlagForm.Priority.DESCRIPTION
             ),
+            Checkboxes(name="blocks_approval", options=[Option("True", "Blocks application approval")],),
         ],
         default_button_name=CreateFlagForm.SUBMIT_BUTTON,
         back_link=BackLink(CreateFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
