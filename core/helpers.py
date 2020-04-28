@@ -50,7 +50,7 @@ def has_permissions(request, permissions: List[Permission]):
     user_permissions = get_user_permissions(request)
     return_value = True
     for permission in permissions:
-        if permission not in user_permissions:
+        if permission.value not in user_permissions:
             return_value = False
     return return_value
 
