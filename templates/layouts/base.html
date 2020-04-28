@@ -82,9 +82,13 @@
 	{% block header %}
 		<div class="govuk-width-container">
 			<section role="banner" data-module="header">
-				{% block back_link %}
-					<a href="#" class="govuk-back-link lite-js-only">Back</a>
-				{% endblock %}
+				{% if request.GET|get:'return_to' %}
+					<a href="{{ request.GET|get:'return_to' }}" id="back-link" class="govuk-back-link">Back</a>
+				{% else %}
+					{% block back_link %}
+						<a href="#" id="back-link" class="govuk-back-link">Back</a>
+					{% endblock %}
+				{% endif %}
 			</section>
 		</div>
 	{% endblock %}
