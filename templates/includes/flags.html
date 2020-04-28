@@ -3,7 +3,9 @@
 		{% for flag in flags %}
 			<li data-label="{{ flag.label }}" class="app-flag {% if flag.label %}app-flag--label{% endif %} app-flag--{{ flag.colour }}"><span class="govuk-visually-hidden">{{ flag.label }}</span> {{ flag.name }}</li>
 		{% endfor %}
-		<a href="/queues/00000000-0000-0000-0000-000000000001/cases/{{ case.id }}/assign-flags/?level=cases&items={{ case.id }}" class="app-case-header__text app-case-header__link" style="margin-top: 10px; margin-left: 10px; text-decoration: underline;">Change flags</a>
+		{% if show_change_link %}
+			<a href="/queues/{{ queue.id }}/cases/{{ case.id }}/assign-flags/?level=cases&items={{ case.id }}">Change</a>
+		{% endif %}
 	</ul>
 {% else %}
 	{% if not list %}

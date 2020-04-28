@@ -18,18 +18,9 @@
 						<li class="app-case-header__breadcrumbs-list-item">
 							<a class="app-case-header__breadcrumbs-link" href="{% url 'queues:cases' queue.id %}">{{ queue.name }}</a>
 						</li>
-						{% if page.back_link.url %}
-							<li class="app-case-header__breadcrumbs-list-item">
-								<a class="app-case-header__breadcrumbs-link" href="{{ page.back_link.url }}">{{ case.reference_code }}</a>
-							</li>
-						{% endif %}
 					</ol>
 					<h1 class="app-case-header__heading" style="z-index: 10;">
-						{% if page.title %}
-							{{ page.title }}
-						{% else %}
-							{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}?return_to={{ CURRENT_PATH }}">{{ case.application.organisation.name }}</a>
-						{% endif %}
+						{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.application.organisation.name }}</a>
 					</h1>
 				</div>
 				<div class="app-case-header__controls">
@@ -75,26 +66,26 @@
 					</div>
 				</div>
 			</div>
-			<div id="case-flags">
-				<div style="margin-top: 20px; margin-bottom: -30px;">
-					{% include 'includes/flags.html' with flags=case.all_flags|slice:6 %}
-				</div>
+			<div class="app-case__flags-bar" id="case-flags">
+				{% include 'includes/flags.html' with flags=case.all_flags|slice:6 show_change_link=True %}
 			</div>
 		</div>
-		<div id="tab-bar" class="app-case-tab-bar">
-			<div class="govuk-width-container lite-tabs__container">
-				<div class="lite-tabs">
-					{% for tab in tabs %}
-						<a id="{{ tab.id }}" href="{% url 'cases:case' queue.id case.id tab.url %}" class="lite-tabs__tab {% if tab.url == current_tab %}lite-tabs__tab--selected{% endif %}">
-							{{ tab.name }}
-						</a>
-					{% endfor %}
-				</div>
-				<div class="lite-tabs__controls">
-					{% govuk_link_button text='Im done' url='queues:cases' classes='govuk-button--secondary' %}
+		{% if tabs %}
+			<div id="tab-bar" class="app-case-tab-bar">
+				<div class="govuk-width-container lite-tabs__container">
+					<div class="lite-tabs">
+						{% for tab in tabs %}
+							<a id="{{ tab.id }}" href="{% url 'cases:case' queue.id case.id tab.url %}" class="lite-tabs__tab {% if tab.url == current_tab %}lite-tabs__tab--selected{% endif %}">
+								{{ tab.name }}
+							</a>
+						{% endfor %}
+					</div>
+					<div class="lite-tabs__controls">
+						{% govuk_link_button text='cases.CasePage.IM_DONE_BUTTON' url='queues:cases' classes='govuk-button--secondary' %}
+					</div>
 				</div>
 			</div>
-		</div>
+		{% endif %}
 	</div>
 {% endblock %}
 
@@ -186,10 +177,10 @@
 			}
 
 			var padding = Math.max(15, 30 - (scrollPosition / 3));
-			var paddingFlags = Math.min(56, scrollPosition);
+			var paddingFlags = Math.max(20 - scrollPosition, -38);  // 38 is the height of the shrunk case header
 			$(".app-case-header").css({"padding-top": padding, "padding-bottom": padding});
 			$(".app-case-header__breadcrumbs-list").css({"opacity": 1 - (scrollPosition / 10), "transform": "translateY(" + -(30 - padding) + "px)", "margin-top": -(30 - padding) + "px", "margin-bottom": -(20 - padding) + "px"});
-			$("#case-flags").css({"opacity": 1 - (scrollPosition / 10), "transform": "translateY(" + -(30 - padding) + "px)", "margin-top": -paddingFlags + "px"});
+			$("#case-flags").css({"opacity": 1 - (scrollPosition / 10), "transform": "translateY(" + -(30 - padding) + "px)", "margin-top": paddingFlags + "px"});
 		});
 	</script>
 	<script src="{% static "javascripts/select-buttons.js" %}"></script>

@@ -421,7 +421,7 @@ def aurora(flags):
         "red": "#d4351c",
         "orange": "#f47738",
         "blue": "#1d70b8",
-        "yellow": "#ffdd00",
+        "yellow": "#FED90C",
         "green": "#00703c",
         "pink": "#d53880",
         "purple": "#4c2c92",

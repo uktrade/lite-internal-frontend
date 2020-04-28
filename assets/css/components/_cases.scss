@@ -1,3 +1,37 @@
+.app-case__summary-list {
+    column-gap: govuk-spacing(6);
+    column-count: 1;
+
+    &__row {
+        display: grid;
+        grid-template-columns: 30% 1fr auto;
+        grid-gap: govuk-spacing(6);
+        margin-bottom: govuk-spacing(3);
+    }
+
+    &__key {
+        @include govuk-font($size: 19, $weight: bold);
+    }
+
+    &__value {
+        @include govuk-font($size: 19);
+    }
+
+    &__actions {
+
+    }
+
+    @media screen and (min-width: 900px) {
+        column-count: 2;
+        max-height: 140px;
+    }
+
+    @media screen and (min-width: 1800px) {
+        column-count: 3;
+    }
+}
+
+
 .govuk-heading-xl, .govuk-fieldset__legend--xl {
     @include govuk-font($size: 36, $weight: bold);
 }
@@ -450,28 +484,26 @@ $case-header-text-colour: govuk-colour("white");
     }
 }
 
-.app-case-summary {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: govuk-spacing(6);
-
-    &__row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: govuk-spacing(2) 0;
-
-        dt {
-            @include govuk-font($size: 16, $weight: bold);
-        }
-    }
-}
-
 .app-case-separator {
     @include govuk-responsive-margin(6, "bottom");
     position: relative;
     height: govuk-spacing(2);
     z-index: 0;
+}
+
+.app-case__flags-bar {
+    margin-top: 20px;
+
+    .app-flags {
+        margin: 0;
+
+        a {
+            @include govuk-font($size: 19);
+            color: govuk-colour("white")!important;
+            line-height: 36px!important;
+            margin-left: govuk-spacing(2);
+        }
+    }
 }
 
 .app-case-header__aurora {
