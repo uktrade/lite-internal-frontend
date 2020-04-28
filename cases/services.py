@@ -34,6 +34,7 @@ from conf.constants import (
     DECISIONS_URL,
     FINALISE_CASE_URL,
     QUEUES_URL,
+    CASE_FLAGS_URL,
 )
 from core.helpers import convert_parameters_to_query_params
 
@@ -452,3 +453,8 @@ def post_case_additional_contacts(request, pk, json):
 def put_rerun_case_routing_rules(request, pk, json):
     response = put(request, CASE_URL + str(pk) + "/rerun-routing-rules/", json={})
     return response.json(), response.status_code
+
+
+def get_blocking_flags(request, case_pk):
+    data = get(request, CASE_FLAGS_URL + case_pk + "?blocks_approval=True")
+    return data.json()
