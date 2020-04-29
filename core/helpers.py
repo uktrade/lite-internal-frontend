@@ -91,3 +91,25 @@ def convert_value_to_query_param(key: str, value):
         return return_value
 
     return key + "=" + str(value)
+
+
+def get_nested_value(dictionary, nested_keys):
+    """
+    Iterates through nested_keys to get to the value from the dictionary.
+    Returns None if a key is not found instead of throwing a KeyError
+    Example usage:
+    get_nested_value(case, ['application', 'end_user', 'name'])
+    """
+
+    value = dictionary.get(nested_keys.pop(0), None)
+
+    if value:
+        while nested_keys:
+            next_value = value.get(nested_keys.pop(0), None)
+
+            if not next_value:
+                return value
+
+            value = next_value
+
+        return value

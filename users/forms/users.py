@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from lite_content.lite_internal_frontend.users import AddUserForm, EditUserForm
 from lite_forms.components import Form, Select, TextInput, BackLink
 from lite_forms.helpers import conditional
+from queues.services import get_queues
 from teams.services import get_teams
 from users.services import get_roles
 
@@ -23,6 +24,12 @@ def add_user_form(request):
                 description=AddUserForm.Role.DESCRIPTION,
                 name="role",
                 options=get_roles(request, True),
+            ),
+            Select(
+                title=AddUserForm.DefaultQueue.TITLE,
+                description=AddUserForm.DefaultQueue.DESCRIPTION,
+                name="default_queue",
+                options=get_queues(request, include_system=True, convert_to_options=True),
             ),
         ],
         back_link=BackLink(AddUserForm.BACK_LINK, reverse_lazy("users:users")),
@@ -48,6 +55,12 @@ def edit_user_form(request, user, can_edit_role: bool):
                     name="role",
                     options=get_roles(request, True),
                 ),
+            ),
+            Select(
+                title=EditUserForm.DefaultQueue.TITLE,
+                description=EditUserForm.DefaultQueue.DESCRIPTION,
+                name="default_queue",
+                options=get_queues(request, include_system=True, convert_to_options=True),
             ),
         ],
         back_link=BackLink(
