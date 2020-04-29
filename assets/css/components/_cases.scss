@@ -1,6 +1,7 @@
 .app-case__summary-list {
     column-gap: govuk-spacing(6);
     column-count: 1;
+    margin: 0;
 
     &__row {
         display: grid;
