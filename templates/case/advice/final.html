@@ -62,8 +62,8 @@
 			<div class="govuk-warning-text" id="blocking_flags">
 				<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
 				<strong class="govuk-warning-text__text">
-					<span class="govuk-warning-text__assistive">Warning</span>
-					This application is blocked by the following flags: {{ blocking_flags|join:"," }}
+					<span class="govuk-warning-text__assistive">{% lcs 'cases.ViewAdvicePage.WarningBanner.HIDDEN_TEXT' %}</span>
+					{% lcs 'cases.ViewAdvicePage.WarningBanner.BLOCKING_FLAGS' %}{{ blocking_flags|join:"," }}
 				</strong>
 			</div>
 		{% endif %}

@@ -70,8 +70,11 @@ def add_flag_form():
             ),
             RadioButtons(
                 name="blocks_approval",
-                title="Blocks application approval",
-                options=[Option("True", "Yes"), Option("False", "No")],
+                title=CreateFlagForm.BlocksApproval.TITLE,
+                options=[
+                    Option("True", CreateFlagForm.BlocksApproval.YES),
+                    Option("False", CreateFlagForm.BlocksApproval.NO),
+                ],
             ),
         ],
         default_button_name=CreateFlagForm.SUBMIT_BUTTON,
@@ -109,8 +112,11 @@ def edit_flag_form():
             ),
             RadioButtons(
                 name="blocks_approval",
-                title="Blocks application approval",
-                options=[Option("True", "Yes"), Option("False", "No")],
+                title=EditFlagForm.BlocksApproval.TITLE,
+                options=[
+                    Option("True", EditFlagForm.BlocksApproval.YES),
+                    Option("False", EditFlagForm.BlocksApproval.NO),
+                ],
             ),
         ],
         back_link=BackLink(EditFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
