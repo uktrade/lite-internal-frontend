@@ -58,16 +58,6 @@
 			{% endif %}
 		</div>
 
-		{% if blocking_flags %}
-			<div class="govuk-warning-text">
-				<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-				<strong class="govuk-warning-text__text">
-					<span class="govuk-warning-text__assistive">Warning</span>
-					This application is blocked by the following flags: {{ blocking_flags|join:"," }}
-				</strong>
-			</div>
-		{% endif %}
-
 		<!-- Conditional error wrapper -->
 		{% if not case.has_advice.team %}
 			{% include 'case/views/advice-view.html' with show_advice=True %}
