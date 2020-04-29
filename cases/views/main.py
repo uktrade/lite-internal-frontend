@@ -18,6 +18,7 @@ from cases.forms.change_status import change_status_form
 from cases.forms.done_with_case import done_with_case_form
 from cases.forms.flags import set_case_flags_form
 from cases.forms.move_case import move_case_form
+from cases.objects import Slice
 from cases.services import (
     get_case,
     post_case_notes,
@@ -101,6 +102,7 @@ class ViewCase(TemplateView):
         case = get_case(request, case_id)
         case_type = case["case_type"]["type"]["key"]
         case_sub_type = case["case_type"]["sub_type"]["key"]
+        export_type = None  # case.get("application", {}).get("export_type", {}).get("key")
         user_assigned_queues, _ = get_user_case_queues(request, case_id)
         queue_id = kwargs["queue_pk"]
         queue = get_queue(request, queue_id)
@@ -119,12 +121,35 @@ class ViewCase(TemplateView):
 
         can_set_done = can_set_done and (is_system_queue and user_assigned_queues) or not is_system_queue
 
-        tabs = [
-            Tab("details", CasePage.Tabs.DETAILS, "details"),
-            Tab("advice", CasePage.Tabs.ADVICE_AND_DECISION, "give-advice"),
-            Tab("ecju-queries", CasePage.Tabs.ECJU_QUERIES, "ecju-queries"),
+        tabs = [Tab("details", CasePage.Tabs.DETAILS, "details")]
+        details = [Slice(None, "summary")]
+
+        if case_type == CaseType.APPLICATION.value:
+            tabs += [
+                Tab("advice", CasePage.Tabs.ADVICE_AND_DECISION, "give-advice"),
+            ]
+            details += [Slice("Goods", "goods"),
+                        Slice("Destinations", "destinations"),
+                        Slice("End use details", "end-use-details"),
+                        Slice("Route of goods", "route-of-goods"),
+                        Slice("Supporting documents", "supporting-documents")]
+
+            if export_type == "temporary":
+                details.insert(3, Slice("Export details", "export-details"))
+
+        if case_sub_type == CaseType.GOODS.value:
+            details += [Slice("Query deets", "goods-query")]
+
+        if case_sub_type == CaseType.END_USER_ADVISORY.value:
+            details += [Slice("End user details", "end-user-advisory")]
+
+        if case_sub_type == CaseType.HMRC.value:
+            details += [Slice("hmrc deets", "hmrc")]
+
+        tabs += [
             Tab("documents", CasePage.Tabs.DOCUMENTS, "documents"),
             Tab("additional-contacts", CasePage.Tabs.ADDITIONAL_CONTACTS, "additional-contacts"),
+            Tab("ecju-queries", CasePage.Tabs.ECJU_QUERIES, "ecju-queries"),
             Tab("activity", CasePage.Tabs.CASE_NOTES_AND_TIMELINE, "activity"),
         ]
 
@@ -132,6 +157,9 @@ class ViewCase(TemplateView):
         open_ecju_queries, closed_ecju_queries = get_ecju_queries(request, case_id)
 
         context = {
+            "tabs": tabs,
+            "current_tab": kwargs["tab"],
+            "details": details,
             "activity": get_activity(request, case_id),
             "case": case,
             "queue": queue,
@@ -140,8 +168,6 @@ class ViewCase(TemplateView):
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
             "can_set_done": can_set_done,
-            "tabs": tabs,
-            "current_tab": kwargs["tab"],
             "case_documents": case_documents["documents"],
             "generated_document_key": GENERATED_DOCUMENT,
             "additional_contacts": get_case_additional_contacts(request, case_id),
@@ -149,34 +175,7 @@ class ViewCase(TemplateView):
             "closed_ecju_queries": closed_ecju_queries,
         }
 
-        if case_sub_type == CaseType.END_USER_ADVISORY.value:
-            return render(request, "case/queries/end-user-advisory.html", context)
-        elif case_sub_type == CaseType.GOODS.value:
-            context["good"] = case["query"]["good"]
-            context["verified"] = case["query"]["good"]["status"]["key"] == "verified"
-            return render(request, "case/case.html", context)
-        elif case_sub_type == CaseType.HMRC.value:
-            context["total_goods_value"] = _get_total_goods_value(case)
-            return render(request, "case/case.html", context)
-        elif case_sub_type in [
-            CaseType.EXHIBITION.value,
-            CaseType.F680.value,
-            CaseType.GIFTING.value,
-        ]:
-            if case_sub_type != CaseType.EXHIBITION.value:
-                context["total_goods_value"] = _get_total_goods_value(case)
-            if case_sub_type == CaseType.F680.value:
-                context["case"]["application"]["additional_information"] = get_additional_information(
-                    case["application"]
-                )
-            return render(request, "case/applications/mod-clearance.html", context)
-        elif case_type == CaseType.APPLICATION.value:
-            context["total_goods_value"] = _get_total_goods_value(case)
-            if case_sub_type == CaseType.OPEN.value:
-                return render(request, "case/case.html", context)
-            elif case_sub_type == CaseType.STANDARD.value:
-                return render(request, "case/case.html", context)
-        raise Exception("Invalid case_sub_type: {}".format(case_sub_type))
+        return render(request, "case/case.html", context)
 
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])

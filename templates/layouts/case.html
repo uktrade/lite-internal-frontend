@@ -5,7 +5,7 @@
 {% block body_classes %}app-template__body{% endblock %}
 
 {% block title %}
-	{{ case.reference_code }} - {{ case.application.organisation.name }}
+	{{ case.reference_code }} - {{ case.organisation.name }}
 {% endblock %}
 
 {% block header %}
@@ -20,17 +20,17 @@
 						</li>
 					</ol>
 					<h1 class="app-case-header__heading" style="z-index: 10;">
-						{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.application.organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.application.organisation.name }}</a>
+						{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.organisation.name }}</a>
 					</h1>
 				</div>
 				<div class="app-case-header__controls">
 					<div class="app-case-header__candy-bar">
-						<span id="candy-goods" class="app-case-header__candy" data-tooltip="{{ case.application.goods|length|default:case.application.goods_types|length }} goods">
+						<span id="candy-goods" class="app-case-header__candy" data-tooltip="TODO goods">
 							{% svg 'goods' %}
-							{{ case.application.goods|length|default:case.application.goods_types|length }}
+							TODO
 						</span>
 						<div id="popup-goods">
-							{% include 'case/pills/goods.html' %}
+
 						</div>
 						<span id="candy-countries" class="app-case-header__candy" data-tooltip="{{ case.application.destinations.data|length }} destination{{ case.application.destinations.data|pluralize }}">
 							{% svg 'globe' %}
@@ -61,7 +61,7 @@
 
 					<div class="app-case-header__candy-bar">
 						<span class="app-case-header__candy app-case-header__candy--big" data-tooltip="Status">
-							{{ case.application.status.value }}
+							{{ case.data.status.value }}
 						</span>
 					</div>
 				</div>
@@ -92,22 +92,13 @@
 {% endblock %}
 
 {% block body %}
-
-	<div class="">
+	<div>
 		{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
 			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' queue.id case.id %}">
 				{% lcs 'cases.ApplicationPage.Actions.DECISION' %}
 			</a>
 		{% endif %}
 	</div>
-
-	<!-- <br> -->
-
-	<!-- <p>{{ case.all_flags|aurora }}</p> -->
-
-	<!-- {% include 'includes/flags.html' with flags=case.all_flags %} -->
-
-	<!-- <a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' queue.id case.id %}?level=cases&items={{ case.id }}" id="application-edit-case-flags">Change case flags</a> -->
 
 	{% block details %}
 		<div class="modal-bg">

@@ -1,5 +1,3 @@
-<p class="govuk-heading-m govuk-!-margin-top-0">{{ case.application.goods_types|length }} destinations</p>
-
 {% if case.application.destinations.data %}
 	<table id="table-goods" class="govuk-table">
 		<thead class="govuk-table__head">
@@ -19,6 +17,4 @@
 			{% endfor %}
 		</tbody>
 	</table>
-{% else %}
-	{% include 'includes/notice.html' with text='' %}
 {% endif %}

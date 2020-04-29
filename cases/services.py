@@ -1,6 +1,7 @@
 from _decimal import Decimal
 
 from cases.helpers import clean_advice
+from cases.objects import Case
 from conf.client import post, get, put, delete
 from conf.constants import (
     CASE_URL,
@@ -48,7 +49,7 @@ def get_case_types(request, type_only=True):
 # Case
 def get_case(request, pk):
     data = get(request, CASE_URL + str(pk))
-    return data.json()["case"]
+    return Case(data.json()["case"])
 
 
 # Case Queues

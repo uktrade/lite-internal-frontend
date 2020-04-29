@@ -1,13 +1,13 @@
 .app-case__summary-list {
-    column-gap: govuk-spacing(6);
-    column-count: 1;
+    display: grid;
+    grid-gap: govuk-spacing(3) govuk-spacing(6);
     margin: 0;
+    overflow: hidden;
 
     &__row {
         display: grid;
         grid-template-columns: 25% 1fr auto;
         grid-gap: govuk-spacing(6);
-        margin-bottom: govuk-spacing(3);
     }
 
     &__key {
@@ -23,12 +23,11 @@
     }
 
     @media screen and (min-width: 900px) {
-        column-count: 2;
-        max-height: 140px;
+        grid-template-columns: 1fr 1fr;
     }
 
     @media screen and (min-width: 1800px) {
-        column-count: 3;
+        grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
