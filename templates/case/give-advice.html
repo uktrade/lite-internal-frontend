@@ -191,7 +191,7 @@
 				{% endfor %}
 			</div>
 		{% else %}
-			{% include "includes/information-text.html" with text="There aren't any items in this picklist" %}
+			{% include "includes/notice.html" with text="There aren't any items in this picklist" %}
 		{% endif %}
 	</div>
 
@@ -208,7 +208,7 @@
 				{% endfor %}
 			</div>
 		{% else %}
-			{% include "includes/information-text.html" with text="There aren't any items in this picklist" %}
+			{% include "includes/notice.html" with text="There aren't any items in this picklist" %}
 		{% endif %}
 	</div>
 {% endblock %}

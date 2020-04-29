@@ -18,3 +18,7 @@ class Case(Munch):
     @property
     def organisation(self):
         return self.data["organisation"]
+
+    @property
+    def status(self):
+        return self.data["status"]["key"]

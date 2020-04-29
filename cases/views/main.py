@@ -128,23 +128,32 @@ class ViewCase(TemplateView):
             tabs += [
                 Tab("advice", CasePage.Tabs.ADVICE_AND_DECISION, "give-advice"),
             ]
-            details += [Slice("Goods", "goods"),
-                        Slice("Destinations", "destinations"),
-                        Slice("End use details", "end-use-details"),
-                        Slice("Route of goods", "route-of-goods"),
-                        Slice("Supporting documents", "supporting-documents")]
 
-            if export_type == "temporary":
-                details.insert(3, Slice("Export details", "export-details"))
+            if case_sub_type == CaseType.OPEN.value:
+                details += [Slice("Goods", "goods"),
+                            Slice("Destinations", "destinations"),
+                            Slice("End use details", "end-use-details"),
+                            Slice("Route of goods", "route-of-goods"),
+                            Slice("Supporting documents", "supporting-documents")]
+                if export_type == "temporary":
+                    details.insert(3, Slice("Export details", "export-details"))
+            elif case_sub_type == CaseType.STANDARD.value:
+                details += [Slice("Goods", "goods"),
+                            Slice("Destinations", "destinations"),
+                            Slice("End use details", "end-use-details"),
+                            Slice("Route of goods", "route-of-goods"),
+                            Slice("Supporting documents", "supporting-documents")]
+            elif case_sub_type == CaseType.HMRC.value:
+                details += [Slice("Goods", "goods"),
+                            Slice("Destinations", "destinations"),
+                            Slice("Supporting documents", "supporting-documents"),
+                            Slice("hmrc deets", "hmrc")]
 
         if case_sub_type == CaseType.GOODS.value:
             details += [Slice("Query deets", "goods-query")]
 
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
             details += [Slice("End user details", "end-user-advisory")]
-
-        if case_sub_type == CaseType.HMRC.value:
-            details += [Slice("hmrc deets", "hmrc")]
 
         tabs += [
             Tab("documents", CasePage.Tabs.DOCUMENTS, "documents"),
@@ -399,10 +408,6 @@ class UserWorkQueue(SingleFormView):
         self.form = assign_user_and_work_queue(request)
         self.action = get_gov_user_from_form_selection
         self.context = {"case": case}
-
-    @staticmethod
-    def _get_form_data(_, __, json):
-        return json, HTTPStatus.OK
 
     def get_success_url(self):
         user_id = self.get_validated_data().get("user").get("id")

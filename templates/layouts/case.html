@@ -9,6 +9,11 @@
 {% endblock %}
 
 {% block header %}
+	{% if case.status == 'closed' %}
+		<div class="">
+			This case is closed!
+		</div>
+	{% endif %}
 	<div class="app-case-header__container">
 		<div class="app-case-header__aurora" style="background: {{ case.all_flags|aurora }}"></div>
 		<div class="app-case-header">
