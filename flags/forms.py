@@ -107,6 +107,11 @@ def edit_flag_form():
             NumberInput(
                 name="priority", title=EditFlagForm.Priority.TITLE, description=EditFlagForm.Priority.DESCRIPTION
             ),
+            RadioButtons(
+                name="blocks_approval",
+                title="Blocks application approval",
+                options=[Option("True", "Yes"), Option("False", "No")],
+            ),
         ],
         back_link=BackLink(EditFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
         default_button_name=EditFlagForm.SUBMIT_BUTTON,
