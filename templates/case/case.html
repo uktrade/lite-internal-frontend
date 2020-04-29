@@ -3,8 +3,6 @@
 {% block details %}
 	{% include 'includes/messages.html' %}
 
-	{{ case.case_type }}
-
 	{% for tab in tabs %}
 		<div id="{{ tab.id }}-content" class="app-case-tab-view {% if tab.url == current_tab %}app-case-tab-view--visible{% endif %}">
 			{% include 'case/tabs/'|add:tab.url|add:'.html' %}
