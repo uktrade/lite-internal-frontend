@@ -14,11 +14,3 @@
 		border-bottom: 2px solid govuk-shade(govuk-colour("white"), 10%);
 	}
 }
-
-.govuk-table__body {
-	.govuk-table__row:last-of-type {
-		.govuk-table__header, .govuk-table__cell {
-			border-bottom: none;
-		}
-	}
-}
