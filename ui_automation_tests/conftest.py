@@ -384,8 +384,8 @@ def create_queue(context, api_test_client):  # noqa
     context.queue_id = api_test_client.context["queue_id"]
 
 
-@given(parsers.parse('I "{decision}" all elements of the application at user and team level'))
-def approve_application_objects(context, api_test_client, decision):
+@given(parsers.parse('I "{decision}" all elements of the application at user and team level'))  # noqa
+def approve_application_objects(context, api_test_client, decision):  # noqa
     context.advice_type = decision
     text = "abc"
     note = ""
@@ -399,8 +399,8 @@ def approve_application_objects(context, api_test_client, decision):
     api_test_client.cases.create_team_advice(context.case_id, data)
 
 
-@given("A template exists for the appropriate decision")
-def template_with_decision(context, api_test_client):
+@given("A template exists for the appropriate decision")  # noqa
+def template_with_decision(context, api_test_client):  # noqa
     document_template = api_test_client.document_templates.add_template(
         api_test_client.picklists, advice_type=[context.advice_type]
     )
@@ -408,8 +408,8 @@ def template_with_decision(context, api_test_client):
     context.document_template_name = document_template["name"]
 
 
-@when("I go to the final advice page by url")
-def final_advice_page(driver, context, internal_url):
+@when("I go to the final advice page by url")  # noqa
+def final_advice_page(driver, context, internal_url):  # noqa
     driver.get(
         internal_url.rstrip("/")
         + "/queues/00000000-0000-0000-0000-000000000001/cases/"
@@ -418,11 +418,11 @@ def final_advice_page(driver, context, internal_url):
     )
 
 
-@when("I click edit flags link")
-def click_edit_case_flags_link(driver):
+@when("I click edit flags link")  # noqa
+def click_edit_case_flags_link(driver):  # noqa
     ApplicationPage(driver).click_edit_case_flags()
 
 
-@then("The previously created flag is assigned to the case")
-def assert_flag_is_assigned(driver, context):
+@then("The previously created flag is assigned to the case")  # noqa
+def assert_flag_is_assigned(driver, context):  # noqa
     assert Shared(driver).is_flag_applied(context.flag_name)
