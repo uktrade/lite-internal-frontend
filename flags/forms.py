@@ -1,9 +1,9 @@
+from django.urls import reverse_lazy
+
 from cases.services import get_case_types
 from core.services import get_countries
 from flags.services import get_goods_flags, get_destination_flags, get_cases_flags
 from lite_content.lite_internal_frontend import strings
-from django.urls import reverse_lazy
-
 from lite_content.lite_internal_frontend.flags import CreateFlagForm, EditFlagForm
 from lite_content.lite_internal_frontend.strings import FlaggingRules
 from lite_forms.components import (
@@ -16,7 +16,6 @@ from lite_forms.components import (
     RadioButtons,
     AutocompleteInput,
     NumberInput,
-    Checkboxes,
 )
 from lite_forms.generators import confirm_form
 
@@ -69,7 +68,11 @@ def add_flag_form():
             NumberInput(
                 name="priority", title=CreateFlagForm.Priority.TITLE, description=CreateFlagForm.Priority.DESCRIPTION
             ),
-            Checkboxes(name="blocks_approval", options=[Option("True", "Blocks application approval")],),
+            RadioButtons(
+                name="blocks_approval",
+                title="Blocks application approval",
+                options=[Option("True", "Yes"), Option("False", "No")],
+            ),
         ],
         default_button_name=CreateFlagForm.SUBMIT_BUTTON,
         back_link=BackLink(CreateFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
