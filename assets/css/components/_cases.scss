@@ -4,7 +4,7 @@
 
     &__row {
         display: grid;
-        grid-template-columns: 30% 1fr auto;
+        grid-template-columns: 25% 1fr auto;
         grid-gap: govuk-spacing(6);
         margin-bottom: govuk-spacing(3);
     }
@@ -30,7 +30,6 @@
         column-count: 3;
     }
 }
-
 
 .govuk-heading-xl, .govuk-fieldset__legend--xl {
     @include govuk-font($size: 36, $weight: bold);
@@ -325,30 +324,7 @@ $case-header-text-colour: govuk-colour("white");
 
         .app-flag {
             z-index: 0;
-            border-left: none;
-            padding: 0 15px 0 17px;
             margin-right: govuk-spacing(2);
-
-            &::before {
-                content: "";
-                position: absolute;
-                top: 0px;
-                left: 0px;
-                right: 0px;
-                bottom: 0px;
-                background: inherit;
-                z-index: -1;
-            }
-
-            &::after {
-                content: "";
-                position: absolute;
-                top: 3px;
-                left: 3px;
-                bottom: 3px;
-                background: currentColor;
-                width: 3px;
-            }
         }
     }
 }

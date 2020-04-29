@@ -45,6 +45,7 @@ from core.objects import Tab
 from core.services import get_status_properties, get_user_permissions, get_permissible_statuses
 from lite_content.lite_exporter_frontend import applications
 from lite_content.lite_internal_frontend import cases
+from lite_content.lite_internal_frontend.cases import CasePage
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
 from queues.services import put_queue_single_case_assignment, get_queue
@@ -116,12 +117,12 @@ class ViewCase(TemplateView):
         can_set_done = can_set_done and (is_system_queue and user_assigned_queues) or not is_system_queue
 
         tabs = [
-            Tab("details", "Details", "details"),
-            Tab("advice", "Advice and decision", "give-advice"),
-            Tab("ecju-queries", "ECJU queries", "ecju-queries"),
-            Tab("documents", "Documents", "documents"),
-            Tab("additional-contacts", "Additional contacts", "additional-contacts"),
-            Tab("activity", "Case notes and timeline", "activity"),
+            Tab("details", CasePage.Tabs.DETAILS, "details"),
+            Tab("advice", CasePage.Tabs.ADVICE_AND_DECISION, "give-advice"),
+            Tab("ecju-queries", CasePage.Tabs.ECJU_QUERIES, "ecju-queries"),
+            Tab("documents", CasePage.Tabs.DOCUMENTS, "documents"),
+            Tab("additional-contacts", CasePage.Tabs.ADDITIONAL_CONTACTS, "additional-contacts"),
+            Tab("activity", CasePage.Tabs.CASE_NOTES_AND_TIMELINE, "activity"),
         ]
 
         case_documents, _ = get_case_documents(request, case_id)
