@@ -6,6 +6,8 @@ from pages.flags_list_page import FlagsListPage
 from pages.shared import Shared
 from shared import functions
 
+from ui_automation_tests.pages.give_advice_pages import GiveAdvicePages
+
 scenarios("../features/flags.feature", strict_gherkin=False)
 
 
@@ -62,3 +64,10 @@ def only_show_deactivated_flags(driver, context):
 def reactivate_flag(driver, context):
     FlagsListPage(driver).click_reactivate_link()
     functions.click_submit(driver, "Active")
+
+
+@then("I cannot finalise the case due to the blocking flag")
+def cannot_finalise_blocking_flag(driver, context):
+    final_advice = GiveAdvicePages(driver)
+    assert not final_advice.can_finalise()
+    assert context.flag_name in final_advice.get_blocking_flags_text()
