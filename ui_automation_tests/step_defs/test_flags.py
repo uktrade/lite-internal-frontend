@@ -1,4 +1,4 @@
-from pytest_bdd import when, then, scenarios
+from pytest_bdd import when, then, scenarios, parsers
 
 import shared.tools.helpers as utils
 from pages.add_edit_flag import AddEditFlagPage
@@ -9,8 +9,8 @@ from shared import functions
 scenarios("../features/flags.feature", strict_gherkin=False)
 
 
-@when("I add a new flag")
-def add_flag(driver, context):
+@when(parsers.parse('I add a new flag with blocking approval set to "{blocks_approval}"'))
+def add_flag(driver, context, blocks_approval):
     add_edit_flag_page = AddEditFlagPage(driver)
     context.flag_name = "UAE" + utils.get_formatted_date_time_d_h_m_s()
 
@@ -21,6 +21,7 @@ def add_flag(driver, context):
     add_edit_flag_page.select_colour("orange")
     add_edit_flag_page.enter_label("Easy to Find")
     add_edit_flag_page.enter_priority(0)
+    add_edit_flag_page.enter_blocking_approval(blocks_approval)
 
     Shared(driver).click_submit()
 

@@ -8,7 +8,7 @@ Feature: I want to create and deactivate flags
   Scenario: Add, edit and deactivate a flag
     Given I sign in to SSO or am signed into SSO
     When I go to flags
-    And I add a new flag
+    And I add a new flag with blocking approval set to "False"
     Then I see the flag in the flag list
     When I edit the flag I just made
     Then I see the flag in the flag list
