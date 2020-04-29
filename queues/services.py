@@ -11,7 +11,7 @@ def get_queues(request, disable_pagination=True, page=1, include_system=False, c
     data = (
         get(
             request,
-            QUEUES_URL + f"?page={page}&disable_pagination={disable_pagination}&include_system={include_system}",
+            f"{QUEUES_URL}?page={page}&disable_pagination={disable_pagination}&include_system={include_system}",
         )
         .json()
         .get("results")
@@ -19,11 +19,7 @@ def get_queues(request, disable_pagination=True, page=1, include_system=False, c
 
     if convert_to_options:
         return [
-            Option(
-                get_nested_value(queue, ["id"]),
-                get_nested_value(queue, ["name"]),
-                description=get_nested_value(queue, ["team", "name"]),
-            )
+            Option(queue.get("id"), queue.get("name"), description=get_nested_value(queue, ["team", "name"]),)
             for queue in data
         ]
     else:
