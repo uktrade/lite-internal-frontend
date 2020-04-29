@@ -72,8 +72,8 @@ def add_flag_form():
                 name="blocks_approval",
                 title=CreateFlagForm.BlocksApproval.TITLE,
                 options=[
-                    Option("True", CreateFlagForm.BlocksApproval.YES),
-                    Option("False", CreateFlagForm.BlocksApproval.NO),
+                    Option(True, CreateFlagForm.BlocksApproval.YES),
+                    Option(False, CreateFlagForm.BlocksApproval.NO),
                 ],
             ),
         ],
