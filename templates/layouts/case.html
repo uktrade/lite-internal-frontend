@@ -41,7 +41,7 @@
 						</div>
 						<span id="candy-flags" class="app-case-header__candy" data-tooltip="{{ case.flags|length }} flag{{ case.flags|pluralize }}">
 							{% svg 'menu/flags' %}
-							{{ case.flags|length }}
+							{{ case.all_flags|length }}
 						</span>
 						<div id="popup-flags">
 							{% include 'case/pills/flags.html' %}
@@ -66,9 +66,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="app-case__flags-bar" id="case-flags">
-				{% include 'includes/flags.html' with flags=case.all_flags|slice:6 show_change_link=True %}
-			</div>
+			{% if not hide_flags_row %}
+				<div class="app-case__flags-bar" id="case-flags">
+					{% include 'includes/flags.html' with flags=case.all_flags|slice:6 show_change_link=True %}
+				</div>
+			{% endif %}
 		</div>
 		{% if tabs %}
 			<div id="tab-bar" class="app-case-tab-bar">

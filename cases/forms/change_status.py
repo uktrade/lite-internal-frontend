@@ -15,4 +15,5 @@ def change_status_form(queue, case, statuses):
             )
         ],
         back_link=case_view_breadcrumbs(queue, case, cases.ChangeStatusPage.TITLE),
+        container="case"
     )

@@ -55,6 +55,7 @@
 	line-height: 1.5;
 	margin: 15px 0 20px;
 	word-break: break-all;
+	max-width: 600px;
 	@extend %govuk-body-m;
 
 	&--exporter {

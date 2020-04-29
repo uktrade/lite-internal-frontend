@@ -23,6 +23,7 @@ def select_template_form(templates, total_pages, back_link):
         ],
         default_button_name=letter_templates.LetterTemplatesPage.PickTemplate.BUTTON,
         back_link=back_link,
+        container="case"
     )
 
 
