@@ -36,7 +36,7 @@ def assign_case_officer_form(request: HttpRequest, existing_officer):
     return Form(
         title=cases.Manage.AssignCaseOfficer.TITLE,
         description=cases.Manage.AssignCaseOfficer.DESCRIPTION,
-        questions=[Filter(), RadioButtons("user", users)],
+        questions=[Filter(), RadioButtons("gov_user_pk", users)],
         buttons=buttons,
         javascript_imports=["/assets/javascripts/filter-radiobuttons-list.js"],
         container="case"

@@ -376,29 +376,23 @@ class Document(TemplateView):
         return response
 
 
-class CaseOfficer(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        return form_page(request, assign_case_officer_form(request, get_case_officer(request, case_id)[0]),)
+class CaseOfficer(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        self.form = assign_case_officer_form(request, case.case_officer)
+        self.context = {"case": case}
+        self.success_url = reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
 
-    def post(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        user_id = request.POST.get("user")
-        action = request.POST.get("_action")
+    def get_action(self):
+        action = self.get_validated_data().get("_action")
 
         if action == "delete":
-            response, status_code = delete_case_officer(request, case_id)
+            self.success_message = "Case officer removed"
+            return delete_case_officer
         else:
-            response, status_code = put_case_officer(request, case_id, user_id)
-
-        if status_code != HTTPStatus.NO_CONTENT:
-            return form_page(
-                request,
-                assign_case_officer_form(request, get_case_officer(request, case_id)[0]),
-                errors=response.json()["errors"],
-            )
-
-        return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
+            self.success_message = "Case officer set successfully"
+            return put_case_officer
 
 
 class UserWorkQueue(SingleFormView):

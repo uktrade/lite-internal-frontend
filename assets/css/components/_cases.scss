@@ -12,10 +12,12 @@
 
     &__key {
         @include govuk-font($size: 19, $weight: bold);
+        color: $govuk-text-colour;
     }
 
     &__value {
         @include govuk-font($size: 19);
+        color: $govuk-text-colour;
     }
 
     &__actions {
@@ -428,7 +430,7 @@ $case-header-text-colour: govuk-colour("white");
         width: 100vw;
         transform: translateX(-50vw);
         bottom: 0;
-        background: govuk-colour("white");
+        background: $govuk-body-background-colour;
         z-index: -1;
     }
 
