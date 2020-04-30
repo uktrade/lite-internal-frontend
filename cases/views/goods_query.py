@@ -61,7 +61,7 @@ class RespondCLCQuery(TemplateView):
         response_data = response_data["control_list_classification_query"]
 
         # Remove validate only key and go to overview page
-        if response_data["is_good_controlled"] == "no":
+        if response_data["is_good_controlled"] == "no" and "control_list_entries[]" in response_data:
             response_data.pop("control_list_entries[]")
 
         context = {

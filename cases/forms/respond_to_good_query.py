@@ -14,7 +14,7 @@ from lite_forms.components import (
     Group,
     TextInput,
     Select,
-    Summary,
+    Summary, DetailComponent, Label,
 )
 from lite_forms.styles import HeadingStyle
 
@@ -24,45 +24,54 @@ from picklists.services import get_picklists_for_input
 
 def respond_to_clc_query_form(request, queue_pk, case):
     return Form(
-        title=cases.RespondClCQueryForm.TITLE,
+        title="Respond to query",
         questions=[
-            Summary(
-                values={
-                    cases.RespondClCQueryForm.Summary.DESCRIPTION: case["query"]["good"]["description"],
-                    cases.RespondClCQueryForm.Summary.CONTROL_LIST_ENTRIES: default(
-                        case["query"]["good"].get("control_list_entries"),
-                        cases.RespondClCQueryForm.Summary.NO_CONTROL_LIST_ENTRY,
-                    ),
-                },
-                classes=["app-inset-text"],
-            ),
-            RadioButtons(
-                title=cases.RespondClCQueryForm.Controlled.TITLE,
-                name="is_good_controlled",
-                options=[
-                    Option(
-                        key="yes",
-                        value=cases.RespondClCQueryForm.Controlled.YES,
-                        components=[
-                            control_list_entries_question(
-                                control_list_entries=get_control_list_entries(None, convert_to_options=True),
-                                title=cases.RespondClCQueryForm.CONTROL_LIST_ENTRY,
-                            ),
-                        ],
-                    ),
-                    Option(key="no", value=cases.RespondClCQueryForm.Controlled.NO),
-                ],
-            ),
-            RadioButtons(
-                title=cases.RespondClCQueryForm.ReportSummary.TITLE,
-                name="report_summary",
-                options=get_picklists_for_input(request, "report_summary", convert_to_options=True, include_none=True),
-                description=cases.RespondClCQueryForm.ReportSummary.DESCRIPTION,
-            ),
-            TextArea(
-                title=cases.RespondClCQueryForm.COMMENT, name="comment", optional=True, extras={"max_length": 500,}
-            ),
-            HiddenField("validate_only", True),
+                Heading("Query", HeadingStyle.S),
+                Summary(
+                    values={
+                        "Description of good": case["query"]["good"]["description"],
+                        "Is this good controlled?": case["query"]["good"]["is_good_controlled"]["value"],
+                        "What do you think the control list entry is?": case["query"]["clc_control_list_entry"],
+                        "Why do you think this?": case["query"]["clc_raised_reasons"]
+                    },
+                    classes=["govuk-inset-text", "govuk-summary-list--no-border", "govuk-!-padding-top-0",
+                             "govuk-!-padding-bottom-0", "govuk-!-padding-left-6"]
+                ),
+
+                Heading("Your response", HeadingStyle.S),
+                RadioButtons(
+                    title=cases.RespondClCQueryForm.Controlled.TITLE,
+                    name="is_good_controlled",
+                    classes=["govuk-radios--small"],
+                    options=[
+                        Option(
+                            key="yes",
+                            value=cases.RespondClCQueryForm.Controlled.YES,
+                            components=[
+                                control_list_entries_question(
+                                    control_list_entries=get_control_list_entries(None,
+                                                                                  convert_to_options=True),
+                                    title=cases.RespondClCQueryForm.CONTROL_LIST_ENTRY,
+                                ),
+                                RadioButtons(
+                                    title=cases.RespondClCQueryForm.ReportSummary.TITLE,
+                                    name="report_summary",
+                                    options=get_picklists_for_input(request, "report_summary",
+                                                                    convert_to_options=True),
+                                ),
+                            ],
+                        ),
+                        Option(key="no", value=cases.RespondClCQueryForm.Controlled.NO),
+                    ],
+                ),
+                DetailComponent(title="Explain why you're making this decision (optional)",
+                                components=[
+                                    TextArea(
+                                        name="comment",
+                                        extras={"max_length": 500, }
+                                    ),
+                                ]),
+                HiddenField("validate_only", True),
         ],
         default_button_name=cases.RespondClCQueryForm.BUTTON,
         back_link=BackLink(
@@ -78,7 +87,7 @@ def respond_to_grading_query_form(queue_pk, case):
         title=cases.RespondGradingQueryForm.TITLE,
         questions=[
             Heading(case["reference_code"], HeadingStyle.S),
-            Summary(values={"Description": case["query"]["good"]["description"]}, classes=["app-inset-text"],),
+            Summary(values={"Description": case["query"]["good"]["description"]}, classes=["app-inset-text"], ),
             Group(
                 components=[
                     TextInput(title=cases.RespondGradingQueryForm.Grading.PREFIX, name="prefix", optional=True),
@@ -93,7 +102,7 @@ def respond_to_grading_query_form(queue_pk, case):
                 classes=["app-pv-grading-inputs"],
             ),
             TextArea(
-                title=cases.RespondGradingQueryForm.COMMENT, name="comment", optional=True, extras={"max_length": 500,}
+                title=cases.RespondGradingQueryForm.COMMENT, name="comment", optional=True, extras={"max_length": 500, }
             ),
             HiddenField("validate_only", True),
         ],
