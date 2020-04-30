@@ -113,10 +113,7 @@ def edit_flag_form():
             RadioButtons(
                 name="blocks_approval",
                 title=EditFlagForm.BlocksApproval.TITLE,
-                options=[
-                    Option(True, EditFlagForm.BlocksApproval.YES),
-                    Option(False, EditFlagForm.BlocksApproval.NO),
-                ],
+                options=[Option(True, EditFlagForm.BlocksApproval.YES), Option(False, EditFlagForm.BlocksApproval.NO),],
             ),
         ],
         back_link=BackLink(EditFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
