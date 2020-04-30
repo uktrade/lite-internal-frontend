@@ -1,6 +1,7 @@
 from django.template.defaultfilters import default
 from django.urls import reverse_lazy
 
+from core.builtins.custom_tags import default_na
 from lite_content.lite_internal_frontend import cases
 from lite_forms.common import control_list_entries_question
 from lite_forms.components import (
@@ -31,6 +32,7 @@ def respond_to_clc_query_form(request, queue_pk, case):
                 Summary(
                     values={
                         "Description of good": case["query"]["good"]["description"],
+                        "Part number": default_na(case["query"]["good"]["part_number"]),
                         "Is this good controlled?": case["query"]["good"]["is_good_controlled"]["value"],
                         "What do you think the control list entry is?": case["query"]["clc_control_list_entry"],
                         "Why do you think this?": case["query"]["clc_raised_reasons"]
@@ -91,6 +93,7 @@ def respond_to_grading_query_form(queue_pk, case):
             Summary(
                 values={
                     "Description of good": case["query"]["good"]["description"],
+                    "Part number": default_na(case["query"]["good"]["part_number"]),
                     "Is this good controlled?": case["query"]["good"]["is_good_controlled"]["value"],
                     "What do you think the control list entry is?": case["query"]["clc_control_list_entry"],
                     "Why do you think this?": case["query"]["clc_raised_reasons"]
