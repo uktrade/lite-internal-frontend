@@ -496,7 +496,21 @@ $case-header-text-colour: govuk-colour("white");
     }
 }
 
-.app-case__inset-slice {
+.app-case__slice__controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -50px;
+
+    .govuk-button {
+        margin-right: govuk-spacing(3);
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+    }
+}
+
+.app-case__slice--inset {
     background-color: govuk-colour("light-grey");
     padding: govuk-spacing(6);
 }

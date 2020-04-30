@@ -1,5 +1,5 @@
 {% if case.data.clc_responded %}
-	<div class="app-case__inset-slice">
+	<div class="app-case__slice--inset">
 		<h2 class="govuk-heading-m">{% lcs 'cases.ClcQuery.Verified.Clc.TITLE' %} outcome</h2>
 
 		<dl class="app-case__summary-list">
@@ -42,7 +42,7 @@
 {% endif %}
 
 {% if case.data.pv_grading_responded %}
-	<div class="app-case__inset-slice">
+	<div class="app-case__slice--inset">
 		<h2 class="govuk-heading-m">{% lcs 'cases.ClcQuery.Verified.PvGrading.TITLE' %} outcome</h2>
 
 		<dl class="app-case__summary-list">
