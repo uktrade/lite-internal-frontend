@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 
 from conf.constants import Permission, FlagLevels
@@ -12,78 +12,19 @@ from cases.forms.respond_to_good_query import respond_to_clc_query_form, respond
 from cases.services import get_case, put_goods_query_clc, put_flag_assignments, put_goods_query_pv_grading
 from core.services import get_user_permissions
 from flags.services import get_goods_flags
+from lite_forms.views import SingleFormView
 from picklists.services import get_picklist_item
 
 
-class RespondCLCQuery(TemplateView):
-    case = None
-    form = None
-
-    def dispatch(self, request, *args, **kwargs):
-        case_id = str(kwargs["pk"])
-        self.case = get_case(request, case_id)
-        self.form = respond_to_clc_query_form(request, kwargs["queue_pk"], self.case)
-
-        permissions = get_user_permissions(request)
-        if "REVIEW_GOODS" not in permissions:
-            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id}))
-
-        return super(RespondCLCQuery, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request, **kwargs):
-        return form_page(request, self.form, extra_data={"case": self.case})
-
-    def post(self, request, **kwargs):
-        # If 'set-flags' take them to the goods flags page
-        if request.POST.get("action") == "set-flags":
-            return self.display_flag_form(request)
-
-        if request.POST.get("action") == "change":
-            return form_page(request, self.form, data=request.POST, extra_data={"case": self.case})
-
-        form_data = request.POST.copy()
-
-        if request.POST.get("report_summary") == "None":
-            del form_data["report_summary"]
-
-        response, response_data = submit_single_form(
-            request, self.form, put_goods_query_clc, object_pk=str(self.case["query"]["id"]), override_data=form_data,
-        )
-
-        if response:
-            return response
-
-        # If validate only is removed (therefore the user is on the overview page
-        # already) go back to the case and show a success message
-        if not request.POST.get("validate_only"):
-            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case["id"]}))
-
-        response_data = response_data["control_list_classification_query"]
-
-        # Remove validate only key and go to overview page
-        if response_data["is_good_controlled"] == "no" and "control_list_entries[]" in response_data:
-            response_data.pop("control_list_entries[]")
-
-        context = {
-            "data": response_data,
-            "case": self.case,
-        }
-
-        if response_data.get("report_summary"):
-            context["report_summary"] = get_picklist_item(request, response_data["report_summary"])
-
-        return render(request, "case/queries/clc-query-response-overview.html", context)
-
-    def display_flag_form(self, request):
-        form = flags_form(flags=get_goods_flags(request, True), level=FlagLevels.GOODS, origin="response", url="#")
-
-        hidden_fields = ["is_good_controlled", "control_list_entries", "report_summary", "comment"]
-
-        for field in hidden_fields:
-            form.questions.append(HiddenField(field, request.POST[field]))
-
-        form.post_url = reverse_lazy("cases:respond_to_clc_query_flags", kwargs={"pk": self.case["id"]})
-        return form_page(request, form, data={"flags": self.case["query"]["good"]["flags"]})
+class RespondCLCQuery(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        self.context = {"case": case}
+        self.form = respond_to_clc_query_form(request, kwargs["queue_pk"], case)
+        self.action = put_goods_query_clc
+        self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.success_message = "Reviewed successfully"
 
 
 class RespondPVGradingQuery(TemplateView):

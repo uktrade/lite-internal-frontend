@@ -93,7 +93,6 @@ def put_goods_query_clc(request, pk, json):
     # This is a workaround due to RespondCLCQuery not using a SingleFormView
     if "control_list_entries[]" in json:
         json["control_list_entries"] = json.getlist("control_list_entries[]")
-
     data = put(request, GOODS_QUERIES_URL + pk + CLC_RESPONSE_URL, json)
     return data.json(), data.status_code
 

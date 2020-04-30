@@ -25,6 +25,7 @@ from picklists.services import get_picklists_for_input
 def respond_to_clc_query_form(request, queue_pk, case):
     return Form(
         title="Respond to query",
+        description="You won't be able to change this once you've submitted.",
         questions=[
                 Heading("Query", HeadingStyle.S),
                 Summary(
@@ -71,7 +72,6 @@ def respond_to_clc_query_form(request, queue_pk, case):
                                         extras={"max_length": 500, }
                                     ),
                                 ]),
-                HiddenField("validate_only", True),
         ],
         default_button_name=cases.RespondClCQueryForm.BUTTON,
         back_link=BackLink(
