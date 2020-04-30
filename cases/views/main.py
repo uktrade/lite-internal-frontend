@@ -305,7 +305,7 @@ class AddAnAdditionalContact(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.form = add_additional_contact_form(request, self.kwargs["queue_pk"], self.object_pk)
         self.action = post_case_additional_contacts
-        self.success_message = cases.AdditionalContacts.SUCCESS_MESSAGE
+        self.success_message = cases.CasePage.AdditionalContactsTab.SUCCESS_MESSAGE
         self.context = {"case": get_case(request, self.object_pk)}
         self.success_url = reverse(
             "cases:case",
