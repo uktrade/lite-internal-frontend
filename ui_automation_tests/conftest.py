@@ -26,8 +26,6 @@ from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
 )
 from ui_automation_tests.pages.generate_document_page import GeneratedDocument
 from ui_automation_tests.pages.give_advice_pages import GiveAdvicePages
-from ui_automation_tests.pages.unassign_queue_page import UnassignQueuePage
-from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.fixtures.apply_for_application import *  # noqa
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.sso_sign_in import sso_sign_in  # noqa
@@ -393,23 +391,23 @@ def create_countersigning_queue(context, api_test_client):  # noqa
     context.countersigning_queue_id = api_test_client.context["queue_id"]
 
 
-@when("I click I'm done")
-def im_done_button(driver):
+@when("I click I'm done")  # noqa
+def im_done_button(driver):  # noqa
     ApplicationPage(driver).click_im_done_button()
 
 
-@when("I go to my work queue")
-def work_queue(driver, context, internal_url):
+@when("I go to my work queue")  # noqa
+def work_queue(driver, context, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/queues/" + context.queue_id)
 
 
-@then("My case is not in the queue")
-def no_cases_in_queue(driver, context):
+@then("My case is not in the queue")  # noqa
+def no_cases_in_queue(driver, context):  # noqa
     assert paginated_item_exists(context.case_id, driver, False)
 
 
-@given("a queue has been created")
-def create_queue(context, api_test_client):
+@given("a queue has been created")  # noqa
+def create_queue(context, api_test_client):  # noqa
     api_test_client.queues.add_queue("queue" + get_formatted_date_time_m_d_h_s())
     context.queue_id = api_test_client.context["queue_id"]
     context.queue_name = api_test_client.context["queue_name"]
