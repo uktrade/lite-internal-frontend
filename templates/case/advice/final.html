@@ -63,7 +63,7 @@
 				<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
 				<strong class="govuk-warning-text__text">
 					<span class="govuk-warning-text__assistive">{% lcs 'cases.ViewAdvicePage.WarningBanner.HIDDEN_TEXT' %}</span>
-					{% lcs 'cases.ViewAdvicePage.WarningBanner.BLOCKING_FLAGS' %}{{ blocking_flags|join:"," }}
+					{% lcs 'cases.ViewAdvicePage.WarningBanner.BLOCKING_FLAGS' %}{% include 'includes/flags.html' with flags=blocking_flags %}
 				</strong>
 			</div>
 		{% endif %}
