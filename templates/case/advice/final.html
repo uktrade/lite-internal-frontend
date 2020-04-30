@@ -39,9 +39,15 @@
 							</button>
 							{% if can_advice_be_finalised %}
 								{% if case.application.case_type.sub_type.key == 'open' %}
-									<a class="govuk-button"  href="{% url 'cases:finalise_goods_countries' queue.id case.id %}" id="finalise_button">
-										{% lcs 'cases.ViewAdvicePage.Actions.FINALISED_GOODS_AND_COUNTRIES' %}
-									</a>
+									{% if case.application.goodstype_category.key == 'media' %}
+										<a class="govuk-button"  href="{% url 'cases:finalise' queue.id case.id %}" id="finalise_button">
+										{% lcs 'cases.ViewAdvicePage.Actions.FINALISE' %}
+										</a>
+									{% else %}
+										<a class="govuk-button"  href="{% url 'cases:finalise_goods_countries' queue.id case.id %}" id="finalise_button">
+											{% lcs 'cases.ViewAdvicePage.Actions.FINALISED_GOODS_AND_COUNTRIES' %}
+										</a>
+									{% endif %}
 								{% else %}
 									<a class="govuk-button"  href="{% url 'cases:finalise' queue.id case.id %}" id="finalise_button">
 										{% lcs 'cases.ViewAdvicePage.Actions.FINALISE' %}
