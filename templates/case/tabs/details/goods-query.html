@@ -28,17 +28,6 @@
 	</div>
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
-			{% lcs 'cases.ClcQuery.GoodDetails.Details.FLAGS' %}
-		</dt>
-		<dd class="app-case__summary-list__value">
-			{% include 'includes/flags.html' with flags=good.flags %}
-		</dd>
-		<dd class="app-case__summary-list__actions">
-			<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_flags' queue.id case.id %}?level=goods&items={{ case.query.good.id }}&origin=case">{% lcs 'generic.CHANGE' %}</a>
-		</dd>
-	</div>
-	<div class="app-case__summary-list__row">
-		<dt class="app-case__summary-list__key">
 			{% if case.data.good.is_good_controlled != 'Unsure' %}
 				{% lcs 'cases.ClcQuery.GoodDetails.Clc.CONTROL_CODE' %}
 			{% else %}
