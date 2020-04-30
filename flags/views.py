@@ -81,7 +81,6 @@ class EditFlag(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         flag = get_flag(request, self.object_pk)
-        flag["blocks_approval"] = str(flag["blocks_approval"])
         self.form = edit_flag_form()
         self.data = flag
         self.action = update_flag
