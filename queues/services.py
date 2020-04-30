@@ -1,4 +1,4 @@
-from core.helpers import convert_dict_to_query_params, get_nested_value
+from core.helpers import convert_dict_to_query_params
 from lite_content.lite_internal_frontend.users import AssignUserPage
 from lite_forms.components import Option
 
@@ -18,15 +18,16 @@ def get_queues(request, disable_pagination=True, page=1, include_system=False, c
     )
 
     if convert_to_options:
-        return [
-            Option(
-                queue.get("id"),
-                queue.get("name"),
-                description=get_nested_value(queue, ["team", "name"]),
-                data_attribute=get_nested_value(queue, ["team", "id"]),
-            )
-            for queue in data
-        ]
+        options = []
+
+        for queue in data:
+            option = Option(queue.get("id"), queue.get("name"))
+
+            if "team" in queue:
+                option.description = queue["team"].get("name")
+                option.data_attribute = queue["team"].get("id")
+
+            options.append(option)
     else:
         return data
 

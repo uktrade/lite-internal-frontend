@@ -4,7 +4,7 @@ Feature: I want to add a team
   I want to add teams
   So that an application/query can be directed to one or more teams, and progressed through those teams
 
-  @LT_930_click @regression
+  @LT_930_click @regression @AT
   Scenario: Add a team and click on team name and add user to team and rollback
     Given I sign in to SSO or am signed into SSO
     When I go to teams

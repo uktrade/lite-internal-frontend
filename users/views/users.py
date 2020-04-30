@@ -5,7 +5,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 
 from conf.constants import SUPER_USER_ROLE_ID, UserStatuses
-from core.helpers import convert_dict_to_query_params, get_nested_value
+from core.helpers import convert_dict_to_query_params
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.users import UsersPage
 from lite_forms.components import FiltersBar, Select, Option
@@ -98,7 +98,7 @@ class EditUser(SingleFormView):
 
         # If user is updating their own default_queue, update the local user instance
         if self.user["id"] == self.request.user.lite_api_user_id:
-            self.request.user.default_queue = get_nested_value(self.get_validated_data(), ["gov_user", "default_queue"])
+            self.request.user.default_queue = self.get_validated_data().get("gov_user").get("default_queue")
             self.request.user.save()
 
 

@@ -1,7 +1,7 @@
 @all @users
 Feature: I want to test users
 
-  @deactivate_user @regression
+  @deactivate_user @regression @AT
   Scenario: Add user, deactivate then reactivate
     Given I sign in to SSO or am signed into SSO
     When I go to users
@@ -24,7 +24,7 @@ Feature: I want to test users
 #    When I change the user filter to "All"
 #    Then I see new user
 
-  @edit_users @smoke
+  @edit_users @smoke @AT
   Scenario: Edit user
     Given I sign in to SSO or am signed into SSO
     When I go to users
