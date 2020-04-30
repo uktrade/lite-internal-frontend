@@ -196,7 +196,7 @@ class CaseNotes(TemplateView):
         response, status_code = post_case_notes(request, case_id, request.POST)
 
         if status_code != 201:
-            return error_page(request, response.get("errors"))
+            return error_page(request, response.get("errors")["text"][0])
 
         return redirect(
             reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "activity"})
