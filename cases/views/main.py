@@ -189,24 +189,14 @@ class ViewCase(TemplateView):
 
         return render(request, "case/case.html", context)
 
+
+class CaseNotes(TemplateView):
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         response, status_code = post_case_notes(request, case_id, request.POST)
 
         if status_code != 201:
-
-            errors = response.get("errors")
-            if errors.get("text"):
-                error = errors.get("text")[0]
-                error = error.replace("This field", "Case note")
-                error = error.replace("this field", "the case note")  # TODO: Move to API
-
-            else:
-                error_list = []
-                for key in errors:
-                    error_list.append("{field}: {error}".format(field=key, error=errors[key][0]))
-                error = "\n".join(error_list)
-            return error_page(request, error)
+            return error_page(request, response.get("errors"))
 
         return redirect(
             reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "activity"})

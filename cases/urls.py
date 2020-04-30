@@ -1,12 +1,12 @@
 from django.urls import path
 
 from cases.views import main, advice, generate_document, ecju, goods_query, goods, destinations
-from flags.views import AssignFlags
 
 app_name = "cases"
 
 urlpatterns = [
     path("", main.ViewCase.as_view(), name="case", kwargs={"disable_queue_lookup": True, "tab": "details"}),
+    path("case-notes/", main.CaseNotes.as_view(), name="case_notes"),
     path("done/", main.CaseImDoneView.as_view(), name="done"),
     path("change-status/", main.ChangeStatus.as_view(), name="manage"),
     path("move/", main.MoveCase.as_view(), name="move"),
