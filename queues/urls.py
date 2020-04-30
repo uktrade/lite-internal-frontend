@@ -1,6 +1,5 @@
 from django.urls import path
 
-from conf.constants import ALL_CASES_QUEUE_ID
 from queues import views
 
 app_name = "queues"
