@@ -112,9 +112,13 @@ def respond_to_grading_query_form(queue_pk, case):
                 ],
                 classes=["app-pv-grading-inputs"],
             ),
-            TextArea(
-                title=cases.RespondGradingQueryForm.COMMENT, name="comment", optional=True, extras={"max_length": 500, }
-            ),
+            DetailComponent(title="Explain why you're making this decision (optional)",
+                            components=[
+                                TextArea(
+                                    name="comment",
+                                    extras={"max_length": 500, }
+                                ),
+                            ]),
         ],
         default_button_name=cases.RespondGradingQueryForm.BUTTON,
         back_link=BackLink(
