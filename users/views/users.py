@@ -5,7 +5,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 
 from conf.constants import SUPER_USER_ROLE_ID, UserStatuses
-from core.helpers import convert_dict_to_query_params
+from core.helpers import convert_dict_to_query_params, get_nested_value
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.users import UsersPage
 from lite_forms.components import FiltersBar, Select, Option
@@ -86,12 +86,20 @@ class EditUser(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         user, _ = get_gov_user(request, self.object_pk)
-        user = user["user"]
-        can_edit_role = user["id"] != request.user.lite_api_user_id
-        self.form = edit_user_form(request, user, can_edit_role)
-        self.data = user
+        self.user = user["user"]
+        can_edit_role = self.user["id"] != request.user.lite_api_user_id
+        self.form = edit_user_form(request, self.user, can_edit_role)
+        self.data = self.user
         self.action = put_gov_user
         self.success_url = reverse("users:user", kwargs={"pk": self.object_pk})
+
+    def post_success_step(self):
+        super().post_success_step()
+
+        # If user is updating their own default_queue, update the local user instance
+        if self.user["id"] == self.request.user.lite_api_user_id:
+            self.request.user.default_queue = get_nested_value(self.get_validated_data(), ["gov_user", "default_queue"])
+            self.request.user.save()
 
 
 class ChangeUserStatus(TemplateView):
