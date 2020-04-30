@@ -108,10 +108,9 @@
 	</div>
 
 	{% block details %}
-		<div class="modal-bg">
+		<div class="app-case__form-wrapper">
+			<a class="app-case__form-wrapper__back-link" id="back-link" href="{% url 'cases:case' queue.id case.id %}">Back to case</a>
 
-		</div>
-		<div class="modal">
 			{% block two_thirds %}{% endblock %}
 		</div>
 	{% endblock %}

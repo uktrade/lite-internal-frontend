@@ -339,33 +339,6 @@ $case-header-text-colour: govuk-colour("white");
     border-bottom: none!important;
 }
 
-.govuk-back-link {
-    position: relative;
-    display: block;
-    z-index: 0;
-    margin: 0;
-    color: white!important;
-    margin-bottom: govuk-spacing(7);
-    padding: 20px;
-    text-decoration: none!important;
-
-    &::before {
-        border-color: white;
-    }
-
-    &::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        width: 100vw;
-        bottom: 0;
-        transform: translateX(-50vw);
-        background-color: $govuk-brand-colour;
-        z-index: -1;
-    }
-}
-
 .lite-app-bar {
     position: relative;
     padding-top: 40px;
@@ -526,4 +499,14 @@ $case-header-text-colour: govuk-colour("white");
 .app-case__inset-slice {
     background-color: govuk-colour("light-grey");
     padding: govuk-spacing(6);
+}
+
+.app-case__form-wrapper {
+	max-width: 600px;
+
+    .app-case__form-wrapper__back-link {
+        @extend .govuk-back-link;
+        display: inline-block;
+        margin-bottom: govuk-spacing(7);
+    }
 }
