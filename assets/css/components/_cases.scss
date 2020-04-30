@@ -501,3 +501,29 @@ $case-header-text-colour: govuk-colour("white");
         bottom: 0;
     }
 }
+
+.app-case__finalised-case-banner {
+    @extend .govuk-width-container;
+    @include govuk-font($size: 19, $weight: bold);
+    position: relative;
+    padding: govuk-spacing(4) 0;
+    z-index: 0;
+    color: govuk-colour("white");
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50vw);
+        width: 100vw;
+        background-color: govuk-colour("blue");
+        z-index: -1;
+    }
+}
+
+.app-case__inset-slice {
+    background-color: govuk-colour("light-grey");
+    padding: govuk-spacing(6);
+}

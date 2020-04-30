@@ -9,48 +9,6 @@
 	</a>
 {% endif %}
 
-{% if case.data.clc_responded or case.data.pv_grading_responded %}
-	<div class="app-panel app-panel--info">
-		<h3 class="govuk-heading-m">{% lcs 'cases.ClcQuery.Verified.OUTCOME' %}</h3>
-
-		{% if case.data.clc_responded %}
-			<hr>
-			<p class="govuk-heading-m">{% lcs 'cases.ClcQuery.Verified.Clc.TITLE' %}</p>
-
-			<h4 class="govuk-heading-s">{% lcs 'cases.ClcQuery.Verified.Clc.CONTROLLED' %}</h4>
-			<p class="govuk-body-m">{{ case.query.good.is_good_controlled.value }}</p>
-
-			<h4 class="govuk-heading-s">{% lcs 'cases.ClcQuery.Verified.Clc.CONTROL_CODE' %}</h4>
-			<p class="govuk-body-m">
-				{% include 'includes/control-list-entries.html' with control_list_entries=case.data.good.control_list_entries %}
-			</p>
-
-			<h4 class="govuk-heading-s">{% lcs 'cases.ClcQuery.Verified.Clc.REPORT' %}</h4>
-			<p class="govuk-body-m">{{ case.data.good.report_summary|default_na }}</p>
-
-			<h4 class="govuk-heading-s">{% lcs 'cases.ClcQuery.Verified.Clc.COMMENT' %}</h4>
-			<p class="govuk-body-m">{{ case.data.good.comment|default_na }}</p>
-		{% endif %}
-		{% if case.data.pv_grading_responded %}
-			<hr>
-			<p class="govuk-heading-m">{% lcs 'cases.ClcQuery.Verified.PvGrading.TITLE' %}</p>
-
-			<h4 class="govuk-heading-s">{% lcs 'cases.ClcQuery.Verified.PvGrading.GRADING' %}</h4>
-			<p class="govuk-body-m">
-				{{ case.query.good.pv_grading_details.prefix }}
-				{{ case.query.good.pv_grading_details.grading.value }}
-				{{ case.query.good.pv_grading_details.suffix }}
-			</p>
-
-			<h4 class="govuk-heading-s">{% lcs 'cases.ClcQuery.Verified.PvGrading.COMMENT' %}</h4>
-			<p class="govuk-body-m">{{ case.query.good.grading_comment|default_na }}</p>
-		{% endif %}
-	</div>
-{% endif %}
-
-<br><br><br><br>
-
-<h2 class="govuk-heading-m">{% lcs 'cases.ClcQuery.GoodDetails.Details.TITLE' %}</h2>
 <dl class="app-case__summary-list">
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
@@ -157,8 +115,6 @@
 		{% endif %}
 	</dl>
 {% endif %}
-
-<br><br><br><br>
 
 <h2 class="govuk-heading-m">{% lcs 'cases.ClcQuery.GoodDetails.Documents.TITLE' %}</h2>
 {% if case.data.good.documents %}

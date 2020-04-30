@@ -150,7 +150,10 @@ class ViewCase(TemplateView):
                             Slice("hmrc deets", "hmrc")]
 
         if case_sub_type == CaseType.GOODS.value:
-            details += [Slice("Query deets", "goods-query")]
+            if case.data["clc_responded"] or case.data["pv_grading_responded"]:
+                details += [Slice(None, "goods-query-response")]
+
+            details += [Slice("Query details", "goods-query")]
 
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
             details += [Slice("End user details", "end-user-advisory")]
@@ -380,6 +383,7 @@ class CaseOfficer(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
+        self.data = {"gov_user_pk": case.case_officer.get("id")}
         self.form = assign_case_officer_form(request, case.case_officer)
         self.context = {"case": case}
         self.success_url = reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
