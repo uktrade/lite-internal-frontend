@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from core.services import get_countries, get_denial_reasons
+from conf.constants import Permission
+from core.services import get_countries, get_denial_reasons, get_user_permissions
 from flags.services import get_flags
 from lite_forms.generators import form_page
 from lite_forms.views import SingleFormView
@@ -26,6 +27,10 @@ class Picklists(TemplateView):
         """
         Return a list of picklists and show all the relevant items
         """
+        # Ensure user has permission to see this page (redirect to team page if not)
+        if Permission.MANAGE_PICKLISTS.value not in get_user_permissions(request):
+            return redirect(reverse_lazy("teams:team"))
+
         # Ensure that the page has a type
         picklist_type = request.GET.get("type")
         if not picklist_type:
