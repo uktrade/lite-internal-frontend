@@ -25,4 +25,5 @@ class Case(Munch):
 
     @property
     def case_officer(self):
-        return self["case_officer"]
+        return {}
+        # return self.get("case_officer", {})
