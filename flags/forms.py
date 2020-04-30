@@ -114,8 +114,8 @@ def edit_flag_form():
                 name="blocks_approval",
                 title=EditFlagForm.BlocksApproval.TITLE,
                 options=[
-                    Option("True", EditFlagForm.BlocksApproval.YES),
-                    Option("False", EditFlagForm.BlocksApproval.NO),
+                    Option(True, EditFlagForm.BlocksApproval.YES),
+                    Option(False, EditFlagForm.BlocksApproval.NO),
                 ],
             ),
         ],
