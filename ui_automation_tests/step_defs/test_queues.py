@@ -14,6 +14,11 @@ def add_a_queue(driver, context, add_queue):  # noqa
     pass
 
 
+@when("I go to the countersigning queue")
+def go_to_countersigning_queue(driver, context, internal_url):
+    driver.get(internal_url.rstrip("/") + "/queues/" + context.countersigning_queue_id)
+
+
 @when("I edit the new queue")
 def click_on_edit_queue(driver, context):
     queues = QueuesPages(driver)
@@ -23,6 +28,17 @@ def click_on_edit_queue(driver, context):
     queues.click_queue_edit_button(no)
     context.queue_name = str(context.queue_name)[:12] + "edited"
     QueuesPages(driver).enter_queue_name(context.queue_name)
+    Shared(driver).click_submit()
+
+
+@when("I edit the new queue with a countersigning queue")
+def edit_queue_with_countersigning(driver, context):
+    queues = QueuesPages(driver)
+    no = utils.get_element_index_by_text(
+        Shared(driver).get_rows_in_lite_table(), context.queue_name, complete_match=False
+    )
+    queues.click_queue_edit_button(no)
+    QueuesPages(driver).select_countersigning_queue(context.countersigning_queue_name)
     Shared(driver).click_submit()
 
 
@@ -51,3 +67,8 @@ def see_number_of_checkboxes_selected(driver, context, num):
 @then("queue change is in audit trail")
 def queue_change_in_audit(driver, context):
     assert "moved the case to " + context.queue_name in ApplicationPage(driver).get_text_of_audit_trail_item(0)
+
+
+@when("I go to application previously created for my queue")
+def go_to_case_for_queue(driver, context, internal_url):
+    driver.get(internal_url.rstrip("/") + "/queues/" + context.queue_id + "/cases/" + context.case_id)
