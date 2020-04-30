@@ -455,5 +455,7 @@ def put_rerun_case_routing_rules(request, pk, json):
 
 
 def get_blocking_flags(request, case_pk):
-    data = get(request, FLAGS_URL + f"?case={case_pk}&only_show_deactivated=False&blocks_approval=True&disable_pagination=True")
+    data = get(
+        request, FLAGS_URL + f"?case={case_pk}&only_show_deactivated=False&blocks_approval=True&disable_pagination=True"
+    )
     return data.json()
