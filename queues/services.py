@@ -19,7 +19,12 @@ def get_queues(request, disable_pagination=True, page=1, include_system=False, c
 
     if convert_to_options:
         return [
-            Option(queue.get("id"), queue.get("name"), description=get_nested_value(queue, ["team", "name"]),)
+            Option(
+                queue.get("id"),
+                queue.get("name"),
+                description=get_nested_value(queue, ["team", "name"]),
+                data_attribute=get_nested_value(queue, ["team", "id"]),
+            )
             for queue in data
         ]
     else:
