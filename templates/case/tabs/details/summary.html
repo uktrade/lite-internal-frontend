@@ -15,7 +15,7 @@
 				{% lcs 'cases.HMRCPage.Heading.RAISED_BY' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
-				<a id="hmrc_organisation" class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' case.application.hmrc_organisation.id %}">{{ case.application.hmrc_organisation.name }}</a>
+				<a id="hmrc_organisation" class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' case.application.hmrc_organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.application.hmrc_organisation.name }}</a>
 			</dd>
 		</div>
 	{% endif %}
@@ -51,7 +51,7 @@
 		</dt>
 		<dd class="app-case__summary-list__value">
 			{% if case.queue_names %}
-				<ol class="govuk-list">
+				<ol class="govuk-list govuk-!-margin-0">
 					{% for queue_name in case.queue_names %}
 						<li>{{ queue_name }}</li>
 					{% endfor %}
@@ -90,7 +90,7 @@
 		</dt>
 		<dd class="app-case__summary-list__value">
 			{% if case.case_officer %}
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}">{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}</a>
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}</a>
 			{% else %}
 				<span class="govuk-hint govuk-!-margin-0">Not assigned</span>
 			{% endif %}
@@ -108,10 +108,10 @@
 		<dd class="app-case__summary-list__value">
 			{% for queue_name, users in case.assigned_users.items %}
 				<span class="govuk-label">{{ queue_name }}</span>
-				<ol class="govuk-list">
+				<ol class="govuk-list govuk-!-margin-0">
 					{% for user in users %}
 						<li>
-							<a href="{% url 'users:user' user.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link govuk-link--no-visited-state">{{ user.first_name }} {{ user.last_name }}</a>
+							<a href="{% url 'users:user' user.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}" class="govuk-link govuk-link--no-visited-state">{{ user.first_name }} {{ user.last_name }}</a>
 						</li>
 					{% endfor %}
 				</ol>
