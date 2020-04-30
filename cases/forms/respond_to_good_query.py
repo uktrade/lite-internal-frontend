@@ -26,7 +26,6 @@ def respond_to_clc_query_form(request, queue_pk, case):
     return Form(
         title=cases.RespondClCQueryForm.TITLE,
         questions=[
-            Heading(case["reference_code"], HeadingStyle.S),
             Summary(
                 values={
                     cases.RespondClCQueryForm.Summary.DESCRIPTION: case["query"]["good"]["description"],
@@ -69,6 +68,7 @@ def respond_to_clc_query_form(request, queue_pk, case):
         back_link=BackLink(
             cases.RespondClCQueryForm.BACK, reverse_lazy("cases:case", kwargs={"queue_pk": queue_pk, "pk": case["id"]}),
         ),
+        container="case"
     )
 
 

@@ -31,7 +31,7 @@ class RespondCLCQuery(TemplateView):
         return super(RespondCLCQuery, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, **kwargs):
-        return form_page(request, self.form)
+        return form_page(request, self.form, extra_data={"case": self.case})
 
     def post(self, request, **kwargs):
         # If 'set-flags' take them to the goods flags page
@@ -39,7 +39,7 @@ class RespondCLCQuery(TemplateView):
             return self.display_flag_form(request)
 
         if request.POST.get("action") == "change":
-            return form_page(request, self.form, data=request.POST)
+            return form_page(request, self.form, data=request.POST, extra_data={"case": self.case})
 
         form_data = request.POST.copy()
 
