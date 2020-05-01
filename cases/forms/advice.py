@@ -27,4 +27,5 @@ def advice_recommendation_form(post_url, back_url, case_sub_type):
         default_button_name=cases.AdviceRecommendationForm.Actions.CONTINUE_BUTTON,
         back_link=BackLink(cases.AdviceRecommendationForm.Actions.BACK_BUTTON, back_url),
         post_url=post_url,
+        container="case"
     )

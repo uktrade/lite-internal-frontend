@@ -121,7 +121,7 @@ def render_form_page(get_advice, request, case, form, team=None):
     # Add data to the form as hidden fields
     form.questions = add_hidden_advice_data(form.questions, selected_advice_data)
 
-    return form_page(request, form, data=pre_data)
+    return form_page(request, form, data=pre_data, extra_data={"case": case})
 
 
 def post_advice(get_advice, request, case, form, user_team_final, team=None):
