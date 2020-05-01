@@ -1,5 +1,6 @@
 {% if case.application.destinations.data %}
 	{% if case.application.destinations.type == 'end_user' %}
+		<h2 class="govuk-heading-m">Destinations</h2>
 		<table id="table-goods" class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
@@ -109,6 +110,7 @@
 			</tbody>
 		</table>
 	{% else %}
+		<h2 class="govuk-heading-m">{{ case.application.destinations.data|length }} destination{{ case.application.destinations.data|pluralize }}</h2>
 		<table id="table-goods" class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">

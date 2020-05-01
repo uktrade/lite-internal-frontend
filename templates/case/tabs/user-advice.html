@@ -1,6 +1,6 @@
 {% load static %}
 
-<form action="{% url 'cases:case' queue.id case.id %}" method="post">
+<form action="{% url 'cases:user_advice_view' queue.id case.id %}" method="post">
 	{% csrf_token %}
 
 	{% if not case.has_advice.my_team %}
@@ -13,10 +13,8 @@
 		{% endif %}
 	{% endif %}
 
-	<h2>Goods</h2>
 	{% include 'case/slices/goods.html' %}
 
-	<h2>Destinations</h2>
 	{% include 'case/slices/destinations.html' %}
 </form>
 

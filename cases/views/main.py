@@ -134,22 +134,22 @@ class ViewCase(TemplateView):
             ]
 
             if case_sub_type == CaseType.OPEN.value:
-                details += [Slice("Goods", "goods"),
-                            Slice("Destinations", "destinations"),
+                details += [Slice(None, "goods"),
+                            Slice(None, "destinations"),
                             Slice("End use details", "end-use-details"),
                             Slice("Route of goods", "route-of-goods"),
                             Slice("Supporting documents", "supporting-documents")]
                 if export_type == "temporary":
                     details.insert(3, Slice("Export details", "export-details"))
             elif case_sub_type == CaseType.STANDARD.value:
-                details += [Slice("Goods", "goods"),
-                            Slice("Destinations", "destinations"),
+                details += [Slice(None, "goods"),
+                            Slice(None, "destinations"),
                             Slice("End use details", "end-use-details"),
                             Slice("Route of goods", "route-of-goods"),
                             Slice("Supporting documents", "supporting-documents")]
             elif case_sub_type == CaseType.HMRC.value:
-                details += [Slice("Goods", "goods"),
-                            Slice("Destinations", "destinations"),
+                details += [Slice(None, "goods"),
+                            Slice(None, "destinations"),
                             Slice("Supporting documents", "supporting-documents"),
                             Slice("hmrc deets", "hmrc")]
 
