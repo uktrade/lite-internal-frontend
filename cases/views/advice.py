@@ -82,7 +82,7 @@ class GiveUserAdviceDetail(TemplateView):
     """
 
     case = None
-    form = "case/give-advice.html"
+    form = "case/views/give-advice.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.case = give_advice_detail_dispatch(request, **kwargs)
@@ -159,7 +159,7 @@ class GiveTeamAdviceDetail(TemplateView):
     """
 
     case = None
-    form = "case/give-advice.html"
+    form = "case/views/give-advice.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.case = give_advice_detail_dispatch(request, **kwargs)
@@ -231,7 +231,7 @@ class GiveFinalAdviceDetail(TemplateView):
     """
 
     case = None
-    form = "case/give-advice.html"
+    form = "case/views/give-advice.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.case = give_advice_detail_dispatch(request, **kwargs)

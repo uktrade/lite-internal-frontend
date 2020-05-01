@@ -155,7 +155,7 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
     advice_picklist_items = get_picklists_for_input(request, "standard_advice")
     static_denial_reasons, _ = get_denial_reasons(request, False)
 
-    form = "case/give-advice.html"
+    form = "case/views/give-advice.html"
 
     context = {
         "case": case,
