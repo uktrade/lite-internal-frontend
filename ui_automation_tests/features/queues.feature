@@ -59,6 +59,7 @@ Feature: I want to define new work queues and the teams they belong to
     And a queue has been created
     And a new countersigning queue has been created
     When I go to queues
+    Then I see my countersigning queue
     Then I see my queue
     When I edit the new queue with a countersigning queue
     And I go to application previously created
