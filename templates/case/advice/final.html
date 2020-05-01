@@ -37,7 +37,7 @@
 							<button id="button-clear-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
 								{% lcs 'cases.ViewAdvicePage.Actions.CLEAR' %}
 							</button>
-							{% if can_advice_be_finalised %}
+							{% if can_advice_be_finalised and not blocking_flags %}
 								{% make_list queue.id case.id as button_params %}
 								{% if case.application.case_type.sub_type.key == 'open' %}
 									{% if case.application.goodstype_category.key == 'media' %}
@@ -58,6 +58,16 @@
 				{% endif %}
 			{% endif %}
 		</div>
+
+		{% if blocking_flags %}
+			<div class="govuk-warning-text" id="blocking_flags">
+				<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+				<strong class="govuk-warning-text__text">
+					<span class="govuk-warning-text__assistive">{% lcs 'cases.ViewAdvicePage.WarningBanner.HIDDEN_TEXT' %}</span>
+					{% lcs 'cases.ViewAdvicePage.WarningBanner.BLOCKING_FLAGS' %}{% include 'includes/flags.html' with flags=blocking_flags %}
+				</strong>
+			</div>
+		{% endif %}
 
 		<!-- Conditional error wrapper -->
 		{% if not case.has_advice.team %}
