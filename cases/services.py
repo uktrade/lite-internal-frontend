@@ -7,6 +7,7 @@ from conf.constants import (
     CASE_NOTES_URL,
     APPLICATIONS_URL,
     ACTIVITY_URL,
+    ACTIVITY_FILTERS_URL,
     DOCUMENTS_URL,
     END_USER_ADVISORY_URL,
     ECJU_QUERIES_URL,
@@ -131,6 +132,11 @@ def get_activity(request, pk, data=None):
         url = url + params
     data = get(request, url)
     return data.json()["activity"]
+
+
+def get_activity_filters(request, pk):
+    data = get(request, CASE_URL + pk + ACTIVITY_FILTERS_URL)
+    return data.json()["filters"]
 
 
 # Case Documents
