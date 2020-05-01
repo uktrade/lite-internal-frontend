@@ -43,6 +43,7 @@ from core.builtins.custom_tags import friendly_boolean
 from core.services import get_status_properties, get_user_permissions, get_permissible_statuses
 from lite_content.lite_exporter_frontend import applications
 from lite_content.lite_internal_frontend import cases
+from lite_forms.components import FiltersBar, Select, Option
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
 from queues.services import put_queue_single_case_assignment, get_queue
@@ -113,8 +114,23 @@ class ViewCase(TemplateView):
 
         can_set_done = can_set_done and (is_system_queue and user_assigned_queues) or not is_system_queue
 
+        user_types = [Option(option["key"], option["value"]) for option in [{"key": "exporter", "value": "Exporter"}]]
+        activity_types = [Option(option["key"], option["value"]) for option in [{"key": "updated_status", "value": "Updated Status"}]]
+
+        filters = FiltersBar(
+            [
+                Select(name="user_type", title="User Type", options=user_types),#case["filters"]["user_type"]),
+                Select(name="activity_type", title="Activity Type", options=activity_types),#case["filters"]["activity_type"]),
+            ]
+        )
+
+        activity_filters = {
+            "user_type": request.GET.get("user_type"),
+            "activity_type": request.GET.get("activity_type"),
+        }
+
         context = {
-            "activity": get_activity(request, case_id),
+            "activity": get_activity(request, case_id, data=activity_filters),
             "case": case,
             "queue": queue,
             "permissions": get_user_permissions(request),
@@ -122,6 +138,7 @@ class ViewCase(TemplateView):
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
             "can_set_done": can_set_done,
+            "filters": filters,
         }
 
         if case_sub_type == CaseType.END_USER_ADVISORY.value:

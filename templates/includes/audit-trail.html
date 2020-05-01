@@ -1,4 +1,5 @@
 <div class="app-activity__list">
+	{% include "filters.html" %}
 	{% for audit in activity %}
 		<div id="case-activity-{{ audit.id }}" class="app-activity__item">
 			<p class="govuk-body">

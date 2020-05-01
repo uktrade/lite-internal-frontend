@@ -124,8 +124,12 @@ def post_case_notes(request, pk, json):
 
 
 # Activity
-def get_activity(request, pk):
-    data = get(request, CASE_URL + pk + ACTIVITY_URL + "?fields=status,flags")
+def get_activity(request, pk, data=None):
+    url = CASE_URL + pk + ACTIVITY_URL
+    if data:
+        params = convert_parameters_to_query_params(data)
+        url = url + params
+    data = get(request, url)
     return data.json()["activity"]
 
 
