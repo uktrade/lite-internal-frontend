@@ -43,7 +43,7 @@ from conf import settings
 from conf.constants import GENERATED_DOCUMENT, Statuses
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.builtins.custom_tags import friendly_boolean
-from core.objects import Tab
+from core.objects import Tab, TabCollection
 from core.services import get_status_properties, get_user_permissions, get_permissible_statuses
 from flags.services import get_cases_flags
 from lite_content.lite_exporter_frontend import applications
@@ -126,7 +126,11 @@ class ViewCase(TemplateView):
 
         if case_type == CaseType.APPLICATION.value:
             tabs += [
-                Tab("advice", CasePage.Tabs.ADVICE_AND_DECISION, "give-advice"),
+                TabCollection("advice", CasePage.Tabs.ADVICE_AND_DECISION, children=[
+                    Tab("user-advice", "User advice", "user-advice"),
+                    Tab("team-advice", "Team advice", "team-advice"),
+                    Tab("final-advice", "Final advice", "final-advice"),
+                ]),
             ]
 
             if case_sub_type == CaseType.OPEN.value:
