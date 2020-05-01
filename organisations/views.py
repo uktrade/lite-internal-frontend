@@ -37,7 +37,7 @@ class OrganisationList(TemplateView):
         search_term = request.GET.get("search_term", "").strip()
         org_type = request.GET.get("org_type", "").strip()
 
-        params = {"page": int(request.GET.get("page", 1))}
+        params = {"page": int(request.GET.get("page", 1)), "status": request.GET.get("status", "active")}
         if search_term:
             params["search_term"] = search_term
         if org_type:
@@ -66,6 +66,7 @@ class OrganisationList(TemplateView):
             "params_str": convert_dict_to_query_params(params),
             "filters": filters,
             "search_term": params.get("search_term", ""),
+            "tab": params.get("status"),
             "can_manage_organisations": Permission.MANAGE_ORGANISATIONS.value in get_user_permissions(request),
         }
         return render(request, "organisations/index.html", context)

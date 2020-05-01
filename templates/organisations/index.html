@@ -21,6 +21,13 @@
 
 	{% include "filters.html" %}
 
+	<div class="lite-tabs__container">
+		<div class="lite-tabs">
+			<a href="?status=active" class="lite-tabs__tab {% if tab == "active" %}lite-tabs__tab--selected{% endif %}">Active</a>
+			<a href="?status=in_review" class="lite-tabs__tab {% if tab == "in_review" %}lite-tabs__tab--selected{% endif %}">In review</a>
+		</div>
+	</div>
+
 	{% if data.results %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
