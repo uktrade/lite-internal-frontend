@@ -13,7 +13,7 @@ from conf.constants import (
     Statuses,
     GOODS_QUERY_STATUSES,
     PV_GRADINGS_URL,
-)
+    MENU_NOTIFICATIONS_URL)
 from users.services import get_gov_user
 
 
@@ -156,3 +156,7 @@ def get_gov_pv_gradings(request, convert_to_options=False):
 def get_pv_gradings(request):
     pv_gradings = get(request, PV_GRADINGS_URL).json().get("pv_gradings")
     return pv_gradings
+
+
+def get_menu_notifications(request):
+    return get(request, MENU_NOTIFICATIONS_URL).json()
