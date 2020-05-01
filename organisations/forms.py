@@ -1,5 +1,6 @@
 from django.urls import reverse
 
+from core.builtins.custom_tags import get_address
 from core.services import get_countries
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.organisations import (
@@ -19,6 +20,7 @@ from lite_forms.components import (
     HiddenField,
     BackLink,
     EmailInput,
+    Summary,
 )
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
@@ -273,4 +275,29 @@ def edit_individual_form(organisation, can_edit_name, are_fields_optional):
             reverse("organisations:organisation", kwargs={"pk": organisation["id"]}),
         ),
         default_button_name=EditIndividualOrganisationPage.SUBMIT_BUTTON,
+    )
+
+
+def review_organisation_form(organisation):
+    return Form(
+        title="Review Organisation",
+        questions=[
+            Summary(
+                values={
+                    "Name": organisation["name"],
+                    "Type": organisation["type"]["value"],
+                    "EORI Number": organisation["eori_number"],
+                    "SIC Number": organisation["sic_number"],
+                    "VAT Number": organisation["vat_number"],
+                    "Registration Number": organisation["registration_number"],
+                    "Primary Site Name": organisation["primary_site"]["name"],
+                    "Primary Site Address": get_address(organisation["primary_site"]),
+                },
+            ),
+            RadioButtons(
+                title="Final decision",
+                name="status",
+                options=[Option(key="active", value="Approve",), Option(key="rejected", value="Reject"),],
+            ),
+        ],
     )

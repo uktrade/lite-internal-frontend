@@ -15,6 +15,7 @@ from organisations.forms import (
     register_hmrc_organisation_forms,
     edit_commercial_form,
     edit_individual_form,
+    review_organisation_form,
 )
 from organisations.services import (
     get_organisations,
@@ -24,7 +25,7 @@ from organisations.services import (
     put_organisation,
     get_organisation_members,
     post_hmrc_organisations,
-)
+    put_organisation_status)
 
 
 class OrganisationList(TemplateView):
@@ -108,6 +109,15 @@ class OrganisationView(TemplateView):
 
 class OrganisationDetails(OrganisationView):
     template_name = "details"
+
+
+class OrganisationReview(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        organisation = get_organisation(request, str(self.object_pk))
+        self.action = put_organisation_status
+        self.form = review_organisation_form(organisation)
+        self.success_url = reverse_lazy("organisations:organisation", kwargs={"pk": self.object_pk})
 
 
 class OrganisationMembers(OrganisationView):
