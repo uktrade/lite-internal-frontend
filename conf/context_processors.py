@@ -44,7 +44,7 @@ def lite_menu(request):
                 "title": OrganisationsPage.TITLE,
                 "url": reverse_lazy("organisations:organisations"),
                 "icon": "menu/businesses",
-                "notifications": notification_data.get("organisations")
+                "notifications": notification_data.get("organisations"),
             },
             {"title": "Teams", "url": reverse_lazy("teams:teams"), "icon": "menu/teams"},
             {"title": "My Team", "url": reverse_lazy("teams:team"), "icon": "menu/teams"},
