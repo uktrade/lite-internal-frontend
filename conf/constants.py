@@ -18,7 +18,6 @@ GOOD_URL = "/goods/"
 GOODS_TYPE_URL = "/goods-types/"
 APPLICATIONS_URL = "/applications/"
 CASE_NOTES_URL = "/case-notes/"
-CASE_FLAGS_URL = "/flags/"
 DOCUMENTS_URL = "/documents/"
 USER_ADVICE_URL = "/user-advice/"
 TEAM_ADVICE_URL = "/team-advice/"
@@ -109,6 +108,7 @@ class Permission(Enum):
     MANAGE_FLAGGING_RULES = "MANAGE_FLAGGING_RULES"
     MANAGE_TEAM_ROUTING_RULES = "MANAGE_TEAM_ROUTING_RULES"
     MANAGE_ALL_ROUTING_RULES = "MANAGE_ALL_ROUTING_RULES"
+    MANAGE_PICKLISTS = "MANAGE_PICKLISTS"
 
 
 class FlagLevels:
