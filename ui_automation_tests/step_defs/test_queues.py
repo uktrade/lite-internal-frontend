@@ -48,10 +48,12 @@ def see_queue_in_queue_list(driver, context):
     assert context.queue_name in QueuesPages(driver).get_row_text(context.queue_name)
 
 
-@then("I see my countersigning queue")
-def see_queue_in_queue_list(driver, context):
-    assert find_paginated_item_by_id(context.countersigning_queue_name, driver)
-    assert context.countersigning_queue_name in QueuesPages(driver).get_row_text(context.countersigning_queue_name)
+@then("I see my queue in the list with a countersigning queue")
+def see_queue_in_queue_list_with_countersigning_queue(driver, context):
+    assert find_paginated_item_by_id(context.queue_name, driver)
+    row = QueuesPages(driver).get_row_text(context.queue_name)
+    assert context.countersigning_queue_name in row
+    assert context.countersigning_queue_name in row
 
 
 @then("I dont see previously created application")
