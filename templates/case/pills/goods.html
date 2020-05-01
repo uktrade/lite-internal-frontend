@@ -4,7 +4,7 @@
 	</div>
 	<p class="govuk-body govuk-!-margin-3">
 		{% for good in case.application.goods %}
-			{{ good.control_code }}
+			{{ good.control_list_entries }}
 		{% endfor %}
 	</p>
 {% else %}
@@ -13,7 +13,7 @@
 	</div>
 	<p class="govuk-body govuk-!-margin-3">
 		{% for good in case.application.goods_types %}
-			{{ good.control_code }}
+			{{ good.control_list_entries }}
 		{% endfor %}
 	</p>
 {% endif %}

@@ -14,7 +14,7 @@
 			{% for good in case.application.goods %}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
-					<td class="govuk-table__cell">{{ good.description }}</td>
+					<td class="govuk-table__cell">{{ good.good.description }}</td>
 					<td class="govuk-table__cell">{{ good.is_good_controlled|friendly_boolean }}</td>
 					<td class="govuk-table__cell">
 						{% include 'includes/control-list-entries.html' with control_list_entries=good.control_list_entries %}

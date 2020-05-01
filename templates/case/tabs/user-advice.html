@@ -1,1 +1,23 @@
-<p style="font-size: 40px;">User advice will go here.</p>
+{% load static %}
+
+<form action="{% url 'cases:case' queue.id case.id %}" method="post">
+	{% csrf_token %}
+
+	{% if not case.has_advice.my_team %}
+		{% if not case.has_advice.final %}
+			{% if not status_is_terminal %}
+				<button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+					{% lcs 'GIVE_OR_CHANGE_ADVICE' %}
+				</button>
+			{% endif %}
+		{% endif %}
+	{% endif %}
+
+	<h2>Goods</h2>
+	{% include 'case/slices/goods.html' %}
+
+	<h2>Destinations</h2>
+	{% include 'case/slices/destinations.html' %}
+</form>
+
+<script src="{% static 'javascripts/advice-view.js' %}"></script>

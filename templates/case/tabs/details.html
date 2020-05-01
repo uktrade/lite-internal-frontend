@@ -3,7 +3,7 @@
 		<h2 class="govuk-heading-m">{{ slice.title }}</h2>
 	{% endif %}
 	<div id="slice-{{ slice.file }}">
-		{% include 'case/tabs/details/'|add:slice.file|add:'.html' %}
+		{% include 'case/slices/'|add:slice.file|add:'.html' %}
 	</div>
 	<div class="app-case-separator"></div>
 {% endfor %}
