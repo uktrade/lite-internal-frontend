@@ -4,21 +4,18 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from cases.constants import CaseType
-from lite_forms.generators import error_page, form_page
-
-from cases.forms.advice import give_advice_form
 from cases.helpers import check_matching_advice, add_hidden_advice_data, clean_advice
 from cases.services import get_case, _get_total_goods_value, get_blocking_flags
+from conf.constants import Permission, APPLICATION_CASE_TYPES, CLEARANCE_CASE_TYPES, CONFLICTING
 from core.services import (
     get_denial_reasons,
     get_user_permissions,
     get_status_properties,
     get_pv_gradings,
 )
+from lite_forms.generators import error_page, form_page
 from picklists.services import get_picklists_for_input
 from teams.services import get_teams
-from users.services import get_gov_user
-from conf.constants import Permission, APPLICATION_CASE_TYPES, CLEARANCE_CASE_TYPES, CONFLICTING
 
 
 def get_case_advice(get_advice, request, case, advice_level, team=None):
@@ -153,7 +150,7 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
     # Render the advice detail page
     proviso_picklist_items = get_picklists_for_input(request, "proviso")
     advice_picklist_items = get_picklists_for_input(request, "standard_advice")
-    static_denial_reasons, _ = get_denial_reasons(request, False)
+    # static_denial_reasons, _ = get_denial_reasons(request, False)
 
     form = "case/views/give-advice.html"
 
@@ -163,7 +160,7 @@ def post_advice(get_advice, request, case, form, user_team_final, team=None):
         "type": selected_advice_data.get("type"),
         "proviso_picklist": proviso_picklist_items,
         "advice_picklist": advice_picklist_items,
-        "static_denial_reasons": static_denial_reasons,
+        # "static_denial_reasons": static_denial_reasons,
         "pv_gradings": get_pv_gradings(request),
         # Add previous data
         "goods": selected_advice_data.get("goods"),
@@ -228,27 +225,6 @@ def post_advice_details(post_case_advice, request, case, form, user_team_final, 
             "cases:" + user_team_final + "_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case.get("id")}
         )
     )
-
-
-def give_advice_dispatch(user_team_final, request, **kwargs):
-    """
-    Returns the case and the form for the level of the advice to be used in the end points
-    """
-    case = get_case(request, str(kwargs["pk"]))
-    post_endpoint = reverse_lazy(
-        "cases:give_" + user_team_final + "_advice", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}
-    )
-    back_endpoint = reverse_lazy(
-        "cases:" + user_team_final + "_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}
-    )
-    form = give_advice_form(post_endpoint, back_endpoint, case["application"]["case_type"]["sub_type"]["key"])
-
-    if user_team_final == "team":
-        user, _ = get_gov_user(request)
-        team = user["user"]["team"]
-        return case, form, team
-
-    return case, form
 
 
 def give_advice_detail_dispatch(request, **kwargs):

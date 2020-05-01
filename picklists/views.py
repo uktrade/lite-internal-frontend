@@ -102,7 +102,7 @@ class EditPicklistItem(SingleFormView):
         self.success_url = reverse_lazy("picklists:picklist_item", kwargs={"pk": self.object_pk})
         countries, _ = get_countries(request)
         flags = get_flags(request)
-        denial_reasons, _ = get_denial_reasons(request, False, False)
+        denial_reasons = get_denial_reasons(request)
 
         self.context = {**countries, **{"flags": flags}, **denial_reasons}
 

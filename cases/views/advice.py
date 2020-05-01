@@ -38,10 +38,10 @@ from cases.views_helpers import (
     post_advice,
     post_advice_details,
     give_advice_detail_dispatch,
-    give_advice_dispatch,
 )
 from conf.constants import DECISIONS_LIST, Permission
 from core import helpers
+from core.services import get_denial_reasons
 from lite_content.lite_internal_frontend.cases import GenerateFinalDecisionDocumentsPage, FinaliseLicenceForm
 from lite_forms.generators import form_page, error_page
 from lite_forms.views import SingleFormView
@@ -51,12 +51,16 @@ class GiveAdvice(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
-        tab = kwargs["tab"]
-        self.form = give_advice_form(case, tab, kwargs["queue_pk"])
+        self.tab = kwargs["tab"]
+        self.form = give_advice_form(case, self.tab, kwargs["queue_pk"], get_denial_reasons(request, True))
         self.context = {"case": case}
 
-        if tab != "user-advice" and tab != "user-advice" and tab != "user-advice":
+        if self.tab not in ["user-advice", "team-advice", "final-advice"]:
             raise Http404
+
+    def get_action(self):
+        if self.tab == "user-advice":
+            return post_user_case_advice
 
 
 class ViewUserAdvice(TemplateView):

@@ -2,22 +2,25 @@ from django.urls import reverse
 
 from cases.constants import CaseType
 from cases.objects import Case
-from lite_forms.components import Form, RadioButtons, Option, BackLink, Summary
 from lite_content.lite_internal_frontend.strings import cases
+from lite_forms.components import Form, RadioButtons, Option, BackLink, TextArea, Checkboxes
 from lite_forms.helpers import conditional
 
 
-def give_advice_form(case: Case, tab, queue_pk):
+def give_advice_form(case: Case, tab, queue_pk, denial_reasons):
     return Form(
         title=cases.AdviceRecommendationForm.TITLE,
         questions=[
-            Summary({"Goods": "ML1a, ML2, PL10123", "Destinations": "Poland, United Kingdom"}),
             RadioButtons(
-                description=cases.AdviceRecommendationForm.DESCRIPTION,
                 name="type",
                 options=[
                     Option(key="approve", value=cases.AdviceRecommendationForm.RadioButtons.GRANT),
-                    Option(key="proviso", value=cases.AdviceRecommendationForm.RadioButtons.PROVISO),
+                    Option(key="proviso", value=cases.AdviceRecommendationForm.RadioButtons.PROVISO, components=[
+                        TextArea(title="Proviso",
+                                 description="This will appear on the generated documentation",
+                                 extras={"max_length": 5000},
+                                 name="note")
+                    ]),
                     Option(
                         key="refuse",
                         value=conditional(
@@ -25,6 +28,13 @@ def give_advice_form(case: Case, tab, queue_pk):
                             cases.AdviceRecommendationForm.RadioButtons.REJECT,
                             cases.AdviceRecommendationForm.RadioButtons.REFUSE,
                         ),
+                        components=[
+                            Checkboxes(title="Select the appropriate denial reasons for your selection",
+                                       name='denial_reasons',
+                                       options=denial_reasons,
+                                       classes=["govuk-checkboxes--small"])
+
+                        ]
                     ),
                     Option(key="no_licence_required", value=cases.AdviceRecommendationForm.RadioButtons.NLR),
                     Option(
@@ -34,6 +44,14 @@ def give_advice_form(case: Case, tab, queue_pk):
                     ),
                 ],
             ),
+            TextArea(title="What are your reasons for this decision?",
+                     description="",
+                     name="advice"),
+            TextArea(title="Is there anything else you want to say to the applicant?",
+                     description="This will appear on the generated documentation",
+                     optional=True,
+                     extras={"max_length": 200},
+                     name="note")
         ],
         default_button_name=cases.AdviceRecommendationForm.Actions.CONTINUE_BUTTON,
         back_link=BackLink(

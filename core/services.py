@@ -17,37 +17,13 @@ from conf.constants import (
 from users.services import get_gov_user
 
 
-def get_denial_reasons(request, convert_to_options=True, group=True):
-    data = get(request, DENIAL_REASONS_URL)
-    status_code = data.status_code
-    data = data.json()
-
-    if not group:
-        return data, status_code
-
-    converted = {}
-
-    for denial_reason in data.get("denial_reasons"):
-        item_id = denial_reason["id"]
-
-        if not converted.get(item_id[0]):
-            converted[item_id[0]] = []
-
-        converted[item_id[0]].append(item_id)
+def get_denial_reasons(request, convert_to_options=False):
+    data = get(request, DENIAL_REASONS_URL).json()["denial_reasons"]
 
     if convert_to_options:
-        questions = []
-        for _, value in converted.items():
-            options = []
-
-            for item in value:
-                options.append(Option(item, item))
-
-            questions.append(Checkboxes("reasons", options, description=""))
-
-        return questions
+        return [Option(denial_reason["id"], denial_reason["id"]) for denial_reason in data]
     else:
-        return converted, status_code
+        return data
 
 
 def get_countries(request, convert_to_options=False, exclude: list = None):
