@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from conf.constants import Permission
 from core.helpers import convert_dict_to_query_params
 from core.objects import Tab
-from core.services import get_user_permissions
+from core.services import get_user_permissions, get_menu_notifications
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.organisations import OrganisationsPage, OrganisationPage
 from lite_forms.components import FiltersBar, TextInput, Select, Option
@@ -68,6 +68,7 @@ class OrganisationList(TemplateView):
             "filters": filters,
             "search_term": params.get("search_term", ""),
             "tab": params.get("status"),
+            "in_review_total": get_menu_notifications(request)["notifications"].get("organisations"),
             "can_manage_organisations": Permission.MANAGE_ORGANISATIONS.value in get_user_permissions(request),
         }
         return render(request, "organisations/index.html", context)
