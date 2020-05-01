@@ -88,6 +88,7 @@ class OrganisationView(TemplateView):
 
         context = {
             "organisation": self.organisation,
+            "can_manage_organisations": Permission.MANAGE_ORGANISATIONS.value in get_user_permissions(request),
             "tabs": [
                 Tab(
                     "details",

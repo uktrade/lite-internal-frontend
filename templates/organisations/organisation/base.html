@@ -33,7 +33,7 @@
 		</div>
 		<div class="lite-tabs__controls">
 			{% block controls %}
-				{% if organisation.status.key == "in_review" %}
+				{% if organisation.status.key == "in_review" and can_manage_organisations %}
 					<a role="button" draggable="false" class="govuk-button" id="change-status" href="{% url 'organisations:organisation_review' organisation.id %}">
 						Review
 					</a>
