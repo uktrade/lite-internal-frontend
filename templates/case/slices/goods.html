@@ -2,6 +2,9 @@
 	<table id="table-goods" class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
+				<th scope="col" class="govuk-table__header">
+					<button id="link-select-all-destinations" type="button" name="button" class="lite-button-checkbox" title="{% lcs 'cases.ApplicationPage.Parties.SELECT_ALL' %}"></button>
+				</th>
 				<th scope="col" class="govuk-table__header">#</th>
 				<th scope="col" class="govuk-table__header">Description</th>
 				<th scope="col" class="govuk-table__header">Controlled</th>
@@ -13,6 +16,10 @@
 		<tbody class="govuk-table__body">
 			{% for good in case.application.goods %}
 				<tr class="govuk-table__row">
+					<td class="govuk-table__cell govuk-table__cell--checkbox">
+						<input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ case.application.consignee.id }}" id="{{ case.application.consignee.id }}">
+						<label class="govuk-label govuk-checkboxes__label" for="{{ case.application.consignee.id }}"></label>
+					</td>
 					<td class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
 					<td class="govuk-table__cell">{{ good.good.description }}</td>
 					<td class="govuk-table__cell">{{ good.is_good_controlled|friendly_boolean }}</td>
@@ -32,6 +39,9 @@
 	<table id="table-goods" class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
+				<th scope="col" class="govuk-table__header">
+					<button id="link-select-all-destinations" type="button" name="button" class="lite-button-checkbox" title="{% lcs 'cases.ApplicationPage.Parties.SELECT_ALL' %}"></button>
+				</th>
 				<th scope="col" class="govuk-table__header">#</th>
 				<th scope="col" class="govuk-table__header">Description</th>
 				<th scope="col" class="govuk-table__header">Controlled</th>
@@ -43,6 +53,10 @@
 		<tbody class="govuk-table__body">
 			{% for good in case.application.goods_types %}
 				<tr class="govuk-table__row">
+					<td class="govuk-table__cell govuk-table__cell--checkbox">
+						<input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ case.application.consignee.id }}" id="{{ case.application.consignee.id }}">
+						<label class="govuk-label govuk-checkboxes__label" for="{{ case.application.consignee.id }}"></label>
+					</td>
 					<td class="govuk-table__cell govuk-table__cell--line-number">{{ forloop.counter }}.</td>
 					<td class="govuk-table__cell">{{ good.description }}</td>
 					<td class="govuk-table__cell">{{ good.is_good_controlled|friendly_boolean }}</td>
