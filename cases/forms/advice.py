@@ -1,10 +1,13 @@
+from django.urls import reverse
+
 from cases.constants import CaseType
+from cases.objects import Case
 from lite_forms.components import Form, RadioButtons, Option, BackLink
 from lite_content.lite_internal_frontend.strings import cases
 
 
-def advice_recommendation_form(post_url, back_url, case_sub_type):
-    if case_sub_type == CaseType.OPEN.value:
+def advice_recommendation_form(case: Case, tab, queue_pk):
+    if case.sub_type == CaseType.OPEN.value:
         denial_option = Option("refuse", cases.AdviceRecommendationForm.RadioButtons.REJECT)
     else:
         denial_option = Option("refuse", cases.AdviceRecommendationForm.RadioButtons.REFUSE)
@@ -25,7 +28,10 @@ def advice_recommendation_form(post_url, back_url, case_sub_type):
             ),
         ],
         default_button_name=cases.AdviceRecommendationForm.Actions.CONTINUE_BUTTON,
-        back_link=BackLink(cases.AdviceRecommendationForm.Actions.BACK_BUTTON, back_url),
-        post_url=post_url,
-        container="case"
+        back_link=BackLink(
+            cases.AdviceRecommendationForm.Actions.BACK_BUTTON,
+            reverse(f"cases:case", kwargs={"queue_pk": queue_pk, "pk": case["id"], "tab": tab}),
+        ),
+        # post_url=post_url,
+        container="case",
     )

@@ -24,6 +24,10 @@ class Case(Munch):
         return self.data["status"]["key"]
 
     @property
+    def sub_type(self):
+        return self
+
+    @property
     def case_officer(self):
         return {}
         # return self.get("case_officer", {})

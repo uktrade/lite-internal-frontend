@@ -1,11 +1,13 @@
 from datetime import date
 from http import HTTPStatus
 
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.constants import CaseType
+from cases.forms.advice import advice_recommendation_form
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
 from cases.services import (
     post_user_case_advice,
@@ -42,6 +44,23 @@ from conf.constants import DECISIONS_LIST, Permission
 from core import helpers
 from lite_content.lite_internal_frontend.cases import GenerateFinalDecisionDocumentsPage, FinaliseLicenceForm
 from lite_forms.generators import form_page, error_page
+from lite_forms.views import SingleFormView
+
+
+class GiveAdvice(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        tab = kwargs["tab"]
+        self.form = advice_recommendation_form(case, tab, kwargs["queue_pk"])
+        self.context = {"case": case}
+
+        print("\n")
+        print(tab)
+        print("\n")
+
+        if tab != "user-advice" and tab != "user-advice" and tab != "user-advice":
+            raise Http404
 
 
 class ViewUserAdvice(TemplateView):

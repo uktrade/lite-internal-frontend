@@ -39,7 +39,7 @@ def assign_case_officer_form(request: HttpRequest, existing_officer):
         questions=[Filter(), RadioButtons("gov_user_pk", users)],
         buttons=buttons,
         javascript_imports=["/assets/javascripts/filter-radiobuttons-list.js"],
-        container="case"
+        container="case",
     )
 
 
@@ -52,7 +52,7 @@ def assign_user_and_work_queue(request):
         questions=[Filter(), RadioButtons("user", users)],
         default_button_name=strings.CONTINUE,
         javascript_imports=["/assets/javascripts/filter-radiobuttons-list.js"],
-        container="case"
+        container="case",
     )
 
 
@@ -68,5 +68,5 @@ def users_team_queues(request, case_pk, user_pk):
             HiddenField("case_pk", case_pk),
         ],
         javascript_imports=["/assets/javascripts/filter-radiobuttons-list.js"],
-        container="case"
+        container="case",
     )

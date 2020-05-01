@@ -35,7 +35,8 @@ from cases.services import (
     get_user_case_queues,
     get_case_additional_contacts,
     post_case_additional_contacts,
-    put_rerun_case_routing_rules, put_flag_assignments,
+    put_rerun_case_routing_rules,
+    put_flag_assignments,
 )
 from cases.services import post_case_documents, get_case_documents, get_document
 from cases.views.ecju import get_ecju_queries
@@ -126,32 +127,42 @@ class ViewCase(TemplateView):
 
         if case_type == CaseType.APPLICATION.value:
             tabs += [
-                TabCollection("advice", CasePage.Tabs.ADVICE_AND_DECISION, children=[
-                    Tab("user-advice", "User advice", "user-advice"),
-                    Tab("team-advice", "Team advice", "team-advice"),
-                    Tab("final-advice", "Final advice", "final-advice"),
-                ]),
+                TabCollection(
+                    "advice",
+                    CasePage.Tabs.ADVICE_AND_DECISION,
+                    children=[
+                        Tab("user-advice", "User advice", "user-advice"),
+                        Tab("team-advice", "Team advice", "team-advice"),
+                        Tab("final-advice", "Final advice", "final-advice"),
+                    ],
+                ),
             ]
 
             if case_sub_type == CaseType.OPEN.value:
-                details += [Slice(None, "goods"),
-                            Slice(None, "destinations"),
-                            Slice("End use details", "end-use-details"),
-                            Slice("Route of goods", "route-of-goods"),
-                            Slice("Supporting documents", "supporting-documents")]
+                details += [
+                    Slice(None, "goods"),
+                    Slice(None, "destinations"),
+                    Slice("End use details", "end-use-details"),
+                    Slice("Route of goods", "route-of-goods"),
+                    Slice("Supporting documents", "supporting-documents"),
+                ]
                 if export_type == "temporary":
                     details.insert(3, Slice("Export details", "export-details"))
             elif case_sub_type == CaseType.STANDARD.value:
-                details += [Slice(None, "goods"),
-                            Slice(None, "destinations"),
-                            Slice("End use details", "end-use-details"),
-                            Slice("Route of goods", "route-of-goods"),
-                            Slice("Supporting documents", "supporting-documents")]
+                details += [
+                    Slice(None, "goods"),
+                    Slice(None, "destinations"),
+                    Slice("End use details", "end-use-details"),
+                    Slice("Route of goods", "route-of-goods"),
+                    Slice("Supporting documents", "supporting-documents"),
+                ]
             elif case_sub_type == CaseType.HMRC.value:
-                details += [Slice(None, "goods"),
-                            Slice(None, "destinations"),
-                            Slice("Supporting documents", "supporting-documents"),
-                            Slice("hmrc deets", "hmrc")]
+                details += [
+                    Slice(None, "goods"),
+                    Slice(None, "destinations"),
+                    Slice("Supporting documents", "supporting-documents"),
+                    Slice("hmrc deets", "hmrc"),
+                ]
 
         if case_sub_type == CaseType.GOODS.value:
             if case.data["clc_responded"] or case.data["pv_grading_responded"]:
@@ -291,7 +302,9 @@ class MoveCase(SingleFormView):
         self.action = put_case_queues
         self.context = {"case": case}
         self.success_message = cases.Manage.MoveCase.SUCCESS_MESSAGE
-        self.success_url = reverse_lazy("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
+        self.success_url = reverse_lazy(
+            "cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk}
+        )
 
 
 class AddAnAdditionalContact(SingleFormView):
@@ -462,9 +475,12 @@ class AssignFlags(SingleFormView):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
         flags = [flag for flag in get_cases_flags(request) if flag not in case["flags"]]
-        self.data = {"flags": [Option(flag["id"],
-                                      flag["name"],
-                                      classes=["app-flag", "app-flag--" + flag["colour"]]) for flag in case["flags"]]}
+        self.data = {
+            "flags": [
+                Option(flag["id"], flag["name"], classes=["app-flag", "app-flag--" + flag["colour"]])
+                for flag in case["flags"]
+            ]
+        }
         self.form = set_case_flags_form(kwargs["queue_pk"], flags, case)
         self.context = {"case": case, "hide_flags_row": True}
         self.action = perform_action

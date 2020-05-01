@@ -33,7 +33,8 @@ class NewECJUQueryView(MultiFormView):
         self.action = pass_action
         self.success_message = "ECJU query sent successfully"
         self.success_url = reverse(
-            "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk, "tab": "ecju-queries"})
+            "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk, "tab": "ecju-queries"}
+        )
 
 
 # class ChooseECJUQueryType(SingleFormView):

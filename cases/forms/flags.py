@@ -28,15 +28,10 @@ def set_case_flags_form(queue, flags, case):
         description="Type to get suggestions",
         questions=[
             TokenBar(name="flags", options=flags, classes=["app-flags-selector"]),
-            DetailComponent(title="Specify why you're changing this case's flags (optional)",
-                            components=[
-                                TextArea(
-                                    name="note",
-                                    optional=True,
-                                    classes=["govuk-!-margin-0"]
-                                ),
-                            ]),
-
+            DetailComponent(
+                title="Specify why you're changing this case's flags (optional)",
+                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
+            ),
         ],
         default_button_name="Set flags",
         back_link=None,

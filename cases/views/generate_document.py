@@ -12,7 +12,8 @@ from cases.forms.generate_document import select_template_form, edit_document_te
 from cases.services import (
     post_generated_document,
     get_generated_document_preview,
-    get_generated_document, get_case,
+    get_generated_document,
+    get_case,
 )
 from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates, get_letter_template
@@ -45,7 +46,10 @@ class PickTemplateView(TemplateView):
             text=self.back_text, url=reverse_lazy(self.back_url, kwargs={"queue_pk": kwargs["queue_pk"], "pk": pk}),
         )
         return form_page(
-            request, select_template_form(templates["results"], templates, back_link=back_link), data=templates, extra_data={"case": case}
+            request,
+            select_template_form(templates["results"], templates, back_link=back_link),
+            data=templates,
+            extra_data={"case": case},
         )
 
     def post(self, request, **kwargs):

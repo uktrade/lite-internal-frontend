@@ -1,6 +1,6 @@
 {% load static %}
 
-<form action="{% url 'cases:user_advice_view' queue.id case.id %}" method="post">
+<form action="{% url 'cases:give_advice' queue.id case.id 'user-advice' %}" method="post">
 	{% csrf_token %}
 
 	{% if not case.has_advice.my_team %}
