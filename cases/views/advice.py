@@ -7,7 +7,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.constants import CaseType
-from cases.forms.advice import advice_recommendation_form
+from cases.forms.advice import give_advice_form
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
 from cases.services import (
     post_user_case_advice,
@@ -52,7 +52,7 @@ class GiveAdvice(SingleFormView):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
         tab = kwargs["tab"]
-        self.form = advice_recommendation_form(case, tab, kwargs["queue_pk"])
+        self.form = give_advice_form(case, tab, kwargs["queue_pk"])
         self.context = {"case": case}
 
         if tab != "user-advice" and tab != "user-advice" and tab != "user-advice":

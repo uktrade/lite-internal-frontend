@@ -2,28 +2,36 @@ from django.urls import reverse
 
 from cases.constants import CaseType
 from cases.objects import Case
-from lite_forms.components import Form, RadioButtons, Option, BackLink
+from lite_forms.components import Form, RadioButtons, Option, BackLink, Summary
 from lite_content.lite_internal_frontend.strings import cases
+from lite_forms.helpers import conditional
 
 
-def advice_recommendation_form(case: Case, tab, queue_pk):
-    if case.sub_type == CaseType.OPEN.value:
-        denial_option = Option("refuse", cases.AdviceRecommendationForm.RadioButtons.REJECT)
-    else:
-        denial_option = Option("refuse", cases.AdviceRecommendationForm.RadioButtons.REFUSE)
-
+def give_advice_form(case: Case, tab, queue_pk):
     return Form(
-        cases.AdviceRecommendationForm.TITLE,
-        cases.AdviceRecommendationForm.DESCRIPTION,
-        [
+        title=cases.AdviceRecommendationForm.TITLE,
+        questions=[
+            Summary({"Goods": "ML1a, ML2, PL10123", "Destinations": "Poland, United Kingdom"}),
             RadioButtons(
-                "type",
-                [
-                    Option("approve", cases.AdviceRecommendationForm.RadioButtons.GRANT),
-                    Option("proviso", cases.AdviceRecommendationForm.RadioButtons.PROVISO),
-                    denial_option,
-                    Option("no_licence_required", cases.AdviceRecommendationForm.RadioButtons.NLR),
-                    Option("not_applicable", cases.AdviceRecommendationForm.RadioButtons.NOT_APPLICABLE, show_or=True),
+                description=cases.AdviceRecommendationForm.DESCRIPTION,
+                name="type",
+                options=[
+                    Option(key="approve", value=cases.AdviceRecommendationForm.RadioButtons.GRANT),
+                    Option(key="proviso", value=cases.AdviceRecommendationForm.RadioButtons.PROVISO),
+                    Option(
+                        key="refuse",
+                        value=conditional(
+                            case.sub_type == CaseType.OPEN.value,
+                            cases.AdviceRecommendationForm.RadioButtons.REJECT,
+                            cases.AdviceRecommendationForm.RadioButtons.REFUSE,
+                        ),
+                    ),
+                    Option(key="no_licence_required", value=cases.AdviceRecommendationForm.RadioButtons.NLR),
+                    Option(
+                        key="not_applicable",
+                        value=cases.AdviceRecommendationForm.RadioButtons.NOT_APPLICABLE,
+                        show_or=True,
+                    ),
                 ],
             ),
         ],

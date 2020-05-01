@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from cases.constants import CaseType
 from lite_forms.generators import error_page, form_page
 
-from cases.forms.advice import advice_recommendation_form
+from cases.forms.advice import give_advice_form
 from cases.helpers import check_matching_advice, add_hidden_advice_data, clean_advice
 from cases.services import get_case, _get_total_goods_value, get_blocking_flags
 from core.services import (
@@ -241,7 +241,7 @@ def give_advice_dispatch(user_team_final, request, **kwargs):
     back_endpoint = reverse_lazy(
         "cases:" + user_team_final + "_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}
     )
-    form = advice_recommendation_form(post_endpoint, back_endpoint, case["application"]["case_type"]["sub_type"]["key"])
+    form = give_advice_form(post_endpoint, back_endpoint, case["application"]["case_type"]["sub_type"]["key"])
 
     if user_team_final == "team":
         user, _ = get_gov_user(request)
