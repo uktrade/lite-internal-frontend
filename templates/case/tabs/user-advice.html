@@ -1,8 +1,6 @@
 {% load static %}
 
-<form action="{% url 'cases:give_advice' queue.id case.id 'user-advice' %}" method="post">
-	{% csrf_token %}
-
+<form action="{% url 'cases:give_advice' queue.id case.id 'user-advice' %}" method="get">
 	{% if not case.has_advice.my_team %}
 		{% if not case.has_advice.final %}
 			{% if not status_is_terminal %}

@@ -55,10 +55,6 @@ class GiveAdvice(SingleFormView):
         self.form = advice_recommendation_form(case, tab, kwargs["queue_pk"])
         self.context = {"case": case}
 
-        print("\n")
-        print(tab)
-        print("\n")
-
         if tab != "user-advice" and tab != "user-advice" and tab != "user-advice":
             raise Http404
 
