@@ -457,7 +457,7 @@ def assert_flag_is_assigned(driver, context):  # noqa
     assert Shared(driver).is_flag_applied(context.flag_name)
 
 
-@when("I show filters")   # noqa
+@when("I show filters")  # noqa
 def show_filters(driver):  # noqa
     ApplicationPage(driver).click_show_filters_link()
 
