@@ -201,7 +201,7 @@ $case-header-text-colour: govuk-colour("white");
         justify-content: flex-end;
 
         .app-case-header__candy-bar {
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: flex-end;
             max-height: 40px;
@@ -517,5 +517,11 @@ $case-header-text-colour: govuk-colour("white");
         @extend .govuk-back-link;
         display: inline-block;
         margin-bottom: govuk-spacing(7);
+    }
+}
+
+.js-enabled {
+    .app-case-header__candy-bar {
+        display: flex;
     }
 }

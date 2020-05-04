@@ -44,7 +44,7 @@
 	{% block head %}{% endblock %}
 </head>
 
-<body class="govuk-template__body {% block body_classes %}{% endblock %}">
+<body class="govuk-template__body js-disabled {% block body_classes %}{% endblock %}">
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ ENVIRONMENT_VARIABLES.GOOGLE_ANALYTICS_KEY }}"
 	height="0" width="0"></iframe></noscript>
 
@@ -54,6 +54,7 @@
 			document.body.className + ' js-enabled' :
 			'js-enabled'
 		);
+		document.body.classList.remove("js-disabled");
 	</script>
 
 	<a href="#main-content" class="govuk-skip-link">Skip to main content</a>
