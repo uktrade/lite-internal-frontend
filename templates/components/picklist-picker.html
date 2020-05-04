@@ -1,8 +1,8 @@
-<div id="{{ component.name }}-picklist-picker" class="app-hidden">
+<div id="{{ component.target }}-picklist-picker" class="app-hidden">
 	{% if component.data %}
 		<div id="picklist-advice" class="app-picklist-picker__container">
 			{% for item in component.data %}
-				<a onclick="return showPreviewModal(this, '#{{ component.name }}')" data-title="{{ item.name }}" data-text="{{ item.text }}" data-last-updated="{{ item.updated_at|str_date }}" class="app-picklist-picker__item">
+				<a onclick="return showPreviewModal(this, '#{{ component.target }}')" data-title="{{ item.name }}" data-text="{{ item.text }}" data-last-updated="{{ item.updated_at|str_date }}" class="app-picklist-picker__item">
 					<h4 class="govuk-heading-s">{{ item.name }}</h4>
 					<p class="govuk-caption-m">
 						{{ item.text|slice:":100" }}
@@ -16,7 +16,7 @@
 </div>
 
 <script>
-	$('#{{ component.name }}').parent().parent().prepend('<a onclick="return show{{ component.name }}Modal()" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">' +
+	$('#{{ component.target }}').parent().parent().prepend('<a onclick="return show{{ component.target }}Modal()" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">' +
 											'<svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1">' +
 												'<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
 											        '<rect id="Rectangle" fill="#000000" x="6" y="0" width="1" height="13"></rect>' +
@@ -26,8 +26,8 @@
 											'Use a picklist item' +
 										  '</a>');
 
-	function show{{ component.name }}Modal() {
-		LITECommon.Modal.showModal('Select a picklist item', $( '#{{ component.name }}-picklist-picker' ).html(), false, true, {maxWidth: '450px'});
+	function show{{ component.target }}Modal() {
+		LITECommon.Modal.showModal('Select a picklist item', $( '#{{ component.target }}-picklist-picker' ).html(), false, true, {maxWidth: '450px'});
 		return false;
 	};
 

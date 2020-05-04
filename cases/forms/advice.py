@@ -39,8 +39,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
                                 extras={"max_length": 5000},
                                 name="proviso",
                             ),
-                            PicklistPicker(name="proviso",
-                                           items=get_picklists_for_input(request, "proviso")),
+                            PicklistPicker(target="proviso", items=get_picklists_for_input(request, "proviso")),
                         ],
                     ),
                     Option(
@@ -68,8 +67,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
                 ],
             ),
             TextArea(title="What are your reasons for this decision?", extras={"max_length": 5000}, name="text"),
-            PicklistPicker(name="text",
-                           items=get_picklists_for_input(request, "standard_advice")),
+            PicklistPicker(target="text", items=get_picklists_for_input(request, "standard_advice")),
             TextArea(
                 title="Is there anything else you want to say to the applicant?",
                 description="This will appear on the generated documentation",
