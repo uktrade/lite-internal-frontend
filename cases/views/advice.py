@@ -64,7 +64,7 @@ def get_destinations(request, case):
 
 
 def flatten_advice_data(request, items: List[Dict]):
-    if not items or not items[0]["advice"]:
+    if not items or not items[0].get("advice"):
         return
 
     first_item_advice = items[0]["advice"][0]
