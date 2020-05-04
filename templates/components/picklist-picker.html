@@ -1,0 +1,59 @@
+<div id="{{ component.name }}-picklist-picker" class="app-hidden">
+	{% if component.data %}
+		<div id="picklist-advice" class="app-picklist-picker__container">
+			{% for item in component.data %}
+				<a onclick="return showPreviewModal(this, '#{{ component.name }}')" data-title="{{ item.name }}" data-text="{{ item.text }}" data-last-updated="{{ item.updated_at|str_date }}" class="app-picklist-picker__item">
+					<h4 class="govuk-heading-s">{{ item.name }}</h4>
+					<p class="govuk-caption-m">
+						{{ item.text|slice:":100" }}
+					</p>
+				</a>
+			{% endfor %}
+		</div>
+	{% else %}
+		{% include "includes/notice.html" with text='picklists.PicklistPicker.NO_CONTENT_NOTICE' %}
+	{% endif %}
+</div>
+
+<script>
+	$('#{{ component.name }}').parent().parent().prepend('<a onclick="show{{ component.name }}Modal()" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">' +
+											'<svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1">' +
+												'<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+											        '<rect id="Rectangle" fill="#000000" x="6" y="0" width="1" height="13"></rect>' +
+											        '<rect id="Rectangle-Copy" fill="#000000" transform="translate(6.500000, 6.500000) rotate(90.000000) translate(-6.500000, -6.500000) " x="6" y="0" width="1" height="13"></rect>' +
+											    '</g>' +
+											'</svg>' +
+											'Use a picklist item' +
+										  '</a>');
+
+	function show{{ component.name }}Modal() {
+		LITECommon.Modal.showModal('Select a picklist item', $( '#{{ component.name }}-picklist-picker' ).html(), false, true, {maxWidth: '450px'});
+		return false;
+	};
+
+	function showPreviewModal(item, textarea) {
+		var title = $(item).data( 'title' );
+		var text = $('<div>').text($(item).data( 'text' )).html();
+		var lastUpdated = $(item).data( 'last-updated' );
+
+		var previewHtml = '<div class="app-picklist-picker-preview">' +
+							  '<div class="app-picklist-picker-preview__text">' +
+								  '<p id="picker-preview-text" class="govuk-body-m">' + text + '</p>' +
+								  '<p class="govuk-caption-m">Last updated ' + lastUpdated + '</p>' +
+							  '</div>' +
+							  '<div class="app-picklist-picker-preview__controls">' +
+								  '<button id="button-submit" onclick="setTextareaValue(\'' + textarea + '\');" type="submit" class="govuk-button" data-module="govuk-button">' +
+									  'Use template' +
+								  '</button>' +
+							   '</div>' +
+						  '</div>'
+
+		LITECommon.Modal.showModal(title, previewHtml, false, true);
+		return false;
+	};
+
+	function setTextareaValue(textarea) {
+		$(textarea).val($('#picker-preview-text').text()).keyup();
+		LITECommon.Modal.closeAllModals();
+	}
+</script>

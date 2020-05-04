@@ -1,12 +1,13 @@
+from core.helpers import convert_parameters_to_query_params
 from lite_forms.components import Option
 
 from conf.client import get, post, put
 from conf.constants import PICKLIST_URL
 
 
-def get_picklists_list(request, picklist_type):
-    data = get(request, PICKLIST_URL + "?type=" + picklist_type)
-    return data.json()
+def get_picklists_list(request, type, disable_pagination=False):
+    response = get(request, PICKLIST_URL + convert_parameters_to_query_params(locals()))
+    return response.json()
 
 
 def get_picklists_for_input(
@@ -19,7 +20,7 @@ def get_picklists_for_input(
         + picklist_type
         + "&show_deactivated="
         + str(show_deactivated)
-        + "disable_pagination=True",
+        + "&disable_pagination=True",
     ).json()["results"]
 
     if convert_to_options:
