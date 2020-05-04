@@ -324,12 +324,14 @@ $case-header-text-colour: govuk-colour("white");
         color: white;
     }
 
-    .app-flags {
-        display: flex;
+    .app-case__flags-bar {
+        .app-flags {
+            display: flex;
 
-        .app-flag {
-            z-index: 0;
-            margin-right: govuk-spacing(2);
+            .app-flag {
+                z-index: 0;
+                margin-right: govuk-spacing(2);
+            }
         }
     }
 }
