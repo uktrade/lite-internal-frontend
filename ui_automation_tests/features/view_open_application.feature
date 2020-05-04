@@ -10,3 +10,5 @@ Feature: View an Open Applications
     And I should see my case SLA
     When I go to the case
     Then I see the case page
+    When I show filters
+    And filter user_type has been changed to "exporter"

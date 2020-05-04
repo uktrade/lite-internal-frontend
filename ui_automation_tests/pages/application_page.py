@@ -56,6 +56,10 @@ class ApplicationPage(BasePage):
     DESTINATION_CHECKBOX = "destinations"  # NAME
     BUTTON_IM_DONE_ID = "button-done"
     CASE_LINK_PARTIAL_ID = "case-"
+    SHOW_FILTERS_ID = "show-filters-link"
+    BUTTON_APPLY_FILTER_ID = "button-apply-filters"
+    USER_TYPE_ID = "user_type"
+
 
     def get_case_copy_of_field_href(self):
         return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
@@ -274,3 +278,13 @@ class ApplicationPage(BasePage):
 
     def get_case_queues(self):
         return self.driver.find_element_by_id(self.CASE_QUEUES_ID)
+
+    def click_show_filters_link(self):
+        self.driver.find_element_by_id(self.SHOW_FILTERS_ID).click()
+
+    def select_filter_user_type_from_dropdown(self, user_type):
+        select = Select(self.driver.find_element_by_id(self.USER_TYPE_ID))
+        select.select_by_visible_text(user_type)
+
+    def click_apply_filters_button(self):
+        self.driver.find_element_by_id(self.BUTTON_APPLY_FILTER_ID).click()

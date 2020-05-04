@@ -455,3 +455,16 @@ def click_edit_case_flags_link(driver):  # noqa
 @then("The previously created flag is assigned to the case")  # noqa
 def assert_flag_is_assigned(driver, context):  # noqa
     assert Shared(driver).is_flag_applied(context.flag_name)
+
+
+@when("I show filters")
+def show_filters(driver):
+    ApplicationPage(driver).click_show_filters_link()
+
+
+@when(parsers.parse('filter user_type has been changed to "{user_type}"'))  # noqa
+def filter_status_change(driver, context, user_type):
+    page = ApplicationPage(driver)
+    page.select_filter_user_type_from_dropdown(user_type)
+    page.click_apply_filters_button()
+
