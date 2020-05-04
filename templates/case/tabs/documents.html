@@ -2,10 +2,10 @@
 
 <div class="lite-buttons-row">
 	<a id="button-attach-document" role="button" draggable="false" class="govuk-button" href="{% url 'cases:attach_documents' queue.id case.id %}">
-		{% lcs 'cases.CaseDocumentsPage.ATTACH' %}
+		{% lcs 'cases.CasePage.DocumentsTab.ATTACH_DOCUMENT_BUTTON' %}
 	</a>
 	<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:generate_document' queue.id case.id %}">
-		{% lcs 'cases.CaseDocumentsPage.GENERATE' %}
+		{% lcs 'cases.CasePage.DocumentsTab.GENERATE_DOCUMENT_BUTTON' %}
 	</a>
 </div>
 
