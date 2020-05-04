@@ -1,7 +1,7 @@
 @all @users
 Feature: I want to test users
 
-  @deactivate_user @regression @AT
+  @deactivate_user @regression
   Scenario: Add user, deactivate then reactivate
     Given I sign in to SSO or am signed into SSO
     When I go to users
