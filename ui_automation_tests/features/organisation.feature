@@ -48,7 +48,7 @@ Feature: I want to add a company to LITE
   @LT_1105_review_and_approve_an_organisation @regression
   Scenario: Review and approve an organisation
     Given I sign in to SSO or am signed into SSO
-    And an in review organisation exists
+    And an anonymous user applies for an organisation
     When I go to organisations
     And I go to the in review tab
     Then the organisation previously created is in the list
@@ -69,7 +69,7 @@ Feature: I want to add a company to LITE
   @LT_1105_review_and_reject_an_organisation @regression
   Scenario: Review and approve an organisation
     Given I sign in to SSO or am signed into SSO
-    And an in review organisation exists
+    And an anonymous user applies for an organisation
     When I go to organisations
     And I go to the in review tab
     Then the organisation previously created is in the list

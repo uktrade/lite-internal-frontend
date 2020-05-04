@@ -9,6 +9,7 @@ from shared import functions
 from shared.tools.wait import wait_until_page_is_loaded
 from faker import Faker
 
+from ui_automation_tests.shared.api_client.libraries.request_data import build_organisation
 from ui_automation_tests.shared.functions import click_submit
 from ui_automation_tests.shared.tools.helpers import get_current_date_time, find_paginated_item_by_id
 
@@ -110,18 +111,9 @@ def click_edit(driver, context):
     OrganisationsFormPage(driver).fill_in_company_info_page_1(context)
 
 
-@given("an in review organisation exists")
+@given("an anonymous user applies for an organisation")
 def in_review_organisation(context, api_test_client):
-    data = {
-        "name": "Org-" + get_current_date_time(),
-        "type": "commercial",
-        "eori_number": "1234567890AAA",
-        "sic_number": "12345",
-        "vat_number": "GB1234567",
-        "registration_number": "09876543",
-        "user": {"email": "name@example.com"},
-        "site": {"name": "site", "address": {"address_line_1": "Address-" + get_current_date_time()}},
-    }
+    data = build_organisation("Org-" + get_current_date_time(), "commercial", "Address-" + get_current_date_time())
     response = api_test_client.organisations.anonymous_user_create_org(data)
     context.organisation_id = response["id"]
     context.organisation_name = response["name"]
@@ -184,16 +176,7 @@ def organisation_status(driver, status):
 
 @when("an organisation matching the existing organisation is created")
 def create_matching_org(context, api_test_client):
-    data = {
-        "name": context.organisation_name,
-        "type": "commercial",
-        "eori_number": context.organisation_eori,
-        "sic_number": context.organisation_sic,
-        "vat_number": context.organisation_vat,
-        "registration_number": context.organisation_registration,
-        "user": {"email": "name@example.com"},
-        "site": {"name": "site", "address": {"address_line_1": context.organisation_address}},
-    }
+    data = build_organisation(context.organisation_name, "commercial", context.organisation_address)
     response = api_test_client.organisations.anonymous_user_create_org(data)
     context.organisation_id = response["id"]
 
