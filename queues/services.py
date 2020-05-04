@@ -18,11 +18,14 @@ def get_queues(
         for queue in data:
             option = Option(queue.get("id"), queue.get("name"))
 
-            if "team" in queue:
-                option.description = queue["team"].get("name")
-                option.data_attribute = queue["team"].get("id")
+            queue_team = queue.get("team")
+            if queue_team:
+                option.description = queue_team.get("name")
+                option.data_attribute = queue_team.get("id")
 
             options.append(option)
+
+        return options
     else:
         return data
 
