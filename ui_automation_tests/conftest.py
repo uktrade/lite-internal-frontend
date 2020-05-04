@@ -473,6 +473,6 @@ def exporter_first_audit_in_trail(driver, exporter_info):  # noqa
 @then("exporter is not in the audit trail")  # noqa
 def exporter_is_not_in_audit_trail(driver, exporter_info):  # noqa
     audits = ApplicationPage(driver).get_audit_elements()
-    for audit in audits:
-        assert f"{exporter_info['first_name']}" not in audit
-        assert f"{exporter_info['last_name']}" not in audit
+    for audit in list(audits):
+        assert f"{exporter_info['first_name']}" not in audit.text
+        assert f"{exporter_info['last_name']}" not in audit.text
