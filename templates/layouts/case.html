@@ -31,20 +31,24 @@
 				</div>
 				<div class="app-case-header__controls">
 					<div class="app-case-header__candy-bar">
-						<span id="candy-goods" class="app-case-header__candy" data-tooltip="TODO goods">
-							{% svg 'goods' %}
-							TODO
-						</span>
-						<div id="popup-goods">
-
-						</div>
-						<span id="candy-countries" class="app-case-header__candy" data-tooltip="{{ case.application.destinations.data|length }} destination{{ case.application.destinations.data|pluralize }}">
-							{% svg 'globe' %}
-							{{ case.application.destinations.data|length }}
-						</span>
-						<div id="popup-countries">
-							{% include 'case/pills/countries.html' %}
-						</div>
+						{% if case.goods %}
+							<span id="candy-goods" class="app-case-header__candy" data-tooltip="{{ case.goods|length }} good{{ case.goods|pluralize }}">
+								{% svg 'goods' %}
+								{{ case.goods|length }}
+							</span>
+							<div id="popup-goods">
+								{% include 'case/pills/goods.html' %}
+							</div>
+						{% endif %}
+						{% if case.destinations %}
+							<span id="candy-destinations" class="app-case-header__candy" data-tooltip="{{ case.destinations|length }} destination{{ case.destinations|pluralize }}">
+								{% svg 'globe' %}
+								{{ case.destinations|length }}
+							</span>
+							<div id="popup-destinations">
+								{% include 'case/pills/destinations.html' %}
+							</div>
+						{% endif %}
 						<span id="candy-flags" class="app-case-header__candy" data-tooltip="{{ case.flags|length }} flag{{ case.flags|pluralize }}">
 							{% svg 'menu/flags' %}
 							{{ case.all_flags|length }}
@@ -144,28 +148,32 @@
 {% block javascript %}
 	<script type="text/javascript">
 		const goods = document.getElementById('popup-goods');
-		goods.style.display = 'block';
-		tippy("#candy-goods", {
-			content: goods,
-		 	allowHTML: true,
-			interactive: true,
-			animation: 'scale-subtle',
-      		trigger: 'click',
-			theme: 'light',
-			placement: 'bottom'
-		});
+		if (goods) {
+			goods.style.display = 'block';
+			tippy("#candy-goods", {
+				content: goods,
+			 	allowHTML: true,
+				interactive: true,
+				animation: 'scale-subtle',
+	      		trigger: 'click',
+				theme: 'light',
+				placement: 'bottom'
+			});
+		}
 
-		const countries = document.getElementById('popup-countries');
-		countries.style.display = 'block';
-		tippy("#candy-countries", {
-			content: countries,
-			allowHTML: true,
-			interactive: true,
-			animation: 'scale-subtle',
-			trigger: 'click',
-			theme: 'light',
-			placement: 'bottom'
-		});
+		const destinations = document.getElementById('popup-destinations');
+		if (destinations) {
+			destinations.style.display = 'block';
+			tippy("#candy-destinations", {
+				content: destinations,
+				allowHTML: true,
+				interactive: true,
+				animation: 'scale-subtle',
+				trigger: 'click',
+				theme: 'light',
+				placement: 'bottom'
+			});
+		}
 
 		const flags = document.getElementById('popup-flags');
 		flags.style.display = 'block';
