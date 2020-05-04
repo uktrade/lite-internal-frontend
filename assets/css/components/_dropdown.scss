@@ -20,6 +20,10 @@
 
 		&:active, &:focus {
 			text-decoration: none!important;
+			color: govuk-colour("black");
+			&:after {
+				background-image: url("/assets/images/chevron-inverted.svg");
+			}
 		}
 
 		&:after {
