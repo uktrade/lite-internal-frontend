@@ -457,16 +457,10 @@ def assert_flag_is_assigned(driver, context):  # noqa
     assert Shared(driver).is_flag_applied(context.flag_name)
 
 
-@when("I show filters")  # noqa
-def show_filters(driver):  # noqa
-    ApplicationPage(driver).click_show_filters_link()
-
-
 @when(parsers.parse('filter user_type has been changed to "{user_type}"'))  # noqa
 def filter_status_change(driver, user_type):  # noqa
     page = ApplicationPage(driver)
     page.select_filter_user_type_from_dropdown(user_type)
-    page.click_apply_filters_button()
 
 
 @then("exporter is at the first audit in the trail")  # noqa
