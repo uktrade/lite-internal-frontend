@@ -30,7 +30,7 @@ def new_ecju_query_form(request, queue_pk, pk):
                 title=cases.EcjuQueries.AddQuery.CHOOSE_TYPE,
                 questions=[
                     RadioButtons(
-                        name="ecju_query_type",
+                        name="query_type",
                         options=[Option(choice[0], choice[1]) for choice in ECJUQueryTypes.choices],
                     )
                 ],
@@ -41,10 +41,9 @@ def new_ecju_query_form(request, queue_pk, pk):
                 container="case",
             ),
             Form(
-                title="New " + ECJUQueryTypes.get_text(request.POST.get("ecju_query_type", "")).lower(),
+                title="New " + ECJUQueryTypes.get_text(request.POST.get("query_type", "")).lower(),
                 questions=[
                     TextArea(
-                        title="",
                         description=cases.EcjuQueries.AddQuery.DESCRIPTION,
                         name="question",
                         extras={"max_length": 5000,},

@@ -295,8 +295,8 @@ def get_ecju_queries(request, pk):
 
 
 def post_ecju_query(request, pk, json):
-    data = post(request, CASE_URL + pk + ECJU_QUERIES_URL, json)
-    return data.json(), data.status_code
+    response = post(request, CASE_URL + str(pk) + ECJU_QUERIES_URL, json)
+    return response.json(), response.status_code
 
 
 def get_good(request, pk):
