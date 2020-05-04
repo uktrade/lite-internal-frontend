@@ -8,7 +8,7 @@
 		<div class="app-ecju-query" id="open-ecju-query">
 			<div class="app-ecju-query__item">
 				<p class="app-ecju-query__heading">{{ ecju_query.raised_by_user_name }}</p>
-				<div class="app-ecju-query__text">
+				<div class="app-ecju-query__text" data-max-length="300">
 					{{ ecju_query.question }}
 				</div>
 				<p class="app-ecju-query__date">
@@ -41,7 +41,7 @@
 						{{ ecju_query.responded_by_user_name }}
 					</a>
 				</p>
-				<div class="app-ecju-query__text">
+				<div class="app-ecju-query__text" data-max-length="300">
 					{{ ecju_query.response }}
 				</div>
 				<p class="app-ecju-query__date">
