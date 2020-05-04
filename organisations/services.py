@@ -56,3 +56,8 @@ def get_organisation_sites(request, pk):
 def get_organisation_members(request, pk):
     data = get(request, ORGANISATIONS_URL + str(pk) + USERS_URL + "?disable_pagination=True")
     return data.json()
+
+
+def get_organisation_matching_details(request, pk):
+    data = get(request, ORGANISATIONS_URL + str(pk) + "/matching_details/")
+    return data.json()["matching_properties"]

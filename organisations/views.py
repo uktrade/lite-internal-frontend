@@ -118,9 +118,8 @@ class OrganisationDetails(OrganisationView):
 class OrganisationReview(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        organisation = get_organisation(request, str(self.object_pk))
         self.action = put_organisation_status
-        self.form = review_organisation_form(organisation)
+        self.form = review_organisation_form(request, self.object_pk)
         self.success_url = reverse_lazy("organisations:organisation", kwargs={"pk": self.object_pk})
 
 

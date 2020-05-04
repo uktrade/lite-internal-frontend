@@ -21,9 +21,10 @@ from lite_forms.components import (
     BackLink,
     EmailInput,
     Summary,
-)
+    WarningBanner)
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
+from organisations.services import get_organisation, get_organisation_matching_details
 
 
 def register_organisation_forms(request):
@@ -278,10 +279,20 @@ def edit_individual_form(organisation, can_edit_name, are_fields_optional):
     )
 
 
-def review_organisation_form(organisation):
+def review_organisation_form(request, pk):
+    organisation = get_organisation(request, str(pk))
+    matching_organisation_details = get_organisation_matching_details(request, str(pk))
+
     return Form(
         title="Review Organisation",
         questions=[
+            conditional(
+                matching_organisation_details,
+                WarningBanner(
+                    id="org_warning",
+                    text=f"There are existing organisations with matching: {','.join(matching_organisation_details)}",
+                )
+            ),
             Summary(
                 values={
                     "Name": organisation["name"],
