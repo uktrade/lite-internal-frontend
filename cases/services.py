@@ -125,10 +125,10 @@ def post_case_notes(request, pk, json):
 
 
 # Activity
-def get_activity(request, pk, data=None):
+def get_activity(request, pk, activity_filters=None):
     url = CASE_URL + pk + ACTIVITY_URL
-    if data:
-        params = convert_parameters_to_query_params(data)
+    if activity_filters:
+        params = convert_parameters_to_query_params(activity_filters)
         url = url + params
     data = get(request, url)
     return data.json()["activity"]
