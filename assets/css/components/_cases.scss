@@ -223,17 +223,13 @@ $case-header-text-colour: govuk-colour("white");
             min-width: 28px;
             height: 36px;
             padding: 0 govuk-spacing(2);
-            cursor: pointer;
+            cursor: default!important;
             z-index: 0;
             background-color: rgba($case-header-text-colour, 0.1);
             padding: govuk-spacing(2) govuk-spacing(3);
 
             &:hover {
                 background: rgba($case-header-text-colour, 0.2);
-            }
-
-            &:active {
-                background: rgba($case-header-text-colour, 0.3);
             }
 
             &:last-of-type {

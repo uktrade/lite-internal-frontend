@@ -32,7 +32,7 @@
 				<div class="app-case-header__controls">
 					<div class="app-case-header__candy-bar">
 						{% if case.goods %}
-							<span id="candy-goods" class="app-case-header__candy" data-tooltip="{{ case.goods|length }} good{{ case.goods|pluralize }}">
+							<span id="candy-goods" class="app-case-header__candy">
 								{% svg 'goods' %}
 								{{ case.goods|length }}
 							</span>
@@ -41,7 +41,7 @@
 							</div>
 						{% endif %}
 						{% if case.destinations %}
-							<span id="candy-destinations" class="app-case-header__candy" data-tooltip="{{ case.destinations|length }} destination{{ case.destinations|pluralize }}">
+							<span id="candy-destinations" class="app-case-header__candy">
 								{% svg 'globe' %}
 								{{ case.destinations|length }}
 							</span>
@@ -49,14 +49,14 @@
 								{% include 'case/pills/destinations.html' %}
 							</div>
 						{% endif %}
-						<span id="candy-flags" class="app-case-header__candy" data-tooltip="{{ case.flags|length }} flag{{ case.flags|pluralize }}">
+						<span id="candy-flags" class="app-case-header__candy">
 							{% svg 'menu/flags' %}
 							{{ case.all_flags|length }}
 						</span>
 						<div id="popup-flags">
 							{% include 'case/pills/flags.html' %}
 						</div>
-						<span id="candy-case-officer" class="app-case-header__candy" data-tooltip="Case officer and assigned users">
+						<span id="candy-case-officer" class="app-case-header__candy">
 							{% svg 'menu/users' %}
 							{% if case.case_officer %}
 								{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}
@@ -70,7 +70,7 @@
 					</div>
 
 					<div class="app-case-header__candy-bar">
-						<span class="app-case-header__candy app-case-header__candy--big" data-tooltip="Status">
+						<span class="app-case-header__candy app-case-header__candy--big">
 							{{ case.data.status.value }}
 						</span>
 					</div>
@@ -155,9 +155,10 @@
 			 	allowHTML: true,
 				interactive: true,
 				animation: 'scale-subtle',
-	      		trigger: 'click',
 				theme: 'light',
-				placement: 'bottom'
+				placement: 'bottom',
+			    hideOnClick: false,
+				interactiveBorder: 15,
 			});
 		}
 
@@ -169,9 +170,10 @@
 				allowHTML: true,
 				interactive: true,
 				animation: 'scale-subtle',
-				trigger: 'click',
 				theme: 'light',
-				placement: 'bottom'
+				placement: 'bottom',
+			    hideOnClick: false,
+				interactiveBorder: 15,
 			});
 		}
 
@@ -182,9 +184,10 @@
 			allowHTML: true,
 			interactive: true,
 			animation: 'scale-subtle',
-			trigger: 'click',
 			theme: 'light',
-			placement: 'bottom'
+			placement: 'bottom',
+			hideOnClick: false,
+			interactiveBorder: 15,
 		});
 
 		const users = document.getElementById('popup-case-officer');
@@ -194,9 +197,10 @@
 			allowHTML: true,
 			interactive: true,
 			animation: 'scale-subtle',
-			trigger: 'click',
 			theme: 'light',
-			placement: 'bottom'
+			placement: 'bottom',
+			hideOnClick: false,
+			interactiveBorder: 15,
 		});
 
 		window.addEventListener('scroll', function (e) {
