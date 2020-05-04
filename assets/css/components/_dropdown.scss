@@ -6,12 +6,13 @@
 	cursor: pointer;
 	margin-bottom: govuk-spacing(6)!important;
 	padding-right: 35px;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 .js-enabled {
 	.app-dropdown__heading {
-		color: $govuk-text-colour;
+		color: govuk-colour("white");
+		text-decoration: none;
 
 		&:hover {
 			text-decoration: underline;
