@@ -1,8 +1,8 @@
 <div class="app-menu__header">
-	{{ case.application.destinations.data|length }} destination{{ case.application.destinations.data|pluralize }}
+	{{ case.destinations|length }} destination{{ case.destinations|pluralize }}
 </div>
 <ol class="govuk-list govuk-!-margin-0">
-	{% for country in case.application.destinations.data %}
-		<li class="app-menu__item">{{ country.name }}</li>
+	{% for destination in case.destinations %}
+		<li class="app-menu__item">{{ destination }}</li>
 	{% endfor %}
 </ol>
