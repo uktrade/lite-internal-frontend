@@ -3,6 +3,13 @@
 </div>
 <ol class="govuk-list govuk-!-margin-0">
 	{% for destination in case.destinations %}
-		<li class="app-menu__item">{{ destination }}</li>
+		<li class="app-menu__item">
+			{% if destination.address %}
+				<p class="govuk-!-margin-0">{{ destination.name }} <span class="govuk-hint govuk-!-margin-0 lite-!-display-inline">({{ destination.type }})</span></p>
+				<p class="govuk-hint govuk-!-margin-0">{{ destination|get_address }}</p>
+			{% else %}
+				{{ destination.name }}
+			{% endif %}
+		</li>
 	{% endfor %}
 </ol>
