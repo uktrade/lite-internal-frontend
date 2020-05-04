@@ -1,19 +1,14 @@
-{% if case.application.goods %}
-	<div class="app-menu__header">
-		{{ case.application.goods|length }} good{{ case.application.goods|pluralize }}
-	</div>
-	<p class="govuk-body govuk-!-margin-3">
-		{% for good in case.application.goods %}
+<div class="app-menu__header">
+	{{ case.goods|length }} good{{ case.goods|pluralize }}
+</div>
+<p class="govuk-body govuk-!-margin-3">
+	{% for good in case.goods %}
+		{% if 'control_list_entries' in good and good.control_list_entries %}
 			{{ good.control_list_entries }}
-		{% endfor %}
-	</p>
-{% else %}
-	<div class="app-menu__header">
-		{{ case.application.goods_types|length }} good{{ case.application.goods_types|pluralize }}
-	</div>
-	<p class="govuk-body govuk-!-margin-3">
-		{% for good in case.application.goods_types %}
-			{{ good.control_list_entries }}
-		{% endfor %}
-	</p>
-{% endif %}
+		{% elif 'control_list_entries' in good.good and good.good.control_list_entries %}
+			{{ good.good.control_list_entries }}
+		{% else %}
+			
+		{% endif %}
+	{% endfor %}
+</p>
