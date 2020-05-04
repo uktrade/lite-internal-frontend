@@ -3,6 +3,7 @@ import time
 
 from shared.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
+from shared import functions
 
 
 class ApplicationPage(BasePage):
@@ -56,7 +57,6 @@ class ApplicationPage(BasePage):
     DESTINATION_CHECKBOX = "destinations"  # NAME
     BUTTON_IM_DONE_ID = "button-done"
     CASE_LINK_PARTIAL_ID = "case-"
-    SHOW_FILTERS_ID = "show-filters-link"
     BUTTON_APPLY_FILTER_ID = "button-apply-filters"
     USER_TYPE_ID = "user_type"
 
@@ -279,7 +279,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.CASE_QUEUES_ID)
 
     def click_show_filters_link(self):
-        self.driver.find_element_by_id(self.SHOW_FILTERS_ID).click()
+        functions.try_open_filters(self.driver)
 
     def select_filter_user_type_from_dropdown(self, user_type):
         select = Select(self.driver.find_element_by_id(self.USER_TYPE_ID))
