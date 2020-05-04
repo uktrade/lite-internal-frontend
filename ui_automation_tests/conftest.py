@@ -467,4 +467,3 @@ def filter_status_change(driver, context, user_type):
     page = ApplicationPage(driver)
     page.select_filter_user_type_from_dropdown(user_type)
     page.click_apply_filters_button()
-

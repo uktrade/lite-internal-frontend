@@ -60,7 +60,6 @@ class ApplicationPage(BasePage):
     BUTTON_APPLY_FILTER_ID = "button-apply-filters"
     USER_TYPE_ID = "user_type"
 
-
     def get_case_copy_of_field_href(self):
         return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
 
