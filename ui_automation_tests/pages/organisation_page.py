@@ -43,6 +43,9 @@ class OrganisationPage(BasePage):
     def select_approve_organisation(self):
         self.driver.find_element_by_id(self.REVIEW_PARTIAL_ID + "active").click()
 
+    def select_reject_organisation(self):
+        self.driver.find_element_by_id(self.REVIEW_PARTIAL_ID + "rejected").click()
+
     def get_status(self):
         return self.driver.find_element_by_id(self.ORGANISATION_STATUS_ID).text
 

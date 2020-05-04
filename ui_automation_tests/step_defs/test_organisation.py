@@ -172,6 +172,12 @@ def approve_organisation(driver):
     click_submit(driver)
 
 
+@when("I reject the organisation")
+def approve_organisation(driver):
+    OrganisationPage(driver).select_reject_organisation()
+    click_submit(driver)
+
+
 @then(parsers.parse('the organisation should be set to "{status}"'))
 def organisation_status(driver, status):
     assert status == OrganisationPage(driver).get_status(), "Status doesn't match what was expected"

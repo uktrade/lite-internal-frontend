@@ -65,3 +65,16 @@ Feature: I want to add a company to LITE
     And I go to the organisation
     And I click review
     Then I should be warned that this organisation matches an existing one
+
+  @LT_1105_review_and_reject_an_organisation @regression
+  Scenario: Review and approve an organisation
+    Given I sign in to SSO or am signed into SSO
+    And an in review organisation exists
+    When I go to organisations
+    And I go to the in review tab
+    Then the organisation previously created is in the list
+    When I click the organisation
+    And I click review
+    Then I should see a summary of organisation details
+    When I reject the organisation
+    Then the organisation should be set to "Rejected"
