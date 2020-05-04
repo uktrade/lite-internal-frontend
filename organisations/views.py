@@ -8,7 +8,7 @@ from core.objects import Tab
 from core.services import get_user_permissions, get_menu_notifications
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.organisations import OrganisationsPage, OrganisationPage
-from lite_forms.components import FiltersBar, TextInput, Select, Option
+from lite_forms.components import FiltersBar, TextInput, Select, Option, HiddenField
 from lite_forms.views import MultiFormView, SingleFormView
 from organisations.forms import (
     register_organisation_forms,
@@ -58,6 +58,7 @@ class OrganisationList(TemplateView):
                         Option("hmrc", OrganisationsPage.Filters.Types.HMRC),
                     ],
                 ),
+                HiddenField(name="status", value=params["status"])
             ]
         )
 
