@@ -58,7 +58,7 @@ class OrganisationList(TemplateView):
                         Option("hmrc", OrganisationsPage.Filters.Types.HMRC),
                     ],
                 ),
-                HiddenField(name="status", value=params["status"])
+                HiddenField(name="status", value=params["status"]),
             ]
         )
 
