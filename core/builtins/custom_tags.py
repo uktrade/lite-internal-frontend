@@ -415,6 +415,9 @@ def equals(ob1, ob2):
 
 @register.filter()
 def aurora(flags):
+    """
+    Generates a radial gradient background from a list of flags
+    """
     colours = {
         "default": "#626a6e",
         "red": "#d4351c",
