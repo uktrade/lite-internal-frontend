@@ -7,7 +7,7 @@
 	{% for ecju_query in open_ecju_queries %}
 		<div class="app-ecju-query" id="open-ecju-query">
 			<div class="app-ecju-query__item">
-				<p class="app-ecju-query__heading">{{ ecju_query.raised_by_user_name }}</p>
+				<p class="app-ecju-query__heading">{{ ecju_query.query_type.value }} by {{ ecju_query.raised_by_user_name }}</p>
 				<div class="app-ecju-query__text" data-max-length="300">
 					{{ ecju_query.question }}
 				</div>
@@ -27,7 +27,7 @@
 	{% for ecju_query in closed_ecju_queries %}
 		<div class="app-ecju-query" id="closed-ecju-query">
 			<div class="app-ecju-query__item">
-				<p class="app-ecju-query__heading">{{ ecju_query.raised_by_user_name }}</p>
+				<p class="app-ecju-query__heading">{{ ecju_query.query_type.value }} by {{ ecju_query.raised_by_user_name }}</p>
 				<div class="app-ecju-query__text">
 					{{ ecju_query.question }}
 				</div>
