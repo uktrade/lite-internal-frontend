@@ -292,7 +292,7 @@ def review_organisation_form(request, pk):
                 matching_organisation_details,
                 WarningBanner(
                     id="org_warning",
-                    text=f"{ReviewOrganisationPage.WARNING_BANNER}{','.join(matching_organisation_details)}",
+                    text=f"{ReviewOrganisationPage.WARNING_BANNER}{', '.join(matching_organisation_details)}",
                 ),
             ),
             Summary(
