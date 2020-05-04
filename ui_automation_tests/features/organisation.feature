@@ -67,7 +67,7 @@ Feature: I want to add a company to LITE
     Then I should be warned that this organisation matches an existing one
 
   @LT_1105_review_and_reject_an_organisation @regression
-  Scenario: Review and approve an organisation
+  Scenario: Review and reject an organisation
     Given I sign in to SSO or am signed into SSO
     And an anonymous user applies for an organisation
     When I go to organisations
