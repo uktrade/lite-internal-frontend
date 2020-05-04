@@ -151,7 +151,6 @@ def organisation_in_list(driver, context):
 @when("I click review")
 def click_review(driver):
     OrganisationPage(driver).click_review_organisation()
-    x = 1
 
 
 @then("I should see a summary of organisation details")
