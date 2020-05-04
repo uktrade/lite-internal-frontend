@@ -89,8 +89,9 @@ GENERATED_DOCUMENT = "GENERATED"
 APPLICATION_CASE_TYPES = ["open", "standard", "hmrc"]
 CLEARANCE_CASE_TYPES = ["exhibition_clearance", "gifting_clearance", "f680_clearance"]
 
-# Advice
-CONFLICTING = "conflicting"
+
+class AdviceType:
+    CONFLICTING = "conflicting"
 
 
 class Permission(Enum):

@@ -1,6 +1,5 @@
 from _decimal import Decimal
 
-from cases.helpers import clean_advice
 from cases.objects import Case
 from conf.client import post, get, put, delete
 from conf.constants import (
@@ -201,12 +200,6 @@ def clear_final_advice(request, case_pk):
     return data.json(), data.status_code
 
 
-def return_non_empty(data):
-    for item in data:
-        if item:
-            return item
-
-
 def build_case_advice(key, value, base_data):
     data = base_data.copy()
     data[key] = value
@@ -214,10 +207,8 @@ def build_case_advice(key, value, base_data):
 
 
 def prepare_data_for_advice(json):
-    json = clean_advice(json)
-
     # Split the json data into multiple
-    base_data = {"type": json["type"], "text": json["advice"], "note": json["note"]}
+    base_data = {"type": json["type"], "text": json["text"], "note": json["note"]}
 
     if json.get("type") == "refuse":
         base_data["denial_reasons"] = json["denial_reasons"]
@@ -260,9 +251,23 @@ def post_good_countries_decisions(request, case_pk, json):
     return data.json(), data.status_code
 
 
-def post_user_case_advice(request, case_pk, json):
+def post_user_case_advice(request, pk, json):
+    json["goods_types"] = request.GET.getlist("goods")
+    json["destinations"] = request.GET.getlist("destinations")
+    json["countries"] = request.GET.getlist("countries")
+
     new_data = prepare_data_for_advice(json)
-    data = post(request, CASE_URL + case_pk + USER_ADVICE_URL, new_data)
+    data = post(request, CASE_URL + str(pk) + USER_ADVICE_URL, new_data)
+
+    print("new_data")
+    print(new_data)
+    print("\n")
+
+    print("\n")
+    print("data")
+    print(data.json())
+    print("\n")
+
     return data.json(), data.status_code
 
 
@@ -424,19 +429,14 @@ def get_destination(request, pk):
     return data.json()
 
 
-def get_case_officer(request, pk):
-    data = get(request, CASE_URL + pk + CASE_OFFICER_URL)
-    return data.json()["case_officer"], data.status_code
-
-
 def put_case_officer(request, pk, json):
     data = put(request, CASE_URL + str(pk) + CASE_OFFICER_URL, json)
-    return data, data.status_code
+    return data.json(), data.status_code
 
 
 def delete_case_officer(request, pk, *args):
     data = delete(request, CASE_URL + str(pk) + CASE_OFFICER_URL)
-    return data, data.status_code
+    return data.json(), data.status_code
 
 
 def get_case_additional_contacts(request, pk):

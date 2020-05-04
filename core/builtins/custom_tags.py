@@ -46,7 +46,6 @@ def get_const_string(value):
             # Search the object for the next property in `nested_properties_list`
             return get(object, nested_properties_list[1:])
 
-    warnings.warn("Reference constants from strings directly, only use LCS in HTML files", Warning)
     path = value.split(".")
     try:
         # Get initial object from strings.py (may return AttributeError)

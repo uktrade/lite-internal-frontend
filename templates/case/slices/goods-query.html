@@ -1,15 +1,17 @@
-<div class="app-case__slice__controls">
-	{% if case.data.clc_responded == False and 'REVIEW_GOODS' in permissions and not status_is_terminal %}
-		<a role="button" draggable="false" id="clc-button-respond" class="govuk-button" href="{% url 'cases:respond_to_clc_query' queue.id case.id %}">
-			{% lcs 'cases.ClcQuery.Actions.RESPOND_CLC' %}
-		</a>
-	{% endif %}
-	{% if case.data.pv_grading_responded == False and 'RESPOND_PV_GRADING' in permissions and not status_is_terminal %}
-		<a role="button" draggable="false" id="grading-button-respond" class="govuk-button" href="{% url 'cases:respond_to_pv_grading_query' queue.id case.id %}">
-			{% lcs 'cases.ClcQuery.Actions.RESPOND_GRADING' %}
-		</a>
-	{% endif %}
-</div>
+{% if case.data.clc_responded == False and 'REVIEW_GOODS' in permissions and not status_is_terminal and case.data.pv_grading_responded == False and 'RESPOND_PV_GRADING' in permissions %}
+	<div class="app-case__slice__controls">
+		{% if case.data.clc_responded == False and 'REVIEW_GOODS' in permissions and not status_is_terminal %}
+			<a role="button" draggable="false" id="clc-button-respond" class="govuk-button" href="{% url 'cases:respond_to_clc_query' queue.id case.id %}">
+				{% lcs 'cases.ClcQuery.Actions.RESPOND_CLC' %}
+			</a>
+		{% endif %}
+		{% if case.data.pv_grading_responded == False and 'RESPOND_PV_GRADING' in permissions and not status_is_terminal %}
+			<a role="button" draggable="false" id="grading-button-respond" class="govuk-button" href="{% url 'cases:respond_to_pv_grading_query' queue.id case.id %}">
+				{% lcs 'cases.ClcQuery.Actions.RESPOND_GRADING' %}
+			</a>
+		{% endif %}
+	</div>
+{% endif %}
 
 <dl class="app-case__summary-list">
 	<div class="app-case__summary-list__row">

@@ -5,7 +5,7 @@ from cases.views import main, advice, generate_document, ecju, goods_query, good
 app_name = "cases"
 
 urlpatterns = [
-    path("", main.ViewCase.as_view(), name="case", kwargs={"disable_queue_lookup": True, "tab": "details"}),
+    path("", main.CaseDetail.as_view(), name="case", kwargs={"disable_queue_lookup": True, "tab": "details"}),
     path("case-notes/", main.CaseNotes.as_view(), name="case_notes"),
     path("done/", main.CaseImDoneView.as_view(), name="done"),
     path("change-status/", main.ChangeStatus.as_view(), name="manage"),
@@ -15,29 +15,10 @@ urlpatterns = [
     path("documents/<str:file_pk>/", main.Document.as_view(), name="document"),
     path("assign-flags/", main.AssignFlags.as_view(), name="assign_flags"),
     # old advice
-    # path("user-advice-view/", advice.ViewUserAdvice.as_view(), name="user_advice_view"),
     path("team-advice-view/coalesce/", advice.CoalesceUserAdvice.as_view(), name="coalesce_user_advice"),
     path("team-advice-view/", advice.ViewTeamAdvice.as_view(), name="team_advice_view"),
     path("final-advice-view/coalesce/", advice.CoalesceTeamAdvice.as_view(), name="coalesce_team_advice"),
     path("final-advice-view/", advice.ViewFinalAdvice.as_view(), name="final_advice_view"),
-    path("advice-view/give-user-advice/", advice.GiveUserAdvice.as_view(), name="give_user_advice"),
-    path(
-        "advice-view/give-user-advice/<str:type>/",
-        advice.GiveUserAdviceDetail.as_view(),
-        name="give_user_advice_detail",
-    ),
-    path("advice-view/give-team-advice/", advice.GiveTeamAdvice.as_view(), name="give_team_advice"),
-    path(
-        "advice-view/give-team-advice/<str:type>/",
-        advice.GiveTeamAdviceDetail.as_view(),
-        name="give_team_advice_detail",
-    ),
-    path("advice-view/give-final-advice/", advice.GiveFinalAdvice.as_view(), name="give_final_advice"),
-    path(
-        "advice-view/give-final-advice/<str:type>/",
-        advice.GiveFinalAdviceDetail.as_view(),
-        name="give_final_advice_detail",
-    ),
     path("finalise-goods-countries/", advice.FinaliseGoodsCountries.as_view(), name="finalise_goods_countries"),
     path("finalise/", advice.Finalise.as_view(), name="finalise"),
     path("finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"),
@@ -110,7 +91,7 @@ urlpatterns = [
     path("assign-user/", main.UserWorkQueue.as_view(), name="assign_user"),
     path("assign-user-queue/<uuid:user_pk>/", main.UserTeamQueue.as_view(), name="assign_user_queue"),
     path("rerun-routing-rules/", main.RerunRoutingRules.as_view(), name="rerun_routing_rules",),
-    path("<str:tab>/", main.ViewCase.as_view(), name="case", kwargs={"disable_queue_lookup": True}),
+    path("<str:tab>/", main.CaseDetail.as_view(), name="case", kwargs={"disable_queue_lookup": True}),
     # new advice
     path("<str:tab>/give-advice/", advice.GiveAdvice.as_view(), name="give_advice"),
 ]

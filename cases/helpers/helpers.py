@@ -6,34 +6,6 @@ from lite_forms.components import Breadcrumbs, BackLink, HiddenField
 from lite_forms.generators import error_page
 
 
-def clean_advice(json):
-    import ast
-
-    def _clean_dict_item(item):
-        return ast.literal_eval(item)
-
-    json = json.copy()
-
-    json["goods"] = _clean_dict_item(json["goods"])
-    json["goods_types"] = _clean_dict_item(json["goods_types"])
-    json["countries"] = _clean_dict_item(json["countries"])
-    json["ultimate_end_users"] = _clean_dict_item(json["ultimate_end_users"])
-    json["third_parties"] = _clean_dict_item(json["third_parties"])
-    json["denial_reasons"] = json.getlist("denial_reasons")
-
-    if json.get("end_user"):
-        json["end_user"] = json["end_user"]
-    else:
-        json["end_user"] = ""
-
-    if json.get("consignee"):
-        json["consignee"] = json["consignee"]
-    else:
-        json["consignee"] = ""
-
-    return json
-
-
 def add_hidden_advice_data(questions_list, data):
     questions_list.append(HiddenField("goods", data.getlist("goods")))
     questions_list.append(HiddenField("goods_types", data.getlist("goods_types")))

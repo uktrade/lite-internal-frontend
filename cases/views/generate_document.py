@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from cases.helpers import generate_document_error_page
+from cases.helpers.helpers import generate_document_error_page
 from lite_forms.components import BackLink
 
 from cases.forms.generate_document import select_template_form, edit_document_text_form, add_paragraphs_form

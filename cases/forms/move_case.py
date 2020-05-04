@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 
-from cases.helpers import case_view_breadcrumbs
+from cases.helpers.helpers import case_view_breadcrumbs
 from lite_content.lite_internal_frontend.cases import Manage
 from lite_forms.components import Form, Checkboxes, Filter
 from queues.services import get_queues

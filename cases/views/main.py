@@ -18,7 +18,7 @@ from cases.forms.change_status import change_status_form
 from cases.forms.done_with_case import done_with_case_form
 from cases.forms.flags import set_case_flags_form
 from cases.forms.move_case import move_case_form
-from cases.objects import Slice
+from cases.helpers.case import CaseView, Tabs, Slices
 from cases.services import (
     get_case,
     post_case_notes,
@@ -26,30 +26,20 @@ from cases.services import (
     get_activity,
     put_case_queues,
     put_end_user_advisory_query,
-    _get_total_goods_value,
     put_goods_query_status,
-    get_case_officer,
     put_case_officer,
     delete_case_officer,
     put_unassign_queues,
-    get_user_case_queues,
-    get_case_additional_contacts,
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
     put_flag_assignments,
 )
-from cases.services import post_case_documents, get_case_documents, get_document
-from cases.views.ecju import get_ecju_queries
+from cases.services import post_case_documents, get_document
 from conf import settings
-from conf.constants import GENERATED_DOCUMENT, Statuses
 from conf.settings import AWS_STORAGE_BUCKET_NAME
-from core.builtins.custom_tags import friendly_boolean
-from core.objects import Tab, TabCollection
-from core.services import get_status_properties, get_user_permissions, get_permissible_statuses
+from core.services import get_user_permissions, get_permissible_statuses
 from flags.services import get_cases_flags
-from lite_content.lite_exporter_frontend import applications
 from lite_content.lite_internal_frontend import cases
-from lite_content.lite_internal_frontend.cases import CasePage
 from lite_forms.components import Option
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
@@ -57,152 +47,46 @@ from queues.services import put_queue_single_case_assignment, get_queue
 from users.services import get_gov_user_from_form_selection
 
 
-def get_additional_information(case):
-    """
-    Returns an additional information component to be rendered by templates.
-    """
-    field_titles = {
-        "electronic_warfare_requirement": applications.AdditionalInformation.ELECTRONIC_WARFARE_REQUIREMENT,
-        "expedited": applications.AdditionalInformation.EXPEDITED,
-        "expedited_date": applications.AdditionalInformation.EXPEDITED_DATE,
-        "foreign_technology": applications.AdditionalInformation.FOREIGN_TECHNOLOGY,
-        "foreign_technology_type": applications.AdditionalInformation.FOREIGN_TECHNOLOGY_TYPE,
-        "locally_manufactured": applications.AdditionalInformation.LOCALLY_MANUFACTURED,
-        "mtcr_type": applications.AdditionalInformation.MTCR_TYPE,
-        "uk_service_equipment": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT,
-        "uk_service_equipment_type": applications.AdditionalInformation.UK_SERVICE_EQUIPMENT_TYPE,
-        "value": applications.AdditionalInformation.VALUE,
-    }
-
-    values_to_print = []
-
-    for field, title in field_titles.items():
-        value = case.get(field)
-        if value is not None:
-            values_to_print.append(
-                {
-                    "Number": len(values_to_print) + 1,
-                    "Description": title,
-                    "Answer": (
-                        friendly_boolean(value)
-                        if isinstance(value, bool)
-                        else value["value"]
-                        if isinstance(value, dict)
-                        else value
-                    ),
-                    "SubAnswer": case.get(f"{field}_description") if case.get(field) is True else None,
-                }
-            )
-
-    return values_to_print
-
-
-class ViewCase(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-        case_type = case["case_type"]["type"]["key"]
-        case_sub_type = case["case_type"]["sub_type"]["key"]
-        export_type = None  # case.get("application", {}).get("export_type", {}).get("key")
-        user_assigned_queues, _ = get_user_case_queues(request, case_id)
-        queue_id = kwargs["queue_pk"]
-        queue = get_queue(request, queue_id)
-        is_system_queue = queue["is_system_queue"]
-
-        if "application" in case:
-            status_props, _ = get_status_properties(request, case["application"]["status"]["key"])
-            can_set_done = (
-                not status_props["is_terminal"] and case["application"]["status"]["key"] != Statuses.APPLICANT_EDITING
-            )
-        else:
-            status_props, _ = get_status_properties(request, case["query"]["status"]["key"])
-            can_set_done = (
-                not status_props["is_terminal"] and case["query"]["status"]["key"] != Statuses.APPLICANT_EDITING
-            )
-
-        can_set_done = can_set_done and (is_system_queue and user_assigned_queues) or not is_system_queue
-
-        tabs = [Tab("details", CasePage.Tabs.DETAILS, "details")]
-        details = [Slice(None, "summary")]
-
-        if case_type == CaseType.APPLICATION.value:
-            tabs += [
-                TabCollection(
-                    "advice",
-                    CasePage.Tabs.ADVICE_AND_DECISION,
-                    children=[
-                        Tab("user-advice", "User advice", "user-advice"),
-                        Tab("team-advice", "Team advice", "team-advice"),
-                        Tab("final-advice", "Final advice", "final-advice"),
-                    ],
-                ),
-            ]
-
-            if case_sub_type == CaseType.OPEN.value:
-                details += [
-                    Slice(None, "goods"),
-                    Slice(None, "destinations"),
-                    Slice("End use details", "end-use-details"),
-                    Slice("Route of goods", "route-of-goods"),
-                    Slice("Supporting documents", "supporting-documents"),
-                ]
-                if export_type == "temporary":
-                    details.insert(3, Slice("Export details", "export-details"))
-            elif case_sub_type == CaseType.STANDARD.value:
-                details += [
-                    Slice(None, "goods"),
-                    Slice(None, "destinations"),
-                    Slice("End use details", "end-use-details"),
-                    Slice("Route of goods", "route-of-goods"),
-                    Slice("Supporting documents", "supporting-documents"),
-                ]
-            elif case_sub_type == CaseType.HMRC.value:
-                details += [
-                    Slice(None, "goods"),
-                    Slice(None, "destinations"),
-                    Slice("Supporting documents", "supporting-documents"),
-                    Slice("hmrc deets", "hmrc"),
-                ]
-
-        if case_sub_type == CaseType.GOODS.value:
-            if case.data["clc_responded"] or case.data["pv_grading_responded"]:
-                details += [Slice(None, "goods-query-response")]
-
-            details += [Slice("Query details", "goods-query")]
-
-        if case_sub_type == CaseType.END_USER_ADVISORY.value:
-            details += [Slice("End user details", "end-user-advisory")]
-
-        tabs += [
-            Tab("documents", CasePage.Tabs.DOCUMENTS, "documents"),
-            Tab("additional-contacts", CasePage.Tabs.ADDITIONAL_CONTACTS, "additional-contacts"),
-            Tab("ecju-queries", CasePage.Tabs.ECJU_QUERIES, "ecju-queries"),
-            Tab("activity", CasePage.Tabs.CASE_NOTES_AND_TIMELINE, "activity"),
+class CaseDetail(CaseView):
+    def get_open_application(self):
+        self.tabs = [Tabs.ADVICE]
+        self.slices = [
+            Slices.GOODS,
+            Slices.DESTINATIONS,
+            Slices.LOCATIONS,
+            Slices.END_USE_DETAILS,
+            Slices.ROUTE_OF_GOODS,
+            Slices.SUPPORTING_DOCUMENTS,
         ]
 
-        case_documents, _ = get_case_documents(request, case_id)
-        open_ecju_queries, closed_ecju_queries = get_ecju_queries(request, case_id)
+    def get_standard_application(self):
+        self.tabs = [Tabs.ADVICE]
+        self.slices = [Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
 
-        context = {
-            "tabs": tabs,
-            "current_tab": kwargs["tab"],
-            "details": details,
-            "activity": get_activity(request, case_id),
-            "case": case,
-            "queue": queue,
-            "permissions": get_user_permissions(request),
-            "permissible_statuses": get_permissible_statuses(request, case_type),
-            "status_is_read_only": status_props["is_read_only"],
-            "status_is_terminal": status_props["is_terminal"],
-            "can_set_done": can_set_done,
-            "case_documents": case_documents["documents"],
-            "generated_document_key": GENERATED_DOCUMENT,
-            "additional_contacts": get_case_additional_contacts(request, case_id),
-            "open_ecju_queries": open_ecju_queries,
-            "closed_ecju_queries": closed_ecju_queries,
-        }
+    def get_hmrc_application(self):
+        self.slices = [Slices.HMRC_NOTE, Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
 
-        return render(request, "case/case.html", context)
+    def get_exhibition_clearance_application(self):
+        self.tabs = [Tabs.ADVICE]
+        self.slices = [Slices.EXHIBITION_DETAILS, Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
+
+    def get_gifting_clearance_application(self):
+        self.tabs = [Tabs.ADVICE]
+        self.slices = [Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
+
+    def get_f680_clearance_application(self):
+        self.tabs = [Tabs.ADVICE]
+        self.slices = [Slices.GOODS, Slices.DESTINATIONS, Slices.F680_DETAILS, Slices.END_USE_DETAILS,
+                       Slices.SUPPORTING_DOCUMENTS]
+
+    def get_end_user_advisory_query(self):
+        self.slices = [Slices.END_USER_ADVISORY]
+
+    def get_goods_query(self):
+        self.slices = [Slices.GOODS_QUERY]
+
+        if self.case.data["clc_responded"] or self.case.data["pv_grading_responded"]:
+            self.slices.insert(0, Slices.GOODS_QUERY_RESPONSE)
 
 
 class CaseNotes(TemplateView):

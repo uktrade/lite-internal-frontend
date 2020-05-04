@@ -1,4 +1,4 @@
-from cases.helpers import case_view_breadcrumbs
+from cases.helpers.helpers import case_view_breadcrumbs
 from lite_content.lite_internal_frontend.flags import SetCaseFlagsForm, SetGenericFlagsForm
 from lite_forms.components import Form, Filter, Checkboxes, TextArea, BackLink, DetailComponent, TokenBar, Label
 

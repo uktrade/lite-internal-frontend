@@ -4,14 +4,16 @@
 	{% if not case.has_advice.my_team %}
 		{% if not case.has_advice.final %}
 			{% if not status_is_terminal %}
-				<button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-					{% lcs 'GIVE_OR_CHANGE_ADVICE' %}
-				</button>
+				<div class="lite-buttons-row">
+					<button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+						{% lcs 'GIVE_OR_CHANGE_ADVICE' %}
+					</button>
+				</div>
 			{% endif %}
 		{% endif %}
 	{% endif %}
 
-	{% include 'case/slices/goods.html' %}
+	{% include 'case/slices/goods.html' with hide_controls=True show_advice=True level='Advice' %}
 
-	{% include 'case/slices/destinations.html' %}
+	{% include 'case/slices/destinations.html' with hide_controls=True show_advice=True level='Advice' %}
 </form>

@@ -1,1 +1,49 @@
-<p style="font-size: 40px;"><b>Final</b> advice will go here.</p>
+{% load static %}
+
+<form action="{% url 'cases:give_advice' queue.id case.id 'user-advice' %}" method="get">
+	{% if not status_is_terminal and permitted_to_give_final_advice %}
+		{% if case.has_advice.team %}
+			<div class="lite-buttons-row">
+				{% if True %}
+					<button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+						{% lcs 'cases.ViewAdvicePage.Actions.GIVE_OR_CHANGE' %}
+					</button>
+					<button id="button-clear-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
+						{% lcs 'cases.ViewAdvicePage.Actions.CLEAR' %}
+					</button>
+					{{ can_advice_be_finalised }}
+					{% if can_advice_be_finalised and not blocking_flags %}
+						{% make_list queue.id case.id as button_params %}
+						{% if case.application.case_type.sub_type.key == 'open' %}
+							{% if case.application.goodstype_category.key == 'media' %}
+								{% govuk_link_button id='finalise' text='cases.ViewAdvicePage.Actions.FINALISE' url='cases:finalise' url_param=button_params %}
+							{% else %}
+								{% govuk_link_button id='finalise' text='cases.ViewAdvicePage.Actions.FINALISED_GOODS_AND_COUNTRIES' url='cases:finalise_goods_countries' url_param=button_params %}
+							{% endif %}
+						{% else %}
+							{% govuk_link_button id='finalise' text='cases.ViewAdvicePage.Actions.FINALISE' url='cases:finalise' url_param=button_params %}
+						{% endif %}
+					{% endif %}
+				{% else %}
+					<a class="govuk-button" href="{% url 'cases:coalesce_team_advice' queue.id case.id %}" class="lite-tabs__tab" id="combine_advice_button">
+						{% lcs 'cases.ViewAdvicePage.Actions.COMBINE_TEAM_ADVICE' %}
+					</a>
+				{% endif %}
+			</div>
+		{% endif %}
+	{% endif %}
+
+	{% if blocking_flags %}
+		<div class="govuk-warning-text" id="blocking_flags">
+			<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+			<strong class="govuk-warning-text__text">
+				<span class="govuk-warning-text__assistive">{% lcs 'cases.ViewAdvicePage.WarningBanner.HIDDEN_TEXT' %}</span>
+				{% lcs 'cases.ViewAdvicePage.WarningBanner.BLOCKING_FLAGS' %}{% include 'includes/flags.html' with flags=blocking_flags %}
+			</strong>
+		</div>
+	{% endif %}
+
+	{% include 'case/slices/goods.html' with hide_controls=True show_advice=True level='FinalAdvice' %}
+
+	{% include 'case/slices/destinations.html' with hide_controls=True show_advice=True level='FinalAdvice' %}
+</form>

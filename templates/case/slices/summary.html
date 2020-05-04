@@ -19,6 +19,16 @@
 			</dd>
 		</div>
 	{% endif %}
+	{% if case.data.export_type %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				Export type
+			</dt>
+			<dd class="app-case__summary-list__value">
+				{{ case.data.export_type.value }}
+			</dd>
+		</div>
+	{% endif %}
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
 			Submitted at
@@ -125,4 +135,28 @@
 			</a>
 		</dd>
 	</div>
+	{% if case.application.case_type.sub_type.key == 'f680_clearance' %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				Security grading
+			</dt>
+			<dd class="app-case__summary-list__value">
+				{{ case.application.clearance_level.value }}
+			</dd>
+		</div>
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				Clearance types
+			</dt>
+			<dd class="app-case__summary-list__value">
+				{% if case.application.types %}
+					<ol class="govuk-list govuk-!-margin-0">
+						{% for clearance_type in case.application.types %}
+							<li>{{ clearance_type.name.value|default_na }}</li>
+						{% endfor %}
+					</ol>
+				{% endif %}
+			</dd>
+		</div>
+	{% endif %}
 </dl>

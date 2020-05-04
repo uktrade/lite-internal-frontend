@@ -14,6 +14,7 @@
 			This case is closed
 		</div>
 	{% endif %}
+
 	<div class="app-case-header__container">
 		<div class="app-case-header__aurora" style="background: {{ case.all_flags|aurora }}"></div>
 		<div class="app-case-header">
@@ -103,7 +104,10 @@
 						{% endfor %}
 					</div>
 					<div class="lite-tabs__controls">
-						{% govuk_link_button text='cases.CasePage.IM_DONE_BUTTON' url='queues:cases' classes='govuk-button--secondary' %}
+						{% if can_set_done %}
+							{% make_list queue.id case.id as done_params %}
+							{% govuk_link_button id='done' text='cases.ApplicationPage.DONE_WITH_CASE' url='cases:done' url_param=done_params %}
+						{% endif %}
 					</div>
 				</div>
 			</div>
@@ -124,7 +128,15 @@
 		<div class="app-case__form-wrapper">
 			<a class="app-case__form-wrapper__back-link" id="back-link" href="{% url 'cases:case' queue.id case.id %}">Back to case</a>
 
-			{% block two_thirds %}{% endblock %}
+			<div class="govuk-grid-row">
+				<div class="govuk-grid-column-two-thirds">
+					{% block two_thirds %}{% endblock %}
+				</div>
+
+				<div class="govuk-grid-column-one-third">
+					{% block one_third %}{% endblock %}
+				</div>
+			</div>
 		</div>
 	{% endblock %}
 {% endblock %}

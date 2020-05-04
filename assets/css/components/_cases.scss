@@ -293,10 +293,9 @@ $case-header-text-colour: govuk-colour("white");
         color: $case-header-text-colour;
         margin: 0;
         text-decoration: none;
-        border-bottom: 2px solid transparent;
 
         &:hover {
-            border-bottom: 2px solid currentColor;
+            text-decoration: underline;
         }
 
         &::before {
@@ -516,8 +515,6 @@ $case-header-text-colour: govuk-colour("white");
 }
 
 .app-case__form-wrapper {
-	max-width: 700px;
-
     .app-case__form-wrapper__back-link {
         @extend .govuk-back-link;
         display: inline-block;

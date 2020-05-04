@@ -2,9 +2,9 @@ from munch import Munch
 
 
 class Slice:
-    def __init__(self, title, file):
-        self.title = title
+    def __init__(self, file, title=None):
         self.file = file
+        self.title = title
 
 
 class Case(Munch):
@@ -24,10 +24,42 @@ class Case(Munch):
         return self.data["status"]["key"]
 
     @property
+    def type(self):
+        return self["case_type"]["type"]["key"]
+
+    @property
     def sub_type(self):
-        return self
+        return self["case_type"]["sub_type"]["key"]
+
+    @property
+    def goods(self):
+        if "goods" not in self.data and "goods_types" not in self.data:
+            return []
+
+        return self.data.get("goods", self.data.get("goods_types"))
+
+    @property
+    def destinations(self):
+        if "destinations" not in self.data:
+            return []
+
+        destinations = self.data["destinations"]["data"]
+
+        # Standard apps return just the end user (as type dict) in destinations,
+        # so we need to add the other destinations
+        if isinstance(destinations, dict):
+            destinations = [
+                destinations,
+                self.data.get("consignee"),
+                *self.data.get("ultimate_end_users"),
+                *self.data.get("third_parties"),
+            ]
+
+        return destinations
 
     @property
     def case_officer(self):
-        return {}
-        # return self.get("case_officer", {})
+        if self["case_officer"]:
+            return self["case_officer"]
+        else:
+            return {}
