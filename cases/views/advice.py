@@ -88,7 +88,7 @@ class GiveAdvice(SingleFormView):
         self.tab = kwargs["tab"]
         self.data = flatten_advice_data(request, [*get_goods(request, case), *get_destinations(request, case)])
         self.form = give_advice_form(
-            case, self.tab, kwargs["queue_pk"], get_denial_reasons(request, True), show_warning=not self.data
+            request, case, self.tab, kwargs["queue_pk"], get_denial_reasons(request, True), show_warning=not self.data
         )
         self.context = {
             "case": case,

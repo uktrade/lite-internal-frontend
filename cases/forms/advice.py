@@ -2,12 +2,14 @@ from django.urls import reverse
 
 from cases.constants import CaseType
 from cases.objects import Case
+from core.components import PicklistPicker
 from lite_content.lite_internal_frontend.strings import cases
 from lite_forms.components import Form, RadioButtons, Option, BackLink, TextArea, Checkboxes, HelpSection, HTMLBlock
 from lite_forms.helpers import conditional
+from picklists.services import get_picklists_for_input
 
 
-def give_advice_form(case: Case, tab, queue_pk, denial_reasons, show_warning=False):
+def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_warning=False):
     return Form(
         title=cases.AdviceRecommendationForm.TITLE,
         questions=[
@@ -36,7 +38,9 @@ def give_advice_form(case: Case, tab, queue_pk, denial_reasons, show_warning=Fal
                                 description="This will appear on the generated documentation",
                                 extras={"max_length": 5000},
                                 name="proviso",
-                            )
+                            ),
+                            PicklistPicker(name="proviso",
+                                           items=get_picklists_for_input(request, "proviso")),
                         ],
                     ),
                     Option(
@@ -63,7 +67,9 @@ def give_advice_form(case: Case, tab, queue_pk, denial_reasons, show_warning=Fal
                     ),
                 ],
             ),
-            TextArea(title="What are your reasons for this decision?", description="", name="text"),
+            TextArea(title="What are your reasons for this decision?", extras={"max_length": 5000}, name="text"),
+            PicklistPicker(name="text",
+                           items=get_picklists_for_input(request, "standard_advice")),
             TextArea(
                 title="Is there anything else you want to say to the applicant?",
                 description="This will appear on the generated documentation",
