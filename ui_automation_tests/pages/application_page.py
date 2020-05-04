@@ -287,3 +287,9 @@ class ApplicationPage(BasePage):
 
     def click_apply_filters_button(self):
         self.driver.find_element_by_id(self.BUTTON_APPLY_FILTER_ID).click()
+
+    def get_text_of_first_audit_trail_item(self):
+        return self.driver.find_elements_by_css_selector(self.AUDIT_TRAIL_ITEM)[-1].text
+
+    def get_audit_elements(self):
+        return self.driver.find_elements_by_css_selector(self.AUDIT_TRAIL_ITEM)

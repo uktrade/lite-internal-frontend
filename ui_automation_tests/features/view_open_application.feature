@@ -11,4 +11,7 @@ Feature: View an Open Applications
     When I go to the case
     Then I see the case page
     When I show filters
-    And filter user_type has been changed to "exporter"
+    And filter user_type has been changed to "Exporter"
+    Then exporter is at the first audit in the trail
+    When filter user_type has been changed to "Internal"
+    Then exporter is not in the audit trail
