@@ -169,6 +169,10 @@ $case-header-text-colour: govuk-colour("white");
     position: sticky;
     top: 0;
     background-color: $case-header-color;
+
+    .lite-tabs {
+        overflow-x: hidden;
+    }
 }
 
 .app-case-header {
