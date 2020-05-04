@@ -208,17 +208,6 @@ def build_case_advice(key, value, base_data):
 
 def prepare_data_for_advice(json):
     # Split the json data into multiple
-    base_data = {"type": json["type"], "text": json["text"], "note": json["note"]}
-
-    if json.get("type") == "refuse":
-        base_data["denial_reasons"] = json["denial_reasons"]
-
-    if json.get("type") == "proviso":
-        base_data["proviso"] = json["proviso"]
-
-    if json.get("pv_grading"):
-        base_data["pv_grading"] = json["pv_grading"]
-
     new_data = []
     single_cases = ["end_user", "consignee"]
     multiple_cases = {
@@ -231,12 +220,12 @@ def prepare_data_for_advice(json):
 
     for entity_name in single_cases:
         if json.get(entity_name):
-            new_data.append(build_case_advice(entity_name, json.get(entity_name), base_data))
+            new_data.append(build_case_advice(entity_name, json.get(entity_name), json))
 
     for entity_name, entity_name_singular in multiple_cases.items():
         if json.get(entity_name):
             for entity in json.get(entity_name, []):
-                new_data.append(build_case_advice(entity_name_singular, entity, base_data))
+                new_data.append(build_case_advice(entity_name_singular, entity, json))
 
     return new_data
 
