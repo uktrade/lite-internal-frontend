@@ -3,12 +3,15 @@
 </div>
 <p class="govuk-body govuk-!-margin-3">
 	{% for good in case.goods %}
-		<span data-max-length="200">
-			{% if good.description %}
-				{{ good.description }}
-			{% else %}
-				{{ good.good.description }}
-			{% endif %}
+		<span>
+			<span class="govuk-hint lite-!-display-inline">{{ forloop.counter }}.</span>
+			<span data-max-length="100">
+				{% if good.description %}
+					{{ good.description }}
+				{% else %}
+					{{ good.good.description }}
+				{% endif %}
+			</span>
 		</span>
 	{% endfor %}
 </p>

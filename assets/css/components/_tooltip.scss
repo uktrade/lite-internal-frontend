@@ -17,6 +17,10 @@ $tooltip-background-colour: govuk-colour("black");
     border-bottom-color: $tooltip-background-colour;
 }
 
+[data-tippy-root] {
+    max-width: 500px!important;
+}
+
 .tippy-box[data-theme~='light'] {
     background-color: govuk-colour("white");
     color: $govuk-text-colour;
