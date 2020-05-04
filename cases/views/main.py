@@ -121,12 +121,12 @@ class ViewCase(TemplateView):
 
         filters = FiltersBar(
             [
-                Select(name="user_id", title="User", options=make_options(activity_filters["users"])),
-                Select(name="team_id", title="Team", options=make_options(activity_filters["teams"])),
-                Select(name="user_type", title="User Type", options=make_options(activity_filters["user_types"])),
-                Select(name="activity_type", title="Activity Type", options=make_options(activity_filters["activity_types"])),
-                DateInput(title="Date from", prefix="from_"),
-                DateInput(title="Date to", prefix="to_"),
+                Select(title=cases.ApplicationPage.ActivityFilters.USER, name="user_id", options=make_options(activity_filters["users"])),
+                Select(title=cases.ApplicationPage.ActivityFilters.TEAM, name="team_id", options=make_options(activity_filters["teams"])),
+                Select(title=cases.ApplicationPage.ActivityFilters.USER_TYPE, name="user_type", options=make_options(activity_filters["user_types"])),
+                Select(title=cases.ApplicationPage.ActivityFilters.ACTIVITY_TYPE, name="activity_type", options=make_options(activity_filters["activity_types"])),
+                DateInput(title=cases.ApplicationPage.ActivityFilters.DATE_FROM, prefix="from_"),
+                DateInput(title=cases.ApplicationPage.ActivityFilters.DATE_TO, prefix="to_"),
             ]
         )
 
