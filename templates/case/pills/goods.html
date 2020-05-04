@@ -3,12 +3,12 @@
 </div>
 <p class="govuk-body govuk-!-margin-3">
 	{% for good in case.goods %}
-		{% if 'control_list_entries' in good and good.control_list_entries %}
-			{{ good.control_list_entries }}
-		{% elif 'control_list_entries' in good.good and good.good.control_list_entries %}
-			{{ good.good.control_list_entries }}
-		{% else %}
-			
-		{% endif %}
+		<span data-max-length="200">
+			{% if good.description %}
+				{{ good.description }}
+			{% else %}
+				{{ good.good.description }}
+			{% endif %}
+		</span>
 	{% endfor %}
 </p>
