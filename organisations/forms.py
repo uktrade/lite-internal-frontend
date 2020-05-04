@@ -7,6 +7,7 @@ from lite_content.lite_internal_frontend.organisations import (
     RegisterAnOrganisation,
     EditIndividualOrganisationPage,
     EditCommercialOrganisationPage,
+    ReviewOrganisationPage,
 )
 from lite_forms.common import address_questions, foreign_address_questions
 from lite_forms.components import (
@@ -21,7 +22,8 @@ from lite_forms.components import (
     BackLink,
     EmailInput,
     Summary,
-    WarningBanner)
+    WarningBanner,
+)
 from lite_forms.helpers import conditional
 from lite_forms.styles import HeadingStyle
 from organisations.services import get_organisation, get_organisation_matching_details
@@ -284,31 +286,34 @@ def review_organisation_form(request, pk):
     matching_organisation_details = get_organisation_matching_details(request, str(pk))
 
     return Form(
-        title="Review Organisation",
+        title=ReviewOrganisationPage.TITLE,
         questions=[
             conditional(
                 matching_organisation_details,
                 WarningBanner(
                     id="org_warning",
-                    text=f"There are existing organisations with matching: {','.join(matching_organisation_details)}",
-                )
+                    text=f"{ReviewOrganisationPage.WARNING_BANNER}{','.join(matching_organisation_details)}",
+                ),
             ),
             Summary(
                 values={
-                    "Name": organisation["name"],
-                    "Type": organisation["type"]["value"],
-                    "EORI Number": organisation["eori_number"],
-                    "SIC Number": organisation["sic_number"],
-                    "VAT Number": organisation["vat_number"],
-                    "Registration Number": organisation["registration_number"],
-                    "Primary Site Name": organisation["primary_site"]["name"],
-                    "Primary Site Address": get_address(organisation["primary_site"]),
+                    ReviewOrganisationPage.Summary.NAME: organisation["name"],
+                    ReviewOrganisationPage.Summary.TYPE: organisation["type"]["value"],
+                    ReviewOrganisationPage.Summary.EORI: organisation["eori_number"],
+                    ReviewOrganisationPage.Summary.SIC: organisation["sic_number"],
+                    ReviewOrganisationPage.Summary.VAT: organisation["vat_number"],
+                    ReviewOrganisationPage.Summary.REGISTRATION: organisation["registration_number"],
+                    ReviewOrganisationPage.Summary.SITE_NAME: organisation["primary_site"]["name"],
+                    ReviewOrganisationPage.Summary.SITE_ADDRESS: get_address(organisation["primary_site"]),
                 },
             ),
             RadioButtons(
-                title="Final decision",
+                title=ReviewOrganisationPage.DECISION_TITLE,
                 name="status",
-                options=[Option(key="active", value="Approve",), Option(key="rejected", value="Reject"),],
+                options=[
+                    Option(key="active", value=ReviewOrganisationPage.APPROVE_OPTION),
+                    Option(key="rejected", value=ReviewOrganisationPage.REJECT_OPTION),
+                ],
             ),
         ],
     )

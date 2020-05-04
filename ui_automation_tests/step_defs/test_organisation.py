@@ -120,7 +120,7 @@ def in_review_organisation(context, api_test_client):
         "vat_number": "GB1234567",
         "registration_number": "09876543",
         "user": {"email": "name@example.com"},
-        "site": {"name": "site", "address": {"address_line_1": "Address-" + get_current_date_time()}}
+        "site": {"name": "site", "address": {"address_line_1": "Address-" + get_current_date_time()}},
     }
     response = api_test_client.organisations.anonymous_user_create_org(data)
     context.organisation_id = response["id"]
@@ -193,7 +193,7 @@ def create_matching_org(context, api_test_client):
         "vat_number": context.organisation_vat,
         "registration_number": context.organisation_registration,
         "user": {"email": "name@example.com"},
-        "site": {"name": "site", "address": {"address_line_1": context.organisation_address}}
+        "site": {"name": "site", "address": {"address_line_1": context.organisation_address}},
     }
     response = api_test_client.organisations.anonymous_user_create_org(data)
     context.organisation_id = response["id"]
