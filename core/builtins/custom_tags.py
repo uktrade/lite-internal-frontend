@@ -470,5 +470,17 @@ def join_key_value_list(_list, _join=", "):
 
 
 @register.filter()
-def filter_advice(advice, level):
+def filter_advice_by_id(advice, id):
+    return_list = []
+
+    for advice in advice:
+        for key in ["good", "goods_type", "country", "end_user", "ultimate_end_user", "consignee", "third_party"]:
+            if advice[key] == id:
+                return_list.append(advice)
+
+    return return_list
+
+
+@register.filter()
+def filter_advice_by_level(advice, level):
     return [advice for advice in advice if advice["level"] == level]

@@ -1,6 +1,5 @@
 from datetime import date
 from http import HTTPStatus
-from typing import Dict, List
 
 from django.http import Http404
 from django.shortcuts import redirect, render
@@ -10,6 +9,7 @@ from django.views.generic import TemplateView
 from cases.constants import CaseType
 from cases.forms.advice import give_advice_form
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
+from cases.helpers.advice import get_destinations, get_goods, flatten_advice_data
 from cases.services import (
     post_user_case_advice,
     get_final_case_advice,
@@ -29,7 +29,7 @@ from cases.services import (
     grant_licence,
     get_final_decision_documents,
     get_licence,
-    get_finalise_application_goods,
+    get_finalise_application_goods, prepare_data_for_advice,
 )
 from conf.constants import DECISIONS_LIST, Permission
 from core import helpers
@@ -39,65 +39,19 @@ from lite_forms.generators import form_page, error_page
 from lite_forms.views import SingleFormView
 
 
-def get_goods(request, case):
-    selected_goods_ids = request.GET.getlist("goods")
-    goods = case.data.get("goods", case.data.get("goods_types"))
-    return_values = []
-
-    for good in goods:
-        if "good" in good:
-            if good["good"]["id"] in selected_goods_ids:
-                return_values.append(good)
-        else:
-            if good["id"] in selected_goods_ids:
-                return_values.append(good)
-
-    return return_values
-
-
-def get_destinations(request, case):
-    selected_destinations_ids = [*request.GET.getlist("destinations"), *request.GET.getlist("countries")]
-    destinations = case.destinations
-    return_values = []
-
-    for destination in destinations:
-        if destination["id"] in selected_destinations_ids:
-            return_values.append(destination)
-
-    return return_values
-
-
-def flatten_advice_data(request, items: List[Dict]):
-    if not items or not items[0].get("advice"):
-        return
-
-    first_item_advice = items[0]["advice"][0]
-    keys = ["proviso", "denial_reasons", "note", "text", "type"]
-
-    for item in items:
-        for advice in [
-            advice for advice in item.get("advice", []) if advice["user"]["id"] == request.user.lite_api_user_id
-        ]:
-            for key in keys:
-                if advice[key] != first_item_advice[key]:
-                    return
-
-    return first_item_advice
-
-
 class GiveAdvice(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        case = get_case(request, self.object_pk)
+        self.case = get_case(request, self.object_pk)
         self.tab = kwargs["tab"]
-        self.data = flatten_advice_data(request, [*get_goods(request, case), *get_destinations(request, case)])
+        self.data = flatten_advice_data(request, [*get_goods(request, self.case), *get_destinations(request, self.case)])
         self.form = give_advice_form(
-            request, case, self.tab, kwargs["queue_pk"], get_denial_reasons(request, True), show_warning=not self.data
+            request, self.case, self.tab, kwargs["queue_pk"], get_denial_reasons(request, True), show_warning=not self.data
         )
         self.context = {
-            "case": case,
-            "goods": get_goods(request, case),
-            "destinations": get_destinations(request, case),
+            "case": self.case,
+            "goods": get_goods(request, self.case),
+            "destinations": get_destinations(request, self.case),
         }
         self.success_url = reverse(
             "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk, "tab": self.tab}
@@ -105,6 +59,14 @@ class GiveAdvice(SingleFormView):
 
         if self.tab not in ["user-advice", "team-advice", "final-advice"]:
             raise Http404
+
+    def clean_data(self, data):
+        data["goods"] = self.request.GET.getlist("goods")
+        data["goods_types"] = self.request.GET.getlist("goods_types")
+        data["destinations"] = self.request.GET.getlist("destinations")
+        data["countries"] = self.request.GET.getlist("countries")
+
+        return prepare_data_for_advice(data)
 
     def get_action(self):
         if self.tab == "user-advice":

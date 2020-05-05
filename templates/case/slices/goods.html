@@ -53,13 +53,12 @@
 					</td>
 				</tr>
 				{% if show_advice %}
-					{% include 'includes/advice.html' with advice_list=good.advice %}
+					{% include 'includes/advice.html' with id=good.good.id %}
 				{% endif %}
 			{% endfor %}
 		</tbody>
 	</table>
-{% endif %}
-{% if case.application.goods_types %}
+{% elif case.application.goods_types %}
 	<table id="table-goods" class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
@@ -79,7 +78,7 @@
 			{% for good in case.application.goods_types %}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
-						<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.id }}" id="{{ good.id }}">
+						<input class="govuk-checkboxes__input" type="checkbox" name="goods_types" value="{{ good.id }}" id="{{ good.id }}">
 						<label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}"></label>
 					</td>
 					<td class="govuk-table__cell govuk-table__cell--line-number {% if show_advice %}lite-!-no-border{% endif %}">{{ forloop.counter }}.</td>
@@ -103,7 +102,7 @@
 					</td>
 				</tr>
 				{% if show_advice %}
-					{% include 'includes/advice.html' with advice_list=good.advice %}
+					{% include 'includes/advice.html' with id=good.id %}
 				{% endif %}
 			{% endfor %}
 		</tbody>

@@ -3,7 +3,7 @@ from django.urls import reverse_lazy, reverse
 
 from cases.forms.review_goods import review_goods_form
 from cases.services import get_case, post_review_goods
-from cases.views.advice import get_goods
+from cases.helpers.advice import get_goods
 from conf.constants import Permission
 from core.helpers import has_permission
 from lite_forms.views import SingleFormView

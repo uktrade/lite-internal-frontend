@@ -48,7 +48,7 @@
 						</td>
 					</tr>
 					{% if show_advice %}
-						{% include 'includes/advice.html' with advice_list=destination.advice %}
+						{% include 'includes/advice.html' with id=destination.id %}
 					{% endif %}
 				{% endfor %}
 			</tbody>
@@ -93,7 +93,7 @@
 						</td>
 					</tr>
 					{% if show_advice %}
-						{% include 'includes/advice.html' with advice_list=destination.advice %}
+						{% include 'includes/advice.html' with id=destination.id %}
 					{% endif %}
 				{% endfor %}
 			</tbody>
