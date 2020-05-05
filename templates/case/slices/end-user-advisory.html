@@ -90,11 +90,7 @@
 			{% lcs 'cases.EndUserAdvisoriesPage.Details.WEBSITE' %}
 		</dt>
 		<dd class="app-case__summary-list__value">
-			{% if case.query.end_user.website %}
-				<a class="govuk-link" href="{{ case.query.end_user.website }}">{{ case.query.end_user.website }}</a>
-			{% else %}
-				<span class="govuk-hint govuk-!-margin-0">N/A</span>
-			{% endif %}
+			{{ case.query.end_user.website|linkify }}
 		</dd>
 	</div>
 	<div class="app-case__summary-list__row">
