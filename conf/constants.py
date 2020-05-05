@@ -25,6 +25,7 @@ VIEW_TEAM_ADVICE_URL = "/view-team-advice/"
 FINAL_ADVICE_URL = "/final-advice/"
 VIEW_FINAL_ADVICE_URL = "/view-final-advice/"
 ACTIVITY_URL = "/activity/"
+ACTIVITY_FILTERS_URL = "/activity/filters/"
 ECJU_QUERIES_URL = "/ecju-queries/"
 END_USER_ADVISORY_URL = "/queries/end-user-advisories/"
 CASE_DENIAL_REASONS_URL = "/denial-reasons/"
@@ -108,6 +109,7 @@ class Permission(Enum):
     MANAGE_FLAGGING_RULES = "MANAGE_FLAGGING_RULES"
     MANAGE_TEAM_ROUTING_RULES = "MANAGE_TEAM_ROUTING_RULES"
     MANAGE_ALL_ROUTING_RULES = "MANAGE_ALL_ROUTING_RULES"
+    ACTIVATE_FLAGS = "ACTIVATE_FLAGS"
     MANAGE_PICKLISTS = "MANAGE_PICKLISTS"
 
 
