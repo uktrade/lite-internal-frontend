@@ -7,13 +7,15 @@ from cases.services import (
     get_user_case_queues,
     get_case_documents,
     get_case_additional_contacts,
-    get_activity,
+    get_activity, get_activity_filters,
 )
 from cases.views.ecju import get_ecju_queries
 from conf.constants import Statuses, GENERATED_DOCUMENT
 from core.objects import Tab, TabCollection
 from core.services import get_user_permissions, get_status_properties, get_permissible_statuses
+from lite_content.lite_internal_frontend import cases
 from lite_content.lite_internal_frontend.cases import CasePage
+from lite_forms.components import FiltersBar, Select, Option, DateInput
 from queues.services import get_queue
 
 
@@ -48,6 +50,40 @@ class Slices:
     GOODS_QUERY_RESPONSE = Slice("goods-query-response")
     HMRC_NOTE = Slice("hmrc-note", "HMRC note")
     END_USER_ADVISORY = Slice("end-user-advisory", "End user details")
+
+
+def get_timeline_filters(request, case_id):
+    activity_filters = get_activity_filters(request, case_id)
+
+    def make_options(values):
+        return [Option(option["key"], option["value"]) for option in values]
+
+    return FiltersBar(
+        [
+            Select(
+                title=cases.ApplicationPage.ActivityFilters.USER,
+                name="user_id",
+                options=make_options(activity_filters["users"]),
+            ),
+            Select(
+                title=cases.ApplicationPage.ActivityFilters.TEAM,
+                name="team_id",
+                options=make_options(activity_filters["teams"]),
+            ),
+            Select(
+                title=cases.ApplicationPage.ActivityFilters.USER_TYPE,
+                name="user_type",
+                options=make_options(activity_filters["user_types"]),
+            ),
+            Select(
+                title=cases.ApplicationPage.ActivityFilters.ACTIVITY_TYPE,
+                name="activity_type",
+                options=make_options(activity_filters["activity_types"]),
+            ),
+            DateInput(title=cases.ApplicationPage.ActivityFilters.DATE_FROM, prefix="from_"),
+            DateInput(title=cases.ApplicationPage.ActivityFilters.DATE_TO, prefix="to_"),
+        ]
+    )
 
 
 class CaseView(TemplateView):
@@ -95,6 +131,7 @@ class CaseView(TemplateView):
             "can_set_done": can_set_done and (self.queue["is_system_queue"] and user_assigned_queues) or not self.queue["is_system_queue"],
             "generated_document_key": GENERATED_DOCUMENT,
             "permissible_statuses": get_permissible_statuses(self.request, self.case["case_type"]),
+            "filters": get_timeline_filters(self.request, self.case_id),
             **self.additional_context,
         }
 
