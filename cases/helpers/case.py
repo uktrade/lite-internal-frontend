@@ -126,7 +126,7 @@ class CaseView(TemplateView):
             "open_ecju_queries": open_ecju_queries,
             "closed_ecju_queries": closed_ecju_queries,
             "additional_contacts": get_case_additional_contacts(self.request, self.case_id),
-            "activity": get_activity(self.request, self.case_id),
+            "activity": get_activity(self.request, self.case_id, activity_filters=self.request.GET),
             "permissions": get_user_permissions(self.request),
             "can_set_done": can_set_done and (self.queue["is_system_queue"] and user_assigned_queues) or not self.queue["is_system_queue"],
             "generated_document_key": GENERATED_DOCUMENT,
