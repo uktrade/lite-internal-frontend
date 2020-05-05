@@ -36,7 +36,7 @@
 								{% svg 'goods' %}
 								{{ case.goods|length }}
 							</span>
-							<div id="popup-goods">
+							<div id="popup-goods" class="app-case-header__candy__popup">
 								{% include 'case/pills/goods.html' %}
 							</div>
 						{% endif %}
@@ -45,7 +45,7 @@
 								{% svg 'globe' %}
 								{{ case.destinations|length }}
 							</span>
-							<div id="popup-destinations">
+							<div id="popup-destinations" class="app-case-header__candy__popup">
 								{% include 'case/pills/destinations.html' %}
 							</div>
 						{% endif %}
@@ -53,7 +53,7 @@
 							{% svg 'menu/flags' %}
 							{{ case.all_flags|length }}
 						</span>
-						<div id="popup-flags">
+						<div id="popup-flags" class="app-case-header__candy__popup">
 							{% include 'case/pills/flags.html' %}
 						</div>
 						<span id="candy-case-officer" class="app-case-header__candy">
@@ -64,7 +64,7 @@
 								Not assigned
 							{% endif %}
 						</span>
-						<div id="popup-case-officer" class="">
+						<div id="popup-case-officer" class="app-case-header__candy__popup">
 							{% include 'case/pills/case-officer.html' %}
 						</div>
 					</div>
@@ -147,9 +147,10 @@
 
 {% block javascript %}
 	<script type="text/javascript">
+		$(".app-case-header__candy__popup").show();
+
 		const goods = document.getElementById('popup-goods');
 		if (goods) {
-			goods.style.display = 'block';
 			tippy("#candy-goods", {
 				content: goods,
 			 	allowHTML: true,
@@ -164,7 +165,6 @@
 
 		const destinations = document.getElementById('popup-destinations');
 		if (destinations) {
-			destinations.style.display = 'block';
 			tippy("#candy-destinations", {
 				content: destinations,
 				allowHTML: true,
@@ -178,7 +178,6 @@
 		}
 
 		const flags = document.getElementById('popup-flags');
-		flags.style.display = 'block';
 		tippy("#candy-flags", {
 			content: flags,
 			allowHTML: true,
@@ -191,7 +190,6 @@
 		});
 
 		const users = document.getElementById('popup-case-officer');
-		users.style.display = 'block';
 		tippy("#candy-case-officer", {
 			content: users,
 			allowHTML: true,
