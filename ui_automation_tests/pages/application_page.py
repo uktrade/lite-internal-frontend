@@ -10,7 +10,6 @@ class ApplicationPage(BasePage):
     ACTIONS_LIST_CONTAINER_ID = "actions-list"  # ID
     HEADING_ID = "heading-reference-code"
     ACTION_BUTTON_SELECTOR = "a"
-    ACTIONS_DROPDOWN = ".lite-more-actions__button"  # CSS
     AUDIT_NOTIFICATION_ANCHOR = "audit-notification"  # ID
     AUDIT_CASE_ACTIVITY_ID = "[id^=case-activity-]"  # CSS
     INPUT_CASE_NOTE_ID = "input-case-note"
@@ -45,8 +44,8 @@ class ApplicationPage(BasePage):
     DOWNLOAD_ADDITIONAL_DOCUMENT = "supporting-documentation"  # ID
     LINK_ORGANISATION_ID = "link-organisation"
     EDIT_GOODS_FLAGS = "button-edit-goods-flags"  # ID
-    CASE_OFFICER_ID = "case-officer"  # ID
-    LINK_ADDITIONAL_CONTACTS_ID = "link-additional-contacts"
+    CASE_OFFICER_CSS = ".govuk-link[href*='case-officer']"  # CSS
+    LINK_ADDITIONAL_CONTACTS_ID = "tab-additional-contacts"
     ASSIGN_USER_ID = "assign-user"
     EXPAND_FLAGS_PARTIAL_ID = "expand-flags-"
     ASSIGNED_USERS_ID = "assigned_users"
@@ -59,6 +58,7 @@ class ApplicationPage(BasePage):
     CASE_LINK_PARTIAL_ID = "case-"
     BUTTON_APPLY_FILTER_ID = "button-apply-filters"
     USER_TYPE_ID = "user_type"
+    CASE_NOTES_AND_ACTIVITY_TAB = "tab-activity"  # ID
 
     def get_case_copy_of_field_href(self):
         return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
@@ -113,18 +113,10 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_css_selector(self.ECJU_QUERIES_BTN).click()
 
     def click_case_officer_button(self):
-        self.click_drop_down()
-        scroll_to_element_by_id(self.driver, self.CASE_OFFICER_ID)
-        self.driver.find_element_by_id(self.CASE_OFFICER_ID).click()
+        self.driver.find_element_by_css_selector(self.CASE_OFFICER_CSS).click()
 
     def click_additional_contacts_link(self):
-        self.click_drop_down()
-        scroll_to_element_by_id(self.driver, self.LINK_ADDITIONAL_CONTACTS_ID)
         self.driver.find_element_by_id(self.LINK_ADDITIONAL_CONTACTS_ID).click()
-
-    def click_drop_down(self):
-        # This is going to be removed as part of the case refactor
-        self.driver.find_element_by_css_selector(self.ACTIONS_DROPDOWN).click()
 
     def select_status(self, status):
         case_status_dropdown = Select(self.driver.find_element_by_id(self.STATUS))
@@ -231,7 +223,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_css_selector(self.ECJU_QUERIES_BTN)
 
     def get_case_officer_element(self):
-        return self.driver.find_element_by_id(self.CASE_OFFICER_ID)
+        return self.driver.find_element_by_css_selector(self.CASE_OFFICER_CSS)
 
     def get_additional_contacts_element(self):
         return self.driver.find_element_by_id(self.LINK_ADDITIONAL_CONTACTS_ID)
@@ -289,3 +281,6 @@ class ApplicationPage(BasePage):
 
     def get_audit_elements(self):
         return self.driver.find_elements_by_css_selector(self.AUDIT_TRAIL_ITEM)
+
+    def click_on_case_notes_activity_tab(self):
+        return self.driver.find_element_by_id(self.CASE_NOTES_AND_ACTIVITY_TAB).click()

@@ -60,3 +60,8 @@ def click_visible_to_exporters_checkbox(driver):
 def click_confirm_on_confirmation_box(driver):
     alert = driver.switch_to.alert
     alert.accept()
+
+
+@when("I click on the case notes tab")
+def case_notes_tab(driver):
+    ApplicationPage(driver).click_on_case_notes_activity_tab()
