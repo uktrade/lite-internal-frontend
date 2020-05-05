@@ -29,7 +29,7 @@ class Tabs:
         children=[
             Tab("user-advice", "User advice", "user-advice"),
             Tab("team-advice", "Team advice", "team-advice"),
-            Tab("final-advice", "Final advice", "final-advice"),
+            Tab("final-advice", "Final decision", "final-advice"),
         ],
     )
 
