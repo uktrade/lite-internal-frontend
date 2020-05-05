@@ -13,7 +13,6 @@ from conf.constants import (
     Statuses,
     GOODS_QUERY_STATUSES,
     PV_GRADINGS_URL,
-    MENU_NOTIFICATIONS_URL,
 )
 from users.services import get_gov_user
 
