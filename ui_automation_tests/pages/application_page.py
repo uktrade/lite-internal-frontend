@@ -58,6 +58,7 @@ class ApplicationPage(BasePage):
     CASE_LINK_PARTIAL_ID = "case-"
     BUTTON_APPLY_FILTER_ID = "button-apply-filters"
     USER_TYPE_ID = "user_type"
+    CASE_NOTES_AND_ACTIVITY_TAB = "tab-activity"  # ID
 
     def get_case_copy_of_field_href(self):
         return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
@@ -282,3 +283,6 @@ class ApplicationPage(BasePage):
 
     def get_audit_elements(self):
         return self.driver.find_elements_by_css_selector(self.AUDIT_TRAIL_ITEM)
+
+    def click_on_case_notes_activity_tab(self):
+        return self.driver.find_element_by_id(self.CASE_NOTES_AND_ACTIVITY_TAB).click()

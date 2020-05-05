@@ -1,7 +1,6 @@
 from pytest_bdd import when, then, scenarios
 
 from pages.application_page import ApplicationPage
-from pages.shared import Shared
 
 scenarios("../features/assign_case_flags_to_case.feature", strict_gherkin=False)
 
