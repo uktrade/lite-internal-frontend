@@ -44,7 +44,7 @@ class ApplicationPage(BasePage):
     DOWNLOAD_ADDITIONAL_DOCUMENT = "supporting-documentation"  # ID
     LINK_ORGANISATION_ID = "link-organisation"
     EDIT_GOODS_FLAGS = "button-edit-goods-flags"  # ID
-    CASE_OFFICER_ID = "case-officer"  # ID
+    CASE_OFFICER_CSS = ".govuk-link[href*='case-officer']"  # CSS
     LINK_ADDITIONAL_CONTACTS_ID = "tab-additional-contacts"
     ASSIGN_USER_ID = "assign-user"
     EXPAND_FLAGS_PARTIAL_ID = "expand-flags-"
@@ -113,9 +113,7 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_css_selector(self.ECJU_QUERIES_BTN).click()
 
     def click_case_officer_button(self):
-        self.click_drop_down()
-        scroll_to_element_by_id(self.driver, self.CASE_OFFICER_ID)
-        self.driver.find_element_by_id(self.CASE_OFFICER_ID).click()
+        self.driver.find_element_by_css_selector(self.CASE_OFFICER_CSS).click()
 
     def click_additional_contacts_link(self):
         self.driver.find_element_by_id(self.LINK_ADDITIONAL_CONTACTS_ID).click()
@@ -225,7 +223,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_css_selector(self.ECJU_QUERIES_BTN)
 
     def get_case_officer_element(self):
-        return self.driver.find_element_by_id(self.CASE_OFFICER_ID)
+        return self.driver.find_element_by_css_selector(self.CASE_OFFICER_CSS)
 
     def get_additional_contacts_element(self):
         return self.driver.find_element_by_id(self.LINK_ADDITIONAL_CONTACTS_ID)
