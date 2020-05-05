@@ -31,7 +31,7 @@ from cases.services import (
     delete_case_officer,
     put_unassign_queues,
     post_case_additional_contacts,
-    put_rerun_case_routing_rules,
+    put_rerun_case_routing_rules, put_flag_assignments,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
@@ -39,6 +39,7 @@ from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_user_permissions, get_permissible_statuses
 from flags.services import get_cases_flags
 from lite_content.lite_internal_frontend import cases
+from lite_forms.components import Option
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
 from queues.services import put_queue_single_case_assignment, get_queue
