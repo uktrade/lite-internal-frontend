@@ -70,9 +70,12 @@
 					</div>
 
 					<div class="app-case-header__candy-bar">
-						<span class="app-case-header__candy app-case-header__candy--big">
+						<span id="candy-status" class="app-case-header__candy">
 							{{ case.data.status.value }}
 						</span>
+						<div id="popup-status" class="app-case-header__candy__popup">
+							{% include 'case/pills/case-officer.html' %}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -149,55 +152,16 @@
 	<script type="text/javascript">
 		$(".app-case-header__candy__popup").show();
 
-		const goods = document.getElementById('popup-goods');
-		if (goods) {
-			tippy("#candy-goods", {
-				content: goods,
-			 	allowHTML: true,
-				interactive: true,
-				animation: 'scale-subtle',
-				theme: 'light',
-				placement: 'bottom',
-			    hideOnClick: false,
-				interactiveBorder: 15,
-			});
-		}
-
-		const destinations = document.getElementById('popup-destinations');
-		if (destinations) {
-			tippy("#candy-destinations", {
-				content: destinations,
-				allowHTML: true,
-				interactive: true,
-				animation: 'scale-subtle',
-				theme: 'light',
-				placement: 'bottom',
-			    hideOnClick: false,
-				interactiveBorder: 15,
-			});
-		}
-
-		const flags = document.getElementById('popup-flags');
-		tippy("#candy-flags", {
-			content: flags,
-			allowHTML: true,
+		tippy(".app-case-header__candy", {
+			content(reference) {
+				return document.getElementById($("#" + reference.getAttribute("id")).next().attr("id"));
+			},
+		 	allowHTML: true,
 			interactive: true,
 			animation: 'scale-subtle',
 			theme: 'light',
 			placement: 'bottom',
-			hideOnClick: false,
-			interactiveBorder: 15,
-		});
-
-		const users = document.getElementById('popup-case-officer');
-		tippy("#candy-case-officer", {
-			content: users,
-			allowHTML: true,
-			interactive: true,
-			animation: 'scale-subtle',
-			theme: 'light',
-			placement: 'bottom',
-			hideOnClick: false,
+		    hideOnClick: false,
 			interactiveBorder: 15,
 		});
 
