@@ -45,8 +45,12 @@ def get_goods(request, case):
     return_values = []
 
     for good in goods:
-        if good["id"] in selected_goods_ids:
-            return_values.append(good)
+        if "good" in good:
+            if good["good"]["id"] in selected_goods_ids:
+                return_values.append(good)
+        else:
+            if good["id"] in selected_goods_ids:
+                return_values.append(good)
 
     return return_values
 

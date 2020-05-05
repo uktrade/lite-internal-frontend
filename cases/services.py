@@ -310,10 +310,16 @@ def get_goods_type(request, pk):
     return {"good": data.json()}, data.status_code
 
 
-def post_goods_control_code(request, case_id, json):
-    # Data will only be passed back when a error is thrown with status code of 400, as such it is not split here.
-    response = post(request, GOOD_CLC_REVIEW_URL + case_id + "/", json)
-    return response
+def post_review_goods(request, case_id, json):
+    json = {
+        "objects": request.GET.getlist("goods", request.GET.getlist("goods_types")),
+        "comment": request.POST.get("comment"),
+        "control_list_entries": request.POST.getlist("control_list_entries[]", []),
+        "is_good_controlled": request.POST.get("is_good_controlled"),
+        "report_summary": request.POST.get("report_summary")
+    }
+    response = post(request, GOOD_CLC_REVIEW_URL + str(case_id) + "/", json)
+    return response.json(), response.status_code
 
 
 # Good Flags

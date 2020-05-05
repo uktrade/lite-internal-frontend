@@ -8,7 +8,7 @@ from lite_forms.helpers import conditional
 from picklists.services import get_picklists_for_input
 
 
-def review_goods_form(request, is_goods_type=True):
+def review_goods_form(request, is_goods_type):
     return Form(
         title=cases.ReviewGoodsForm.HEADING,
         questions=[

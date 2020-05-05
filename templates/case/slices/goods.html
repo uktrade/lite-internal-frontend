@@ -32,8 +32,8 @@
 			{% for good in case.application.goods %}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
-						<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.id }}" id="{{ good.id }}">
-						<label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}"></label>
+						<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.good.id }}" id="{{ good.id }}">
+						<label class="govuk-label govuk-checkboxes__label" for="{{ good.good.id }}"></label>
 					</td>
 					<td class="govuk-table__cell govuk-table__cell--line-number {% if show_advice %}lite-!-no-border{% endif %}">{{ forloop.counter }}.</td>
 					<td class="govuk-table__cell govuk-table__cell--max-width-400 {% if show_advice %}lite-!-no-border{% endif %}">
