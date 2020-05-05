@@ -13,6 +13,7 @@ class GoodSystemFlags:
 
 # URLS
 ORGANISATIONS_URL = "/organisations/"
+ORGANISATION_STATUS_URL = "/status/"
 CASE_URL = "/cases/"
 GOOD_URL = "/goods/"
 GOODS_TYPE_URL = "/goods-types/"

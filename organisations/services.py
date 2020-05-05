@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from conf.client import get, post, put
-from conf.constants import ORGANISATIONS_URL, SITES_URL, USERS_URL
+from conf.constants import ORGANISATIONS_URL, SITES_URL, USERS_URL, ORGANISATION_STATUS_URL
 from lite_content.lite_internal_frontend.organisations import RegisterAnOrganisation
 
 
@@ -39,7 +39,7 @@ def put_organisation(request, pk, json):
 
 
 def put_organisation_status(request, pk, json):
-    data = put(request=request, appended_address=ORGANISATIONS_URL + str(pk) + "/status/", json=json)
+    data = put(request=request, appended_address=ORGANISATIONS_URL + str(pk) + ORGANISATION_STATUS_URL, json=json)
     return data.json(), data.status_code
 
 
