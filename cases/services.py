@@ -251,15 +251,10 @@ def post_good_countries_decisions(request, case_pk, json):
 
 
 def post_user_case_advice(request, pk, json):
-    json["goods_types"] = request.GET.getlist("goods")
-    json["destinations"] = request.GET.getlist("destinations")
-    json["countries"] = request.GET.getlist("countries")
+    data = post(request, CASE_URL + str(pk) + USER_ADVICE_URL, json)
 
-    new_data = prepare_data_for_advice(json)
-    data = post(request, CASE_URL + str(pk) + USER_ADVICE_URL, new_data)
-
-    print("new_data")
-    print(new_data)
+    print("json")
+    print(json)
     print("\n")
 
     print("\n")
@@ -316,9 +311,12 @@ def post_review_goods(request, case_id, json):
         "comment": request.POST.get("comment"),
         "control_list_entries": request.POST.getlist("control_list_entries[]", []),
         "is_good_controlled": request.POST.get("is_good_controlled"),
-        "report_summary": request.POST.get("report_summary")
+        "report_summary": request.POST.get("report_summary"),
     }
     response = post(request, GOOD_CLC_REVIEW_URL + str(case_id) + "/", json)
+    print("\n")
+    print(response.json())
+    print("\n")
     return response.json(), response.status_code
 
 

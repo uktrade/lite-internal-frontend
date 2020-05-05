@@ -14,8 +14,7 @@ class ReviewGoods(SingleFormView):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
         self.form = review_goods_form(request, is_goods_type="goods_types" in request.GET)
-        self.context = {"case": case,
-                        "goods": get_goods(request, case)}
+        self.context = {"case": case, "goods": get_goods(request, case)}
         self.action = post_review_goods
         self.success_url = reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk})
 

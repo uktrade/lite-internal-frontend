@@ -4,7 +4,17 @@ from cases.constants import CaseType
 from cases.objects import Case
 from core.components import PicklistPicker
 from lite_content.lite_internal_frontend.strings import cases
-from lite_forms.components import Form, RadioButtons, Option, BackLink, TextArea, Checkboxes, HelpSection, HTMLBlock
+from lite_forms.components import (
+    Form,
+    RadioButtons,
+    Option,
+    BackLink,
+    TextArea,
+    Checkboxes,
+    HelpSection,
+    HTMLBlock,
+    Group,
+)
 from lite_forms.helpers import conditional
 from picklists.services import get_picklists_for_input
 
@@ -50,11 +60,19 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
                             cases.AdviceRecommendationForm.RadioButtons.REFUSE,
                         ),
                         components=[
-                            Checkboxes(
-                                title="Select the appropriate denial reasons for your selection",
-                                name="denial_reasons[]",
-                                options=denial_reasons,
-                                classes=["govuk-checkboxes--small"],
+                            Group(
+                                [
+                                    Checkboxes(
+                                        title=conditional(
+                                            key == "1", "Select the appropriate denial reasons for your selection"
+                                        ),
+                                        name="denial_reasons[]",
+                                        options=denial_reasons[key],
+                                        classes=["govuk-checkboxes--small", "govuk-checkboxes--inline"],
+                                    )
+                                    for key in denial_reasons.keys()
+                                ],
+                                ["app-advice__checkboxes"],
                             )
                         ],
                     ),

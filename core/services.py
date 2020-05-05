@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from cases.constants import CaseType
 from lite_forms.components import Option, Checkboxes
 
@@ -17,13 +19,21 @@ from conf.constants import (
 from users.services import get_gov_user
 
 
-def get_denial_reasons(request, convert_to_options=False):
+def get_denial_reasons(request, convert_to_options=False, group=False):
     data = get(request, DENIAL_REASONS_URL).json()["denial_reasons"]
 
     if convert_to_options:
-        return [Option(denial_reason["id"], denial_reason["id"]) for denial_reason in data]
-    else:
-        return data
+        options = [Option(denial_reason["id"], denial_reason["id"]) for denial_reason in data]
+
+        if group:
+            return_dict = defaultdict(list)
+            for item in options:
+                return_dict[item.key[0]].append(item)
+            return dict(return_dict)
+
+        return options
+
+    return data
 
 
 def get_countries(request, convert_to_options=False, exclude: list = None):

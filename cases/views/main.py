@@ -31,7 +31,8 @@ from cases.services import (
     delete_case_officer,
     put_unassign_queues,
     post_case_additional_contacts,
-    put_rerun_case_routing_rules, put_flag_assignments,
+    put_rerun_case_routing_rules,
+    put_flag_assignments,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
@@ -63,11 +64,23 @@ class CaseDetail(CaseView):
         self.slices = [Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
 
     def get_hmrc_application(self):
-        self.slices = [Slices.HMRC_NOTE, Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
+        self.slices = [
+            Slices.HMRC_NOTE,
+            Slices.GOODS,
+            Slices.DESTINATIONS,
+            Slices.LOCATIONS,
+            Slices.SUPPORTING_DOCUMENTS,
+        ]
 
     def get_exhibition_clearance_application(self):
         self.tabs = [Tabs.ADVICE]
-        self.slices = [Slices.EXHIBITION_DETAILS, Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
+        self.slices = [
+            Slices.EXHIBITION_DETAILS,
+            Slices.GOODS,
+            Slices.DESTINATIONS,
+            Slices.LOCATIONS,
+            Slices.SUPPORTING_DOCUMENTS,
+        ]
 
     def get_gifting_clearance_application(self):
         self.tabs = [Tabs.ADVICE]
@@ -75,8 +88,13 @@ class CaseDetail(CaseView):
 
     def get_f680_clearance_application(self):
         self.tabs = [Tabs.ADVICE]
-        self.slices = [Slices.GOODS, Slices.DESTINATIONS, Slices.F680_DETAILS, Slices.END_USE_DETAILS,
-                       Slices.SUPPORTING_DOCUMENTS]
+        self.slices = [
+            Slices.GOODS,
+            Slices.DESTINATIONS,
+            Slices.F680_DETAILS,
+            Slices.END_USE_DETAILS,
+            Slices.SUPPORTING_DOCUMENTS,
+        ]
 
     def get_end_user_advisory_query(self):
         self.slices = [Slices.END_USER_ADVISORY]

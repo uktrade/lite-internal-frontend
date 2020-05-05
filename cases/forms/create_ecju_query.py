@@ -33,8 +33,7 @@ def new_ecju_query_form(request, queue_pk, pk):
                 title=cases.EcjuQueries.AddQuery.CHOOSE_TYPE,
                 questions=[
                     RadioButtons(
-                        name="query_type",
-                        options=[Option(choice[0], choice[1]) for choice in ECJUQueryTypes.choices],
+                        name="query_type", options=[Option(choice[0], choice[1]) for choice in ECJUQueryTypes.choices],
                     )
                 ],
                 back_link=BackLink(
@@ -50,7 +49,7 @@ def new_ecju_query_form(request, queue_pk, pk):
                         description=cases.EcjuQueries.AddQuery.DESCRIPTION,
                         name="question",
                         extras={"max_length": 5000,},
-                        data_attributes={"picklist-picker": query_type}
+                        data_attributes={"picklist-picker": query_type},
                     ),
                     PicklistPicker(target="question", items=get_picklists_for_input(request, query_type)),
                 ],

@@ -29,7 +29,8 @@ from cases.services import (
     grant_licence,
     get_final_decision_documents,
     get_licence,
-    get_finalise_application_goods, prepare_data_for_advice,
+    get_finalise_application_goods,
+    prepare_data_for_advice,
 )
 from conf.constants import DECISIONS_LIST, Permission
 from core import helpers
@@ -44,9 +45,16 @@ class GiveAdvice(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.case = get_case(request, self.object_pk)
         self.tab = kwargs["tab"]
-        self.data = flatten_advice_data(request, [*get_goods(request, self.case), *get_destinations(request, self.case)])
+        self.data = flatten_advice_data(
+            request, [*get_goods(request, self.case), *get_destinations(request, self.case)]
+        )
         self.form = give_advice_form(
-            request, self.case, self.tab, kwargs["queue_pk"], get_denial_reasons(request, True), show_warning=not self.data
+            request,
+            self.case,
+            self.tab,
+            kwargs["queue_pk"],
+            get_denial_reasons(request, True, True),
+            show_warning=not self.data,
         )
         self.context = {
             "case": self.case,

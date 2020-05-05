@@ -36,7 +36,7 @@ def review_goods_form(request, is_goods_type):
             ),
             DetailComponent(
                 title="Explain why you're making this decision (optional)",
-                components=[TextArea(name="comment", extras={"max_length": 500, }), ],
+                components=[TextArea(name="comment", extras={"max_length": 500,}),],
             ),
         ],
         default_button_name=cases.ReviewGoodsForm.CONFIRM_BUTTON,

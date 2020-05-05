@@ -10,9 +10,7 @@ def get_picklists_list(request, type, disable_pagination=False):
     return response.json()
 
 
-def get_picklists_for_input(
-    request, picklist_type, show_deactivated=False, convert_to_options=False
-):
+def get_picklists_for_input(request, picklist_type, show_deactivated=False, convert_to_options=False):
     data = get(
         request,
         PICKLIST_URL
