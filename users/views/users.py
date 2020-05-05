@@ -37,7 +37,7 @@ class UsersList(TemplateView):
             for option in [
                 {"key": "active", "value": UserStatuses.ACTIVE},
                 {"key": "deactivated", "value": UserStatuses.DEACTIVATED},
-                {"key": "", "value": "All"}
+                {"key": "", "value": "All"},
             ]
         ]  # TODO[future]: filters in API?
 
