@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from cases.constants import CaseType
-from cases.forms.Rerun_routing_rules import rerun_routing_rules_confirmation_form
+from cases.forms.rerun_routing_rules import rerun_routing_rules_confirmation_form
 from cases.forms.additional_contacts import add_additional_contact_form
 from cases.forms.assign_users import assign_case_officer_form, assign_user_and_work_queue, users_team_queues
 from cases.forms.attach_documents import attach_documents_form

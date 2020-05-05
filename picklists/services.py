@@ -11,7 +11,7 @@ def get_picklists_list(request, type, disable_pagination=False):
 
 
 def get_picklists_for_input(
-    request, picklist_type, show_deactivated=False, convert_to_options=False, include_none=False
+    request, picklist_type, show_deactivated=False, convert_to_options=False
 ):
     data = get(
         request,
@@ -25,9 +25,6 @@ def get_picklists_for_input(
 
     if convert_to_options:
         options = []
-
-        if include_none:
-            options.append(Option(None, "None"))
 
         for item in data:
             options.append(Option(item["id"], item["name"], item["text"]))

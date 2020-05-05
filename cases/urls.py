@@ -58,8 +58,7 @@ urlpatterns = [
         goods_query.RespondPVGradingFlags.as_view(),
         name="respond_to_pv_grading_query_flags",
     ),
-    path("review-goods/", goods.ReviewGoods.as_view(), name="review_goods"),
-    path("review-goods-clc/", goods.ReviewGoodsClc.as_view(), name="review_goods_clc"),
+    path("review-goods-clc/", goods.ReviewGoods.as_view(), name="review_goods"),
     path("generate-document/", generate_document.SelectTemplate.as_view(), name="generate_document"),
     path(
         "generate-document/<uuid:tpk>/edit/",
