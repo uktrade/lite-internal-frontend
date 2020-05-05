@@ -61,7 +61,6 @@ CASE_OFFICER_URL = "/case-officer/"
 FINALISE_CASE_URL = "/finalise/"
 ROUTING_RULES_URL = "/routing-rules/"
 ROUTING_RULES_STATUS_URL = "/status/"
-MENU_NOTIFICATIONS_URL = "/menu/"
 
 # Static URLs
 STATIC_URL = "/static/"

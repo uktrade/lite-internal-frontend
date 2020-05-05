@@ -114,12 +114,6 @@ def get_user_permissions(request, with_team=False):
     return user["user"]["role"]["permissions"]
 
 
-# Notifications
-def get_notifications(request):
-    data = get(request, NOTIFICATIONS_URL)
-    return data.json()["notifications"]
-
-
 # Control List Entries
 def get_control_list_entries(request, convert_to_options=False):
     if convert_to_options:
@@ -160,4 +154,4 @@ def get_pv_gradings(request):
 
 
 def get_menu_notifications(request):
-    return get(request, MENU_NOTIFICATIONS_URL).json()
+    return get(request, NOTIFICATIONS_URL).json()
