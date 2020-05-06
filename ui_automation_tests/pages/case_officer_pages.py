@@ -9,7 +9,7 @@ class CaseOfficerPages(BasePage):
     VISIBLE_CHOICES_EMAILS = ".govuk-radios__item.visible .govuk-hint"
     VISIBLE_CHOICE_BUTTON = ".govuk-radios__item.visible .govuk-radios__input"
     CURRENT_CASE_OFFICER_PANEL = ".govuk-grid-column-one-third .lite-related-items"
-    CURRENT_CASE_OFFICER_LINK_ID = "selected-case-officer"
+    CURRENT_CASE_OFFICER_LINK_ID = "link-case-officer"
     TEXTAREA_SEARCH_ID = "filter-box"
 
     def select_first_user(self):
@@ -27,3 +27,9 @@ class CaseOfficerPages(BasePage):
 
     def get_current_case_officer(self):
         return self.driver.find_element_by_id(self.CURRENT_CASE_OFFICER_LINK_ID).text
+
+    def get_size_of_current_case_officer_link(self):
+        self.driver.set_timeout_to(0)
+        size = len(self.driver.find_elements_by_id(self.CURRENT_CASE_OFFICER_LINK_ID))
+        self.driver.set_timeout_to_10_seconds()
+        return size

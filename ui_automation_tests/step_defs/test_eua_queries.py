@@ -17,7 +17,6 @@ def case_notes_are_available(driver):
 @then("The dropdown should contain Move Case, Documents, and Ecju queries")
 def dropdown_contains_correct_functionality(driver):
     application_page = ApplicationPage(driver)
-    application_page.click_drop_down()
     assert application_page.get_document_element()
     assert application_page.get_move_case_element()
     assert application_page.get_ecju_queries_element()

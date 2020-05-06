@@ -42,7 +42,7 @@ def case_officer_is_set(driver, internal_info):
 
 @then("I see no case officer is assigned")
 def no_case_officer_is_set(driver, internal_info):
-    assert internal_info["name"] not in CaseOfficerPages(driver).get_current_case_officer()
+    assert CaseOfficerPages(driver).get_size_of_current_case_officer_link() == 0
 
 
 @when("I click unassign")

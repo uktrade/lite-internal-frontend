@@ -17,7 +17,7 @@ Feature: I want to add case-level flags to a case and view them
     Then I see previously created application
     And I see the added flags on the queue
 
-  @LT_1185_add @LT_951 @regression
+  @LT_1185_add @LT_951 @regression @nicky
   Scenario: Add flag to good
     Given I sign in to SSO or am signed into SSO
     And I create standard application or standard application has been previously created

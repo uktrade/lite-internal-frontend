@@ -17,7 +17,7 @@ class ApplicationPage(BasePage):
     LINK_CANCEL_NOTE_ID = "link-case-note-cancel"
     CASE_NOTES_TEXT = ".app-activity__item"  # css
     CASE_NOTE_DATE_TIME = ".app-activity__item .govuk-hint"  # css
-    DOCUMENTS_BTN = '[href*="documents"]'  # css
+    DOCUMENTS_BTN = 'tab-documents'  # ID
     GENERATE_DOCUMENTS_BTN = "generate-document"  # id
     ECJU_QUERIES_BTN = '[href*="ecju-queries"]'  # css
     PROGRESS_APP_BTN = "change-status"  # ID
@@ -27,7 +27,7 @@ class ApplicationPage(BasePage):
     ACTIVITY_DATES = ".app-activity__item .govuk-hint"
     IS_VISIBLE_TO_EXPORTER_CHECKBOX_ID = "is_visible_to_exporter"
     REVIEW_GOODS = "button-review-goods"
-    EDIT_CASE_FLAGS = "application-edit-case-flags"  # ID
+    EDIT_CASE_FLAGS = "link-change-flags"  # ID
     EDIT_DESTINATION_FLAGS_BUTTON = "button-edit-destinations-flags"  # ID
     CHECKBOX_INPUT = ".govuk-checkboxes__input"
     VIEW_ADVICE = 'a[href*="/user-advice-view/"]'
@@ -88,12 +88,10 @@ class ApplicationPage(BasePage):
         return self.driver.find_elements_by_css_selector(self.CASE_NOTE_DATE_TIME)[no].text
 
     def click_progress_application(self):
-        self.click_drop_down()
         scroll_to_element_by_id(self.driver, self.PROGRESS_APP_BTN)
         self.driver.find_element_by_id(self.PROGRESS_APP_BTN).click()
 
     def click_rerun_routing_rules(self):
-        self.click_drop_down()
         scroll_to_element_by_id(self.driver, self.RERUN_ROUTING_RULES_BTN)
         self.driver.find_element_by_id(self.RERUN_ROUTING_RULES_BTN).click()
 
@@ -101,15 +99,12 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_id(self.CONFIRM_RERUN_ROUTING_RULES).click()
 
     def click_documents_button(self):
-        self.click_drop_down()
-        self.driver.find_element_by_css_selector(self.DOCUMENTS_BTN).click()
+        self.driver.find_element_by_id(self.DOCUMENTS_BTN).click()
 
     def click_generate_document_button(self):
-        self.click_drop_down()
         self.driver.find_element_by_id(self.GENERATE_DOCUMENTS_BTN).click()
 
     def click_ecju_queries_button(self):
-        self.click_drop_down()
         self.driver.find_element_by_css_selector(self.ECJU_QUERIES_BTN).click()
 
     def click_case_officer_button(self):
@@ -156,7 +151,6 @@ class ApplicationPage(BasePage):
         return flag_name in self.driver.find_element_by_id("goods").text
 
     def click_move_case_button(self):
-        self.click_drop_down()
         self.driver.find_element_by_css_selector(self.MOVE_CASE_BUTTON).click()
 
     def get_text_of_audit_trail_item(self, no):
@@ -257,7 +251,6 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.TYPE_OF_CASE).text
 
     def click_assign_user_button(self):
-        self.click_drop_down()
         scroll_to_element_by_id(self.driver, self.ASSIGN_USER_ID)
         self.driver.find_element_by_id(self.ASSIGN_USER_ID).click()
 

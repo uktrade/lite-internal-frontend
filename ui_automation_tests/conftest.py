@@ -196,8 +196,6 @@ def move_case_to_new_queue(driver, context):  # noqa
 def assign_flags_to_case(driver, context):  # noqa
     case_flags_pages = CaseFlagsPages(driver)
     case_flags_pages.select_flag(context.flag_name)
-    shared = Shared(driver)
-    shared.click_submit()
 
 
 @given("I create report summary picklist")  # noqa

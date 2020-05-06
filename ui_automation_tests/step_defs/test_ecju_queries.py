@@ -62,7 +62,7 @@ def i_select_write_a_new_question(driver):
 def the_question_text_area_is_empty(driver):
     driver.set_timeout_to(0)
     assert not EcjuQueriesPages(driver).get_question_text()
-    driver.set_timeout_to(10)
+    driver.set_timeout_to_10_seconds()
 
 
 @when("I enter text in the question text area")
