@@ -200,7 +200,7 @@ class Finalise(TemplateView):
             is_open_licence = True
         else:
             advice = filter_advice_by_level(case["advice"], "FinalAdvice")
-            items = [item["type"]["key"] for item in advice["advice"]]
+            items = [item["type"]["key"] for item in advice]
             is_open_licence = False
 
         case_id = case["id"]
@@ -232,7 +232,7 @@ class Finalise(TemplateView):
                 editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
                 goods=self._get_goods(request, str(kwargs["pk"]), case_type),
             )
-            return form_page(request, form, data=form_data)
+            return form_page(request, form, data=form_data, extra_data={"case": case})
         else:
             return form_page(request, deny_licence_form(kwargs["queue_pk"], case_id, is_open_licence))
 
@@ -259,7 +259,7 @@ class Finalise(TemplateView):
                 editable_duration=has_permission,
                 goods=self._get_goods(request, str(kwargs["pk"]), case_type),
             )
-            return form_page(request, form, data=data, errors=res.json()["errors"])
+            return form_page(request, form, data=data, errors=res.json()["errors"], extra_data={"case": case})
 
         return redirect(
             reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]})
