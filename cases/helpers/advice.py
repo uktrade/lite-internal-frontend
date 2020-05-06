@@ -1,6 +1,7 @@
 from typing import List, Dict
 
 from cases.objects import Case
+from cases.services import get_blocking_flags
 from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES, AdviceType
 from core.builtins.custom_tags import filter_advice_by_level
 from core.services import get_status_properties
@@ -54,7 +55,8 @@ def get_advice_additional_context(request, case, permissions):
         "teams": get_teams(request),
         "status_is_read_only": status_props["is_read_only"],
         "status_is_terminal": status_props["is_terminal"],
-        "current_advice_level": current_advice_level
+        "current_advice_level": current_advice_level,
+        "blocking_flags": get_blocking_flags(request, case["id"])
     }
 
 

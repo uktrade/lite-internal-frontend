@@ -19,16 +19,9 @@
 
 .app-flags {
 	padding: 0;
-	display: grid;
-	grid-gap: govuk-spacing(2);
+	display: flex;
 	margin: 0;
 	margin-bottom: govuk-spacing(6);
-
-	@for $i from 1 through 10 {
-		&[min-width~="#{$i * 200}"]) {
-			grid-template-columns: repeat(#{$i}, 1fr)
-		}
-	}
 
 	&--list {
 		display: block;
@@ -44,7 +37,6 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			width: 100%;
-			margin-bottom: govuk-spacing(2);
 
 			&:last-of-type {
 				margin-bottom: 0;
@@ -66,6 +58,8 @@ $flag-border-width: 3px;
 	padding: 0 govuk-spacing(2) 0 (govuk-spacing(2) + ($flag-border-width * 2));
 	min-width: 42px;
 	box-sizing: border-box;
+	margin-right: govuk-spacing(2);
+	margin-bottom: govuk-spacing(2);
 
 	&::after {
 		content: "";

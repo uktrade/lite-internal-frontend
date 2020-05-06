@@ -15,7 +15,7 @@
 			</button>
 		</div>
 
-		<div class="{% if current_advice_level != 'FinalAdvice' %}app-advice__disabled-buttons{% endif %}">
+		<div class="{% if current_advice_level != 'FinalAdvice' or blocking_flags %}app-advice__disabled-buttons{% endif %}">
 			{% make_list queue.id case.id as button_params %}
 			{% if case.application.case_type.sub_type.key == 'open' %}
 				{% if case.application.goodstype_category.key == 'media' %}
@@ -30,11 +30,12 @@
 	</div>
 
 	{% if blocking_flags %}
-		<div class="govuk-warning-text" id="blocking_flags">
+		<div class="govuk-warning-text govuk-!-margin-0" id="warning-text-blocking-flags">
 			<span class="govuk-warning-text__icon" aria-hidden="true">!</span>
 			<strong class="govuk-warning-text__text">
 				<span class="govuk-warning-text__assistive">{% lcs 'cases.ViewAdvicePage.WarningBanner.HIDDEN_TEXT' %}</span>
-				{% lcs 'cases.ViewAdvicePage.WarningBanner.BLOCKING_FLAGS' %}{% include 'includes/flags.html' with flags=blocking_flags %}
+				<p class="govuk-!-margin-top-0 govuk-!-margin-bottom-3">{% lcs 'cases.ViewAdvicePage.WarningBanner.BLOCKING_FLAGS' %}</p>
+				{% include 'includes/flags.html' with flags=blocking_flags %}
 			</strong>
 		</div>
 	{% endif %}
