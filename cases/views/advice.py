@@ -8,7 +8,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.constants import CaseType
-from cases.forms.advice import give_advice_form, finalise_goods_countries_form
+from cases.forms.advice import give_advice_form, finalise_goods_countries_form, generate_documents_form
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
 from cases.helpers.advice import get_destinations, get_goods, flatten_advice_data
 from cases.services import (
@@ -111,9 +111,9 @@ class ViewTeamAdvice(TemplateView):
             clear_team_advice(request, case.get("id"))
 
             return redirect(
-                reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"],
-                                                          "pk": case.get("id"),
-                                                          "tab": "team-advice"})
+                reverse(
+                    "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case.get("id"), "tab": "team-advice"}
+                )
             )
 
 
@@ -266,28 +266,20 @@ class Finalise(TemplateView):
         )
 
 
-class FinaliseGenerateDocuments(TemplateView):
-    @staticmethod
-    def get_page(request, pk, errors=None):
-        decisions, _ = get_final_decision_documents(request, str(pk))
+class FinaliseGenerateDocuments(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        self.form = generate_documents_form()
+        decisions, _ = get_final_decision_documents(request, self.object_pk)
         decisions = decisions["documents"]
         can_submit = all([decision.get("document") for decision in decisions.values()])
-
-        context = {
-            "case_id": str(pk),
-            "title": GenerateFinalDecisionDocumentsPage.TITLE,
+        self.context = {
+            "case": case,
             "can_submit": can_submit,
             "decisions": decisions,
-            "errors": errors,
         }
-        return render(request, "case/views/finalise-generate-documents.html", context)
-
-    def get(self, request, pk, **kwargs):
-        return self.get_page(request, pk)
-
-    def post(self, request, pk, **kwargs):
-        data, status_code = grant_licence(request, str(pk))
-        if status_code != HTTPStatus.CREATED:
-            return self.get_page(request, pk, errors=data["errors"])
-        else:
-            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": pk}))
+        self.action = grant_licence
+        self.success_url = reverse_lazy(
+            "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk, "tab": "final-advice"}
+        )

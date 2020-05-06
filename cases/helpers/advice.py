@@ -56,7 +56,7 @@ def get_advice_additional_context(request, case, permissions):
         "status_is_read_only": status_props["is_read_only"],
         "status_is_terminal": status_props["is_terminal"],
         "current_advice_level": current_advice_level,
-        "blocking_flags": get_blocking_flags(request, case["id"])
+        "blocking_flags": get_blocking_flags(request, case["id"]),
     }
 
 

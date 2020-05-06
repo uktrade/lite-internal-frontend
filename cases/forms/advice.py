@@ -13,7 +13,9 @@ from lite_forms.components import (
     Checkboxes,
     HelpSection,
     HTMLBlock,
-    Group, TextInput, Custom,
+    Group,
+    TextInput,
+    Custom,
 )
 from lite_forms.helpers import conditional
 from picklists.services import get_picklists_for_input
@@ -105,11 +107,17 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
     )
 
 
+def generate_documents_form():
+    return Form(
+        "Generate decision documents",
+        questions=[Custom("components/finalise-generate-documents.html")],
+        container="case",
+    )
+
+
 def finalise_goods_countries_form():
     return Form(
         title="Select a decision for each good and country combination",
-        questions=[
-            Custom("components/finalise-goods-countries-table.html")
-        ],
-        container="case"
+        questions=[Custom("components/finalise-goods-countries-table.html")],
+        container="case",
     )

@@ -17,10 +17,8 @@ urlpatterns = [
     # old advice
     path("coalesce-user-advice/", advice.CoalesceUserAdvice.as_view(), name="coalesce_user_advice"),
     path("coalesce-team-advice/", advice.CoalesceTeamAdvice.as_view(), name="coalesce_team_advice"),
-
     path("team-advice-view/", advice.ViewTeamAdvice.as_view(), name="team_advice_view"),
     path("final-advice-view/", advice.ViewFinalAdvice.as_view(), name="final_advice_view"),
-
     path("finalise-goods-countries/", advice.FinaliseGoodsCountries.as_view(), name="finalise_goods_countries"),
     path("finalise/", advice.Finalise.as_view(), name="finalise"),
     path("finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"),

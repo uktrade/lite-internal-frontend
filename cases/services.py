@@ -182,12 +182,12 @@ def clear_team_advice(request, case_pk):
 
 
 def get_final_decision_documents(request, case_pk):
-    data = get(request, CASE_URL + case_pk + "/final-advice-documents/")
+    data = get(request, CASE_URL + str(case_pk) + "/final-advice-documents/")
     return data.json(), data.status_code
 
 
-def grant_licence(request, case_pk):
-    data = put(request, CASE_URL + case_pk + FINALISE_CASE_URL, {})
+def grant_licence(request, case_pk, _):
+    data = put(request, CASE_URL + str(case_pk) + FINALISE_CASE_URL, {})
     return data.json(), data.status_code
 
 
@@ -224,10 +224,10 @@ def prepare_data_for_advice(json):
         "goods_types": "goods_type",
     }
 
-    print('\n')
-    print('json')
+    print("\n")
+    print("json")
     print(json)
-    print('\n')
+    print("\n")
 
     for entity_name in single_cases:
         if json.get(entity_name):
