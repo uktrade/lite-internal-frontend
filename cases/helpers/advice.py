@@ -16,7 +16,7 @@ def get_destinations(request, case: Case):
 
 
 def get_goods(request, case: Case):
-    selected_goods_ids = request.GET.getlist("goods")
+    selected_goods_ids = request.GET.getlist("goods", request.GET.getlist("goods_types"))
     goods = case.data.get("goods", case.data.get("goods_types"))
     return_values = []
 
