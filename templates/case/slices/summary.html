@@ -9,6 +9,16 @@
 			</dd>
 		</div>
 	{% endif %}
+	{% if case.copy_of %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.ApplicationPage.COPY_OF_LABEL' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				<a class="govuk-link govuk-link--no-visited-state" id="link-case-copy-of" href="{% url 'cases:case' queue.id case.copy_of.id %}">{{ case.copy_of.reference_code }}</a>
+			</dd>
+		</div>
+	{% endif %}
 	{% if case.application.hmrc_organisation %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
