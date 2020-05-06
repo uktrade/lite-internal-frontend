@@ -105,6 +105,33 @@
 		text-decoration: none;
 	}
 
+	.app-menu__item-notification {
+		@include govuk-font($size: 16, $weight: bold);
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		margin-left: auto;
+		color: govuk-colour("white");
+		text-decoration: underline!important;
+		text-decoration-color: transparent!important;
+		z-index: 0;
+		height: 20px;
+		min-width: 10px;
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: -5px;
+			right: -5px;
+			bottom: 0;
+			background-color: govuk-colour("red");
+			z-index: -1;
+			border-radius: 10px;
+		}
+	}
+
 	.app-menu__icon {
 		width: 18px;
 		height: 100%;
