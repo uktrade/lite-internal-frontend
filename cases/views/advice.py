@@ -325,12 +325,14 @@ class Finalise(TemplateView):
     def get(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))
         case_type = case["application"]["case_type"]["sub_type"]["key"]
-        is_case_oiel_final_advice_only = case["application"]["goodstype_category"]["key"] in [
-            "media",
-            "cryptographic",
-            "dealer",
-            "uk_continental_shelf",
-        ]
+        is_case_oiel_final_advice_only = False
+        if "goodstype_category" in case["application"]:
+            is_case_oiel_final_advice_only = case["application"]["goodstype_category"]["key"] in [
+                "media",
+                "cryptographic",
+                "dealer",
+                "uk_continental_shelf",
+            ]
 
         if case_type == CaseType.OPEN.value and not is_case_oiel_final_advice_only:
             data = get_good_countries_decisions(request, str(kwargs["pk"]))["data"]
