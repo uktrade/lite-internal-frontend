@@ -48,7 +48,7 @@ def update_flag(request, pk, json):
 
 
 def get_flagging_rules(request, params):
-    data = get(request, FLAGGING_RULES + "?" + params)
+    data = get(request, FLAGGING_RULES + "/?" + params)
     return data.json(), data.status_code
 
 

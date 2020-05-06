@@ -1,55 +1,118 @@
+import json
 import requests
+from mohawk import Sender
 
-from conf.settings import env
+from conf.settings import env, DEBUG
 
 
 def get(request, appended_address):
+    url = env("LITE_API_URL") + appended_address
+
+    # If a URL doesn't end with a slash and doesn't have URL parameter, add the trailing slash
+    if not url.endswith("/") and "?" not in url:
+        url = url + "/"
+
+    sender = _get_hawk_sender(url, "GET", "text/plain", {})
+
     if request:
-        return requests.get(
-            env("LITE_API_URL") + appended_address,
-            headers={"GOV-USER-TOKEN": str(request.user.user_token), "X-Correlation-Id": str(request.correlation)},
-        )
+        response = requests.get(url, headers=_get_headers(request, sender),)
 
-    return requests.get(env("LITE_API_URL") + appended_address)
+        _verify_api_response(response, sender)
 
+        return response
 
-def post(request, appended_address, json):
-    if request:
-        return requests.post(
-            env("LITE_API_URL") + appended_address,
-            json=json,
-            headers={"GOV-USER-TOKEN": str(request.user.user_token), "X-Correlation-Id": str(request.correlation)},
-        )
-
-    return requests.post(env("LITE_API_URL") + appended_address, json=json)
+    return requests.get(url)
 
 
-def put(request, appended_address: str, json):
-    # PUT requires a trailing slash
+def post(request, appended_address, request_data):
     if not appended_address.endswith("/"):
-        appended_address += "/"
+        appended_address = appended_address + "/"
 
-    return requests.put(
-        env("LITE_API_URL") + appended_address,
-        json=json,
-        headers={"GOV-USER-TOKEN": str(request.user.user_token), "X-Correlation-Id": str(request.correlation)},
+    url = env("LITE_API_URL") + appended_address
+
+    if request:
+        sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
+
+        response = requests.post(url, json=request_data, headers=_get_headers(request, sender),)
+
+        _verify_api_response(response, sender)
+
+        return response
+    else:
+        # Staff SSO requests aren't signed and responses aren't verified
+        return requests.post(url, json=request_data)
+
+
+def put(request, appended_address: str, request_data):
+    if not appended_address.endswith("/"):
+        appended_address = appended_address + "/"
+
+    url = env("LITE_API_URL") + appended_address
+
+    sender = _get_hawk_sender(url, "PUT", "application/json", json.dumps(request_data))
+
+    response = requests.put(url, json=request_data, headers=_get_headers(request, sender),)
+
+    _verify_api_response(response, sender)
+
+    return response
+
+
+def patch(request, appended_address: str, request_data):
+    if not appended_address.endswith("/"):
+        appended_address = appended_address + "/"
+
+    url = env("LITE_API_URL") + appended_address
+
+    sender = _get_hawk_sender(url, "PATCH", "application/json", json.dumps(request_data))
+
+    response = requests.patch(
+        url=env("LITE_API_URL") + appended_address, json=request_data, headers=_get_headers(request, sender),
     )
 
+    _verify_api_response(response, sender)
 
-def patch(request, appended_address: str, json):
-    # PATCH requires a trailing slash
-    if not appended_address.endswith("/"):
-        appended_address += "/"
-
-    return requests.patch(
-        env("LITE_API_URL") + appended_address,
-        json=json,
-        headers={"GOV-USER-TOKEN": str(request.user.user_token), "X-Correlation-Id": str(request.correlation)},
-    )
+    return response
 
 
 def delete(request, appended_address):
-    return requests.delete(
-        env("LITE_API_URL") + appended_address,
-        headers={"GOV-USER-TOKEN": str(request.user.user_token), "X-Correlation-Id": str(request.correlation)},
+    if not appended_address.endswith("/"):
+        appended_address = appended_address + "/"
+
+    url = env("LITE_API_URL") + appended_address
+
+    sender = _get_hawk_sender(url, "DELETE", "text/plain", {})
+
+    response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender),)
+
+    _verify_api_response(response, sender)
+
+    return response
+
+
+def _get_headers(request, sender: Sender):
+    return {
+        "GOV-USER-TOKEN": str(request.user.user_token),
+        "X-Correlation-Id": str(request.correlation),
+        "Authorization": sender.request_header,
+    }
+
+
+def _get_hawk_sender(url: str, method: str, content_type: str, content):
+    return Sender(
+        {"id": "internal-frontend", "key": env("LITE_API_HAWK_KEY"), "algorithm": "sha256"},
+        url,
+        method,
+        content=content,
+        content_type=content_type,
+    )
+
+
+def _verify_api_response(response, sender: Sender):
+    # TODO Reinstate before merging!!!
+    # if not DEBUG:
+    sender.accept_response(
+        response.headers["server-authorization"],
+        content=response.content,
+        content_type=response.headers["Content-Type"],
     )
