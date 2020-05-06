@@ -27,8 +27,8 @@
 						{% for decision in decisions %}
 							<td class="govuk-table__cell govuk-table__cell--radio">
 								<div class="govuk-radios__item">
-									<input class="govuk-radios__input" id="name-1" name="name" type="radio" value="value">
-									<label class="govuk-label govuk-radios__label" for="name-1">
+									<input class="govuk-radios__input" type="radio" name="{{ good.id }}.{{ country.id }}" id="{{ decision }}.{{ good.id }}.{{ country.id }}" value="{{ decision }}">
+									<label class="govuk-label govuk-radios__label" for="{{ decision }}.{{ good.id }}.{{ country.id }}">
 										{{ decision|sentence_case }}
 									</label>
 								</div>

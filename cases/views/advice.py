@@ -34,6 +34,7 @@ from cases.services import (
 )
 from conf.constants import DECISIONS_LIST, Permission
 from core import helpers
+from core.builtins.custom_tags import filter_advice_by_level
 from core.services import get_denial_reasons
 from lite_content.lite_internal_frontend.cases import GenerateFinalDecisionDocumentsPage, FinaliseLicenceForm
 from lite_forms.generators import form_page, error_page
@@ -155,65 +156,23 @@ def create_mapping(goods):
     return return_dict
 
 
+# REMOVE THIS!
+def pass_action(request, _, __):
+    return {}, 200
+
+
 class FinaliseGoodsCountries(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
 
         case.goods.append({"id": "123", "countries": [{"id": "123", "name": "Poland"}]})
-
-        # try:
-        #     _, data, _ = _generate_data_and_keys(request, str(kwargs["pk"]))
-        # except PermissionError:
-        #     return error_page(request, "You do not have permission.")
-
         self.context = {
             "case": case,
-            # "decisions": DECISIONS_LIST,
         }
         self.form = finalise_goods_countries_form()
-
-
-class FinaliseGoodsCountrie2s(TemplateView):
-    def post(self, request, *args, **kwargs):
-
-        request_data = request.POST.copy()
-        request_data.pop("csrfmiddlewaretoken")
-        selection = {}
-        action = request_data.pop("action")[0]
-
-        selection["good_countries"] = []
-        for key, value in request_data.items():
-            selection["good_countries"].append(
-                {"case": str(kwargs["pk"]), "good": key.split(".")[0], "country": key.split(".")[1], "decision": value}
-            )
-
-        context = {
-            "title": "Finalise goods and countries",
-            "case": case,
-            "decisions": DECISIONS_LIST,
-            "good_countries": data["data"],
-            "errors": {},
-        }
-
-        post_data, errors = _generate_post_data_and_errors(keys, request_data, action)
-
-        # If errors, return page
-        if errors:
-            context["errors"] = errors
-            context["good_countries"] = post_data
-            return render(request, "case/views/finalise-open-goods-countries.html", context)
-
-        data, _ = post_good_countries_decisions(request, str(kwargs["pk"]), selection)
-
-        if action == "save":
-            context["good_countries"] = data["data"]
-            return render(request, "case/views/finalise-open-goods-countries.html", context)
-        elif "errors" in data:
-            context["error"] = data.get("errors")
-            return render(request, "case/views/finalise-open-goods-countries.html", context)
-
-        return redirect(reverse_lazy("cases:finalise", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]}))
+        self.action = pass_action
+        self.success_url = reverse_lazy("cases:finalise", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk})
 
 
 class Finalise(TemplateView):
@@ -240,7 +199,7 @@ class Finalise(TemplateView):
             items = [item["decision"]["key"] for item in data]
             is_open_licence = True
         else:
-            advice, _ = get_final_case_advice(request, str(kwargs["pk"]))
+            advice = filter_advice_by_level(case["advice"], "FinalAdvice")
             items = [item["type"]["key"] for item in advice["advice"]]
             is_open_licence = False
 
