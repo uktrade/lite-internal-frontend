@@ -15,7 +15,7 @@
 	color: $govuk-text-colour;
 	border-top: 3px solid govuk-colour("mid-grey");
 
-	&--approve {
+	&--approve, &--proviso {
 		border-top-color: govuk-colour("green");
 	}
 
