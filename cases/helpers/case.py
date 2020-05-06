@@ -92,6 +92,7 @@ class CaseView(TemplateView):
     case = None
     queue_id = None
     queue = None
+    permissions = None
     tabs = None
     slices = None
     additional_context = {}
@@ -126,7 +127,7 @@ class CaseView(TemplateView):
             "closed_ecju_queries": closed_ecju_queries,
             "additional_contacts": get_case_additional_contacts(self.request, self.case_id),
             "activity": get_activity(self.request, self.case_id, activity_filters=self.request.GET),
-            "permissions": get_user_permissions(self.request),
+            "permissions": self.permissions,
             "can_set_done": can_set_done
             and (self.queue["is_system_queue"] and user_assigned_queues)
             or not self.queue["is_system_queue"],
@@ -141,6 +142,7 @@ class CaseView(TemplateView):
         self.case = get_case(request, self.case_id)
         self.queue_id = kwargs["queue_pk"]
         self.queue = get_queue(request, self.queue_id)
+        self.permissions = get_user_permissions(self.request)
 
         if hasattr(self, "get_" + self.case.sub_type + "_" + self.case.type):
             getattr(self, "get_" + self.case.sub_type + "_" + self.case.type)()

@@ -10,7 +10,6 @@ from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from cases.constants import CaseType
-from cases.forms.rerun_routing_rules import rerun_routing_rules_confirmation_form
 from cases.forms.additional_contacts import add_additional_contact_form
 from cases.forms.assign_users import assign_case_officer_form, assign_user_and_work_queue, users_team_queues
 from cases.forms.attach_documents import attach_documents_form
@@ -18,6 +17,8 @@ from cases.forms.change_status import change_status_form
 from cases.forms.done_with_case import done_with_case_form
 from cases.forms.flags import set_case_flags_form
 from cases.forms.move_case import move_case_form
+from cases.forms.rerun_routing_rules import rerun_routing_rules_confirmation_form
+from cases.helpers.advice import get_advice_additional_context
 from cases.helpers.case import CaseView, Tabs, Slices
 from cases.services import (
     get_case,
@@ -58,10 +59,12 @@ class CaseDetail(CaseView):
             Slices.ROUTE_OF_GOODS,
             Slices.SUPPORTING_DOCUMENTS,
         ]
+        self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_standard_application(self):
         self.tabs = [Tabs.ADVICE]
         self.slices = [Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
+        self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_hmrc_application(self):
         self.slices = [
