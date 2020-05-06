@@ -13,7 +13,7 @@ from lite_forms.components import (
     Checkboxes,
     HelpSection,
     HTMLBlock,
-    Group,
+    Group, TextInput, Custom,
 )
 from lite_forms.helpers import conditional
 from picklists.services import get_picklists_for_input
@@ -101,5 +101,15 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
         ),
         # post_url=post_url,
         container="case",
-        helpers=[HelpSection("Giving advice on:", "", includes="case/views/includes/advice-sidebar.html")],
+        helpers=[HelpSection("Giving advice on:", "", includes="case/includes/advice-sidebar.html")],
+    )
+
+
+def finalise_goods_countries_form():
+    return Form(
+        title="Select a decision for each good and country combination",
+        questions=[
+            Custom("components/finalise-goods-countries-table.html")
+        ],
+        container="case"
     )

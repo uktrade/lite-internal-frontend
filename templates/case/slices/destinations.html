@@ -12,9 +12,11 @@
 		<table id="table-goods" class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th scope="col" class="govuk-table__header">
-						<button id="link-select-all-destinations" type="button" name="button" class="lite-button-checkbox" title="{% lcs 'cases.ApplicationPage.Parties.SELECT_ALL' %}"></button>
-					</th>
+					{% if not hide_checkboxes %}
+						<th scope="col" class="govuk-table__header">
+							<button id="link-select-all-destinations" type="button" name="button" class="lite-button-checkbox" title="{% lcs 'cases.ApplicationPage.Parties.SELECT_ALL' %}"></button>
+						</th>
+					{% endif %}
 					<th scope="col" class="govuk-table__header">Type</th>
 					<th scope="col" class="govuk-table__header">Name</th>
 					<th scope="col" class="govuk-table__header">Address</th>
@@ -27,10 +29,12 @@
 			<tbody class="govuk-table__body">
 				{% for destination in case.destinations %}
 					<tr class="govuk-table__row">
-						<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
-							<input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ destination.id }}" id="{{ destination.id }}">
-							<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}"></label>
-						</td>
+						{% if not hide_checkboxes %}
+							<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
+								<input class="govuk-checkboxes__input" type="checkbox" name="destinations" value="{{ destination.id }}" id="{{ destination.id }}">
+								<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}"></label>
+							</td>
+						{% endif %}
 						<th scope="row" class="govuk-table__header {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.type }}</th>
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.name }}</td>
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination|get_address }}</td>
@@ -57,9 +61,11 @@
 		<table id="table-goods" class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th scope="col" class="govuk-table__header">
-						<button id="link-select-all-destinations" type="button" name="button" class="lite-button-checkbox" title="{% lcs 'cases.ApplicationPage.Parties.SELECT_ALL' %}"></button>
-					</th>
+					{% if not hide_checkboxes %}
+						<th scope="col" class="govuk-table__header">
+							<button id="link-select-all-destinations" type="button" name="button" class="lite-button-checkbox" title="{% lcs 'cases.ApplicationPage.Parties.SELECT_ALL' %}"></button>
+						</th>
+					{% endif %}
 					<th scope="col" class="govuk-table__header">#</th>
 					<th scope="col" class="govuk-table__header">Country</th>
 					<th scope="col" class="govuk-table__header">Country code</th>
@@ -70,10 +76,12 @@
 			<tbody class="govuk-table__body">
 				{% for destination in case.application.destinations.data %}
 					<tr class="govuk-table__row">
-						<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
-							<input class="govuk-checkboxes__input" type="checkbox" name="countries" value="{{ destination.id }}" id="{{ destination.id }}">
-							<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}"></label>
-						</td>
+						{% if not hide_checkboxes %}
+							<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
+								<input class="govuk-checkboxes__input" type="checkbox" name="countries" value="{{ destination.id }}" id="{{ destination.id }}">
+								<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}"></label>
+							</td>
+						{% endif %}
 						<td class="govuk-table__cell govuk-table__cell--line-number {% if show_advice %}lite-!-no-border{% endif %}">{{ forloop.counter }}.</td>
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.name }}</td>
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.id }}</td>

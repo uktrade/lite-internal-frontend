@@ -1,7 +1,9 @@
 {% extends 'layouts/base.html' %}
 
 {% block back_link %}
-	<a href="{% url 'cases:final_advice_view' queue.id case.id %}" class="govuk-back-link">{% lcs 'cases.GoodsDecisionMatrixPage.Actions.BACK_TO_FINAL_ADVICE' %}</a>
+	<a href="{% url 'cases:case' queue.id case.id 'final-advice' %}" class="govuk-back-link">
+		{% lcs 'cases.GoodsDecisionMatrixPage.Actions.BACK_TO_FINAL_ADVICE' %}
+	</a>
 {% endblock %}
 
 {% block body %}
@@ -43,7 +45,6 @@
 			<tbody class="govuk-table__body">
 				{% lcs 'cases.GoodsDecisionMatrixPage.NO_ADVICE_DEFAULT' as NO_ADVICE_DEFAULT%}
 				{% for good in case.application.goods_types %}
-					<tr class="govuk-table__row">
 						<td class="govuk-table__cell">
 							{% include 'includes/control-list-entries.html' with control_list_entries=good.control_list_entries %}
 							{% if good.advice.value == 'Refuse' and case.application.case_type.sub_type.key == 'open' %}
@@ -53,7 +54,7 @@
 							{%  endif %}
 						<td class="govuk-table__cell">
 							{% for country in good.countries %}
-								<div class="{% if good.id in errors %}{% if country.id in errors|key_value:good.id %}govuk-form-group--error govuk-error-message{% endif %}{% endif %}">
+								<div class="govuk-!-margin-bottom-3 {% if good.id in errors %}{% if country.id in errors|key_value:good.id %}govuk-form-group--error govuk-error-message{% endif %}{% endif %}">
 									{{ country.name }}
 									{% if country.advice.value == 'Refuse' and case.application.case_type.sub_type.key == 'open' %}
 										<span>{% lcs 'cases.GoodsDecisionMatrixPage.REFUSE_ADVICE_TAG'%}</span>
@@ -66,7 +67,7 @@
 						{% for decision in decisions %}
 							<td class="govuk-table__cell">
 								{% for country in good.countries %}
-									<div class="govuk-radios govuk-radios--small">
+									<div class="govuk-radios govuk-radios--small govuk-!-margin-bottom-3">
 										<div class="govuk-radios__item">
 											<input class="govuk-radios__input" type="radio" name="{{ good.id }}.{{ country.id }}" id="{{ decision }}.{{ good.id }}.{{ country.id }}" value="{{ decision }}"
 												{% for data in good_countries %}

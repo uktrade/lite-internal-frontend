@@ -19,9 +19,11 @@
 	<table id="table-goods" class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th scope="col" class="govuk-table__header">
-					<button id="link-select-all-goods" type="button" name="button" class="lite-button-checkbox" title="{% lcs 'cases.ApplicationPage.Parties.SELECT_ALL' %}"></button>
-				</th>
+				{% if not hide_checkboxes %}
+					<th scope="col" class="govuk-table__header">
+						<button id="link-select-all-goods" type="button" name="button" class="lite-button-checkbox" title="{% lcs 'cases.ApplicationPage.Parties.SELECT_ALL' %}"></button>
+					</th>
+				{% endif %}
 				<th scope="col" class="govuk-table__header">#</th>
 				<th scope="col" class="govuk-table__header">Description</th>
 				<th scope="col" class="govuk-table__header">Value</th>
@@ -34,10 +36,12 @@
 		<tbody class="govuk-table__body">
 			{% for good in case.application.goods %}
 				<tr class="govuk-table__row">
-					<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
-						<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.good.id }}" id="{{ good.id }}">
-						<label class="govuk-label govuk-checkboxes__label" for="{{ good.good.id }}"></label>
-					</td>
+					{% if not hide_checkboxes %}
+						<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
+							<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.good.id }}" id="{{ good.id }}">
+							<label class="govuk-label govuk-checkboxes__label" for="{{ good.good.id }}"></label>
+						</td>
+					{% endif %}
 					<td class="govuk-table__cell govuk-table__cell--line-number {% if show_advice %}lite-!-no-border{% endif %}">{{ forloop.counter }}.</td>
 					<td class="govuk-table__cell govuk-table__cell--max-width-400 {% if show_advice %}lite-!-no-border{% endif %}">
 						<span data-max-length="200">{{ good.good.description }}</span>
@@ -62,9 +66,11 @@
 	<table id="table-goods" class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th scope="col" class="govuk-table__header">
-					<button id="link-select-all-goods" type="button" name="button" class="lite-button-checkbox" title="{% lcs 'cases.ApplicationPage.Parties.SELECT_ALL' %}"></button>
-				</th>
+				{% if not hide_checkboxes %}
+					<th scope="col" class="govuk-table__header">
+						<button id="link-select-all-goods" type="button" name="button" class="lite-button-checkbox" title="{% lcs 'cases.ApplicationPage.Parties.SELECT_ALL' %}"></button>
+					</th>
+				{% endif %}
 				<th scope="col" class="govuk-table__header">#</th>
 				<th scope="col" class="govuk-table__header">Description</th>
 				<th scope="col" class="govuk-table__header">Controlled</th>
@@ -77,10 +83,12 @@
 		<tbody class="govuk-table__body">
 			{% for good in case.application.goods_types %}
 				<tr class="govuk-table__row">
-					<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
-						<input class="govuk-checkboxes__input" type="checkbox" name="goods_types" value="{{ good.id }}" id="{{ good.id }}">
-						<label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}"></label>
-					</td>
+					{% if not hide_checkboxes %}
+						<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
+							<input class="govuk-checkboxes__input" type="checkbox" name="goods_types" value="{{ good.id }}" id="{{ good.id }}">
+							<label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}"></label>
+						</td>
+					{% endif %}
 					<td class="govuk-table__cell govuk-table__cell--line-number {% if show_advice %}lite-!-no-border{% endif %}">{{ forloop.counter }}.</td>
 					<td class="govuk-table__cell govuk-table__cell--max-width-400 {% if show_advice %}lite-!-no-border{% endif %}">
 						<span data-max-length="200">{{ good.description }}</span>

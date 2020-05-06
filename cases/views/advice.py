@@ -1,3 +1,4 @@
+from collections import defaultdict
 from datetime import date
 from http import HTTPStatus
 
@@ -7,12 +8,11 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.constants import CaseType
-from cases.forms.advice import give_advice_form
+from cases.forms.advice import give_advice_form, finalise_goods_countries_form
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
 from cases.helpers.advice import get_destinations, get_goods, flatten_advice_data
 from cases.services import (
     post_user_case_advice,
-    get_final_case_advice,
     coalesce_user_advice,
     coalesce_team_advice,
     post_team_case_advice,
@@ -87,10 +87,10 @@ class GiveAdvice(SingleFormView):
 
 class CoalesceUserAdvice(TemplateView):
     """
-    Group all of a user's team's user level advice in a team advie for the user's team
+    Group all of a user's team's user level advice in a team advice for the user's team
     """
 
-    def get(self, request, **kwargs):
+    def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         coalesce_user_advice(request, case_id)
         return redirect(
@@ -110,7 +110,9 @@ class ViewTeamAdvice(TemplateView):
             clear_team_advice(request, case.get("id"))
 
             return redirect(
-                reverse("cases:team_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case.get("id")})
+                reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"],
+                                                          "pk": case.get("id"),
+                                                          "tab": "team-advice"})
             )
 
 
@@ -143,26 +145,37 @@ class ViewFinalAdvice(TemplateView):
         )
 
 
-class FinaliseGoodsCountries(TemplateView):
-    def get(self, request, *args, **kwargs):
-        try:
-            case, data, _ = _generate_data_and_keys(request, str(kwargs["pk"]))
-        except PermissionError:
-            return error_page(request, "You do not have permission.")
+def create_mapping(goods):
+    return_dict = defaultdict(list)
 
-        context = {
-            "title": "Finalise goods and countries",
+    for good in goods:
+        for country in good["countries"]:
+            return_dict[good].append(country)
+
+    return return_dict
+
+
+class FinaliseGoodsCountries(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+
+        case.goods.append({"id": "123", "countries": [{"id": "123", "name": "Poland"}]})
+
+        # try:
+        #     _, data, _ = _generate_data_and_keys(request, str(kwargs["pk"]))
+        # except PermissionError:
+        #     return error_page(request, "You do not have permission.")
+
+        self.context = {
             "case": case,
-            "good_countries": data["data"],
-            "decisions": DECISIONS_LIST,
+            # "decisions": DECISIONS_LIST,
         }
-        return render(request, "case/views/finalise-open-goods-countries.html", context)
+        self.form = finalise_goods_countries_form()
 
+
+class FinaliseGoodsCountrie2s(TemplateView):
     def post(self, request, *args, **kwargs):
-        try:
-            case, data, keys = _generate_data_and_keys(request, str(kwargs["pk"]))
-        except PermissionError:
-            return error_page(request, "You do not have permission.")
 
         request_data = request.POST.copy()
         request_data.pop("csrfmiddlewaretoken")

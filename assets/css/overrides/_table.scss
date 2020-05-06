@@ -16,6 +16,12 @@
 }
 
 @for $i from 1 through 10 {
+	.govuk-table__cell--min-width-#{$i * 100} {
+		min-width: #{$i * 100}px;
+	}
+}
+
+@for $i from 1 through 10 {
 	.govuk-table__cell--max-width-#{$i * 100} {
 		max-width: #{$i * 100}px;
 	}

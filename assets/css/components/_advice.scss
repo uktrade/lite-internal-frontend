@@ -69,3 +69,33 @@
 .app-advice__checkboxes .govuk-form-group {
 	margin-bottom: govuk-spacing(3);
 }
+
+.app-advice_app-bar {
+	display: flex;
+	justify-content: space-between;
+}
+
+.app-advice__disabled-buttons {
+	pointer-events: none;
+
+	.govuk-button {
+		opacity: .5;
+	}
+}
+
+.app-advice__sticky-table-cell__container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 100%;
+	padding: 9px 0;
+}
+
+.app-advice__sticky-table-cell {
+	display: block;
+	position: sticky;
+	top: 100px;
+	margin: 9px 0;
+}

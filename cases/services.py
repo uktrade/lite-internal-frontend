@@ -36,6 +36,7 @@ from conf.constants import (
     FINALISE_CASE_URL,
     QUEUES_URL,
 )
+from core.builtins.custom_tags import filter_advice_by_level
 from core.helpers import convert_parameters_to_query_params
 
 
@@ -180,11 +181,6 @@ def clear_team_advice(request, case_pk):
     return data.json(), data.status_code
 
 
-def get_final_case_advice(request, case_pk):
-    data = get(request, CASE_URL + case_pk + VIEW_FINAL_ADVICE_URL)
-    return data.json(), data.status_code
-
-
 def get_final_decision_documents(request, case_pk):
     data = get(request, CASE_URL + case_pk + "/final-advice-documents/")
     return data.json(), data.status_code
@@ -228,6 +224,11 @@ def prepare_data_for_advice(json):
         "goods_types": "goods_type",
     }
 
+    print('\n')
+    print('json')
+    print(json)
+    print('\n')
+
     for entity_name in single_cases:
         if json.get(entity_name):
             new_data.append(build_case_advice(entity_name, json.get(entity_name), json))
@@ -241,7 +242,7 @@ def prepare_data_for_advice(json):
 
 
 def get_good_countries_decisions(request, case_pk):
-    data = get(request, CASE_URL + case_pk + "/goods-countries-decisions/")
+    data = get(request, CASE_URL + str(case_pk) + "/goods-countries-decisions/")
     return data.json()
 
 
@@ -251,30 +252,18 @@ def post_good_countries_decisions(request, case_pk, json):
 
 
 def post_user_case_advice(request, pk, json):
-    data = post(request, CASE_URL + str(pk) + USER_ADVICE_URL, json)
-
-    print("json")
-    print(json)
-    print("\n")
-
-    print("\n")
-    print("data")
-    print(data.json())
-    print("\n")
-
-    return data.json(), data.status_code
+    response = post(request, CASE_URL + str(pk) + USER_ADVICE_URL, json)
+    return response.json(), response.status_code
 
 
-def post_team_case_advice(request, case_pk, json):
-    new_data = prepare_data_for_advice(json)
-    data = post(request, CASE_URL + case_pk + TEAM_ADVICE_URL, new_data)
-    return data.json(), data.status_code
+def post_team_case_advice(request, pk, json):
+    response = post(request, CASE_URL + str(pk) + TEAM_ADVICE_URL, json)
+    return response.json(), response.status_code
 
 
-def post_final_case_advice(request, case_pk, json):
-    new_data = prepare_data_for_advice(json)
-    data = post(request, CASE_URL + case_pk + FINAL_ADVICE_URL, new_data)
-    return data.json(), data.status_code
+def post_final_case_advice(request, pk, json):
+    response = post(request, CASE_URL + str(pk) + FINAL_ADVICE_URL, json)
+    return response.json(), response.status_code
 
 
 def get_document(request, pk):
@@ -338,46 +327,46 @@ def put_flag_assignments(request, json):
 
 
 def _generate_data_and_keys(request, pk):
-    case = get_case(request, pk)
-    case_advice, _ = get_final_case_advice(request, pk)
+    # final_advice = filter_advice_by_level(case["advice"], "FinalAdvice")
 
     # The keys are each relevant good-country pairing in the format good_id.country_id
-    keys = []
-    # Builds form page data structure
-    # For each good in the case
-    for good in case["application"]["goods_types"]:
-        # Match the goods with the goods in advice for that case
-        # and attach the advice value to the good
-        for advice in case_advice["advice"]:
-            if advice["goods_type"] == good["id"]:
-                good["advice"] = advice["type"]
-                break
-        # If the good has countries attached to it as destinations
-        # We do the same with the countries and their advice
-        if good["countries"]:
-            for country in good["countries"]:
-                keys.append(str(good["id"]) + "." + country["id"])
-                for advice in case_advice["advice"]:
-                    if advice["country"] == country["id"]:
-                        country["advice"] = advice["type"]
-                        break
-        # If the good has no countries:
-        else:
-            good["countries"] = []
-            # We attach all countries from the case
-            # And then attach the advice as before
-            for country in case["application"]["destinations"]["data"]:
-                good["countries"].append(country)
-                keys.append(str(good["id"]) + "." + country["id"])
-                for advice in case_advice["advice"]:
-                    if advice["country"] == country["id"]:
-                        country["advice"] = advice["type"]
-                        break
+    # keys = []
+    # # Builds form page data structure
+    # # For each good in the case
+    # for good in case["application"]["goods_types"]:
+    #     # Match the goods with the goods in advice for that case
+    #     # and attach the advice value to the good
+    #     for advice in final_advice:
+    #         if advice["goods_type"] == good["id"]:
+    #             good["advice"] = advice["type"]
+    #             break
+    #     # If the good has countries attached to it as destinations
+    #     # We do the same with the countries and their advice
+    #     if good["countries"]:
+    #         for country in good["countries"]:
+    #             keys.append(str(good["id"]) + "." + country["id"])
+    #             for advice in final_advice:
+    #                 if advice["country"] == country["id"]:
+    #                     country["advice"] = advice["type"]
+    #                     break
+    #     # If the good has no countries:
+    #     else:
+    #         good["countries"] = []
+    #         # We attach all countries from the case
+    #         # And then attach the advice as before
+    #         for country in case["application"]["destinations"]["data"]:
+    #             good["countries"].append(country)
+    #             keys.append(str(good["id"]) + "." + country["id"])
+    #             for advice in final_advice:
+    #                 if advice["country"] == country["id"]:
+    #                     country["advice"] = advice["type"]
+    #                     break
+
     data = get_good_countries_decisions(request, pk)
     if "detail" in data:
         raise PermissionError
 
-    return case, data, keys
+    return data
 
 
 def _generate_post_data_and_errors(keys, request_data, action):

@@ -2,6 +2,7 @@ from typing import List, Dict
 
 from cases.objects import Case
 from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES, AdviceType
+from core.builtins.custom_tags import filter_advice_by_level
 from core.services import get_status_properties
 from teams.services import get_teams
 
@@ -36,6 +37,11 @@ def get_goods(request, case: Case):
 
 def get_advice_additional_context(request, case, permissions):
     status_props, _ = get_status_properties(request, case.data["status"]["key"])
+    current_advice_level = "Advice"
+    if filter_advice_by_level(case["advice"], "TeamAdvice"):
+        current_advice_level = "TeamAdvice"
+    if filter_advice_by_level(case["advice"], "FinalAdvice"):
+        current_advice_level = "FinalAdvice"
 
     return {
         "permitted_to_give_final_advice": _check_user_permitted_to_give_final_advice(
@@ -47,7 +53,8 @@ def get_advice_additional_context(request, case, permissions):
         "is_user_team": True,
         "teams": get_teams(request),
         "status_is_read_only": status_props["is_read_only"],
-        "status_is_terminal": status_props["is_terminal"]
+        "status_is_terminal": status_props["is_terminal"],
+        "current_advice_level": current_advice_level
     }
 
 
