@@ -3,7 +3,7 @@ from datetime import date
 from http import HTTPStatus
 
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
@@ -21,10 +21,7 @@ from cases.services import (
     clear_final_advice,
     get_case,
     finalise_application,
-    post_good_countries_decisions,
     get_good_countries_decisions,
-    _generate_data_and_keys,
-    _generate_post_data_and_errors,
     get_application_default_duration,
     grant_licence,
     get_final_decision_documents,
@@ -32,11 +29,11 @@ from cases.services import (
     get_finalise_application_goods,
     prepare_data_for_advice,
 )
-from conf.constants import DECISIONS_LIST, Permission
+from conf.constants import Permission
 from core import helpers
 from core.builtins.custom_tags import filter_advice_by_level
 from core.services import get_denial_reasons
-from lite_content.lite_internal_frontend.cases import GenerateFinalDecisionDocumentsPage, FinaliseLicenceForm
+from lite_content.lite_internal_frontend.cases import FinaliseLicenceForm
 from lite_forms.generators import form_page, error_page
 from lite_forms.views import SingleFormView
 
@@ -193,15 +190,23 @@ class Finalise(TemplateView):
     def get(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))
         case_type = case["application"]["case_type"]["sub_type"]["key"]
+        is_case_oiel_final_advice_only = False
+        if "goodstype_category" in case["application"]:
+            is_case_oiel_final_advice_only = case["application"]["goodstype_category"]["key"] in [
+                "media",
+                "cryptographic",
+                "dealer",
+                "uk_continental_shelf",
+            ]
 
-        if case_type == CaseType.OPEN.value and case["application"]["goodstype_category"]["key"] != "media":
+        if case_type == CaseType.OPEN.value and not is_case_oiel_final_advice_only:
             data = get_good_countries_decisions(request, str(kwargs["pk"]))["data"]
             items = [item["decision"]["key"] for item in data]
             is_open_licence = True
         else:
             advice = filter_advice_by_level(case["advice"], "FinalAdvice")
             items = [item["type"]["key"] for item in advice]
-            is_open_licence = False
+            is_open_licence = case_type == CaseType.OPEN.value
 
         case_id = case["id"]
         duration = get_application_default_duration(request, str(kwargs["pk"]))
