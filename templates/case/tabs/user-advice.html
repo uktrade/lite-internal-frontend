@@ -1,17 +1,24 @@
 {% load static %}
 
+{{ case.has_advice.my_team }}
+{{ case.has_advice.final }}
+{{ status_is_terminal }}
+
 <form action="{% url 'cases:give_advice' queue.id case.id 'user-advice' %}" method="get">
-	{% if not case.has_advice.my_team %}
-		{% if not case.has_advice.final %}
-			{% if not status_is_terminal %}
-				<div class="lite-buttons-row">
-					<button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-						{% lcs 'GIVE_OR_CHANGE_ADVICE' %}
-					</button>
-				</div>
-			{% endif %}
-		{% endif %}
-	{% endif %}
+	<div class="lite-buttons-row" style="display: grid; grid-template-columns: auto 1fr auto;">
+		<button id="button-give-advice" type="submit" class="govuk-button {% if not case.has_advice.my_team and not case.has_advice.final and not status_is_terminal %}govuk-button--disabled{% endif %}" {% if not case.has_advice.my_team and not case.has_advice.final and not status_is_terminal %}disabled aria-disabled="true"{% endif %} data-module="govuk-button">
+			{% lcs 'GIVE_OR_CHANGE_ADVICE' %}
+		</button>
+		<div class="">
+
+		</div>
+		<button id="button-give-advice" type="submit" class="govuk-button {% if case.has_advice.my_team and not case.has_advice.final and not status_is_terminal %}govuk-button--disabled{% endif %}" {% if case.has_advice.my_team and not case.has_advice.final and not status_is_terminal %}disabled aria-disabled="true"{% endif %} data-module="govuk-button">
+			Combine all into team advice
+			<svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="15" viewBox="0 0 33 43" aria-hidden="true" focusable="false">
+				<path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+			</svg>
+		</button>
+	</div>
 
 	{% include 'case/slices/goods.html' with hide_controls=True show_advice=True level='Advice' %}
 
