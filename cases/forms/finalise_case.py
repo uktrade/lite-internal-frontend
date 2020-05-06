@@ -42,7 +42,9 @@ def approve_licence_form(queue_pk, case_id, is_open_licence, duration, editable_
 def deny_licence_form(queue_pk, case_id, is_open_licence):
     return Form(
         title=cases.FinaliseLicenceForm.FINALISE_TITLE,
-        questions=[HiddenField(name="action", value="refuse")],
+        questions=[
+            Label("You'll be denying the case"),
+            HiddenField(name="action", value="refuse")],
         back_link=conditional(
             is_open_licence,
             BackLink(
