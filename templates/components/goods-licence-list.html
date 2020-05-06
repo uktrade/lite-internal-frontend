@@ -20,9 +20,12 @@
 					{{ good.good.description }}
 				</td>
 				<td class="govuk-table__cell">
-					<b>{{ good.advice.type.value }}</b><br>
-					{{ good.advice.text }}<br>
-					{% if good.advice.proviso %}{{ good.advice.proviso }}{% endif %}
+					<p class="govuk-body govuk-!-font-weight-bold">{{ good.advice.type.value }}</p>
+					<p>{{ good.advice.text }}<br></p>
+					{% if good.advice.proviso %}
+						<p>Proviso</p>
+						{{ good.advice.proviso }}
+					{% endif %}
 				</td>
 				<td class="govuk-table__cell">
 					<input class="govuk-input" id="quantity-{{ good.id }}" type="text" name="quantity-{{ good.id }}" value="{{ good.quantity }}" onchange="updateValue('{{ good.id }}', '{{ good.value }}')"/><br>
