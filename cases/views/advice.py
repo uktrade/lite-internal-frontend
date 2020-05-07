@@ -61,6 +61,7 @@ class GiveAdvice(SingleFormView):
             "goods": get_param_goods(request, self.case),
             "destinations": get_param_destinations(request, self.case),
         }
+        self.success_message = "Advice posted successfully"
         self.success_url = reverse(
             "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk, "tab": self.tab}
         )

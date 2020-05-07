@@ -28,7 +28,7 @@
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
-			{% for team in data.teams %}
+			{% for team in data %}
 				<tr class="govuk-table__row" id="row-{{ forloop.counter }}">
 					<td class="govuk-table__cell">
 						<span class="govuk-table__header" aria-hidden="true">{% lcs 'teams.TeamsPage.Table.NAME' %}</span>
