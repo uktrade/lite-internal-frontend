@@ -182,7 +182,7 @@ $case-header-text-colour: govuk-colour("white");
     padding: govuk-spacing(6) 0;
     z-index: 10;
 
-    &__stuff {
+    &__sections {
         display: grid;
         grid-template-columns: 1fr auto;
         grid-gap: govuk-spacing(6);
@@ -336,14 +336,6 @@ $case-header-text-colour: govuk-colour("white");
     }
 }
 
-.govuk-main-wrapper {
-    padding-top: 0;
-}
-
-.app-header {
-    border-bottom: none!important;
-}
-
 .lite-app-bar {
     position: relative;
     padding-top: 40px;
@@ -465,6 +457,7 @@ $case-header-text-colour: govuk-colour("white");
     left: 0;
     right: 0;
     opacity: 0.2;
+    pointer-events: none;
 
     &::after {
         content: "";

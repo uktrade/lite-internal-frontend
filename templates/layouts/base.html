@@ -82,7 +82,7 @@
 	</header>
 
 	{% block header %}
-		<div class="govuk-width-container">
+		<div class="govuk-width-container app-back-link-container">
 			<section role="banner" data-module="header">
 				{% if request.GET|get:'return_to' %}
 					<a href="{{ request.GET|get:'return_to' }}" id="back-link" class="govuk-back-link">Back {% if request.GET|get:'return_to_text' %}to {{ request.GET|get:'return_to_text' }}{% endif %}</a>

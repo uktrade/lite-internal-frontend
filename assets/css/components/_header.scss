@@ -1,5 +1,5 @@
 $header-background-colour: govuk-shade($govuk-brand-colour, 85);
-$header-link-hover-colour: govuk-tint(govuk-shade($govuk-brand-colour, 85), 25%);
+$header-link-hover-colour: govuk-tint(govuk-shade($govuk-brand-colour, 85), 15%);
 $header-link-active-colour: $govuk-focus-colour;
 
 .app-header {
