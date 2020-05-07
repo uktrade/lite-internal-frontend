@@ -11,7 +11,7 @@
 				{% lcs 'GIVE_OR_CHANGE_ADVICE' %}
 			</button>
 		</div>
-		<div class="{% if current_advice_level != 'Advice' %}app-advice__disabled-buttons{% endif %}">
+		<div class="{% if current_advice_level != 'user' %}app-advice__disabled-buttons{% endif %}">
 			<button form="form-user-advice" id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
 				Combine all into team advice
 				<svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="15" viewBox="0 0 33 43" aria-hidden="true" focusable="false">
