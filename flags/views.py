@@ -230,6 +230,7 @@ def perform_action(level, request, pk, json):
                     request.GET.get("organisation"),
                     *request.GET.getlist("goods"),
                     *request.GET.getlist("goods_types"),
+                    *request.GET.getlist("country"),
                     request.GET.get("end_user"),
                     request.GET.get("consignee"),
                     *request.GET.getlist("third_party"),
