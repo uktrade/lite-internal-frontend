@@ -2,14 +2,16 @@ from typing import List, Dict
 
 from cases.objects import Case
 from cases.services import get_blocking_flags
-from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES, AdviceType
+from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES
 from core.builtins.custom_tags import filter_advice_by_level
 from core.services import get_status_properties
 from teams.services import get_teams
 
 
 def get_destinations(request, case: Case):
-    selected_destinations_ids = [*request.GET.getlist("destinations"), *request.GET.getlist("countries")]
+    selected_destinations_ids = [*request.GET.getlist("ultimate_end_user"), *request.GET.getlist("countries"),
+                                 *request.GET.getlist("third_party"), request.GET.get("end_user"),
+                                 request.GET.get("consignee")]
     destinations = case.destinations
     return_values = []
 
