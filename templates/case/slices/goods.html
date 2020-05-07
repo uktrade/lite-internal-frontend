@@ -3,16 +3,17 @@
 <h2 class="govuk-heading-m">{{ case.goods|length }} good{{ case.goods|pluralize }}</h2>
 
 {% if not hide_controls %}
-	<form action="{% url 'cases:review_goods' queue.id case.id %}" method="get">
-		{% csrf_token %}
-		{% if 'REVIEW_GOODS' in permissions and not status_is_terminal %}
-			<button id="button-review-goods" name="action" value="review-goods" class="govuk-button" data-module="govuk-button">
-				{% lcs 'cases.ApplicationPage.REVIEW_GOODS' %}
+	<form method="get">
+		<div class="lite-buttons-row">
+			{% if 'REVIEW_GOODS' in permissions and not status_is_terminal %}
+				<button id="button-review-goods" formaction="{% url 'cases:review_goods' queue.id case.id %}" name="action" value="review-goods" class="govuk-button" data-module="govuk-button">
+					{% lcs 'cases.ApplicationPage.REVIEW_GOODS' %}
+				</button>
+			{% endif %}
+			<button id="button-edit-goods-flags" formaction="{% url 'cases:assign_flags' queue.id case.id %}" class="govuk-button" data-module="govuk-button">
+				{% lcs 'cases.ApplicationPage.EDIT_FLAGS' %}
 			</button>
-		{% endif %}
-		<button id="button-edit-goods-flags" name="action" value="edit-flags" class="govuk-button" data-module="govuk-button">
-			{% lcs 'cases.ApplicationPage.EDIT_FLAGS' %}
-		</button>
+		</div>
 {% endif %}
 
 {% if case.application.goods %}

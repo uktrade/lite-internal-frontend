@@ -87,12 +87,17 @@ def flatten_advice_data(request, case: Case, items: List[Dict], level):
 
     for item in items:
         item_id = item["good"]["id"] if "good" in item else item["id"]
-        filtered_advice.append(filter_advice_by_id(pre_filtered_advice, item_id)[0])
+        advice = filter_advice_by_id(pre_filtered_advice, item_id)
+        if advice:
+            filtered_advice.append(advice[0])
 
     for advice in filtered_advice:
         for key in keys:
             if advice[key] != filtered_advice[0][key]:
                 return
+
+    if not filtered_advice:
+        return
 
     return filtered_advice[0]
 
