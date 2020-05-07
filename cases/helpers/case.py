@@ -106,6 +106,8 @@ class CaseView(TemplateView):
         user_assigned_queues = get_user_case_queues(self.request, self.case_id)[0]
         status_props, _ = get_status_properties(self.request, self.case.data["status"]["key"])
         can_set_done = not status_props["is_terminal"] and self.case.data["status"]["key"] != Statuses.APPLICANT_EDITING
+        activity_tab = Tabs.ACTIVITY
+        activity_tab.count = "!" if self.case["audit_notification"] else None
 
         return {
             "tabs": [
@@ -114,7 +116,7 @@ class CaseView(TemplateView):
                 Tabs.ADDITIONAL_CONTACTS,
                 Tabs.ECJU_QUERIES,
                 Tabs.DOCUMENTS,
-                Tabs.ACTIVITY,
+                activity_tab,
             ],
             "current_tab": self.kwargs["tab"],
             "slices": [Slices.SUMMARY, *self.slices],
