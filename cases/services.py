@@ -217,8 +217,8 @@ def prepare_data_for_advice(json):
     new_data = []
     single_cases = ["end_user", "consignee"]
     multiple_cases = {
-        "ultimate_end_users": "ultimate_end_user",
-        "third_parties": "third_party",
+        "ultimate_end_user": "ultimate_end_user",
+        "third_party": "third_party",
         "countries": "country",
         "goods": "good",
         "goods_types": "goods_type",
