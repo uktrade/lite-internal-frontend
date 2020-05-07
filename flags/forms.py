@@ -212,6 +212,6 @@ def set_flags_form(flags, show_case_header=False, show_sidebar=False):
     )
 
     if show_sidebar:
-        form.helpers = [HelpSection("Setting flags on:", "", includes="case/includes/advice-sidebar.html")]
+        form.helpers = [HelpSection("Setting flags on:", "", includes="case/includes/selection-sidebar.html")]
 
     return form

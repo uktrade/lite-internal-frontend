@@ -103,7 +103,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
         ),
         # post_url=post_url,
         container="case",
-        helpers=[HelpSection("Giving advice on:", "", includes="case/includes/advice-sidebar.html")],
+        helpers=[HelpSection("Giving advice on:", "", includes="case/includes/selection-sidebar.html")],
     )
 
 
