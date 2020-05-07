@@ -22,6 +22,7 @@ from flags.forms import (
     deactivate_or_activate_flagging_rule_form,
     level_options, set_flags_form,
 )
+from flags.helpers import get_matching_flags
 from flags.services import (
     get_flagging_rules,
     put_flagging_rule,
@@ -236,11 +237,6 @@ def perform_action(level, request, pk, json):
         "flags": json.get("flags", []),
         "note": json.get("note"),
     }
-
-    print('\n')
-    print(data)
-    print('\n')
-
     return put_flag_assignments(request, data)
 
 
@@ -254,21 +250,20 @@ class AssignFlags(SingleFormView):
             self.context = {"organisation": "123"}
             self.form = set_flags_form(flags)
         else:
-            case = get_case(request, self.object_pk)
-            self.context = {"case": case, "hide_flags_row": True}
+            self.case = get_case(request, self.object_pk)
+            self.context = {"case": self.case, "hide_flags_row": True}
             show_sidebar = False
 
             if self.level == FlagLevel.GOODS or self.level == FlagLevel.DESTINATIONS:
                 show_sidebar = True
-                self.context["goods"] = get_param_goods(self.request, case)
-                self.context["destinations"] = get_param_destinations(self.request, case)
+                self.context["goods"] = get_param_goods(self.request, self.case)
+                self.context["destinations"] = get_param_destinations(self.request, self.case)
 
             self.form = set_flags_form(flags, show_case_header=True, show_sidebar=show_sidebar)
 
         self.data = {
             "flags": self.get_object_flags()
         }
-        self.action = self.get_action()
 
     def get_level(self):
         if self.request.GET.get("case"):
@@ -286,9 +281,11 @@ class AssignFlags(SingleFormView):
         elif self.level == FlagLevel.ORGANISATIONS:
             return get_organisation(self.request, self.object_pk)["flags"]
         elif self.level == FlagLevel.GOODS:
-            return get_goods_flags(self.request)
+            goods = get_param_goods(self.request, self.case)
+            return get_matching_flags(goods)
         elif self.level == FlagLevel.DESTINATIONS:
-            return get_destination_flags(self.request)
+            destinations = get_param_destinations(self.request, self.case)
+            return get_matching_flags(destinations)
 
     def get_potential_flags(self):
         if self.level == FlagLevel.CASES:
@@ -301,14 +298,7 @@ class AssignFlags(SingleFormView):
             return get_destination_flags(self.request)
 
     def get_action(self):
-        if self.level == "cases":
-            return functools.partial(perform_action, FlagLevel.CASES)
-        elif self.level == "organisations":
-            return functools.partial(perform_action, FlagLevel.ORGANISATIONS)
-        elif self.level == "goods":
-            return functools.partial(perform_action, FlagLevel.GOODS)
-        elif self.level == "destinations":
-            return functools.partial(perform_action, FlagLevel.DESTINATIONS)
+        return functools.partial(perform_action, self.level)
 
     def get_success_url(self):
         if self.level == "organisations":
