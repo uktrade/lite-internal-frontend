@@ -14,7 +14,6 @@ urlpatterns = [
     path("attach/", main.AttachDocuments.as_view(), name="attach_documents"),
     path("documents/<str:file_pk>/", main.Document.as_view(), name="document"),
     path("assign-flags/", main.AssignFlags.as_view(), name="assign_flags"),
-    # old advice
     path("coalesce-user-advice/", advice.CoalesceUserAdvice.as_view(), name="coalesce_user_advice"),
     path("coalesce-team-advice/", advice.CoalesceTeamAdvice.as_view(), name="coalesce_team_advice"),
     path("team-advice-view/", advice.ViewTeamAdvice.as_view(), name="team_advice_view"),
@@ -91,6 +90,5 @@ urlpatterns = [
     path("assign-user-queue/<uuid:user_pk>/", main.UserTeamQueue.as_view(), name="assign_user_queue"),
     path("rerun-routing-rules/", main.RerunRoutingRules.as_view(), name="rerun_routing_rules",),
     path("<str:tab>/", main.CaseDetail.as_view(), name="case", kwargs={"disable_queue_lookup": True}),
-    # new advice
     path("<str:tab>/give-advice/", advice.GiveAdvice.as_view(), name="give_advice"),
 ]
