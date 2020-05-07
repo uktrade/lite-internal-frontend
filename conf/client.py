@@ -2,7 +2,7 @@ import json
 import requests
 from mohawk import Sender
 
-from conf.settings import env, DEBUG
+from conf.settings import env
 
 
 def get(request, appended_address):

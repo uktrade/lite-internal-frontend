@@ -440,7 +440,7 @@ def get_case_officer(request, pk):
 
 
 def put_case_officer(request, pk, user_pk):
-    data = put(request, CASE_URL + pk + CASE_OFFICER_URL, json={"gov_user_pk": user_pk})
+    data = put(request, CASE_URL + pk + CASE_OFFICER_URL, {"gov_user_pk": user_pk})
     return data, data.status_code
 
 
@@ -455,12 +455,12 @@ def get_case_additional_contacts(request, pk):
 
 
 def post_case_additional_contacts(request, pk, json):
-    response = post(request, CASE_URL + str(pk) + "/additional-contacts/", json=json)
+    response = post(request, CASE_URL + str(pk) + "/additional-contacts/", json)
     return response.json(), response.status_code
 
 
 def put_rerun_case_routing_rules(request, pk, json):
-    response = put(request, CASE_URL + str(pk) + "/rerun-routing-rules/", json={})
+    response = put(request, CASE_URL + str(pk) + "/rerun-routing-rules/", {})
     return response.json(), response.status_code
 
 
