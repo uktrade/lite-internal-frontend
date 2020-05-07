@@ -48,14 +48,8 @@ urlpatterns = [
     ),
     path("ecju-queries/new/", ecju.NewECJUQueryView.as_view(), name="new_ecju_query"),
     path("respond-to-clc-query/", goods_query.RespondCLCQuery.as_view(), name="respond_to_clc_query"),
-    path("respond-to-clc-query/flags/", goods_query.RespondCLCFlags.as_view(), name="respond_to_clc_query_flags",),
     path(
         "respond-to-pv-grading-query/", goods_query.RespondPVGradingQuery.as_view(), name="respond_to_pv_grading_query",
-    ),
-    path(
-        "respond-to-pv-grading-query/flags/",
-        goods_query.RespondPVGradingFlags.as_view(),
-        name="respond_to_pv_grading_query_flags",
     ),
     path("review-goods/", goods.ReviewGoods.as_view(), name="review_goods"),
     path("generate-document/", generate_document.SelectTemplate.as_view(), name="generate_document"),
