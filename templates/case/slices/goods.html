@@ -31,6 +31,7 @@
 				<th scope="col" class="govuk-table__header">Controlled</th>
 				<th scope="col" class="govuk-table__header">Control list entries</th>
 				<th scope="col" class="govuk-table__header">Incorporated</th>
+				<th scope="col" class="govuk-table__header">Document</th>
 				<th scope="col" class="govuk-table__header">Flags</th>
 			</tr>
 		</thead>
@@ -53,6 +54,19 @@
 						{% include 'includes/control-list-entries.html' with control_list_entries=good.good.control_list_entries %}
 					</td>
 					<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ good.is_good_incorporated|friendly_boolean }}</td>
+					<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
+						{% if good.good.documents %}
+							{% for document in good.good.documents %}
+								{% if document.safe == True %}
+									<a class="govuk-link govuk-link--no-visited-state" id="good_document" href="{% url 'cases:document' queue.id case.id document.id %}">
+										<span class="govuk-visually-hidden">{% lcs 'cases.Manage.Documents.DOWNLOAD_DOCUMENT' %}</span> {{ document.name }}
+									</a>
+								{% endif %}
+							{% endfor %}
+						{% else %}
+							{% lcs 'cases.ApplicationPage.Goods.MISSING_DOCUMENT_REASON_PREFIX' %}{{ good.good.missing_document_reason.value }}
+						{% endif %}
+					</td>
 					<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
 						{% include 'includes/flags.html' with flags=good.good.flags list=True %}
 					</td>
