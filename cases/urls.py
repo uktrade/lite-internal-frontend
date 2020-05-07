@@ -1,6 +1,7 @@
 from django.urls import path
 
-from cases.views import main, advice, generate_document, ecju, goods_query, goods, destinations
+from cases.views import main, advice, generate_document, ecju, goods_query, goods
+from flags.views import AssignFlags
 
 app_name = "cases"
 
@@ -13,7 +14,7 @@ urlpatterns = [
     path("additional-contacts/add/", main.AddAnAdditionalContact.as_view(), name="add_additional_contact"),
     path("attach/", main.AttachDocuments.as_view(), name="attach_documents"),
     path("documents/<str:file_pk>/", main.Document.as_view(), name="document"),
-    path("assign-flags/", main.AssignFlags.as_view(), name="assign_flags"),
+    path("assign-flags/", AssignFlags.as_view(), name="assign_flags"),
     path("coalesce-user-advice/", advice.CoalesceUserAdvice.as_view(), name="coalesce_user_advice"),
     path("coalesce-team-advice/", advice.CoalesceTeamAdvice.as_view(), name="coalesce_team_advice"),
     path("team-advice-view/", advice.ViewTeamAdvice.as_view(), name="team_advice_view"),
@@ -78,7 +79,6 @@ urlpatterns = [
         generate_document.CreateDocument.as_view(),
         name="generate_document_create",
     ),
-    path("assign-destination-flags/", destinations.AssignDestinationFlags.as_view(), name="assign_destination_flags",),
     path("case-officer/", main.CaseOfficer.as_view(), name="case_officer"),
     path("assign-user/", main.UserWorkQueue.as_view(), name="assign_user"),
     path("assign-user-queue/<uuid:user_pk>/", main.UserTeamQueue.as_view(), name="assign_user_queue"),
