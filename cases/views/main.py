@@ -15,7 +15,6 @@ from cases.forms.assign_users import assign_case_officer_form, assign_user_and_w
 from cases.forms.attach_documents import attach_documents_form
 from cases.forms.change_status import change_status_form
 from cases.forms.done_with_case import done_with_case_form
-from cases.forms.flags import set_case_flags_form
 from cases.forms.move_case import move_case_form
 from cases.forms.rerun_routing_rules import rerun_routing_rules_confirmation_form
 from cases.helpers.advice import get_advice_additional_context
@@ -33,15 +32,12 @@ from cases.services import (
     put_unassign_queues,
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
-    put_flag_assignments,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_user_permissions, get_permissible_statuses
-from flags.services import get_cases_flags
 from lite_content.lite_internal_frontend import cases
-from lite_forms.components import Option
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
 from queues.services import put_queue_single_case_assignment, get_queue
@@ -363,30 +359,3 @@ class RerunRoutingRules(SingleFormView):
             return redirect(self.success_url)
 
         return super(RerunRoutingRules, self).post(request, **kwargs)
-
-
-def perform_action(request, pk, json):
-    data = {
-        "level": "cases",
-        "objects": [str(pk)],
-        "flags": json.get("flags", []),
-        "note": json.get("note"),
-    }
-    return put_flag_assignments(request, data)
-
-
-class AssignFlags(SingleFormView):
-    def init(self, request, **kwargs):
-        self.object_pk = kwargs["pk"]
-        case = get_case(request, self.object_pk)
-        flags = [flag for flag in get_cases_flags(request) if flag not in case["flags"]]
-        self.data = {
-            "flags": [
-                Option(flag["id"], flag["name"], classes=["app-flag", "app-flag--" + flag["colour"]])
-                for flag in case["flags"]
-            ]
-        }
-        self.form = set_case_flags_form(kwargs["queue_pk"], flags, case)
-        self.context = {"case": case, "hide_flags_row": True}
-        self.action = perform_action
-        self.success_url = reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk})

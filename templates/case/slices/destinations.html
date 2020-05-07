@@ -1,7 +1,7 @@
 <h2 class="govuk-heading-m">{{ case.destinations|length }} destination{{ case.destinations|pluralize }}</h2>
 
 {% if not hide_controls %}
-	<form action="{% url 'cases:assign_destination_flags' queue.id case.id %}" method="get">
+	<form action="{% url 'cases:assign_flags' queue.id case.id %}" method="get">
 		<button id="button-edit-destinations-flags" class="govuk-button" data-module="govuk-button">
 			{% lcs 'cases.ApplicationPage.EDIT_DESTINATION_FLAGS' %}
 		</button>

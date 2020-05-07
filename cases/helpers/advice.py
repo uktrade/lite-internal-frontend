@@ -3,7 +3,7 @@ from typing import List, Dict
 from cases.objects import Case
 from cases.services import get_blocking_flags
 from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES
-from core.builtins.custom_tags import filter_advice_by_level
+from core.builtins.custom_tags import filter_advice_by_level, filter_advice_by_id, filter_advice_by_user
 from core.services import get_status_properties
 from teams.services import get_teams
 
@@ -12,7 +12,7 @@ PLURAL_ENTITIES = ["ultimate_end_user", "third_party", "country", "good", "goods
 ALL_ENTITIES = SINGULAR_ENTITIES + PLURAL_ENTITIES
 
 
-def get_destinations(request, case: Case):
+def get_param_destinations(request, case: Case):
     selected_destinations_ids = [
         *request.GET.getlist("ultimate_end_user"),
         *request.GET.getlist("countries"),
@@ -30,7 +30,7 @@ def get_destinations(request, case: Case):
     return return_values
 
 
-def get_goods(request, case: Case):
+def get_param_goods(request, case: Case):
     selected_goods_ids = request.GET.getlist("goods", request.GET.getlist("goods_types"))
     goods = case.data.get("goods", case.data.get("goods_types"))
     return_values = []
@@ -70,22 +70,31 @@ def get_advice_additional_context(request, case, permissions):
     }
 
 
-def flatten_advice_data(request, items: List[Dict]):
-    if not items or not items[0].get("advice"):
-        return
-
-    first_item_advice = items[0]["advice"][0]
+def flatten_advice_data(request, case: Case, items: List[Dict], level):
     keys = ["proviso", "denial_reasons", "note", "text", "type"]
 
-    for item in items:
-        for advice in [
-            advice for advice in item.get("advice", []) if advice["user"]["id"] == request.user.lite_api_user_id
-        ]:
-            for key in keys:
-                if advice[key] != first_item_advice[key]:
-                    return
+    if level == "user-advice":
+        level = "user"
+    elif level == "team-advice":
+        level = "team"
+    elif level == "final-advice":
+        level = "final"
 
-    return first_item_advice
+    pre_filtered_advice = filter_advice_by_user(
+        filter_advice_by_level(case["advice"], level), request.user.lite_api_user_id
+    )
+    filtered_advice = []
+
+    for item in items:
+        item_id = item["good"]["id"] if "good" in item else item["id"]
+        filtered_advice.append(filter_advice_by_id(pre_filtered_advice, item_id)[0])
+
+    for advice in filtered_advice:
+        for key in keys:
+            if advice[key] != filtered_advice[0][key]:
+                return
+
+    return filtered_advice[0]
 
 
 def _check_user_permitted_to_give_final_advice(case_type, permissions):
