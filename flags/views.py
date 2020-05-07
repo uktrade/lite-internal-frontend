@@ -247,9 +247,9 @@ class AssignFlags(SingleFormView):
         self.level = self.get_level()
         flags = self.get_potential_flags()
 
-        if self.level == "organisations":
+        if self.level == FlagLevel.ORGANISATIONS:
             self.context = {"organisation": "123"}
-            self.form = set_flags_form(flags)
+            self.form = set_flags_form(flags, self.level)
         else:
             self.case = get_case(request, self.object_pk)
             self.context = {"case": self.case, "hide_flags_row": True}
@@ -260,7 +260,7 @@ class AssignFlags(SingleFormView):
                 self.context["goods"] = get_param_goods(self.request, self.case)
                 self.context["destinations"] = get_param_destinations(self.request, self.case)
 
-            self.form = set_flags_form(flags, show_case_header=True, show_sidebar=show_sidebar)
+            self.form = set_flags_form(flags, self.level, show_case_header=True, show_sidebar=show_sidebar)
 
         self.data = {
             "flags": self.get_object_flags()
@@ -302,7 +302,7 @@ class AssignFlags(SingleFormView):
         return functools.partial(perform_action, self.level)
 
     def get_success_url(self):
-        if self.level == "organisations":
+        if self.level == FlagLevel.ORGANISATIONS:
             return reverse("organisations:organisation", kwargs={"pk": self.object_pk})
         else:
             return reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})

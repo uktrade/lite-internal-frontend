@@ -9,7 +9,7 @@
 
 {% if case.application.destinations.data %}
 	{% if case.application.destinations.type == 'end_user' %}
-		<table id="table-goods" class="govuk-table">
+		<table id="table-detinations" class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					{% if not hide_checkboxes %}
@@ -58,7 +58,7 @@
 			</tbody>
 		</table>
 	{% else %}
-		<table id="table-goods" class="govuk-table">
+		<table id="table-destinations" class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					{% if not hide_checkboxes %}

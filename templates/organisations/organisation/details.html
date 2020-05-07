@@ -124,7 +124,7 @@
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				{% if not hide_creation_link %}
-					<a id="link-organisation-flags" class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:assign_flags' organisation.id %}?level=organisations&items={{ organisation.id }}">
+					<a id="link-organisation-flags" class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:assign_flags' organisation.id %}?organisation={{ organisation.id }}">
 						{% lcs 'generic.CHANGE' %}
 					</a>
 				{% endif %}

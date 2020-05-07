@@ -4,7 +4,7 @@ from cases.services import get_case_types
 from core.services import get_countries
 from flags.services import get_goods_flags, get_destination_flags, get_cases_flags
 from lite_content.lite_internal_frontend import strings
-from lite_content.lite_internal_frontend.flags import CreateFlagForm, EditFlagForm, SetCaseFlagsForm
+from lite_content.lite_internal_frontend.flags import CreateFlagForm, EditFlagForm, SetFlagsForm
 from lite_content.lite_internal_frontend.strings import FlaggingRules
 from lite_forms.components import (
     TextInput,
@@ -15,10 +15,9 @@ from lite_forms.components import (
     FormGroup,
     RadioButtons,
     AutocompleteInput,
-    NumberInput, TokenBar, DetailComponent, TextArea, Label, Checkboxes, HelpSection,
+    NumberInput, DetailComponent, TextArea, Checkboxes, HelpSection,
 )
 from lite_forms.generators import confirm_form
-from lite_forms.helpers import conditional
 
 level_options = [
     Option("Case", "Case"),
@@ -195,18 +194,18 @@ def deactivate_or_activate_flagging_rule_form(title, description, confirm_text, 
     )
 
 
-def set_flags_form(flags, show_case_header=False, show_sidebar=False):
+def set_flags_form(flags, level, show_case_header=False, show_sidebar=False):
     form = Form(
-        title=SetCaseFlagsForm.TITLE,
-        description="Type to get suggestions",
+        title=getattr(SetFlagsForm, level).TITLE,
+        description=getattr(SetFlagsForm, level).DESCRIPTION,
         questions=[
             Checkboxes(name="flags[]", options=flags),
             DetailComponent(
-                title=SetCaseFlagsForm.Note.TITLE,
+                title=getattr(SetFlagsForm, level).Note.TITLE,
                 components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
             ),
         ],
-        default_button_name="Set flags",
+        default_button_name=getattr(SetFlagsForm, level).SUBMIT_BUTTON,
         container="case" if show_case_header else "two-pane",
         back_link=None,
     )
