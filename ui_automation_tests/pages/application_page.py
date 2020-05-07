@@ -17,7 +17,7 @@ class ApplicationPage(BasePage):
     LINK_CANCEL_NOTE_ID = "link-case-note-cancel"
     CASE_NOTES_TEXT = ".app-activity__item"  # css
     CASE_NOTE_DATE_TIME = ".app-activity__item .govuk-hint"  # css
-    DOCUMENTS_BTN = 'tab-documents'  # ID
+    DOCUMENTS_BTN = "tab-documents"  # ID
     GENERATE_DOCUMENTS_BTN = "generate-document"  # id
     ECJU_QUERIES_BTN = '[href*="ecju-queries"]'  # css
     PROGRESS_APP_BTN = "change-status"  # ID

@@ -32,7 +32,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
                     + "<span class='govuk-warning-text__icon' aria-hidden='true'>!</span>"
                     + "<strong class='govuk-warning-text__text'>"
                     + "<span class='govuk-warning-text__assistive'>Warning</span>"
-                    + "The advice for your selected items does not match. You can still override the advice though."
+                    + "The advice for your selected items does not match. However, you can still override the advice."
                     + "</strong>"
                     + "</div>"
                 ),

@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 from cases.constants import CaseType
 from cases.forms.advice import give_advice_form, finalise_goods_countries_form, generate_documents_form
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
-from cases.helpers.advice import get_destinations, get_goods, flatten_advice_data, prepare_data_for_advice
+from cases.helpers.advice import get_param_destinations, get_param_goods, flatten_advice_data, prepare_data_for_advice
 from cases.services import (
     post_user_case_advice,
     coalesce_user_advice,
@@ -43,7 +43,10 @@ class GiveAdvice(SingleFormView):
         self.case = get_case(request, self.object_pk)
         self.tab = kwargs["tab"]
         self.data = flatten_advice_data(
-            request, [*get_goods(request, self.case), *get_destinations(request, self.case)]
+            request,
+            self.case,
+            [*get_param_goods(request, self.case), *get_param_destinations(request, self.case)],
+            self.tab,
         )
         self.form = give_advice_form(
             request,
@@ -55,8 +58,8 @@ class GiveAdvice(SingleFormView):
         )
         self.context = {
             "case": self.case,
-            "goods": get_goods(request, self.case),
-            "destinations": get_destinations(request, self.case),
+            "goods": get_param_goods(request, self.case),
+            "destinations": get_param_destinations(request, self.case),
         }
         self.success_url = reverse(
             "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk, "tab": self.tab}

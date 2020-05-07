@@ -475,6 +475,17 @@ def join_key_value_list(_list, _join=", "):
 
 
 @register.filter()
+def filter_advice_by_user(advice, id):
+    return_list = []
+
+    for advice in advice:
+        if advice["user"]["id"] == id:
+            return_list.append(advice)
+
+    return return_list
+
+
+@register.filter()
 def filter_advice_by_id(advice, id):
     return_list = []
 
