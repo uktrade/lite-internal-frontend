@@ -19,7 +19,6 @@ from conf.constants import (
     TEAM_ADVICE_URL,
     FINAL_ADVICE_URL,
     VIEW_TEAM_ADVICE_URL,
-    VIEW_FINAL_ADVICE_URL,
     GOOD_CLC_REVIEW_URL,
     MANAGE_STATUS_URL,
     FINAL_DECISION_URL,
@@ -36,7 +35,6 @@ from conf.constants import (
     FINALISE_CASE_URL,
     QUEUES_URL,
 )
-from core.builtins.custom_tags import filter_advice_by_level, pretty_json
 from core.helpers import convert_parameters_to_query_params
 
 
@@ -206,36 +204,6 @@ def clear_final_advice(request, case_pk):
     return data.json(), data.status_code
 
 
-def build_case_advice(key, value, base_data):
-    entities = ["end_user", "consignee", "ultimate_end_user", "third_party", "country", "good", "goods_type"]
-    data = base_data.copy()
-    data[key] = value
-
-    for entity in entities:
-        if entity != key and entity in data:
-            del data[entity]
-
-    return data
-
-
-def prepare_data_for_advice(json):
-    # Split the json data into multiple
-    new_data = []
-    single_cases = ["end_user", "consignee"]
-    multiple_cases = ["ultimate_end_user", "third_party", "country", "good", "goods_type"]
-
-    for entity_name in single_cases:
-        if json.get(entity_name):
-            new_data.append(build_case_advice(entity_name, json.get(entity_name), json))
-
-    for entity_name in multiple_cases:
-        if json.get(entity_name):
-            for entity in json.get(entity_name, []):
-                new_data.append(build_case_advice(entity_name, entity, json))
-
-    return new_data
-
-
 def get_good_countries_decisions(request, case_pk):
     data = get(request, CASE_URL + str(case_pk) + "/goods-countries-decisions/")
     return data.json()
@@ -319,7 +287,7 @@ def put_flag_assignments(request, json):
 
 
 def _generate_data_and_keys(request, pk):
-    # final_advice = filter_advice_by_level(case["advice"], "FinalAdvice")
+    # final_advice = filter_advice_by_level(case["advice"], "final")
 
     # The keys are each relevant good-country pairing in the format good_id.country_id
     # keys = []

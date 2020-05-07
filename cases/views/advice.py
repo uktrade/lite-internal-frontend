@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 from cases.constants import CaseType
 from cases.forms.advice import give_advice_form, finalise_goods_countries_form, generate_documents_form
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
-from cases.helpers.advice import get_destinations, get_goods, flatten_advice_data
+from cases.helpers.advice import get_destinations, get_goods, flatten_advice_data, prepare_data_for_advice
 from cases.services import (
     post_user_case_advice,
     coalesce_user_advice,
@@ -27,7 +27,6 @@ from cases.services import (
     get_final_decision_documents,
     get_licence,
     get_finalise_application_goods,
-    prepare_data_for_advice,
 )
 from conf.constants import Permission
 from core import helpers
@@ -72,7 +71,8 @@ class GiveAdvice(SingleFormView):
         data["country"] = self.request.GET.getlist("countries")
         data["ultimate_end_user"] = self.request.GET.getlist("ultimate_end_user")
         data["consignee"] = self.request.GET.get("consignee")
-        data["end_user"] = self.request.GET.get("consignee")
+        data["end_user"] = self.request.GET.get("end_user")
+        data["denial_reasons"] = self.request.POST.getlist("denial_reasons[]", [])
 
         return prepare_data_for_advice(data)
 
@@ -206,7 +206,7 @@ class Finalise(TemplateView):
             items = [item["decision"]["key"] for item in data]
             is_open_licence = True
         else:
-            advice = filter_advice_by_level(case["advice"], "FinalAdvice")
+            advice = filter_advice_by_level(case["advice"], "final")
             items = [item["type"]["key"] for item in advice]
             is_open_licence = case_type == CaseType.OPEN.value
 

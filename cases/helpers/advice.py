@@ -7,6 +7,10 @@ from core.builtins.custom_tags import filter_advice_by_level
 from core.services import get_status_properties
 from teams.services import get_teams
 
+SINGULAR_ENTITIES = ["end_user", "consignee"]
+PLURAL_ENTITIES = ["ultimate_end_user", "third_party", "country", "good", "goods_type"]
+ALL_ENTITIES = SINGULAR_ENTITIES + PLURAL_ENTITIES
+
 
 def get_destinations(request, case: Case):
     selected_destinations_ids = [
@@ -44,11 +48,11 @@ def get_goods(request, case: Case):
 
 def get_advice_additional_context(request, case, permissions):
     status_props, _ = get_status_properties(request, case.data["status"]["key"])
-    current_advice_level = "Advice"
-    if filter_advice_by_level(case["advice"], "TeamAdvice"):
-        current_advice_level = "TeamAdvice"
-    if filter_advice_by_level(case["advice"], "FinalAdvice"):
-        current_advice_level = "FinalAdvice"
+    current_advice_level = "user"
+    if filter_advice_by_level(case["advice"], "team"):
+        current_advice_level = "team"
+    if filter_advice_by_level(case["advice"], "final"):
+        current_advice_level = "final"
 
     return {
         "permitted_to_give_final_advice": _check_user_permitted_to_give_final_advice(
@@ -111,3 +115,30 @@ def _can_user_create_and_edit_advice(case, permissions):
     return Permission.MANAGE_TEAM_CONFIRM_OWN_ADVICE.value in permissions or (
         Permission.MANAGE_TEAM_ADVICE.value in permissions and not case.get("has_advice").get("my_user")
     )
+
+
+def prepare_data_for_advice(json):
+    # Split the json data into multiple
+    new_data = []
+
+    for entity_name in SINGULAR_ENTITIES:
+        if json.get(entity_name):
+            new_data.append(build_case_advice(entity_name, json.get(entity_name), json))
+
+    for entity_name in PLURAL_ENTITIES:
+        if json.get(entity_name):
+            for entity in json.get(entity_name, []):
+                new_data.append(build_case_advice(entity_name, entity, json))
+
+    return new_data
+
+
+def build_case_advice(key, value, base_data):
+    data = base_data.copy()
+    data[key] = value
+
+    for entity in ALL_ENTITIES:
+        if entity != key and entity in data:
+            del data[entity]
+
+    return data

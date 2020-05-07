@@ -6,17 +6,6 @@ from lite_forms.components import Breadcrumbs, BackLink, HiddenField
 from lite_forms.generators import error_page
 
 
-def add_hidden_advice_data(questions_list, data):
-    questions_list.append(HiddenField("goods", data.getlist("goods")))
-    questions_list.append(HiddenField("goods_types", data.getlist("goods_types")))
-    questions_list.append(HiddenField("countries", data.getlist("countries")))
-    questions_list.append(HiddenField("end_user", data.get("end_user", "")))
-    questions_list.append(HiddenField("consignee", data.get("consignee", "")))
-    questions_list.append(HiddenField("ultimate_end_users", data.getlist("ultimate_end_users")))
-    questions_list.append(HiddenField("third_parties", data.getlist("third_parties")))
-    return questions_list
-
-
 def check_matching_advice(user_id, advice, goods_or_destinations):
     first_advice = None
     pre_data = None

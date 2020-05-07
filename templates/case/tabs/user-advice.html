@@ -6,7 +6,7 @@
 
 <form action="{% url 'cases:give_advice' queue.id case.id 'user-advice' %}" method="get">
 	<div class="app-advice_app-bar">
-		<div class="lite-buttons-row {% if current_advice_level != 'Advice' %}app-advice__disabled-buttons{% endif %}">
+		<div class="lite-buttons-row {% if current_advice_level != 'user' %}app-advice__disabled-buttons{% endif %}">
 			<button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
 				{% lcs 'GIVE_OR_CHANGE_ADVICE' %}
 			</button>
@@ -21,7 +21,7 @@
 		</div>
 	</div>
 
-	{% include 'case/slices/goods.html' with hide_controls=True show_advice=True level='Advice' hide_checkboxes=current_advice_level|not_equals:'Advice' %}
+	{% include 'case/slices/goods.html' with hide_controls=True show_advice=True level='user' hide_checkboxes=current_advice_level|not_equals:'user' %}
 
-	{% include 'case/slices/destinations.html' with hide_controls=True show_advice=True level='Advice' hide_checkboxes=current_advice_level|not_equals:'Advice' %}
+	{% include 'case/slices/destinations.html' with hide_controls=True show_advice=True level='user' hide_checkboxes=current_advice_level|not_equals:'user' %}
 </form>

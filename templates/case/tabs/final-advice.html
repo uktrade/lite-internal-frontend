@@ -6,16 +6,16 @@
 
 <form action="{% url 'cases:give_advice' queue.id case.id 'final-advice' %}" method="get">
 	<div class="app-advice_app-bar">
-		<div class="lite-buttons-row {% if current_advice_level != 'FinalAdvice' %}app-advice__disabled-buttons{% endif %}">
+		<div class="lite-buttons-row {% if current_advice_level != 'final' %}app-advice__disabled-buttons{% endif %}">
 			<button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
 				{% lcs 'cases.ViewAdvicePage.Actions.GIVE_OR_CHANGE' %}
 			</button>
-			<button form="form-final-advice" id="button-clear-advice" name="action" value="delete" type="submit" class="govuk-button {% if not case.advice|filter_advice_by_level:'FinalAdvice' %}govuk-button--disabled{% endif %}" data-module="govuk-button">
+			<button form="form-final-advice" id="button-clear-advice" name="action" value="delete" type="submit" class="govuk-button {% if not case.advice|filter_advice_by_level:'final' %}govuk-button--disabled{% endif %}" data-module="govuk-button">
 				{% lcs 'cases.ViewAdvicePage.Actions.CLEAR' %}
 			</button>
 		</div>
 
-		<div class="{% if current_advice_level != 'FinalAdvice' or blocking_flags %}app-advice__disabled-buttons{% endif %}">
+		<div class="{% if current_advice_level != 'final' or blocking_flags %}app-advice__disabled-buttons{% endif %}">
 			{% make_list queue.id case.id as button_params %}
 			{% if case.application.case_type.sub_type.key == 'open' %}
 				{% if case.application.goodstype_category.key == 'media' %}
@@ -40,7 +40,7 @@
 		</div>
 	{% endif %}
 
-	{% include 'case/slices/goods.html' with hide_controls=True show_advice=True level='FinalAdvice' hide_checkboxes=current_advice_level|not_equals:'FinalAdvice' %}
+	{% include 'case/slices/goods.html' with hide_controls=True show_advice=True level='final' hide_checkboxes=current_advice_level|not_equals:'final' %}
 
-	{% include 'case/slices/destinations.html' with hide_controls=True show_advice=True level='FinalAdvice' hide_checkboxes=current_advice_level|not_equals:'FinalAdvice' %}
+	{% include 'case/slices/destinations.html' with hide_controls=True show_advice=True level='final' hide_checkboxes=current_advice_level|not_equals:'final' %}
 </form>

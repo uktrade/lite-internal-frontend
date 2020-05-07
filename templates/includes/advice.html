@@ -3,9 +3,9 @@
 	<td class="govuk-table__cell"></td>
 	<td class="govuk-table__cell govuk-!-padding-top-0" colspan="10">
 		<ol class="app-advice__container">
-			{% for advice in case.advice|filter_advice_by_id:id|filter_advice_by_level:level %}
+			{% for advice in case.advice|filter_advice_by_level:level|filter_advice_by_id:id %}
 				<li class="app-advice__item app-advice__item--{{ advice.type.value|lower }}">
-					<p class="app-advice__item__advice-type">{{ advice.type.value }} <span class="app-advice__item__user">by {{ advice.user.first_name }} {{ advice.user.last_name }}</span></p>
+					<p class="app-advice__item__advice-type">{{ advice.type.value }} <span class="app-advice__item__user">by {{ advice.user.first_name }} {{ advice.user.last_name }} {% if advice.team %}({{ advice.team.name }}){% endif %}</span></p>
 					{% if advice.type.key == 'proviso' %}
 						<p class="app-advice__item__heading">Proviso</p>
 						<p data-max-length="100">{{ advice.proviso }}</p>
@@ -19,8 +19,10 @@
 					{% endif %}
 					<p class="app-advice__item__heading">Text</p>
 					<p data-max-length="100">{{ advice.text }}</p>
-					<p class="app-advice__item__heading">Note</p>
-					<p data-max-length="100">{{ advice.note }}</p>
+					{% if advice.note %}
+						<p class="app-advice__item__heading">Note</p>
+						<p data-max-length="100">{{ advice.note }}</p>
+					{% endif %}
 				</li>
 			{% empty %}
 				<p class="govuk-hint govuk-!-margin-0">No advice given</p>
