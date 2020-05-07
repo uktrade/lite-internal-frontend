@@ -51,7 +51,7 @@ class ApplicationPage(BasePage):
     ASSIGNED_USERS_ID = "assigned_users"
     CASE_QUEUES_ID = "case_queues"
     HMRC_GOODS_LOCATION = "hmrc-goods-location"
-    CASE_COPY_OF_ID = "case-copy-of"
+    CASE_COPY_OF_ID = "link-case-copy-of"
     TYPE_OF_CASE = "case-type"  # ID
     DESTINATION_CHECKBOX = "destinations"  # NAME
     BUTTON_IM_DONE_ID = "button-done"
