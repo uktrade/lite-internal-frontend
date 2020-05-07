@@ -323,17 +323,6 @@ $case-header-text-colour: govuk-colour("white");
     .label {
         color: white;
     }
-
-    .app-case__flags-bar {
-        .app-flags {
-            display: flex;
-
-            .app-flag {
-                z-index: 0;
-                margin-right: govuk-spacing(2);
-            }
-        }
-    }
 }
 
 .lite-app-bar {
@@ -436,10 +425,14 @@ $case-header-text-colour: govuk-colour("white");
 }
 
 .app-case__flags-bar {
-    margin-top: 20px;
+    margin-top: govuk-spacing(4);
 
     .app-flags {
         margin: 0;
+
+        .app-flag {
+            margin-bottom: 0;
+        }
 
         a {
             @include govuk-font($size: 19);
