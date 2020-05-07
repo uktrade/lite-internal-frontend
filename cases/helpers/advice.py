@@ -9,9 +9,13 @@ from teams.services import get_teams
 
 
 def get_destinations(request, case: Case):
-    selected_destinations_ids = [*request.GET.getlist("ultimate_end_user"), *request.GET.getlist("countries"),
-                                 *request.GET.getlist("third_party"), request.GET.get("end_user"),
-                                 request.GET.get("consignee")]
+    selected_destinations_ids = [
+        *request.GET.getlist("ultimate_end_user"),
+        *request.GET.getlist("countries"),
+        *request.GET.getlist("third_party"),
+        request.GET.get("end_user"),
+        request.GET.get("consignee"),
+    ]
     destinations = case.destinations
     return_values = []
 

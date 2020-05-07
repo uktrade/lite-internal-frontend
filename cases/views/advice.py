@@ -67,10 +67,12 @@ class GiveAdvice(SingleFormView):
             raise Http404
 
     def clean_data(self, data):
-        data["goods"] = self.request.GET.getlist("goods")
-        data["goods_types"] = self.request.GET.getlist("goods_types")
-        data["destinations"] = self.request.GET.getlist("destinations")
-        data["countries"] = self.request.GET.getlist("countries")
+        data["good"] = self.request.GET.getlist("goods")
+        data["goods_type"] = self.request.GET.getlist("goods_types")
+        data["country"] = self.request.GET.getlist("countries")
+        data["ultimate_end_user"] = self.request.GET.getlist("ultimate_end_user")
+        data["consignee"] = self.request.GET.get("consignee")
+        data["end_user"] = self.request.GET.get("consignee")
 
         return prepare_data_for_advice(data)
 

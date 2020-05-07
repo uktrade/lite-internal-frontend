@@ -480,7 +480,7 @@ def filter_advice_by_id(advice, id):
 
     for advice in advice:
         for key in ["good", "goods_type", "country", "end_user", "ultimate_end_user", "consignee", "third_party"]:
-            if advice[key] == id:
+            if key in advice and advice[key] == id:
                 return_list.append(advice)
 
     return return_list
