@@ -11,4 +11,5 @@ def rerun_routing_rules_confirmation_form():
         yes_label=Manage.RerunRoutingRules.YES,
         no_label=Manage.RerunRoutingRules.NO,
         submit_button_text=Manage.RerunRoutingRules.SUBMIT_BUTTON,
+        container="case"
     )
