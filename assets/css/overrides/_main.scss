@@ -1,9 +1,13 @@
-.app-template__body {
-	.app-header {
-		border-bottom: none;
-	}
+.govuk-main-wrapper {
+	padding: govuk-spacing(6) 0;
+}
 
+.app-template__case-body {
 	.govuk-main-wrapper {
 		padding-top: 0;
 	}
+}
+
+.lite-app-bar {
+	margin-top: - govuk-spacing(6);
 }

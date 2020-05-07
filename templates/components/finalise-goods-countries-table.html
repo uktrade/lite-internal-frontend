@@ -1,0 +1,42 @@
+<table class="govuk-table">
+	<thead class="govuk-table__head">
+		<tr class="govuk-table__row">
+			<th class="govuk-table__header" scope="col">Goods</th>
+			<th class="govuk-table__header" scope="col">Destinations</th>
+			<th class="govuk-table__header" scope="col" colspan="3">Decision</th>
+		</tr>
+	</thead>
+	<tbody class="govuk-table__body">
+		{% for good in case.goods %}
+			<tr class="govuk-table__row">
+				<th class="govuk-table__cell--min-width-100 govuk-table__cell lite-!-position-relative govuk-!-padding-right-3" rowspan="{{ good.countries|length|add:1 }}" scope="row">
+					<div class="app-advice__sticky-table-cell__container">
+						<div class="app-advice__sticky-table-cell">
+							{% include 'includes/control-list-entries.html' with control_list_entries=good.control_list_entries %}
+						</div>
+					</div>
+				</th>
+
+				{% for country in good.countries %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell" style="vertical-align: middle;">
+							{{ country.name }}
+						</td>
+
+						{% make_list 'approve' 'refuse' 'no_licence_required' as decisions %}
+						{% for decision in decisions %}
+							<td class="govuk-table__cell govuk-table__cell--radio">
+								<div class="govuk-radios__item">
+									<input class="govuk-radios__input" type="radio" name="{{ good.id }}.{{ country.id }}" id="{{ decision }}.{{ good.id }}.{{ country.id }}" value="{{ decision }}">
+									<label class="govuk-label govuk-radios__label" for="{{ decision }}.{{ good.id }}.{{ country.id }}">
+										{{ decision|sentence_case }}
+									</label>
+								</div>
+							</td>
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

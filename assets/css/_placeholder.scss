@@ -2,10 +2,6 @@
     display: none;
 }
 
-.app-case-board {
-    @include govuk-font($size: 16);
-}
-
 .app-expanded-row__item {
     display: none;
 }
@@ -17,10 +13,4 @@
 .app-letter-preview__page {
 	font-family: $govuk-font-family;
 	font-size: 18px;
-}
-
-.app-clc-sidebyside {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: govuk-spacing(6);
 }

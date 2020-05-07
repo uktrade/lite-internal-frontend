@@ -1,12 +1,21 @@
 from typing import List, Dict
 
 from cases.objects import Case
-from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES, AdviceType
+from cases.services import get_blocking_flags
+from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES
+from core.builtins.custom_tags import filter_advice_by_level
+from core.services import get_status_properties
 from teams.services import get_teams
 
 
 def get_destinations(request, case: Case):
-    selected_destinations_ids = [*request.GET.getlist("destinations"), *request.GET.getlist("countries")]
+    selected_destinations_ids = [
+        *request.GET.getlist("ultimate_end_user"),
+        *request.GET.getlist("countries"),
+        *request.GET.getlist("third_party"),
+        request.GET.get("end_user"),
+        request.GET.get("consignee"),
+    ]
     destinations = case.destinations
     return_values = []
 
@@ -34,6 +43,13 @@ def get_goods(request, case: Case):
 
 
 def get_advice_additional_context(request, case, permissions):
+    status_props, _ = get_status_properties(request, case.data["status"]["key"])
+    current_advice_level = "Advice"
+    if filter_advice_by_level(case["advice"], "TeamAdvice"):
+        current_advice_level = "TeamAdvice"
+    if filter_advice_by_level(case["advice"], "FinalAdvice"):
+        current_advice_level = "FinalAdvice"
+
     return {
         "permitted_to_give_final_advice": _check_user_permitted_to_give_final_advice(
             case["application"]["case_type"]["sub_type"]["key"], permissions
@@ -42,7 +58,11 @@ def get_advice_additional_context(request, case, permissions):
         "can_advice_be_finalised": _can_advice_be_finalised(case["advice"]),
         "can_manage_team_advice": Permission.MANAGE_TEAM_ADVICE.value in permissions,
         "is_user_team": True,
-        "teams": get_teams(request)
+        "teams": get_teams(request),
+        "status_is_read_only": status_props["is_read_only"],
+        "status_is_terminal": status_props["is_terminal"],
+        "current_advice_level": current_advice_level,
+        "blocking_flags": get_blocking_flags(request, case["id"]),
     }
 
 

@@ -342,6 +342,8 @@ class RerunRoutingRules(SingleFormView):
     def init(self, request, **kwargs):
         self.action = put_rerun_case_routing_rules
         self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        self.context = {"case": case}
         self.form = rerun_routing_rules_confirmation_form()
         self.success_url = reverse_lazy(
             "cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk}

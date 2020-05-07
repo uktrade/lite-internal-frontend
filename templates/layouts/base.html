@@ -71,6 +71,7 @@
 			<span class="app-header__separator"></span>
 			<a id="link-menu" tabindex="0" class="app-header__link" href="{% url 'core:menu' %}" data-tooltip="Show menu">
 				{% svg 'menu' %}
+				{% if MENU_NOTIFICATIONS %}<span class="app-header__link-bubble"></span>{% endif %}
 			</a>
 			<span class="app-header__separator"></span>
 			<a class="app-header__link" href="{% url 'users:profile' %}" data-tooltip="View profile">
@@ -81,7 +82,7 @@
 	</header>
 
 	{% block header %}
-		<div class="govuk-width-container">
+		<div class="govuk-width-container app-back-link-container">
 			<section role="banner" data-module="header">
 				{% if request.GET|get:'return_to' %}
 					<a href="{{ request.GET|get:'return_to' }}" id="back-link" class="govuk-back-link">Back {% if request.GET|get:'return_to_text' %}to {{ request.GET|get:'return_to_text' }}{% endif %}</a>
@@ -102,11 +103,12 @@
 
 	<div id="lite-menu" class="app-menu app-hidden">
 		{% for item in LITE_MENU %}
-			<a class="app-menu__item app-menu__item--icon {% if item.url == CURRENT_PATH %}app-menu__item--selected{% endif %}" href="{{ item.url }}">
+			<a class="app-menu__item app-menu__item--icon-subtitle {% if item.url == CURRENT_PATH %}app-menu__item--selected{% endif %}" href="{{ item.url }}">
 				<div class="app-menu__icon">
 					{% svg item.icon %}
 				</div>
 				{{ item.title }}
+				{% if item.notifications %}<span class="app-menu__item-notification">{{ item.notifications }}</span>{% endif %}
 			</a>
 		{% endfor %}
 	</div>
@@ -130,8 +132,6 @@
 	<script src="{% static 'javascripts/definitions.js' %}"></script>
 	<script src="{% static 'javascripts/helpers.js' %}"></script>
 	<script src="{% static 'javascripts/back-link.js' %}"></script>
-	<script src="{% static 'javascripts/ResizeSensor.js' %}"></script>
-	<script src="{% static 'javascripts/ElementQueries.js' %}"></script>
 
 	<script nonce="{{ request.csp_nonce }}">
 		window.GOVUKFrontend.initAll()

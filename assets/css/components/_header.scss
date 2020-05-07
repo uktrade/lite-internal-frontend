@@ -1,6 +1,9 @@
+$header-background-colour: govuk-shade($govuk-brand-colour, 85);
+$header-link-hover-colour: govuk-tint(govuk-shade($govuk-brand-colour, 85), 15%);
+$header-link-active-colour: $govuk-focus-colour;
+
 .app-header {
-	background: govuk-shade($govuk-brand-colour, 85);
-	border-bottom: 10px solid $govuk-brand-colour;
+	background: $header-background-colour;
 }
 
 .app-header__container {
@@ -30,27 +33,47 @@
 		left: - govuk-spacing(3);
 		right: - govuk-spacing(3);
 		bottom: 0;
-		background: rgba(govuk-colour("light-grey"), 0);
 		z-index: -1;
 	}
 
+	&-bubble {
+		position: absolute;
+		top: 10px;
+		right: -4px;
+		background: govuk-colour("red");
+		border: 2px solid $header-background-colour;
+		border-radius: 50px;
+		width: 8px;
+		height: 8px;
+	}
+
 	&:hover {
+		.app-header__link-bubble {
+			border-color: $header-link-hover-colour;
+		}
+
 		&::before {
-			background: rgba(govuk-colour("light-grey"), 0.15);
+			background: $header-link-hover-colour;
 		}
 	}
 
-	&:active, &:focus {
+	&:active,
+	&:focus {
 		color: $govuk-focus-text-colour;
 		outline: $govuk-focus-width solid transparent;
 
+		.app-header__link-bubble {
+			background-color: $govuk-focus-text-colour;
+			border-color: $header-link-active-colour;
+		}
+
 		&::before {
-			background-color: $govuk-focus-colour;
+			background-color: $header-link-active-colour;
 			opacity: 1;
 		}
 	}
-
 	$svg-size: 22px;
+
 	svg {
 		width: $svg-size;
 		height: $svg-size;
@@ -90,6 +113,6 @@
 		right: 0;
 		bottom: 10px;
 		background-color: govuk-colour("light-grey");
-		opacity: .1;
+		opacity: 0.1;
 	}
 }

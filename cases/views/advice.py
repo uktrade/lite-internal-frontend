@@ -1,18 +1,18 @@
+from collections import defaultdict
 from datetime import date
 from http import HTTPStatus
 
 from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.constants import CaseType
-from cases.forms.advice import give_advice_form
+from cases.forms.advice import give_advice_form, finalise_goods_countries_form, generate_documents_form
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
 from cases.helpers.advice import get_destinations, get_goods, flatten_advice_data
 from cases.services import (
     post_user_case_advice,
-    get_final_case_advice,
     coalesce_user_advice,
     coalesce_team_advice,
     post_team_case_advice,
@@ -21,10 +21,7 @@ from cases.services import (
     clear_final_advice,
     get_case,
     finalise_application,
-    post_good_countries_decisions,
     get_good_countries_decisions,
-    _generate_data_and_keys,
-    _generate_post_data_and_errors,
     get_application_default_duration,
     grant_licence,
     get_final_decision_documents,
@@ -32,10 +29,11 @@ from cases.services import (
     get_finalise_application_goods,
     prepare_data_for_advice,
 )
-from conf.constants import DECISIONS_LIST, Permission
+from conf.constants import Permission
 from core import helpers
+from core.builtins.custom_tags import filter_advice_by_level
 from core.services import get_denial_reasons
-from lite_content.lite_internal_frontend.cases import GenerateFinalDecisionDocumentsPage, FinaliseLicenceForm
+from lite_content.lite_internal_frontend.cases import FinaliseLicenceForm
 from lite_forms.generators import form_page, error_page
 from lite_forms.views import SingleFormView
 
@@ -69,10 +67,12 @@ class GiveAdvice(SingleFormView):
             raise Http404
 
     def clean_data(self, data):
-        data["goods"] = self.request.GET.getlist("goods")
-        data["goods_types"] = self.request.GET.getlist("goods_types")
-        data["destinations"] = self.request.GET.getlist("destinations")
-        data["countries"] = self.request.GET.getlist("countries")
+        data["good"] = self.request.GET.getlist("goods")
+        data["goods_type"] = self.request.GET.getlist("goods_types")
+        data["country"] = self.request.GET.getlist("countries")
+        data["ultimate_end_user"] = self.request.GET.getlist("ultimate_end_user")
+        data["consignee"] = self.request.GET.get("consignee")
+        data["end_user"] = self.request.GET.get("consignee")
 
         return prepare_data_for_advice(data)
 
@@ -87,10 +87,10 @@ class GiveAdvice(SingleFormView):
 
 class CoalesceUserAdvice(TemplateView):
     """
-    Group all of a user's team's user level advice in a team advie for the user's team
+    Group all of a user's team's user level advice in a team advice for the user's team
     """
 
-    def get(self, request, **kwargs):
+    def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         coalesce_user_advice(request, case_id)
         return redirect(
@@ -110,7 +110,9 @@ class ViewTeamAdvice(TemplateView):
             clear_team_advice(request, case.get("id"))
 
             return redirect(
-                reverse("cases:team_advice_view", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.case.get("id")})
+                reverse(
+                    "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case.get("id"), "tab": "team-advice"}
+                )
             )
 
 
@@ -143,64 +145,33 @@ class ViewFinalAdvice(TemplateView):
         )
 
 
-class FinaliseGoodsCountries(TemplateView):
-    def get(self, request, *args, **kwargs):
-        try:
-            case, data, _ = _generate_data_and_keys(request, str(kwargs["pk"]))
-        except PermissionError:
-            return error_page(request, "You do not have permission.")
+def create_mapping(goods):
+    return_dict = defaultdict(list)
 
-        context = {
-            "title": "Finalise goods and countries",
+    for good in goods:
+        for country in good["countries"]:
+            return_dict[good].append(country)
+
+    return return_dict
+
+
+# REMOVE THIS!
+def pass_action(request, _, __):
+    return {}, 200
+
+
+class FinaliseGoodsCountries(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+
+        case.goods.append({"id": "123", "countries": [{"id": "123", "name": "Poland"}]})
+        self.context = {
             "case": case,
-            "good_countries": data["data"],
-            "decisions": DECISIONS_LIST,
         }
-        return render(request, "case/views/finalise-open-goods-countries.html", context)
-
-    def post(self, request, *args, **kwargs):
-        try:
-            case, data, keys = _generate_data_and_keys(request, str(kwargs["pk"]))
-        except PermissionError:
-            return error_page(request, "You do not have permission.")
-
-        request_data = request.POST.copy()
-        request_data.pop("csrfmiddlewaretoken")
-        selection = {}
-        action = request_data.pop("action")[0]
-
-        selection["good_countries"] = []
-        for key, value in request_data.items():
-            selection["good_countries"].append(
-                {"case": str(kwargs["pk"]), "good": key.split(".")[0], "country": key.split(".")[1], "decision": value}
-            )
-
-        context = {
-            "title": "Finalise goods and countries",
-            "case": case,
-            "decisions": DECISIONS_LIST,
-            "good_countries": data["data"],
-            "errors": {},
-        }
-
-        post_data, errors = _generate_post_data_and_errors(keys, request_data, action)
-
-        # If errors, return page
-        if errors:
-            context["errors"] = errors
-            context["good_countries"] = post_data
-            return render(request, "case/views/finalise-open-goods-countries.html", context)
-
-        data, _ = post_good_countries_decisions(request, str(kwargs["pk"]), selection)
-
-        if action == "save":
-            context["good_countries"] = data["data"]
-            return render(request, "case/views/finalise-open-goods-countries.html", context)
-        elif "errors" in data:
-            context["error"] = data.get("errors")
-            return render(request, "case/views/finalise-open-goods-countries.html", context)
-
-        return redirect(reverse_lazy("cases:finalise", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]}))
+        self.form = finalise_goods_countries_form()
+        self.action = pass_action
+        self.success_url = reverse_lazy("cases:finalise", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk})
 
 
 class Finalise(TemplateView):
@@ -221,15 +192,23 @@ class Finalise(TemplateView):
     def get(self, request, *args, **kwargs):
         case = get_case(request, str(kwargs["pk"]))
         case_type = case["application"]["case_type"]["sub_type"]["key"]
+        is_case_oiel_final_advice_only = False
+        if "goodstype_category" in case["application"]:
+            is_case_oiel_final_advice_only = case["application"]["goodstype_category"]["key"] in [
+                "media",
+                "cryptographic",
+                "dealer",
+                "uk_continental_shelf",
+            ]
 
-        if case_type == CaseType.OPEN.value and case["application"]["goodstype_category"]["key"] != "media":
+        if case_type == CaseType.OPEN.value and not is_case_oiel_final_advice_only:
             data = get_good_countries_decisions(request, str(kwargs["pk"]))["data"]
             items = [item["decision"]["key"] for item in data]
             is_open_licence = True
         else:
-            advice, _ = get_final_case_advice(request, str(kwargs["pk"]))
-            items = [item["type"]["key"] for item in advice["advice"]]
-            is_open_licence = False
+            advice = filter_advice_by_level(case["advice"], "FinalAdvice")
+            items = [item["type"]["key"] for item in advice]
+            is_open_licence = case_type == CaseType.OPEN.value
 
         case_id = case["id"]
         duration = get_application_default_duration(request, str(kwargs["pk"]))
@@ -260,7 +239,7 @@ class Finalise(TemplateView):
                 editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
                 goods=self._get_goods(request, str(kwargs["pk"]), case_type),
             )
-            return form_page(request, form, data=form_data)
+            return form_page(request, form, data=form_data, extra_data={"case": case})
         else:
             return form_page(request, deny_licence_form(kwargs["queue_pk"], case_id, is_open_licence))
 
@@ -287,35 +266,27 @@ class Finalise(TemplateView):
                 editable_duration=has_permission,
                 goods=self._get_goods(request, str(kwargs["pk"]), case_type),
             )
-            return form_page(request, form, data=data, errors=res.json()["errors"])
+            return form_page(request, form, data=data, errors=res.json()["errors"], extra_data={"case": case})
 
         return redirect(
             reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]})
         )
 
 
-class FinaliseGenerateDocuments(TemplateView):
-    @staticmethod
-    def get_page(request, pk, errors=None):
-        decisions, _ = get_final_decision_documents(request, str(pk))
+class FinaliseGenerateDocuments(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        self.form = generate_documents_form()
+        decisions, _ = get_final_decision_documents(request, self.object_pk)
         decisions = decisions["documents"]
         can_submit = all([decision.get("document") for decision in decisions.values()])
-
-        context = {
-            "case_id": str(pk),
-            "title": GenerateFinalDecisionDocumentsPage.TITLE,
+        self.context = {
+            "case": case,
             "can_submit": can_submit,
             "decisions": decisions,
-            "errors": errors,
         }
-        return render(request, "case/views/finalise-generate-documents.html", context)
-
-    def get(self, request, pk, **kwargs):
-        return self.get_page(request, pk)
-
-    def post(self, request, pk, **kwargs):
-        data, status_code = grant_licence(request, str(pk))
-        if status_code != HTTPStatus.CREATED:
-            return self.get_page(request, pk, errors=data["errors"])
-        else:
-            return redirect(reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": pk}))
+        self.action = grant_licence
+        self.success_url = reverse_lazy(
+            "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk, "tab": "final-advice"}
+        )

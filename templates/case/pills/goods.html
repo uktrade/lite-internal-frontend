@@ -1,10 +1,9 @@
 <div class="app-menu__header">
 	{{ case.goods|length }} good{{ case.goods|pluralize }}
 </div>
-<p class="govuk-body govuk-!-margin-3">
+<ol class="govuk-list govuk-list--number govuk-!-margin-left-4 govuk-!-margin-right-4">
 	{% for good in case.goods %}
-		<span>
-			<span class="govuk-hint lite-!-display-inline">{{ forloop.counter }}.</span>
+		<li class="govuk-!-margin-bottom-3">
 			<span data-max-length="100">
 				{% if good.description %}
 					{{ good.description }}
@@ -12,6 +11,6 @@
 					{{ good.good.description }}
 				{% endif %}
 			</span>
-		</span>
+		</li>
 	{% endfor %}
-</p>
+</ol>

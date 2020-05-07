@@ -9,7 +9,7 @@ from collections import Counter, OrderedDict
 from html import escape
 
 from django import template
-from django.template.defaultfilters import stringfilter, safe
+from django.template.defaultfilters import stringfilter, safe, capfirst
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
@@ -414,6 +414,11 @@ def equals(ob1, ob2):
 
 
 @register.filter()
+def not_equals(ob1, ob2):
+    return ob1 != ob2
+
+
+@register.filter()
 def aurora(flags):
     """
     Generates a radial gradient background from a list of flags
@@ -475,7 +480,7 @@ def filter_advice_by_id(advice, id):
 
     for advice in advice:
         for key in ["good", "goods_type", "country", "end_user", "ultimate_end_user", "consignee", "third_party"]:
-            if advice[key] == id:
+            if key in advice and advice[key] == id:
                 return_list.append(advice)
 
     return return_list
@@ -484,3 +489,8 @@ def filter_advice_by_id(advice, id):
 @register.filter()
 def filter_advice_by_level(advice, level):
     return [advice for advice in advice if advice["level"] == level]
+
+
+@register.filter()
+def sentence_case(text):
+    return capfirst(text).replace("_", " ")

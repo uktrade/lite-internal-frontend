@@ -41,5 +41,5 @@ def review_goods_form(request, is_goods_type):
         ],
         default_button_name=cases.ReviewGoodsForm.CONFIRM_BUTTON,
         container="case",
-        helpers=[HelpSection("Giving advice on:", "", includes="case/views/includes/advice-sidebar.html")],
+        helpers=[HelpSection("Giving advice on:", "", includes="case/includes/advice-sidebar.html")],
     )

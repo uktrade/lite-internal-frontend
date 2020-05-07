@@ -1,19 +1,27 @@
 {% load static %}
 
+<form id="form-user-advice" action="{% url 'cases:coalesce_user_advice' queue.id case.id %}" method="post">
+	{% csrf_token %}
+</form>
+
 <form action="{% url 'cases:give_advice' queue.id case.id 'user-advice' %}" method="get">
-	{% if not case.has_advice.my_team %}
-		{% if not case.has_advice.final %}
-			{% if not status_is_terminal %}
-				<div class="lite-buttons-row">
-					<button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-						{% lcs 'GIVE_OR_CHANGE_ADVICE' %}
-					</button>
-				</div>
-			{% endif %}
-		{% endif %}
-	{% endif %}
+	<div class="app-advice_app-bar">
+		<div class="lite-buttons-row {% if current_advice_level != 'Advice' %}app-advice__disabled-buttons{% endif %}">
+			<button id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+				{% lcs 'GIVE_OR_CHANGE_ADVICE' %}
+			</button>
+		</div>
+		<div class="{% if current_advice_level != 'Advice' %}app-advice__disabled-buttons{% endif %}">
+			<button form="form-user-advice" id="button-give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+				Combine all into team advice
+				<svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="15" viewBox="0 0 33 43" aria-hidden="true" focusable="false">
+					<path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+				</svg>
+			</button>
+		</div>
+	</div>
 
-	{% include 'case/slices/goods.html' with hide_controls=True show_advice=True level='Advice' %}
+	{% include 'case/slices/goods.html' with hide_controls=True show_advice=True level='Advice' hide_checkboxes=current_advice_level|not_equals:'Advice' %}
 
-	{% include 'case/slices/destinations.html' with hide_controls=True show_advice=True level='Advice' %}
+	{% include 'case/slices/destinations.html' with hide_controls=True show_advice=True level='Advice' hide_checkboxes=current_advice_level|not_equals:'Advice' %}
 </form>
