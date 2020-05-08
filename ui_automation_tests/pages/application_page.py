@@ -27,9 +27,8 @@ class ApplicationPage(BasePage):
     IS_VISIBLE_TO_EXPORTER_CHECKBOX_ID = "is_visible_to_exporter"
     REVIEW_GOODS = "button-review-goods"
     EDIT_CASE_FLAGS = "link-change-flags"  # ID
-    EDIT_DESTINATION_FLAGS_BUTTON = "button-edit-destinations-flags"  # ID
+    BUTTON_EDIT_DESTINATION_FLAGS_ID = "button-edit-destinations-flags"
     CHECKBOX_INPUT = ".govuk-checkboxes__input"
-    VIEW_ADVICE = 'a[href*="/user-advice/"]'
     MOVE_CASE_BUTTON = '[href*="move"]'  # CSS
     STATUS = "status"  # ID
     AUDIT_TRAIL_ITEM = ".app-activity__item"  # CSS
@@ -121,17 +120,12 @@ class ApplicationPage(BasePage):
         edit_cases_btn.click()
 
     def click_edit_destination_flags(self):
-        self.driver.find_elements_by_css_selector(self.TABLE_DESTINATIONS_ID + self.CHECKBOX).click()
-        edit_destination_flags_btn = self.driver.find_element_by_id(self.EDIT_DESTINATION_FLAGS_BUTTON)
+        edit_destination_flags_btn = self.driver.find_element_by_id(self.BUTTON_EDIT_DESTINATION_FLAGS_ID)
         edit_destination_flags_btn.click()
 
     def select_a_good(self):
         element = self.driver.find_element_by_css_selector(self.CHECKBOX_INPUT)
         self.driver.execute_script("arguments[0].click();", element)
-
-    def click_view_advice(self):
-        self.driver.find_element_by_css_selector(self.ACTIONS_DROPDOWN).click()
-        self.driver.find_element_by_css_selector(self.VIEW_ADVICE).click()
 
     def is_good_flag_applied(self, flag_name):
         return flag_name in self.driver.find_element_by_id(self.TABLE_GOODS_ID).text

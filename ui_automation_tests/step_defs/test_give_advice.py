@@ -3,6 +3,7 @@ from datetime import date
 from pytest_bdd import when, then, parsers, scenarios, given
 
 from pages.application_page import ApplicationPage
+from pages.case_page import CasePage, CaseTabs
 from pages.give_advice_pages import GiveAdvicePages
 from pages.record_decision_page import RecordDecision
 from pages.shared import Shared
@@ -36,10 +37,9 @@ def click_items_in_advice_view(driver, context):
     context.number_of_advice_items_clicked = ApplicationPage(driver).click_on_all_checkboxes()
 
 
-@when("I click on view advice")
+@when("I click on the user advice tab")
 def i_click_on_view_advice(driver, context):
-    application_page = ApplicationPage(driver)
-    application_page.click_view_advice()
+    CasePage(driver).change_tab(CaseTabs.USER_ADVICE)
 
 
 @when(parsers.parse("I choose to '{option}' the licence"))
