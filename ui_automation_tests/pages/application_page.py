@@ -53,12 +53,13 @@ class ApplicationPage(BasePage):
     HMRC_GOODS_LOCATION = "hmrc-goods-location"
     CASE_COPY_OF_ID = "link-case-copy-of"
     TYPE_OF_CASE = "case-type"  # ID
-    DESTINATION_CHECKBOX = "destinations"  # NAME
     BUTTON_IM_DONE_ID = "button-done"
     CASE_LINK_PARTIAL_ID = "case-"
     BUTTON_APPLY_FILTER_ID = "button-apply-filters"
     USER_TYPE_ID = "user_type"
     CASE_NOTES_AND_ACTIVITY_TAB = "tab-activity"  # ID
+    TABLE_GOODS_ID = "table-goods"
+    TABLE_DESTINATIONS_ID = "table-destinations"
 
     def get_case_copy_of_field_href(self):
         return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
@@ -135,7 +136,7 @@ class ApplicationPage(BasePage):
         edit_cases_btn.click()
 
     def click_edit_destination_flags(self):
-        self.driver.find_element_by_name(self.DESTINATION_CHECKBOX).click()
+        self.driver.find_elements_by_css_selector(self.TABLE_DESTINATIONS_ID + self.CHECKBOX).click()
         edit_destination_flags_btn = self.driver.find_element_by_id(self.EDIT_DESTINATION_FLAGS_BUTTON)
         edit_destination_flags_btn.click()
 
@@ -148,7 +149,7 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_css_selector(self.VIEW_ADVICE).click()
 
     def is_good_flag_applied(self, flag_name):
-        return flag_name in self.driver.find_element_by_id("goods").text
+        return flag_name in self.driver.find_element_by_id(self.TABLE_GOODS_ID).text
 
     def click_move_case_button(self):
         self.driver.find_element_by_css_selector(self.MOVE_CASE_BUTTON).click()

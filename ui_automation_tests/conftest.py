@@ -4,6 +4,7 @@ from pytest_bdd import given, when, then, parsers
 
 from pages.goods_queries_pages import GoodsQueriesPages  # noqa
 from pages.organisation_page import OrganisationPage
+from shared import functions
 
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.add_a_flag import (  # noqa
@@ -196,6 +197,7 @@ def move_case_to_new_queue(driver, context):  # noqa
 def assign_flags_to_case(driver, context):  # noqa
     case_flags_pages = CaseFlagsPages(driver)
     case_flags_pages.select_flag(context.flag_name)
+    functions.click_submit(driver)
 
 
 @given("I create report summary picklist")  # noqa
