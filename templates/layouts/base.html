@@ -65,7 +65,7 @@
 				Licensing for International Trade and Enterprise <span class="govuk-tag govuk-!-margin-left-3">Alpha</span>
 			</a>
 			<span></span>
-			<a class="app-header__link" href="{% url 'auth:logout' %}" data-tooltip="Sign out of LITE">
+			<a id="link-sign-out" class="app-header__link" href="{% url 'auth:logout' %}" data-tooltip="Sign out of LITE">
 				Sign out
 			</a>
 			<span class="app-header__separator"></span>
@@ -74,7 +74,7 @@
 				{% if MENU_NOTIFICATIONS %}<span class="app-header__link-bubble"></span>{% endif %}
 			</a>
 			<span class="app-header__separator"></span>
-			<a class="app-header__link" href="{% url 'users:profile' %}" data-tooltip="View profile">
+			<a id="link-profile" class="app-header__link" href="{% url 'users:profile' %}" data-tooltip="View profile">
 				{{ request.user.first_name }}
 				{% svg 'user' %}
 			</a>
