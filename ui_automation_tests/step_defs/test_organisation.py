@@ -1,6 +1,7 @@
 from faker import Faker
 from pytest_bdd import scenarios, when, then, given, parsers
 
+from pages.case_page import CasePage
 from pages.organisation_page import OrganisationPage
 from pages.organisations_form_page import OrganisationsFormPage
 from pages.organisations_page import OrganisationsPage
@@ -90,7 +91,7 @@ def i_choose_to_add_a_new_hmrc_organisation(driver, context):
 
 @then("the previously created organisations flag is assigned")  # noqa
 def assert_flag_is_assigned(driver, context):
-    assert Shared(driver).is_flag_applied(context.flag_name)
+    assert Shared(driver).is_flag_applied(context.flag_name), "Flag " + context.flag_name + " is not applied"
 
 
 @when("I go to organisations")
@@ -190,3 +191,8 @@ def organisation_warning(driver):
     matching_fields = ["Name", "EORI Number", "Registration Number", "Address"]
     for field in matching_fields:
         assert field in warning, "Missing field in organisation review warning"
+
+
+@then("the previously created organisations flag is assigned to the case")
+def step_impl(driver, context):
+    assert CasePage(driver).is_flag_applied(context.flag_name), "Flag " + context.flag_name + " is not applied"

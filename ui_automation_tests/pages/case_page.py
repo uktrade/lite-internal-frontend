@@ -1,3 +1,5 @@
+from selenium.webdriver import ActionChains
+
 from shared import selectors
 from shared.BasePage import BasePage
 
@@ -67,3 +69,7 @@ class CasePage(BasePage):
 
     def get_audit_trail_text(self):
         return self.driver.find_element_by_id(self.AUDIT_TRAIL_ID).text
+
+    def is_flag_applied(self, flag_name):
+        ActionChains(self.driver).move_to_element(self.driver.find_element_by_id("candy-flags")).perform()
+        return flag_name in self.driver.find_element_by_id("popup-flags").text
