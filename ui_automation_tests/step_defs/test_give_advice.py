@@ -85,14 +85,12 @@ def added_advice_on_application_page(driver, context):
 
 @when("I go to the team advice")
 def go_to_team_advice(driver):
-    page = GiveAdvicePages(driver)
-    page.go_to_team_advice()
+    CasePage(driver).change_tab(CaseTabs.TEAM_ADVICE)
 
 
 @when("I go to the final advice")
 def go_to_final_advice(driver):
-    page = GiveAdvicePages(driver)
-    page.go_to_final_advice()
+    CasePage(driver).change_tab(CaseTabs.FINAL_ADVICE)
 
 
 @when("I finalise the goods and countries")

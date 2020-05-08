@@ -39,12 +39,6 @@ class GiveAdvicePages(BasePage):
     def type_in_additional_note_text_field(self, text):
         return self.driver.find_element_by_id(self.TEXTAREA_NOTES_ID).send_keys(text)
 
-    def go_to_team_advice(self):
-        self.driver.find_element_by_id(self.TEAM_ADVICE).click()
-
-    def go_to_final_advice(self):
-        self.driver.find_element_by_id(self.FINAL_ADVICE).click()
-
     def combine_advice(self):
         self.driver.find_element_by_id(self.COMBINE_ADVICE_BUTTON).click()
 
