@@ -31,7 +31,7 @@ from flags.services import (
 )
 from flags.services import get_flags, post_flags, get_flag, update_flag
 from lite_content.lite_internal_frontend import strings, flags
-from lite_content.lite_internal_frontend.flags import UpdateFlag
+from lite_content.lite_internal_frontend.flags import UpdateFlag, SetFlagsForm
 from lite_forms.components import Option, FiltersBar, Select, Checkboxes, TextInput
 from lite_forms.generators import form_page
 from lite_forms.views import MultiFormView, SingleFormView
@@ -246,6 +246,7 @@ class AssignFlags(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.level = self.get_level()
         flags = self.get_potential_flags()
+        self.success_message = getattr(SetFlagsForm, self.level).SUCCESS_MESSAGE
 
         if self.level == FlagLevel.ORGANISATIONS:
             self.context = {"organisation": "123"}

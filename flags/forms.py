@@ -207,7 +207,6 @@ def set_flags_form(flags, level, show_case_header=False, show_sidebar=False):
         ],
         default_button_name=getattr(SetFlagsForm, level).SUBMIT_BUTTON,
         container="case" if show_case_header else "two-pane",
-        back_link=None,
     )
 
     if show_sidebar:
