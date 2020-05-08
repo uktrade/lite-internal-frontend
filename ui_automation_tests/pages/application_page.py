@@ -35,7 +35,7 @@ class ApplicationPage(BasePage):
     APPLICATION_SUMMARY_BOARD = ".app-case-board"  # CSS
     TABLE_ENTITIES = "table-destinations"  # ID
     TABLE_INACTIVE_ENTITIES_ID = "table-inactive-entities"  # ID
-    GIVE_ADVICE_BUTTON = "button-give-advice"  # ID
+    GIVE_ADVICE_BUTTON = "button-give-user-advice"  # ID
     CHECKBOX = '[type="checkbox"]'  # CSS
     DOWNLOAD_GOOD_DOCUMENT = "good_document"  # ID
     DOWNLOAD_END_USER_DOCUMENT = "end_user_document"  # ID

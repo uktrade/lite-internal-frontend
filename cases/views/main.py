@@ -84,6 +84,7 @@ class CaseDetail(CaseView):
             Slices.LOCATIONS,
             Slices.SUPPORTING_DOCUMENTS,
         ]
+        self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_gifting_clearance_application(self):
         self.tabs = [Tabs.ADVICE]

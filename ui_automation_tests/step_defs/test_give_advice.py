@@ -45,7 +45,6 @@ def i_click_on_view_advice(driver, context):
 @when(parsers.parse("I choose to '{option}' the licence"))
 def choose_advice_option(driver, option, context):
     GiveAdvicePages(driver).click_on_advice_option(option)
-    Shared(driver).click_submit()
     context.advice_data = []
 
 

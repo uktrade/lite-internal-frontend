@@ -13,17 +13,17 @@ Feature: I want to record my user advice and any comments and conditions relatin
     When I go to application previously created
     And I click on the user advice tab
     And I select all items in the advice view
-    And I choose to 'proviso' the licence
-    And I select "UK SECRET" clearance level
+#    And I choose to 'proviso' the licence
+#    And I select "UK SECRET" clearance level
     And I import text from the 'proviso' picklist
     And I import text from the 'advice' picklist
     And I write 'We will get back to you in three weeks' in the note text field
     And I click continue
-    Then I see my advice has been posted successfully
-    And I see added advice in the same amount of places
-    When I select all items in the advice view
-    And I choose to 'proviso' the licence
-    Then I see the fields pre-populated with the proviso and advice picklist items
+#    Then I see my advice has been posted successfully
+#    And I see added advice in the same amount of places
+#    When I select all items in the advice view
+#    And I choose to 'proviso' the licence
+#    Then I see the fields pre-populated with the proviso and advice picklist items
 
 
 #  @LT_1115_grant @smoke
