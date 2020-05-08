@@ -35,7 +35,6 @@ class ApplicationPage(BasePage):
     APPLICATION_SUMMARY_BOARD = ".app-case-board"  # CSS
     TABLE_ENTITIES = "table-destinations"  # ID
     TABLE_INACTIVE_ENTITIES_ID = "table-inactive-entities"  # ID
-    GIVE_ADVICE_BUTTON = "button-give-user-advice"  # ID
     CHECKBOX = '[type="checkbox"]'  # CSS
     DOWNLOAD_GOOD_DOCUMENT = "good_document"  # ID
     DOWNLOAD_END_USER_DOCUMENT = "end_user_document"  # ID
@@ -168,15 +167,6 @@ class ApplicationPage(BasePage):
     def get_text_of_inactive_entities_table(self):
         return self.driver.find_element_by_id(self.TABLE_INACTIVE_ENTITIES_ID).text
 
-    def click_on_all_checkboxes(self):
-        elements = self.driver.find_elements_by_css_selector("#table-goods-user-advice " + self.CHECKBOX)
-
-        for element in elements:
-            self.driver.execute_script("arguments[0].click();", element)
-
-        self.driver.find_element_by_id(self.GIVE_ADVICE_BUTTON).click()
-        return len(elements)
-
     def good_document_link_is_enabled(self):
         return self.driver.find_element_by_id(self.DOWNLOAD_GOOD_DOCUMENT).is_enabled()
 
@@ -194,9 +184,6 @@ class ApplicationPage(BasePage):
 
     def get_case_officer_element(self):
         return self.driver.find_element_by_css_selector(self.CASE_OFFICER_CSS)
-
-    def get_additional_contacts_element(self):
-        return self.driver.find_element_by_id(self.LINK_ADDITIONAL_CONTACTS_ID)
 
     def get_assign_user_element(self):
         return self.driver.find_element_by_id(self.ASSIGN_USER_ID)

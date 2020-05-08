@@ -9,13 +9,6 @@ class GiveAdvicePages(BasePage):
     ADVICE_CHECKBOX_OPTION = "type-"  # ID
     PICKLIST_ITEM_TEXT = ".app-picklist-picker__item p"  # CSS
     TEXTAREA_NOTES_ID = "note"
-    TEAM_ADVICE = "team_advice"
-    FINAL_ADVICE = "final_advice"
-    COMBINE_ADVICE_BUTTON = "combine_advice_button"
-    CLEAR_ADVICE_BUTTON = "button-clear-advice"
-    FINALISE_BUTTON = "button-finalise"
-    GIVE_OR_CHANGE_ADVICE_BUTTON = "button-give-advice"
-    FINALISE_GOODS_AND_COUNTRIES_BUTTON = "button-finalise"
     CLEARANCE_LEVEL_DROPDOWN_ID = "pv_grading_proviso"
     RADIO_INPUT_APPROVE = '.govuk-radios input[value="approve"]'
     BLOCKING_FLAGS_WARNING_ID = "blocking_flags"
@@ -39,18 +32,6 @@ class GiveAdvicePages(BasePage):
     def type_in_additional_note_text_field(self, text):
         return self.driver.find_element_by_id(self.TEXTAREA_NOTES_ID).send_keys(text)
 
-    def combine_advice(self):
-        self.driver.find_element_by_id(self.COMBINE_ADVICE_BUTTON).click()
-
-    def finalise(self):
-        self.driver.find_element_by_id(self.FINALISE_BUTTON).click()
-
-    def can_finalise(self):
-        return element_with_id_exists(self.driver, self.FINALISE_BUTTON)
-
-    def finalise_goods_and_countries(self):
-        self.driver.find_element_by_id(self.FINALISE_GOODS_AND_COUNTRIES_BUTTON).click()
-
     def select_approve_for_all(self):
         elements = self.driver.find_elements_by_css_selector(self.RADIO_INPUT_APPROVE)
         for element in elements:
@@ -58,9 +39,6 @@ class GiveAdvicePages(BasePage):
 
     def checkbox_present(self):
         return len(self.driver.find_elements_by_css_selector(".input"))
-
-    def give_advice_button_present(self):
-        return self.driver.find_elements_by_id(self.GIVE_OR_CHANGE_ADVICE_BUTTON)
 
     def clearance_grading_present(self):
         return self.driver.find_elements_by_id(self.CLEARANCE_LEVEL_DROPDOWN_ID)

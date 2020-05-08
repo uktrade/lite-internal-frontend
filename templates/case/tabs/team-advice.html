@@ -26,7 +26,7 @@
 		</div>
 
 		<div class="{% if current_advice_level != 'team' %}app-advice__disabled-buttons{% endif %}">
-			<a class="govuk-button" href="{% url 'cases:coalesce_team_advice' queue.id case.id %}" id="combine_advice_button">
+			<a class="govuk-button" href="{% url 'cases:coalesce_team_advice' queue.id case.id %}" id="button-combine-team-advice">
 				Combine all into final decision
 				<svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="15" viewBox="0 0 33 43" aria-hidden="true" focusable="false">
 					<path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />

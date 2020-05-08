@@ -2,6 +2,7 @@ import os
 from django.conf import settings
 from pytest_bdd import given, when, then, parsers
 
+from pages.advice import UserAdvicePage, FinalAdvicePage, TeamAdvicePage
 from pages.case_page import CasePage, CaseTabs
 from pages.goods_queries_pages import GoodsQueriesPages  # noqa
 from pages.organisation_page import OrganisationPage
@@ -315,14 +316,19 @@ def an_exhibition_clearance_is_created(driver, apply_for_exhibition_clearance): 
     pass
 
 
-@when("I combine all advice")  # noqa
+@when("I combine all user advice")  # noqa
 def combine_all_advice(driver):  # noqa
-    GiveAdvicePages(driver).combine_advice()
+    UserAdvicePage(driver).click_combine_advice()
+
+
+@when("I combine all team advice")  # noqa
+def combine_all_advice(driver):  # noqa
+    TeamAdvicePage(driver).click_combine_advice()
 
 
 @when("I finalise the advice")  # noqa
 def finalise(driver):  # noqa
-    GiveAdvicePages(driver).finalise()
+    FinalAdvicePage(driver).click_finalise()
 
 
 @when("I select the template previously created")  # noqa

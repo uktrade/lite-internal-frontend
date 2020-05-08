@@ -2,6 +2,7 @@ from datetime import date
 
 from pytest_bdd import when, then, parsers, scenarios, given
 
+from pages.advice import UserAdvicePage
 from pages.application_page import ApplicationPage
 from pages.case_page import CasePage, CaseTabs
 from pages.give_advice_pages import GiveAdvicePages
@@ -34,7 +35,7 @@ def i_create_an_standard_advice_picklist(context, add_a_standard_advice_picklist
 
 @when("I select all items in the advice view")
 def click_items_in_advice_view(driver, context):
-    context.number_of_advice_items_clicked = ApplicationPage(driver).click_on_all_checkboxes()
+    context.number_of_advice_items_clicked = UserAdvicePage(driver).click_on_all_checkboxes()
 
 
 @when("I click on the user advice tab")
@@ -111,7 +112,7 @@ def select_approve_for_all(driver):
     page.select_approve_for_all()
 
 
-@then("Todays date and duration is filled in")
+@then("today's date and duration is filled in")
 def todays_date_is_filled_in(driver):
     date_in_form = GrantLicencePage(driver).get_date_in_date_entry()
     today = date.today()
