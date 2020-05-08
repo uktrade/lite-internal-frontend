@@ -44,6 +44,13 @@ class FinalAdvicePage(BaseAdvicePage):
     BUTTON_GIVE_ADVICE_ID = "button-give-final-advice"
     BUTTON_CLEAR_ADVICE_ID = "button-clear-final-advice"
     BUTTON_FINALISE_ID = "button-finalise"
+    BLOCKING_FLAGS_WARNING_ID = "warning-text-blocking-flags"
+
+    def can_finalise(self):
+        return "govuk-button--disabled" in self.driver.find_element_by_id(self.BUTTON_FINALISE_ID).get_attribute("class")
 
     def click_finalise(self):
         self.driver.find_element_by_id(self.BUTTON_FINALISE_ID).click()
+
+    def get_blocking_flags_text(self):
+        return self.driver.find_element_by_id(self.BLOCKING_FLAGS_WARNING_ID).text

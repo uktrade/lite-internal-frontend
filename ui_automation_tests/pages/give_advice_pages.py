@@ -11,7 +11,6 @@ class GiveAdvicePages(BasePage):
     TEXTAREA_NOTES_ID = "note"
     CLEARANCE_LEVEL_DROPDOWN_ID = "pv_grading_proviso"
     RADIO_INPUT_APPROVE = '.govuk-radios input[value="approve"]'
-    BLOCKING_FLAGS_WARNING_ID = "blocking_flags"
 
     def click_on_advice_option(self, option):
         self.driver.find_element_by_id(self.ADVICE_CHECKBOX_OPTION + option).click()
@@ -45,6 +44,3 @@ class GiveAdvicePages(BasePage):
 
     def select_clearance_grading(self, clearance_level):
         Select(self.driver.find_element_by_id(self.CLEARANCE_LEVEL_DROPDOWN_ID)).select_by_visible_text(clearance_level)
-
-    def get_blocking_flags_text(self):
-        return self.driver.find_element_by_id(self.BLOCKING_FLAGS_WARNING_ID).text

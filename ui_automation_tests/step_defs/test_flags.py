@@ -2,6 +2,7 @@ from pytest_bdd import when, then, scenarios, parsers
 
 import shared.tools.helpers as utils
 from pages.add_edit_flag import AddEditFlagPage
+from pages.advice import FinalAdvicePage
 from pages.flags_list_page import FlagsListPage
 from pages.shared import Shared
 from shared import functions
@@ -68,6 +69,6 @@ def reactivate_flag(driver, context):
 
 @then("I cannot finalise the case due to the blocking flag")
 def cannot_finalise_blocking_flag(driver, context):
-    final_advice = GiveAdvicePages(driver)
+    final_advice = FinalAdvicePage(driver)
     assert not final_advice.can_finalise()
     assert context.flag_name in final_advice.get_blocking_flags_text()
