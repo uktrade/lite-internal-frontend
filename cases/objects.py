@@ -45,15 +45,18 @@ class Case(Munch):
 
         destinations = self.data["destinations"]["data"]
 
-        # Standard apps return just the end user (as type dict) in destinations,
+        # Some apps return just the end user (as type dict) in destinations,
         # so we need to add the other destinations
         if isinstance(destinations, dict):
             destinations = [
-                destinations,
-                self.data.get("consignee"),
-                *self.data.get("ultimate_end_users"),
-                *self.data.get("third_parties"),
+                destinations
             ]
+            if self.data.get("consignee"):
+                destinations.append(self.data.get("consignee"))
+            if self.data.get("ultimate_end_users"):
+                destinations += self.data.get("ultimate_end_users")
+            if self.data.get("third_parties"):
+                destinations += self.data.get("third_parties")
 
         return destinations
 
