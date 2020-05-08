@@ -81,6 +81,10 @@
 		</div>
 	</header>
 
+	{% block messages %}
+		{% include 'includes/messages.html' %}
+	{% endblock %}
+
 	{% block header %}
 		<div class="govuk-width-container app-back-link-container">
 			<section role="banner" data-module="header">
