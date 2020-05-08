@@ -443,7 +443,7 @@ def final_advice_page(driver, context, internal_url):  # noqa
         internal_url.rstrip("/")
         + "/queues/00000000-0000-0000-0000-000000000001/cases/"
         + context.case_id
-        + "/final-advice-view/"
+        + "/final-advice/"
     )
 
 

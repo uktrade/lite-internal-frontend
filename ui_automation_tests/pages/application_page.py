@@ -30,7 +30,7 @@ class ApplicationPage(BasePage):
     EDIT_CASE_FLAGS = "link-change-flags"  # ID
     EDIT_DESTINATION_FLAGS_BUTTON = "button-edit-destinations-flags"  # ID
     CHECKBOX_INPUT = ".govuk-checkboxes__input"
-    VIEW_ADVICE = 'a[href*="/user-advice-view/"]'
+    VIEW_ADVICE = 'a[href*="/user-advice/"]'
     MOVE_CASE_BUTTON = '[href*="move"]'  # CSS
     STATUS = "status"  # ID
     AUDIT_TRAIL_ITEM = ".app-activity__item"  # CSS
