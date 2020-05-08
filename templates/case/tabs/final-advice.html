@@ -7,10 +7,12 @@
 <form action="{% url 'cases:give_advice' queue.id case.id 'final-advice' %}" method="get">
 	<div class="app-advice_app-bar">
 		<div class="lite-buttons-row {% if current_advice_level != 'final' %}app-advice__disabled-buttons{% endif %}">
-			<button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-				{% lcs 'cases.ViewAdvicePage.Actions.GIVE_OR_CHANGE' %}
-			</button>
-			<button form="form-final-advice" id="button-clear-advice" name="action" value="delete" type="submit" class="govuk-button {% if not case.advice|filter_advice_by_level:'final' %}govuk-button--disabled{% endif %}" data-module="govuk-button">
+			<div data-enable-on-checkboxes="#table-goods-final-advice, #table-destinations-final-advice" class="lite-buttons-row lite-!-display-inline">
+				<button id="button-give-final-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+					{% lcs 'cases.ViewAdvicePage.Actions.GIVE_OR_CHANGE' %}
+				</button>
+			</div>
+			<button form="form-final-advice" id="button-clear-final-advice" name="action" value="delete" type="submit" class="govuk-button {% if not case.advice|filter_advice_by_level:'final' %}govuk-button--disabled{% endif %}" data-module="govuk-button">
 				{% lcs 'cases.ViewAdvicePage.Actions.CLEAR' %}
 			</button>
 		</div>

@@ -7,10 +7,12 @@
 <form action="{% url 'cases:give_advice' queue.id case.id 'team-advice' %}" method="get">
 	<div class="app-advice_app-bar">
 		<div class="lite-buttons-row {% if current_advice_level != 'team' %}app-advice__disabled-buttons{% endif %}">
-			<button id="button-give-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-				{% lcs 'cases.ApplicationPage.ADVICE' %}
-			</button>
-			<button form="form-team-advice" id="button-clear-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
+			<div data-enable-on-checkboxes="#table-goods-team-advice, #table-destinations-team-advice" class="lite-buttons-row lite-!-display-inline">
+				<button id="button-give-team-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+					{% lcs 'cases.ApplicationPage.ADVICE' %}
+				</button>
+			</div>
+			<button form="form-team-advice" id="button-clear-tema-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
 				{% lcs 'CLEAR_ADVICE' %}
 			</button>
 
