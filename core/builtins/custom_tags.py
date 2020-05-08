@@ -505,3 +505,13 @@ def filter_advice_by_level(advice, level):
 @register.filter()
 def sentence_case(text):
     return capfirst(text).replace("_", " ")
+
+
+@register.filter()
+def goods_value(goods):
+    total_value = 0
+
+    for good in goods:
+        total_value += float(good.get("value", 0))
+
+    return total_value
