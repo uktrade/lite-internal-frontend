@@ -3,6 +3,7 @@ from django.urls import reverse
 from cases.constants import CaseType
 from cases.objects import Case
 from core.components import PicklistPicker
+from core.services import get_gov_pv_gradings, get_pv_gradings
 from lite_content.lite_internal_frontend.strings import cases
 from lite_forms.components import (
     Form,
@@ -15,7 +16,7 @@ from lite_forms.components import (
     HTMLBlock,
     Group,
     TextInput,
-    Custom,
+    Custom, Select,
 )
 from lite_forms.helpers import conditional
 from picklists.services import get_picklists_for_input
@@ -40,11 +41,18 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
             RadioButtons(
                 name="type",
                 options=[
-                    Option(key="approve", value=cases.AdviceRecommendationForm.RadioButtons.GRANT),
+                    Option(key="approve", value=cases.AdviceRecommendationForm.RadioButtons.GRANT, components=[
+                        conditional(CaseType.is_mod(case["case_type"]["sub_type"]["key"]),
+                                    Select(name="pv_grading_approve", title="Select a grading",
+                                           options=get_pv_gradings(request=None, convert_to_options=True)))
+                    ]),
                     Option(
                         key="proviso",
                         value=cases.AdviceRecommendationForm.RadioButtons.PROVISO,
                         components=[
+                            conditional(CaseType.is_mod(case["case_type"]["sub_type"]["key"]),
+                                        Select(name="pv_grading_proviso", title="Select a grading",
+                                               options=get_pv_gradings(request=None, convert_to_options=True))),
                             TextArea(
                                 title="Proviso",
                                 description="This will appear on the generated documentation",

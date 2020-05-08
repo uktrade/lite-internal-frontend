@@ -56,15 +56,15 @@ def write_note_text_field(driver, text, context):
 
 @then("I see the fields pre-populated with the proviso and advice picklist items")
 def i_see_fields_prepopulated(driver, context):
-    advice = driver.find_element_by_id("advice").text
+    text = driver.find_element_by_id("text").text
     proviso = driver.find_element_by_id("proviso").text
-    assert advice == context.standard_advice_query_picklist_question_text
+    assert text == context.standard_advice_query_picklist_question_text
     assert proviso == context.proviso_picklist_question_text
 
 
 @when(parsers.parse("I import text from the '{option}' picklist"))
 def import_text_advice(driver, option, context):
-    GiveAdvicePages(driver).click_on_import_advice_link(option)
+    GiveAdvicePages(driver).click_on_import_link(option)
     text = GiveAdvicePages(driver).get_text_of_picklist_item()
     context.advice_data.append(text)
     GiveAdvicePages(driver).click_on_picklist_item(option)
@@ -73,14 +73,14 @@ def import_text_advice(driver, option, context):
 
 @then("I see my advice has been posted successfully")
 def posted_successfully_advice(driver):
-    assert "Your advice has been posted successfully" in Shared(driver).get_text_of_info_bar()
+    assert "Advice posted successfully" in Shared(driver).get_text_of_info_bar()
 
 
 @then("I see added advice in the same amount of places")
 def added_advice_on_application_page(driver, context):
-    assert len(driver.find_elements_by_css_selector(".app-advice__details")) == context.number_of_advice_items_clicked
+    assert len(driver.find_elements_by_css_selector(".app-advice__item")) == context.number_of_advice_items_clicked
     for advice in context.advice_data:
-        assert advice in driver.find_element_by_css_selector(".app-advice__details").text
+        assert advice in driver.find_element_by_css_selector(".app-advice__item").text
 
 
 @when("I go to the team advice")

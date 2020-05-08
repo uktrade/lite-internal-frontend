@@ -169,13 +169,13 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.TABLE_INACTIVE_ENTITIES_ID).text
 
     def click_on_all_checkboxes(self):
-        elements = self.driver.find_elements_by_css_selector(self.CHECKBOX)
-        num = 0
+        elements = self.driver.find_elements_by_css_selector("#table-goods-user-advice " + self.CHECKBOX)
+
         for element in elements:
             self.driver.execute_script("arguments[0].click();", element)
-            num += 1
+
         self.driver.find_element_by_id(self.GIVE_ADVICE_BUTTON).click()
-        return num
+        return len(elements)
 
     def good_document_link_is_enabled(self):
         return self.driver.find_element_by_id(self.DOWNLOAD_GOOD_DOCUMENT).is_enabled()
