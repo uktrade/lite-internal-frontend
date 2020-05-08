@@ -1,15 +1,15 @@
 <h2 class="govuk-heading-m">{{ case.destinations|length }} destination{{ case.destinations|pluralize }}</h2>
 
 {% if not hide_controls %}
-	<form action="{% url 'cases:assign_flags' queue.id case.id %}" method="get">
+	<form action="{% url 'cases:assign_flags' queue.id case.id %}" method="get" data-enable-on-checkboxes="#table-destinations">
 		<button id="button-edit-destinations-flags" class="govuk-button" data-module="govuk-button">
 			{% lcs 'cases.ApplicationPage.EDIT_DESTINATION_FLAGS' %}
 		</button>
 {% endif %}
 
-{% if case.application.destinations.data %}
-	{% if case.application.destinations.type == 'end_user' %}
-		<table id="table-detinations" class="govuk-table">
+<table id="table-destinations{% if show_advice %}-{{ level }}-advice{% endif %}" class="govuk-table">
+	{% if case.application.destinations.data %}
+		{% if case.application.destinations.type == 'end_user' %}
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					{% if not hide_checkboxes %}
@@ -56,9 +56,7 @@
 					{% endif %}
 				{% endfor %}
 			</tbody>
-		</table>
 	{% else %}
-		<table id="table-destinations" class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
 					{% if not hide_checkboxes %}
@@ -105,9 +103,9 @@
 					{% endif %}
 				{% endfor %}
 			</tbody>
-		</table>
+		{% endif %}
 	{% endif %}
-{% endif %}
+</table>
 
 {% if not hide_controls %}
 	</form>

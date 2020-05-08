@@ -4,7 +4,7 @@
 
 {% if not hide_controls %}
 	<form method="get">
-		<div class="lite-buttons-row">
+		<div class="lite-buttons-row" data-enable-on-checkboxes="#table-goods">
 			{% if 'REVIEW_GOODS' in permissions and not status_is_terminal %}
 				<button id="button-review-goods" formaction="{% url 'cases:review_goods' queue.id case.id %}" name="action" value="review-goods" class="govuk-button" data-module="govuk-button">
 					{% lcs 'cases.ApplicationPage.REVIEW_GOODS' %}
@@ -16,8 +16,8 @@
 		</div>
 {% endif %}
 
-{% if case.application.goods %}
-	<table id="table-goods" class="govuk-table">
+<table id="table-goods{% if show_advice %}-{{ level }}-advice{% endif %}" class="govuk-table">
+	{% if case.application.goods %}
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
 				{% if not hide_checkboxes %}
@@ -76,9 +76,7 @@
 				{% endif %}
 			{% endfor %}
 		</tbody>
-	</table>
-{% elif case.application.goods_types %}
-	<table id="table-goods" class="govuk-table">
+	{% elif case.application.goods_types %}
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
 				{% if not hide_checkboxes %}
@@ -129,8 +127,8 @@
 				{% endif %}
 			{% endfor %}
 		</tbody>
-	</table>
-{% endif %}
+	{% endif %}
+</table>
 
 {% if not hide_controls %}
 	</form>
