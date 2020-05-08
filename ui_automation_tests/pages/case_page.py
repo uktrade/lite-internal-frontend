@@ -24,6 +24,7 @@ class CasePage(BasePage):
     LINK_CHANGE_STATUS_ID = "link-change-status"
     LINK_CHANGE_CASE_FLAGS_ID = "link-change-flags"
     LINK_ASSIGN_CASE_OFFICER_ID = "link-change-case-officer"
+    LINK_ASSIGN_USERS_ID = "link-change-assigned-users"
 
     def change_tab(self, tab: str):
         if tab == CaseTabs.USER_ADVICE or tab == CaseTabs.TEAM_ADVICE or tab == CaseTabs.FINAL_ADVICE:
@@ -36,6 +37,9 @@ class CasePage(BasePage):
 
     def click_assign_case_officer(self):
         self.driver.find_element_by_id(self.LINK_ASSIGN_CASE_OFFICER_ID).click()
+
+    def click_assign_users(self):
+        self.driver.find_element_by_id(self.LINK_ASSIGN_USERS_ID).click()
 
     def click_change_status(self):
         self.driver.find_element_by_id(self.LINK_CHANGE_STATUS_ID).click()

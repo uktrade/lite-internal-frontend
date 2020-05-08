@@ -1,6 +1,7 @@
 from pytest_bdd import when, then, parsers, scenarios
 import shared.tools.helpers as utils
 from pages.application_page import ApplicationPage
+from pages.case_page import CasePage, CaseTabs
 from pages.queues_pages import QueuesPages
 from pages.shared import Shared
 
@@ -74,7 +75,10 @@ def see_number_of_checkboxes_selected(driver, context, num):
 
 @then("queue change is in audit trail")
 def queue_change_in_audit(driver, context):
-    assert "moved the case to " + context.queue_name in ApplicationPage(driver).get_text_of_audit_trail_item(0)
+    case_page = CasePage(driver)
+    case_page.change_tab(CaseTabs.ACTIVITY)
+
+    assert "moved the case to " + context.queue_name in case_page.get_audit_trail_text()
 
 
 @when("I go to application previously created for my queue")

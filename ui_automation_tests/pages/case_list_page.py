@@ -31,7 +31,7 @@ class CaseListPage(BasePage):
     SHOW_TEAM_ECJU = "Show cases with open enquiries by your team"
 
     # Queue dropdown
-    QUEUE_DROPDOWN_TITLE = "queue-title"  # ID
+    LINK_CHANGE_QUEUE_ID = "link-queue"
 
     # Sort headings
     SORT_STATUS = "sort-status"  # ID
@@ -104,7 +104,7 @@ class CaseListPage(BasePage):
         return self.driver.find_element_by_class_name(self.FILTER_BAR).is_displayed()
 
     def click_on_queue_title(self):
-        self.driver.find_element_by_id(self.QUEUE_DROPDOWN_TITLE).click()
+        self.driver.find_element_by_id(self.LINK_CHANGE_QUEUE_ID).click()
 
     def click_on_queue_name(self, queue_name):
         self.click_on_queue_title()

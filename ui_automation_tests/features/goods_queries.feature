@@ -11,8 +11,7 @@ Feature: I want to respond to clc queries
     And I create a clc query
     When I go to goods query previously created
     And I click Respond to clc query
-    And I respond "yes", "ML1a", "1", "Because the good is controlled" and click continue
-    And I submit response
+    And I respond "yes", "ML1a", "1", "Because the good is controlled" and click submit
     When I click change status
     And I select status "Closed" and save
     Then I see case is closed
@@ -30,8 +29,7 @@ Feature: I want to respond to clc queries
     And I create a grading query
     When I go to goods query previously created
     And I click Respond to grading query
-    And I respond prefix "abc", select "UK official", suffix "123", comment "This is my review", and click continue
-    And I submit response
+    And I respond prefix "abc", select "UK official", suffix "123", comment "This is my review", and click submit
     When I click change status
     And I select status "Closed" and save
     Then I see case is closed

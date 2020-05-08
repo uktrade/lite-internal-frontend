@@ -157,7 +157,9 @@ def go_to_flags(driver, internal_url):  # noqa
 
 @when("I click change status")  # noqa
 def click_post_note(driver):  # noqa
-    CasePage(driver).click_change_status()
+    case_page = CasePage(driver)
+    case_page.change_tab(CaseTabs.DETAILS)
+    case_page.click_change_status()
 
 
 @when(parsers.parse('I select status "{status}" and save'))  # noqa
@@ -242,7 +244,7 @@ def go_to_users(driver, sso_sign_in, internal_url):  # noqa
 
 @when(  # noqa
     parsers.parse(
-        'I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click continue'
+        'I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click submit'
     )  # noqa
 )  # noqa
 def enter_response(driver, controlled, control_list_entry, report, comment):  # noqa

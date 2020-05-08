@@ -48,7 +48,7 @@ class ApplicationPage(BasePage):
     LINK_ADDITIONAL_CONTACTS_ID = "tab-additional-contacts"
     ASSIGN_USER_ID = "assign-user"
     EXPAND_FLAGS_PARTIAL_ID = "expand-flags-"
-    ASSIGNED_USERS_ID = "assigned_users"
+    ASSIGNED_USERS_ID = "assigned-users"
     CASE_QUEUES_ID = "case_queues"
     HMRC_GOODS_LOCATION = "hmrc-goods-location"
     CASE_COPY_OF_ID = "link-case-copy-of"

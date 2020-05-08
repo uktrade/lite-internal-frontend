@@ -126,7 +126,7 @@
 		<dt class="app-case__summary-list__key">
 			Assigned users
 		</dt>
-		<dd class="app-case__summary-list__value">
+		<dd id="assigned-users" class="app-case__summary-list__value">
 			{% for queue_name, users in case.assigned_users.items %}
 				<span class="govuk-label">{{ queue_name }}</span>
 				<ol class="govuk-list govuk-!-margin-0">

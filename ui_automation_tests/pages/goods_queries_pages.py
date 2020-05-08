@@ -4,12 +4,11 @@ from selenium.webdriver.support.ui import Select
 
 
 class GoodsQueriesPages(BasePage):
-    SUBMIT_RESPONSE_BUTTON_ID = "submit-response"  # ID
     CONTROL_RESPONSE = "is_good_controlled-"  # ID
     TOKEN_BAR_CONTROL_LIST_ENTRIES_SELECTOR = "#pane_control_list_entries .tokenfield-input"
     REPORT_SUMMARY = "report_summary"  # Name
     COMMENT = "comment"  # ID
-    CASE_CLOSE_INFO_BAR_ID = "closed"  # CSS
+    CASE_CLOSE_INFO_BAR_ID = "banner-case-closed"
     BUTTON_CLC_RESPOND_ID = "clc-button-respond"
     BUTTON_GRADING_RESPOND_ID = "grading-button-respond"
     SUBMIT_BUTTON = '.govuk-button[type*="submit"]'  # CSS
@@ -21,9 +20,6 @@ class GoodsQueriesPages(BasePage):
 
     def click_respond_to_grading_query(self):
         self.driver.find_element_by_id(self.BUTTON_GRADING_RESPOND_ID).click()
-
-    def click_overview_submit(self):
-        self.driver.find_element_by_id(self.SUBMIT_RESPONSE_BUTTON_ID).click()
 
     # Response Page
     def click_is_good_controlled(self, answer):
@@ -37,6 +33,7 @@ class GoodsQueriesPages(BasePage):
         self.driver.execute_script("arguments[0].click();", element)
 
     def enter_a_comment(self, comment):
+        self.driver.find_element_by_class_name("govuk-details__summary-text").click()
         self.driver.find_element_by_id(self.COMMENT).send_keys(comment)
 
     def enter_a_prefix(self, prefix):
