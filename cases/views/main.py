@@ -81,7 +81,6 @@ class CaseDetail(CaseView):
         self.slices = [
             Slices.EXHIBITION_DETAILS,
             Slices.GOODS,
-            Slices.DESTINATIONS,
             Slices.LOCATIONS,
             Slices.SUPPORTING_DOCUMENTS,
         ]
