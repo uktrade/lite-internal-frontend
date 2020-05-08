@@ -1,8 +1,7 @@
 from pytest_bdd import when, then, scenarios, given, parsers
+
 from pages.goods_queries_pages import GoodsQueriesPages
 from pages.shared import Shared
-
-from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 scenarios("../features/goods_queries.feature", strict_gherkin=False)
 

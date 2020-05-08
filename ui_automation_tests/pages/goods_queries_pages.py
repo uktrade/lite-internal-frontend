@@ -13,6 +13,7 @@ class GoodsQueriesPages(BasePage):
     BUTTON_GRADING_RESPOND_ID = "grading-button-respond"
     SUBMIT_BUTTON = '.govuk-button[type*="submit"]'  # CSS
     PREFIX_ID = "prefix"
+    SUFFIX_ID = "suffix"
     GRADING_ID = "grading"
 
     def click_respond_to_clc_query(self):
@@ -43,7 +44,7 @@ class GoodsQueriesPages(BasePage):
         Select(self.driver.find_element_by_id(self.GRADING_ID)).select_by_visible_text(grading)
 
     def enter_a_suffix(self, suffix):
-        self.driver.find_element_by_id(self.COMMENT).send_keys(suffix)
+        self.driver.find_element_by_id(self.SUFFIX_ID).send_keys(suffix)
 
     def is_clc_query_case_closed(self):
         return len(self.driver.find_elements_by_id(self.CASE_CLOSE_INFO_BAR_ID)) == 1
