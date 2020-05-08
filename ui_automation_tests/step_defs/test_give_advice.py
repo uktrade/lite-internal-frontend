@@ -2,7 +2,7 @@ from datetime import date
 
 from pytest_bdd import when, then, parsers, scenarios, given
 
-from pages.advice import UserAdvicePage
+from pages.advice import UserAdvicePage, FinalAdvicePage
 from pages.application_page import ApplicationPage
 from pages.case_page import CasePage, CaseTabs
 from pages.give_advice_pages import GiveAdvicePages
@@ -96,8 +96,7 @@ def go_to_final_advice(driver):
 
 @when("I finalise the goods and countries")
 def finalise_goods_and_countries(driver):
-    page = GiveAdvicePages(driver)
-    page.finalise_goods_and_countries()
+    FinalAdvicePage(driver).click_finalise()
 
 
 @then("I see country error message")
