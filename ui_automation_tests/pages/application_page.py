@@ -47,7 +47,7 @@ class ApplicationPage(BasePage):
     ASSIGN_USER_ID = "assign-user"
     EXPAND_FLAGS_PARTIAL_ID = "expand-flags-"
     ASSIGNED_USERS_ID = "assigned-users"
-    CASE_QUEUES_ID = "case_queues"
+    CASE_QUEUES_ID = "assigned-queues"
     HMRC_GOODS_LOCATION = "hmrc-goods-location"
     CASE_COPY_OF_ID = "link-case-copy-of"
     TYPE_OF_CASE = "case-type"  # ID
