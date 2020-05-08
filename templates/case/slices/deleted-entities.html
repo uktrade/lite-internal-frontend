@@ -30,7 +30,7 @@
 				<td class="govuk-table__cell">{{ party.website|linkify }}</td>
 				<td class="govuk-table__cell">
 					{% if party.document %}
-						<a href="{% url 'cases:document' queue.id case.id party.document.id %}">
+						<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:document' queue.id case.id party.document.id %}">
 							{{ party.document.name }}
 						</a>
 					{% endif %}

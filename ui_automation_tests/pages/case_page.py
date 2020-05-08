@@ -16,6 +16,7 @@ class CaseTabs:
 class CasePage(BasePage):
     TABLE_GOODS_ID = "table-goods"
     TABLE_DESTINATIONS_ID = "table-destinations"
+    TABLE_DELETED_ENTITIES_ID = "table-inactive-entities"
 
     AUDIT_TRAIL_ID = "audit-trail"
 
@@ -56,6 +57,9 @@ class CasePage(BasePage):
 
     def get_destinations_text(self):
         return self.driver.find_element_by_id(self.TABLE_DESTINATIONS_ID).text
+
+    def get_deleted_entities_text(self):
+        return self.driver.find_element_by_id(self.TABLE_DELETED_ENTITIES_ID).text
 
     def select_destinations(self):
         for destination in self.driver.find_elements_by_css_selector(self.TABLE_DESTINATIONS_ID + selectors.CHECKBOX):

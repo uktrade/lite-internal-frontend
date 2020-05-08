@@ -145,7 +145,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.TABLE_ENTITIES).text
 
     def get_case_notification_anchor(self):
-        return self.driver.find_element_by_id(self.AUDIT_NOTIFICATION_ANCHOR)
+        return self.driver.find_elements_by_css_selector(".lite-tabs__tab .lite-tabs__tab-notification")
 
     def get_case_activity_id_by_audit_text(self, old_text, new_text):
         audits = self.driver.find_elements_by_css_selector(self.AUDIT_CASE_ACTIVITY_ID)

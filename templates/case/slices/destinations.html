@@ -3,9 +3,11 @@
 
 	{% if not hide_controls %}
 		<form action="{% url 'cases:assign_flags' queue.id case.id %}" method="get" data-enable-on-checkboxes="#table-destinations">
-			<button id="button-edit-destinations-flags" class="govuk-button" data-module="govuk-button">
-				{% lcs 'cases.ApplicationPage.EDIT_DESTINATION_FLAGS' %}
-			</button>
+			<div class="lite-buttons-row">
+				<button id="button-edit-destinations-flags" class="govuk-button" data-module="govuk-button">
+					{% lcs 'cases.ApplicationPage.EDIT_DESTINATION_FLAGS' %}
+				</button>
+			</div>
 	{% endif %}
 
 	<table id="table-destinations{% if show_advice %}-{{ level }}-advice{% endif %}" class="govuk-table">
