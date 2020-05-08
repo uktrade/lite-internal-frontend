@@ -5,7 +5,7 @@
 .app-template__case-body {
 	.govuk-main-wrapper {
 		padding-top: 0;
-		min-height: 100vh;
+		min-height: calc(100vh - 200px);
 	}
 }
 
