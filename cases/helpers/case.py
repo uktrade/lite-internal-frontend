@@ -10,7 +10,7 @@ from cases.services import (
     get_activity,
     get_activity_filters,
 )
-from cases.views.ecju import get_ecju_queries
+from cases.helpers.ecju_queries import get_ecju_queries
 from conf.constants import Statuses, GENERATED_DOCUMENT
 from core.objects import Tab, TabCollection
 from core.services import get_user_permissions, get_status_properties, get_permissible_statuses
