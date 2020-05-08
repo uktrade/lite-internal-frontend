@@ -126,7 +126,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I create a proviso picklist
     And I create a standard advice picklist
     When I go to application previously created
-    And I click progress application
+    And I click change status
     And I select status "Withdrawn" and save
     And I click on view advice
     Then the give advice checkboxes are not present

@@ -2,6 +2,7 @@ import os
 from django.conf import settings
 from pytest_bdd import given, when, then, parsers
 
+from pages.case_page import CasePage, CaseTabs
 from pages.goods_queries_pages import GoodsQueriesPages  # noqa
 from pages.organisation_page import OrganisationPage
 from shared import functions
@@ -154,10 +155,9 @@ def go_to_flags(driver, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/flags/")
 
 
-@when("I click progress application")  # noqa
+@when("I click change status")  # noqa
 def click_post_note(driver):  # noqa
-    application_page = ApplicationPage(driver)
-    application_page.click_progress_application()
+    CasePage(driver).click_change_status()
 
 
 @when(parsers.parse('I select status "{status}" and save'))  # noqa
@@ -255,35 +255,13 @@ def enter_response(driver, controlled, control_list_entry, report, comment):  # 
 
 
 @then("the status has been changed in the application")  # noqa
-def status_has_been_changed_in_header(driver, context, internal_info):  # noqa
-    application_page = ApplicationPage(driver)
-    if context.status.lower() == "under review":
-        assert (
-            "Under review" in application_page.get_text_of_audit_trail()
-        ), "status has not been shown as approved in audit trail"
-    elif context.status.lower() == "withdrawn":
-        assert (
-            context.status in application_page.get_text_of_audit_trail()
-        ), "status has not been shown as approved in audit trail"
-    elif context.status.lower() == "pv grading review":
-        assert (
-            context.status in application_page.get_text_of_audit_trail()
-        ), "status has not been shown as approved in audit trail"
-    elif context.status.lower() == "clc review":
-        assert (
-            context.status in application_page.get_text_of_audit_trail()
-        ), "status has not been shown as approved in audit trail"
-    else:
-        assert (
-            context.status.lower() in application_page.get_text_of_audit_trail()
-        ), "status has not been shown as approved in audit trail"
+def audit_trail_updated(driver, context, internal_info):  # noqa
+    case_page = CasePage(driver)
+    case_page.change_tab(CaseTabs.ACTIVITY)
 
-    assert utils.search_for_correct_date_regex_in_element(
-        application_page.get_text_of_activity_dates(0)
-    ), "date is not displayed after status change"
-    # assert (
-    #     application_page.get_text_of_activity_users(0) == internal_info["name"]
-    # ), "user who has made the status change has not been displayed correctly"
+    assert (
+        context.status.lower() in case_page.get_audit_trail_text().lower()
+    ), "status has not been shown as approved in audit trail"
 
 
 @given("I create a clc query")  # noqa
@@ -449,7 +427,7 @@ def final_advice_page(driver, context, internal_url):  # noqa
 
 @when("I click edit flags link")  # noqa
 def click_edit_case_flags_link(driver):  # noqa
-    ApplicationPage(driver).click_edit_case_flags()
+    CasePage(driver).click_change_case_flags()
 
 
 @then("The previously created flag is assigned to the case")  # noqa

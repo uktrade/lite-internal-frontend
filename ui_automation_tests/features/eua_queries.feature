@@ -17,6 +17,6 @@ Feature: I want to respond to an End User Advisory query
     Given I create eua query or eua query has been previously created
     And I sign in to SSO or am signed into SSO
     When I go to end user advisory previously created
-    And I click progress application
+    And I click change status
     And I select status "Closed" and save
     Then the status has been changed in the end user advisory
