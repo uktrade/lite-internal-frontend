@@ -1,6 +1,6 @@
 from pytest_bdd import then, scenarios, when
 
-from ui_automation_tests.pages.application_page import ApplicationPage
+from pages.case_page import CasePage
 from ui_automation_tests.pages.case_officer_pages import CaseOfficerPages
 from ui_automation_tests.shared import functions
 
@@ -9,8 +9,7 @@ scenarios("../features/case_officer.feature", strict_gherkin=False)
 
 @when("I click Assign Case Officer Button")
 def i_click_case_officer_button(driver):
-    application_page = ApplicationPage(driver)
-    application_page.click_case_officer_button()
+    CasePage(driver).click_assign_case_officer()
 
 
 @when("filter by test user email")

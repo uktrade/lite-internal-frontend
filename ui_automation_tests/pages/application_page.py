@@ -18,7 +18,7 @@ class ApplicationPage(BasePage):
     CASE_NOTES_TEXT = ".app-activity__item"  # css
     CASE_NOTE_DATE_TIME = ".app-activity__item .govuk-hint"  # css
     DOCUMENTS_BTN = "tab-documents"  # ID
-    GENERATE_DOCUMENTS_BTN = "generate-document"  # id
+    GENERATE_DOCUMENTS_BTN = "button-generate-document"  # id
     ECJU_QUERIES_BTN = '[href*="ecju-queries"]'  # css
     PROGRESS_APP_BTN = "change-status"  # ID
     CONFIRM_RERUN_ROUTING_RULES = "confirm-yes"
@@ -44,7 +44,6 @@ class ApplicationPage(BasePage):
     LINK_ORGANISATION_ID = "link-organisation"
     EDIT_GOODS_FLAGS = "button-edit-goods-flags"  # ID
     CASE_OFFICER_CSS = ".govuk-link[href*='case-officer']"  # CSS
-    LINK_ADDITIONAL_CONTACTS_ID = "tab-additional-contacts"
     ASSIGN_USER_ID = "assign-user"
     EXPAND_FLAGS_PARTIAL_ID = "expand-flags-"
     ASSIGNED_USERS_ID = "assigned-users"
@@ -99,15 +98,6 @@ class ApplicationPage(BasePage):
 
     def click_generate_document_button(self):
         self.driver.find_element_by_id(self.GENERATE_DOCUMENTS_BTN).click()
-
-    def click_ecju_queries_button(self):
-        self.driver.find_element_by_css_selector(self.ECJU_QUERIES_BTN).click()
-
-    def click_case_officer_button(self):
-        self.driver.find_element_by_css_selector(self.CASE_OFFICER_CSS).click()
-
-    def click_additional_contacts_link(self):
-        self.driver.find_element_by_id(self.LINK_ADDITIONAL_CONTACTS_ID).click()
 
     def select_status(self, status):
         case_status_dropdown = Select(self.driver.find_element_by_id(self.STATUS))
