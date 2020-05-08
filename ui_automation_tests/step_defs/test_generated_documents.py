@@ -35,7 +35,7 @@ def add_custom_text(driver, context, custom_text):
 
 @when("I click regenerate")
 def click_regenerate(driver, context):
-    GeneratedDocument(driver).click_regenerate_btn()
+    GeneratedDocument(driver).click_regenerate_button()
 
 
 @then("I see the template text to edit")
@@ -60,22 +60,21 @@ def generated_document_preview(driver, context):
 
 @then("I see my generated document")
 def generated_document(driver, context):
-    most_recent_doc = Shared(driver).get_first_row_of_gov_uk_table()
-    row_text = most_recent_doc.text
-    # Check document name
-    assert context.document_template_name in row_text
-    assert "Generated" in row_text
-    # Check download link is present
-    assert GeneratedDocument(driver).check_download_link_is_present(most_recent_doc)
+    latest_document = GeneratedDocument(driver).get_latest_document()
+
+    assert context.document_template_name in latest_document.text
+    assert "Generated" in latest_document.text
+    assert GeneratedDocument(driver).check_download_link_is_present(latest_document)
 
 
 @then("I see both my generated documents")
 def both_generated_documents(driver, context):
-    document_rows = Shared(driver).get_rows_in_lite_table()
-    for document_row in document_rows:
-        row_text = document_row.text
-        assert context.document_template_name in row_text
-        assert "Generated" in row_text
-        assert GeneratedDocument(driver).check_download_link_is_present(document_row)
+    documents = GeneratedDocument(driver).get_documents()
+
+    for document in GeneratedDocument(driver).get_documents():
+        assert context.document_template_name in document.text
+        assert "Generated" in document.text
+        assert GeneratedDocument(driver).check_download_link_is_present(document)
+
     # Check 2 documents have been created
-    assert document_rows[0].text != document_rows[1].text
+    assert documents[0].text != documents[1].text
