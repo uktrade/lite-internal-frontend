@@ -25,7 +25,7 @@ class ApplicationPage(BasePage):
     ACTIVITY_CASE_NOTE_SUBJECT = ".app-activity__list .govuk-body"
     ACTIVITY_DATES = ".app-activity__item .govuk-hint"
     IS_VISIBLE_TO_EXPORTER_CHECKBOX_ID = "is_visible_to_exporter"
-    REVIEW_GOODS = "button-review-goods"
+    BUTTON_REVIEW_GOODS_ID = "button-review-goods"
     EDIT_CASE_FLAGS = "link-change-flags"  # ID
     BUTTON_EDIT_DESTINATION_FLAGS_ID = "button-edit-destinations-flags"
     CHECKBOX_INPUT = ".govuk-checkboxes__input"
@@ -108,7 +108,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_elements_by_css_selector(self.ACTIVITY_DATES)[no].text
 
     def click_review_goods(self):
-        self.driver.find_element_by_id(self.REVIEW_GOODS).click()
+        self.driver.find_element_by_id(self.BUTTON_REVIEW_GOODS_ID).click()
 
     def click_edit_good_flags(self):
         edit_goods_btn = self.driver.find_element_by_id(self.EDIT_GOODS_FLAGS)

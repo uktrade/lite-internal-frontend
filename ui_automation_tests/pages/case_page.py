@@ -48,14 +48,14 @@ class CasePage(BasePage):
         self.driver.find_element_by_id(self.BUTTON_RERUN_ROUTING_RULES_ID).click()
 
     def select_goods(self):
-        for good in self.driver.find_elements_by_css_selector(self.TABLE_GOODS_ID + selectors.CHECKBOX):
+        for good in self.driver.find_elements_by_css_selector(f"#{self.TABLE_GOODS_ID} {selectors.CHECKBOX}"):
             good.click()
 
     def get_goods_text(self):
-        return self.driver.find_element_by_id(self.TABLE_GOODS_ID)
+        return self.driver.find_element_by_id(self.TABLE_GOODS_ID).text
 
     def get_destinations_text(self):
-        return self.driver.find_element_by_id(self.TABLE_DESTINATIONS_ID)
+        return self.driver.find_element_by_id(self.TABLE_DESTINATIONS_ID).text
 
     def select_destinations(self):
         for destination in self.driver.find_elements_by_css_selector(self.TABLE_DESTINATIONS_ID + selectors.CHECKBOX):

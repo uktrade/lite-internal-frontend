@@ -1,14 +1,12 @@
 from datetime import datetime
 
-from pytest_bdd import scenarios, given, when, then, parsers
+from pytest_bdd import scenarios, when, then, parsers
 
 from conf.constants import DATE_FORMAT
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.documents_page import DocumentsPage
 from ui_automation_tests.pages.generate_decision_documents_page import GeneratedDecisionDocuments
-from ui_automation_tests.pages.give_advice_pages import GiveAdvicePages
 from ui_automation_tests.pages.grant_licence_page import GrantLicencePage
-from ui_automation_tests.shared.functions import click_submit
 
 scenarios("../features/finalise_case.feature", strict_gherkin=False)
 
