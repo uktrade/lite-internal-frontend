@@ -3,6 +3,7 @@ from pytest_bdd import then, scenarios, when, given, parsers
 from pages.application_page import ApplicationPage
 from pages.case_list_page import CaseListPage
 import shared.tools.helpers as utils
+from pages.case_page import CasePage
 
 from ui_automation_tests.shared import functions
 
@@ -113,7 +114,7 @@ def i_see_assigned_queues_to_the_case_on_page(driver, context):
 
 @then("I see a third party")
 def i_see_third_party_on_page(driver, context):
-    destinations_table = ApplicationPage(driver).get_text_of_third_parties_table()
+    table = CasePage(driver).get_destinations_text()
     headings = ["NAME", "TYPE", "WEBSITE", "ADDRESS", "DOCUMENT"]
     values = [
         # context.third_party['sub_type'],
@@ -122,12 +123,12 @@ def i_see_third_party_on_page(driver, context):
         context.third_party["address"],
         context.third_party["country"]["name"],
     ]
-    assert_party_data(destinations_table, headings, values)
+    assert_party_data(table, headings, values)
 
 
 @then("I see an inactive party on page")
 def i_see_inactive_party_on_page(driver, api_test_client):
-    table = ApplicationPage(driver).get_text_of_inactive_entities_table()
+    table = CasePage(driver).get_destinations_text()
     headings = ["NAME", "TYPE", "WEBSITE", "ADDRESS", "DOCUMENT"]
     values = [
         api_test_client.context["inactive_party"]["sub_type"]["value"],

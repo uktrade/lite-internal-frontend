@@ -51,6 +51,12 @@ class CasePage(BasePage):
         for good in self.driver.find_elements_by_css_selector(self.TABLE_GOODS_ID + selectors.CHECKBOX):
             good.click()
 
+    def get_goods_text(self):
+        return self.driver.find_element_by_id(self.TABLE_GOODS_ID)
+
+    def get_destinations_text(self):
+        return self.driver.find_element_by_id(self.TABLE_DESTINATIONS_ID)
+
     def select_destinations(self):
         for destination in self.driver.find_elements_by_css_selector(self.TABLE_DESTINATIONS_ID + selectors.CHECKBOX):
             destination.click()

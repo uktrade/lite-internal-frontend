@@ -21,7 +21,6 @@ class ApplicationPage(BasePage):
     GENERATE_DOCUMENTS_BTN = "generate-document"  # id
     ECJU_QUERIES_BTN = '[href*="ecju-queries"]'  # css
     PROGRESS_APP_BTN = "change-status"  # ID
-    RERUN_ROUTING_RULES_BTN = "rerun-routing-rules"  # ID
     CONFIRM_RERUN_ROUTING_RULES = "confirm-yes"
     ACTIVITY_CASE_NOTE_SUBJECT = ".app-activity__list .govuk-body"
     ACTIVITY_DATES = ".app-activity__item .govuk-hint"
@@ -35,7 +34,7 @@ class ApplicationPage(BasePage):
     STATUS = "status"  # ID
     AUDIT_TRAIL_ITEM = ".app-activity__item"  # CSS
     APPLICATION_SUMMARY_BOARD = ".app-case-board"  # CSS
-    TABLE_ENTITIES = "table-entities"  # ID
+    TABLE_ENTITIES = "table-destinations"  # ID
     TABLE_INACTIVE_ENTITIES_ID = "table-inactive-entities"  # ID
     GIVE_ADVICE_BUTTON = "button-give-advice"  # ID
     CHECKBOX = '[type="checkbox"]'  # CSS
@@ -91,10 +90,6 @@ class ApplicationPage(BasePage):
     def click_progress_application(self):
         scroll_to_element_by_id(self.driver, self.PROGRESS_APP_BTN)
         self.driver.find_element_by_id(self.PROGRESS_APP_BTN).click()
-
-    def click_rerun_routing_rules(self):
-        scroll_to_element_by_id(self.driver, self.RERUN_ROUTING_RULES_BTN)
-        self.driver.find_element_by_id(self.RERUN_ROUTING_RULES_BTN).click()
 
     def click_confirm_rerun_routing_rules(self):
         self.driver.find_element_by_id(self.CONFIRM_RERUN_ROUTING_RULES).click()

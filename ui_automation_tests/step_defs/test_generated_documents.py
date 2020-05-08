@@ -1,5 +1,6 @@
 from pytest_bdd import scenarios, when, given, then, parsers
 
+from pages.case_page import CasePage, CaseTabs
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.generate_document_page import GeneratedDocument
 from ui_automation_tests.pages.shared import Shared
@@ -14,6 +15,7 @@ def create_template(add_a_document_template):
 
 @when("I click on the Generate document button")
 def click_generated_documents(driver, context):
+    CasePage(driver).change_tab(CaseTabs.DOCUMENTS)
     ApplicationPage(driver).click_generate_document_button()
 
 

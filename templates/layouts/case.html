@@ -25,7 +25,7 @@
 							<a class="app-case-header__breadcrumbs-link" href="{% url 'queues:cases' queue.id %}">{{ queue.name }}</a>
 						</li>
 					</ol>
-					<h1 class="app-case-header__heading" style="z-index: 10;">
+					<h1 id="heading-reference-code" class="app-case-header__heading">
 						{{ case.reference_code }} <a id="link-organisation" class="app-case-header__link govuk-!-margin-left-2" href="{% url 'organisations:organisation' case.organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.organisation.name }}</a>
 					</h1>
 				</div>

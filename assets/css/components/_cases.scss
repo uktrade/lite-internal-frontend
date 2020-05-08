@@ -258,17 +258,13 @@ $case-header-text-colour: govuk-colour("white");
         color: $case-header-text-colour;
         margin: 0;
         margin-bottom: 2px;
-    }
-
-    &__text {
-        @include govuk-font($size: 19, $weight: bold);
-        color: $case-header-text-colour;
-        margin: 0;
+        z-index: 10;
     }
 
     &__link {
         color: $case-header-text-colour;
         text-decoration: none;
+        opacity: .7;
 
         &:hover {
             border-bottom: 2px solid currentColor;
