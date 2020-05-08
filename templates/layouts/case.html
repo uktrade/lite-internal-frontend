@@ -26,7 +26,7 @@
 						</li>
 					</ol>
 					<h1 class="app-case-header__heading" style="z-index: 10;">
-						{{ case.reference_code }} <a class="app-case-header__link govuk-!-margin-left-2" style="opacity: 0.7;" href="{% url 'organisations:organisation' case.organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.organisation.name }}</a>
+						{{ case.reference_code }} <a id="link-organisation" class="app-case-header__link govuk-!-margin-left-2" href="{% url 'organisations:organisation' case.organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.organisation.name }}</a>
 					</h1>
 				</div>
 				<div class="app-case-header__controls">
