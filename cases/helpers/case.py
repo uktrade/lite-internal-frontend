@@ -137,6 +137,8 @@ class CaseView(TemplateView):
             "generated_document_key": GENERATED_DOCUMENT,
             "permissible_statuses": get_permissible_statuses(self.request, self.case["case_type"]),
             "filters": get_timeline_filters(self.request, self.case_id),
+            "is_terminal": status_props["is_terminal"],
+            "is_read_only": status_props["is_read_only"],
             **self.additional_context,
         }
 

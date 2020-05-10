@@ -1,4 +1,7 @@
-from shared import selectors
+from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.support import expected_conditions
+
+from shared import selectors, functions
 from shared.BasePage import BasePage
 
 
@@ -15,6 +18,13 @@ class BaseAdvicePage(BasePage):
 
         self.driver.find_element_by_id(self.BUTTON_GIVE_ADVICE_ID).click()
         return len(elements)
+
+    def is_advice_button_enabled(self):
+        try:
+            self.driver.find_element_by_id(self.BUTTON_GIVE_ADVICE_ID).click()
+            return True
+        except WebDriverException:
+            return False
 
 
 class UserAdvicePage(BaseAdvicePage):
@@ -47,7 +57,9 @@ class FinalAdvicePage(BaseAdvicePage):
     BLOCKING_FLAGS_WARNING_ID = "warning-text-blocking-flags"
 
     def can_finalise(self):
-        return "govuk-button--disabled" in self.driver.find_element_by_id(self.BUTTON_FINALISE_ID).get_attribute("class")
+        return "govuk-button--disabled" in self.driver.find_element_by_id(self.BUTTON_FINALISE_ID).get_attribute(
+            "class"
+        )
 
     def click_finalise(self):
         self.driver.find_element_by_id(self.BUTTON_FINALISE_ID).click()

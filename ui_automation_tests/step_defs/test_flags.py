@@ -7,8 +7,6 @@ from pages.flags_list_page import FlagsListPage
 from pages.shared import Shared
 from shared import functions
 
-from ui_automation_tests.pages.give_advice_pages import GiveAdvicePages
-
 scenarios("../features/flags.feature", strict_gherkin=False)
 
 

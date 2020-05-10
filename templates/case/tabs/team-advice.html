@@ -9,25 +9,17 @@
 		<div class="lite-buttons-row {% if current_advice_level != 'team' %}app-advice__disabled-buttons{% endif %}">
 			<div data-enable-on-checkboxes="#table-goods-team-advice, #table-destinations-team-advice" class="lite-buttons-row lite-!-display-inline">
 				<button id="button-give-team-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-					{% lcs 'cases.ApplicationPage.ADVICE' %}
+					{% lcs 'advice.TeamAdvicePage.GIVE_CHANGE_ADVICE_BUTTON' %}
 				</button>
 			</div>
 			<button form="form-team-advice" id="button-clear-tema-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
-				{% lcs 'CLEAR_ADVICE' %}
+				{% lcs 'advice.TeamAdvicePage.CLEAR_ADVICE_BUTTON' %}
 			</button>
-
-			{% if can_create_and_edit_advice and is_user_team and not case.has_advice.final %}
-				<select id="select-team" name="team" class="govuk-select">
-					{% for team_choice in teams %}
-						<option value="{{ team_choice.id }}" {% if team_choice|key_in_array:team.id %}selected{% endif %}>{{ team_choice.name }}</option>
-					{% endfor %}
-				</select>
-			{% endif %}
 		</div>
 
 		<div class="{% if current_advice_level != 'team' %}app-advice__disabled-buttons{% endif %}">
 			<a class="govuk-button" href="{% url 'cases:coalesce_team_advice' queue.id case.id %}" id="button-combine-team-advice">
-				Combine all into final decision
+				{% lcs 'advice.TeamAdvicePage.CONTINUE_BUTTON' %}
 				<svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="15" viewBox="0 0 33 43" aria-hidden="true" focusable="false">
 					<path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
 				</svg>

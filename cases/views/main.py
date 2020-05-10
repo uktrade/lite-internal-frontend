@@ -61,10 +61,13 @@ class CaseDetail(CaseView):
 
     def get_standard_application(self):
         self.tabs = [Tabs.ADVICE]
-        self.slices = [Slices.GOODS, Slices.DESTINATIONS,
-                       conditional(self.case.data["inactive_parties"], Slices.DELETED_ENTITIES),
-                       Slices.LOCATIONS,
-                       Slices.SUPPORTING_DOCUMENTS]
+        self.slices = [
+            Slices.GOODS,
+            Slices.DESTINATIONS,
+            conditional(self.case.data["inactive_parties"], Slices.DELETED_ENTITIES),
+            Slices.LOCATIONS,
+            Slices.SUPPORTING_DOCUMENTS,
+        ]
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_hmrc_application(self):
@@ -141,14 +144,14 @@ class CaseImDoneView(TemplateView):
         else:
             data, status_code = put_unassign_queues(request, self.case_pk, {"queues": [str(self.queue_pk)]})
             if status_code != HTTPStatus.OK:
-                return error_page(request, description=data["errors"]["queues"][0], )
+                return error_page(request, description=data["errors"]["queues"][0],)
             return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
 
     def post(self, request, **kwargs):
         data, status_code = put_unassign_queues(request, self.case_pk, {"queues": request.POST.getlist("queues[]")})
 
         if status_code != HTTPStatus.OK:
-            return error_page(request, description=data["errors"]["queues"][0], )
+            return error_page(request, description=data["errors"]["queues"][0],)
 
         return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
 
@@ -182,9 +185,9 @@ class ChangeStatus(SingleFormView):
 
     def get_action(self):
         if (
-                self.case_type == CaseType.APPLICATION.value
-                or self.case_sub_type == CaseType.HMRC.value
-                or self.case_sub_type == CaseType.EXHIBITION.value
+            self.case_type == CaseType.APPLICATION.value
+            or self.case_sub_type == CaseType.HMRC.value
+            or self.case_sub_type == CaseType.EXHIBITION.value
         ):
             return put_application_status
         elif self.case_sub_type == CaseType.END_USER_ADVISORY.value:

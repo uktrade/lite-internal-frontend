@@ -4,7 +4,7 @@
 			<li data-label="{{ flag.label }}" class="app-flag {% if flag.label %}app-flag--label{% endif %} app-flag--{{ flag.colour }}"><span class="govuk-visually-hidden">{{ flag.label }}</span> {{ flag.name }}</li>
 		{% endfor %}
 		{% if show_change_link %}
-			<a id="link-change-flags" href="{% url 'cases:assign_flags' queue.id case.id %}?&case={{ case.id }}">Change</a>
+			<a id="link-change-flags" href="{% url 'cases:assign_flags' queue.id case.id %}?&case={{ case.id }}&return_to={{ CURRENT_PATH }}">Change</a>
 		{% endif %}
 	</ul>
 {% else %}

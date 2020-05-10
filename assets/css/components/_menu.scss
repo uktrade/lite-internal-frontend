@@ -9,6 +9,7 @@
 	box-sizing: border-box;
 	z-index: 1;
 	border: 3px solid $govuk-focus-colour;
+	min-width: 375px;
 
 	div {
 		display: flex;
@@ -21,6 +22,7 @@
 		border: none;
 		outline: none;
 		background-color: transparent;
+		color: $govuk-text-colour!important;
 	}
 
 	svg {

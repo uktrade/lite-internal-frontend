@@ -44,7 +44,7 @@
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.website|linkify }}</td>
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
 							{% if destination.document %}
-								<a class="govuk-link" href="{% url 'cases:document' queue.id case.id destination.document.id %}">
+								<a id="link-{{ destination.type}}-download" class="govuk-link" href="{% url 'cases:document' queue.id case.id destination.document.id %}">
 									{{ destination.document.name }}
 								</a>
 							{% endif %}

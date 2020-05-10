@@ -2,7 +2,7 @@ from typing import List, Dict
 
 from cases.objects import Case
 from cases.services import get_blocking_flags
-from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES
+from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES, AdviceType
 from core.builtins.custom_tags import filter_advice_by_level, filter_advice_by_id, filter_advice_by_user
 from core.services import get_status_properties
 from teams.services import get_teams
@@ -49,24 +49,32 @@ def get_param_goods(request, case: Case):
 def get_advice_additional_context(request, case, permissions):
     status_props, _ = get_status_properties(request, case.data["status"]["key"])
     current_advice_level = "user"
+    blocking_flags = get_blocking_flags(request, case["id"])
+
     if filter_advice_by_level(case["advice"], "team"):
         current_advice_level = "team"
-    if filter_advice_by_level(case["advice"], "final"):
+
+        if Permission.MANAGE_TEAM_ADVICE.value not in permissions:
+            current_advice_level = None
+
+    if filter_advice_by_level(case["advice"], "final") and _check_user_permitted_to_give_final_advice(
+        case["application"]["case_type"]["sub_type"]["key"], permissions
+    ):
         current_advice_level = "final"
 
+    if (
+        not _can_user_create_and_edit_advice(case, permissions)
+        or status_props["is_terminal"]
+        or status_props["is_read_only"]
+    ):
+        current_advice_level = None
+
     return {
-        "permitted_to_give_final_advice": _check_user_permitted_to_give_final_advice(
-            case["application"]["case_type"]["sub_type"]["key"], permissions
-        ),
-        "can_create_and_edit_advice": _can_user_create_and_edit_advice(case, permissions),
-        "can_advice_be_finalised": _can_advice_be_finalised(case["advice"]),
-        "can_manage_team_advice": Permission.MANAGE_TEAM_ADVICE.value in permissions,
         "is_user_team": True,
         "teams": get_teams(request),
-        "status_is_read_only": status_props["is_read_only"],
-        "status_is_terminal": status_props["is_terminal"],
         "current_advice_level": current_advice_level,
-        "blocking_flags": get_blocking_flags(request, case["id"]),
+        "can_finalise": current_advice_level == "final" and can_advice_be_finalised(case) and not blocking_flags,
+        "blocking_flags": blocking_flags,
     }
 
 
@@ -93,7 +101,7 @@ def flatten_advice_data(request, case: Case, items: List[Dict], level):
 
     for advice in filtered_advice:
         for key in keys:
-            if advice[key] != filtered_advice[0][key]:
+            if advice.get(key) != filtered_advice[0].get(key):
                 return
 
     if not filtered_advice:
@@ -113,14 +121,12 @@ def _check_user_permitted_to_give_final_advice(case_type, permissions):
         return False
 
 
-def _can_advice_be_finalised(case):
+def can_advice_be_finalised(case):
     """Check that there is no conflicting advice and that the advice can be finalised. """
-    # items = [*case.goods, *case.destinations]
-    #
-    # for item in items:
-    #     for advice in item.get("advice", []):
-    #         if advice["type"]["key"] == AdviceType.CONFLICTING:
-    #             return False
+    for advice in filter_advice_by_level(case["advice"], "final"):
+        if advice["type"]["key"] == AdviceType.CONFLICTING:
+            return False
+
     return True
 
 

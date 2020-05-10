@@ -16,7 +16,7 @@
 	{% endif %}
 
 	<div class="app-case-header__container">
-		<div class="app-case-header__aurora" style="background: {{ case.all_flags|aurora }}"></div>
+		<div class="app-case-header__aurora" {{ case.all_flags|aurora }}></div>
 		<div class="app-case-header">
 			<div class="app-case-header__sections">
 				<div class="app-case-header__content">
@@ -56,10 +56,17 @@
 						<div id="popup-flags" class="app-case-header__candy__popup">
 							{% include 'case/pills/flags.html' %}
 						</div>
+					</div>
+
+					<div class="app-case-header__candy-bar">
 						<span id="candy-case-officer" class="app-case-header__candy">
 							{% svg 'menu/users' %}
 							{% if case.case_officer %}
-								{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}
+								{% if case.case_officer.first_name %}
+									{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}
+								{% else %}
+									{{ case.case_officer.email }}
+								{% endif %}
 							{% else %}
 								Not assigned
 							{% endif %}
@@ -124,17 +131,13 @@
 {% endblock %}
 
 {% block body %}
-	<div>
-		{% if permissions|key_in_array:'MAKE_FINAL_DECISIONS' %}
-			<a role="button" draggable="false" class="govuk-button" href="{% url 'cases:decide' queue.id case.id %}">
-				{% lcs 'cases.ApplicationPage.Actions.DECISION' %}
-			</a>
-		{% endif %}
-	</div>
-
 	{% block details %}
 		<div class="app-case__form-wrapper">
-			<a class="app-case__form-wrapper__back-link" id="back-link" href="{% url 'cases:case' queue.id case.id %}">Back to case</a>
+			{% if request.GET|get:'return_to' %}
+				<a class="app-case__form-wrapper__back-link" id="back-link" href="{{ request.GET|get:'return_to' }}">Back {% if request.GET|get:'return_to_text' %}to {{ request.GET|get:'return_to_text' }}{% endif %}</a>
+			{% elif page.back_link %}
+				<a class="app-case__form-wrapper__back-link" id="back-link" href="{{ page.back_link.url }}">{{ page.back_link.text }}</a>
+			{% endif %}
 
 			<div class="govuk-grid-row">
 				<div class="govuk-grid-column-two-thirds">
@@ -157,12 +160,12 @@
 			content(reference) {
 				return document.getElementById($("#" + reference.getAttribute("id")).next().attr("id"));
 			},
-		 	allowHTML: true,
+			allowHTML: true,
 			interactive: true,
 			animation: 'scale-subtle',
 			theme: 'light',
 			placement: 'bottom',
-		    hideOnClick: false,
+			hideOnClick: false,
 			interactiveBorder: 15,
 		});
 
@@ -184,7 +187,7 @@
 			$("#case-flags").css({"opacity": 1 - (scrollPosition / 10), "transform": "translateY(" + -(30 - padding) + "px)", "margin-top": paddingFlags + "px"});
 		});
 	</script>
-	<script src="{% static "javascripts/select-buttons.js" %}"></script>
-	<script src="{% static "javascripts/modal.js" %}"></script>
+	<script src="{% static 'javascripts/select-buttons.js' %}"></script>
+	<script src="{% static 'javascripts/modal.js' %}"></script>
 	<script src="{% static 'javascripts/advice-view.js' %}"></script>
 {% endblock %}

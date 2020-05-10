@@ -15,7 +15,11 @@ from lite_forms.components import (
     FormGroup,
     RadioButtons,
     AutocompleteInput,
-    NumberInput, DetailComponent, TextArea, Checkboxes, HelpSection,
+    NumberInput,
+    DetailComponent,
+    TextArea,
+    Checkboxes,
+    HelpSection,
 )
 from lite_forms.generators import confirm_form
 

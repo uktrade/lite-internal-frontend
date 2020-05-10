@@ -48,9 +48,7 @@ class Case(Munch):
         # Some apps return just the end user (as type dict) in destinations,
         # so we need to add the other destinations
         if isinstance(destinations, dict):
-            destinations = [
-                destinations
-            ]
+            destinations = [destinations]
             if self.data.get("consignee"):
                 destinations.append(self.data.get("consignee"))
             if self.data.get("ultimate_end_users"):

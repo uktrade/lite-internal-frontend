@@ -58,9 +58,9 @@
 		</dd>
 		<dd class="app-case__summary-list__actions">
 			{% if permissible_statuses %}
-				{% if not status_is_terminal or 'REOPEN_CLOSED_CASES' in permissions %}
+				{% if not is_terminal or 'REOPEN_CLOSED_CASES' in permissions %}
 					<a id="link-change-status" class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:manage' queue.id case.id %}">
-						Change
+						{% lcs 'generic.CHANGE' %}
 					</a>
 				{% endif %}
 			{% endif %}
@@ -83,7 +83,7 @@
 		</dd>
 		<dd class="app-case__summary-list__actions">
 			<a id="link-change-queues" class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:move' queue.id case.id %}">
-				Change
+				{% lcs 'generic.CHANGE' %}
 			</a>
 		</dd>
 	</div>
@@ -111,15 +111,23 @@
 		</dt>
 		<dd class="app-case__summary-list__value">
 			{% if case.case_officer %}
-				<a id="link-case-officer" class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}</a>
+				<a id="link-case-officer" class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">
+					{% if case.case_officer.first_name %}
+						{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}
+					{% else %}
+						{{ case.case_officer.email }}
+					{% endif %}
+				</a>
 			{% else %}
 				<span class="govuk-hint govuk-!-margin-0">Not assigned</span>
 			{% endif %}
 		</dd>
 		<dd class="app-case__summary-list__actions">
-			<a id="link-change-case-officer" class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:case_officer' queue.id case.id %}">
-				Change
-			</a>
+			{% if not is_terminal and not is_read_only %}
+				<a id="link-change-case-officer" class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:case_officer' queue.id case.id %}">
+					{% lcs 'generic.CHANGE' %}
+				</a>
+			{% endif %}
 		</dd>
 	</div>
 	<div class="app-case__summary-list__row">
@@ -142,7 +150,7 @@
 		</dd>
 		<dd class="app-case__summary-list__actions">
 			<a id="link-change-assigned-users" class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_user' queue.id case.id %}">
-				Change
+				{% lcs 'generic.CHANGE' %}
 			</a>
 		</dd>
 	</div>

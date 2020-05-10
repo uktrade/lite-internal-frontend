@@ -37,7 +37,7 @@ class ApplicationPage(BasePage):
     TABLE_INACTIVE_ENTITIES_ID = "table-inactive-entities"  # ID
     CHECKBOX = '[type="checkbox"]'  # CSS
     DOWNLOAD_GOOD_DOCUMENT = "good_document"  # ID
-    DOWNLOAD_END_USER_DOCUMENT = "end_user_document"  # ID
+    DOWNLOAD_END_USER_DOCUMENT = "link-end_user-download"  # ID
     DOWNLOAD_ADDITIONAL_DOCUMENT = "supporting-documentation"  # ID
     LINK_ORGANISATION_ID = "link-organisation"
     EDIT_GOODS_FLAGS = "button-edit-goods-flags"  # ID
@@ -125,9 +125,6 @@ class ApplicationPage(BasePage):
     def select_a_good(self):
         element = self.driver.find_element_by_css_selector(self.CHECKBOX_INPUT)
         self.driver.execute_script("arguments[0].click();", element)
-
-    def is_good_flag_applied(self, flag_name):
-        return flag_name in self.driver.find_element_by_id(self.TABLE_GOODS_ID).text
 
     def click_move_case_button(self):
         self.driver.find_element_by_css_selector(self.MOVE_CASE_BUTTON).click()

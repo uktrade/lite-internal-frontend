@@ -20,19 +20,24 @@ from flags.forms import (
     select_condition_and_flag,
     _levels,
     deactivate_or_activate_flagging_rule_form,
-    level_options, set_flags_form,
+    level_options,
+    set_flags_form,
 )
 from flags.helpers import get_matching_flags
 from flags.services import (
     get_flagging_rules,
     put_flagging_rule,
     get_flagging_rule,
-    post_flagging_rules, get_cases_flags, get_organisation_flags, get_goods_flags, get_destination_flags,
+    post_flagging_rules,
+    get_cases_flags,
+    get_organisation_flags,
+    get_goods_flags,
+    get_destination_flags,
 )
 from flags.services import get_flags, post_flags, get_flag, update_flag
 from lite_content.lite_internal_frontend import strings, flags
 from lite_content.lite_internal_frontend.flags import UpdateFlag, SetFlagsForm
-from lite_forms.components import Option, FiltersBar, Select, Checkboxes, TextInput
+from lite_forms.components import Option, FiltersBar, Select, Checkboxes, TextInput, BackLink
 from lite_forms.generators import form_page
 from lite_forms.views import MultiFormView, SingleFormView
 from organisations.services import get_organisation
@@ -226,15 +231,21 @@ class ChangeFlaggingRuleStatus(SingleFormView):
 def perform_action(level, request, pk, json):
     data = {
         "level": level,
-        "objects": [x for x in [request.GET.get("case"),
-                    request.GET.get("organisation"),
-                    *request.GET.getlist("goods"),
-                    *request.GET.getlist("goods_types"),
-                    *request.GET.getlist("country"),
-                    request.GET.get("end_user"),
-                    request.GET.get("consignee"),
-                    *request.GET.getlist("third_party"),
-                    *request.GET.getlist("ultimate_end_user")] if x],
+        "objects": [
+            x
+            for x in [
+                request.GET.get("case"),
+                request.GET.get("organisation"),
+                *request.GET.getlist("goods"),
+                *request.GET.getlist("goods_types"),
+                *request.GET.getlist("country"),
+                request.GET.get("end_user"),
+                request.GET.get("consignee"),
+                *request.GET.getlist("third_party"),
+                *request.GET.getlist("ultimate_end_user"),
+            ]
+            if x
+        ],
         "flags": json.get("flags", []),
         "note": json.get("note"),
     }
@@ -251,6 +262,7 @@ class AssignFlags(SingleFormView):
         if self.level == FlagLevel.ORGANISATIONS:
             self.context = {"organisation": "123"}
             self.form = set_flags_form(flags, self.level)
+            self.form.back_link = BackLink(url=reverse("organisations:organisation", kwargs={"pk": self.object_pk}))
         else:
             self.case = get_case(request, self.object_pk)
             self.context = {"case": self.case, "hide_flags_row": True}
@@ -262,10 +274,9 @@ class AssignFlags(SingleFormView):
                 self.context["destinations"] = get_param_destinations(self.request, self.case)
 
             self.form = set_flags_form(flags, self.level, show_case_header=True, show_sidebar=show_sidebar)
+            self.form.back_link = BackLink(url=reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk}))
 
-        self.data = {
-            "flags": self.get_object_flags()
-        }
+        self.data = {"flags": self.get_object_flags()}
 
     def get_level(self):
         if self.request.GET.get("case"):
@@ -303,7 +314,9 @@ class AssignFlags(SingleFormView):
         return functools.partial(perform_action, self.level)
 
     def get_success_url(self):
-        if self.level == FlagLevel.ORGANISATIONS:
+        if self.request.GET.get("return_to"):
+            return self.request.GET.get("return_to")
+        elif self.level == FlagLevel.ORGANISATIONS:
             return reverse("organisations:organisation", kwargs={"pk": self.object_pk})
         else:
             return reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})

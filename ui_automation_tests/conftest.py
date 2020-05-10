@@ -198,8 +198,7 @@ def move_case_to_new_queue(driver, context):  # noqa
 
 @when("I select previously created flag")  # noqa
 def assign_flags_to_case(driver, context):  # noqa
-    case_flags_pages = CaseFlagsPages(driver)
-    case_flags_pages.select_flag(context.flag_name)
+    CaseFlagsPages(driver).select_flag(context.flag_name)
     functions.click_submit(driver)
 
 
@@ -244,9 +243,7 @@ def go_to_users(driver, sso_sign_in, internal_url):  # noqa
 
 
 @when(  # noqa
-    parsers.parse(
-        'I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click submit'
-    )  # noqa
+    parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click submit')  # noqa
 )  # noqa
 def enter_response(driver, controlled, control_list_entry, report, comment):  # noqa
     clc_query_page = GoodsQueriesPages(driver)
@@ -328,6 +325,7 @@ def combine_all_advice(driver):  # noqa
 
 @when("I finalise the advice")  # noqa
 def finalise(driver):  # noqa
+    CasePage(driver).change_tab(CaseTabs.FINAL_ADVICE)
     FinalAdvicePage(driver).click_finalise()
 
 
@@ -337,10 +335,9 @@ def selected_created_template(driver, context):  # noqa
     Shared(driver).click_submit()
 
 
-@when("I click on the Documents button")  # noqa
+@when("I go to the documents tab")  # noqa
 def click_documents(driver):  # noqa
-    application_page = ApplicationPage(driver)
-    application_page.click_documents_button()
+    CasePage(driver).change_tab(CaseTabs.DOCUMENTS)
 
 
 @when("I add a flag at level Case")  # noqa
@@ -423,6 +420,16 @@ def template_with_decision(context, api_test_client):  # noqa
     context.document_template_name = document_template["name"]
 
 
+@when("I go to the team advice page by url")  # noqa
+def final_advice_page(driver, context, internal_url):  # noqa
+    driver.get(
+        internal_url.rstrip("/")
+        + "/queues/00000000-0000-0000-0000-000000000001/cases/"
+        + context.case_id
+        + "/team-advice/"
+    )
+
+
 @when("I go to the final advice page by url")  # noqa
 def final_advice_page(driver, context, internal_url):  # noqa
     driver.get(
@@ -440,4 +447,6 @@ def click_edit_case_flags_link(driver):  # noqa
 
 @then("The previously created flag is assigned to the case")  # noqa
 def assert_flag_is_assigned(driver, context):  # noqa
-    assert Shared(driver).is_flag_applied(context.flag_name)
+    assert CasePage(driver).is_flag_applied(context.flag_name), (
+        "Flag " + context.flag_name + " is not applied to the case"
+    )

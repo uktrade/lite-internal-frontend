@@ -2,7 +2,13 @@
 	Case officer
 </div>
 {% if case.case_officer %}
-	<a href="{% url 'users:user' case.case_officer.id %}?return_to={{ CURRENT_PATH }}" class="app-menu__item">{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}</a>
+	<a href="{% url 'users:user' case.case_officer.id %}?return_to={{ CURRENT_PATH }}" class="app-menu__item">
+		{% if case.case_officer.first_name %}
+			{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}
+		{% else %}
+			{{ case.case_officer.email }}
+		{% endif %}
+	</a>
 {% else %}
 	<span class="app-menu__hint">No case officer</span>
 {% endif %}

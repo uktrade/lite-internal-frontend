@@ -23,6 +23,7 @@
 			$(".app-case-tab-view--visible").removeClass("app-case-tab-view--visible");
 			$("#" + $(this).attr("id") + "-content").addClass("app-case-tab-view--visible");
 			$(this).addClass("lite-tabs__tab--selected");
+			$(this).find(".lite-tabs__tab-notification").hide();
 			window.history.pushState({}, null, $(this).attr("href"));
 			$(".lite-tabs__container--fade").removeClass("lite-tabs__container--fade");
 

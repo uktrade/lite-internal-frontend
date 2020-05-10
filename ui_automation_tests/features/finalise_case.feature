@@ -10,8 +10,8 @@ Feature: I want to finalise a case
     And I create standard application or standard application has been previously created
     And I "approve" all elements of the application at user and team level
     And A template exists for the appropriate decision
-    When I go to the final advice page by url
-    And I combine all advice
+    When I go to the team advice page by url
+    And I combine all team advice
     And I finalise the advice
     Then I see the applied for goods details on the licence page
     When I click continue
@@ -24,7 +24,7 @@ Feature: I want to finalise a case
     Then The decision row status is "done"
     When I click continue
     Then The licence information is in the latest audit
-    When I click on the Documents button
+    When I go to the documents tab
     Then The generated decision document is visible
 
   @LT_2035_generate_documents_and_licence @regression
@@ -33,8 +33,8 @@ Feature: I want to finalise a case
     And I create standard application or standard application has been previously created
     And I "refuse" all elements of the application at user and team level
     And A template exists for the appropriate decision
-    When I go to the final advice page by url
-    And I combine all advice
+    When I go to the team advice page by url
+    And I combine all team advice
     And I finalise the advice
     And I click continue
     Then I see the final advice documents page
@@ -46,5 +46,5 @@ Feature: I want to finalise a case
     Then The decision row status is "done"
     When I click continue
     Then The case is finalised and a document is created in the audits
-    When I click on the Documents button
+    When I go to the documents tab
     Then The generated decision document is visible

@@ -58,6 +58,9 @@ def get_const_string(value):
 @register.filter
 @stringfilter
 def str_date(value):
+    if not value:
+        return
+
     return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), "Europe/London")
     return (
         return_value.strftime("%-I:%M")
@@ -419,6 +422,7 @@ def not_equals(ob1, ob2):
 
 
 @register.filter()
+@mark_safe
 def aurora(flags):
     """
     Generates a radial gradient background from a list of flags
@@ -454,7 +458,7 @@ def aurora(flags):
         f"radial-gradient(ellipse at bottom right, {bucket[3]}, transparent)",
     ]
 
-    return ",".join(gradients)
+    return 'style="background: ' + ",".join(gradients) + '"'
 
 
 @register.filter()
@@ -515,3 +519,8 @@ def goods_value(goods):
         total_value += float(good.get("value", 0))
 
     return total_value
+
+
+@register.filter()
+def latest_status_change(activity):
+    return next((item for item in activity if "updated the status" in item["text"]), None)

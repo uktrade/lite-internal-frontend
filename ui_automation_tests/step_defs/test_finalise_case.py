@@ -3,6 +3,7 @@ from datetime import datetime
 from pytest_bdd import scenarios, when, then, parsers
 
 from conf.constants import DATE_FORMAT
+from pages.case_page import CasePage, CaseTabs
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.documents_page import DocumentsPage
 from ui_automation_tests.pages.generate_decision_documents_page import GeneratedDecisionDocuments
@@ -28,6 +29,7 @@ def decision_row_status(driver, context, status):
 
 @then("The licence information is in the latest audit")
 def licence_audit(driver, context):
+    CasePage(driver).change_tab(CaseTabs.ACTIVITY)
     latest_audit = ApplicationPage(driver).get_text_of_audit_trail_item(0)
     assert context.licence_duration in latest_audit
     assert context.licence_start_date in latest_audit
@@ -36,6 +38,7 @@ def licence_audit(driver, context):
 @then("The case is finalised and a document is created in the audits")
 def licence_audit(driver, context):
     case_page = ApplicationPage(driver)
+    CasePage(driver).change_tab(CaseTabs.ACTIVITY)
     finalised_audit = case_page.get_text_of_audit_trail_item(0)
     assert "finalised" in finalised_audit
     document_audit = case_page.get_text_of_audit_trail_item(1)
@@ -46,7 +49,7 @@ def licence_audit(driver, context):
 def generated_decision_document(driver, context):
     documents_page = DocumentsPage(driver)
     assert context.document_template_name in documents_page.get_document_filename_at_position(0)
-    assert documents_page.get_document_type_at_position(0) == "Generated"
+    assert "Generated" in documents_page.get_document_type_at_position(0)
 
 
 @then("I see the applied for goods details on the licence page")

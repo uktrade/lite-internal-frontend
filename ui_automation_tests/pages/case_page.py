@@ -1,5 +1,8 @@
+import time
+
 from selenium.webdriver import ActionChains
 
+from pages.shared import Shared
 from shared import selectors
 from shared.BasePage import BasePage
 
@@ -23,6 +26,8 @@ class CasePage(BasePage):
     AUDIT_TRAIL_ID = "audit-trail"
 
     BUTTON_RERUN_ROUTING_RULES_ID = "button-rerun-routing-rules"
+    BUTTON_SET_GOODS_FLAGS_ID = "button-edit-goods-flags"
+    BUTTON_SET_DESTINATIONS_FLAGS_ID = "button-edit-destinations-flags"
 
     LINK_CHANGE_STATUS_ID = "link-change-status"
     LINK_CHANGE_CASE_FLAGS_ID = "link-change-flags"
@@ -50,12 +55,23 @@ class CasePage(BasePage):
     def click_rerun_routing_rules(self):
         self.driver.find_element_by_id(self.BUTTON_RERUN_ROUTING_RULES_ID).click()
 
+    def get_goods(self):
+        return self.driver.find_elements_by_css_selector(f"#{self.TABLE_GOODS_ID} {Shared(self.driver).TABLE_ROW_CSS}")
+
+    def select_good(self, index):
+        self.driver.find_elements_by_css_selector(f"#{self.TABLE_GOODS_ID} {selectors.CHECKBOX}")[index].click()
+
     def select_goods(self):
         for good in self.driver.find_elements_by_css_selector(f"#{self.TABLE_GOODS_ID} {selectors.CHECKBOX}"):
             good.click()
 
     def get_goods_text(self):
         return self.driver.find_element_by_id(self.TABLE_GOODS_ID).text
+
+    def get_destinations(self):
+        return self.driver.find_elements_by_css_selector(
+            f"#{self.TABLE_DESTINATIONS_ID} {Shared(self.driver).TABLE_ROW_CSS}"
+        )
 
     def get_destinations_text(self):
         return self.driver.find_element_by_id(self.TABLE_DESTINATIONS_ID).text
@@ -73,3 +89,15 @@ class CasePage(BasePage):
     def is_flag_applied(self, flag_name):
         ActionChains(self.driver).move_to_element(self.driver.find_element_by_id("candy-flags")).perform()
         return flag_name in self.driver.find_element_by_id("popup-flags").text
+
+    def is_goods_flag_applied(self, flag_name):
+        return flag_name in self.driver.find_element_by_id(self.TABLE_GOODS_ID).text
+
+    def click_edit_goods_flags(self):
+        self.driver.find_element_by_id(self.BUTTON_SET_GOODS_FLAGS_ID).click()
+
+    def click_edit_destinations_flags(self):
+        self.driver.find_element_by_id(self.BUTTON_SET_DESTINATIONS_FLAGS_ID).click()
+
+    def select_destination(self, index):
+        self.driver.find_elements_by_css_selector(f"#{self.TABLE_DESTINATIONS_ID} {selectors.CHECKBOX}")[index].click()

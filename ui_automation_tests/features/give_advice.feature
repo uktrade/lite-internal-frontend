@@ -12,7 +12,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I create a standard advice picklist
     When I go to application previously created
     And I click on the user advice tab
-    And I select all items in the advice view
+    And I select all items in the user advice view
     And I choose to 'proviso' the licence
     And I select "UK SECRET" clearance level
     And I import text from the 'proviso' picklist
@@ -21,7 +21,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I click continue
     Then I see my advice has been posted successfully
     And I see added advice in the same amount of places
-    When I select all items in the advice view
+    When I select all items in the user advice view
     And I choose to 'proviso' the licence
     Then I see the fields pre-populated with the proviso and advice picklist items
 
@@ -35,7 +35,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     When I go to application previously created
     And I click on the user advice tab
     Then I see total goods value
-    When I select all items in the advice view
+    When I select all items in the user advice view
     And I choose to 'approve' the licence
     Then I dont see clearance level
     When I import text from the 'text' picklist
@@ -56,7 +56,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I create a standard advice picklist
     When I go to open application previously created
     And I click on the user advice tab
-    And I select all items in the advice view
+    And I select all items in the user advice view
     And I choose to 'approve' the licence
     And I import text from the 'text' picklist
     And I write 'We will get back to you in three weeks' in the note text field
@@ -64,8 +64,6 @@ Feature: I want to record my user advice and any comments and conditions relatin
     When I combine all user advice
     And I combine all team advice
     And I finalise the goods and countries
-    And I click continue
-    Then I see country error message
     When I select approve for all combinations of goods and countries
     And I click continue
 
@@ -75,7 +73,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I create standard application or standard application has been previously created
     When I go to application previously created
     And I click on the user advice tab
-    And I select all items in the advice view
+    And I select all items in the user advice view
     And I choose to 'refuse' the licence
     And I select decision "1a"
     And I select decision "2b"
@@ -84,11 +82,11 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I click continue
     Then I see my advice has been posted successfully
     And I see added advice in the same amount of places
-    And I combine all user advice
+    When I combine all user advice
     And I go to application previously created
     Then I see refusal flag is attached
     When I go to the team advice
-    And I select all items in the advice view
+    And I select all items in the team advice view
     And I choose to 'approve' the licence
     And I import text from the 'text' picklist
     And I write 'We will get back to you in three weeks' in the note text field
@@ -96,7 +94,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I go to application previously created
     Then I see refusal flag is not attached
     When I go to the team advice
-    And I select all items in the advice view
+    And I select all items in the team advice view
     And I choose to 'refuse' the licence
     And I select decision "1a"
     And I select decision "2b"

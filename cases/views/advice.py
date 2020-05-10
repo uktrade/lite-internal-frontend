@@ -27,6 +27,7 @@ from cases.services import (
     get_final_decision_documents,
     get_licence,
     get_finalise_application_goods,
+    post_good_countries_decisions,
 )
 from conf.constants import Permission
 from core import helpers
@@ -159,23 +160,33 @@ def create_mapping(goods):
     return return_dict
 
 
-# REMOVE THIS!
-def pass_action(request, _, __):
-    return {}, 200
-
-
 class FinaliseGoodsCountries(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
-
-        case.goods.append({"id": "123", "countries": [{"id": "123", "name": "Poland"}]})
         self.context = {
             "case": case,
         }
-        self.form = finalise_goods_countries_form()
-        self.action = pass_action
+        self.form = finalise_goods_countries_form(**kwargs)
+        self.action = post_good_countries_decisions
         self.success_url = reverse_lazy("cases:finalise", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk})
+
+    def clean_data(self, data):
+        selection = {"good_countries": []}
+        data.pop("csrfmiddlewaretoken")
+        data.pop("_action")
+
+        for key, value in data.items():
+            selection["good_countries"].append(
+                {
+                    "case": str(self.kwargs["pk"]),
+                    "good": key.split(".")[0],
+                    "country": key.split(".")[1],
+                    "decision": value,
+                }
+            )
+
+        return selection
 
 
 class Finalise(TemplateView):

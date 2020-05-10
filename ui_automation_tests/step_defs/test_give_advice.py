@@ -2,7 +2,7 @@ from datetime import date
 
 from pytest_bdd import when, then, parsers, scenarios, given
 
-from pages.advice import UserAdvicePage, FinalAdvicePage
+from pages.advice import UserAdvicePage, FinalAdvicePage, TeamAdvicePage
 from pages.application_page import ApplicationPage
 from pages.case_page import CasePage, CaseTabs
 from pages.give_advice_pages import GiveAdvicePages
@@ -33,9 +33,14 @@ def i_create_an_standard_advice_picklist(context, add_a_standard_advice_picklist
     context.standard_advice_query_picklist_question_text = add_a_standard_advice_picklist["text"]
 
 
-@when("I select all items in the advice view")
+@when("I select all items in the user advice view")
 def click_items_in_advice_view(driver, context):
     context.number_of_advice_items_clicked = UserAdvicePage(driver).click_on_all_checkboxes()
+
+
+@when("I select all items in the team advice view")
+def click_items_in_advice_view(driver, context):
+    context.number_of_advice_items_clicked = TeamAdvicePage(driver).click_on_all_checkboxes()
 
 
 @when("I click on the user advice tab")
@@ -99,12 +104,6 @@ def finalise_goods_and_countries(driver):
     FinalAdvicePage(driver).click_finalise()
 
 
-@then("I see country error message")
-def i_see_country_error_message(driver, context):
-    shared = Shared(driver)
-    assert context.country["name"] in shared.get_text_of_error_message(0), "expected error message is not displayed"
-
-
 @when("I select approve for all combinations of goods and countries")
 def select_approve_for_all(driver):
     page = GiveAdvicePages(driver)
@@ -149,7 +148,9 @@ def check_advice_checkboxes_are_not_present(driver):
 @then("the give or change advice button is not present")
 def check_give_advice_button_is_not_present(driver):
     driver.set_timeout_to(0)
-    assert len(GiveAdvicePages(driver).give_advice_button_present()) == 0
+    assert not UserAdvicePage(driver).is_advice_button_enabled()
+    assert not TeamAdvicePage(driver).is_advice_button_enabled()
+    assert not FinalAdvicePage(driver).is_advice_button_enabled()
     driver.set_timeout_to_10_seconds()
 
 

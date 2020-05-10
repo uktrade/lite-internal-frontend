@@ -209,9 +209,9 @@ def get_good_countries_decisions(request, case_pk):
     return data.json()
 
 
-def post_good_countries_decisions(request, case_pk, json):
-    data = post(request, CASE_URL + case_pk + "/goods-countries-decisions/", json)
-    return data.json(), data.status_code
+def post_good_countries_decisions(request, pk, json):
+    response = post(request, CASE_URL + str(pk) + "/goods-countries-decisions/", json)
+    return response.json(), response.status_code
 
 
 def post_user_case_advice(request, pk, json):
@@ -383,6 +383,10 @@ def get_destination(request, pk):
 
 def put_case_officer(request, pk, json):
     data = put(request, CASE_URL + str(pk) + CASE_OFFICER_URL, json)
+    print('\n')
+    print(json)
+    print(data.json())
+    print('\n')
     return data.json(), data.status_code
 
 

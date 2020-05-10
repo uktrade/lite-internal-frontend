@@ -19,12 +19,12 @@
 	$('#{{ component.target }}').parent().parent().prepend('<a id="link-{{ component.target }}-picklist-picker" onclick="return show{{ component.target }}Modal()" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">' +
 											'<svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1">' +
 												'<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
-											        '<rect id="Rectangle" fill="#000000" x="6" y="0" width="1" height="13"></rect>' +
-											        '<rect id="Rectangle-Copy" fill="#000000" transform="translate(6.500000, 6.500000) rotate(90.000000) translate(-6.500000, -6.500000) " x="6" y="0" width="1" height="13"></rect>' +
-											    '</g>' +
+													'<rect id="Rectangle" fill="#000000" x="6" y="0" width="1" height="13"></rect>' +
+													'<rect id="Rectangle-Copy" fill="#000000" transform="translate(6.500000, 6.500000) rotate(90.000000) translate(-6.500000, -6.500000) " x="6" y="0" width="1" height="13"></rect>' +
+												'</g>' +
 											'</svg>' +
 											'Use a picklist item' +
-										  '</a>');
+										'</a>');
 
 	function show{{ component.target }}Modal() {
 		LITECommon.Modal.showModal('Select a picklist item', $( '#{{ component.target }}-picklist-picker' ).html(), false, true, {maxWidth: '450px'});
@@ -37,16 +37,16 @@
 		var lastUpdated = $(item).data( 'last-updated' );
 
 		var previewHtml = '<div class="app-picklist-picker-preview">' +
-							  '<div class="app-picklist-picker-preview__text">' +
-								  '<p id="picker-preview-text" class="govuk-body-m">' + text + '</p>' +
-								  '<p class="govuk-caption-m">Last updated ' + lastUpdated + '</p>' +
-							  '</div>' +
-							  '<div class="app-picklist-picker-preview__controls">' +
-								  '<button id="button-submit" onclick="setTextareaValue(\'' + textarea + '\');" type="submit" class="govuk-button" data-module="govuk-button">' +
-									  'Use template' +
-								  '</button>' +
-							   '</div>' +
-						  '</div>'
+								'<div class="app-picklist-picker-preview__text">' +
+								'<p id="picker-preview-text" class="govuk-body-m">' + text + '</p>' +
+								'<p class="govuk-caption-m">Last updated ' + lastUpdated + '</p>' +
+							'</div>' +
+							'<div class="app-picklist-picker-preview__controls">' +
+								'<button id="button-submit" onclick="setTextareaValue(\'' + textarea + '\');" type="submit" class="govuk-button" data-module="govuk-button">' +
+									'Use template' +
+								'</button>' +
+							'</div>' +
+						'</div>'
 
 		LITECommon.Modal.showModal(title, previewHtml, false, true);
 		return false;
