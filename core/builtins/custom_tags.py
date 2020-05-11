@@ -4,7 +4,6 @@ import datetime
 import json
 import math
 import re
-import warnings
 from collections import Counter, OrderedDict
 from html import escape
 

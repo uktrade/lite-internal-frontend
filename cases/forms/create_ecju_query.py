@@ -3,7 +3,7 @@ from django.urls import reverse
 from core.components import PicklistPicker
 from lite_content.lite_internal_frontend.strings import cases
 from lite_forms.components import Form, BackLink, TextArea, RadioButtons, FormGroup, Option
-from picklists.services import get_picklists_list, get_picklists_for_input
+from picklists.services import get_picklists_for_input
 
 
 class ECJUQueryTypes:

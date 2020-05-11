@@ -1,7 +1,7 @@
-from django.template.defaultfilters import default
 from django.urls import reverse_lazy
 
 from core.builtins.custom_tags import default_na
+from core.services import get_control_list_entries, get_gov_pv_gradings
 from lite_content.lite_internal_frontend import cases
 from lite_forms.common import control_list_entries_question
 from lite_forms.components import (
@@ -11,17 +11,13 @@ from lite_forms.components import (
     Option,
     TextArea,
     Heading,
-    HiddenField,
     Group,
     TextInput,
     Select,
     Summary,
     DetailComponent,
-    Label,
 )
 from lite_forms.styles import HeadingStyle
-
-from core.services import get_control_list_entries, get_gov_pv_gradings
 from picklists.services import get_picklists_for_input
 
 
