@@ -3,6 +3,7 @@ from selenium.webdriver import ActionChains
 from pages.shared import Shared
 from shared import selectors
 from shared.BasePage import BasePage
+from shared.tools.helpers import scroll_to_element_by_id
 
 
 class CaseTabs:
@@ -36,6 +37,7 @@ class CasePage(BasePage):
         if tab == CaseTabs.USER_ADVICE or tab == CaseTabs.TEAM_ADVICE or tab == CaseTabs.FINAL_ADVICE:
             self.driver.find_element_by_id("tab-collection-advice").click()
 
+        scroll_to_element_by_id(self.driver, "tab-" + tab)
         self.driver.find_element_by_id("tab-" + tab).click()
 
     def click_change_case_flags(self):

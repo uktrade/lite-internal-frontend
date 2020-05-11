@@ -29,7 +29,7 @@ class CaseListPage(BasePage):
     INPUT_ASSIGNED_USER_ID = "assigned_user"
     FILTER_SEARCH_BOX = "filter-box"  # ID
     SHOW_TEAM_ECJU = "Show cases with open enquiries by your team"
-
+    QUEUE_SEARCH_BOX = "filter-queues"
     # Queue dropdown
     LINK_CHANGE_QUEUE_ID = "link-queue"
 
@@ -106,10 +106,13 @@ class CaseListPage(BasePage):
     def click_on_queue_title(self):
         self.driver.find_element_by_id(self.LINK_CHANGE_QUEUE_ID).click()
 
+    def search_for_queue(self, queue_name):
+        self.driver.find_element_by_id(self.QUEUE_SEARCH_BOX).send_keys(queue_name)
+
     def click_on_queue_name(self, queue_name):
         self.click_on_queue_title()
         time.sleep(0.5)
-        utils.scroll_to_element_by_id(self.driver, queue_name)
+        self.search_for_queue(queue_name)
         self.driver.find_element_by_id(queue_name).click()
 
     def select_filter_status_from_dropdown(self, status):

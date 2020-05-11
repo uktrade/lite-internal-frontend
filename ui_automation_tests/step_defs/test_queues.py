@@ -70,7 +70,7 @@ def dont_see_queue_in_queue_list(driver, context):
 def see_number_of_checkboxes_selected(driver, context, num):
     ApplicationPage(driver).click_move_case_button()
     # May be more queues due to case routing automation
-    assert QueuesPages(driver).get_number_of_selected_queues() >= int(num)
+    assert int(QueuesPages(driver).get_number_of_selected_queues()) >= int(num)
 
 
 @then("queue change is in audit trail")

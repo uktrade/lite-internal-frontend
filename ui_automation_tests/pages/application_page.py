@@ -29,7 +29,7 @@ class ApplicationPage(BasePage):
     EDIT_CASE_FLAGS = "link-change-flags"  # ID
     BUTTON_EDIT_DESTINATION_FLAGS_ID = "button-edit-destinations-flags"
     CHECKBOX_INPUT = ".govuk-checkboxes__input"
-    MOVE_CASE_BUTTON = '[href*="move"]'  # CSS
+    MOVE_CASE_BUTTON = 'link-change-queues'  # ID
     STATUS = "status"  # ID
     AUDIT_TRAIL_ITEM = ".app-activity__item"  # CSS
     APPLICATION_SUMMARY_BOARD = ".app-case-board"  # CSS
@@ -127,7 +127,8 @@ class ApplicationPage(BasePage):
         self.driver.execute_script("arguments[0].click();", element)
 
     def click_move_case_button(self):
-        self.driver.find_element_by_css_selector(self.MOVE_CASE_BUTTON).click()
+        time.sleep(0.5)
+        self.driver.find_element_by_id(self.MOVE_CASE_BUTTON).click()
 
     def get_text_of_audit_trail_item(self, no):
         return self.driver.find_elements_by_css_selector(self.AUDIT_TRAIL_ITEM)[no].text
@@ -174,7 +175,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_css_selector(self.DOCUMENTS_BTN)
 
     def get_move_case_element(self):
-        return self.driver.find_element_by_css_selector(self.MOVE_CASE_BUTTON)
+        return self.driver.find_element_by_id(self.MOVE_CASE_BUTTON)
 
     def get_ecju_queries_element(self):
         return self.driver.find_element_by_css_selector(self.ECJU_QUERIES_BTN)
