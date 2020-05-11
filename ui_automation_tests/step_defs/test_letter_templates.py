@@ -26,7 +26,7 @@ def create_letter_template(driver, context, get_template_id):
     functions.click_submit(driver)
 
     template_page.select_which_type_of_cases_template_can_apply_to(
-        ["Standard Individual Export Licence", "Open Individual Export Licence"]
+        ["Standard-Individual-Export-Licence", "Open-Individual-Export-Licence"]
     )
     functions.click_submit(driver)
 
