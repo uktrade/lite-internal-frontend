@@ -1,4 +1,4 @@
-{% if activity %}
+{% if activity and activity|latest_status_change %}
 	<div class="app-menu__header">
 		Latest status change
 	</div>

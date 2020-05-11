@@ -58,16 +58,16 @@ def get_const_string(value):
 @register.filter
 @stringfilter
 def str_date(value):
-    if not value:
+    try:
+        return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), "Europe/London")
+        return (
+            return_value.strftime("%-I:%M")
+            + return_value.strftime("%p").lower()
+            + " "
+            + return_value.strftime("%d %B " "%Y")
+        )
+    except ValueError:
         return
-
-    return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), "Europe/London")
-    return (
-        return_value.strftime("%-I:%M")
-        + return_value.strftime("%p").lower()
-        + " "
-        + return_value.strftime("%d %B " "%Y")
-    )
 
 
 @register.filter
