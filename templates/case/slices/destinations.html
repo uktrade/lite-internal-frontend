@@ -35,7 +35,7 @@
 							<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
 								<div>
 									<input class="govuk-checkboxes__input" type="checkbox" name="{{ destination.type }}" value="{{ destination.id }}" id="{{ destination.id }}">
-									<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}"></label>
+									<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}">{{ destination.type|sentence_case }}</label>
 								</div>
 							</td>
 						{% endif %}
@@ -82,7 +82,7 @@
 							<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
 								<div>
 									<input class="govuk-checkboxes__input" type="checkbox" name="countries" value="{{ destination.id }}" id="{{ destination.id }}">
-									<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}"></label>
+									<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}">{{ destination.name }}</label>
 								</div>
 							</td>
 						{% endif %}

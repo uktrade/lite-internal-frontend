@@ -42,7 +42,7 @@
 						<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
 							<div>
 								<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.good.id }}" id="{{ good.id }}">
-								<label class="govuk-label govuk-checkboxes__label" for="{{ good.good.id }}"></label>
+								<label class="govuk-label govuk-checkboxes__label" for="{{ good.good.id }}">{{ forloop.counter }}</label>
 							</div>
 						</td>
 					{% endif %}
@@ -102,7 +102,7 @@
 						<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
 							<div>
 								<input class="govuk-checkboxes__input" type="checkbox" name="goods_types" value="{{ good.id }}" id="{{ good.id }}">
-								<label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}"></label>
+								<label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}">{{ forloop.counter }}</label>
 							</div>
 						</td>
 					{% endif %}
