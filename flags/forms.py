@@ -19,7 +19,8 @@ from lite_forms.components import (
     DetailComponent,
     TextArea,
     Checkboxes,
-    HelpSection, Filter,
+    HelpSection,
+    Filter,
 )
 from lite_forms.generators import confirm_form
 
