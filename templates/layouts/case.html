@@ -86,9 +86,7 @@
 					</div>
 				</div>
 			</div>
-			{% if not case.all_flags %}
-				<a href="/queues/{{ queue.id }}/cases/{{ case.id }}/assign-flags/?level=cases&items={{ case.id }}">Change</a>
-			{% elif not hide_flags_row %}
+			{% if not hide_flags_row %}
 				<div class="app-case__flags-bar" id="case-flags">
 					{% include 'includes/flags.html' with flags=case.all_flags|slice:6 show_change_link=True %}
 				</div>
