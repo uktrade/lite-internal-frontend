@@ -14,14 +14,11 @@ def get(request, appended_address):
 
     sender = _get_hawk_sender(url, "GET", "text/plain", {})
 
-    if request:
-        response = requests.get(url, headers=_get_headers(request, sender),)
+    response = requests.get(url, headers=_get_headers(request, sender))
 
-        _verify_api_response(response, sender)
+    _verify_api_response(response, sender)
 
-        return response
-
-    return requests.get(url)
+    return response
 
 
 def post(request, appended_address, request_data):
@@ -30,17 +27,13 @@ def post(request, appended_address, request_data):
     if not appended_address.endswith("/"):
         url += "/"
 
-    if request:
-        sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
+    sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
 
-        response = requests.post(url, json=request_data, headers=_get_headers(request, sender),)
+    response = requests.post(url, json=request_data, headers=_get_headers(request, sender))
 
-        _verify_api_response(response, sender)
+    _verify_api_response(response, sender)
 
-        return response
-    else:
-        # Staff SSO requests aren't signed and responses aren't verified
-        return requests.post(url, json=request_data)
+    return response
 
 
 def put(request, appended_address: str, request_data):
@@ -51,7 +44,7 @@ def put(request, appended_address: str, request_data):
 
     sender = _get_hawk_sender(url, "PUT", "application/json", json.dumps(request_data))
 
-    response = requests.put(url, json=request_data, headers=_get_headers(request, sender),)
+    response = requests.put(url, json=request_data, headers=_get_headers(request, sender))
 
     _verify_api_response(response, sender)
 
@@ -83,7 +76,7 @@ def delete(request, appended_address):
 
     sender = _get_hawk_sender(url, "DELETE", "text/plain", {})
 
-    response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender),)
+    response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender))
 
     _verify_api_response(response, sender)
 
