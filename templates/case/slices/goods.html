@@ -40,8 +40,10 @@
 				<tr class="govuk-table__row">
 					{% if not hide_checkboxes %}
 						<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
-							<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.good.id }}" id="{{ good.id }}">
-							<label class="govuk-label govuk-checkboxes__label" for="{{ good.good.id }}"></label>
+							<div>
+								<input class="govuk-checkboxes__input" type="checkbox" name="goods" value="{{ good.good.id }}" id="{{ good.id }}">
+								<label class="govuk-label govuk-checkboxes__label" for="{{ good.good.id }}"></label>
+							</div>
 						</td>
 					{% endif %}
 					<td class="govuk-table__cell govuk-table__cell--line-number {% if show_advice %}lite-!-no-border{% endif %}">{{ forloop.counter }}.</td>
@@ -98,8 +100,10 @@
 				<tr class="govuk-table__row">
 					{% if not hide_checkboxes %}
 						<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
-							<input class="govuk-checkboxes__input" type="checkbox" name="goods_types" value="{{ good.id }}" id="{{ good.id }}">
-							<label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}"></label>
+							<div>
+								<input class="govuk-checkboxes__input" type="checkbox" name="goods_types" value="{{ good.id }}" id="{{ good.id }}">
+								<label class="govuk-label govuk-checkboxes__label" for="{{ good.id }}"></label>
+							</div>
 						</td>
 					{% endif %}
 					<td class="govuk-table__cell govuk-table__cell--line-number {% if show_advice %}lite-!-no-border{% endif %}">{{ forloop.counter }}.</td>

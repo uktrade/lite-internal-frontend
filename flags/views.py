@@ -274,7 +274,9 @@ class AssignFlags(SingleFormView):
                 self.context["destinations"] = get_param_destinations(self.request, self.case)
 
             self.form = set_flags_form(flags, self.level, show_case_header=True, show_sidebar=show_sidebar)
-            self.form.back_link = BackLink(url=reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk}))
+            self.form.back_link = BackLink(
+                url=reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk})
+            )
 
         self.data = {"flags": self.get_object_flags()}
 

@@ -2,6 +2,7 @@ from collections import defaultdict
 from datetime import date
 from http import HTTPStatus
 
+from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -98,14 +99,15 @@ class CoalesceUserAdvice(TemplateView):
     def post(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         coalesce_user_advice(request, case_id)
+        messages.success(self.request, "User advice combined successfully")
         return redirect(
             reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "team-advice"})
         )
 
 
-class ViewTeamAdvice(TemplateView):
+class ClearTeamAdvice(TemplateView):
     """
-    View the user's team's team level advice or another team's, edit and clear the user's team's team level advice
+    Clear the user's team's team level advice
     """
 
     def post(self, request, **kwargs):
@@ -114,10 +116,10 @@ class ViewTeamAdvice(TemplateView):
         if request.POST.get("action") == "delete":
             clear_team_advice(request, case.get("id"))
 
+            messages.success(self.request, "Team advice cleared successfully")
+
             return redirect(
-                reverse(
-                    "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case.get("id"), "tab": "team-advice"}
-                )
+                reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "team-advice"})
             )
 
 
@@ -129,14 +131,15 @@ class CoalesceTeamAdvice(TemplateView):
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         coalesce_team_advice(request, case_id)
+        messages.success(self.request, "Team advice combined successfully")
         return redirect(
             reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "final-advice"})
         )
 
 
-class ViewFinalAdvice(TemplateView):
+class ClearFinalAdvice(TemplateView):
     """
-    View, clear and edit final advice
+    Clear final advice
     """
 
     def post(self, request, **kwargs):
@@ -144,6 +147,8 @@ class ViewFinalAdvice(TemplateView):
 
         if request.POST.get("action") == "delete":
             clear_final_advice(request, case.get("id"))
+
+        messages.success(self.request, "Final advice cleared successfully")
 
         return redirect(
             reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "final-advice"})

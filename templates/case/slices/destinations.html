@@ -33,8 +33,10 @@
 					<tr class="govuk-table__row">
 						{% if not hide_checkboxes %}
 							<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
-								<input class="govuk-checkboxes__input" type="checkbox" name="{{ destination.type }}" value="{{ destination.id }}" id="{{ destination.id }}">
-								<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}"></label>
+								<div>
+									<input class="govuk-checkboxes__input" type="checkbox" name="{{ destination.type }}" value="{{ destination.id }}" id="{{ destination.id }}">
+									<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}"></label>
+								</div>
 							</td>
 						{% endif %}
 						<th scope="row" class="govuk-table__header {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.type|sentence_case }}</th>
@@ -78,8 +80,10 @@
 					<tr class="govuk-table__row">
 						{% if not hide_checkboxes %}
 							<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
-								<input class="govuk-checkboxes__input" type="checkbox" name="countries" value="{{ destination.id }}" id="{{ destination.id }}">
-								<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}"></label>
+								<div>
+									<input class="govuk-checkboxes__input" type="checkbox" name="countries" value="{{ destination.id }}" id="{{ destination.id }}">
+									<label class="govuk-label govuk-checkboxes__label" for="{{ destination.id }}"></label>
+								</div>
 							</td>
 						{% endif %}
 						<td class="govuk-table__cell govuk-table__cell--line-number {% if show_advice %}lite-!-no-border{% endif %}">{{ forloop.counter }}.</td>

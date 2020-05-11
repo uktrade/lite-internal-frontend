@@ -383,10 +383,10 @@ def get_destination(request, pk):
 
 def put_case_officer(request, pk, json):
     data = put(request, CASE_URL + str(pk) + CASE_OFFICER_URL, json)
-    print('\n')
+    print("\n")
     print(json)
     print(data.json())
-    print('\n')
+    print("\n")
     return data.json(), data.status_code
 
 
