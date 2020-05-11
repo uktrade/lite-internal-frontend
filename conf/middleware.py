@@ -49,18 +49,18 @@ class LoggingMiddleware:
     def __call__(self, request):
         start = time.time()
         request.correlation = uuid.uuid4().hex
-        # data = {
-        #     "user": request.user.lite_api_user_id if hasattr(request.user, "lite_api_user_id") else None,
-        #     "message": "liteolog internal",
-        #     "corrID": request.correlation,
-        #     "type": "http request",
-        #     "method": request.method,
-        #     "url": request.path,
-        # }
+        data = {
+            "user": request.user.lite_api_user_id if hasattr(request.user, "lite_api_user_id") else None,
+            "message": "liteolog internal",
+            "corrID": request.correlation,
+            "type": "http request",
+            "method": request.method,
+            "url": request.path,
+        }
         response = self.get_response(request)
-        # data["type"] = "http response"
-        # data["elapsed_time"] = time.time() - start
-        # logging.info(data)
+        data["type"] = "http response"
+        data["elapsed_time"] = time.time() - start
+        logging.info(data)
         return response
 
 

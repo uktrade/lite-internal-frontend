@@ -5,7 +5,7 @@ from cases.objects import Case
 from core.components import PicklistPicker
 from core.services import get_pv_gradings
 from lite_content.lite_internal_frontend import advice
-from lite_content.lite_internal_frontend.cases import GoodsDecisionMatrixPage
+from lite_content.lite_internal_frontend.advice import GoodsDecisionMatrixPage
 from lite_forms.components import (
     Form,
     RadioButtons,
@@ -124,7 +124,6 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
             advice.GiveOrChangeAdvicePage.Actions.BACK_BUTTON,
             reverse(f"cases:case", kwargs={"queue_pk": queue_pk, "pk": case["id"], "tab": tab}),
         ),
-        # post_url=post_url,
         container="case",
         helpers=[
             HelpSection(
@@ -136,7 +135,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
 
 def generate_documents_form():
     return Form(
-        "Generate decision documents",
+        GenerateGoodsDecisionForm.TITLE,
         questions=[Custom("components/finalise-generate-documents.html")],
         container="case",
     )
