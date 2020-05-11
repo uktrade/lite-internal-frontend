@@ -57,7 +57,15 @@ class CaseDetail(CaseView):
             Slices.ROUTE_OF_GOODS,
             Slices.SUPPORTING_DOCUMENTS,
         ]
-        self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
+
+        self.additional_context = {**get_advice_additional_context(self.request, self.case, self.permissions), "is_case_oiel_final_advice_only": False}
+        if "goodstype_category" in self.case.data:
+            self.additional_context["is_case_oiel_final_advice_only"] = self.case.data["goodstype_category"]["key"] in [
+                "media",
+                "cryptographic",
+                "dealer",
+                "uk_continental_shelf",
+            ]
 
     def get_standard_application(self):
         self.tabs = [Tabs.ADVICE]
