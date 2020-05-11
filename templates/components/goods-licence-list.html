@@ -3,11 +3,11 @@
 <table class="govuk-table">
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
-			<th class="govuk-table__header" scope="col">{% lcs 'cases.FinaliseLicenceForm.GoodsTable.CLC_COLUMN' %}</th>
-			<th class="govuk-table__header" scope="col">{% lcs 'cases.FinaliseLicenceForm.GoodsTable.DESCRIPTION_COLUMN' %}</th>
-			<th class="govuk-table__header" scope="col">{% lcs 'cases.FinaliseLicenceForm.GoodsTable.DECISION_COLUMN' %}</th>
-			<th class="govuk-table__header" scope="col">{% lcs 'cases.FinaliseLicenceForm.GoodsTable.LICENCED_QTY_COLUMN' %}</th>
-			<th class="govuk-table__header" scope="col">{% lcs 'cases.FinaliseLicenceForm.GoodsTable.LICENCED_VALUE_COLUMN' %}</th>
+			<th class="govuk-table__header" scope="col">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.CLC_COLUMN' %}</th>
+			<th class="govuk-table__header" scope="col">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.DESCRIPTION_COLUMN' %}</th>
+			<th class="govuk-table__header" scope="col">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.DECISION_COLUMN' %}</th>
+			<th class="govuk-table__header" scope="col">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.LICENCED_QTY_COLUMN' %}</th>
+			<th class="govuk-table__header" scope="col">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.LICENCED_VALUE_COLUMN' %}</th>
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">
@@ -29,14 +29,14 @@
 				</td>
 				<td class="govuk-table__cell">
 					<input class="govuk-input" id="quantity-{{ good.id }}" type="text" name="quantity-{{ good.id }}" value="{{ good.quantity }}" onchange="updateValue('{{ good.id }}', '{{ good.value }}')"/><br>
-					<span class="govuk-hint govuk-!-margin-0">{% lcs 'cases.FinaliseLicenceForm.GoodsTable.APPLIED_FOR_TEXT' %}{{ good.quantity|intcomma }} {{ good.unit.value }}</span>
+					<span class="govuk-hint govuk-!-margin-0">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.APPLIED_FOR_TEXT' %}{{ good.quantity|intcomma }} {{ good.unit.value }}</span>
 				</td>
 				<td class="govuk-table__cell">
 					<div class="lite-currency-input">
 						<div class="lite-currency-input__symbol {% if error %}lite-currency--error{% endif %}" aria-hidden="true">£</div>
 						<input class="govuk-input" id="value-{{ good.id }}" type="text" name="value-{{ good.id }}" value="{{ good.value|multiply:good.quantity|floatformat:2 }}"/>
 					</div>
-					<span class="govuk-hint govuk-!-margin-0">{% lcs 'cases.FinaliseLicenceForm.GoodsTable.APPLIED_FOR_TEXT' %}£{{ good.value|intcomma }} / {{ good.unit.value }}</span>
+					<span class="govuk-hint govuk-!-margin-0">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.APPLIED_FOR_TEXT' %}£{{ good.value|intcomma }} / {{ good.unit.value }}</span>
 				</td>
 			</tr>
 		{% endfor %}
@@ -44,10 +44,10 @@
 </table>
 
 {% block javascript %}
-<script>
-	function updateValue(id, value_per_item) {
-		let quantity = document.getElementById("quantity-"+id).value;
-		document.getElementById("value-"+id).value = (quantity * value_per_item).toFixed(2);
-	}
-</script>
+	<script>
+		function updateValue(id, value_per_item) {
+			let quantity = document.getElementById("quantity-"+id).value;
+			document.getElementById("value-"+id).value = (quantity * value_per_item).toFixed(2);
+		}
+	</script>
 {% endblock %}
