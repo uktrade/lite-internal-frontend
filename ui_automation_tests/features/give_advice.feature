@@ -85,28 +85,6 @@ Feature: I want to record my user advice and any comments and conditions relatin
     When I combine all user advice
     And I go to application previously created
     Then I see refusal flag is attached
-    When I go to the team advice
-    And I select all items in the team advice view
-    And I choose to 'approve' the licence
-    And I import text from the 'text' picklist
-    And I write 'We will get back to you in three weeks' in the note text field
-    And I click continue
-    And I go to application previously created
-    Then I see refusal flag is not attached
-    When I go to the team advice
-    And I select all items in the team advice view
-    And I choose to 'refuse' the licence
-    And I select decision "1a"
-    And I select decision "2b"
-    And I import text from the 'text' picklist
-    And I write 'We will get back to you in three weeks' in the note text field
-    And I click continue
-    And I go to application previously created
-    Then I see refusal flag is attached
-    When I go to the team advice
-    And I clear team advice
-    And I go to application previously created
-    Then I see refusal flag is not attached
 
 
   @LT_920_cannot_give_advice_terminal_case @regression

@@ -18,7 +18,7 @@ class GiveAdvicePages(BasePage):
 
     def click_on_picklist_item(self, option):
         self.driver.execute_script('document.getElementById("picklist-' + option + '").children[0].click()')
-        self.driver.execute_script('document.getElementById("button-submit").click()')
+        self.driver.execute_script('document.getElementById("button-submit-' + option + '").click()')
 
     def get_text_of_picklist_item(self):
         return self.driver.find_element_by_css_selector(self.PICKLIST_ITEM_TEXT).text

@@ -126,11 +126,6 @@ def refusal_flag_displayed(driver):
     assert Shared(driver).is_flag_applied("Refusal Advice")
 
 
-@then("I see refusal flag is not attached")
-def refusal_flag_not_displayed(driver):
-    assert not Shared(driver).is_flag_applied("Refusal Advice")
-
-
 @when("I clear team advice")
 def clear_advice(driver):
     TeamAdvicePage(driver).click_clear_advice()
