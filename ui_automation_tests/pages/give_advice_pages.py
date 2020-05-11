@@ -2,8 +2,6 @@ from selenium.webdriver.support.select import Select
 
 from shared.BasePage import BasePage
 
-from ui_automation_tests.shared.functions import element_with_id_exists
-
 
 class GiveAdvicePages(BasePage):
     ADVICE_CHECKBOX_OPTION = "type-"  # ID

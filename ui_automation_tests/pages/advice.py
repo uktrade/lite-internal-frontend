@@ -1,7 +1,6 @@
 from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.support import expected_conditions
 
-from shared import selectors, functions
+from shared import selectors
 from shared.BasePage import BasePage
 
 

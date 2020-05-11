@@ -1,5 +1,3 @@
-import time
-
 from selenium.webdriver import ActionChains
 
 from pages.shared import Shared
