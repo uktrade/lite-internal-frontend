@@ -13,9 +13,6 @@ class GiveAdvicePages(BasePage):
     def click_on_advice_option(self, option):
         self.driver.find_element_by_id(self.ADVICE_CHECKBOX_OPTION + option).click()
 
-    def click_on_clear_advice(self):
-        self.driver.find_element_by_id(self.CLEAR_ADVICE_BUTTON).click()
-
     def click_on_import_link(self, option):
         self.driver.find_element_by_id(f"link-{option}-picklist-picker").click()
 
