@@ -74,7 +74,7 @@ def delete(request, appended_address):
     if not appended_address.endswith("/"):
         url += "/"
 
-    sender = _get_hawk_sender(url, "DELETE", "application/json", None)
+    sender = _get_hawk_sender(url, "DELETE", "text/plain", None)
 
     response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender))
 
