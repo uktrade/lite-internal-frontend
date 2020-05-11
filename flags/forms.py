@@ -19,7 +19,7 @@ from lite_forms.components import (
     DetailComponent,
     TextArea,
     Checkboxes,
-    HelpSection,
+    HelpSection, Filter,
 )
 from lite_forms.generators import confirm_form
 
@@ -203,12 +203,14 @@ def set_flags_form(flags, level, show_case_header=False, show_sidebar=False):
         title=getattr(SetFlagsForm, level).TITLE,
         description=getattr(SetFlagsForm, level).DESCRIPTION,
         questions=[
+            Filter(placeholder=getattr(SetFlagsForm, level).FILTER),
             Checkboxes(name="flags[]", options=flags),
             DetailComponent(
                 title=getattr(SetFlagsForm, level).Note.TITLE,
                 components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
             ),
         ],
+        javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
         default_button_name=getattr(SetFlagsForm, level).SUBMIT_BUTTON,
         container="case" if show_case_header else "two-pane",
     )
