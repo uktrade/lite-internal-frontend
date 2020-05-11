@@ -49,6 +49,7 @@ Feature: I want to finalise a case
     And I click continue
     Then The decision row status is "done"
     When I click continue
+    And I go to application previously created
     Then The case is finalised and a document is created in the audits
     When I go to the documents tab
     Then The generated decision document is visible
