@@ -1,5 +1,5 @@
 <div class="app-menu__header">
-	{{ case.goods|length }} good{{ case.goods|pluralize }}
+	{{ case.goods|length }} {% lcs 'cases.CasePage.Pills.Goods.GOOD' %}{{ case.goods|pluralize }}
 </div>
 <ol class="govuk-list govuk-list--number govuk-!-margin-left-4 govuk-!-margin-right-4">
 	{% for good in case.goods %}

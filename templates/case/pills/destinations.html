@@ -1,5 +1,5 @@
 <div class="app-menu__header">
-	{{ case.destinations|length }} destination{{ case.destinations|pluralize }}
+	{{ case.destinations|length }} {% lcs 'cases.CasePage.Pills.Destinations.DESTINATION' %}{{ case.destinations|pluralize }}
 </div>
 <ol class="govuk-list govuk-list--number govuk-!-margin-left-4 govuk-!-margin-right-4">
 	{% for destination in case.destinations %}
