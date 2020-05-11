@@ -12,7 +12,7 @@ def get(request, appended_address):
     if not url.endswith("/") and "?" not in url:
         url = url + "/"
 
-    sender = _get_hawk_sender(url, "GET", "text/plain", {})
+    sender = _get_hawk_sender(url, "GET", "text/plain", None)
 
     response = requests.get(url, headers=_get_headers(request, sender))
 
@@ -36,7 +36,7 @@ def post(request, appended_address, request_data):
     return response
 
 
-def put(request, appended_address: str, request_data):
+def put(request, appended_address, request_data):
     url = env("LITE_API_URL") + appended_address
 
     if not appended_address.endswith("/"):
@@ -51,7 +51,7 @@ def put(request, appended_address: str, request_data):
     return response
 
 
-def patch(request, appended_address: str, request_data):
+def patch(request, appended_address, request_data):
     url = env("LITE_API_URL") + appended_address
 
     if not appended_address.endswith("/"):
@@ -74,7 +74,7 @@ def delete(request, appended_address):
     if not appended_address.endswith("/"):
         url += "/"
 
-    sender = _get_hawk_sender(url, "DELETE", "text/plain", {})
+    sender = _get_hawk_sender(url, "DELETE", "text/plain", None)
 
     response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender))
 
@@ -83,7 +83,7 @@ def delete(request, appended_address):
     return response
 
 
-def _get_headers(request, sender: Sender):
+def _get_headers(request, sender):
     headers = {
         "X-Correlation-Id": str(request.correlation),
         "Authorization": sender.request_header,
@@ -95,17 +95,17 @@ def _get_headers(request, sender: Sender):
     return headers
 
 
-def _get_hawk_sender(url: str, method: str, content_type: str, content):
+def _get_hawk_sender(url, method, content_type, content):
     return Sender(
         {"id": "internal-frontend", "key": env("LITE_API_HAWK_KEY"), "algorithm": "sha256"},
         url,
         method,
-        content=content,
         content_type=content_type,
+        content=content,
     )
 
 
-def _verify_api_response(response, sender: Sender):
+def _verify_api_response(response, sender):
     sender.accept_response(
         response.headers["server-authorization"],
         content=response.content,
