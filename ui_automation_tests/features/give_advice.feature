@@ -104,7 +104,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I go to application previously created
     Then I see refusal flag is attached
     When I go to the team advice
-    And I clear advice
+    And I clear team advice
     And I go to application previously created
     Then I see refusal flag is not attached
 

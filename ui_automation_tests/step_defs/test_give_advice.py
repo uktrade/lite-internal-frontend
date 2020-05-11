@@ -133,9 +133,9 @@ def refusal_flag_not_displayed(driver):
     assert not Shared(driver).is_flag_applied("Refusal Advice")
 
 
-@when("I clear advice")
+@when("I clear team advice")
 def clear_advice(driver):
-    GiveAdvicePages(driver).click_on_clear_advice()
+    TeamAdvicePage(driver).click_clear_advice()
 
 
 @then("the give advice checkboxes are not present")
