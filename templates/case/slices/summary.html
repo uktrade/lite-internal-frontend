@@ -149,9 +149,11 @@
 			{% endfor %}
 		</dd>
 		<dd class="app-case__summary-list__actions">
-			<a id="link-change-assigned-users" class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_user' queue.id case.id %}">
-				{% lcs 'generic.CHANGE' %}
-			</a>
+			{% if not is_terminal %}
+				<a id="link-change-assigned-users" class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:assign_user' queue.id case.id %}">
+					{% lcs 'generic.CHANGE' %}
+				</a>
+			{% endif %}
 		</dd>
 	</div>
 	{% if case.application.case_type.sub_type.key == 'f680_clearance' %}
