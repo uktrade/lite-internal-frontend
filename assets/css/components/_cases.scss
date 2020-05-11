@@ -20,10 +20,6 @@
         color: $govuk-text-colour;
     }
 
-    &__actions {
-
-    }
-
     @media screen and (min-width: 900px) {
         grid-template-columns: 1fr 1fr;
     }
@@ -501,6 +497,8 @@ $case-header-text-colour: govuk-colour("white");
 }
 
 .app-case__form-wrapper {
+    min-height: 100vh;
+
     .app-case__form-wrapper__back-link {
         @extend .govuk-back-link;
         display: inline-block;
