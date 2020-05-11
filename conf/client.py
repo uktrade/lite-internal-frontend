@@ -7,7 +7,7 @@ from conf.settings import env
 
 
 def get(request, appended_address):
-    url = env("LITE_API_URL") + appended_address
+    url = env("LITE_API_URL") + appended_address.replace(" ", "%20")
 
     if not url.endswith("/") and "?" not in url:
         url = url + "/"
