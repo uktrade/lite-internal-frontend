@@ -9,7 +9,6 @@ from conf.settings import env
 def get(request, appended_address):
     url = env("LITE_API_URL") + appended_address
 
-    # If a URL doesn't end with a slash and doesn't have URL parameter, add the trailing slash
     if not url.endswith("/") and "?" not in url:
         url = url + "/"
 
@@ -26,10 +25,10 @@ def get(request, appended_address):
 
 
 def post(request, appended_address, request_data):
-    if not appended_address.endswith("/"):
-        appended_address = appended_address + "/"
-
     url = env("LITE_API_URL") + appended_address
+
+    if not appended_address.endswith("/"):
+        url += "/"
 
     if request:
         sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
@@ -45,10 +44,10 @@ def post(request, appended_address, request_data):
 
 
 def put(request, appended_address: str, request_data):
-    if not appended_address.endswith("/"):
-        appended_address = appended_address + "/"
-
     url = env("LITE_API_URL") + appended_address
+
+    if not appended_address.endswith("/"):
+        url += "/"
 
     sender = _get_hawk_sender(url, "PUT", "application/json", json.dumps(request_data))
 
@@ -60,10 +59,10 @@ def put(request, appended_address: str, request_data):
 
 
 def patch(request, appended_address: str, request_data):
-    if not appended_address.endswith("/"):
-        appended_address = appended_address + "/"
-
     url = env("LITE_API_URL") + appended_address
+
+    if not appended_address.endswith("/"):
+        url += "/"
 
     sender = _get_hawk_sender(url, "PATCH", "application/json", json.dumps(request_data))
 
@@ -77,10 +76,10 @@ def patch(request, appended_address: str, request_data):
 
 
 def delete(request, appended_address):
-    if not appended_address.endswith("/"):
-        appended_address = appended_address + "/"
-
     url = env("LITE_API_URL") + appended_address
+
+    if not appended_address.endswith("/"):
+        url += "/"
 
     sender = _get_hawk_sender(url, "DELETE", "text/plain", {})
 
