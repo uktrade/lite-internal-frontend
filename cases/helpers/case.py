@@ -42,7 +42,7 @@ class Slices:
     GOODS = Slice("goods")
     DESTINATIONS = Slice("destinations")
     DELETED_ENTITIES = Slice("deleted-entities")
-    LOCATIONS = Slice("locations", "Locations")
+    LOCATIONS = Slice("locations")
     F680_DETAILS = Slice("f680-details", "F680 details")
     EXHIBITION_DETAILS = Slice("exhibition-details", "Exhibition details")
     END_USE_DETAILS = Slice("end-use-details", "End use details")
