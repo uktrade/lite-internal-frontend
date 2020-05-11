@@ -2,7 +2,7 @@
 	{% if case.data.name %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
-				Exporter reference
+				{% lcs 'cases.CasePage.DetailsTab.EXPORTER_REFERENCE' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
 				{{ case.data.name }}
@@ -12,7 +12,7 @@
 	{% if case.copy_of %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
-				{% lcs 'cases.ApplicationPage.COPY_OF_LABEL' %}
+				{% lcs 'cases.CasePage.DetailsTab.COPY_OF' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
 				<a class="govuk-link govuk-link--no-visited-state" id="link-case-copy-of" href="{% url 'cases:case' queue.id case.copy_of.id %}">{{ case.copy_of.reference_code }}</a>
@@ -22,7 +22,7 @@
 	{% if case.application.hmrc_organisation %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
-				{% lcs 'cases.HMRCPage.Heading.RAISED_BY' %}
+				{% lcs 'cases.CasePage.DetailsTab.RAISED_BY' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
 				<a id="hmrc_organisation" class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' case.application.hmrc_organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.application.hmrc_organisation.name }}</a>
@@ -32,7 +32,7 @@
 	{% if case.data.export_type %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
-				Export type
+				{% lcs 'cases.CasePage.DetailsTab.EXPORT_TYPE' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
 				{{ case.data.export_type.value }}
@@ -42,7 +42,7 @@
 	{% if case.data.submitted_at %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
-				Submitted at
+				{% lcs 'cases.CasePage.DetailsTab.SUBMITTED_AT' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
 				{{ case.data.submitted_at|str_date }}
@@ -51,7 +51,7 @@
 	{% endif %}
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
-			Status
+			{% lcs 'cases.CasePage.DetailsTab.STATUS' %}
 		</dt>
 		<dd class="app-case__summary-list__value">
 			{{ case.data.status.value }}
@@ -68,7 +68,7 @@
 	</div>
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
-			Assigned queues
+			{% lcs 'cases.CasePage.DetailsTab.ASSIGNED_QUEUES' %}
 		</dt>
 		<dd class="app-case__summary-list__value">
 			{% if case.queue_names %}
@@ -78,7 +78,9 @@
 					{% endfor %}
 				</ol>
 			{% else %}
-				<span class="govuk-hint govuk-!-margin-0">Not assigned to any queues</span>
+				<span class="govuk-hint govuk-!-margin-0">
+					{% lcs 'cases.CasePage.DetailsTab.NO_QUEUES_ASSIGNED' %}
+				</span>
 			{% endif %}
 		</dd>
 		<dd class="app-case__summary-list__actions">
@@ -89,25 +91,23 @@
 	</div>
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
-			Type
+			{% lcs 'cases.CasePage.DetailsTab.TYPE' %}
 		</dt>
 		<dd class="app-case__summary-list__value">
 			{{ case.case_type.reference.value }}
 		</dd>
-		<dd class="app-case__summary-list__actions"></dd>
 	</div>
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
-			Last updated
+			{% lcs 'cases.CasePage.DetailsTab.LAST_UPDATED' %}
 		</dt>
 		<dd class="app-case__summary-list__value">
 			{{ case.data.updated_at|str_date }}
 		</dd>
-		<dd class="app-case__summary-list__actions"></dd>
 	</div>
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
-			Case officer
+			{% lcs 'cases.CasePage.DetailsTab.CASE_OFFICER' %}
 		</dt>
 		<dd class="app-case__summary-list__value">
 			{% if case.case_officer %}
@@ -119,7 +119,9 @@
 					{% endif %}
 				</a>
 			{% else %}
-				<span class="govuk-hint govuk-!-margin-0">Not assigned</span>
+				<span class="govuk-hint govuk-!-margin-0">
+					{% lcs 'cases.CasePage.DetailsTab.NO_CASE_OFFICER' %}
+				</span>
 			{% endif %}
 		</dd>
 		<dd class="app-case__summary-list__actions">
@@ -132,7 +134,7 @@
 	</div>
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
-			Assigned users
+			{% lcs 'cases.CasePage.DetailsTab.ASSIGNED_USERS' %}
 		</dt>
 		<dd id="assigned-users" class="app-case__summary-list__value">
 			{% for queue_name, users in case.assigned_users.items %}
@@ -145,7 +147,9 @@
 					{% endfor %}
 				</ol>
 			{% empty %}
-				<span class="govuk-hint govuk-!-margin-0">{% lcs 'cases.ApplicationPage.NO_USERS_ASSIGNED' %}</span>
+				<span class="govuk-hint govuk-!-margin-0">
+					{% lcs 'cases.CasePage.DetailsTab.NO_USERS_ASSIGNED' %}
+				</span>
 			{% endfor %}
 		</dd>
 		<dd class="app-case__summary-list__actions">
@@ -157,7 +161,7 @@
 	{% if case.application.case_type.sub_type.key == 'f680_clearance' %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
-				Security grading
+				{% lcs 'cases.CasePage.DetailsTab.SECURITY_GRADING' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
 				{{ case.application.clearance_level.value }}
@@ -165,7 +169,7 @@
 		</div>
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
-				Clearance types
+				{% lcs 'cases.CasePage.DetailsTab.CLEARANCE_TYPES' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
 				{% if case.application.types %}
@@ -181,7 +185,7 @@
 	{% if case.data.goodstype_category %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
-				Goods category
+				{% lcs 'cases.CasePage.DetailsTab.GOODS_CATEGORY' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
 				{{ case.data.goodstype_category.value }}
