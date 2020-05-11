@@ -87,6 +87,7 @@ def _get_headers(request, sender):
     headers = {
         "X-Correlation-Id": str(request.correlation),
         "Authorization": sender.request_header,
+        "content-type": sender.req_resource.content_type,
     }
 
     if not isinstance(request.user, AnonymousUser):
