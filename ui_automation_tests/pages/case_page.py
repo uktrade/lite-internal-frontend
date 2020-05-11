@@ -1,9 +1,9 @@
+import time
 from selenium.webdriver import ActionChains
 
 from pages.shared import Shared
 from shared import selectors
 from shared.BasePage import BasePage
-from shared.tools.helpers import scroll_to_element_by_id
 
 
 class CaseTabs:
@@ -86,7 +86,7 @@ class CasePage(BasePage):
         return self.driver.find_element_by_id(self.AUDIT_TRAIL_ID).text
 
     def is_flag_applied(self, flag_name):
-        ActionChains(self.driver).move_to_element(self.driver.find_element_by_id("candy-flags")).perform()
+        self.driver.find_element_by_id("candy-flags").click()
         return flag_name in self.driver.find_element_by_id("popup-flags").text
 
     def is_goods_flag_applied(self, flag_name):
