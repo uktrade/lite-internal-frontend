@@ -429,6 +429,16 @@ def final_advice_page(driver, context, internal_url):  # noqa
     )
 
 
+@when("I go to the user advice page by url")  # noqa
+def final_advice_page(driver, context, internal_url):  # noqa
+    driver.get(
+        internal_url.rstrip("/")
+        + "/queues/00000000-0000-0000-0000-000000000001/cases/"
+        + context.case_id
+        + "/user-advice/"
+    )
+
+
 @when("I go to the final advice page by url")  # noqa
 def final_advice_page(driver, context, internal_url):  # noqa
     driver.get(
@@ -449,3 +459,8 @@ def assert_flag_is_assigned(driver, context):  # noqa
     assert CasePage(driver).is_flag_applied(context.flag_name), (
         "Flag " + context.flag_name + " is not applied to the case"
     )
+
+
+@given(parsers.parse('the status is set to "{status}"'))
+def set_status(api_test_client, context, status):
+    api_test_client.applications.set_status(context.app_id, status)

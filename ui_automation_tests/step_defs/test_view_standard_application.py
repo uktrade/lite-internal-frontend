@@ -60,8 +60,3 @@ def i_see_inactive_party(driver, context):
 
     for destination in destinations:
         assert destination["name"] in destinations_table_text
-
-
-@given(parsers.parse('the status is set to "{status}"'))
-def set_status(api_test_client, context, status):
-    api_test_client.applications.set_status(context.app_id, status)
