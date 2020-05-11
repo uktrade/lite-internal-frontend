@@ -8,7 +8,7 @@
 }
 
 .app-advice__item {
-	@include govuk-font($size: 16);
+	@include govuk-font($size: 16, $line-height: 1.4);
 	background-color: govuk-colour("light-grey");
 	box-sizing: border-box;
 	padding: govuk-spacing(4);
