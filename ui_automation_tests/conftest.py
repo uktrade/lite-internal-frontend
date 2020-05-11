@@ -461,6 +461,6 @@ def assert_flag_is_assigned(driver, context):  # noqa
     )
 
 
-@given(parsers.parse('the status is set to "{status}"'))
-def set_status(api_test_client, context, status):
+@given(parsers.parse('the status is set to "{status}"'))  # noqa
+def set_status(api_test_client, context, status):  # noqa
     api_test_client.applications.set_status(context.app_id, status)

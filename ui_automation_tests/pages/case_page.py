@@ -1,6 +1,3 @@
-import time
-from selenium.webdriver import ActionChains
-
 from pages.shared import Shared
 from shared import selectors
 from shared.BasePage import BasePage
