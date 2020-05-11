@@ -1,8 +1,6 @@
 from collections import defaultdict
 
 from cases.constants import CaseType
-from lite_forms.components import Option, Checkboxes
-
 from conf.client import get
 from conf.constants import (
     DENIAL_REASONS_URL,
@@ -16,6 +14,7 @@ from conf.constants import (
     GOODS_QUERY_STATUSES,
     PV_GRADINGS_URL,
 )
+from lite_forms.components import Option
 from users.services import get_gov_user
 
 

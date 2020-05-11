@@ -3,7 +3,6 @@ from django.urls import reverse_lazy
 import lite_content.lite_internal_frontend.advice
 from lite_forms.components import Form, TextInput, BackLink, DateInput, Label, HiddenField, Custom
 from lite_forms.helpers import conditional
-from lite_content.lite_internal_frontend import cases
 
 
 def approve_licence_form(queue_pk, case_id, is_open_licence, duration, editable_duration, goods):

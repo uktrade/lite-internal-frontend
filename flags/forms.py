@@ -144,7 +144,7 @@ def select_condition_and_flag(request, type: str):
     if type == "Good":
         title = strings.FlaggingRules.Create.Condition_and_flag.GOOD_TITLE
         condition = TextInput(title=strings.FlaggingRules.Create.Condition_and_flag.GOOD, name="matching_value",)
-        flags = get_goods_flags(request=request, convert_to_options=True)
+        flags = get_goods_flags(request=request)
         is_for_verified_goods_only = RadioButtons(
             name="is_for_verified_goods_only",
             options=[
@@ -160,7 +160,7 @@ def select_condition_and_flag(request, type: str):
             name="matching_value",
             options=get_countries(request, convert_to_options=True),
         )
-        flags = get_destination_flags(request=request, convert_to_options=True)
+        flags = get_destination_flags(request=request)
     elif type == "Case":
         title = strings.FlaggingRules.Create.Condition_and_flag.APPLICATION_TITLE
         case_type_options = [Option(option["key"], option["value"]) for option in get_case_types(request)]
@@ -169,7 +169,7 @@ def select_condition_and_flag(request, type: str):
             name="matching_value",
             options=case_type_options,
         )
-        flags = get_cases_flags(request=request, convert_to_options=True)
+        flags = get_cases_flags(request=request)
 
     return Form(
         title=title,
