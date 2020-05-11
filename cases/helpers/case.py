@@ -30,9 +30,9 @@ class Tabs:
         "advice",
         CasePage.Tabs.ADVICE_AND_DECISION,
         children=[
-            Tab("user-advice", "User advice", "user-advice"),
-            Tab("team-advice", "Team advice", "team-advice"),
-            Tab("final-advice", "Final decision", "final-advice"),
+            Tab("user-advice", CasePage.Tabs.USER_ADVICE, "user-advice"),
+            Tab("team-advice", CasePage.Tabs.TEAM_ADVICE, "team-advice"),
+            Tab("final-advice", CasePage.Tabs.FINAL_ADVICE, "final-advice"),
         ],
     )
 
