@@ -3,9 +3,9 @@ from shared.BasePage import BasePage
 from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 
-class CaseOfficerPages(BasePage):
-    BUTTON_ASSIGN_ID = "button-assign"  # id
-    BUTTON_UNASSIGN_ID = "button-unassign"  # id
+class CaseOfficerPage(BasePage):
+    BUTTON_ASSIGN_ID = "button-assign"
+    BUTTON_UNASSIGN_ID = "button-unassign"
     VISIBLE_CHOICES_EMAILS = ".govuk-radios__item.visible .govuk-hint"
     VISIBLE_CHOICE_BUTTON = ".govuk-radios__item.visible .govuk-radios__input"
     CURRENT_CASE_OFFICER_PANEL = ".govuk-grid-column-one-third .lite-related-items"
@@ -16,7 +16,6 @@ class CaseOfficerPages(BasePage):
         self.driver.find_element_by_css_selector(self.VISIBLE_CHOICE_BUTTON).click()
 
     def click_unassign(self):
-        scroll_to_element_by_id(self.driver, self.BUTTON_UNASSIGN_ID)
         self.driver.find_element_by_id(self.BUTTON_UNASSIGN_ID).click()
 
     def search(self, text):
