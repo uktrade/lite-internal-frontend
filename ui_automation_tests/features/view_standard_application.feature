@@ -19,7 +19,7 @@ Feature: I want to view the case details of a case
     When I go to application previously created
     Then I see an inactive party on page
 
-#  @LT_982_exporter_edited_case_anchor @LT_1180_exporter_amendments_queue @regression
+  @LT_982_exporter_edited_case_anchor @LT_1180_exporter_amendments_queue @regression
   Scenario: Gov user can see exporter has made changes to case
     Given I sign in to SSO or am signed into SSO
     And I create standard application or standard application has been previously created
