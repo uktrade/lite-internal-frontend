@@ -7,7 +7,6 @@ class GeneratedDocument(BasePage):
     PARAGRAPHS = "paragraph_content"  # ID
     LINK_DOWNLOAD_CLASS = "govuk-link--no-visited-state"
     TEXT = "text"  # ID
-    ADD_PARAGRAPHS = "add_paragraphs"  # name
     PARAGRAPH_CHECKBOXES = ".govuk-checkboxes__input"  # CSS
     LINK_REGENERATE_ID = "regenerate"
     DOCUMENT_CLASS = "app-documents__item"
@@ -32,9 +31,6 @@ class GeneratedDocument(BasePage):
 
     def get_document_text_in_edit_text_area(self):
         return self.driver.find_element_by_id(self.TEXT).text
-
-    def click_add_paragraphs_link(self):
-        self.driver.find_element_by_name(self.ADD_PARAGRAPHS).click()
 
     def select_and_return_first_checkbox_value(self):
         checkbox = self.driver.find_element_by_css_selector(self.PARAGRAPH_CHECKBOXES)

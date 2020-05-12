@@ -7,8 +7,6 @@ from lite_content.lite_internal_frontend.strings import letter_templates
 from lite_forms.components import Form, RadioButtonsImage, Option, MarkdownArea
 from picklists.services import get_picklists_for_input
 
-ADD_PARAGRAPH_KEY = "add_paragraphs"
-
 
 def select_template_form(templates, total_pages, back_link):
     return Form(

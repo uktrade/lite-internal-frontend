@@ -19,15 +19,6 @@ def click_generated_documents(driver, context):
     ApplicationPage(driver).click_generate_document_button()
 
 
-@when("I add a paragraph to the document")
-def add_paragraph(driver, context):
-    generated_document_page = GeneratedDocument(driver)
-    generated_document_page.click_add_paragraphs_link()
-    new_paragraph = generated_document_page.select_and_return_first_checkbox_value()
-    context.document_template_paragraph_text.append(new_paragraph)
-    Shared(driver).click_submit()
-
-
 @when(parsers.parse('I add my custom text "{custom_text}"'))
 def add_custom_text(driver, context, custom_text):
     GeneratedDocument(driver).add_text_to_edit_text(custom_text)
