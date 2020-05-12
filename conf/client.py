@@ -7,10 +7,7 @@ from conf.settings import env
 
 
 def get(request, appended_address):
-    url = env("LITE_API_URL") + appended_address.replace(" ", "%20")
-
-    if not url.endswith("/") and "?" not in url:
-        url = url + "/"
+    url = _build_absolute_uri(appended_address)
 
     sender = _get_hawk_sender(url, "GET", "application/json", None)
 
@@ -22,10 +19,7 @@ def get(request, appended_address):
 
 
 def post(request, appended_address, request_data):
-    url = env("LITE_API_URL") + appended_address
-
-    if not appended_address.endswith("/"):
-        url += "/"
+    url = _build_absolute_uri(appended_address)
 
     sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
 
@@ -37,10 +31,7 @@ def post(request, appended_address, request_data):
 
 
 def put(request, appended_address, request_data):
-    url = env("LITE_API_URL") + appended_address
-
-    if not appended_address.endswith("/"):
-        url += "/"
+    url = _build_absolute_uri(appended_address)
 
     sender = _get_hawk_sender(url, "PUT", "application/json", json.dumps(request_data))
 
@@ -52,10 +43,7 @@ def put(request, appended_address, request_data):
 
 
 def patch(request, appended_address, request_data):
-    url = env("LITE_API_URL") + appended_address
-
-    if not appended_address.endswith("/"):
-        url += "/"
+    url = _build_absolute_uri(appended_address)
 
     sender = _get_hawk_sender(url, "PATCH", "application/json", json.dumps(request_data))
 
@@ -69,10 +57,7 @@ def patch(request, appended_address, request_data):
 
 
 def delete(request, appended_address):
-    url = env("LITE_API_URL") + appended_address
-
-    if not appended_address.endswith("/"):
-        url += "/"
+    url = _build_absolute_uri(appended_address)
 
     sender = _get_hawk_sender(url, "DELETE", "text/plain", None)
 
@@ -81,6 +66,15 @@ def delete(request, appended_address):
     _verify_api_response(response, sender)
 
     return response
+
+
+def _build_absolute_uri(appended_address):
+    url = env("LITE_API_URL") + appended_address.replace(" ", "%20")
+
+    if not url.endswith("/") and "?" not in url:
+        url = url + "/"
+
+    return url
 
 
 def _get_headers(request, sender):
