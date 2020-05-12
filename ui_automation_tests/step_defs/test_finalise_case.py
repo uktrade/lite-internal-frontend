@@ -28,17 +28,17 @@ def decision_row_status(driver, context, status):
 
 
 @then("The licence information is in the latest audit")
-def licence_audit(driver, context):
-    CasePage(driver).change_tab(CaseTabs.ACTIVITY)
+def licence_audit(driver, context, internal_url):
+    ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)
     latest_audit = ApplicationPage(driver).get_text_of_audit_trail_item(0)
     assert context.licence_duration in latest_audit
     assert context.licence_start_date in latest_audit
 
 
 @then("The case is finalised and a document is created in the audits")
-def licence_audit(driver, context):
+def licence_audit(driver, context, internal_url):
     case_page = ApplicationPage(driver)
-    CasePage(driver).change_tab(CaseTabs.ACTIVITY)
+    ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)
     finalised_audit = case_page.get_text_of_audit_trail_item(0)
     assert "finalised" in finalised_audit
     document_audit = case_page.get_text_of_audit_trail_item(1)

@@ -19,7 +19,7 @@ def case_notes_are_available(driver):
 @then("the status has been changed in the end user advisory")
 def check_status_has_changed(driver, internal_url, context):
     case_page = CasePage(driver)
-    ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)
+    ApplicationPage(driver).go_to_cases_activity_tab_for_eua(internal_url, context)
     assert "closed" in case_page.get_audit_trail_text().lower()
 
 
