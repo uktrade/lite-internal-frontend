@@ -21,7 +21,7 @@ def review_goods_clc_query_form(request, back_url, is_goods_type):
                         value="Yes",
                         components=[
                             control_list_entries_question(
-                                control_list_entries=get_control_list_entries(None, convert_to_options=True),
+                                control_list_entries=get_control_list_entries(request, convert_to_options=True),
                                 title=goods.ReviewGoods.ControlListEntries.TITLE,
                             ),
                         ],
