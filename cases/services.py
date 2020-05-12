@@ -1,4 +1,5 @@
 from _decimal import Decimal
+from urllib.parse import quote
 
 from cases.helpers import clean_advice
 from conf.client import post, get, put, delete
@@ -420,6 +421,7 @@ def post_generated_document(request, pk, json):
 
 
 def get_generated_document_preview(request, pk, tpk, text):
+    text = quote(text)
     data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_PREVIEW_URL + "?template=" + tpk + "&text=" + text)
     return data.json(), data.status_code
 
