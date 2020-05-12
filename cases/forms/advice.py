@@ -143,7 +143,7 @@ def generate_documents_form():
 
 def finalise_goods_countries_form(**kwargs):
     return Form(
-        title=GoodsDecisionMatrixPage.Actions.SELECT_DECISION,
+        title=GoodsDecisionMatrixPage.TITLE,
         questions=[Custom("components/finalise-goods-countries-table.html")],
         back_link=BackLink(
             url=reverse(
