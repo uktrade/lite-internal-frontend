@@ -2,7 +2,6 @@ from django.urls import reverse_lazy
 
 from core.builtins.custom_tags import default_na
 from core.services import get_control_list_entries, get_gov_pv_gradings
-from lite_content.lite_internal_frontend import cases
 from lite_content.lite_internal_frontend.cases import CLCReviewGoods, PVGradingForm
 from lite_forms.common import control_list_entries_question
 from lite_forms.components import (
