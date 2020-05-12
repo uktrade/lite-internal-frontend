@@ -76,3 +76,6 @@ class Shared(BasePage):
         for flag in flags:
             if flag_name.lower() in flag.text.lower():
                 return True
+
+    def set_header_to_not_stick(self):
+        self.driver.execute_script("document.getElementById('app-header').style.position = 'relative';")
