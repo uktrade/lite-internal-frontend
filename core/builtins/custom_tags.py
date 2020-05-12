@@ -531,5 +531,5 @@ def latest_status_change(activity):
 
 
 @register.filter()
-def filter_flags_by_type(flags, type):
-    return [flag for flag in flags if flag["name"] == type]
+def filter_flags_by_level(flags, level):
+    return [flag for flag in flags if flag["level"] == level]
