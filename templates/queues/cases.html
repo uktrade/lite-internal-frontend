@@ -43,12 +43,12 @@
 		{% endfor %}
 	</div>
 
-	{% include "filters.html" %}
-
-	<div class="app-cases__">
+	<div class="lite-expand__base-controls">
 		<a href="#">Open all</a>
 		<a href="#">Close all</a>
 	</div>
+
+	{% include "filters.html" %}
 
 	<form id="cases-form" method="post">
 		{% csrf_token %}
