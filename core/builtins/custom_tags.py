@@ -465,13 +465,6 @@ def aurora(flags):
     return 'style="background: ' + ",".join(gradients) + '"'
 
 
-@register.filter()
-def multiply(num1, num2):
-    if not num1:
-        return 0
-    return float(num1) * float(num2)
-
-
 def join_list(_list, _join=", "):
     return _join.join(_list)
 
