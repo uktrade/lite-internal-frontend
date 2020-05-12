@@ -34,7 +34,6 @@ class CasePage(BasePage):
     def change_tab(self, tab: str):
         if tab == CaseTabs.USER_ADVICE or tab == CaseTabs.TEAM_ADVICE or tab == CaseTabs.FINAL_ADVICE:
             self.driver.find_element_by_id("tab-collection-advice").click()
-
         self.driver.find_element_by_id("tab-" + tab).click()
 
     def click_change_case_flags(self):

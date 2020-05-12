@@ -63,5 +63,5 @@ def click_confirm_on_confirmation_box(driver):
 
 
 @when("I click on the case notes tab")
-def case_notes_tab(driver):
-    ApplicationPage(driver).click_on_case_notes_activity_tab()
+def case_notes_tab(driver, internal_url, context):
+    ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)

@@ -3,7 +3,7 @@ import time
 from selenium.webdriver.support.ui import Select
 from shared import functions
 from shared.BasePage import BasePage
-from shared.tools.helpers import scroll_to_element_by_id
+from shared.tools.helpers import scroll_to_element_by_id, scroll_to_element_below_header_by_id
 
 
 class ApplicationPage(BasePage):
@@ -236,6 +236,10 @@ class ApplicationPage(BasePage):
     def get_audit_elements(self):
         return self.driver.find_elements_by_css_selector(self.AUDIT_TRAIL_ITEM)
 
-    def click_on_case_notes_activity_tab(self):
-        scroll_to_element_by_id(self.driver, self.CASE_NOTES_AND_ACTIVITY_TAB)
-        self.driver.find_element_by_id(self.CASE_NOTES_AND_ACTIVITY_TAB).click()
+    def go_to_cases_activity_tab(self, internal_url, context):
+        self.driver.get(
+            internal_url.rstrip("/")
+            + "/queues/00000000-0000-0000-0000-000000000001/cases/"
+            + context.case_id
+            + "/activity/"
+        )
