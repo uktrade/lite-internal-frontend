@@ -237,4 +237,5 @@ class ApplicationPage(BasePage):
         return self.driver.find_elements_by_css_selector(self.AUDIT_TRAIL_ITEM)
 
     def click_on_case_notes_activity_tab(self):
-        return self.driver.find_element_by_id(self.CASE_NOTES_AND_ACTIVITY_TAB).click()
+        scroll_to_element_by_id(self.driver, self.CASE_NOTES_AND_ACTIVITY_TAB)
+        self.driver.find_element_by_id(self.CASE_NOTES_AND_ACTIVITY_TAB).click()
