@@ -2,7 +2,7 @@
 {% govuk_link_button id='new-query' text='cases.EcjuQueries.AddQuery.ADD_BUTTON_LABEL' url='cases:new_ecju_query' url_param=button_params %}
 
 {% if open_ecju_queries %}
-	<h3 class="govuk-heading-m">Open queries</h3>
+	<h3 class="govuk-heading-m">{% lcs 'cases.EcjuQueries.OPEN' %}</h3>
 	<div id="open-queries">
 		{% for ecju_query in open_ecju_queries %}
 			<div class="app-ecju-query" id="open-ecju-query">
@@ -22,8 +22,8 @@
 {% endif %}
 
 {% if closed_ecju_queries %}
-	<h3 class="govuk-heading-m">Closed queries</h3>
-	<p class="govuk-caption-m">Queries are automatically closed when the exporter responds to them.</p>
+	<h3 class="govuk-heading-m">{% lcs 'cases.EcjuQueries.CLOSED' %}</h3>
+	<p class="govuk-caption-m">{% lcs 'cases.EcjuQueries.CLOSED_DESCRIPTION' %}</p>
 	<br><br>
 	<div id="closed-queries">
 		{% for ecju_query in closed_ecju_queries %}
@@ -34,7 +34,7 @@
 						{{ ecju_query.question }}
 					</div>
 					<p class="app-ecju-query__date">
-						<span class="govuk-visually-hidden">Created at </span>{{ ecju_query.created_at|str_date }}
+						<span class="govuk-visually-hidden">{% lcs 'cases.EcjuQueries.CREATED_AT' %} </span>{{ ecju_query.created_at|str_date }}
 					</p>
 				</div>
 				<div class="app-ecju-query__item app-ecju-query__item--right">
@@ -47,7 +47,7 @@
 						{{ ecju_query.response }}
 					</div>
 					<p class="app-ecju-query__date">
-						<span class="govuk-visually-hidden">Created at </span>{{ ecju_query.responded_at|str_date }}
+						<span class="govuk-visually-hidden">{% lcs 'cases.EcjuQueries.CREATED_AT' %} </span>{{ ecju_query.responded_at|str_date }}
 					</p>
 				</div>
 			</div>
