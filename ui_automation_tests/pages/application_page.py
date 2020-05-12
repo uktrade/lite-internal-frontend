@@ -226,8 +226,8 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.CASE_QUEUES_ID)
 
     def select_filter_user_type_from_dropdown(self, user_type):
+        self.driver.execute_script("document.getElementById('app-header').style.position = 'relative';")
         functions.try_open_filters(self.driver)
-        scroll_to_element_below_header_by_id(self.driver, self.USER_TYPE_ID)
         select = Select(self.driver.find_element_by_id(self.USER_TYPE_ID))
         select.select_by_visible_text(user_type)
         self.driver.find_element_by_id(self.BUTTON_APPLY_FILTER_ID).click()
