@@ -10,6 +10,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And an Exhibition Clearance is created
     And I create a proviso picklist
     And I create a standard advice picklist
+    And the status is set to "submitted"
     When I go to application previously created
     And I click on the user advice tab
     And I select all items in the user advice view
@@ -32,6 +33,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I create standard application or standard application has been previously created
     And I create a proviso picklist
     And I create a standard advice picklist
+    And the status is set to "submitted"
     When I go to application previously created
     And I click on the user advice tab
     Then I see total goods value
@@ -54,6 +56,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I create open application or open application has been previously created
     And I create a proviso picklist
     And I create a standard advice picklist
+    And the status is set to "submitted"
     When I go to open application previously created
     And I click on the user advice tab
     And I select all items in the user advice view
@@ -71,6 +74,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
   Scenario: Refusal advice is given correctly
     Given I sign in to SSO or am signed into SSO
     And I create standard application or standard application has been previously created
+    And the status is set to "submitted"
     When I go to application previously created
     And I click on the user advice tab
     And I select all items in the user advice view
@@ -115,6 +119,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I create standard application or standard application has been previously created
     And I create a proviso picklist
     And I create a standard advice picklist
+    And the status is set to "submitted"
     When I go to application previously created
     And I click change status
     And I select status "Withdrawn" and save
