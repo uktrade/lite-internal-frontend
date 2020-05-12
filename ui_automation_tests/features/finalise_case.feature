@@ -4,7 +4,7 @@ Feature: I want to finalise a case
   I want to be prompted to generate the right documents for the appropriate decision
   So that this can be communicated back to the exporter and they can download and view their licence or clearance
 
-  @LT_2035_generate_documents_and_licence_approve @regression @nicky
+  @LT_2035_generate_documents_and_licence_approve @regression
   Scenario: Finalise and approve a case
     Given I sign in to SSO or am signed into SSO
     And I create standard application or standard application has been previously created

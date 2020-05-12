@@ -286,49 +286,6 @@ def put_flag_assignments(request, json):
     return data.json(), data.status_code
 
 
-def _generate_data_and_keys(request, pk):
-    # final_advice = filter_advice_by_level(case["advice"], "final")
-
-    # The keys are each relevant good-country pairing in the format good_id.country_id
-    # keys = []
-    # # Builds form page data structure
-    # # For each good in the case
-    # for good in case["application"]["goods_types"]:
-    #     # Match the goods with the goods in advice for that case
-    #     # and attach the advice value to the good
-    #     for advice in final_advice:
-    #         if advice["goods_type"] == good["id"]:
-    #             good["advice"] = advice["type"]
-    #             break
-    #     # If the good has countries attached to it as destinations
-    #     # We do the same with the countries and their advice
-    #     if good["countries"]:
-    #         for country in good["countries"]:
-    #             keys.append(str(good["id"]) + "." + country["id"])
-    #             for advice in final_advice:
-    #                 if advice["country"] == country["id"]:
-    #                     country["advice"] = advice["type"]
-    #                     break
-    #     # If the good has no countries:
-    #     else:
-    #         good["countries"] = []
-    #         # We attach all countries from the case
-    #         # And then attach the advice as before
-    #         for country in case["application"]["destinations"]["data"]:
-    #             good["countries"].append(country)
-    #             keys.append(str(good["id"]) + "." + country["id"])
-    #             for advice in final_advice:
-    #                 if advice["country"] == country["id"]:
-    #                     country["advice"] = advice["type"]
-    #                     break
-
-    data = get_good_countries_decisions(request, pk)
-    if "detail" in data:
-        raise PermissionError
-
-    return data
-
-
 def _generate_post_data_and_errors(keys, request_data, action):
     post_data = []
     errors = {}
