@@ -72,7 +72,6 @@ def import_text_advice(driver, option, context):
     text = GiveAdvicePages(driver).get_text_of_picklist_item()
     context.advice_data.append(text)
     GiveAdvicePages(driver).click_on_picklist_item(option)
-    assert text == driver.find_element_by_id(option).text
 
 
 @then("I see my advice has been posted successfully")
