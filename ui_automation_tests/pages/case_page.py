@@ -1,3 +1,4 @@
+import time
 from pages.shared import Shared
 from shared import selectors
 from shared.BasePage import BasePage
@@ -85,6 +86,7 @@ class CasePage(BasePage):
 
     def is_flag_applied(self, flag_name):
         self.driver.find_element_by_id("candy-flags").click()
+        time.sleep(0.5)
         return flag_name in self.driver.find_element_by_id("popup-flags").text
 
     def is_goods_flag_applied(self, flag_name):
