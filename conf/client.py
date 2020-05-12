@@ -92,7 +92,7 @@ def _get_headers(request, sender):
 
 def _get_hawk_sender(url, method, content_type, content):
     return Sender(
-        {"id": "internal-frontend", "key": env("LITE_API_HAWK_KEY"), "algorithm": "sha256"},
+        {"id": "internal-frontend", "key": env("LITE_INTERNAL_HAWK_KEY"), "algorithm": "sha256"},
         url,
         method,
         content_type=content_type,
