@@ -263,6 +263,16 @@ def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
     ), "status has not been shown as approved in audit trail"
 
 
+@then("the status has been changed in the clc query")  # noqa
+def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
+    case_page = CasePage(driver)
+    ApplicationPage(driver).go_to_cases_activity_tab_for_clc(internal_url, context)
+
+    assert (
+        context.status.lower() in case_page.get_audit_trail_text().lower()
+    ), "status has not been shown as approved in audit trail"
+
+
 @given("I create a clc query")  # noqa
 def create_clc_query(driver, apply_for_clc_query, context):  # noqa
     pass

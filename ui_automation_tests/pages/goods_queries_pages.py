@@ -1,6 +1,9 @@
+import time
 from shared import functions
 from shared.BasePage import BasePage
 from selenium.webdriver.support.ui import Select
+
+from shared.tools.helpers import scroll_to_element_below_header_by_id
 
 
 class GoodsQueriesPages(BasePage):
@@ -17,13 +20,17 @@ class GoodsQueriesPages(BasePage):
     GRADING_ID = "grading"
 
     def click_respond_to_clc_query(self):
+        scroll_to_element_below_header_by_id(self.driver, self.BUTTON_CLC_RESPOND_ID)
         self.driver.find_element_by_id(self.BUTTON_CLC_RESPOND_ID).click()
 
     def click_respond_to_grading_query(self):
+        scroll_to_element_below_header_by_id(self.driver, self.BUTTON_GRADING_RESPOND_ID)
         self.driver.find_element_by_id(self.BUTTON_GRADING_RESPOND_ID).click()
 
     # Response Page
     def click_is_good_controlled(self, answer):
+        time.sleep(1)
+        scroll_to_element_below_header_by_id(self.driver, self.CONTROL_RESPONSE + answer)
         self.driver.find_element_by_id(self.CONTROL_RESPONSE + answer).click()
 
     def type_in_to_control_list_entry(self, code):
