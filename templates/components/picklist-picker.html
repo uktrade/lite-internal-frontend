@@ -16,14 +16,14 @@
 </div>
 
 <script>
-	$('#{{ component.target }}').parent().parent().prepend('<a id="link-{{ component.target }}-picklist-picker" onclick="return show{{ component.target }}Modal()" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">' +
+	$('#{{ component.target }}').closest( ".govuk-form-group" ).prepend('<a id="link-{{ component.target }}-picklist-picker" onclick="return show{{ component.target }}Modal()" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">' +
 											'<svg width="13px" height="13px" viewBox="0 0 13 13" version="1.1">' +
 												'<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
 													'<rect id="Rectangle" fill="#000000" x="6" y="0" width="1" height="13"></rect>' +
 													'<rect id="Rectangle-Copy" fill="#000000" transform="translate(6.500000, 6.500000) rotate(90.000000) translate(-6.500000, -6.500000) " x="6" y="0" width="1" height="13"></rect>' +
 												'</g>' +
 											'</svg>' +
-											'Use a picklist item' +
+											'Add a picklist item' +
 										'</a>');
 
 	function show{{ component.target }}Modal() {
@@ -54,7 +54,11 @@
 	};
 
 	function setTextareaValue(textarea) {
-		$(textarea).val($('#picker-preview-text').text()).keyup();
+		if ($(textarea).val()) {
+			$(textarea).val($(textarea).val() + "\n\n" + $('#picker-preview-text').text()).keyup();
+		} else {
+			$(textarea).val($('#picker-preview-text').text()).keyup();
+		}
 		LITECommon.Modal.closeAllModals();
 	}
 </script>

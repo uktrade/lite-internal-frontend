@@ -5,10 +5,8 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
+from cases.forms.generate_document import select_template_form, edit_document_text_form
 from cases.helpers.helpers import generate_document_error_page
-from lite_forms.components import BackLink
-
-from cases.forms.generate_document import select_template_form, edit_document_text_form, add_paragraphs_form
 from cases.services import (
     post_generated_document,
     get_generated_document_preview,
@@ -18,10 +16,9 @@ from cases.services import (
 from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates, get_letter_template
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
+from lite_forms.components import BackLink
 from lite_forms.generators import form_page
 from lite_forms.views import SingleFormView
-from picklists.services import get_picklists_for_input
-
 
 TEXT = "text"
 
@@ -78,12 +75,11 @@ class SelectTemplateFinalAdvice(PickTemplateView):
 
 
 class EditDocumentTextView(SingleFormView):
-    def __init__(self, back_url, post_url, back_text, add_paragraphs_url):
+    def __init__(self, back_url, post_url, back_text):
         super().__init__()
         self.back_url = back_url
         self.post_url = post_url
         self.back_text = back_text
-        self.add_paragraphs_url = add_paragraphs_url
 
     @staticmethod
     def _convert_text_list_to_str(request, json):
@@ -108,15 +104,18 @@ class EditDocumentTextView(SingleFormView):
                     "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "documents"}
                 ),
             )
+            print(document)
 
         # if not returning to this page from adding paragraphs (going to page first time) get template text
         elif TEXT not in request.POST:
             paragraph_text = get_letter_template(
                 request, str(template_id), params=convert_dict_to_query_params({TEXT: True})
             )[0][TEXT]
+            print('swag')
+            print(paragraph_text)
             self.data = {TEXT: paragraph_text}
 
-        self.form = edit_document_text_form(backlink, kwargs, self.post_url, self.add_paragraphs_url)
+        self.form = edit_document_text_form(request, backlink, kwargs, self.post_url)
         self.redirect = False
         self.action = self._convert_text_list_to_str
 
@@ -126,8 +125,7 @@ class EditDocumentText(EditDocumentTextView):
         back_url = "cases:generate_document"
         post_url = "cases:generate_document_preview"
         back_text = GenerateDocumentsPage.EditTextForm.BACK_LINK
-        add_paragraphs_url = "cases:generate_document_add_paragraphs"
-        super().__init__(back_url, post_url, back_text, add_paragraphs_url)
+        super().__init__(back_url, post_url, back_text)
 
 
 class EditTextFinalAdvice(EditDocumentTextView):
@@ -135,8 +133,7 @@ class EditTextFinalAdvice(EditDocumentTextView):
         back_url = "cases:finalise_document_template"
         post_url = "cases:finalise_document_preview"
         back_text = GenerateDocumentsPage.EditTextForm.BACK_LINK
-        add_paragraphs_url = "cases:finalise_document_add_paragraphs"
-        super().__init__(back_url, post_url, back_text, add_paragraphs_url)
+        super().__init__(back_url, post_url, back_text)
 
 
 class RegenerateExistingDocument(TemplateView):
@@ -159,34 +156,6 @@ class RegenerateExistingDocument(TemplateView):
             + "?document_id="
             + document_id
         )
-
-
-class AddDocumentParagraphsView(SingleFormView):
-    def __init__(self, back_url):
-        super().__init__()
-        self.back_url = back_url
-
-    @staticmethod
-    def _get_form_data(request, json):
-        return json, HTTPStatus.OK
-
-    def init(self, request, **kwargs):
-        letter_paragraphs = get_picklists_for_input(request, "letter_paragraph")
-        self.form = add_paragraphs_form(letter_paragraphs, request.POST[TEXT], kwargs, self.back_url)
-        self.redirect = False
-        self.action = self._get_form_data
-
-
-class AddDocumentParagraphs(AddDocumentParagraphsView):
-    def __init__(self):
-        back_url = "cases:generate_document_edit"
-        super().__init__(back_url)
-
-
-class AddDocumentParagraphsFinalAdvice(AddDocumentParagraphsView):
-    def __init__(self):
-        back_url = "cases:finalise_document_edit_text"
-        super().__init__(back_url)
 
 
 class PreviewDocument(TemplateView):

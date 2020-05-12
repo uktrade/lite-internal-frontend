@@ -33,11 +33,6 @@ urlpatterns = [
         name="finalise_document_edit_text",
     ),
     path(
-        "finalise/<str:decision_key>/generate-document/<uuid:tpk>/add-paragraphs/",
-        generate_document.AddDocumentParagraphsFinalAdvice.as_view(),
-        name="finalise_document_add_paragraphs",
-    ),
-    path(
         "finalise/<str:decision_key>/generate-document/<uuid:tpk>/preview/",
         generate_document.PreviewDocument.as_view(),
         name="finalise_document_preview",
@@ -63,11 +58,6 @@ urlpatterns = [
         "generate-document/<uuid:dpk>/",
         generate_document.RegenerateExistingDocument.as_view(),
         name="generate_document_regenerate",
-    ),
-    path(
-        "generate-document/<uuid:tpk>/add-paragraphs/",
-        generate_document.AddDocumentParagraphs.as_view(),
-        name="generate_document_add_paragraphs",
     ),
     path(
         "generate-document/<uuid:tpk>/preview/",
