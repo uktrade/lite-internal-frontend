@@ -104,15 +104,12 @@ class EditDocumentTextView(SingleFormView):
                     "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "documents"}
                 ),
             )
-            print(document)
 
         # if not returning to this page from adding paragraphs (going to page first time) get template text
         elif TEXT not in request.POST:
             paragraph_text = get_letter_template(
                 request, str(template_id), params=convert_dict_to_query_params({TEXT: True})
             )[0][TEXT]
-            print('swag')
-            print(paragraph_text)
             self.data = {TEXT: paragraph_text}
 
         self.form = edit_document_text_form(request, backlink, kwargs, self.post_url)
