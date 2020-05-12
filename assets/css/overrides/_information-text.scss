@@ -12,7 +12,7 @@
 		top: calc(50% - 1.5px);
 		left: 0;
 		right: 0;
-		height: 3px;
-		background: $govuk-border-colour;
+		height: 4px;
+		background: govuk-shade(govuk-colour("white"), 10%);
 	}
 }
