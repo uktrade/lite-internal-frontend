@@ -429,6 +429,60 @@ def join_key_value_list(_list, _join=", "):
     return join_list(_list, _join)
 
 
+<<<<<<< Updated upstream
 @register.filter
 def multiply(value, arg):
     return float(value) * float(arg)
+=======
+@register.filter()
+def filter_advice_by_user(advice, id):
+    return_list = []
+
+    for advice in advice:
+        if advice["user"]["id"] == id:
+            return_list.append(advice)
+
+    return return_list
+
+
+@register.filter()
+def filter_advice_by_id(advice, id):
+    return_list = []
+
+    for advice in advice:
+        for key in ["good", "goods_type", "country", "end_user", "ultimate_end_user", "consignee", "third_party"]:
+            if key in advice and advice[key] == id:
+                return_list.append(advice)
+
+    return return_list
+
+
+@register.filter()
+def filter_advice_by_level(advice, level):
+    return [advice for advice in advice if advice["level"] == level]
+
+
+@register.filter()
+def sentence_case(text):
+    return capfirst(text).replace("_", " ")
+
+
+@register.filter()
+def goods_value(goods):
+    total_value = 0
+
+    for good in goods:
+        total_value += float(good.get("value", 0))
+
+    return total_value
+
+
+@register.filter()
+def latest_status_change(activity):
+    return next((item for item in activity if "updated the status" in item["text"]), None)
+
+
+@register.filter()
+def filter_flags_by_type(flags, type):
+    return [flag for flag in flags if flag["name"] == type]
+>>>>>>> Stashed changes
