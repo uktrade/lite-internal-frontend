@@ -264,7 +264,7 @@ def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
 
 
 @given("I create a clc query")  # noqa
-def create_clc_query(drivexr, apply_for_clc_query, context):  # noqa
+def create_clc_query(driver, apply_for_clc_query, context):  # noqa
     pass
 
 
