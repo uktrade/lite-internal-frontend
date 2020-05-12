@@ -62,11 +62,7 @@ def get_advice_additional_context(request, case, permissions):
     ):
         current_advice_level = "final"
 
-    if (
-        not _can_user_create_and_edit_advice(case, permissions)
-        or status_props["is_terminal"]
-        or status_props["is_read_only"]
-    ):
+    if not _can_user_create_and_edit_advice(case, permissions) or status_props["is_terminal"]:
         current_advice_level = None
 
     return {

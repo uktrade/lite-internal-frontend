@@ -46,6 +46,9 @@ class TeamAdvicePage(BaseAdvicePage):
     def click_combine_advice(self):
         self.driver.find_element_by_id(self.BUTTON_COALESCE_ID).click()
 
+    def click_clear_advice(self):
+        self.driver.find_element_by_id(self.BUTTON_CLEAR_ADVICE_ID).click()
+
 
 class FinalAdvicePage(BaseAdvicePage):
     TABLE_GOODS_ID = "table-goods-final-advice"
@@ -65,3 +68,6 @@ class FinalAdvicePage(BaseAdvicePage):
 
     def get_blocking_flags_text(self):
         return self.driver.find_element_by_id(self.BLOCKING_FLAGS_WARNING_ID).text
+
+    def click_clear_advice(self):
+        self.driver.find_element_by_id(self.BUTTON_CLEAR_ADVICE_ID).click()

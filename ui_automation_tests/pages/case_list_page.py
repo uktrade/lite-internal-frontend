@@ -28,7 +28,7 @@ class CaseListPage(BasePage):
     CASE_TYPE_DROPDOWN = "case_type"  # ID
     INPUT_ASSIGNED_USER_ID = "assigned_user"
     FILTER_SEARCH_BOX = "filter-box"  # ID
-    SHOW_TEAM_ECJU = "Show cases with open enquiries by your team"
+    SHOW_TEAM_ECJU = "Show-cases-with-open-enquiries-by-your-team"
     QUEUE_SEARCH_BOX = "filter-queues"
     # Queue dropdown
     LINK_CHANGE_QUEUE_ID = "link-queue"

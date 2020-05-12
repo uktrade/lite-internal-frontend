@@ -3,12 +3,10 @@ from datetime import date
 from pytest_bdd import when, then, parsers, scenarios, given
 
 from pages.advice import UserAdvicePage, FinalAdvicePage, TeamAdvicePage
-from pages.application_page import ApplicationPage
 from pages.case_page import CasePage, CaseTabs
 from pages.give_advice_pages import GiveAdvicePages
 from pages.record_decision_page import RecordDecision
 from pages.shared import Shared
-
 from ui_automation_tests.pages.grant_licence_page import GrantLicencePage
 
 scenarios("../features/give_advice.feature", strict_gherkin=False)
@@ -128,14 +126,9 @@ def refusal_flag_displayed(driver):
     assert Shared(driver).is_flag_applied("Refusal Advice")
 
 
-@then("I see refusal flag is not attached")
-def refusal_flag_not_displayed(driver):
-    assert not Shared(driver).is_flag_applied("Refusal Advice")
-
-
-@when("I clear advice")
+@when("I clear team advice")
 def clear_advice(driver):
-    GiveAdvicePages(driver).click_on_clear_advice()
+    TeamAdvicePage(driver).click_clear_advice()
 
 
 @then("the give advice checkboxes are not present")

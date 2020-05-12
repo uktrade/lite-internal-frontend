@@ -13,15 +13,12 @@ class GiveAdvicePages(BasePage):
     def click_on_advice_option(self, option):
         self.driver.find_element_by_id(self.ADVICE_CHECKBOX_OPTION + option).click()
 
-    def click_on_clear_advice(self):
-        self.driver.find_element_by_id(self.CLEAR_ADVICE_BUTTON).click()
-
     def click_on_import_link(self, option):
         self.driver.find_element_by_id(f"link-{option}-picklist-picker").click()
 
     def click_on_picklist_item(self, option):
         self.driver.execute_script('document.getElementById("picklist-' + option + '").children[0].click()')
-        self.driver.execute_script('document.getElementById("button-submit").click()')
+        self.driver.execute_script('document.getElementById("button-submit-' + option + '").click()')
 
     def get_text_of_picklist_item(self):
         return self.driver.find_element_by_css_selector(self.PICKLIST_ITEM_TEXT).text

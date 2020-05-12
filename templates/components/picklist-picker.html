@@ -35,6 +35,7 @@
 		var title = $(item).data( 'title' );
 		var text = $('<div>').text($(item).data( 'text' )).html();
 		var lastUpdated = $(item).data( 'last-updated' );
+		var textareaId = textarea.substring(1, textarea.length);
 
 		var previewHtml = '<div class="app-picklist-picker-preview">' +
 								'<div class="app-picklist-picker-preview__text">' +
@@ -42,7 +43,7 @@
 								'<p class="govuk-caption-m">Last updated ' + lastUpdated + '</p>' +
 							'</div>' +
 							'<div class="app-picklist-picker-preview__controls">' +
-								'<button id="button-submit" onclick="setTextareaValue(\'' + textarea + '\');" type="submit" class="govuk-button" data-module="govuk-button">' +
+								'<button id="button-submit-' + textareaId + '" onclick="setTextareaValue(\'' + textarea + '\');" type="submit" class="govuk-button" data-module="govuk-button">' +
 									'Use template' +
 								'</button>' +
 							'</div>' +

@@ -35,7 +35,7 @@ def create_routing_rule(driver, context, tier, case_status):
     )
     functions.click_submit(driver)
 
-    routing_rules_page.select_case_type_by_text("Standard Individual Export Licence")
+    routing_rules_page.select_case_type_by_text("Standard-Individual-Export-Licence")
     functions.click_submit(driver)
 
     routing_rules_page.select_flag(context.flag_name)
