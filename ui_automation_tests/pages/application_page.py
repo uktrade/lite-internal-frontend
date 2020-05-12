@@ -4,7 +4,7 @@ from selenium.webdriver.support.ui import Select
 
 from shared import functions
 from shared.BasePage import BasePage
-from shared.tools.helpers import scroll_to_element_by_id
+from shared.tools.helpers import scroll_to_element_by_id, scroll_to_element_below_header_by_id
 
 
 class ApplicationPage(BasePage):
@@ -227,6 +227,7 @@ class ApplicationPage(BasePage):
 
     def select_filter_user_type_from_dropdown(self, user_type):
         functions.try_open_filters(self.driver)
+        scroll_to_element_below_header_by_id(self.driver, self.USER_TYPE_ID)
         select = Select(self.driver.find_element_by_id(self.USER_TYPE_ID))
         select.select_by_visible_text(user_type)
         self.driver.find_element_by_id(self.BUTTON_APPLY_FILTER_ID).click()
