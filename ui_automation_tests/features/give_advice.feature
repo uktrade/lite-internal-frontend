@@ -79,7 +79,6 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I click on the user advice tab
     And I select all items in the user advice view
     And I choose to 'refuse' the licence
-    And I select decision "1a"
     And I select decision "2b"
     And I import text from the 'text' picklist
     And I write 'We will get back to you in three weeks' in the note text field
