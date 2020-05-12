@@ -152,7 +152,7 @@ class ViewCase(TemplateView):
             "case": case,
             "queue": queue,
             "permissions": get_user_permissions(request),
-            "permissible_statuses": get_permissible_statuses(request, case_type),
+            "permissible_statuses": get_permissible_statuses(request, case),
             "status_is_read_only": status_props["is_read_only"],
             "status_is_terminal": status_props["is_terminal"],
             "can_set_done": can_set_done,
@@ -263,7 +263,7 @@ class ChangeStatus(SingleFormView):
         case = get_case(request, self.object_pk)
         self.case_type = case["case_type"]["type"]["key"]
         self.case_sub_type = case["case_type"]["sub_type"]["key"]
-        permissible_statuses = get_permissible_statuses(request, self.case_type)
+        permissible_statuses = get_permissible_statuses(request, case)
         self.data = case["application"] if "application" in case else case["query"]
         self.form = change_status_form(get_queue(request, kwargs["queue_pk"]), case, permissible_statuses)
 
