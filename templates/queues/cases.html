@@ -16,17 +16,11 @@
 	{% endif %}
 
 	<div class="lite-app-bar">
-		<form method="get" class="app-dropdown__select">
-			<select class="govuk-select" name="queue_id">
-				{% for queue in data.results.queues %}
-					<option value="{{ queue.id }}" {% if queue.id == data.results.queue.id %}selected{% endif %}>{{ queue.name }}</option>
-				{% endfor %}
-			</select>
-			<button type="submit" class="govuk-button">{% lcs 'cases.CasesListPage.GO_TO_QUEUE' %}</button>
-		</form>
-		<a id="queue-title" href="#" class="govuk-heading-l app-dropdown__heading" onclick="toggleDropdown()">
-			{{ data.results.queue.name }}
-		</a>
+		<div class="lite-app-bar__content">
+			<a tabindex="0" id="link-queue" href="{% url 'queues:manage' %}" class="app-dropdown__heading">
+				{{ data.results.queue.name }}<span class="govuk-visually-hidden"> - Click to change queue</span>
+			</a>
+		</div>
 		{% if not data.results.is_system_queue %}
 			<div class="lite-app-bar__controls">
 				<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">{% lcs 'cases.CasesListPage.ASSIGN_USERS' %}</button>
@@ -34,16 +28,19 @@
 		{% endif %}
 	</div>
 
-	<div class="app-dropdown__background" onclick="toggleDropdown()"></div>
-	<div class="app-dropdown__container" id="queues">
-		<div class="app-dropdown__list">
-			{% for queue in data.results.queues %}
-				<a href="{% url 'queues:cases' queue.id %}" id="{{ queue.name }}" class="app-dropdown__item {% if queue.id == data.results.queue.id %}app-dropdown__item--selected{% endif %}">
-					{{ queue.name }}
-					<span class="app-dropdown__item__count">{{ queue.case_count }}</span>
-				</a>
-			{% endfor %}
+	<div id="queues" class="app-hidden">
+		<div class="app-menu__search">
+			<div>
+				{% svg 'search' %}
+			</div>
+			<input type="text" id="filter-queues">
 		</div>
+		{% for queue in data.results.queues %}
+			<a href="{% url 'queues:cases' queue.id %}" id="{{ queue.name }}" class="app-menu__item app-menu__item--subtitle {% if queue.id == data.results.queue.id %}app-menu__item--selected{% endif %}">
+				{{ queue.name }}
+				<span class="app-menu__item-subtitle">{{ queue.case_count }}</span>
+			</a>
+		{% endfor %}
 	</div>
 
 	{% include "filters.html" %}
@@ -196,40 +193,6 @@
 	<script src="{% static 'javascripts/select-buttons.js' %}"></script>
 
 	<script nonce="{{ request.csp_nonce }}">
-<<<<<<< Updated upstream
-		tippy('.app-cases__row__attention-needed', {
-			content: "{% lcs 'cases.CasesListPage.NOT_UPDATED_RECENTLY' %}"
-		});
-		tippy('.app-cases__row__ecju-query', {
-			content: "{% lcs 'cases.CasesListPage.OPEN_TEAM_ECJU' %}"
-		});
-
-		function toggleDropdown() {
-			$(".app-dropdown-background").toggle();
-			$("#queues").toggleClass('app-dropdown__container--visible');
-			$("#queue-title").toggleClass("app-dropdown__heading--flipped");
-		}
-
-		function setAssignUsersAbility() {
-			// Disable the assign users button unless a checkbox is selected
-			if ($("input[name='cases']:checked").length == 0) {
-				disableButton("#assign-users-button");
-			} else {
-				enableButton("#assign-users-button");
-			}
-		}
-
-		setAssignUsersAbility();
-
-		$("#button-select-all").click(function() {
-			setAssignUsersAbility();
-		});
-
-		$("input[name='cases']").change(function() {
-			setAssignUsersAbility();
-			$("#select-all-checkbox").prop('checked', $("input[name='cases']:checked").length == $("input[name='cases']").length);
-			$("#select-all-checkbox").prop("indeterminate", $("input[name='cases']:checked").length > 0 && $("input[name='cases']:checked").length < $("input[name='cases']").length);
-=======
 		$("#filter-queues").on('input', function() {
 			txt = $("#filter-queues").val();
 			anyVisible = false;
@@ -263,7 +226,6 @@
 				$("#filter-queues").val("")
 				$("#filter-queues").focus()
 			},
->>>>>>> Stashed changes
 		});
 	</script>
 {% endblock %}
