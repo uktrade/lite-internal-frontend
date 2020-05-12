@@ -244,3 +244,11 @@ class ApplicationPage(BasePage):
             + context.case_id
             + "/activity/"
         )
+
+    def go_to_cases_activity_tab_for_eua(self, internal_url, context):
+        self.driver.get(
+            internal_url.rstrip("/")
+            + "/queues/00000000-0000-0000-0000-000000000001/cases/"
+            + context.eua_id
+            + "/activity/"
+        )

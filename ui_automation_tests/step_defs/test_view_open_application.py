@@ -7,8 +7,8 @@ scenarios("../features/view_open_application.feature", strict_gherkin=False)
 
 
 @when("I go to the activity tab")
-def go_to_activity_tab(driver):
-    CasePage(driver).change_tab(CaseTabs.ACTIVITY)
+def go_to_activity_tab(driver, internal_url, context):
+    ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)
 
 
 @when(parsers.parse('filter user_type has been changed to "{user_type}"'))  # noqa
