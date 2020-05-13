@@ -27,7 +27,9 @@
 				{% endif %}
 				<th scope="col" class="govuk-table__header">#</th>
 				<th scope="col" class="govuk-table__header">Description</th>
-				<th scope="col" class="govuk-table__header">Type</th>
+				{% if case.goods.0.item_type %}
+					<th scope="col" class="govuk-table__header">Type</th>
+				{% endif %}
 				{% if case.goods.0.value %}
 					<th scope="col" class="govuk-table__header">Value</th>
 				{% endif %}
