@@ -59,9 +59,11 @@
 			<table id="table-cases" class="govuk-table">
 				<thead class="govuk-table__head">
 					<tr class="govuk-table__row">
-						<th class="govuk-table__header govuk-table__cell--checkbox">
-							<button id="button-select-all" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
-						</th>
+						{% if not data.results.is_system_queue %}
+							<th class="govuk-table__header govuk-table__cell--checkbox">
+								<button id="button-select-all" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
+							</th>
+						{% endif %}
 						<th class="govuk-table__header" scope="col"><span class="govuk-visually-hidden">SLA</span></th>
 						<th class="govuk-table__header" scope="col"><span class="govuk-visually-hidden">Information</span></th>
 						<th class="govuk-table__header" scope="col">Case</th>
@@ -75,14 +77,16 @@
 				<tbody class="govuk-table__body">
 					{% for case in data.results.cases %}
 						<tr class="govuk-table__row lite-accordian-table__row" id="{{ case.id }}">
-							<td class="govuk-table__cell govuk-table__cell--checkbox">
-								<div>
-									<input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}">
-									<label class="govuk-label govuk-checkboxes__label">
-										<span class="govuk-visually-hidden">{{ case.reference_code }}</span>
-									</label>
-								</div>
-							</td>
+							{% if not data.results.is_system_queue %}
+								<td class="govuk-table__cell govuk-table__cell--checkbox">
+									<div>
+										<input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}">
+										<label class="govuk-label govuk-checkboxes__label">
+											<span class="govuk-visually-hidden">{{ case.reference_code }}</span>
+										</label>
+									</div>
+								</td>
+							{% endif %}
 							<td class="govuk-table__cell govuk-table__cell--tight">
 								{% if case.sla_hours_since_raised != None or case.sla_remaining_days != None %}
 									{% if case.sla_hours_since_raised != None and case.case_type.sub_type.key == 'hmrc'%}
