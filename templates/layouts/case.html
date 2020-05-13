@@ -134,7 +134,18 @@
 			{% if request.GET|get:'return_to' %}
 				<a class="app-case__form-wrapper__back-link" id="back-link" href="{{ request.GET|get:'return_to' }}">Back {% if request.GET|get:'return_to_text' %}to {{ request.GET|get:'return_to_text' }}{% endif %}</a>
 			{% elif page.back_link %}
-				<a class="app-case__form-wrapper__back-link" id="back-link" href="{{ page.back_link.url }}">{{ page.back_link.text }}</a>
+				{% if not form_pk or form_pk == 0 %}
+					<a class="app-case__form-wrapper__back-link" id="back-link" href="{{ page.back_link.url }}">{{ page.back_link.text }}</a>
+				{% else %}
+					<form method="post">
+						{% csrf_token %}
+						{% dict_hidden_field 'form_pk' form_pk %}
+						{% for key, value in data.items %}
+							{% dict_hidden_field key value %}
+						{% endfor %}
+						<button class="lite-back-link-button app-case__form-wrapper__back-link" role="link" id="back-link" type="submit" name="_action" value="back" action="back">{{ page.back_link.text }}</button>
+					</form>
+				{% endif %}
 			{% endif %}
 
 			<div class="govuk-grid-row">
