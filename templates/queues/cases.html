@@ -25,7 +25,7 @@
 			<div class="lite-app-bar__controls lite-buttons-row">
 				<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">{% lcs 'cases.CasesListPage.ASSIGN_USERS' %}</button>
 				{% if enforcement_check and data.results.cases %}
-					<a class="govuk-button govuk-button--secondary" href="{% url 'queues:enforcement_xml_export' queue.id %}" draggable="false" role="button">{% lcs 'cases.CasesListPage.EnforcementXML.EXPORT_BUTTON' %}</a>
+					<a id="export-xml" class="govuk-button govuk-button--secondary" href="{% url 'queues:enforcement_xml_export' queue.id %}" draggable="false" role="button">{% lcs 'cases.CasesListPage.EnforcementXML.EXPORT_BUTTON' %}</a>
 				{% endif %}
 			</div>
 		{% endif %}

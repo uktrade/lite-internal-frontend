@@ -476,3 +476,8 @@ def assert_flag_is_assigned(driver, context):  # noqa
 @given(parsers.parse('the status is set to "{status}"'))  # noqa
 def set_status(api_test_client, context, status):  # noqa
     api_test_client.applications.set_status(context.app_id, status)
+
+
+@given("case has been moved to new Queue")
+def assign_case_to_queue(api_test_client):
+    api_test_client.cases.assign_case_to_queue()
