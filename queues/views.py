@@ -205,7 +205,7 @@ class EnforcementXMLExport(TemplateView):
             if data:
                 error = data["errors"][0]
             else:
-                error = "An error occurred when generating XML for this queue."
+                error = CasesListPage.EnforcementXML.GENERIC_ERROR
             return error_page(request, error)
         else:
             return data
