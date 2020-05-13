@@ -203,9 +203,7 @@ class EnforcementXMLExport(TemplateView):
 
         if status_code != HTTPStatus.OK:
             if data:
-                error = data["errors"]
-                if isinstance(error, dict):
-                    error = list(error.values())[0]
+                error = data["errors"][0]
             else:
                 error = "An error occurred when generating XML for this queue."
             return error_page(request, error)
