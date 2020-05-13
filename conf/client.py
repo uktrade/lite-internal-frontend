@@ -9,7 +9,7 @@ from conf.settings import env
 def get(request, appended_address):
     url = _build_absolute_uri(appended_address.replace(" ", "%20"))
 
-    sender = _get_hawk_sender(url, "GET", "application/json", None)
+    sender = _get_hawk_sender(url, "GET", "application/json", "")
 
     response = requests.get(url, headers=_get_headers(request, sender))
 
@@ -59,7 +59,7 @@ def patch(request, appended_address, request_data):
 def delete(request, appended_address):
     url = _build_absolute_uri(appended_address)
 
-    sender = _get_hawk_sender(url, "DELETE", "text/plain", None)
+    sender = _get_hawk_sender(url, "DELETE", "text/plain", "")
 
     response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender))
 
