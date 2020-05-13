@@ -80,7 +80,7 @@ def _build_absolute_uri(appended_address):
 def _get_headers(request, sender):
     headers = {
         "X-Correlation-Id": str(request.correlation),
-        "Authorization": sender.request_header,
+        "hawk-authorization": sender.request_header,
         "content-type": sender.req_resource.content_type,
     }
 
