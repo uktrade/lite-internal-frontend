@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
+from http import HTTPStatus
 
 from cases.forms.assign_users import assign_users_form
 from cases.helpers.helpers import get_updated_cases_banner_queue_id
-from conf.constants import ALL_CASES_QUEUE_ID
+from conf.constants import ALL_CASES_QUEUE_ID, Permission
 from core.helpers import convert_dict_to_query_params
+from core.services import get_user_permissions
 from lite_content.lite_internal_frontend.cases import CasesListPage
 from lite_forms.components import HiddenField, FiltersBar, Option, AutocompleteInput, Checkboxes, Select
 from lite_forms.generators import error_page, form_page
@@ -20,6 +22,7 @@ from queues.services import (
     put_queue,
     get_queue_case_assignments,
     put_queue_case_assignments,
+    get_enforcement_xml,
 )
 from users.services import get_gov_user
 
@@ -96,6 +99,7 @@ class Cases(TemplateView):
             "updated_cases_banner_queue_id": updated_cases_banner_queue_id,
             "filters": filters,
             "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
+            "enforcement_check": Permission.ENFORCEMENT_CHECK.value in get_user_permissions(request),
         }
 
         return render(request, "queues/cases.html", context)
@@ -191,3 +195,19 @@ class CaseAssignments(TemplateView):
 
         # If there is no response (no forms left to go through), go to the case page
         return redirect(reverse("queues:cases", kwargs={"queue_pk": queue_id}))
+
+
+class EnforcementXMLExport(TemplateView):
+    def get(self, request, pk):
+        data, status_code = get_enforcement_xml(request, pk)
+
+        if status_code != HTTPStatus.OK:
+            if data:
+                error = data["errors"]
+                if isinstance(error, dict):
+                    error = list(error.values())[0]
+            else:
+                error = "An error occurred when generating XML for this queue."
+            return error_page(request, error)
+        else:
+            return data
