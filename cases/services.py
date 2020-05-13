@@ -340,11 +340,6 @@ def get_destination(request, pk):
     return data.json()
 
 
-def get_case_officer(request, pk):
-    data = get(request, CASE_URL + pk + CASE_OFFICER_URL)
-    return data.json()["case_officer"], data.status_code
-
-
 def put_case_officer(request, pk, json):
     data = put(request, CASE_URL + str(pk) + CASE_OFFICER_URL, json)
     return data.json(), data.status_code
