@@ -45,8 +45,8 @@
 
 	<div class="lite-js-only lite-expand__base-controls">
 		<a id="link-open-all-table-folds" href="#" onclick="toggleTableFold()" class="lite-expand__base-control">
-			<span>Open all</span>
-			<span>Close all</span>
+			<span>{% lcs 'cases.CasesListPage.OPEN_ALL' %}</span>
+			<span>{% lcs 'cases.CasesListPage.CLOSE_ALL' %}</span>
 			{% svg 'chevron-light' %}
 		</a>
 	</div>
@@ -64,13 +64,13 @@
 								<button id="button-select-all" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
 							</th>
 						{% endif %}
-						<th class="govuk-table__header" scope="col"><span class="govuk-visually-hidden">SLA</span></th>
-						<th class="govuk-table__header" scope="col"><span class="govuk-visually-hidden">Information</span></th>
-						<th class="govuk-table__header" scope="col">Case</th>
-						<th class="govuk-table__header" scope="col">Assignees</th>
-						<th class="govuk-table__header" scope="col">Goods</th>
-						<th class="govuk-table__header" scope="col">Destinations</th>
-						<th class="govuk-table__header" scope="col">Flags</th>
+						<th class="govuk-table__header" scope="col"><span class="govuk-visually-hidden">{% lcs 'cases.CasesListPage.Table.SLA' %}</span></th>
+						<th class="govuk-table__header" scope="col"><span class="govuk-visually-hidden">{% lcs 'cases.CasesListPage.Table.INFORMATION' %}</span></th>
+						<th class="govuk-table__header" scope="col">{% lcs 'cases.CasesListPage.Table.CASE' %}</th>
+						<th class="govuk-table__header" scope="col">{% lcs 'cases.CasesListPage.Table.ASSIGNEES' %}</th>
+						<th class="govuk-table__header" scope="col">{% lcs 'cases.CasesListPage.Table.GOODS' %}</th>
+						<th class="govuk-table__header" scope="col">{% lcs 'cases.CasesListPage.Table.DESTINATIONS' %}</th>
+						<th class="govuk-table__header" scope="col">{% lcs 'cases.CasesListPage.Table.FLAGS' %}</th>
 						<th class="govuk-table__header" scope="col"></th>
 					</tr>
 				</thead>
@@ -144,7 +144,7 @@
 										{% endfor %}
 									</ol>
 								{% else %}
-									<p class="app-information-bar">No users assigned</p>
+									<p class="app-information-bar">{% lcs 'cases.CasesListPage.NoContent.NO_USERS_ASSIGNED' %}</p>
 								{% endif %}
 							</td>
 							<td class="govuk-table__cell">
@@ -157,7 +157,7 @@
 										{% include 'includes/flags.html' with flags=case.flags|filter_flags_by_level:'Good' list=True %}
 									</div>
 								{% else %}
-									<p class="app-information-bar">No good flags set</p>
+									<p class="app-information-bar">{% lcs 'cases.CasesListPage.NoContent.NO_GOODS_FLAGS' %}</p>
 								{% endif %}
 							</td>
 							<td class="govuk-table__cell">
@@ -170,7 +170,7 @@
 										{% include 'includes/flags.html' with flags=case.flags|filter_flags_by_level:'Destination' list=True %}
 									</div>
 								{% else %}
-									<p class="app-information-bar">No destination flags set</p>
+									<p class="app-information-bar">{% lcs 'cases.CasesListPage.NoContent.NO_DESTINATION_FLAGS' %}</p>
 								{% endif %}
 							</td>
 							<td class="govuk-table__cell">
@@ -183,7 +183,7 @@
 										{% include 'includes/flags.html' with flags=case.flags list=True %}
 									</div>
 								{% else %}
-									<p class="app-information-bar">No flags set</p>
+									<p class="app-information-bar">{% lcs 'cases.CasesListPage.NoContent.NO_FLAGS' %}</p>
 								{% endif %}
 							</td>
 							<td class="govuk-table__cell">
@@ -201,9 +201,9 @@
 			{% pagination %}
 		{% else %}
 			{% if params.case_type or params.status or params.case_officer or params.assigned_user %}
-				{% include "includes/notice.html" with text="cases.CasesListPage.ACTIVE_FILTER_NO_CASES" %}
+				{% include "includes/notice.html" with text='cases.CasesListPage.ACTIVE_FILTER_NO_CASES' %}
 			{% else %}
-				{% include "includes/notice.html" with text="cases.CasesListPage.NO_CASES" %}
+				{% include "includes/notice.html" with text='cases.CasesListPage.NO_CASES' %}
 			{% endif %}
 		{% endif %}
 	</form>
