@@ -3,17 +3,20 @@ import requests
 from django.contrib.auth.models import AnonymousUser
 from mohawk import Sender
 
-from conf.settings import env
+from conf.settings import HAWK_AUTHENTICATION_ENABLED, env
 
 
 def get(request, appended_address):
     url = _build_absolute_uri(appended_address.replace(" ", "%20"))
 
-    sender = _get_hawk_sender(url, "GET", "application/json", "")
+    if HAWK_AUTHENTICATION_ENABLED:
+        sender = _get_hawk_sender(url, "GET", "application/json", "")
 
-    response = requests.get(url, headers=_get_headers(request, sender))
+        response = requests.get(url=url, headers=_get_headers(request, sender))
 
-    _verify_api_response(response, sender)
+        _verify_api_response(response, sender)
+    else:
+        response = requests.get(url=url, headers=_get_headers(request, content_type="application/json"))
 
     return response
 
@@ -21,11 +24,16 @@ def get(request, appended_address):
 def post(request, appended_address, request_data):
     url = _build_absolute_uri(appended_address)
 
-    sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
+    if HAWK_AUTHENTICATION_ENABLED:
+        sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
 
-    response = requests.post(url, json=request_data, headers=_get_headers(request, sender))
+        response = requests.post(url=url, headers=_get_headers(request, sender), json=request_data)
 
-    _verify_api_response(response, sender)
+        _verify_api_response(response, sender)
+    else:
+        response = requests.post(
+            url=url, headers=_get_headers(request, content_type="application/json"), json=request_data
+        )
 
     return response
 
@@ -33,11 +41,16 @@ def post(request, appended_address, request_data):
 def put(request, appended_address, request_data):
     url = _build_absolute_uri(appended_address)
 
-    sender = _get_hawk_sender(url, "PUT", "application/json", json.dumps(request_data))
+    if HAWK_AUTHENTICATION_ENABLED:
+        sender = _get_hawk_sender(url, "PUT", "application/json", json.dumps(request_data))
 
-    response = requests.put(url, json=request_data, headers=_get_headers(request, sender))
+        response = requests.put(url=url, headers=_get_headers(request, sender), json=request_data)
 
-    _verify_api_response(response, sender)
+        _verify_api_response(response, sender)
+    else:
+        response = requests.put(
+            url=url, headers=_get_headers(request, content_type="application/json"), json=request_data
+        )
 
     return response
 
@@ -45,13 +58,16 @@ def put(request, appended_address, request_data):
 def patch(request, appended_address, request_data):
     url = _build_absolute_uri(appended_address)
 
-    sender = _get_hawk_sender(url, "PATCH", "application/json", json.dumps(request_data))
+    if HAWK_AUTHENTICATION_ENABLED:
+        sender = _get_hawk_sender(url, "PATCH", "application/json", json.dumps(request_data))
 
-    response = requests.patch(
-        url=env("LITE_API_URL") + appended_address, json=request_data, headers=_get_headers(request, sender),
-    )
+        response = requests.patch(url=url, headers=_get_headers(request, sender), json=request_data)
 
-    _verify_api_response(response, sender)
+        _verify_api_response(response, sender)
+    else:
+        response = requests.patch(
+            url=url, headers=_get_headers(request, content_type="application/json"), json=request_data
+        )
 
     return response
 
@@ -59,11 +75,14 @@ def patch(request, appended_address, request_data):
 def delete(request, appended_address):
     url = _build_absolute_uri(appended_address)
 
-    sender = _get_hawk_sender(url, "DELETE", "text/plain", "")
+    if HAWK_AUTHENTICATION_ENABLED:
+        sender = _get_hawk_sender(url, "DELETE", "text/plain", "")
 
-    response = requests.delete(url=env("LITE_API_URL") + appended_address, headers=_get_headers(request, sender))
+        response = requests.delete(url=url, headers=_get_headers(request, sender))
 
-    _verify_api_response(response, sender)
+        _verify_api_response(response, sender)
+    else:
+        response = requests.delete(url=url, headers=_get_headers(request, content_type="text/plain"))
 
     return response
 
@@ -77,12 +96,15 @@ def _build_absolute_uri(appended_address):
     return url
 
 
-def _get_headers(request, sender):
-    headers = {
-        "X-Correlation-Id": str(request.correlation),
-        "hawk-authentication": sender.request_header,
-        "content-type": sender.req_resource.content_type,
-    }
+def _get_headers(request, sender=None, content_type=None):
+    headers = {"X-Correlation-Id": str(request.correlation)}
+
+    if sender:
+        headers["content-type"] = sender.req_resource.content_type
+        headers["hawk-authentication"] = sender.request_header
+
+    if content_type:
+        headers["content-type"] = content_type
 
     if not isinstance(request.user, AnonymousUser):
         headers["GOV-USER-TOKEN"] = str(request.user.user_token)
@@ -97,7 +119,6 @@ def _get_hawk_sender(url, method, content_type, content):
         method,
         content_type=content_type,
         content=content,
-        seen_nonce=None,  # Server does not include nonces in its response header
     )
 
 
