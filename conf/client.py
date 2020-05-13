@@ -97,6 +97,7 @@ def _get_hawk_sender(url, method, content_type, content):
         method,
         content_type=content_type,
         content=content,
+        seen_nonce=None,  # Server does not include nonces in its response header
     )
 
 
