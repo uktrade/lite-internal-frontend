@@ -181,6 +181,12 @@
 		window.addEventListener('scroll', function (e) {
 			var scrollPosition = window.scrollY;
 
+			if (scrollPosition > 10) {
+				$("#case-flags").css({"pointer-events": "none"});
+			} else {
+				$("#case-flags").css({"pointer-events": "all"});
+			}
+
 			if (scrollPosition > 80) {
 				$("#tab-bar").addClass("app-case-tab-bar--float");
 			} else {
