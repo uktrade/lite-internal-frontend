@@ -75,13 +75,11 @@
 				<tbody class="govuk-table__body">
 					{% for case in data.results.cases %}
 						<tr class="govuk-table__row lite-accordian-table__row" id="{{ case.id }}">
-							<td class="govuk-table__cell govuk-table__cell--checkbox {% if show_advice %}lite-!-no-border{% endif %}">
+							<td class="govuk-table__cell govuk-table__cell--checkbox">
 								<div>
 									<input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}">
 									<label class="govuk-label govuk-checkboxes__label">
-										<span class="govuk-visually-hidden">
-											{{ case.reference_code }}
-										</span>
+										{{ case.reference_code }}
 									</label>
 								</div>
 							</td>
