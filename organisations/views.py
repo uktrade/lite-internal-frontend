@@ -26,7 +26,7 @@ from organisations.services import (
     get_organisation_members,
     post_hmrc_organisations,
     put_organisation_status,
-)
+    get_organisation_activity)
 
 
 class OrganisationList(TemplateView):
@@ -107,6 +107,7 @@ class OrganisationView(TemplateView):
                     reverse_lazy("organisations:organisation_sites", kwargs={"pk": self.organisation_id}),
                 ),
             ],
+            "activity": get_organisation_activity(request, self.organisation_id)
         }
         context.update(self.get_additional_context())
         return render(request, f"organisations/organisation/{self.template_name}.html", context)
