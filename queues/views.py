@@ -5,9 +5,8 @@ from django.views.generic import TemplateView
 from cases.forms.assign_users import assign_users_form
 from cases.helpers.helpers import get_updated_cases_banner_queue_id
 from conf.constants import ALL_CASES_QUEUE_ID
-from core.helpers import convert_dict_to_query_params
 from lite_content.lite_internal_frontend.cases import CasesListPage
-from lite_forms.components import HiddenField, FiltersBar, Option, AutocompleteInput, Checkboxes, Select
+from lite_forms.components import FiltersBar, Option, AutocompleteInput, Checkboxes, Select
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
