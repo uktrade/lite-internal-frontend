@@ -22,7 +22,7 @@
 			</a>
 		</div>
 		{% if not data.results.is_system_queue %}
-			<div class="lite-app-bar__controls">
+			<div class="lite-app-bar__controls" data-enable-on-checkboxes="#table-cases">
 				<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">{% lcs 'cases.CasesListPage.ASSIGN_USERS' %}</button>
 			</div>
 		{% endif %}
@@ -43,15 +43,12 @@
 		{% endfor %}
 	</div>
 
-	<div class="lite-expand__base-controls">
-		<a href="#" class="lite-expand__base-control">
-			Open all
+	<div class="lite-js-only lite-expand__base-controls">
+		<a id="link-open-all-table-folds" href="#" onclick="toggleTableFold()" class="lite-expand__base-control">
+			<span>Open all</span>
+			<span>Close all</span>
 			{% svg 'chevron-light' %}
 		</a>
-		<!-- <a href="#" class="lite-expand__base-control lite-expand__base-control--inverted">
-			Close all
-			{% svg 'chevron-light' %}
-		</a> -->
 	</div>
 
 	{% include "filters.html" %}
@@ -59,15 +56,15 @@
 	<form id="cases-form" method="post">
 		{% csrf_token %}
 		{% if data.results.cases %}
-			<table class="govuk-table">
+			<table id="table-cases" class="govuk-table">
 				<thead class="govuk-table__head">
 					<tr class="govuk-table__row">
 						<th class="govuk-table__header govuk-table__cell--checkbox">
 							<button id="button-select-all" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
 						</th>
 						<th class="govuk-table__header" scope="col"><span class="govuk-visually-hidden">SLA</span></th>
-						<th class="govuk-table__header" scope="col">Case</th>
 						<th class="govuk-table__header" scope="col"><span class="govuk-visually-hidden">Information</span></th>
+						<th class="govuk-table__header" scope="col">Case</th>
 						<th class="govuk-table__header" scope="col">Assignees</th>
 						<th class="govuk-table__header" scope="col">Goods</th>
 						<th class="govuk-table__header" scope="col">Destinations</th>
@@ -109,29 +106,33 @@
 									{% endif %}
 								{% endif %}
 							</td>
+							<td class="govuk-table__cell govuk-table__cell--tight">
+								<div class="app-cases__row__vertical-column">
+									{% if not case.is_recently_updated and not is_all_cases_queue %}
+										<span class="app-cases__row__icon app-cases__row__attention-needed">
+											!
+										</span>
+									{% endif %}
+									{% if data.results.is_work_queue %}
+										{% if case.has_open_ecju_queries %}
+											<div class="app-cases__row__icon">
+												{% svg 'ecju-query' %}
+											</div>
+										{% endif %}
+									{% endif %}
+								</div>
+							</td>
 							<td class="govuk-table__cell">
 								<a class="govuk-link govuk-link--no-visited-state" id="case-{{ case.id }}" href="{% url 'cases:case' queue.id case.id %}">
 									{{ case.reference_code }}
 								</a>
-								<p class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-2">
-									{{ case.organisation.name }}
+								<p class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-0">
+									{{ case.organisation.name }} <span class="govuk-hint lite-!-display-inline">/ {{ case.organisation.primary_site.address.city|default:case.organisation.primary_site.address.country.name }}</span>
 								</p>
-								<p class="govuk-hint govuk-!-margin-0">{{ case.case_type.reference.value }}</p>
-								<p class="govuk-tag govuk-tag--blue govuk-!-margin-0 govuk-!-margin-top-2">{{ case.status.value }}</p>
-							</td>
-							<td class="govuk-table__cell govuk-table__cell--tight">
-								{% if not case.is_recently_updated and not is_all_cases_queue %}
-									<span class="app-cases__row__attention-needed">
-										!
-									</span>
+								{% if case.organisation.primary_site.address.postcode %}
+									<p class="govuk-hint govuk-!-margin-0 govuk-!-margin-top-2">{{ case.organisation.primary_site.address.postcode }}</p>
 								{% endif %}
-								{% if data.results.is_work_queue %}
-									{% if case.has_open_ecju_queries %}
-										<div class="govuk-!-margin-right-3 govuk-!-margin-top-2 app-cases__row__ecju-query">
-											{% svg 'ecju-query' %}
-										</div>
-									{% endif %}
-								{% endif %}
+								<p class="govuk-tag govuk-tag--grey govuk-!-margin-0 govuk-!-margin-top-2">{{ case.status.value }}</p>
 							</td>
 							<td class="govuk-table__cell">
 								{% if case.assignments %}
@@ -154,7 +155,7 @@
 										{% include 'includes/flags.html' with flags=case.flags|filter_flags_by_level:'Good' list=True %}
 									</div>
 								{% else %}
-									<p class="app-information-bar">No goods flags set</p>
+									<p class="app-information-bar">No good flags set</p>
 								{% endif %}
 							</td>
 							<td class="govuk-table__cell">
@@ -184,7 +185,7 @@
 								{% endif %}
 							</td>
 							<td class="govuk-table__cell">
-								<a id="expand-flags-{{ case.id }}" onclick="return openTableFold(this);">
+								<a class="lite-expand__control" id="expand-flags-{{ case.id }}" onclick="return openTableFold(this);">
 									{% if case.flags|length > 3 or case.users|length > 3 or case.queue_names|length > 3 %}
 										{% svg 'chevron' %}
 									{% endif %}
