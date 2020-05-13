@@ -79,7 +79,7 @@
 								<div>
 									<input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}">
 									<label class="govuk-label govuk-checkboxes__label">
-										{{ case.reference_code }}
+										<span class="govuk-visually-hidden">{{ case.reference_code }}</span>
 									</label>
 								</div>
 							</td>
@@ -107,13 +107,13 @@
 							<td class="govuk-table__cell govuk-table__cell--tight">
 								<div class="app-cases__row__vertical-column">
 									{% if not case.is_recently_updated and not is_all_cases_queue %}
-										<span class="app-cases__row__icon app-cases__row__attention-needed">
+										<span data-tooltip="{% lcs 'cases.CasesListPage.NOT_UPDATED_RECENTLY' %}" class="app-cases__row__icon app-cases__row__attention-needed">
 											!
 										</span>
 									{% endif %}
 									{% if data.results.is_work_queue %}
 										{% if case.has_open_ecju_queries %}
-											<div class="app-cases__row__icon">
+											<div data-tooltip="{% lcs 'cases.CasesListPage.OPEN_TEAM_ECJU' %}" class="app-cases__row__icon">
 												{% svg 'ecju-query' %}
 											</div>
 										{% endif %}
