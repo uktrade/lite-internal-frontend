@@ -28,7 +28,7 @@ class GoodsQueriesPages(BasePage):
 
     # Response Page
     def click_is_good_controlled(self, answer):
-       self.driver.find_element_by_id(self.CONTROL_RESPONSE + answer).click()
+        self.driver.find_element_by_id(self.CONTROL_RESPONSE + answer).click()
 
     def type_in_to_control_list_entry(self, code):
         functions.send_tokens_to_token_bar(self.driver, self.TOKEN_BAR_CONTROL_LIST_ENTRIES_SELECTOR, [code])
