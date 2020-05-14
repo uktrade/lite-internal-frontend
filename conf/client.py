@@ -1,4 +1,6 @@
 import json
+import logging
+
 import requests
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
@@ -131,12 +133,9 @@ def _verify_api_response(response, sender):
             content=response.content,
             content_type=response.headers["Content-Type"],
         )
-    except HawkFail:
-        raise PermissionDenied(
-            "We were unable to authenticate you - This could be due to your request MAC being incorrect"
-        )
-    except Exception:
-        raise PermissionDenied(
-            "We were unable to authenticate you - This could be due to a missing "
-            "'server-authorization' header from our API."
-        )
+    except Exception:  # noqa
+        if "server-authorization" not in response.headers:
+            logging.error(
+                "No server_authorization header found in response from the LITE API - probable API HAWK auth failure"
+            )
+        raise PermissionDenied("We were unable to authenticate your client")
