@@ -1,12 +1,12 @@
+from http import HTTPStatus
+
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
-from http import HTTPStatus
 
 from cases.forms.assign_users import assign_users_form
 from cases.helpers.helpers import get_updated_cases_banner_queue_id
 from conf.constants import ALL_CASES_QUEUE_ID, Permission
-from core.helpers import convert_dict_to_query_params
 from core.services import get_user_permissions
 from lite_content.lite_internal_frontend.cases import CasesListPage
 from lite_forms.components import FiltersBar, Option, AutocompleteInput, Checkboxes, Select
