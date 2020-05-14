@@ -20,6 +20,7 @@ from lite_forms.components import (
     Group,
     Custom,
     Select,
+    HiddenField,
 )
 from lite_forms.helpers import conditional
 from picklists.services import get_picklists_for_input
@@ -121,20 +122,20 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
                 name="note",
             ),
             conditional(
-                has_permission(request, Permission.MAINTAIN_FOOTNOTES),
+                has_permission(request, Permission.MAINTAIN_FOOTNOTES) and tab != "final-advice",
                 RadioButtons(
                     title="Is a footnote required?",
                     name="footnote_required",
                     options=[
                         Option(
-                            "True",
+                            True,
                             "Yes",
                             components=[
                                 TextArea(name="footnote", title="footnote"),
                                 PicklistPicker(target="footnote", items=get_picklists_for_input(request, "footnotes")),
                             ],
                         ),
-                        Option("False", "No"),
+                        Option(False, "No"),
                     ],
                 ),
             ),
