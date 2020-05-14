@@ -7,7 +7,6 @@ from shared.tools.helpers import scroll_to_element_by_id
 from pages.shared import Shared
 
 
-
 class CaseListPage(BasePage):
 
     # Table

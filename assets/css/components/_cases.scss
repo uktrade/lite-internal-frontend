@@ -1,6 +1,6 @@
 .app-case__summary-list {
     display: grid;
-    grid-gap: govuk-spacing(3) govuk-spacing(6);
+    grid-gap: govuk-spacing(3) 150px;
     margin: 0;
     overflow: hidden;
 
@@ -99,6 +99,17 @@ $case-header-text-colour: govuk-colour("white");
     box-sizing: border-box;
     padding: govuk-spacing(6) 0;
     z-index: 10;
+
+    #heading-reference-code a {
+        color: govuk-colour("white")!important;
+        text-decoration: none;
+
+        &:link {
+            &:hover {
+                border-bottom: 2px solid currentColor;
+            }
+        }
+    }
 
     &__sections {
         display: grid;
