@@ -5,7 +5,6 @@ import requests
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
 from mohawk import Sender
-from mohawk.exc import HawkFail
 
 from conf.settings import HAWK_AUTHENTICATION_ENABLED, env
 
