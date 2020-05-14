@@ -8,7 +8,7 @@ from pages.shared import Shared
 scenarios("../features/review_goods.feature", strict_gherkin=False)
 
 
-@when("I select goods and click review")
+@when("I select good and click review")
 def click_edit_flags_link(driver):
     CasePage(driver).select_goods()
     ApplicationPage(driver).click_review_goods()

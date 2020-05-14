@@ -227,7 +227,6 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.CASE_QUEUES_ID)
 
     def select_filter_user_type_from_dropdown(self, user_type):
-        Shared(self.driver).set_header_to_not_stick()
         functions.try_open_filters(self.driver)
         select = Select(self.driver.find_element_by_id(self.USER_TYPE_ID))
         select.select_by_visible_text(user_type)
