@@ -110,6 +110,7 @@ class CaseListPage(BasePage):
 
     def click_on_queue_name(self, queue_name):
         self.click_on_queue_title()
+        # TODO Make this an implicit wait!
         time.sleep(0.5)
         self.search_for_queue(queue_name)
         self.driver.find_element_by_id(queue_name).click()

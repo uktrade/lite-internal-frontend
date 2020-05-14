@@ -63,6 +63,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
 
     def click_visible_to_exporter_checkbox(self):
+        # TODO Make this an implicit wait!
         time.sleep(0.5)
         self.driver.find_element_by_id(self.IS_VISIBLE_TO_EXPORTER_CHECKBOX_ID).click()
 
@@ -77,6 +78,7 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_id(self.BUTTON_POST_NOTE_ID).click()
 
     def click_cancel_btn(self):
+        # TODO Make this an implicit wait!
         time.sleep(0.5)
         self.driver.find_element_by_id(self.LINK_CANCEL_NOTE_ID).click()
 
@@ -129,6 +131,7 @@ class ApplicationPage(BasePage):
         self.driver.execute_script("arguments[0].click();", element)
 
     def click_move_case_button(self):
+        # TODO Make this an implicit wait!
         time.sleep(0.5)
         self.driver.find_element_by_id(self.MOVE_CASE_BUTTON).click()
 

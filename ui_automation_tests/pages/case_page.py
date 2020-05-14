@@ -84,6 +84,7 @@ class CasePage(BasePage):
 
     def is_flag_applied(self, flag_name):
         self.driver.find_element_by_id("candy-flags").click()
+        # TODO Make this an implicit wait!
         time.sleep(0.5)
         return flag_name in self.driver.find_element_by_id("popup-flags").text
 
