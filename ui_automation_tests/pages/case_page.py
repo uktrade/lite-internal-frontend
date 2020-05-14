@@ -56,9 +56,6 @@ class CasePage(BasePage):
     def get_goods(self):
         return self.driver.find_elements_by_css_selector(f"#{self.TABLE_GOODS_ID} {Shared(self.driver).TABLE_ROW_CSS}")
 
-    def select_good(self, index):
-        self.driver.find_elements_by_css_selector(f"#{self.TABLE_GOODS_ID} {selectors.CHECKBOX}")[index].click()
-
     def select_first_good(self):
         self.driver.find_element_by_css_selector(f"#{self.TABLE_GOODS_ID} {selectors.CHECKBOX}").click()
 
