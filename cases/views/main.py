@@ -53,7 +53,7 @@ class CaseDetail(CaseView):
             Slices.DESTINATIONS,
             conditional(self.case.data["inactive_parties"], Slices.DELETED_ENTITIES),
             Slices.LOCATIONS,
-            conditional(self.case.data["goodstype_category"]["key"] != 'cryptographic', Slices.END_USE_DETAILS),
+            conditional(self.case.data["goodstype_category"]["key"] != "cryptographic", Slices.END_USE_DETAILS),
             Slices.ROUTE_OF_GOODS,
             Slices.SUPPORTING_DOCUMENTS,
         ]
