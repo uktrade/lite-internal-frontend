@@ -1,4 +1,3 @@
-import time
 from shared import functions
 from shared.BasePage import BasePage
 from selenium.webdriver.support.ui import Select
