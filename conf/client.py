@@ -1,7 +1,9 @@
 import json
 import requests
 from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import PermissionDenied
 from mohawk import Sender
+from mohawk.exc import HawkFail
 
 from conf.settings import HAWK_AUTHENTICATION_ENABLED, env
 
@@ -123,8 +125,18 @@ def _get_hawk_sender(url, method, content_type, content):
 
 
 def _verify_api_response(response, sender):
-    sender.accept_response(
-        response.headers["server-authorization"],
-        content=response.content,
-        content_type=response.headers["Content-Type"],
-    )
+    try:
+        sender.accept_response(
+            response.headers["server-authorization"],
+            content=response.content,
+            content_type=response.headers["Content-Type"],
+        )
+    except HawkFail:
+        raise PermissionDenied(
+            "We were unable to authenticate you - This could be due to your request MAC being incorrect"
+        )
+    except Exception:
+        raise PermissionDenied(
+            "We were unable to authenticate you - This could be due to a missing "
+            "'server-authorization' header from our API."
+        )
