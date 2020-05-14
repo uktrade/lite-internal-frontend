@@ -59,7 +59,7 @@ class CasePage(BasePage):
     def select_good(self, index):
         self.driver.find_elements_by_css_selector(f"#{self.TABLE_GOODS_ID} {selectors.CHECKBOX}")[index].click()
 
-    def select_goods(self):
+    def select_first_good(self):
         self.driver.find_element_by_css_selector(f"#{self.TABLE_GOODS_ID} {selectors.CHECKBOX}").click()
 
     def get_goods_text(self):
