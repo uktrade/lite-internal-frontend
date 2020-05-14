@@ -138,5 +138,5 @@ def _verify_api_response(response, sender):
                 "No server_authorization header found in response from the LITE API - probable API HAWK auth failure"
             )
         else:
-            logging.error(f"Unhandled exception {type(exc).__name__}: {exc}")
+            logging.error("Unhandled exception %s: %s" % (type(exc).__name__, exc))
         raise PermissionDenied("We were unable to authenticate your client")
