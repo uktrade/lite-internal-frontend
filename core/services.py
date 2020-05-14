@@ -72,8 +72,9 @@ def get_permissible_statuses(request, case):
     user_permissible_statuses = user["user"]["role"]["statuses"]
     statuses, _ = get_statuses(request)
     case_sub_type = case["case_type"]["sub_type"]["key"]
+    case_type = case["case_type"]["type"]["key"]
 
-    if case_sub_type == CaseType.APPLICATION.value:
+    if case_type == CaseType.APPLICATION.value:
         case_type_applicable_statuses = [
             status
             for status in statuses
@@ -81,7 +82,6 @@ def get_permissible_statuses(request, case):
             not in [Statuses.APPLICANT_EDITING, Statuses.CLOSED, Statuses.FINALISED, Statuses.REGISTERED]
         ]
     else:
-
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
             case_type_applicable_statuses = [status for status in statuses if status["key"] in BASE_QUERY_STATUSES]
         else:
