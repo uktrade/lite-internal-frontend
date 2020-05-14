@@ -41,7 +41,6 @@ class CasePage(BasePage):
         self.driver.find_element_by_id(self.LINK_CHANGE_CASE_FLAGS_ID).click()
 
     def click_assign_case_officer(self):
-        Shared(self.driver).set_header_to_not_stick()
         scroll_to_element_below_header_by_id(self.driver, self.LINK_ASSIGN_CASE_OFFICER_ID)
         self.driver.find_element_by_id(self.LINK_ASSIGN_CASE_OFFICER_ID).click()
 
