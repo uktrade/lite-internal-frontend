@@ -79,7 +79,14 @@ def get_permissible_statuses(request, case):
             status
             for status in statuses
             if status["key"]
-            not in [Statuses.APPLICANT_EDITING, Statuses.CLOSED, Statuses.FINALISED, Statuses.REGISTERED]
+            not in [
+                Statuses.APPLICANT_EDITING,
+                Statuses.CLOSED,
+                Statuses.FINALISED,
+                Statuses.REGISTERED,
+                Statuses.CLC,
+                Statuses.PV,
+            ]
         ]
     else:
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
