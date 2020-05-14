@@ -20,7 +20,6 @@ from lite_forms.components import (
     Group,
     Custom,
     Select,
-    HiddenField,
 )
 from lite_forms.helpers import conditional
 from picklists.services import get_picklists_for_input
