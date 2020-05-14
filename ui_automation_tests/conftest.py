@@ -478,6 +478,6 @@ def set_status(api_test_client, context, status):  # noqa
     api_test_client.applications.set_status(context.app_id, status)
 
 
-@given("case has been moved to new Queue")
-def assign_case_to_queue(api_test_client):
+@given("case has been moved to new Queue") # noqa
+def assign_case_to_queue(api_test_client): # noqa
     api_test_client.cases.assign_case_to_queue()
