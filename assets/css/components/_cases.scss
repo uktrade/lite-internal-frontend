@@ -1,6 +1,6 @@
 .app-case__summary-list {
     display: grid;
-    grid-gap: govuk-spacing(3) govuk-spacing(6);
+    grid-gap: govuk-spacing(3) 150px;
     margin: 0;
     overflow: hidden;
 
@@ -99,6 +99,17 @@ $case-header-text-colour: govuk-colour("white");
     box-sizing: border-box;
     padding: govuk-spacing(6) 0;
     z-index: 10;
+
+    #heading-reference-code a {
+        color: govuk-colour("white")!important;
+        text-decoration: none;
+
+        &:link {
+            &:hover {
+                border-bottom: 2px solid currentColor;
+            }
+        }
+    }
 
     &__sections {
         display: grid;
@@ -340,12 +351,40 @@ $case-header-text-colour: govuk-colour("white");
 
 .app-case__flags-bar {
     margin-top: govuk-spacing(4);
+    display: flex;
+
+    a {
+        @include govuk-font($size: 19);
+        color: govuk-colour("white");
+        line-height: 36px!important;
+        flex-shrink: 0;
+        z-index: 1;
+    }
+
+    .app-case__flags-wrapper {
+        display: inline-flex;
+        overflow-x: hidden;
+
+        &--fade {
+            -webkit-mask-image: linear-gradient(to right, black calc(100% - 65px), transparent calc(100% - 15px));
+            mask-image: linear-gradient(to right, black calc(100% - 65px), transparent calc(100% - 15px));
+        }
+    }
 
     .app-flags {
+        display: inline-flex;
         margin: 0;
+        overflow-x: hidden;
+        margin-right: govuk-spacing(3);
 
         .app-flag {
             margin-bottom: 0;
+            white-space: nowrap!important;
+            flex-shrink: 0;
+
+            &:last-of-type {
+                margin-right: 0;
+            }
         }
 
         a {

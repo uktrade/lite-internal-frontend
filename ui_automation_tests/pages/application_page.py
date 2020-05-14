@@ -2,7 +2,6 @@ import time
 
 from selenium.webdriver.support.ui import Select
 
-from pages.shared import Shared
 from shared import functions
 from shared.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
@@ -65,6 +64,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
 
     def click_visible_to_exporter_checkbox(self):
+        # TODO Make this an implicit wait!
         time.sleep(0.5)
         self.driver.find_element_by_id(self.IS_VISIBLE_TO_EXPORTER_CHECKBOX_ID).click()
 
@@ -79,6 +79,7 @@ class ApplicationPage(BasePage):
         self.driver.find_element_by_id(self.BUTTON_POST_NOTE_ID).click()
 
     def click_cancel_btn(self):
+        # TODO Make this an implicit wait!
         time.sleep(0.5)
         self.driver.find_element_by_id(self.LINK_CANCEL_NOTE_ID).click()
 
@@ -132,6 +133,7 @@ class ApplicationPage(BasePage):
         self.driver.execute_script("arguments[0].click();", element)
 
     def click_move_case_button(self):
+        # TODO Make this an implicit wait!
         time.sleep(0.5)
         self.driver.find_element_by_id(self.MOVE_CASE_BUTTON).click()
 
@@ -230,7 +232,6 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.CASE_QUEUES_ID)
 
     def select_filter_user_type_from_dropdown(self, user_type):
-        Shared(self.driver).set_header_to_not_stick()
         functions.try_open_filters(self.driver)
         select = Select(self.driver.find_element_by_id(self.USER_TYPE_ID))
         select.select_by_visible_text(user_type)
