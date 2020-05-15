@@ -4,7 +4,7 @@
 	{% csrf_token %}
 </form>
 
-<form action="{% url 'cases:give_advice' queue.id case.id 'final-advice' %}" method="get">
+<form id="form-final-advice-container" action="{% url 'cases:give_advice' queue.id case.id 'final-advice' %}" method="get">
 	{% hidden_field 'grouped-advice-view' request.GET|get:'grouped-advice-view' %}
 	<div class="app-advice_app-bar">
 		<div class="lite-buttons-row">
@@ -20,7 +20,7 @@
 				</a>
 			{% endif %}
 			<div class="lite-!-display-inline lite-buttons-row {% if current_advice_level != 'final' %}app-advice__disabled-buttons{% endif %}">
-				<div data-enable-on-checkboxes="#table-goods-final-advice, #table-destinations-final-advice" class="lite-buttons-row lite-!-display-inline">
+				<div data-enable-on-checkboxes="#form-final-advice-container" class="lite-buttons-row lite-!-display-inline">
 					<button id="button-give-final-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
 						{% lcs 'advice.FinalAdvicePage.GIVE_CHANGE_ADVICE_BUTTON' %}
 					</button>
