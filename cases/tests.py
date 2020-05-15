@@ -1,10 +1,32 @@
 from unittest import TestCase
 
-from cases.helpers.advice import order_grouped_advice
+from cases.helpers.advice import order_grouped_advice, convert_advice_item_to_base64
 
 
 class CaseTests(TestCase):
+    def test_convert_advice_item_to_base64(self):
+        """
+        Asserts that advice comparison is case and space insensitive
+        """
+        item_1 = {
+            "text": "I Am Easy to Find",
+            "note": "I Am Easy to Find",
+            "type": "I Am Easy to Find",
+            "level": "I Am Easy to Find",
+        }
+        item_2 = {
+            "text": "Iameasytofind",
+            "note": "I Am Easy to Find",
+            "type": "I Am Easy to Find",
+            "level": "I Am Easy to Find",
+        }
+        self.assertEqual(convert_advice_item_to_base64(item_1), convert_advice_item_to_base64(item_2))
+
     def test_order_grouped_advice(self):
+        """
+        Asserts ordering of conflicting, approve, proviso, no_licence_required,
+        not_applicable, refuse, no_advice
+        """
         initial_order = {
             1: {"type": {"key": "refuse"}},
             2: {"type": {"key": "approve"}},
