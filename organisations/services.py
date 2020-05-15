@@ -63,10 +63,7 @@ def get_organisation_matching_details(request, pk):
     return data.json()["matching_properties"]
 
 
-def get_organisation_activity(request, pk, activity_filters=None):
+def get_organisation_activity(request, pk):
     url = ORGANISATIONS_URL + str(pk) + ACTIVITY_URL
-    # if activity_filters:
-    #     params = convert_parameters_to_query_params(activity_filters)
-    #     url = url + params
     data = get(request, url)
     return data.json()["activity"]
