@@ -152,20 +152,28 @@
 		background: govuk-colour("light-grey");
 		padding: govuk-spacing(6);
 
+		& > * {
+			margin-bottom: govuk-spacing(9);
+
+			&:last-of-type {
+				margin-bottom: 0;
+
+				table {
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		&:first-child {
+			display: block;
+			margin-top: 0!important;
+			background: red;
+		}
+
 		table {
 			.govuk-table__cell--checkbox {
 				display: none;
 			}
-
-			&:last-of-type {
-				margin-bottom: 0;
-			}
-		}
-
-		.govuk-heading-m {
-			@include govuk-font($size: 24, $weight: bold);
-			margin-top: 0;
-			margin-bottom: govuk-spacing(2);
 		}
 	}
 
@@ -173,7 +181,6 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 		grid-gap: govuk-spacing(3);
-		margin-bottom: govuk-spacing(3);
 
 		&-item {
 			p {

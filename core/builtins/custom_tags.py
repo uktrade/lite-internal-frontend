@@ -507,15 +507,15 @@ def filter_advice_by_id(advice, id):
 
 
 @register.filter()
-def distinct_advice(advice, case):
+def distinct_advice(advice_list, case):
     return_value = {}
 
-    for item in advice:
+    for item in advice_list:
         fields = [item.get("denial_reasons"), item.get("proviso"), item["text"], item["note"], item["type"],
                   item["level"]]
         item["token"] = b64encode(bytes(json.dumps(fields), "utf-8")).decode("utf-8")
 
-    for advice in advice:
+    for advice in advice_list:
         # Goods
         good = advice.get("good", advice.get("goods_type"))
         case_good = None
@@ -546,7 +546,19 @@ def distinct_advice(advice, case):
         if case_destination:
             return_value[advice["token"]]["destinations"].append(case_destination)
 
-    return return_value
+    # Add goods/destinations that have no advice
+    no_advice_goods = []
+    no_advice_destinations = []
+
+    for good in case.goods:
+        if not filter_advice_by_id(advice_list, good.get("good", good).get("id")):
+            no_advice_goods.append(good)
+
+    for destination in case.destinations:
+        if not filter_advice_by_id(advice_list, destination["id"]):
+            no_advice_destinations.append(destination)
+
+    return {**return_value, "no_advice": {"type": {"key": "no_advice", "value": "No advice"}, "goods": no_advice_goods, "destinations": no_advice_destinations}}
 
 
 @register.filter()
