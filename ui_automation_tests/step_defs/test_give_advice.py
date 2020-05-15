@@ -166,15 +166,15 @@ def select_clearance_level(driver, clearance_level):
 
 
 @when("I go to grouped view")
-def step_impl(driver):
+def go_to_grouped_view(driver):
     BaseAdvicePage(driver).click_grouped_view_button()
 
 
 @when(parsers.parse('I select all items in the "{group}" grouped view'))
-def step_impl(driver, group):
+def select_all_items_in_group(driver, group):
     UserAdvicePage(driver).click_grouped_view_checkboxes(group)
 
 
 @when("I click give advice")
-def step_impl(driver):
+def click_give_advice(driver):
     UserAdvicePage(driver).click_give_advice()
