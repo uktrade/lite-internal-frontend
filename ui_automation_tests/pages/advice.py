@@ -43,7 +43,9 @@ class UserAdvicePage(BaseAdvicePage):
         self.driver.find_element_by_id(self.BUTTON_COALESCE_ID).click()
 
     def click_grouped_view_checkboxes(self, group):
-        for checkbox in self.driver.find_elements_by_css_selector(f"#form-user-advice-container .app-grouped-advice--{group} .app-grouped-advice__heading .lite-button-checkbox"):
+        for checkbox in self.driver.find_elements_by_css_selector(
+            f"#form-user-advice-container .app-grouped-advice--{group} .app-grouped-advice__heading .lite-button-checkbox"
+        ):
             checkbox.click()
 
 
