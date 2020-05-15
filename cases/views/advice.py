@@ -75,6 +75,7 @@ class GiveAdvice(SingleFormView):
         data["good"] = self.request.GET.getlist("goods")
         data["goods_type"] = self.request.GET.getlist("goods_types")
         data["country"] = self.request.GET.getlist("countries")
+        data["third_party"] = self.request.GET.getlist("third_party")
         data["ultimate_end_user"] = self.request.GET.getlist("ultimate_end_user")
         data["consignee"] = self.request.GET.get("consignee")
         data["end_user"] = self.request.GET.get("end_user")
