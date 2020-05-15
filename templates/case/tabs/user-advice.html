@@ -9,7 +9,7 @@
 	<div class="app-advice_app-bar">
 		<div class="lite-buttons-row">
 			{% if not request.GET|get:'grouped-advice-view' == 'True' %}
-				<a href="?grouped-advice-view=True" class="govuk-button govuk-button--secondary app-button--icon">
+				<a id="button-grouped-view" href="?grouped-advice-view=True" class="govuk-button govuk-button--secondary app-button--icon">
 					{% svg 'grouped-view' %}
 					Grouped view
 				</a>
