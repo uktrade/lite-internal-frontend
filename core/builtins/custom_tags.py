@@ -4,8 +4,7 @@ import datetime
 import json
 import math
 import re
-from base64 import b64encode
-from collections import Counter, OrderedDict, defaultdict
+from collections import Counter, OrderedDict
 from html import escape
 
 from django import template
@@ -13,7 +12,6 @@ from django.template.defaultfilters import stringfilter, safe, capfirst
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
-from cases.helpers.advice import convert_advice_item_to_base64
 from conf import settings
 from conf.constants import ISO8601_FMT, DATE_FORMAT
 from conf.constants import SystemTeamsID, CaseType
@@ -509,6 +507,7 @@ def filter_advice_by_id(advice, id):
 
 @register.filter()
 def distinct_advice(advice_list, case):
+    from cases.helpers.advice import convert_advice_item_to_base64, order_grouped_advice
     return_value = {}
 
     for advice_item in advice_list:
@@ -568,7 +567,7 @@ def distinct_advice(advice_list, case):
             "destinations": no_advice_destinations,
         }
 
-    return return_value
+    return order_grouped_advice(return_value)
 
 
 @register.filter()

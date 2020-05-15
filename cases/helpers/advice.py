@@ -1,5 +1,6 @@
 import json
 from base64 import b64encode
+from collections import OrderedDict
 from typing import List, Dict
 
 from cases.objects import Case
@@ -175,3 +176,8 @@ def convert_advice_item_to_base64(advice_item):
         advice_item["level"],
     ]
     return b64encode(bytes(json.dumps(fields), "utf-8")).decode("utf-8")
+
+
+def order_grouped_advice(grouped_advice):
+    order = ["conflicting", "approve", "proviso", "no_licence_required", "not_applicable", "refuse", "no_advice"]
+    return OrderedDict(sorted(grouped_advice.items(), key=lambda t: order.index(t[1]["type"]["key"])))
