@@ -5,6 +5,7 @@
 </form>
 
 <form id="form-user-advice-container" action="{% url 'cases:give_advice' queue.id case.id 'user-advice' %}" method="get">
+	{% hidden_field 'grouped-advice-view' request.GET|get:'grouped-advice-view' %}
 	<div class="app-advice_app-bar">
 		<div class="lite-buttons-row">
 			{% if not request.GET|get:'grouped-advice-view' == 'True' %}
