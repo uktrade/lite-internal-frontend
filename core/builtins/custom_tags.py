@@ -515,15 +515,15 @@ def distinct_advice(advice_list, case):
         # Goods
         advice_item["token"] = convert_advice_item_to_base64(advice_item)
 
-        good = advice_item.get("good", advice_item.get("goods_type"))
+        good = advice_item.get("good") or advice_item.get("goods_type")
         case_good = None
-        for x in case.goods:
-            if "good" in x:
-                if x["good"]["id"] == good:
-                    case_good = x
+        for item in case.goods:
+            if "good" in item:
+                if item["good"]["id"] == good:
+                    case_good = item
             else:
-                if x["id"] == good:
-                    case_good = x
+                if item["id"] == good:
+                    case_good = item
 
         # Destinations
         destination_fields = [
