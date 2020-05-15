@@ -1,4 +1,4 @@
-{% load static %}
+{% load static svg %}
 
 <form id="form-team-advice" action="{% url 'cases:team_advice_view' queue.id case.id %}" method="post">
 	{% csrf_token %}
@@ -6,15 +6,28 @@
 
 <form action="{% url 'cases:give_advice' queue.id case.id 'team-advice' %}" method="get">
 	<div class="app-advice_app-bar">
-		<div class="lite-buttons-row {% if current_advice_level != 'team' %}app-advice__disabled-buttons{% endif %}">
-			<div data-enable-on-checkboxes="#table-goods-team-advice, #table-destinations-team-advice" class="lite-buttons-row lite-!-display-inline">
-				<button id="button-give-team-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
-					{% lcs 'advice.TeamAdvicePage.GIVE_CHANGE_ADVICE_BUTTON' %}
+		<div class="lite-buttons-row">
+			{% if not request.GET|get:'grouped-advice-view' == 'True' %}
+				<a href="?grouped-advice-view=True" class="govuk-button govuk-button--secondary app-button--icon">
+					{% svg 'grouped-view' %}
+					Grouped view
+				</a>
+			{% else %}
+				<a href="?grouped-advice-view=False" class="govuk-button govuk-button--secondary app-button--icon">
+					{% svg 'list-view' %}
+					List view
+				</a>
+			{% endif %}
+			<div class="lite-buttons-row {% if current_advice_level != 'team' %}app-advice__disabled-buttons{% endif %}">
+				<div data-enable-on-checkboxes="#table-goods-team-advice, #table-destinations-team-advice" class="lite-buttons-row lite-!-display-inline">
+					<button id="button-give-team-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
+						{% lcs 'advice.TeamAdvicePage.GIVE_CHANGE_ADVICE_BUTTON' %}
+					</button>
+				</div>
+				<button form="form-team-advice" id="button-clear-tema-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
+					{% lcs 'advice.TeamAdvicePage.CLEAR_ADVICE_BUTTON' %}
 				</button>
 			</div>
-			<button form="form-team-advice" id="button-clear-tema-advice" name="action" value="delete" type="submit" class="govuk-button" data-module="govuk-button">
-				{% lcs 'advice.TeamAdvicePage.CLEAR_ADVICE_BUTTON' %}
-			</button>
 		</div>
 
 		<div class="{% if current_advice_level != 'team' %}app-advice__disabled-buttons{% endif %}">
