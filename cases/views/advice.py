@@ -66,7 +66,7 @@ class GiveAdvice(SingleFormView):
         self.success_message = "Advice posted successfully"
         self.success_url = reverse(
             "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk, "tab": self.tab}
-        )
+        ) + "?grouped-advice-view=" + request.GET.get("grouped-advice-view", "")
 
         if self.tab not in ["user-advice", "team-advice", "final-advice"]:
             raise Http404
@@ -102,7 +102,7 @@ class CoalesceUserAdvice(TemplateView):
         coalesce_user_advice(request, case_id)
         messages.success(self.request, "User advice combined successfully")
         return redirect(
-            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "team-advice"})
+            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "team-advice"}) + "?grouped-advice-view=" + request.GET.get("grouped-advice-view", "")
         )
 
 
@@ -120,7 +120,7 @@ class ClearTeamAdvice(TemplateView):
             messages.success(self.request, "Team advice cleared successfully")
 
             return redirect(
-                reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "team-advice"})
+                reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "team-advice"}) + "?grouped-advice-view=" + request.GET.get("grouped-advice-view", "")
             )
 
 
@@ -134,7 +134,7 @@ class CoalesceTeamAdvice(TemplateView):
         coalesce_team_advice(request, case_id)
         messages.success(self.request, "Team advice combined successfully")
         return redirect(
-            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "final-advice"})
+            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "final-advice"}) + "?grouped-advice-view=" + request.GET.get("grouped-advice-view", "")
         )
 
 
@@ -152,7 +152,7 @@ class ClearFinalAdvice(TemplateView):
         messages.success(self.request, "Final advice cleared successfully")
 
         return redirect(
-            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "final-advice"})
+            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "final-advice"}) + "?grouped-advice-view=" + request.GET.get("grouped-advice-view", "")
         )
 
 

@@ -1,11 +1,9 @@
 {% if not request.GET|get:'grouped-advice-view' == 'True' %}
-	<!-- List advice -->
 	<div>
 		{% include 'case/slices/goods.html' with hide_controls=True show_advice=True level=level hide_checkboxes=current_advice_level|not_equals:level %}
 		{% include 'case/slices/destinations.html' with hide_controls=True show_advice=True level=level hide_checkboxes=current_advice_level|not_equals:level %}
 	</div>
 {% else %}
-	<!-- Grouped advice -->
 	<div>
 		{% for advice in case.advice|filter_advice_by_level:level|distinct_advice:case|values %}
 			<div class="app-grouped-advice app-grouped-advice--{{ advice.type.key }}">
@@ -62,8 +60,9 @@
 	</div>
 
 	<script type="text/javascript">
-		$(".app-grouped-advice__heading .lite-button-checkbox").click(function() {
+		$(".app-grouped-advice__heading .lite-button-checkbox").unbind('click').click(function() {
 			var $container = $(this).parent().parent();
+
 			if ($container.find('input:checkbox:checked').length == $container.find('input:checkbox').length) {
 				$container.find('input:checkbox').prop('checked', false).change();
 				$(this).removeClass( 'lite-button-checkbox--checked' );

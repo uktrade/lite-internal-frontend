@@ -570,6 +570,7 @@ def distinct_advice(advice_list, case):
 
     if no_advice_goods or no_advice_destinations:
         return_value["no_advice"] = {
+            "id": "no_advice",
             "type": {"key": "no_advice", "value": "No advice"},
             "goods": no_advice_goods,
             "destinations": no_advice_destinations,
