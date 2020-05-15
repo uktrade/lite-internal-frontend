@@ -53,7 +53,7 @@ class CaseDetail(CaseView):
             Slices.DESTINATIONS,
             conditional(self.case.data["inactive_parties"], Slices.DELETED_ENTITIES),
             Slices.LOCATIONS,
-            Slices.END_USE_DETAILS,
+            conditional(self.case.data["goodstype_category"]["key"] != "cryptographic", Slices.END_USE_DETAILS),
             Slices.ROUTE_OF_GOODS,
             Slices.SUPPORTING_DOCUMENTS,
         ]
@@ -77,6 +77,8 @@ class CaseDetail(CaseView):
             Slices.DESTINATIONS,
             conditional(self.case.data["inactive_parties"], Slices.DELETED_ENTITIES),
             Slices.LOCATIONS,
+            Slices.END_USE_DETAILS,
+            Slices.ROUTE_OF_GOODS,
             Slices.SUPPORTING_DOCUMENTS,
         ]
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
@@ -189,7 +191,7 @@ class ChangeStatus(SingleFormView):
         case = get_case(request, self.object_pk)
         self.case_type = case["case_type"]["type"]["key"]
         self.case_sub_type = case["case_type"]["sub_type"]["key"]
-        permissible_statuses = get_permissible_statuses(request, self.case_type)
+        permissible_statuses = get_permissible_statuses(request, case)
         self.data = case["application"] if "application" in case else case["query"]
         self.form = change_status_form(get_queue(request, kwargs["queue_pk"]), case, permissible_statuses)
         self.context = {"case": case}
