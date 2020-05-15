@@ -13,6 +13,7 @@ from django.template.defaultfilters import stringfilter, safe, capfirst
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
 
+from cases.helpers.advice import convert_advice_item_to_base64
 from conf import settings
 from conf.constants import ISO8601_FMT, DATE_FORMAT
 from conf.constants import SystemTeamsID, CaseType
@@ -510,20 +511,11 @@ def filter_advice_by_id(advice, id):
 def distinct_advice(advice_list, case):
     return_value = {}
 
-    for item in advice_list:
-        fields = [
-            item.get("denial_reasons"),
-            item.get("proviso"),
-            item["text"],
-            item["note"],
-            item["type"],
-            item["level"],
-        ]
-        item["token"] = b64encode(bytes(json.dumps(fields), "utf-8")).decode("utf-8")
-
-    for advice in advice_list:
+    for advice_item in advice_list:
         # Goods
-        good = advice.get("good", advice.get("goods_type"))
+        advice_item["token"] = convert_advice_item_to_base64(advice_item)
+
+        good = advice_item.get("good", advice_item.get("goods_type"))
         case_good = None
         for x in case.goods:
             if "good" in x:
@@ -535,26 +527,26 @@ def distinct_advice(advice_list, case):
 
         # Destinations
         destination_fields = [
-            advice.get("ultimate_end_user"),
-            advice.get("country"),
-            advice.get("third_party"),
-            advice.get("end_user"),
-            advice.get("consignee"),
+            advice_item.get("ultimate_end_user"),
+            advice_item.get("country"),
+            advice_item.get("third_party"),
+            advice_item.get("end_user"),
+            advice_item.get("consignee"),
         ]
         destination = next((destination for destination in destination_fields if destination), None)
         case_destination = next(
             (case_destination for case_destination in case.destinations if case_destination["id"] == destination), None
         )
 
-        if not advice["token"] in return_value:
-            advice["goods"] = []
-            advice["destinations"] = []
-            return_value[advice["token"]] = advice
+        if not advice_item["token"] in return_value:
+            advice_item["goods"] = []
+            advice_item["destinations"] = []
+            return_value[advice_item["token"]] = advice_item
 
         if case_good:
-            return_value[advice["token"]]["goods"].append(case_good)
+            return_value[advice_item["token"]]["goods"].append(case_good)
         if case_destination:
-            return_value[advice["token"]]["destinations"].append(case_destination)
+            return_value[advice_item["token"]]["destinations"].append(case_destination)
 
     # Add goods/destinations that have no advice
     no_advice_goods = []
