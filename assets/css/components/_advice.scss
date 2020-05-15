@@ -164,12 +164,6 @@
 			}
 		}
 
-		&:first-child {
-			display: block;
-			margin-top: 0!important;
-			background: red;
-		}
-
 		table {
 			.govuk-table__cell--checkbox {
 				display: none;
