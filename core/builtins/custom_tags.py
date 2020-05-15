@@ -61,10 +61,10 @@ def str_date(value):
     try:
         return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), "Europe/London")
         return (
-                return_value.strftime("%-I:%M")
-                + return_value.strftime("%p").lower()
-                + " "
-                + return_value.strftime("%d %B " "%Y")
+            return_value.strftime("%-I:%M")
+            + return_value.strftime("%p").lower()
+            + " "
+            + return_value.strftime("%d %B " "%Y")
         )
     except ValueError:
         return
@@ -132,7 +132,7 @@ def group_list(items, split):
     """
     Groups items in a list based on a specified size
     """
-    return [items[x: x + split] for x in range(0, len(items), split)]
+    return [items[x : x + split] for x in range(0, len(items), split)]
 
 
 @register.filter
@@ -511,8 +511,14 @@ def distinct_advice(advice_list, case):
     return_value = {}
 
     for item in advice_list:
-        fields = [item.get("denial_reasons"), item.get("proviso"), item["text"], item["note"], item["type"],
-                  item["level"]]
+        fields = [
+            item.get("denial_reasons"),
+            item.get("proviso"),
+            item["text"],
+            item["note"],
+            item["type"],
+            item["level"],
+        ]
         item["token"] = b64encode(bytes(json.dumps(fields), "utf-8")).decode("utf-8")
 
     for advice in advice_list:
@@ -528,13 +534,17 @@ def distinct_advice(advice_list, case):
                     case_good = x
 
         # Destinations
-        destination_fields = [advice.get("ultimate_end_user"),
-                              advice.get("country"),
-                              advice.get("third_party"),
-                              advice.get("end_user"),
-                              advice.get("consignee")]
+        destination_fields = [
+            advice.get("ultimate_end_user"),
+            advice.get("country"),
+            advice.get("third_party"),
+            advice.get("end_user"),
+            advice.get("consignee"),
+        ]
         destination = next((destination for destination in destination_fields if destination), None)
-        case_destination = next((case_destination for case_destination in case.destinations if case_destination["id"] == destination), None)
+        case_destination = next(
+            (case_destination for case_destination in case.destinations if case_destination["id"] == destination), None
+        )
 
         if not advice["token"] in return_value:
             advice["goods"] = []
@@ -558,7 +568,14 @@ def distinct_advice(advice_list, case):
         if not filter_advice_by_id(advice_list, destination["id"]):
             no_advice_destinations.append(destination)
 
-    return {**return_value, "no_advice": {"type": {"key": "no_advice", "value": "No advice"}, "goods": no_advice_goods, "destinations": no_advice_destinations}}
+    return {
+        **return_value,
+        "no_advice": {
+            "type": {"key": "no_advice", "value": "No advice"},
+            "goods": no_advice_goods,
+            "destinations": no_advice_destinations,
+        },
+    }
 
 
 @register.filter()
