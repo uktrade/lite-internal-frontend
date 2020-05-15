@@ -8,7 +8,9 @@
 		{% for advice in case.advice|filter_advice_by_level:level|distinct_advice:case|values %}
 			<div class="app-grouped-advice app-grouped-advice--{{ advice.type.key }}">
 				<h2 class="app-grouped-advice__heading">
-					<button id="button-select-all-{{ advice.id }}" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
+					{% if not current_advice_level|not_equals:level %}
+						<button id="button-select-all-{{ advice.id }}" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
+					{% endif %}
 					<label for="button-select-all-{{ advice.id }}">{{ advice.type.value }}</label>
 				</h2>
 

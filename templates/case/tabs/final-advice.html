@@ -1,6 +1,6 @@
 {% load static svg %}
 
-<form id="form-final-advice" action="{% url 'cases:final_advice_view' queue.id case.id %}" method="post">
+<form id="form-final-advice" action="{% url 'cases:final_advice_view' queue.id case.id %}{{ CURRENT_PATH_ONLY_PARAMS }}" method="post">
 	{% csrf_token %}
 </form>
 
