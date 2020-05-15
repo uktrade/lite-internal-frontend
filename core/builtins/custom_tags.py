@@ -508,6 +508,7 @@ def filter_advice_by_id(advice, id):
 @register.filter()
 def distinct_advice(advice_list, case):
     from cases.helpers.advice import convert_advice_item_to_base64, order_grouped_advice
+
     return_value = {}
 
     for advice_item in advice_list:
