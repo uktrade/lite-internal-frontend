@@ -123,18 +123,18 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
             conditional(
                 has_permission(request, Permission.MAINTAIN_FOOTNOTES) and tab != "final-advice",
                 RadioButtons(
-                    title="Is a footnote required?",
+                    title=advice.GiveOrChangeAdvicePage.FootNote.FOOTNOTE_REQUIRED,
                     name="footnote_required",
                     options=[
                         Option(
                             True,
-                            "Yes",
+                            advice.GiveOrChangeAdvicePage.FootNote.YES_OPTION,
                             components=[
-                                TextArea(name="footnote", title="footnote"),
+                                TextArea(name="footnote"),
                                 PicklistPicker(target="footnote", items=get_picklists_for_input(request, "footnotes")),
                             ],
                         ),
-                        Option(False, "No"),
+                        Option(False, advice.GiveOrChangeAdvicePage.FootNote.NO_OPTION),
                     ],
                 ),
             ),
