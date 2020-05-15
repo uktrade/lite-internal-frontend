@@ -36,10 +36,12 @@
 								<p>{% lcs 'advice.AdvicePage.TEXT' %}</p>
 								<p data-max-length="400">{{ advice.text|linebreaksbr }}</p>
 							</div>
-							<div class="app-grouped-advice__summary-list-item">
-								<p>{% lcs 'advice.AdvicePage.NOTE' %}</p>
-								<p data-max-length="400">{{ advice.note|linebreaksbr }}</p>
-							</div>
+							{% if advice.note %}
+								<div class="app-grouped-advice__summary-list-item">
+									<p>{% lcs 'advice.AdvicePage.NOTE' %}</p>
+									<p data-max-length="400">{{ advice.note|linebreaksbr }}</p>
+								</div>
+							{% endif %}
 						</div>
 					{% endif %}
 
