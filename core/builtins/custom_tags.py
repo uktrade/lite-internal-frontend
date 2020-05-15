@@ -4,7 +4,8 @@ import datetime
 import json
 import math
 import re
-from collections import Counter, OrderedDict
+from base64 import b64encode
+from collections import Counter, OrderedDict, defaultdict
 from html import escape
 
 from django import template
@@ -60,10 +61,10 @@ def str_date(value):
     try:
         return_value = do_timezone(datetime.datetime.strptime(value, ISO8601_FMT), "Europe/London")
         return (
-            return_value.strftime("%-I:%M")
-            + return_value.strftime("%p").lower()
-            + " "
-            + return_value.strftime("%d %B " "%Y")
+                return_value.strftime("%-I:%M")
+                + return_value.strftime("%p").lower()
+                + " "
+                + return_value.strftime("%d %B " "%Y")
         )
     except ValueError:
         return
@@ -131,7 +132,7 @@ def group_list(items, split):
     """
     Groups items in a list based on a specified size
     """
-    return [items[x : x + split] for x in range(0, len(items), split)]
+    return [items[x: x + split] for x in range(0, len(items), split)]
 
 
 @register.filter
@@ -503,6 +504,54 @@ def filter_advice_by_id(advice, id):
                 return_list.append(advice)
 
     return return_list
+
+
+@register.filter()
+def distinct_advice(advice, case):
+    return_value = {}
+
+    for item in advice:
+        fields = [item.get("denial_reasons"), item.get("proviso"), item["text"], item["note"], item["type"],
+                  item["level"]]
+        item["token"] = b64encode(bytes(json.dumps(fields), "utf-8")).decode("utf-8")
+
+    for advice in advice:
+        # Goods
+        good = advice.get("good", advice.get("goods_type"))
+        case_good = None
+        for x in case.goods:
+            if "good" in x:
+                if x["good"]["id"] == good:
+                    case_good = x
+            else:
+                if x["id"] == good:
+                    case_good = x
+
+        # Destinations
+        destination_fields = [advice.get("ultimate_end_user"),
+                              advice.get("country"),
+                              advice.get("third_party"),
+                              advice.get("end_user"),
+                              advice.get("consignee")]
+        destination = next((destination for destination in destination_fields if destination), None)
+        case_destination = next((case_destination for case_destination in case.destinations if case_destination["id"] == destination), None)
+
+        if not advice["token"] in return_value:
+            advice["goods"] = []
+            advice["destinations"] = []
+            return_value[advice["token"]] = advice
+
+        if case_good:
+            return_value[advice["token"]]["goods"].append(case_good)
+        if case_destination:
+            return_value[advice["token"]]["destinations"].append(case_destination)
+
+    return return_value
+
+
+@register.filter()
+def values(dictionary):
+    return dictionary.values()
 
 
 @register.filter()

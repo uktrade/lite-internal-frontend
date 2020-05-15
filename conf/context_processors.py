@@ -28,6 +28,7 @@ def export_vars(request):
         "ENVIRONMENT_VARIABLES": dict(os.environ.items()),
         "CURRENT_PATH": request.get_full_path(),
         "CURRENT_PATH_WITHOUT_PARAMS": request.get_full_path().split("?")[0].split("#")[0],
+        "CURRENT_PATH_ONLY_PARAMS": request.get_full_path().split("?")[1].split("#")[0],
     }
 
 
