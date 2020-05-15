@@ -18,7 +18,7 @@
 					List view
 				</a>
 			{% endif %}
-			<div class="lite-buttons-row {% if current_advice_level != 'final' %}app-advice__disabled-buttons{% endif %}">
+			<div class="lite-!-display-inline lite-buttons-row {% if current_advice_level != 'final' %}app-advice__disabled-buttons{% endif %}">
 				<div data-enable-on-checkboxes="#table-goods-final-advice, #table-destinations-final-advice" class="lite-buttons-row lite-!-display-inline">
 					<button id="button-give-final-advice" name="action" value="give-advice" type="submit" class="govuk-button" data-module="govuk-button">
 						{% lcs 'advice.FinalAdvicePage.GIVE_CHANGE_ADVICE_BUTTON' %}
