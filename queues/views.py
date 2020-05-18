@@ -194,8 +194,8 @@ class EnforcementXMLExport(TemplateView):
     def get(self, request, pk):
         data, status_code = get_enforcement_xml(request, pk)
 
-        if data.get("message"):
-            return error_page(request, data.get("message"))
+        if status_code == HTTPStatus.NO_CONTENT:
+            return error_page(request, CasesListPage.EnforcementXML.NO_CASES)
         elif status_code != HTTPStatus.OK:
             return error_page(request, CasesListPage.EnforcementXML.GENERIC_ERROR)
         else:
