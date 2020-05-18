@@ -25,10 +25,10 @@ class CaseListPage(BasePage):
     LINK_SHOW_FILTERS = "show-filters-link"  # ID
     LINK_HIDE_FILTERS = "hide-filters-link"  # ID
     FILTER_BAR = "lite-filter-bar"  # Class
-    USER_STATUS_DROPDOWN_ID = "filters.status"
-    STATUS_DROPDOWN = "filters.status"  # ID
-    CASE_TYPE_DROPDOWN = "filters.case_type"  # ID
-    INPUT_ASSIGNED_USER_ID = "filters.assigned_user"
+    USER_STATUS_DROPDOWN_ID = "status"
+    STATUS_DROPDOWN = "status"  # ID
+    CASE_TYPE_DROPDOWN = "case_type"  # ID
+    INPUT_ASSIGNED_USER_ID = "assigned_user"
     FILTER_SEARCH_BOX = "filter-box"  # ID
     SHOW_TEAM_ECJU = "Show-cases-with-open-enquiries-by-your-team"
     QUEUE_SEARCH_BOX = "filter-queues"
@@ -36,20 +36,20 @@ class CaseListPage(BasePage):
     LINK_CHANGE_QUEUE_ID = "link-queue"
 
     # Advanced filters
-    FINAL_ADVICE_TYPE = "filters.final_advice_type"
-    TEAM_ADVICE_TYPE = "filters.team_advice_type"
-    MAX_SLA_DAYS_REMAINING = "filters.max_sla_days_remaining"
-    MIN_SLA_DAYS_REMAINING = "filters.min_sla_days_remaining"
-    SUBMITTED_FROM_DAY = "filters.submitted_from_day"
-    SUBMITTED_FROM_MONTH = "filters.submitted_from_month"
-    SUBMITTED_FROM_YEAR = "filters.submitted_from_year"
-    SUBMITTED_TO_DAY = "filters.submitted_to_day"
-    SUBMITTED_TO_MONTH = "filters.submitted_to_month"
-    SUBMITTED_TO_YEAR = "filters.submitted_to_year"
-    PARTY_NAME = "filters.party_name"
-    PARTY_ADDRESS = "filters.party_address"
-    GOODS_RELATED_DESCRIPTION = "filters.goods_related_description"
-    CONTROL_LIST_ENTRY = "filters.control_list_entry"
+    FINAL_ADVICE_TYPE = "final_advice_type"
+    TEAM_ADVICE_TYPE = "team_advice_type"
+    MAX_SLA_DAYS_REMAINING = "max_sla_days_remaining"
+    MIN_SLA_DAYS_REMAINING = "min_sla_days_remaining"
+    SUBMITTED_FROM_DAY = "submitted_from_day"
+    SUBMITTED_FROM_MONTH = "submitted_from_month"
+    SUBMITTED_FROM_YEAR = "submitted_from_year"
+    SUBMITTED_TO_DAY = "submitted_to_day"
+    SUBMITTED_TO_MONTH = "submitted_to_month"
+    SUBMITTED_TO_YEAR = "submitted_to_year"
+    PARTY_NAME = "party_name"
+    PARTY_ADDRESS = "party_address"
+    GOODS_RELATED_DESCRIPTION = "goods_related_description"
+    CONTROL_LIST_ENTRY = "control_list_entry"
 
     ADVANCED_FILTERS = [
         FINAL_ADVICE_TYPE,

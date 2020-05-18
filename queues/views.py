@@ -36,10 +36,8 @@ class Cases(TemplateView):
         # Page parameters
         params = {"page": int(request.GET.get("page", 1))}
 
-        # Retrieve filters
         for key, value in request.GET.items():
-            if key.startswith("filters.") and value:
-                params[key] = value
+            params[key] = value
 
         if hidden:
             params["hidden"] = hidden
@@ -57,15 +55,15 @@ class Cases(TemplateView):
 
         filters = FiltersBar(
             [
-                Select(name="filters.case_type", title=CasesListPage.Filters.CASE_TYPE, options=case_types),
-                Select(name="filters.status", title=CasesListPage.Filters.CASE_STATUS, options=statuses),
+                Select(name="case_type", title=CasesListPage.Filters.CASE_TYPE, options=case_types),
+                Select(name="status", title=CasesListPage.Filters.CASE_STATUS, options=statuses),
                 AutocompleteInput(
-                    name="filters.case_officer",
+                    name="case_officer",
                     title=CasesListPage.Filters.CASE_OFFICER,
                     options=[Option("not_assigned", CasesListPage.Filters.NOT_ASSIGNED), *gov_users],
                 ),
                 AutocompleteInput(
-                    name="filters.assigned_user",
+                    name="assigned_user",
                     title=CasesListPage.Filters.ASSIGNED_USER,
                     options=[Option("not_assigned", CasesListPage.Filters.NOT_ASSIGNED), *gov_users],
                 ),
@@ -79,16 +77,16 @@ class Cases(TemplateView):
                 ),
             ],
             advanced_filters=[
-                Select(name="filters.final_advice_type", title="final advice type", options=advice_types),
-                Select(name="filters.team_advice_type", title="team advice type", options=advice_types),
-                Select(name="filters.max_sla_days_remaining", title="max SLA days remaining", options=sla_days),
-                Select(name="filters.min_sla_days_remaining", title="min SLA days remaining", options=sla_days),
-                DateInput(name="filters.submitted_from", title="submitted from", prefix="filters.submitted_from_"),
-                DateInput(name="filters.submitted_to", title="submitted to", prefix="filters.submitted_to_"),
-                TextInput(name="filters.party_name", title="party name"),
-                TextInput(name="filters.party_address", title="party address"),
-                TextInput(name="filters.goods_related_description", title="goods related description"),
-                AutocompleteInput(name="filters.control_list_entry", title="clc list entry", options=get_control_list_entries(request, convert_to_options=True)),
+                Select(name="final_advice_type", title="final advice type", options=advice_types),
+                Select(name="team_advice_type", title="team advice type", options=advice_types),
+                Select(name="max_sla_days_remaining", title="max SLA days remaining", options=sla_days),
+                Select(name="min_sla_days_remaining", title="min SLA days remaining", options=sla_days),
+                DateInput(name="submitted_from", title="submitted from", prefix="submitted_from_"),
+                DateInput(name="submitted_to", title="submitted to", prefix="submitted_to_"),
+                TextInput(name="party_name", title="party name"),
+                TextInput(name="party_address", title="party address"),
+                TextInput(name="goods_related_description", title="goods related description"),
+                AutocompleteInput(name="control_list_entry", title="clc list entry", options=get_control_list_entries(request, convert_to_options=True)),
             ]
         )
 
