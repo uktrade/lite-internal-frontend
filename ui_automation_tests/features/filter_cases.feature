@@ -12,8 +12,6 @@ Feature: I want to filter cases on a queue
     And case has been moved to new Queue
     And I create a clc query
     And I go to internal homepage
-    When case has been moved to new Queue
-    And I click on new queue in dropdown
     Then "2" cases are shown
     When I show filters
     Then the filters are shown
@@ -37,3 +35,16 @@ Feature: I want to filter cases on a queue
     When I show filters
     And I click filter to show cases with open team ecju queries
     Then "1" cases are shown
+
+  @LT_1269
+  Scenario: Advanced cases filter
+    Given I sign in to SSO or am signed into SSO
+    And a queue has been created
+    And I create open application or open application has been previously created
+    And case has been moved to new Queue
+    And I go to internal homepage
+    When case has been moved to new Queue
+    And I click on new queue in dropdown
+    And I show filters
+    And I click advanced filters
+    Then I can see all advanced filters

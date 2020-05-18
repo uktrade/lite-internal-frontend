@@ -53,3 +53,12 @@ def filter_status_change(driver, context, case_type):  # noqa
 def i_show_filters(driver, context):  # noqa
     CaseListPage(driver).click_checkbox_to_show_team_ecju_query()
     CaseListPage(driver).click_apply_filters_button()
+
+
+@when("I click advanced filters")
+def i_show_advanced_filters(driver, context):
+    CaseListPage(driver).click_clear_filters_button()
+
+@then("I can see all advanced filters")
+def i_can_see_all_advanced_filters(driver):
+    CaseListPage(driver).assert_all_advanced_filters_available()

@@ -59,16 +59,6 @@ class Cases(TemplateView):
             [
                 Select(name="filters.case_type", title=CasesListPage.Filters.CASE_TYPE, options=case_types),
                 Select(name="filters.status", title=CasesListPage.Filters.CASE_STATUS, options=statuses),
-                Select(name="filters.final_advice_type", title="final advice type", options=advice_types),
-                Select(name="filters.team_advice_type", title="team advice type", options=advice_types),
-                Select(name="filters.max_sla_days_remaining", title="max SLA days remaining", options=sla_days),
-                Select(name="filters.min_sla_days_remaining", title="min SLA days remaining", options=sla_days),
-                DateInput(name="filters.submitted_from", title="submitted from", prefix="submitted_from_"),
-                DateInput(name="filters.submitted_to", title="submitted to", prefix="submitted_to_"),
-                TextInput(name="filters.party_name", title="party name"),
-                TextInput(name="filters.party_address", title="party address"),
-                TextInput(name="filters.goods_related_description", title="goods related description"),
-                AutocompleteInput(name="filters.control_list_entry", title="clc list entry", options=get_control_list_entries(request, convert_to_options=True)),
                 AutocompleteInput(
                     name="filters.case_officer",
                     title=CasesListPage.Filters.CASE_OFFICER,
@@ -87,6 +77,18 @@ class Cases(TemplateView):
                         classes=["govuk-checkboxes--small"],
                     ),
                 ),
+            ],
+            advanced_filters=[
+                Select(name="filters.final_advice_type", title="final advice type", options=advice_types),
+                Select(name="filters.team_advice_type", title="team advice type", options=advice_types),
+                Select(name="filters.max_sla_days_remaining", title="max SLA days remaining", options=sla_days),
+                Select(name="filters.min_sla_days_remaining", title="min SLA days remaining", options=sla_days),
+                DateInput(name="filters.submitted_from", title="submitted from", prefix="filters.submitted_from_"),
+                DateInput(name="filters.submitted_to", title="submitted to", prefix="filters.submitted_to_"),
+                TextInput(name="filters.party_name", title="party name"),
+                TextInput(name="filters.party_address", title="party address"),
+                TextInput(name="filters.goods_related_description", title="goods related description"),
+                AutocompleteInput(name="filters.control_list_entry", title="clc list entry", options=get_control_list_entries(request, convert_to_options=True)),
             ]
         )
 
