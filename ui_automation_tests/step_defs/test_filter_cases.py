@@ -59,6 +59,7 @@ def i_show_filters(driver, context):  # noqa
 def i_show_advanced_filters(driver, context):
     CaseListPage(driver).click_clear_filters_button()
 
+
 @then("I can see all advanced filters")
 def i_can_see_all_advanced_filters(driver):
     CaseListPage(driver).assert_all_advanced_filters_available()

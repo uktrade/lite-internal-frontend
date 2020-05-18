@@ -7,8 +7,7 @@ from cases.helpers.helpers import get_updated_cases_banner_queue_id
 from conf.constants import ALL_CASES_QUEUE_ID
 from core.services import get_control_list_entries
 from lite_content.lite_internal_frontend.cases import CasesListPage
-from lite_forms.components import FiltersBar, Option, AutocompleteInput, Checkboxes, Select, DateInput, \
-    TextInput
+from lite_forms.components import FiltersBar, Option, AutocompleteInput, Checkboxes, Select, DateInput, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
@@ -86,8 +85,12 @@ class Cases(TemplateView):
                 TextInput(name="party_name", title="party name"),
                 TextInput(name="party_address", title="party address"),
                 TextInput(name="goods_related_description", title="goods related description"),
-                AutocompleteInput(name="control_list_entry", title="clc list entry", options=get_control_list_entries(request, convert_to_options=True)),
-            ]
+                AutocompleteInput(
+                    name="control_list_entry",
+                    title="clc list entry",
+                    options=get_control_list_entries(request, convert_to_options=True),
+                ),
+            ],
         )
 
         context = {

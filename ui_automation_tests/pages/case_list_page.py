@@ -65,7 +65,7 @@ class CaseListPage(BasePage):
         PARTY_NAME,
         PARTY_ADDRESS,
         GOODS_RELATED_DESCRIPTION,
-        CONTROL_LIST_ENTRY
+        CONTROL_LIST_ENTRY,
     ]
 
     # Notification for updated cases
