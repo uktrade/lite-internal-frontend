@@ -5,8 +5,10 @@ from django.views.generic import TemplateView
 from cases.forms.assign_users import assign_users_form
 from cases.helpers.helpers import get_updated_cases_banner_queue_id
 from conf.constants import ALL_CASES_QUEUE_ID
+from core.services import get_control_list_entries
 from lite_content.lite_internal_frontend.cases import CasesListPage
-from lite_forms.components import FiltersBar, Option, AutocompleteInput, Checkboxes, Select
+from lite_forms.components import FiltersBar, Option, AutocompleteInput, Checkboxes, Select, DateInput, \
+    TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
@@ -28,23 +30,17 @@ class Cases(TemplateView):
         """
         Show a list of cases pertaining to that queue.
         """
-        case_type = request.GET.get("case_type")
-        status = request.GET.get("status")
         queue_pk = kwargs.get("queue_pk") or request.user.default_queue
-        case_officer = request.GET.get("case_officer")
-        assigned_user = request.GET.get("assigned_user")
         hidden = request.GET.get("hidden")
 
         # Page parameters
         params = {"page": int(request.GET.get("page", 1))}
-        if status:
-            params["status"] = status
-        if case_type:
-            params["case_type"] = case_type
-        if case_officer:
-            params["case_officer"] = case_officer
-        if assigned_user:
-            params["assigned_user"] = assigned_user
+
+        # Retrieve filters
+        for key, value in request.GET.items():
+            if key.startswith("filters.") and value:
+                params[key] = value
+
         if hidden:
             params["hidden"] = hidden
 
@@ -56,18 +52,30 @@ class Cases(TemplateView):
         statuses = [Option(option["key"], option["value"]) for option in filters["statuses"]]
         case_types = [Option(option["key"], option["value"]) for option in filters["case_types"]]
         gov_users = [Option(option["id"], option["full_name"]) for option in filters["gov_users"]]
+        advice_types = [Option(option["key"], option["value"]) for option in filters["advice_types"]]
+        sla_days = [Option(i, i) for i in range(20)]
 
         filters = FiltersBar(
             [
-                Select(name="case_type", title=CasesListPage.Filters.CASE_TYPE, options=case_types),
-                Select(name="status", title=CasesListPage.Filters.CASE_STATUS, options=statuses),
+                Select(name="filters.case_type", title=CasesListPage.Filters.CASE_TYPE, options=case_types),
+                Select(name="filters.status", title=CasesListPage.Filters.CASE_STATUS, options=statuses),
+                Select(name="filters.final_advice_type", title="final advice type", options=advice_types),
+                Select(name="filters.team_advice_type", title="team advice type", options=advice_types),
+                Select(name="filters.max_sla_days_remaining", title="max SLA days remaining", options=sla_days),
+                Select(name="filters.min_sla_days_remaining", title="min SLA days remaining", options=sla_days),
+                DateInput(name="filters.submitted_from", title="submitted from", prefix="submitted_from_"),
+                DateInput(name="filters.submitted_to", title="submitted to", prefix="submitted_to_"),
+                TextInput(name="filters.party_name", title="party name"),
+                TextInput(name="filters.party_address", title="party address"),
+                TextInput(name="filters.goods_related_description", title="goods related description"),
+                AutocompleteInput(name="filters.control_list_entry", title="clc list entry", options=get_control_list_entries(request, convert_to_options=True)),
                 AutocompleteInput(
-                    name="case_officer",
+                    name="filters.case_officer",
                     title=CasesListPage.Filters.CASE_OFFICER,
                     options=[Option("not_assigned", CasesListPage.Filters.NOT_ASSIGNED), *gov_users],
                 ),
                 AutocompleteInput(
-                    name="assigned_user",
+                    name="filters.assigned_user",
                     title=CasesListPage.Filters.ASSIGNED_USER,
                     options=[Option("not_assigned", CasesListPage.Filters.NOT_ASSIGNED), *gov_users],
                 ),
