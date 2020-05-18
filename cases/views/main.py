@@ -55,6 +55,7 @@ class CaseDetail(CaseView):
             Slices.LOCATIONS,
             conditional(self.case.data["goodstype_category"]["key"] != "cryptographic", *[Slices.END_USE_DETAILS, Slices.ROUTE_OF_GOODS]),
             Slices.SUPPORTING_DOCUMENTS,
+            conditional(self.case.data["export_type"]["key"] == "temporary", Slices.TEMPORARY_EXPORT_DETAILS)
         ]
 
         self.additional_context = {
