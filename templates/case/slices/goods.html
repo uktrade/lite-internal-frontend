@@ -99,7 +99,7 @@
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
 								{% if good.good.report_summary %}
 									<span data-definition-title="Report summary" data-definition-text="{{ good.good.report_summary }}">
-										View
+										{% lcs 'generic.VIEW' %}
 									</span>
 								{% else %}
 									{{ None|default_na }}
@@ -164,7 +164,13 @@
 						</td>
 						{% if not hide_status %}
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
-								<span>{{ good.good.report_summary|default_na }}</span>
+								{% if good.good.report_summary %}
+									<span data-definition-title="Report summary" data-definition-text="{{ good.good.report_summary }}">
+										{% lcs 'generic.VIEW' %}
+									</span>
+								{% else %}
+									{{ None|default_na }}
+								{% endif %}
 							</td>
 						{% endif %}
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
