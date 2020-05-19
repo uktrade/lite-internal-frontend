@@ -1,6 +1,7 @@
-from core.services import get_control_list_entries
+from core.services import get_control_list_entries, get_countries
 from lite_content.lite_internal_frontend import generic
-from lite_forms.components import Form, TreeView, FormGroup, TextArea, RadioButtons, Option, TextInput
+from lite_forms.components import Form, TreeView, FormGroup, TextArea, RadioButtons, Option, TextInput, Checkboxes, \
+    Filter
 from lite_forms.helpers import convert_list_to_tree
 from open_general_licences.enums import OpenGeneralExportLicences
 
@@ -10,6 +11,7 @@ def new_open_general_licence_forms(request):
     control_list_entries_tree = convert_list_to_tree(
         control_list_entries, key="id", value="rating", exclude="is_decontrolled"
     )
+    countries = get_countries(request, True)
     licence = OpenGeneralExportLicences.get_by_type(request.POST.get("type", "open_general_export_licence"))
 
     return FormGroup(
@@ -64,14 +66,16 @@ def new_open_general_licence_forms(request):
             Form(
                 title="Select control list entries",
                 caption="Step 3 of 4",
-                questions=[TreeView(data=control_list_entries_tree)],
+                questions=[TreeView(name="control_list_entries[]",
+                                    data=control_list_entries_tree)],
                 default_button_name=generic.CONTINUE,
             ),
             Form(
                 title="Select countries",
                 caption="Step 4 of 4",
-                questions=[TextArea(name="name")],
+                questions=[Filter(), Checkboxes(name="countries[]", options=countries, classes=["govuk-checkboxes--small"])],
                 default_button_name=generic.CONTINUE,
+                javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
             ),
         ]
     )

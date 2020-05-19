@@ -1,6 +1,6 @@
 var html = `
 	<div id="name-pane" class="govuk-inset-text">
-		<p class="govuk-hint govuk-!-margin-bottom-1">This licence will appear as:</p>
+		<p class="govuk-hint govuk-!-margin-bottom-1">The licence will appear as:</p>
 		<p class="govuk-body-l"></p>
 	</div>
 `
