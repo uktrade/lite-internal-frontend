@@ -57,7 +57,7 @@ def lite_menu(request):
             {
                 "title": "Open general licences",
                 "url": reverse_lazy("open_general_licences:open_general_licences"),
-                "icon": "menu/open_general_licences",
+                "icon": "menu/open-general-licences",
             },
             conditional(
                 Permission.CONFIGURE_TEMPLATES.value in permissions,
