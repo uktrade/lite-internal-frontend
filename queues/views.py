@@ -55,6 +55,7 @@ class Cases(TemplateView):
         sla_days = [Option(i, i) for i in range(20)]
         filters = FiltersBar(
             [
+                TextInput(name="case_reference", title="case reference"),
                 Select(name="case_type", title=CasesListPage.Filters.CASE_TYPE, options=case_types),
                 Select(name="status", title=CasesListPage.Filters.CASE_STATUS, options=statuses),
                 AutocompleteInput(
@@ -77,25 +78,33 @@ class Cases(TemplateView):
                 ),
             ],
             advanced_filters=[
+                TextInput(name="exporter_application_reference", title="exporter application reference"),
+                TextInput(name="exporter_site_name", title="exporter site name"),
+                TextInput(name="exporter_site_address", title="exporter site address"),
                 Select(name="final_advice_type", title="final advice type", options=advice_types),
                 Select(name="team_advice_type", title="team advice type", options=advice_types),
                 Select(name="max_sla_days_remaining", title="max SLA days remaining", options=sla_days),
                 Select(name="min_sla_days_remaining", title="min SLA days remaining", options=sla_days),
-                DateInput(name="submitted_from", title="submitted from", prefix="submitted_from_"),
-                DateInput(name="submitted_to", title="submitted to", prefix="submitted_to_"),
+                DateInput(name="submitted_from", title="submitted from", prefix="submitted_from_", inline_title=True),
+                DateInput(name="submitted_to", title="submitted to", prefix="submitted_to_", inline_title=True),
                 TextInput(name="party_name", title="party name"),
                 TextInput(name="party_address", title="party address"),
                 TextInput(name="goods_related_description", title="goods related description"),
                 AutocompleteInput(name="country", title="country", options=get_countries(request, convert_to_options=True)),
                 AutocompleteInput(
                     name="control_list_entry",
-                    title="clc list entry",
+                    title="control list entry",
                     options=get_control_list_entries(request, convert_to_options=True),
                 ),
                 TokenBar(name="flags", title="flags", input_type="token-bar", options=[
                     Option(flag["id"], flag["name"])
                     for flag in get_flags(request, disable_pagination=True)
-                ])
+                ]),
+                Checkboxes(
+                    name="sort_by_sla_remaining",
+                    options=[Option("true", "Sort by SLA remaining")],
+                    classes=["govuk-checkboxes--small"],
+                )
             ],
         )
 
