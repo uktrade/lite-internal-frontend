@@ -38,6 +38,7 @@ class DetailView(TemplateView):
                     "control_list_entries": [{"rating": "ML1a", "text": "Stuff"}],
                     "countries": [{"id": "US", "name": "United States"}, {"id": "GB", "name": "United Kingdom"}],
                     "link": "https://www.gov.uk/government/publications/open-general-export-licence-military-goods--7",
+                    "status": {"value": "Deactivated"}
                 }
         }
         return render(request, "open-general-licences/open-general-licence.html", context)
