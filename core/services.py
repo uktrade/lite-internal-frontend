@@ -124,7 +124,7 @@ def get_user_permissions(request, with_team=False):
 
 
 # Control List Entries
-def get_control_list_entries(request, convert_to_options=False):
+def get_control_list_entries(request, convert_to_options=False, hide_decontrolled=False):
     if convert_to_options:
         data = get(request, CONTROL_LIST_ENTRIES_URL + "?flatten=True")
 
@@ -141,7 +141,7 @@ def get_control_list_entries(request, convert_to_options=False):
 
         return converted_units
 
-    data = get(request, CONTROL_LIST_ENTRIES_URL)
+    data = get(request, CONTROL_LIST_ENTRIES_URL + "?hide_decontrolled=" + str(hide_decontrolled))
     return data.json()["control_list_entries"]
 
 
