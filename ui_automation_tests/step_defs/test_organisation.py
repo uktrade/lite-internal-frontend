@@ -41,7 +41,7 @@ def verify_edited_organisation(driver, context):
 
 @then(parsers.parse('the "{audit_type}" organisation appears in the audit trail'))
 def verify_organisation_audit(driver, context, audit_type):
-    body = OrganisationsPage(driver).get_audit_trail_text()
+    body = Shared(driver).get_audit_trail_text()
     if audit_type == "updated":
         assert context.old_organisation_name in body
     assert context.organisation_name in body
@@ -50,7 +50,7 @@ def verify_organisation_audit(driver, context, audit_type):
 
 @then(parsers.parse('the "{audit_type}" flag appears in the audit trail'))
 def verify_organisation_flag_audit(driver, context, audit_type):
-    body = OrganisationsPage(driver).get_audit_trail_text()
+    body = Shared(driver).get_audit_trail_text()
     assert context.flag_name in body
     assert audit_type in body
 

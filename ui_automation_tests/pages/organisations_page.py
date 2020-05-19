@@ -30,6 +30,3 @@ class OrganisationsPage(BasePage):
 
     def go_to_active_tab(self):
         self.driver.find_element_by_id(self.ACTIVE_TAB_ID).click()
-
-    def get_audit_trail_text(self):
-        return self.driver.find_element_by_id(self.AUDIT_TRAIL_ID).text
