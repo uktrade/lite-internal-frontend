@@ -122,7 +122,16 @@ def _get_hawk_sender(url, method, content_type, content):
         method,
         content_type=content_type,
         content=content,
+        seen_nonce=_seen_nonce,
     )
+
+
+def _seen_nonce(access_key_id, nonce, _):
+    """
+    We don't check the nonce in the response from the server as this is not understood not to be a likely
+    attack vector
+    """
+    return False
 
 
 def _verify_api_response(response, sender):
