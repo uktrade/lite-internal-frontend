@@ -1,0 +1,70 @@
+{% extends 'layouts/base.html' %}
+
+{% load humanize %}
+
+{% block body %}
+	<div class="lite-app-bar">
+		<div class="lite-app-bar__content">
+			<h1 class="govuk-heading-l">
+				{% block title %}
+					{{ open_general_licence.type.value }} ({{ open_general_licence.name }})
+				{% endblock %}
+			</h1>
+		</div>
+	</div>
+
+	<dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-width-two-thirds">
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Name
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ open_general_licence.type.value }} ({{ open_general_licence.name }})
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Description
+			</dt>
+			<dd class="govuk-summary-list__value">
+				<span data-max-length="1000">{{ open_general_licence.description }}</span>
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Link
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ open_general_licence.link|linkify }}
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Control list entr{{ open_general_licence.control_list_entries|pluralize:'y,ies' }}
+			</dt>
+			<dd class="govuk-summary-list__value">
+				<ul class="govuk-list govuk-list--number">
+					{% for control_list_entry in open_general_licence.control_list_entries %}
+						<li>
+							<span data-definition-title="{{ control_list_entry.rating }}" data-definition-text="{{ control_list_entry.text }}">
+								{{ control_list_entry.rating }}
+							</span>
+						</li>
+					{% endfor %}
+				</ul>
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Countr{{ open_general_licence.countries|pluralize:'y,ies' }}
+			</dt>
+			<dd class="govuk-summary-list__value">
+				<ul class="govuk-list govuk-list--number">
+					{% for country in open_general_licence.countries %}
+				  		<li>{{ country.name }}</li>
+					{% endfor %}
+				</ul>
+			</dd>
+		</div>
+	</dl>
+{% endblock %}

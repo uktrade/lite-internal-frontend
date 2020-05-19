@@ -21,6 +21,7 @@ def new_open_general_licence_forms(request):
                 caption="Step 1 of 4",
                 questions=[
                     RadioButtons(
+                        short_title="Type",
                         name="type",
                         options=OpenGeneralExportLicences.as_options(),
                     ),
@@ -33,6 +34,7 @@ def new_open_general_licence_forms(request):
                 questions=[
                     TextArea(
                         title=f"What's the name of the {licence.name.lower()} you want to add?",
+                        short_title="Name",
                         description="Use the name from GOV.UK. For example, 'Military goods, software and technology: government or NATO end use'",
                         name="name",
                         rows=3,
@@ -41,6 +43,7 @@ def new_open_general_licence_forms(request):
                     ),
                     TextInput(
                         title=f"Link to the {licence.name.lower()}",
+                        short_title="Link",
                         description="Only link to GOV.UK pages. For example, 'https://www.gov.uk/government/publications/open-general-export-licence-military-goods-government-or-nato-end-use--6'",
                         name="url",
                         classes=["govuk-!-width-three-quarters"],
@@ -54,6 +57,7 @@ def new_open_general_licence_forms(request):
                     ),
                     RadioButtons(
                         title=f"Does this {licence.name.lower()} require registration?",
+                        short_title="Requires registration",
                         description=f"Select 'Yes' if an exporter has to register the {licence.name.lower()} to use it",
                         name="name",
                         options=[Option(True, "Yes"), Option(False, "No"),],
@@ -67,13 +71,15 @@ def new_open_general_licence_forms(request):
                 title="Select control list entries",
                 caption="Step 3 of 4",
                 questions=[TreeView(name="control_list_entries[]",
+                                    title="",
+                                    short_title="Control list entries",
                                     data=control_list_entries_tree)],
                 default_button_name=generic.CONTINUE,
             ),
             Form(
                 title="Select countries",
                 caption="Step 4 of 4",
-                questions=[Filter(), Checkboxes(name="countries[]", options=countries, classes=["govuk-checkboxes--small"])],
+                questions=[Filter(), Checkboxes(name="countries[]", short_title="Countries", options=countries, classes=["govuk-checkboxes--small"])],
                 default_button_name=generic.CONTINUE,
                 javascript_imports=["/assets/javascripts/filter-checkbox-list.js"],
             ),
