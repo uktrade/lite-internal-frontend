@@ -7,7 +7,7 @@ from lite_forms.components import Option
 from users.services import get_gov_user
 
 
-def get_flags(request, page=1, name=None, level=None, priority=None, only_show_deactivated=False, team=None):
+def get_flags(request, page=1, name=None, level=None, priority=None, status=None, team=None, disable_pagination=False):
     data = get(request, FLAGS_URL + convert_parameters_to_query_params(locals()))
     return data.json()
 

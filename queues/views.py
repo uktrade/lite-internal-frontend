@@ -5,9 +5,11 @@ from django.views.generic import TemplateView
 from cases.forms.assign_users import assign_users_form
 from cases.helpers.helpers import get_updated_cases_banner_queue_id
 from conf.constants import ALL_CASES_QUEUE_ID
-from core.services import get_control_list_entries
+from core.services import get_control_list_entries, get_countries
+from flags.services import get_flags
 from lite_content.lite_internal_frontend.cases import CasesListPage
-from lite_forms.components import FiltersBar, Option, AutocompleteInput, Checkboxes, Select, DateInput, TextInput
+from lite_forms.components import FiltersBar, Option, AutocompleteInput, Checkboxes, Select, DateInput, TextInput, \
+    TokenBar
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
@@ -51,7 +53,6 @@ class Cases(TemplateView):
         gov_users = [Option(option["id"], option["full_name"]) for option in filters["gov_users"]]
         advice_types = [Option(option["key"], option["value"]) for option in filters["advice_types"]]
         sla_days = [Option(i, i) for i in range(20)]
-
         filters = FiltersBar(
             [
                 Select(name="case_type", title=CasesListPage.Filters.CASE_TYPE, options=case_types),
@@ -85,11 +86,16 @@ class Cases(TemplateView):
                 TextInput(name="party_name", title="party name"),
                 TextInput(name="party_address", title="party address"),
                 TextInput(name="goods_related_description", title="goods related description"),
+                AutocompleteInput(name="country", title="country", options=get_countries(request, convert_to_options=True)),
                 AutocompleteInput(
                     name="control_list_entry",
                     title="clc list entry",
                     options=get_control_list_entries(request, convert_to_options=True),
                 ),
+                TokenBar(name="flags", title="flags", input_type="token-bar", options=[
+                    Option(flag["id"], flag["name"])
+                    for flag in get_flags(request, disable_pagination=True)
+                ])
             ],
         )
 
