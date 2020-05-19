@@ -53,9 +53,13 @@ class CaseDetail(CaseView):
             Slices.DESTINATIONS,
             conditional(self.case.data["inactive_parties"], Slices.DELETED_ENTITIES),
             Slices.LOCATIONS,
-            conditional(self.case.data["goodstype_category"]["key"] != "cryptographic", Slices.END_USE_DETAILS),
-            Slices.ROUTE_OF_GOODS,
+            *conditional(
+                self.case.data["goodstype_category"]["key"] != "cryptographic",
+                [Slices.END_USE_DETAILS, Slices.ROUTE_OF_GOODS],
+                [],
+            ),
             Slices.SUPPORTING_DOCUMENTS,
+            conditional(self.case.data["export_type"]["key"] == "temporary", Slices.TEMPORARY_EXPORT_DETAILS),
         ]
 
         self.additional_context = {
@@ -85,7 +89,7 @@ class CaseDetail(CaseView):
 
     def get_hmrc_application(self):
         self.slices = [
-            Slices.HMRC_NOTE,
+            conditional(self.case.data["reasoning"], Slices.HMRC_NOTE),
             Slices.GOODS,
             Slices.DESTINATIONS,
             Slices.LOCATIONS,

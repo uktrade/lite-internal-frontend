@@ -52,6 +52,7 @@ class Slices:
     GOODS_QUERY_RESPONSE = Slice("goods-query-response")
     HMRC_NOTE = Slice("hmrc-note", "HMRC note")
     END_USER_ADVISORY = Slice("end-user-advisory", "End user details")
+    TEMPORARY_EXPORT_DETAILS = Slice("temporary-export-details", "Temporary export details")
 
 
 def get_timeline_filters(request, case_id):
@@ -113,11 +114,11 @@ class CaseView(TemplateView):
         return {
             "tabs": [
                 Tabs.DETAILS,
-                *self.tabs,
                 Tabs.ADDITIONAL_CONTACTS,
                 Tabs.ECJU_QUERIES,
                 Tabs.DOCUMENTS,
                 activity_tab,
+                *self.tabs,
             ],
             "current_tab": self.kwargs["tab"],
             "slices": [Slices.SUMMARY, *self.slices],

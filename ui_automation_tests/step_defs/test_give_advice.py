@@ -2,7 +2,7 @@ from datetime import date
 
 from pytest_bdd import when, then, parsers, scenarios, given
 
-from pages.advice import UserAdvicePage, FinalAdvicePage, TeamAdvicePage
+from pages.advice import UserAdvicePage, FinalAdvicePage, TeamAdvicePage, BaseAdvicePage
 from pages.case_page import CasePage, CaseTabs
 from pages.give_advice_pages import GiveAdvicePages
 from pages.record_decision_page import RecordDecision
@@ -56,6 +56,19 @@ def choose_advice_option(driver, option, context):
 def write_note_text_field(driver, text, context):
     GiveAdvicePages(driver).type_in_additional_note_text_field(text)
     context.advice_data.append(text)
+
+
+@when(parsers.parse("I select that a footnote is required with the note '{text}'"))
+def write_note_text_field(driver, text, context):
+    give_advice_page = GiveAdvicePages(driver)
+    give_advice_page.select_footnote_required()
+    give_advice_page.enter_footnote(text)
+    context.advice_data.append(text)
+
+
+@when(parsers.parse("I select that a footnote is not required"))
+def write_note_text_field(driver, text, context):
+    GiveAdvicePages(driver).select_footnote_not_required()
 
 
 @then("I see the fields pre-populated with the proviso and advice picklist items")
@@ -163,3 +176,18 @@ def dont_see_clearance_level(driver):
 @when(parsers.parse('I select "{clearance_level}" clearance level'))
 def select_clearance_level(driver, clearance_level):
     GiveAdvicePages(driver).select_clearance_grading(clearance_level)
+
+
+@when("I go to grouped view")
+def go_to_grouped_view(driver):
+    BaseAdvicePage(driver).click_grouped_view_button()
+
+
+@when(parsers.parse('I select all items in the "{group}" grouped view'))
+def select_all_items_in_group(driver, group):
+    UserAdvicePage(driver).click_grouped_view_checkboxes(group)
+
+
+@when("I click give advice")
+def click_give_advice(driver):
+    UserAdvicePage(driver).click_give_advice()
