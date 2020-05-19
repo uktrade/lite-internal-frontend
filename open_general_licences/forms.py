@@ -1,43 +1,77 @@
-from lite_forms.components import Form, TreeView, FormGroup, TextArea, RadioButtons, Option
+from core.services import get_control_list_entries
+from lite_content.lite_internal_frontend import generic
+from lite_forms.components import Form, TreeView, FormGroup, TextArea, RadioButtons, Option, TextInput
+from lite_forms.helpers import convert_list_to_tree
+from open_general_licences.enums import OpenGeneralExportLicences
 
 
-def test_form(control_list_entries):
-    return Form(
-        title="Select control list entries", questions=[TreeView(data=control_list_entries)]
+def new_open_general_licence_forms(request):
+    control_list_entries = get_control_list_entries(request, hide_decontrolled=True)
+    control_list_entries_tree = convert_list_to_tree(
+        control_list_entries, key="id", value="rating", exclude="is_decontrolled"
     )
+    licence = OpenGeneralExportLicences.get_by_type(request.POST.get("type", "open_general_export_licence"))
 
-
-def new_open_general_licence_forms(control_list_entries):
-    return FormGroup([
-        Form(title="Select the type of open general licence you want to add",
-             questions=[
-                RadioButtons(name="type",
-                             options=[
-                                 Option("open_general_export_licence", "Open general export licence (OGEL)"),
-                                 Option("open_general_trade_control_licence", "Open general trade control licence (OGTCL)"),
-                                 Option("open_general_transhipment_licence", "Open general transhipment licence (OGTL)")
-                             ])
-             ]),
-        Form(title="Name the OGL",
-             questions=[
-                TextArea(name="name")
-             ]),
-        Form(title="Select countries",
-             questions=[
-                TextArea(name="name")
-             ]),
-        test_form(control_list_entries),
-        Form(title="Website",
-             questions=[
-                TextArea(name="name")
-             ]),
-        Form(title="Describe the OGL",
-             questions=[
-                TextArea(name="name")
-             ]),
-        Form(title="Does the OGL require registration",
-             questions=[
-                TextArea(name="name")
-             ]),
-    ])
-
+    return FormGroup(
+        [
+            Form(
+                title="Select the type of open general licence you want to add",
+                caption="Step 1 of 4",
+                questions=[
+                    RadioButtons(
+                        name="type",
+                        options=OpenGeneralExportLicences.as_options(),
+                    ),
+                ],
+                default_button_name=generic.CONTINUE,
+            ),
+            Form(
+                title="Add an open general licence",
+                caption="Step 2 of 4",
+                questions=[
+                    TextArea(
+                        title=f"What's the name of the {licence.name.lower()} you want to add?",
+                        description="Use the name from GOV.UK. For example, 'Military goods, software and technology: government or NATO end use'",
+                        name="name",
+                        rows=3,
+                        classes=["govuk-!-width-three-quarters"],
+                        data_attributes={"licence-name": licence.name}
+                    ),
+                    TextInput(
+                        title=f"Link to the {licence.name.lower()}",
+                        description="Only link to GOV.UK pages. For example, 'https://www.gov.uk/government/publications/open-general-export-licence-military-goods-government-or-nato-end-use--6'",
+                        name="url",
+                        classes=["govuk-!-width-three-quarters"],
+                    ),
+                    TextArea(
+                        title="Description",
+                        description="Use the description provided by GOV.UK (if possible)",
+                        name="description",
+                        classes=["govuk-!-width-three-quarters"],
+                        extras={"max_length": 2000},
+                    ),
+                    RadioButtons(
+                        title=f"Does this {licence.name.lower()} require registration?",
+                        description=f"Select 'Yes' if an exporter has to register the {licence.name.lower()} to use it",
+                        name="name",
+                        options=[Option(True, "Yes"), Option(False, "No"),],
+                        classes=["govuk-radios--inline"],
+                    ),
+                ],
+                javascript_imports=["/assets/javascripts/new-open-general-licence.js"],
+                default_button_name=generic.CONTINUE,
+            ),
+            Form(
+                title="Select control list entries",
+                caption="Step 3 of 4",
+                questions=[TreeView(data=control_list_entries_tree)],
+                default_button_name=generic.CONTINUE,
+            ),
+            Form(
+                title="Select countries",
+                caption="Step 4 of 4",
+                questions=[TextArea(name="name")],
+                default_button_name=generic.CONTINUE,
+            ),
+        ]
+    )

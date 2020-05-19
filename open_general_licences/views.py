@@ -3,8 +3,8 @@ from django.views.generic import TemplateView
 
 from core.services import get_control_list_entries
 from lite_forms.helpers import convert_list_to_tree
-from lite_forms.views import SingleFormView, SummaryListFormView
-from open_general_licences.forms import test_form, new_open_general_licence_forms
+from lite_forms.views import SummaryListFormView
+from open_general_licences.forms import new_open_general_licence_forms
 
 
 class ListView(TemplateView):
@@ -37,10 +37,7 @@ def action(_, json):
 
 class CreateView(SummaryListFormView):
     def init(self, request, **kwargs):
-        control_list_entries = get_control_list_entries(request, hide_decontrolled=True)
-        control_list_entries_tree = convert_list_to_tree(control_list_entries, key="id", value="rating", exclude="is_decontrolled")
-
-        self.forms = new_open_general_licence_forms(control_list_entries_tree)
+        self.forms = new_open_general_licence_forms(request)
         self.action = action
 
 
