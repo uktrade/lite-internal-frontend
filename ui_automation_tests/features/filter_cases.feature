@@ -12,6 +12,8 @@ Feature: I want to filter cases on a queue
     And case has been moved to new Queue
     And I create a clc query
     And I go to internal homepage
+    When case has been moved to new Queue
+    And I click on new queue in dropdown
     Then "2" cases are shown
     When I show filters
     Then the filters are shown

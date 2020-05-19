@@ -52,7 +52,7 @@ class Cases(TemplateView):
         case_types = [Option(option["key"], option["value"]) for option in filters["case_types"]]
         gov_users = [Option(option["id"], option["full_name"]) for option in filters["gov_users"]]
         advice_types = [Option(option["key"], option["value"]) for option in filters["advice_types"]]
-        sla_days = [Option(i, i) for i in range(20)]
+        sla_days = [Option(i, i) for i in range(99)]
         filters = FiltersBar(
             [
                 TextInput(name="case_reference", title="case reference"),
@@ -85,6 +85,7 @@ class Cases(TemplateView):
                 Select(name="team_advice_type", title="team advice type", options=advice_types),
                 Select(name="max_sla_days_remaining", title="max SLA days remaining", options=sla_days),
                 Select(name="min_sla_days_remaining", title="min SLA days remaining", options=sla_days),
+                Select(name="sla_days_elapsed", title="SLA days elapsed", options=sla_days),
                 DateInput(name="submitted_from", title="submitted from", prefix="submitted_from_", inline_title=True),
                 DateInput(name="submitted_to", title="submitted to", prefix="submitted_to_", inline_title=True),
                 TextInput(name="party_name", title="party name"),
