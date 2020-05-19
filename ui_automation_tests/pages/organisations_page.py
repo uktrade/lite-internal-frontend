@@ -9,6 +9,7 @@ class OrganisationsPage(BasePage):
     INPUT_SEARCH_TERM_ID = "search_term"
     IN_REVIEW_TAB_ID = "in_review"
     ACTIVE_TAB_ID = "active"
+    AUDIT_TRAIL_ID = "audit-trail"
 
     def click_new_organisation_button(self):
         self.driver.find_element_by_id(self.BUTTON_REGISTER_ORGANISATION_ID).click()
@@ -29,3 +30,6 @@ class OrganisationsPage(BasePage):
 
     def go_to_active_tab(self):
         self.driver.find_element_by_id(self.ACTIVE_TAB_ID).click()
+
+    def get_audit_trail_text(self):
+        return self.driver.find_element_by_id(self.AUDIT_TRAIL_ID).text
