@@ -34,7 +34,7 @@ Feature: I want to add a company to LITE
     When I click the organisation
     Then the "created" organisation appears in the audit trail
 
-  @LT_1086_adding_a_flag_to_an_organisation @regression @rory
+  @LT_1086_adding_a_flag_to_an_organisation @regression
   Scenario: Adding a flag to an organisation
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
