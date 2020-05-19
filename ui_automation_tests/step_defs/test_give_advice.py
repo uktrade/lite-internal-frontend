@@ -191,8 +191,3 @@ def select_all_items_in_group(driver, group):
 @when("I click give advice")
 def click_give_advice(driver):
     UserAdvicePage(driver).click_give_advice()
-
-
-@given("all flags are removed")
-def remove_all_flags(context, api_test_client):
-    api_test_client.flags.assign_case_flags(context.case_id, [])
