@@ -81,5 +81,4 @@ def get_enforcement_xml(request, queue_pk):
         response["Content-Disposition"] = 'attachment; filename="enforcement_check.xml"'
         return response, data.status_code
     else:
-        # Return errors
-        return data.json(), data.status_code
+        return None, data.status_code
