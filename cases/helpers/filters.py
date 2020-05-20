@@ -53,6 +53,8 @@ def case_filters_bar(request, case_data) -> FiltersBar:
             Select(name="sla_days_elapsed", title="SLA days elapsed", options=sla_days),
             DateInput(name="submitted_from", title="submitted from", prefix="submitted_from_", inline_title=True),
             DateInput(name="submitted_to", title="submitted to", prefix="submitted_to_", inline_title=True),
+            DateInput(name="finalised_from", title="finalised from", prefix="finalised_from_", inline_title=True),
+            DateInput(name="finalised_to", title="finalised to", prefix="finalised_to_", inline_title=True),
             TextInput(name="party_name", title="party name"),
             TextInput(name="party_address", title="party address"),
             TextInput(name="goods_related_description", title="goods related description"),
