@@ -15,7 +15,8 @@ from open_general_licences.forms import open_general_licence_forms
 from open_general_licences.services import (
     get_open_general_licences,
     post_open_general_licences,
-    get_open_general_licence, patch_open_general_licence,
+    get_open_general_licence,
+    patch_open_general_licence,
 )
 
 
@@ -86,7 +87,9 @@ class UpdateView(SingleFormView):
         form = copy.deepcopy(form)
         form.caption = self.object["case_type"]["reference"]["value"] + " (" + self.object["name"] + ")"
         form.buttons[0].value = generic.SAVE_AND_RETURN
-        form.back_link = BackLink(url=reverse("open_general_licences:open_general_licence", kwargs={"pk": self.kwargs["pk"]}))
+        form.back_link = BackLink(
+            url=reverse("open_general_licences:open_general_licence", kwargs={"pk": self.kwargs["pk"]})
+        )
         return form
 
 
@@ -99,7 +102,11 @@ class ChangeStatusView(SingleFormView):
         self.success_url = reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk})
 
     def get_form(self):
-        strings = open_general_licences_strings.Reactivate if self.kwargs["status"] == "reactivate" else open_general_licences_strings.Deactivate
+        strings = (
+            open_general_licences_strings.Reactivate
+            if self.kwargs["status"] == "reactivate"
+            else open_general_licences_strings.Deactivate
+        )
 
         return confirm_form(
             title=strings.TITLE.format(self.object["name"]),
@@ -110,5 +117,5 @@ class ChangeStatusView(SingleFormView):
             no_label=strings.NO,
             side_by_side=True,
             submit_button_text=strings.SUBMIT_BUTTON,
-            confirmation_name="response"
+            confirmation_name="response",
         )

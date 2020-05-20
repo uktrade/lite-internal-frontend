@@ -142,8 +142,8 @@ def get_control_list_entries(request, convert_to_options=False, converted_contro
 
         return converted_control_list_entries_cache
 
-    data = get(request, CONTROL_LIST_ENTRIES_URL)
-    return data.json()["control_list_entries"]
+    response = get(request, CONTROL_LIST_ENTRIES_URL)
+    return response.json()["control_list_entries"]
 
 
 def get_gov_pv_gradings(request, convert_to_options=False):

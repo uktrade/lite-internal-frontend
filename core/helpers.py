@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import List
 
 from conf import decorators
@@ -91,3 +92,12 @@ def convert_value_to_query_param(key: str, value):
         return return_value
 
     return key + "=" + str(value)
+
+
+def group_control_list_entries_by_category(control_list_entries):
+    dictionary = defaultdict(list)
+
+    for control_list_entry in control_list_entries:
+        dictionary[control_list_entry["category"]].append(control_list_entry)
+
+    return dictionary

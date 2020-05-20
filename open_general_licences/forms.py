@@ -11,17 +11,23 @@ from lite_forms.components import (
     Checkboxes,
     Filter,
 )
-from lite_forms.helpers import convert_list_to_tree
+from lite_forms.helpers import convert_dictionary_to_tree
+from core.helpers import group_control_list_entries_by_category
 from open_general_licences.enums import OpenGeneralExportLicences
 
 
 def open_general_licence_forms(request, strings):
     control_list_entries = get_control_list_entries(request)
-    control_list_entries_tree = convert_list_to_tree(
-        control_list_entries, key="rating", value="rating", exclude="is_decontrolled"
+    control_list_entries_tree = convert_dictionary_to_tree(
+        group_control_list_entries_by_category(control_list_entries),
+        key="rating",
+        value="rating",
+        exclude="is_decontrolled",
     )
     countries = get_countries(request, True)
-    licence = OpenGeneralExportLicences.get_by_id(request.POST.get("case_type", OpenGeneralExportLicences.open_general_export_licence.id))
+    licence = OpenGeneralExportLicences.get_by_id(
+        request.POST.get("case_type", OpenGeneralExportLicences.open_general_export_licence.id)
+    )
 
     return FormGroup(
         [
