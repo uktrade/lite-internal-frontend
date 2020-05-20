@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
@@ -5,7 +7,9 @@ from django.views.generic import TemplateView
 from cases.forms.assign_users import assign_users_form
 from cases.helpers.filters import case_filters_bar
 from cases.helpers.helpers import get_updated_cases_banner_queue_id
-from conf.constants import ALL_CASES_QUEUE_ID
+from conf.constants import ALL_CASES_QUEUE_ID, Permission
+from core.services import get_user_permissions
+from lite_content.lite_internal_frontend.cases import CasesListPage
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
 from queues.forms import new_queue_form, edit_queue_form
@@ -17,6 +21,7 @@ from queues.services import (
     put_queue,
     get_queue_case_assignments,
     put_queue_case_assignments,
+    get_enforcement_xml,
 )
 from users.services import get_gov_user
 
@@ -47,6 +52,7 @@ class Cases(TemplateView):
             "updated_cases_banner_queue_id": updated_cases_banner_queue_id,
             "filters": case_filters_bar(request, data),
             "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
+            "enforcement_check": Permission.ENFORCEMENT_CHECK.value in get_user_permissions(request),
         }
 
         return render(request, "queues/cases.html", context)
@@ -142,3 +148,15 @@ class CaseAssignments(TemplateView):
 
         # If there is no response (no forms left to go through), go to the case page
         return redirect(reverse("queues:cases", kwargs={"queue_pk": queue_id}))
+
+
+class EnforcementXMLExport(TemplateView):
+    def get(self, request, pk):
+        data, status_code = get_enforcement_xml(request, pk)
+
+        if status_code == HTTPStatus.NO_CONTENT:
+            return error_page(request, CasesListPage.EnforcementXML.NO_CASES)
+        elif status_code != HTTPStatus.OK:
+            return error_page(request, CasesListPage.EnforcementXML.GENERIC_ERROR)
+        else:
+            return data
