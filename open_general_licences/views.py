@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView
@@ -59,9 +60,20 @@ class CreateView(SummaryListFormView):
         self.success_url = reverse("open_general_licences:open_general_licences")
 
 
-class UpdateView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        return render(request, "open_general_licences/index.html", {})
+class UpdateView(SingleFormView):
+    def init(self, request, **kwargs):
+        pass
+
+    def get_form(self):
+        forms = new_open_general_licence_forms(self.request).forms
+        if self.kwargs["edit"] == "details":
+            return forms[1]
+        elif self.kwargs["edit"] == "control-list-entries":
+            return forms[2]
+        elif self.kwargs["edit"] == "countries":
+            return forms[3]
+        else:
+            raise Http404
 
 
 class ChangeStatusView(SingleFormView):

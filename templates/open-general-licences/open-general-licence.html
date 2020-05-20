@@ -31,7 +31,7 @@
 				{{ open_general_licence.name }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}">
+				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#name">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
@@ -52,7 +52,7 @@
 				<span data-max-length="1000">{{ open_general_licence.description }}</span>
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}">
+				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#description">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
@@ -65,7 +65,20 @@
 				{{ open_general_licence.url|linkify }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}">
+				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#url">
+					Change<span class="govuk-visually-hidden"> name</span>
+				</a>
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Requires registration
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ open_general_licence.requires_registration|friendly_boolean }}
+			</dd>
+			<dd class="govuk-summary-list__actions">
+				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#requires_registration">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
