@@ -47,7 +47,9 @@ from users.services import get_gov_user
 
 class FlagsList(TemplateView):
     def get(self, request, **kwargs):
-        data = get_flags(request, **request.GET)
+        params = request.GET.copy()
+        params["status"] = params.get("status", FlagStatus.ACTIVE.value)
+        data = get_flags(request, **params)
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
         filters = FiltersBar(
