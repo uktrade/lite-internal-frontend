@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 
 from core.services import get_countries, get_control_list_entries
 from lite_content.lite_internal_frontend import open_general_licences as open_general_licences_strings, generic
-from lite_forms.components import FiltersBar, Select, TextInput, AutocompleteInput
+from lite_forms.components import FiltersBar, Select, TextInput, AutocompleteInput, BackLink
 from lite_forms.generators import confirm_form
 from lite_forms.views import SummaryListFormView, SingleFormView
 from open_general_licences.enums import OpenGeneralExportLicences
@@ -86,6 +86,7 @@ class UpdateView(SingleFormView):
         form = copy.deepcopy(form)
         form.caption = self.object["case_type"]["reference"]["value"] + " (" + self.object["name"] + ")"
         form.buttons[0].value = generic.SAVE_AND_RETURN
+        form.back_link = BackLink(url=reverse("open_general_licences:open_general_licence", kwargs={"pk": self.kwargs["pk"]}))
         return form
 
 

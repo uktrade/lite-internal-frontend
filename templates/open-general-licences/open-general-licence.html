@@ -52,7 +52,7 @@
 				<span data-max-length="1000">{{ open_general_licence.description }}</span>
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#description">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#description">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
@@ -65,7 +65,7 @@
 				{{ open_general_licence.url|linkify }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#url">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#url">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
@@ -78,7 +78,7 @@
 				{{ open_general_licence.registration_required|friendly_boolean }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#requires_registration">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#requires_registration">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
@@ -107,7 +107,7 @@
 				</ul>
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'control-list-entries' %}">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id 'control-list-entries' %}">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
@@ -124,7 +124,7 @@
 				</ul>
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'countries' %}">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id 'countries' %}">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
