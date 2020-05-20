@@ -31,7 +31,7 @@
 				{{ open_general_licence.name }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="#">
+				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
@@ -52,7 +52,7 @@
 				<span data-max-length="1000">{{ open_general_licence.description }}</span>
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="#">
+				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
@@ -65,7 +65,7 @@
 				{{ open_general_licence.url|linkify }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="#">
+				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
@@ -76,11 +76,6 @@
 			</dt>
 			<dd class="govuk-summary-list__value">
 				{{ open_general_licence.status.value }}
-			</dd>
-			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="#">
-					Change<span class="govuk-visually-hidden"> name</span>
-				</a>
 			</dd>
 		</div>
 		<div class="govuk-summary-list__row">
@@ -99,7 +94,7 @@
 				</ul>
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="#">
+				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'control-list-entries' %}">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
@@ -116,7 +111,7 @@
 				</ul>
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="#">
+				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'countries' %}">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
 			</dd>
