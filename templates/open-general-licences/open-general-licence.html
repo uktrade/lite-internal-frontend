@@ -7,7 +7,7 @@
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
 				{% block title %}
-					{{ open_general_licence.type.value }} ({{ open_general_licence.name }})
+					{{ open_general_licence.name }}
 				{% endblock %}
 			</h1>
 		</div>
@@ -28,12 +28,20 @@
 				Name
 			</dt>
 			<dd class="govuk-summary-list__value">
-				{{ open_general_licence.type.value }} ({{ open_general_licence.name }})
+				{{ open_general_licence.name }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				<a class="govuk-link" href="#">
 					Change<span class="govuk-visually-hidden"> name</span>
 				</a>
+			</dd>
+		</div>
+		<div class="govuk-summary-list__row">
+			<dt class="govuk-summary-list__key">
+				Type
+			</dt>
+			<dd class="govuk-summary-list__value">
+				{{ open_general_licence.case_type.reference.value }}
 			</dd>
 		</div>
 		<div class="govuk-summary-list__row">
