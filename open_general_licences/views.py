@@ -1,15 +1,17 @@
+import copy
+
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView
 
 from core.services import get_countries, get_control_list_entries
-from lite_content.lite_internal_frontend import open_general_licences as open_general_licences_strings
+from lite_content.lite_internal_frontend import open_general_licences as open_general_licences_strings, generic
 from lite_forms.components import FiltersBar, Select, TextInput, AutocompleteInput
 from lite_forms.generators import confirm_form
 from lite_forms.views import SummaryListFormView, SingleFormView
 from open_general_licences.enums import OpenGeneralExportLicences
-from open_general_licences.forms import new_open_general_licence_forms
+from open_general_licences.forms import open_general_licence_forms
 from open_general_licences.services import (
     get_open_general_licences,
     post_open_general_licences,
@@ -48,7 +50,7 @@ class DetailView(TemplateView):
 
 class CreateView(SummaryListFormView):
     def init(self, request, **kwargs):
-        self.forms = new_open_general_licence_forms(request)
+        self.forms = open_general_licence_forms(request, open_general_licences_strings.Create)
         self.action = post_open_general_licences
         self.summary_list_title = "Confirm details about this licence"
         self.summary_list_button = "Submit"
@@ -66,19 +68,25 @@ class UpdateView(SingleFormView):
         self.object = get_open_general_licence(request, self.object_pk)
         self.data = self.object
         self.action = patch_open_general_licence
-        self.success_message = "OGL de/re activated successfully"
+        self.success_message = "OGL updated successfully"
         self.success_url = reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk})
 
     def get_form(self):
-        forms = new_open_general_licence_forms(self.request).forms
+        forms = open_general_licence_forms(self.request, open_general_licences_strings.Edit).forms
+
         if self.kwargs["edit"] == "details":
-            return forms[1]
+            form = forms[1]
         elif self.kwargs["edit"] == "control-list-entries":
-            return forms[2]
+            form = forms[2]
         elif self.kwargs["edit"] == "countries":
-            return forms[3]
+            form = forms[3]
         else:
             raise Http404
+
+        form = copy.deepcopy(form)
+        form.caption = self.object["case_type"]["reference"]["value"] + " (" + self.object["name"] + ")"
+        form.buttons[0].value = generic.SAVE_AND_RETURN
+        return form
 
 
 class ChangeStatusView(SingleFormView):

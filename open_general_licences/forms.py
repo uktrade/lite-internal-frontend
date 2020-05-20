@@ -15,7 +15,7 @@ from lite_forms.helpers import convert_list_to_tree
 from open_general_licences.enums import OpenGeneralExportLicences
 
 
-def new_open_general_licence_forms(request):
+def open_general_licence_forms(request, strings):
     control_list_entries = get_control_list_entries(request)
     control_list_entries_tree = convert_list_to_tree(
         control_list_entries, key="rating", value="rating", exclude="is_decontrolled"
@@ -26,7 +26,8 @@ def new_open_general_licence_forms(request):
     return FormGroup(
         [
             Form(
-                title="Select the type of open general licence you want to add",
+                title=strings.SelectType.TITLE,
+                description=strings.SelectType.DESCRIPTION,
                 caption="Step 1 of 4",
                 questions=[
                     RadioButtons(short_title="Type", name="case_type", options=OpenGeneralExportLicences.as_options(),),
@@ -34,36 +35,38 @@ def new_open_general_licence_forms(request):
                 default_button_name=generic.CONTINUE,
             ),
             Form(
-                title="Add an open general licence",
+                title=strings.Details.TITLE.format(licence.name.lower()),
+                description=strings.Details.DESCRIPTION,
                 caption="Step 2 of 4",
                 questions=[
                     TextArea(
-                        title=f"What's the name of the {licence.name.lower()} you want to add?",
-                        short_title="Name",
-                        description="Use the name from GOV.UK. For example, 'Military goods, software and technology: government or NATO end use'",
+                        title=strings.Details.Name.TITLE.format(licence.name.lower()),
+                        short_title=strings.Details.Name.SHORT_TITLE,
+                        description=strings.Details.Name.DESCRIPTION,
                         name="name",
                         rows=3,
                         classes=["govuk-!-width-three-quarters"],
                         data_attributes={"licence-name": licence.name},
                     ),
                     TextArea(
-                        title="Description",
-                        description="Use the description provided by GOV.UK (if possible)",
+                        title=strings.Details.Description.TITLE,
+                        short_title=strings.Details.Description.SHORT_TITLE,
+                        description=strings.Details.Description.DESCRIPTION,
                         name="description",
                         classes=["govuk-!-width-three-quarters"],
                         extras={"max_length": 2000},
                     ),
                     TextInput(
-                        title=f"Link to the {licence.name.lower()}",
-                        short_title="Link",
-                        description="Only link to GOV.UK pages. For example, 'https://www.gov.uk/government/publications/open-general-export-licence-military-goods-government-or-nato-end-use--6'",
+                        title=strings.Details.Link.TITLE.format(licence.name.lower()),
+                        short_title=strings.Details.Link.SHORT_TITLE,
+                        description=strings.Details.Link.DESCRIPTION,
                         name="url",
                         classes=["govuk-!-width-three-quarters"],
                     ),
                     RadioButtons(
-                        title=f"Does this {licence.name.lower()} require registration?",
-                        short_title="Requires registration",
-                        description=f"Select 'Yes' if an exporter has to register the {licence.name.lower()} to use it",
+                        title=strings.Details.RequiresRegistration.TITLE.format(licence.name.lower()),
+                        short_title=strings.Details.RequiresRegistration.SHORT_TITLE,
+                        description=strings.Details.RequiresRegistration.DESCRIPTION.format(licence.name.lower()),
                         name="registration_required",
                         options=[Option(True, "Yes"), Option(False, "No"),],
                         classes=["govuk-radios--inline"],
@@ -73,7 +76,8 @@ def new_open_general_licence_forms(request):
                 default_button_name=generic.CONTINUE,
             ),
             Form(
-                title="Select control list entries",
+                title=strings.ControlListEntries.TITLE,
+                description=strings.ControlListEntries.DESCRIPTION,
                 caption="Step 3 of 4",
                 questions=[
                     TreeView(
@@ -86,7 +90,8 @@ def new_open_general_licence_forms(request):
                 default_button_name=generic.CONTINUE,
             ),
             Form(
-                title="Select countries",
+                title=strings.Countries.TITLE,
+                description=strings.Countries.DESCRIPTION,
                 caption="Step 4 of 4",
                 questions=[
                     Filter(),
