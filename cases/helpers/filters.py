@@ -44,6 +44,7 @@ def case_filters_bar(request, case_data) -> FiltersBar:
         ],
         advanced_filters=[
             TextInput(name="exporter_application_reference", title="exporter application reference"),
+            TextInput(name="organisation_name", title="organisation name"),
             TextInput(name="exporter_site_name", title="exporter site name"),
             TextInput(name="exporter_site_address", title="exporter site address"),
             Select(name="final_advice_type", title="final advice type", options=advice_types),
