@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from core.services import get_countries, get_control_list_entries
+from lite_content.lite_internal_frontend import open_general_licences
 from lite_forms.components import FiltersBar, Select, TextInput, AutocompleteInput
 from lite_forms.generators import confirm_form
 from lite_forms.views import SummaryListFormView, SingleFormView
@@ -71,16 +72,16 @@ class ChangeStatusView(SingleFormView):
         self.success_url = reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk})
 
     def get_form(self):
-        title = "Are you sure you want to deactivate OGL (" + self.object["name"] + ")"
-        # title = "Are you sure you want to reactivate OGL (" + self.object["name"] + ")"
+        strings = open_general_licences.Reactivate if self.kwargs["status"] == "reactivate" else open_general_licences.Deactivate
 
         return confirm_form(
-            title=title,
-            description="This will prevent exporters from using this licence. You can change this in the future.",
-            back_link_text="Back",
-            back_url="swag",
-            yes_label="Yes",
-            no_label="No",
+            title=strings.TITLE.format(self.object["name"]),
+            description=strings.DESCRIPTION,
+            back_link_text=strings.BACK_LINK.format(self.object["name"]),
+            back_url=reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk}),
+            yes_label=strings.YES,
+            no_label=strings.NO,
             side_by_side=True,
-            confirmation_name="confirm",
+            submit_button_text=strings.SUBMIT_BUTTON,
+            confirmation_name="response"
         )
