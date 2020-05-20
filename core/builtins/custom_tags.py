@@ -278,7 +278,7 @@ def highlight_text(value: str, term: str) -> str:
     def insert_str(string, str_to_insert, string_index):
         return string[:string_index] + str_to_insert + string[string_index:]
 
-    if not term.strip():
+    if not term or not term.strip():
         return value
 
     indexes = [m.start() for m in re.finditer(term, value, flags=re.IGNORECASE)]
