@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 
 from core.services import get_countries, get_control_list_entries
-from lite_content.lite_internal_frontend import open_general_licences
+from lite_content.lite_internal_frontend import open_general_licences as open_general_licences_strings
 from lite_forms.components import FiltersBar, Select, TextInput, AutocompleteInput
 from lite_forms.generators import confirm_form
 from lite_forms.views import SummaryListFormView, SingleFormView
@@ -54,6 +54,7 @@ class CreateView(SummaryListFormView):
         self.summary_list_notice_title = None
         self.summary_list_notice_text = None
         self.hide_titles = True
+        self.hide_components = ["case_type"]
         self.success_message = "OGL added successfully"
         self.success_url = reverse("open_general_licences:open_general_licences")
 
@@ -72,7 +73,7 @@ class ChangeStatusView(SingleFormView):
         self.success_url = reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk})
 
     def get_form(self):
-        strings = open_general_licences.Reactivate if self.kwargs["status"] == "reactivate" else open_general_licences.Deactivate
+        strings = open_general_licences_strings.Reactivate if self.kwargs["status"] == "reactivate" else open_general_licences_strings.Deactivate
 
         return confirm_form(
             title=strings.TITLE.format(self.object["name"]),

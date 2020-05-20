@@ -61,18 +61,18 @@
 						<td class="govuk-table__cell">
 							{{ open_general_licence.registration_required|friendly_boolean }}
 						</td>
-						<td class="govuk-table__cell">
+						<td class="govuk-table__cell govuk-table__cell--nowrap">
 							{% lcs 'open_general_licences.List.Table.READ_ON_GOVUK_LINK' as govuk_link %}
 							{{ open_general_licence.url|linkify:govuk_link }}
 						</td>
-						<td class="govuk-table__cell">
+						<td class="govuk-table__cell govuk-table__cell--nowrap">
 							<ul class="govuk-table__cell__actions-list">
 								<li class="govuk-table__cell__actions-list-item">
-									<span data-definition-title="{{ open_general_licence.type.value }} ({{ open_general_licence.name }})" data-definition-subtitle="{{ open_general_licence.control_list_entries|length }} control list entr{{ open_general_licence.control_list_entries|pluralize:'y,ies' }}" data-definition-list="{% for clc in open_general_licence.control_list_entries %}{{ clc.rating }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+									<span data-definition-title="{{ open_general_licence.case_type.reference.value }} ({{ open_general_licence.name }})" data-definition-subtitle="{{ open_general_licence.control_list_entries|length }} control list entr{{ open_general_licence.control_list_entries|pluralize:'y,ies' }}" data-definition-list="{% for clc in open_general_licence.control_list_entries %}{{ clc.rating }}{% if not forloop.last %}, {% endif %}{% endfor %}">
 										{{ open_general_licence.control_list_entries|length }} control list entr{{ open_general_licence.control_list_entries|pluralize:'y,ies' }}
 									</span>
 								</li>
-								<li class="govuk-table__cell__actions-list-item" data-definition-title="{{ open_general_licence.type.value }} ({{ open_general_licence.name }})" data-definition-subtitle="{{ open_general_licence.countries|length }} countr{{ open_general_licence.countries|pluralize:'y,ies' }}" data-definition-list="{% for country in open_general_licence.countries %}{{ country.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+								<li class="govuk-table__cell__actions-list-item" data-definition-title="{{ open_general_licence.case_type.reference.value }} ({{ open_general_licence.name }})" data-definition-subtitle="{{ open_general_licence.countries|length }} countr{{ open_general_licence.countries|pluralize:'y,ies' }}" data-definition-list="{% for country in open_general_licence.countries %}{{ country.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
 									{{ open_general_licence.countries|length }} countr{{ open_general_licence.countries|pluralize:'y,ies' }}
 								</li>
 							</ul>

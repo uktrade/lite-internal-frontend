@@ -18,10 +18,10 @@ from open_general_licences.enums import OpenGeneralExportLicences
 def new_open_general_licence_forms(request):
     control_list_entries = get_control_list_entries(request)
     control_list_entries_tree = convert_list_to_tree(
-        control_list_entries, key="id", value="rating", exclude="is_decontrolled"
+        control_list_entries, key="rating", value="rating", exclude="is_decontrolled"
     )
     countries = get_countries(request, True)
-    licence = OpenGeneralExportLicences.get_by_type(request.POST.get("type", "open_general_export_licence"))
+    licence = OpenGeneralExportLicences.get_by_id(request.POST.get("case_type", OpenGeneralExportLicences.open_general_export_licence.id))
 
     return FormGroup(
         [
@@ -29,7 +29,7 @@ def new_open_general_licence_forms(request):
                 title="Select the type of open general licence you want to add",
                 caption="Step 1 of 4",
                 questions=[
-                    RadioButtons(short_title="Type", name="type", options=OpenGeneralExportLicences.as_options(),),
+                    RadioButtons(short_title="Type", name="case_type", options=OpenGeneralExportLicences.as_options(),),
                 ],
                 default_button_name=generic.CONTINUE,
             ),
@@ -64,7 +64,7 @@ def new_open_general_licence_forms(request):
                         title=f"Does this {licence.name.lower()} require registration?",
                         short_title="Requires registration",
                         description=f"Select 'Yes' if an exporter has to register the {licence.name.lower()} to use it",
-                        name="name",
+                        name="registration_required",
                         options=[Option(True, "Yes"), Option(False, "No"),],
                         classes=["govuk-radios--inline"],
                     ),
