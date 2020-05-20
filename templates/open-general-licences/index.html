@@ -37,10 +37,9 @@
 				<tr class="govuk-table__row">
 					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.NAME' %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.TYPE' %}</th>
-					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.DESCRIPTION' %}</th>
-					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.REGISTRATION_REQUIRED' %}</th>
-					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.MORE_INFORMATION' %}</th>
 					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.APPLIES_TO' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.MORE_INFORMATION' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.REGISTRATION_REQUIRED' %}</th>
 					<th class="govuk-table__header" scope="col"></th>
 				</tr>
 			</thead>
@@ -55,16 +54,6 @@
 						<td class="govuk-table__cell">
 							{{ open_general_licence.case_type.reference.value }}
 						</td>
-						<td class="govuk-table__cell govuk-table__cell--max-width-400">
-							<span data-max-length="100">{{ open_general_licence.description }}</span>
-						</td>
-						<td class="govuk-table__cell">
-							{{ open_general_licence.registration_required|friendly_boolean }}
-						</td>
-						<td class="govuk-table__cell govuk-table__cell--nowrap">
-							{% lcs 'open_general_licences.List.Table.READ_ON_GOVUK_LINK' as govuk_link %}
-							{{ open_general_licence.url|linkify:govuk_link }}
-						</td>
 						<td class="govuk-table__cell govuk-table__cell--nowrap">
 							<ul class="govuk-table__cell__actions-list">
 								<li class="govuk-table__cell__actions-list-item">
@@ -76,6 +65,13 @@
 									{{ open_general_licence.countries|length }} countr{{ open_general_licence.countries|pluralize:'y,ies' }}
 								</li>
 							</ul>
+						</td>
+						<td class="govuk-table__cell govuk-table__cell--nowrap">
+							{% lcs 'open_general_licences.List.Table.READ_ON_GOVUK_LINK' as govuk_link %}
+							{{ open_general_licence.url|linkify:govuk_link }}
+						</td>
+						<td class="govuk-table__cell">
+							{{ open_general_licence.registration_required|friendly_boolean }}
 						</td>
 						<td class="govuk-table__cell govuk-table__cell--tight">
 							<a href="{% url 'open_general_licences:open_general_licence' open_general_licence.id %}?return_to={{ CURRENT_PATH }}" class="govuk-link govuk-link--no-visited-state">{% lcs 'generic.VIEW' %}</a>
