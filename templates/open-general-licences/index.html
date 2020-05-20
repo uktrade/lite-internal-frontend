@@ -9,32 +9,36 @@
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">
 				{% block title %}
-					Open general licences
+					{% lcs 'open_general_licences.List.TITLE' %}
 				{% endblock %}
 			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
-			{% govuk_link_button id='new-ogl' text='new' url='open_general_licences:create' %}
+			{% govuk_link_button id='new-ogl' text='open_general_licences.List.ADD_AN_OGL_BUTTON' url='open_general_licences:create' %}
+		</div>
+	</div>
+
+	<div class="lite-tabs__container">
+		<div class="lite-tabs">
+			<a href="?status=active" id="tab-active" class="lite-tabs__tab {% if tab == "active" %}lite-tabs__tab--selected{% endif %}">
+				{% lcs 'open_general_licences.List.Tabs.ACTIVE' %}
+			</a>
+			<a href="?status=deactivated" id="tab-deactivated" class="lite-tabs__tab {% if tab == "deactivated" %}lite-tabs__tab--selected{% endif %}">
+				{% lcs 'open_general_licences.List.Tabs.DEACTIVATED' %}
+			</a>
 		</div>
 	</div>
 
 	{% include "filters.html" %}
 
-	<div class="lite-tabs__container">
-		<div class="lite-tabs">
-			<a href="?status=active" id="active" class="lite-tabs__tab {% if tab == "active" %}lite-tabs__tab--selected{% endif %}">Active</a>
-			<a href="?status=deactivated" id="in_review" class="lite-tabs__tab {% if tab == "deactivated" %}lite-tabs__tab--selected{% endif %}">Deactivated</a>
-		</div>
-	</div>
-
 	{% if open_general_licences.results %}
 		<table class="govuk-table">
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					<th class="govuk-table__header" scope="col">Name</th>
-					<th class="govuk-table__header" scope="col">Description</th>
-					<th class="govuk-table__header" scope="col">More information</th>
-					<th class="govuk-table__header" scope="col">Applies to</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.NAME' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.DESCRIPTION' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.MORE_INFORMATION' %}</th>
+					<th class="govuk-table__header" scope="col">{% lcs 'open_general_licences.List.Table.APPLIES_TO' %}</th>
 					<th class="govuk-table__header" scope="col"></th>
 				</tr>
 			</thead>
@@ -48,7 +52,8 @@
 							<span data-max-length="100">{{ open_general_licence.description }}</span>
 						</td>
 						<td class="govuk-table__cell">
-							{{ open_general_licence.link|linkify:'Read on GOV.UK' }}
+							{% lcs 'open_general_licences.List.Table.READ_ON_GOVUK_LINK' as govuk_link %}
+							{{ open_general_licence.url|linkify:govuk_link }}
 						</td>
 						<td class="govuk-table__cell">
 							<ul class="govuk-table__cell__actions-list">
@@ -72,6 +77,6 @@
 
 		{% pagination %}
 	{% else %}
-		{% include "includes/notice.html" with text='TEMP TEXT' %}
+		{% include "includes/notice.html" with text='open_general_licences.List.NO_CONTENT' %}
 	{% endif %}
 {% endblock %}

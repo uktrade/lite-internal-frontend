@@ -30,14 +30,16 @@ class OpenGeneralExportLicences:
 
     @classmethod
     def all(cls):
-        return [cls.open_general_export_licence, cls.open_general_trade_control_licence, cls.open_general_transhipment_licence]
+        return [
+            cls.open_general_export_licence,
+            cls.open_general_trade_control_licence,
+            cls.open_general_transhipment_licence,
+        ]
 
     @classmethod
     def as_options(cls):
         return [
-            Option(key=ogl.type,
-                   value=f"{ogl.name} ({ogl.acronym})",
-                   description=ogl.description) for ogl in cls.all()
+            Option(key=ogl.type, value=f"{ogl.name} ({ogl.acronym})", description=ogl.description) for ogl in cls.all()
         ]
 
     @classmethod
