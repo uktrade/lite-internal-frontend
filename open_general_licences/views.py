@@ -62,7 +62,12 @@ class CreateView(SummaryListFormView):
 
 class UpdateView(SingleFormView):
     def init(self, request, **kwargs):
-        pass
+        self.object_pk = kwargs["pk"]
+        self.object = get_open_general_licence(request, self.object_pk)
+        self.data = self.object
+        self.action = patch_open_general_licence
+        self.success_message = "OGL de/re activated successfully"
+        self.success_url = reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk})
 
     def get_form(self):
         forms = new_open_general_licence_forms(self.request).forms

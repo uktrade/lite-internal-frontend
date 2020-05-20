@@ -75,7 +75,7 @@
 				Requires registration
 			</dt>
 			<dd class="govuk-summary-list__value">
-				{{ open_general_licence.requires_registration|friendly_boolean }}
+				{{ open_general_licence.registration_required|friendly_boolean }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#requires_registration">

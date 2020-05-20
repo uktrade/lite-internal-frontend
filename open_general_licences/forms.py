@@ -46,19 +46,19 @@ def new_open_general_licence_forms(request):
                         classes=["govuk-!-width-three-quarters"],
                         data_attributes={"licence-name": licence.name},
                     ),
-                    TextInput(
-                        title=f"Link to the {licence.name.lower()}",
-                        short_title="Link",
-                        description="Only link to GOV.UK pages. For example, 'https://www.gov.uk/government/publications/open-general-export-licence-military-goods-government-or-nato-end-use--6'",
-                        name="url",
-                        classes=["govuk-!-width-three-quarters"],
-                    ),
                     TextArea(
                         title="Description",
                         description="Use the description provided by GOV.UK (if possible)",
                         name="description",
                         classes=["govuk-!-width-three-quarters"],
                         extras={"max_length": 2000},
+                    ),
+                    TextInput(
+                        title=f"Link to the {licence.name.lower()}",
+                        short_title="Link",
+                        description="Only link to GOV.UK pages. For example, 'https://www.gov.uk/government/publications/open-general-export-licence-military-goods-government-or-nato-end-use--6'",
+                        name="url",
+                        classes=["govuk-!-width-three-quarters"],
                     ),
                     RadioButtons(
                         title=f"Does this {licence.name.lower()} require registration?",
