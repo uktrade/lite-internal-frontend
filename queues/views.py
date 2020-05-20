@@ -97,7 +97,7 @@ class Cases(TemplateView):
                     title="control list entry",
                     options=get_control_list_entries(request, convert_to_options=True),
                 ),
-                TokenBar(name="flags", title="flags", input_type="token-bar", options=[
+                TokenBar(name="flags", title="flags", options=[
                     Option(flag["id"], flag["name"])
                     for flag in get_flags(request, disable_pagination=True)
                 ]),

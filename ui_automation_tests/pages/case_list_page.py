@@ -36,6 +36,8 @@ class CaseListPage(BasePage):
     LINK_CHANGE_QUEUE_ID = "link-queue"
 
     # Advanced filters
+    CASE_REFERENCE = "case_reference"
+    EXPORTER_APPLICATION_REFERENCE = "exporter_application_reference"
     FINAL_ADVICE_TYPE = "final_advice_type"
     TEAM_ADVICE_TYPE = "team_advice_type"
     MAX_SLA_DAYS_REMAINING = "max_sla_days_remaining"
@@ -52,6 +54,8 @@ class CaseListPage(BasePage):
     CONTROL_LIST_ENTRY = "control_list_entry"
 
     ADVANCED_FILTERS = [
+        CASE_REFERENCE,
+        EXPORTER_APPLICATION_REFERENCE,
         FINAL_ADVICE_TYPE,
         TEAM_ADVICE_TYPE,
         MAX_SLA_DAYS_REMAINING,
@@ -176,6 +180,10 @@ class CaseListPage(BasePage):
     def assert_all_advanced_filters_available(self):
         for advanced_filter in self.ADVANCED_FILTERS:
             assert self.driver.find_element_by_id(advanced_filter)
+
+    def filter_by_exporter_application_reference(self, exporter_application_reference):
+        self.driver.find_element_by_id(self.EXPORTER_APPLICATION_REFERENCE)
+        self.driver.find_element_by_id(self.EXPORTER_APPLICATION_REFERENCE).send_keys(exporter_application_reference)
 
     def get_case_row_sla(self, row):
         return row.find_element_by_id(self.SLA_ID).text

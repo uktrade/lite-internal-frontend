@@ -50,3 +50,5 @@ Feature: I want to filter cases on a queue
     And I show filters
     And I click advanced filters
     Then I can see all advanced filters
+    Then I filter by case reference
+    Then "1" cases are shown

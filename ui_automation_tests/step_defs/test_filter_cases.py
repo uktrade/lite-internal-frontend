@@ -61,5 +61,11 @@ def i_show_advanced_filters(driver, context):
 
 
 @then("I can see all advanced filters")
-def i_can_see_all_advanced_filters(driver):
+def i_can_see_all_advanced_filters(driver, context):
     CaseListPage(driver).assert_all_advanced_filters_available()
+
+
+@when("I filter by case reference")
+def i_filter_by_case_reference(driver, context):
+    CaseListPage(driver).filter_by_exporter_application_reference(context.app_name)
+
