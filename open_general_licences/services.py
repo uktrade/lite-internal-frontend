@@ -25,7 +25,7 @@ def patch_open_general_licence(request, pk, json):
 
 def set_open_general_licence_status(request, pk, json):
     if "status" not in json:
-        return {"errors": {"response": ["Please pick one"]}}, 400
+        return {"errors": {"response": ["Select an option"]}}, 400
 
     response = patch(request, OPEN_GENERAL_LICENCES_URL + str(pk), json)
     return response.json(), response.status_code
