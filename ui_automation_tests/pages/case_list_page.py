@@ -37,6 +37,7 @@ class CaseListPage(BasePage):
 
     # Advanced filters
     CASE_REFERENCE_ID = "case_reference"
+    ORGANISATION_NAME_ID = "organisation_name"
     EXPORTER_APPLICATION_REFERENCE_ID = "exporter_application_reference"
     FINAL_ADVICE_TYPE_ID = "final_advice_type"
     TEAM_ADVICE_TYPE_ID = "team_advice_type"
@@ -55,6 +56,7 @@ class CaseListPage(BasePage):
 
     ADVANCED_FILTERS = [
         CASE_REFERENCE_ID,
+        ORGANISATION_NAME_ID,
         EXPORTER_APPLICATION_REFERENCE_ID,
         FINAL_ADVICE_TYPE_ID,
         TEAM_ADVICE_TYPE_ID,
@@ -185,8 +187,16 @@ class CaseListPage(BasePage):
             assert self.driver.find_element_by_id(advanced_filter)
 
     def filter_by_exporter_application_reference(self, exporter_application_reference):
-        self.driver.find_element_by_id(self.EXPORTER_APPLICATION_REFERENCE)
-        self.driver.find_element_by_id(self.EXPORTER_APPLICATION_REFERENCE).send_keys(exporter_application_reference)
+        self.driver.find_element_by_id(self.EXPORTER_APPLICATION_REFERENCE_ID)
+        self.driver.find_element_by_id(self.EXPORTER_APPLICATION_REFERENCE_ID).send_keys(exporter_application_reference)
+
+    def filter_by_goods_related_description(self, goods_related_description):
+        self.driver.find_element_by_id(self.GOODS_RELATED_DESCRIPTION_ID)
+        self.driver.find_element_by_id(self.GOODS_RELATED_DESCRIPTION_ID).send_keys(goods_related_description)
+
+    def filter_by_organisation_name(self, org_name):
+        self.driver.find_element_by_id(self.ORGANISATION_NAME_ID)
+        self.driver.find_element_by_id(self.ORGANISATION_NAME_ID).send_keys(org_name)
 
     def get_case_row_sla(self, row):
         return row.find_element_by_id(self.SLA_ID).text

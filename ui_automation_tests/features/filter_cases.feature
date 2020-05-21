@@ -50,5 +50,8 @@ Feature: I want to filter cases on a queue
     And I show filters
     And I click advanced filters
     Then I can see all advanced filters
-    Then I filter by case reference
-    And "1" cases are shown
+    When I filter by case reference
+    And I filter by goods related description
+    And I filter by organisation name
+    When I apply filters
+    Then "1" cases are shown
