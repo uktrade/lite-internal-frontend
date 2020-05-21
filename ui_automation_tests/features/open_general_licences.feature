@@ -13,4 +13,10 @@ Feature: I want to add open general licences
     And I select the country United Kingdom
     Then I see the summary list
     When I click submit
-    Then I see the newly generated open general export licence
+    And I open the open general licence
+    Then I see the new open general export licence
+    When I click change name
+    And I change the OGL name
+    Then I see the updated open general export licence
+    When I deactivate the open general licence
+    Then I see the updated open general export licence

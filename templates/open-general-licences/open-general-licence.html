@@ -28,7 +28,7 @@
 				{{ open_general_licence.name }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#name">
+				<a id="link-change-name" class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#name">
 					{% lcs 'generic.CHANGE' %}
 					<span class="govuk-visually-hidden"> {% lcs 'open_general_licences.Detail.SummaryList.NAME' %}</span>
 				</a>
@@ -93,7 +93,7 @@
 			</dd>
 			<dd class="govuk-summary-list__actions">
 				{% if open_general_licence.status.key == 'active' %}
-					<a href="{% url 'open_general_licences:change_status' open_general_licence.id 'deactivate' %}" class="govuk-link govuk-link--no-visited-state">
+					<a id="link-deactivate" href="{% url 'open_general_licences:change_status' open_general_licence.id 'deactivate' %}" class="govuk-link govuk-link--no-visited-state">
 						{% lcs 'open_general_licences.Detail.SummaryList.DEACTIVATE_LINK' %}
 					</a>
 				{% else %}
