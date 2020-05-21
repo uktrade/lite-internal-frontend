@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from core.helpers import generate_activity_filters
 from core.services import get_countries, get_control_list_entries
 from lite_content.lite_internal_frontend import open_general_licences as open_general_licences_strings, generic
-from lite_forms.components import FiltersBar, Select, TextInput, AutocompleteInput, BackLink
+from lite_forms.components import FiltersBar, Select, TextInput, AutocompleteInput, BackLink, HiddenField
 from lite_forms.generators import confirm_form
 from lite_forms.views import SummaryListFormView, SingleFormView
 from open_general_licences.enums import OpenGeneralExportLicences
@@ -31,6 +31,7 @@ class ListView(TemplateView):
 
         filters = FiltersBar(
             [
+                HiddenField("status", request.GET.get("status", "active")),
                 TextInput(name="name", title="name"),
                 Select(name="case_type", title="type", options=OpenGeneralExportLicences.as_options()),
                 AutocompleteInput(name="control_list_entry", title="control list entry", options=control_list_entries),

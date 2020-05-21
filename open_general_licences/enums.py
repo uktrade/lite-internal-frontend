@@ -1,3 +1,8 @@
+from lite_content.lite_internal_frontend.open_general_licences import (
+    OGEL_DESCRIPTION,
+    OGTCL_DESCRIPTION,
+    OGTL_DESCRIPTION,
+)
 from lite_forms.components import Option
 
 
@@ -10,24 +15,13 @@ class OpenGeneralExportLicences:
             self.acronym = acronym
 
     open_general_export_licence = OpenGeneralLicence(
-        "00000000-0000-0000-0000-000000000002",
-        "Open general export licence",
-        "Licence which allows the export of specified controlled items by any exporter, removing the "
-        "need for them to apply for an individual licence.",
-        "OGEL",
+        "00000000-0000-0000-0000-000000000002", "Open General Export Licence", OGEL_DESCRIPTION, "OGEL",
     )
     open_general_trade_control_licence = OpenGeneralLicence(
-        "00000000-0000-0000-0000-000000000013",
-        "Open general trade control licence",
-        "Licences which control the trafficking and brokering activity between one third country and "
-        "another where the transaction or deal is brokered in the UK or by a UK person.",
-        "OGTCL",
+        "00000000-0000-0000-0000-000000000013", "Open General Trade Control Licence", OGTCL_DESCRIPTION, "OGTCL",
     )
     open_general_transhipment_licence = OpenGeneralLicence(
-        "00000000-0000-0000-0000-000000000014",
-        "Open general transhipment licence",
-        "Transhipment licences allow controlled goods to pass through the UK on the way to other destinations.",
-        "OGTL",
+        "00000000-0000-0000-0000-000000000014", "Open General Transhipment Licence", OGTL_DESCRIPTION, "OGTL",
     )
 
     @classmethod
