@@ -16,7 +16,7 @@ from core.helpers import group_control_list_entries_by_category
 from open_general_licences.enums import OpenGeneralExportLicences
 
 
-def open_general_licence_forms(request, strings):
+def open_general_licence_forms(request, licence, strings):
     control_list_entries = get_control_list_entries(request)
     control_list_entries_tree = convert_dictionary_to_tree(
         group_control_list_entries_by_category(control_list_entries),
@@ -25,9 +25,6 @@ def open_general_licence_forms(request, strings):
         exclude="is_decontrolled",
     )
     countries = get_countries(request, True)
-    licence = OpenGeneralExportLicences.get_by_id(
-        request.POST.get("case_type", OpenGeneralExportLicences.open_general_export_licence.id)
-    )
 
     return FormGroup(
         [

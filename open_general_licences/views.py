@@ -16,7 +16,8 @@ from open_general_licences.services import (
     get_open_general_licences,
     post_open_general_licences,
     get_open_general_licence,
-    patch_open_general_licence, set_open_general_licence_status,
+    patch_open_general_licence,
+    set_open_general_licence_status,
 )
 
 
@@ -51,7 +52,13 @@ class DetailView(TemplateView):
 
 class CreateView(SummaryListFormView):
     def init(self, request, **kwargs):
-        self.forms = open_general_licence_forms(request, open_general_licences_strings.Create)
+        self.forms = open_general_licence_forms(
+            request,
+            OpenGeneralExportLicences.get_by_id(
+                request.POST.get("case_type", OpenGeneralExportLicences.open_general_export_licence.id)
+            ),
+            open_general_licences_strings.Create,
+        )
         self.action = post_open_general_licences
         self.summary_list_title = "Confirm details about this licence"
         self.summary_list_button = "Submit"
@@ -73,7 +80,11 @@ class UpdateView(SingleFormView):
         self.success_url = reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk})
 
     def get_form(self):
-        forms = open_general_licence_forms(self.request, open_general_licences_strings.Edit).forms
+        forms = open_general_licence_forms(
+            self.request,
+            OpenGeneralExportLicences.get_by_id(self.object["case_type"]["id"]),
+            open_general_licences_strings.Edit,
+        ).forms
 
         if self.kwargs["edit"] == "details":
             form = forms[1]
