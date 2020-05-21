@@ -44,7 +44,7 @@ def get_queue(request, pk):
 
 
 def get_cases_search_data(request, queue_pk, params):
-    data = get(request, CASE_URL + "?queue_id=" + str(queue_pk) + "&" + parse.urlencode(params))
+    data = get(request, CASE_URL + "?queue_id=" + str(queue_pk) + "&" + parse.urlencode(params, doseq=True))
     return data.json()
 
 

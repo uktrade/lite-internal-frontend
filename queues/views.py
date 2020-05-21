@@ -36,9 +36,11 @@ class Cases(TemplateView):
 
         # Page parameters
         params = {"page": int(request.GET.get("page", 1))}
-
         for key, value in request.GET.items():
-            params[key] = value
+            if key != "flags[]":
+                params[key] = value
+
+        params["flags"] = request.GET.getlist("flags[]", [])
 
         if hidden:
             params["hidden"] = hidden
