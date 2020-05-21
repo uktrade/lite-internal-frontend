@@ -124,7 +124,7 @@ def get_user_permissions(request, with_team=False):
 
 
 # Control List Entries
-def get_control_list_entries(request, convert_to_options=False, converted_control_list_entries_cache=[]):
+def get_control_list_entries(request, convert_to_options=False, converted_control_list_entries_cache=[]):  # noqa
     if convert_to_options:
         if converted_control_list_entries_cache:
             return converted_control_list_entries_cache

@@ -4,8 +4,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, RedirectView
 
 from conf.constants import Permission
-from core.builtins.custom_tags import pretty_json
-from core.services import get_user_permissions, get_control_list_entries
+from core.services import get_user_permissions
 from lite_content.lite_internal_frontend.teams import TeamsPage
 from lite_forms.views import SingleFormView
 from teams.forms import add_team_form, edit_team_form
