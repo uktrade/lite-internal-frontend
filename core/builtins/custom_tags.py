@@ -615,3 +615,10 @@ def latest_status_change(activity):
 @register.filter()
 def filter_flags_by_level(flags, level):
     return [flag for flag in flags if flag["level"] == level]
+
+
+@register.filter()
+def filter_by_rating(items, rating):
+    for item in items:
+        if item["rating"] == rating:
+            return True
