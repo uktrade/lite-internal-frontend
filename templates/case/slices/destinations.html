@@ -102,6 +102,9 @@
 								</span>
 							</td>
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
+								{% if destination.country.flags or not destination.flags %}
+									{% include 'includes/flags.html' with flags=destination.country.flags list=True %} <br>
+								{% endif %}
 								{% include 'includes/flags.html' with flags=destination.flags list=True %}
 							</td>
 						</tr>
