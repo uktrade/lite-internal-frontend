@@ -1,5 +1,5 @@
 from conf.client import get, patch, post
-from conf.constants import OPEN_GENERAL_LICENCES_URL
+from conf.constants import OPEN_GENERAL_LICENCES_URL, ACTIVITY_URL
 from core.helpers import convert_parameters_to_query_params
 
 
@@ -29,3 +29,12 @@ def set_open_general_licence_status(request, pk, json):
 
     response = patch(request, OPEN_GENERAL_LICENCES_URL + str(pk), json)
     return response.json(), response.status_code
+
+
+def get_ogl_activity(request, pk, activity_filters=None):
+    url = OPEN_GENERAL_LICENCES_URL + str(pk) + ACTIVITY_URL
+    if activity_filters:
+        params = convert_parameters_to_query_params(activity_filters)
+        url = url + params
+    data = get(request, url)
+    return data.json()

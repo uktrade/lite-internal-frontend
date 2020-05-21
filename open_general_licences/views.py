@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView
 
+from core.helpers import generate_activity_filters
 from core.services import get_countries, get_control_list_entries
 from lite_content.lite_internal_frontend import open_general_licences as open_general_licences_strings, generic
 from lite_forms.components import FiltersBar, Select, TextInput, AutocompleteInput, BackLink
@@ -18,6 +19,7 @@ from open_general_licences.services import (
     get_open_general_licence,
     patch_open_general_licence,
     set_open_general_licence_status,
+    get_ogl_activity,
 )
 
 
@@ -46,7 +48,12 @@ class ListView(TemplateView):
 
 class DetailView(TemplateView):
     def get(self, request, *args, **kwargs):
-        context = {"open_general_licence": get_open_general_licence(request, kwargs["pk"])}
+        activity_and_filters = get_ogl_activity(request, kwargs["pk"], activity_filters=request.GET)
+        context = {
+            "open_general_licence": get_open_general_licence(request, kwargs["pk"]),
+            "activity": activity_and_filters["activity"],
+            "filters": generate_activity_filters(activity_and_filters["filters"], open_general_licences_strings.Detail),
+        }
         return render(request, "open-general-licences/open-general-licence.html", context)
 
 
