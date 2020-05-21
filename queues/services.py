@@ -1,3 +1,5 @@
+from urllib import parse
+
 from django.http import HttpResponse
 
 from core.helpers import convert_dict_to_query_params, convert_parameters_to_query_params
@@ -43,7 +45,7 @@ def get_queue(request, pk):
 
 
 def get_cases_search_data(request, queue_pk, params):
-    data = get(request, CASE_URL + "?queue_id=" + str(queue_pk) + "&" + convert_dict_to_query_params(params))
+    data = get(request, CASE_URL + "?queue_id=" + str(queue_pk) + "&" + parse.urlencode(params))
     return data.json()
 
 
