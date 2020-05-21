@@ -619,6 +619,9 @@ def filter_flags_by_level(flags, level):
 
 @register.filter()
 def filter_by_rating(items, rating):
+    if not items:
+        return
+
     for item in items:
         if item["rating"] == rating:
             return True
