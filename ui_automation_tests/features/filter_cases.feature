@@ -38,7 +38,7 @@ Feature: I want to filter cases on a queue
     And I click filter to show cases with open team ecju queries
     Then "1" cases are shown
 
-  @LT_1269
+  @LT_1269 @regression
   Scenario: Advanced cases filter
     Given I sign in to SSO or am signed into SSO
     And a queue has been created
@@ -51,4 +51,4 @@ Feature: I want to filter cases on a queue
     And I click advanced filters
     Then I can see all advanced filters
     Then I filter by case reference
-    Then "1" cases are shown
+    And "1" cases are shown

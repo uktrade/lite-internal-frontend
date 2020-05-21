@@ -7,6 +7,9 @@ from lite_forms.components import (
 from lite_forms.helpers import conditional
 
 
+SLA_DAYS_RANGE = 99
+
+
 def case_filters_bar(request, case_data) -> FiltersBar:
     """
     Returns a FiltersBar for the case search page.
@@ -16,7 +19,7 @@ def case_filters_bar(request, case_data) -> FiltersBar:
     case_types = [Option(option["key"], option["value"]) for option in filters["case_types"]]
     gov_users = [Option(option["id"], option["full_name"]) for option in filters["gov_users"]]
     advice_types = [Option(option["key"], option["value"]) for option in filters["advice_types"]]
-    sla_days = [Option(i, i) for i in range(99)]
+    sla_days = [Option(i, i) for i in range(SLA_DAYS_RANGE)]
 
     return FiltersBar(
         [
@@ -43,35 +46,35 @@ def case_filters_bar(request, case_data) -> FiltersBar:
             ),
         ],
         advanced_filters=[
-            TextInput(name="exporter_application_reference", title="exporter application reference"),
-            TextInput(name="organisation_name", title="organisation name"),
-            TextInput(name="exporter_site_name", title="exporter site name"),
-            TextInput(name="exporter_site_address", title="exporter site address"),
-            Select(name="final_advice_type", title="final advice type", options=advice_types),
-            Select(name="team_advice_type", title="team advice type", options=advice_types),
-            Select(name="max_sla_days_remaining", title="max SLA days remaining", options=sla_days),
-            Select(name="min_sla_days_remaining", title="min SLA days remaining", options=sla_days),
-            Select(name="sla_days_elapsed", title="SLA days elapsed", options=sla_days),
-            DateInput(name="submitted_from", title="submitted from", prefix="submitted_from_", inline_title=True),
-            DateInput(name="submitted_to", title="submitted to", prefix="submitted_to_", inline_title=True),
-            DateInput(name="finalised_from", title="finalised from", prefix="finalised_from_", inline_title=True),
-            DateInput(name="finalised_to", title="finalised to", prefix="finalised_to_", inline_title=True),
-            TextInput(name="party_name", title="party name"),
-            TextInput(name="party_address", title="party address"),
-            TextInput(name="goods_related_description", title="goods related description"),
-            AutocompleteInput(name="country", title="country", options=get_countries(request, convert_to_options=True)),
+            TextInput(name="exporter_application_reference", title=CasesListPage.Filters.EXPORTER_APPLICATION_REFERENCE),
+            TextInput(name="organisation_name", title=CasesListPage.Filters.ORGANISATION_NAME),
+            TextInput(name="exporter_site_name", title=CasesListPage.Filters.EXPORTER_SITE_NAME),
+            TextInput(name="exporter_site_address", title=CasesListPage.Filters.EXPORTER_SITE_ADDRESS),
+            Select(name="final_advice_type", title=CasesListPage.Filters.FINAL_ADVICE_TYPE, options=advice_types),
+            Select(name="team_advice_type", title=CasesListPage.Filters.TEAM_ADVICE_TYPE, options=advice_types),
+            Select(name="max_sla_days_remaining", title=CasesListPage.Filters.MAX_SLA_DAYS_REMAINING, options=sla_days),
+            Select(name="min_sla_days_remaining", title=CasesListPage.Filters.MIN_SLA_DAYS_REMAINING, options=sla_days),
+            Select(name="sla_days_elapsed", title=CasesListPage.Filters.SLA_DAYS_ELAPSED, options=sla_days),
+            DateInput(name="submitted_from", title=CasesListPage.Filters.SUBMITTED_FROM, prefix="submitted_from_", inline_title=True),
+            DateInput(name="submitted_to", title=CasesListPage.Filters.SUBMITTED_TO, prefix="submitted_to_", inline_title=True),
+            DateInput(name="finalised_from", title=CasesListPage.Filters.FINALISED_FROM, prefix="finalised_from_", inline_title=True),
+            DateInput(name="finalised_to", title=CasesListPage.Filters.FINALISED_TO, prefix="finalised_to_", inline_title=True),
+            TextInput(name="party_name", title=CasesListPage.Filters.PARY_NAME),
+            TextInput(name="party_address", title=CasesListPage.Filters.PARTY_ADDRESS),
+            TextInput(name="goods_related_description", title=CasesListPage.Filters.GOODS_RELATED_DESCRIPTION),
+            AutocompleteInput(name="country", title=CasesListPage.Filters.COUNTRY, options=get_countries(request, convert_to_options=True)),
             AutocompleteInput(
                 name="control_list_entry",
-                title="control list entry",
+                title=CasesListPage.Filters.CONTROL_LIST_ENTRY,
                 options=get_control_list_entries(request, convert_to_options=True),
             ),
-            TokenBar(name="flags", title="flags", options=[
+            TokenBar(name="flags", title=CasesListPage.Filters.FLAGS, options=[
                 Option(flag["id"], flag["name"])
                 for flag in get_flags(request, disable_pagination=True)
             ]),
             Checkboxes(
                 name="sort_by_sla_remaining",
-                options=[Option("true", "Sort by SLA remaining")],
+                options=[Option("true", CasesListPage.Filters.SORT_BY_SLA_ELAPSED)],
                 classes=["govuk-checkboxes--small"],
             )
         ],

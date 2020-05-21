@@ -36,40 +36,40 @@ class CaseListPage(BasePage):
     LINK_CHANGE_QUEUE_ID = "link-queue"
 
     # Advanced filters
-    CASE_REFERENCE = "case_reference"
-    EXPORTER_APPLICATION_REFERENCE = "exporter_application_reference"
-    FINAL_ADVICE_TYPE = "final_advice_type"
-    TEAM_ADVICE_TYPE = "team_advice_type"
-    MAX_SLA_DAYS_REMAINING = "max_sla_days_remaining"
-    MIN_SLA_DAYS_REMAINING = "min_sla_days_remaining"
-    SUBMITTED_FROM_DAY = "submitted_from_day"
-    SUBMITTED_FROM_MONTH = "submitted_from_month"
-    SUBMITTED_FROM_YEAR = "submitted_from_year"
-    SUBMITTED_TO_DAY = "submitted_to_day"
-    SUBMITTED_TO_MONTH = "submitted_to_month"
-    SUBMITTED_TO_YEAR = "submitted_to_year"
-    PARTY_NAME = "party_name"
-    PARTY_ADDRESS = "party_address"
-    GOODS_RELATED_DESCRIPTION = "goods_related_description"
-    CONTROL_LIST_ENTRY = "control_list_entry"
+    CASE_REFERENCE_ID = "case_reference"
+    EXPORTER_APPLICATION_REFERENCE_ID = "exporter_application_reference"
+    FINAL_ADVICE_TYPE_ID = "final_advice_type"
+    TEAM_ADVICE_TYPE_ID = "team_advice_type"
+    MAX_SLA_DAYS_REMAINING_ID = "max_sla_days_remaining"
+    MIN_SLA_DAYS_REMAINING_ID = "min_sla_days_remaining"
+    SUBMITTED_FROM_DAY_ID = "submitted_from_day"
+    SUBMITTED_FROM_MONTH_ID = "submitted_from_month"
+    SUBMITTED_FROM_YEAR_ID = "submitted_from_year"
+    SUBMITTED_TO_DAY_ID = "submitted_to_day"
+    SUBMITTED_TO_MONTH_ID = "submitted_to_month"
+    SUBMITTED_TO_YEAR_ID = "submitted_to_year"
+    PARTY_NAME_ID = "party_name"
+    PARTY_ADDRESS_ID = "party_address"
+    GOODS_RELATED_DESCRIPTION_ID = "goods_related_description"
+    CONTROL_LIST_ENTRY_ID = "control_list_entry"
 
     ADVANCED_FILTERS = [
-        CASE_REFERENCE,
-        EXPORTER_APPLICATION_REFERENCE,
-        FINAL_ADVICE_TYPE,
-        TEAM_ADVICE_TYPE,
-        MAX_SLA_DAYS_REMAINING,
-        MIN_SLA_DAYS_REMAINING,
-        SUBMITTED_FROM_DAY,
-        SUBMITTED_FROM_MONTH,
-        SUBMITTED_FROM_YEAR,
-        SUBMITTED_TO_DAY,
-        SUBMITTED_TO_MONTH,
-        SUBMITTED_TO_YEAR,
-        PARTY_NAME,
-        PARTY_ADDRESS,
-        GOODS_RELATED_DESCRIPTION,
-        CONTROL_LIST_ENTRY,
+        CASE_REFERENCE_ID,
+        EXPORTER_APPLICATION_REFERENCE_ID,
+        FINAL_ADVICE_TYPE_ID,
+        TEAM_ADVICE_TYPE_ID,
+        MAX_SLA_DAYS_REMAINING_ID,
+        MIN_SLA_DAYS_REMAINING_ID,
+        SUBMITTED_FROM_DAY_ID,
+        SUBMITTED_FROM_MONTH_ID,
+        SUBMITTED_FROM_YEAR_ID,
+        SUBMITTED_TO_DAY_ID,
+        SUBMITTED_TO_MONTH_ID,
+        SUBMITTED_TO_YEAR_ID,
+        PARTY_NAME_ID,
+        PARTY_ADDRESS_ID,
+        GOODS_RELATED_DESCRIPTION_ID,
+        CONTROL_LIST_ENTRY_ID,
     ]
 
     # Notification for updated cases
