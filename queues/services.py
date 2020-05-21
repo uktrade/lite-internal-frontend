@@ -1,14 +1,13 @@
+from http import HTTPStatus
 from urllib import parse
 
 from django.http import HttpResponse
 
-from core.helpers import convert_dict_to_query_params, convert_parameters_to_query_params
-from lite_content.lite_internal_frontend.users import AssignUserPage
-from lite_forms.components import Option
-
 from conf.client import get, post, put
 from conf.constants import QUEUES_URL, CASE_URL
-from http import HTTPStatus
+from core.helpers import convert_parameters_to_query_params
+from lite_content.lite_internal_frontend.users import AssignUserPage
+from lite_forms.components import Option
 
 
 def get_queues(
