@@ -28,7 +28,7 @@ def case_filters_bar(request, case_data) -> FiltersBar:
     advice_types = [Option(option["key"], option["value"]) for option in filters["advice_types"]]
     sla_sort = [
         Option("ascending", CasesListPage.Filters.SORT_BY_SLA_ELAPSED_ASCENDING),
-        Option("descending", CasesListPage.Filters.SORT_BY_SLA_ELAPSED_DESCDENDING)
+        Option("descending", CasesListPage.Filters.SORT_BY_SLA_ELAPSED_DESCDENDING),
     ]
     sla_days = [Option(i, i) for i in range(SLA_DAYS_RANGE)]
 
@@ -68,7 +68,9 @@ def case_filters_bar(request, case_data) -> FiltersBar:
             Select(name="max_sla_days_remaining", title=CasesListPage.Filters.MAX_SLA_DAYS_REMAINING, options=sla_days),
             Select(name="min_sla_days_remaining", title=CasesListPage.Filters.MIN_SLA_DAYS_REMAINING, options=sla_days),
             Select(name="sla_days_elapsed", title=CasesListPage.Filters.SLA_DAYS_ELAPSED, options=sla_days),
-            Select(name="sla_days_elapsed_sort_order", title=CasesListPage.Filters.SORT_BY_SLA_ELAPSED, options=sla_sort),
+            Select(
+                name="sla_days_elapsed_sort_order", title=CasesListPage.Filters.SORT_BY_SLA_ELAPSED, options=sla_sort
+            ),
             DateInput(
                 name="submitted_from",
                 title=CasesListPage.Filters.SUBMITTED_FROM,
