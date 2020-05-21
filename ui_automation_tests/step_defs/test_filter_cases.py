@@ -63,4 +63,3 @@ def i_can_see_all_advanced_filters(driver, context):
 @when("I filter by case reference")
 def i_filter_by_case_reference(driver, context):
     CaseListPage(driver).filter_by_exporter_application_reference(context.app_name)
-
