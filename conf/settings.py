@@ -229,3 +229,5 @@ CSP_REPORT_ONLY = env("CSP_REPORT_ONLY")
 SESSION_EXPIRE_SECONDS = env("SESSION_EXPIRE_SECONDS", default=60 * 60)
 
 LOGOUT_URL = env("AUTHBROKER_URL") + "/logout/"
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 3500  # Increased due to potential of selecting all control list entries

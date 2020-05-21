@@ -2,6 +2,12 @@
 
 {% load humanize %}
 
+{% block back_link %}
+	<a href="{% url 'open_general_licences:open_general_licences' %}" class="govuk-back-link">
+		{% lcs 'generic.BACK' %}
+	</a>
+{% endblock %}
+
 {% block body %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">

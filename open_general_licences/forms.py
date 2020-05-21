@@ -31,56 +31,56 @@ def open_general_licence_forms(request, strings):
 
     return FormGroup(
         [
-            Form(
-                title=strings.SelectType.TITLE,
-                description=strings.SelectType.DESCRIPTION,
-                caption="Step 1 of 4",
-                questions=[
-                    RadioButtons(short_title="Type", name="case_type", options=OpenGeneralExportLicences.as_options(),),
-                ],
-                default_button_name=generic.CONTINUE,
-            ),
-            Form(
-                title=strings.Details.TITLE.format(licence.name.lower()),
-                description=strings.Details.DESCRIPTION,
-                caption="Step 2 of 4",
-                questions=[
-                    TextArea(
-                        title=strings.Details.Name.TITLE.format(licence.name.lower()),
-                        short_title=strings.Details.Name.SHORT_TITLE,
-                        description=strings.Details.Name.DESCRIPTION,
-                        name="name",
-                        rows=3,
-                        classes=["govuk-!-width-three-quarters"],
-                        data_attributes={"licence-name": licence.name},
-                    ),
-                    TextArea(
-                        title=strings.Details.Description.TITLE,
-                        short_title=strings.Details.Description.SHORT_TITLE,
-                        description=strings.Details.Description.DESCRIPTION,
-                        name="description",
-                        classes=["govuk-!-width-three-quarters"],
-                        extras={"max_length": 2000},
-                    ),
-                    TextInput(
-                        title=strings.Details.Link.TITLE.format(licence.name.lower()),
-                        short_title=strings.Details.Link.SHORT_TITLE,
-                        description=strings.Details.Link.DESCRIPTION,
-                        name="url",
-                        classes=["govuk-!-width-three-quarters"],
-                    ),
-                    RadioButtons(
-                        title=strings.Details.RequiresRegistration.TITLE.format(licence.name.lower()),
-                        short_title=strings.Details.RequiresRegistration.SHORT_TITLE,
-                        description=strings.Details.RequiresRegistration.DESCRIPTION.format(licence.name.lower()),
-                        name="registration_required",
-                        options=[Option(True, "Yes"), Option(False, "No"),],
-                        classes=["govuk-radios--inline"],
-                    ),
-                ],
-                javascript_imports=["/assets/javascripts/new-open-general-licence.js"],
-                default_button_name=generic.CONTINUE,
-            ),
+            # Form(
+            #     title=strings.SelectType.TITLE,
+            #     description=strings.SelectType.DESCRIPTION,
+            #     caption="Step 1 of 4",
+            #     questions=[
+            #         RadioButtons(short_title="Type", name="case_type", options=OpenGeneralExportLicences.as_options(),),
+            #     ],
+            #     default_button_name=generic.CONTINUE,
+            # ),
+            # Form(
+            #     title=strings.Details.TITLE.format(licence.name.lower()),
+            #     description=strings.Details.DESCRIPTION,
+            #     caption="Step 2 of 4",
+            #     questions=[
+            #         TextArea(
+            #             title=strings.Details.Name.TITLE.format(licence.name.lower()),
+            #             short_title=strings.Details.Name.SHORT_TITLE,
+            #             description=strings.Details.Name.DESCRIPTION,
+            #             name="name",
+            #             rows=3,
+            #             classes=["govuk-!-width-three-quarters"],
+            #             data_attributes={"licence-name": licence.name},
+            #         ),
+            #         TextArea(
+            #             title=strings.Details.Description.TITLE,
+            #             short_title=strings.Details.Description.SHORT_TITLE,
+            #             description=strings.Details.Description.DESCRIPTION,
+            #             name="description",
+            #             classes=["govuk-!-width-three-quarters"],
+            #             extras={"max_length": 2000},
+            #         ),
+            #         TextInput(
+            #             title=strings.Details.Link.TITLE.format(licence.name.lower()),
+            #             short_title=strings.Details.Link.SHORT_TITLE,
+            #             description=strings.Details.Link.DESCRIPTION,
+            #             name="url",
+            #             classes=["govuk-!-width-three-quarters"],
+            #         ),
+            #         RadioButtons(
+            #             title=strings.Details.RequiresRegistration.TITLE.format(licence.name.lower()),
+            #             short_title=strings.Details.RequiresRegistration.SHORT_TITLE,
+            #             description=strings.Details.RequiresRegistration.DESCRIPTION.format(licence.name.lower()),
+            #             name="registration_required",
+            #             options=[Option(True, "Yes"), Option(False, "No"),],
+            #             classes=["govuk-radios--inline"],
+            #         ),
+            #     ],
+            #     javascript_imports=["/assets/javascripts/new-open-general-licence.js"],
+            #     default_button_name=generic.CONTINUE,
+            # ),
             Form(
                 title=strings.ControlListEntries.TITLE,
                 description=strings.ControlListEntries.DESCRIPTION,

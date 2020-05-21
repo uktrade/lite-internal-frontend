@@ -129,7 +129,7 @@ def get_control_list_entries(request, convert_to_options=False, converted_contro
         if converted_control_list_entries_cache:
             return converted_control_list_entries_cache
         else:
-            data = get(request, CONTROL_LIST_ENTRIES_URL + "?flatten=True")
+            data = get(request, CONTROL_LIST_ENTRIES_URL)
 
         for control_list_entry in data.json().get("control_list_entries"):
             converted_control_list_entries_cache.append(
@@ -142,7 +142,7 @@ def get_control_list_entries(request, convert_to_options=False, converted_contro
 
         return converted_control_list_entries_cache
 
-    response = get(request, CONTROL_LIST_ENTRIES_URL)
+    response = get(request, CONTROL_LIST_ENTRIES_URL + "?group=True")
     return response.json()["control_list_entries"]
 
 
