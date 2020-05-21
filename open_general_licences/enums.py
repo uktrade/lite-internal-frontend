@@ -11,21 +11,21 @@ class OpenGeneralExportLicences:
 
     open_general_export_licence = OpenGeneralLicence(
         "00000000-0000-0000-0000-000000000002",
-        "Open general export licence",
+        "Open General Export Licence",
         "Licence which allows the export of specified controlled items by any exporter, removing the "
         "need for them to apply for an individual licence.",
         "OGEL",
     )
     open_general_trade_control_licence = OpenGeneralLicence(
         "00000000-0000-0000-0000-000000000013",
-        "Open general trade control licence",
+        "Open General Trade Control Licence",
         "Licences which control the trafficking and brokering activity between one third country and "
         "another where the transaction or deal is brokered in the UK or by a UK person.",
         "OGTCL",
     )
     open_general_transhipment_licence = OpenGeneralLicence(
         "00000000-0000-0000-0000-000000000014",
-        "Open general transhipment licence",
+        "Open General Transhipment Licence",
         "Transhipment licences allow controlled goods to pass through the UK on the way to other destinations.",
         "OGTL",
     )
