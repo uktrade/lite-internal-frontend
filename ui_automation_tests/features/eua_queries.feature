@@ -11,7 +11,7 @@ Feature: I want to respond to an End User Advisory query
     When I go to end user advisory previously created
     Then I should see the ability to add case notes
 
-  @LT_1474_change_case_status @regression @rory
+  @LT_1474_change_case_status @regression
   Scenario: I want to check that the case status can be changed
     Given I create eua query or eua query has been previously created
     And I sign in to SSO or am signed into SSO
