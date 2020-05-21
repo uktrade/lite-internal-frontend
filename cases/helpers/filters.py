@@ -26,6 +26,10 @@ def case_filters_bar(request, case_data) -> FiltersBar:
     case_types = [Option(option["key"], option["value"]) for option in filters["case_types"]]
     gov_users = [Option(option["id"], option["full_name"]) for option in filters["gov_users"]]
     advice_types = [Option(option["key"], option["value"]) for option in filters["advice_types"]]
+    sla_sort = [
+        Option("ascending", CasesListPage.Filters.SORT_BY_SLA_ELAPSED_ASCENDING),
+        Option("descending", CasesListPage.Filters.SORT_BY_SLA_ELAPSED_DESCDENDING)
+    ]
     sla_days = [Option(i, i) for i in range(SLA_DAYS_RANGE)]
 
     return FiltersBar(
@@ -64,6 +68,7 @@ def case_filters_bar(request, case_data) -> FiltersBar:
             Select(name="max_sla_days_remaining", title=CasesListPage.Filters.MAX_SLA_DAYS_REMAINING, options=sla_days),
             Select(name="min_sla_days_remaining", title=CasesListPage.Filters.MIN_SLA_DAYS_REMAINING, options=sla_days),
             Select(name="sla_days_elapsed", title=CasesListPage.Filters.SLA_DAYS_ELAPSED, options=sla_days),
+            Select(name="sla_days_elapsed_sort_order", title=CasesListPage.Filters.SORT_BY_SLA_ELAPSED, options=sla_sort),
             DateInput(
                 name="submitted_from",
                 title=CasesListPage.Filters.SUBMITTED_FROM,
@@ -99,11 +104,6 @@ def case_filters_bar(request, case_data) -> FiltersBar:
                 name="flags",
                 title=CasesListPage.Filters.FLAGS,
                 options=[Option(flag["id"], flag["name"]) for flag in get_flags(request, disable_pagination=True)],
-            ),
-            Checkboxes(
-                name="sort_by_sla_remaining",
-                options=[Option("true", CasesListPage.Filters.SORT_BY_SLA_ELAPSED)],
-                classes=["govuk-checkboxes--small"],
             ),
         ],
     )
