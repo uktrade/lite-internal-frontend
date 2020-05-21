@@ -6,14 +6,10 @@ var html = `
 `
 $("#name").parent().append(html);
 
-function lowercaseFirstLetter(string) {
-	return string.charAt(0).toLowerCase() + string.slice(1);
-}
-
 function tryShowNameField(object) {
 	if ($(object).val().trim().length != 0) {
 		var prefix = $("#name").data("licence-name") + " (";
-		$("#name-pane .govuk-body-l").text(prefix + lowercaseFirstLetter($(object).val()).trim() + ")");
+		$("#name-pane .govuk-body-l").text(prefix + $(object).val().trim() + ")");
 		$("#name-pane").show();
 	} else {
 		$("#name-pane").hide();
