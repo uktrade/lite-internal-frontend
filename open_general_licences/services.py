@@ -21,3 +21,11 @@ def get_open_general_licence(request, pk):
 def patch_open_general_licence(request, pk, json):
     response = patch(request, OPEN_GENERAL_LICENCES_URL + str(pk), json)
     return response.json(), response.status_code
+
+
+def set_open_general_licence_status(request, pk, json):
+    if "status" not in json:
+        return {"errors": {"response": ["Please pick one"]}}, 400
+
+    response = patch(request, OPEN_GENERAL_LICENCES_URL + str(pk), json)
+    return response.json(), response.status_code

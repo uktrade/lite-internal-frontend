@@ -16,7 +16,7 @@ from open_general_licences.services import (
     get_open_general_licences,
     post_open_general_licences,
     get_open_general_licence,
-    patch_open_general_licence,
+    patch_open_general_licence, set_open_general_licence_status,
 )
 
 
@@ -97,7 +97,7 @@ class ChangeStatusView(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.object = get_open_general_licence(request, self.object_pk)
-        self.action = patch_open_general_licence
+        self.action = set_open_general_licence_status
         self.success_message = "OGL de/re activated successfully"
         self.success_url = reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk})
 
@@ -119,3 +119,16 @@ class ChangeStatusView(SingleFormView):
             submit_button_text=strings.SUBMIT_BUTTON,
             confirmation_name="response",
         )
+
+    def on_submission(self, request, **kwargs):
+        if kwargs["status"] == "reactivate":
+            if request.POST.get("response") == "yes":
+                return {"status": "active"}
+            elif request.POST.get("response") == "no":
+                return {"status": "deactivated"}
+        elif kwargs["status"] == "deactivate":
+            if request.POST.get("response") == "yes":
+                return {"status": "deactivated"}
+            elif request.POST.get("response") == "no":
+                return {"status": "active"}
+        return {}

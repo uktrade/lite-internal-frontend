@@ -22,6 +22,7 @@ STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
 
 
 @register.simple_tag(name="lcs")
+@mark_safe
 def get_const_string(value):
     """
     Template tag for accessing constants from LITE content library (not for Python use - only HTML)
@@ -40,7 +41,7 @@ def get_const_string(value):
         object = getattr(object_to_search, nested_properties_list[0])
         if len(nested_properties_list) == 1:
             # We have reached the end of the path and now have the string
-            return object
+            return object.replace("<!--", "<span class='govuk-visually-hidden'>").replace("-->", "</span>")
         else:
             # Search the object for the next property in `nested_properties_list`
             return get(object, nested_properties_list[1:])
@@ -52,6 +53,16 @@ def get_const_string(value):
         return get(path_object, path[1:]) if len(path) > 1 else path_object
     except AttributeError:
         return STRING_NOT_FOUND_ERROR
+
+
+@register.filter(name="lcsp")
+def pluralize_lcs(items, string):
+    strings = get_const_string(string).split("/")
+
+    if items and len(items) == 1:
+        return strings[0]
+    else:
+        return strings[1]
 
 
 @register.filter
