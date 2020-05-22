@@ -93,7 +93,9 @@
 							{% include 'includes/flags.html' with flags=case.all_flags show_change_link=True %}
 						{% endif %}
 					</div>
-					<a id="link-change-flags" href="{% url 'cases:assign_flags' queue.id case.id %}?&case={{ case.id }}&return_to={{ CURRENT_PATH }}">Edit flags</a>
+					<a id="link-change-flags" href="{% url 'cases:assign_flags' queue.id case.id %}?&case={{ case.id }}&return_to={{ CURRENT_PATH }}">
+						{% lcs 'cases.CasePage.EDIT_FLAGS_LINK' %}
+					</a>
 				</div>
 			{% endif %}
 		</div>

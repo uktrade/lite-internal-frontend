@@ -66,13 +66,13 @@ class CreateView(SummaryListFormView):
         )
         self.forms = open_general_licence_forms(request, licence, open_general_licences_strings.Create,)
         self.action = post_open_general_licences
-        self.summary_list_title = "Confirm details about this " + licence.name
-        self.summary_list_button = "Submit"
+        self.summary_list_title = open_general_licences_strings.Create.SUMMARY_TITLE + licence.name
+        self.summary_list_button = open_general_licences_strings.Create.SUBMIT_BUTTON
         self.summary_list_notice_title = None
         self.summary_list_notice_text = None
         self.hide_titles = True
         self.hide_components = ["case_type"]
-        self.success_message = "OGL added successfully"
+        self.success_message = open_general_licences_strings.Create.SUCCESS_MESSAGE
         self.success_url = reverse("open_general_licences:open_general_licences")
 
     def prettify_data(self, data):
@@ -94,7 +94,7 @@ class UpdateView(SingleFormView):
         self.object = get_open_general_licence(request, self.object_pk)
         self.data = self.object
         self.action = patch_open_general_licence
-        self.success_message = "OGL updated successfully"
+        self.success_message = open_general_licences_strings.Edit.SUCCESS_MESSAGE
         self.success_url = reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk})
 
     def get_form(self):
@@ -127,25 +127,24 @@ class ChangeStatusView(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.object = get_open_general_licence(request, self.object_pk)
         self.action = set_open_general_licence_status
-        self.success_message = "OGL de/re activated successfully"
         self.success_url = reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk})
-
-    def get_form(self):
-        strings = (
+        self.strings = (
             open_general_licences_strings.Reactivate
             if self.kwargs["status"] == "reactivate"
             else open_general_licences_strings.Deactivate
         )
+        self.success_message = self.strings.SUCCESS_MESSAGE
 
+    def get_form(self):
         return confirm_form(
-            title=strings.TITLE.format(self.object["name"]),
-            description=strings.DESCRIPTION,
-            back_link_text=strings.BACK_LINK.format(self.object["name"]),
+            title=self.strings.TITLE.format(self.object["name"]),
+            description=self.strings.DESCRIPTION,
+            back_link_text=self.strings.BACK_LINK.format(self.object["name"]),
             back_url=reverse("open_general_licences:open_general_licence", kwargs={"pk": self.object_pk}),
-            yes_label=strings.YES,
-            no_label=strings.NO,
+            yes_label=self.strings.YES,
+            no_label=self.strings.NO,
             side_by_side=True,
-            submit_button_text=strings.SUBMIT_BUTTON,
+            submit_button_text=self.strings.SUBMIT_BUTTON,
             confirmation_name="response",
         )
 
