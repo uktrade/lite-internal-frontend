@@ -130,7 +130,7 @@ def generate_activity_filters(activity_filters, string_class):
                 name="activity_type",
                 options=make_options(activity_filters["activity_types"]),
             ),
-            DateInput(title=string_class.ActivityFilters.DATE_FROM, prefix="from_"),
-            DateInput(title=string_class.ActivityFilters.DATE_TO, prefix="to_"),
+            DateInput(title=string_class.ActivityFilters.DATE_FROM, prefix="from_", inline_title=True),
+            DateInput(title=string_class.ActivityFilters.DATE_TO, prefix="to_", inline_title=True),
         ]
     )
