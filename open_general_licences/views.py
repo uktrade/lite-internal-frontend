@@ -62,13 +62,9 @@ class DetailView(TemplateView):
 class CreateView(SummaryListFormView):
     def init(self, request, **kwargs):
         licence = OpenGeneralExportLicences.get_by_id(
-                request.POST.get("case_type", OpenGeneralExportLicences.open_general_export_licence.id)
-            )
-        self.forms = open_general_licence_forms(
-            request,
-            licence,
-            open_general_licences_strings.Create,
+            request.POST.get("case_type", OpenGeneralExportLicences.open_general_export_licence.id)
         )
+        self.forms = open_general_licence_forms(request, licence, open_general_licences_strings.Create,)
         self.action = post_open_general_licences
         self.summary_list_title = "Confirm details about this " + licence.name
         self.summary_list_button = "Submit"
@@ -82,7 +78,9 @@ class CreateView(SummaryListFormView):
     def prettify_data(self, data):
         print(pretty_json(data))
         countries, _ = get_countries(self.request)
-        countries = [country["name"] for country in countries["countries"] if country["id"] in data.get("countries", [])]
+        countries = [
+            country["name"] for country in countries["countries"] if country["id"] in data.get("countries", [])
+        ]
 
         data["registration_required"] = friendly_boolean(data["registration_required"])
         data["control_list_entries[]"] = ", ".join(data.get("control_list_entries", []))
