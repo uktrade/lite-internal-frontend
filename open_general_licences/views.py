@@ -76,7 +76,6 @@ class CreateView(SummaryListFormView):
         self.success_url = reverse("open_general_licences:open_general_licences")
 
     def prettify_data(self, data):
-        print(pretty_json(data))
         countries, _ = get_countries(self.request)
         countries = [
             country["name"] for country in countries["countries"] if country["id"] in data.get("countries", [])
