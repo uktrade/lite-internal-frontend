@@ -623,5 +623,10 @@ def filter_by_rating(items, rating):
         return
 
     for item in items:
-        if item["rating"] == rating:
-            return True
+        if isinstance(item, str):
+            if item == rating:
+                return True
+
+        if isinstance(item, dict):
+            if item["rating"] == rating:
+                return True

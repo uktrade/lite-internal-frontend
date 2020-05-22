@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView
 
+from core.builtins.custom_tags import friendly_boolean, pretty_json
 from core.helpers import generate_activity_filters
 from core.services import get_countries, get_control_list_entries
 from lite_content.lite_internal_frontend import open_general_licences as open_general_licences_strings, generic
@@ -60,15 +61,16 @@ class DetailView(TemplateView):
 
 class CreateView(SummaryListFormView):
     def init(self, request, **kwargs):
+        licence = OpenGeneralExportLicences.get_by_id(
+                request.POST.get("case_type", OpenGeneralExportLicences.open_general_export_licence.id)
+            )
         self.forms = open_general_licence_forms(
             request,
-            OpenGeneralExportLicences.get_by_id(
-                request.POST.get("case_type", OpenGeneralExportLicences.open_general_export_licence.id)
-            ),
+            licence,
             open_general_licences_strings.Create,
         )
         self.action = post_open_general_licences
-        self.summary_list_title = "Confirm details about this licence"
+        self.summary_list_title = "Confirm details about this " + licence.name
         self.summary_list_button = "Submit"
         self.summary_list_notice_title = None
         self.summary_list_notice_text = None
@@ -76,6 +78,16 @@ class CreateView(SummaryListFormView):
         self.hide_components = ["case_type"]
         self.success_message = "OGL added successfully"
         self.success_url = reverse("open_general_licences:open_general_licences")
+
+    def prettify_data(self, data):
+        print(pretty_json(data))
+        countries, _ = get_countries(self.request)
+        countries = [country["name"] for country in countries["countries"] if country["id"] in data.get("countries", [])]
+
+        data["registration_required"] = friendly_boolean(data["registration_required"])
+        data["control_list_entries[]"] = ", ".join(data.get("control_list_entries", []))
+        data["countries[]"] = ", ".join(countries)
+        return data
 
 
 class UpdateView(SingleFormView):
