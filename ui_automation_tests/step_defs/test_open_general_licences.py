@@ -61,8 +61,14 @@ def select_united_kingdom(driver):
 
 
 @then("I see the summary list")
-def see_the_summary_list(driver):
-    pass
+def see_the_summary_list(driver, context):
+    summary_list_text = OpenGeneralLicencesCreateEditPage(driver).get_text_of_summary_list()
+    assert context.ogl_name in summary_list_text
+    assert context.ogl_description in summary_list_text
+    assert context.ogl_link in summary_list_text
+    assert "Yes" in summary_list_text
+    assert "Controlled Radioactive Sources" in summary_list_text
+    assert "United Kingdom" in summary_list_text
 
 
 @when("I click submit")
@@ -100,7 +106,7 @@ def deactivate_the_open_general_licence(driver, context):
 @then("I see the new open general export licence")
 @then("I see the updated open general export licence")
 def see_the_newly_generated_open_general_export_licence(driver, context):
-    summary_list_text = OpenGeneralLicencesDetailPage(driver).get_summary_list_text()
+    summary_list_text = OpenGeneralLicencesDetailPage(driver).get_text_of_summary_list()
     assert context.ogl_name in summary_list_text
     assert context.ogl_description in summary_list_text
     assert context.ogl_link in summary_list_text

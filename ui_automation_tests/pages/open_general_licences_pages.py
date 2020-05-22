@@ -24,7 +24,7 @@ class OpenGeneralLicencesDetailPage(BasePage):
     LINK_CHANGE_NAME_ID = "link-change-name"
     LINK_DEACTIVATE_ID = "link-deactivate"
 
-    def get_summary_list_text(self):
+    def get_text_of_summary_list(self):
         return self.driver.find_element_by_class_name(self.SUMMARY_LIST_CLASS).text
 
     def click_change_name_link(self):
@@ -42,6 +42,7 @@ class OpenGeneralLicencesCreateEditPage(BasePage):
     RADIO_REGISTRATION_REQUIRED_YES_ID = "registration_required-True"
     TREE_CONTROLLED_RADIOACTIVE_ID = "node-Controlled-Radioactive-Sources"
     CHECKBOX_UNITED_KINGDOM_ID = "United-Kingdom"
+    SUMMARY_LIST_CLASS = "govuk-grid-column-two-thirds"
 
     def select_open_general_export_licence_radiobutton(self):
         self.driver.find_element_by_id(self.RADIO_OPEN_GENERAL_EXPORT_LICENCE_ID).click()
@@ -64,6 +65,9 @@ class OpenGeneralLicencesCreateEditPage(BasePage):
 
     def click_united_kingdom_checkbox(self):
         self.driver.find_element_by_id(self.CHECKBOX_UNITED_KINGDOM_ID).click()
+
+    def get_text_of_summary_list(self):
+        return self.driver.find_element_by_class_name(self.SUMMARY_LIST_CLASS).text
 
 
 class OpenGeneralLicencesDeactivatePage(BasePage):
