@@ -46,7 +46,7 @@
 			<tbody class="govuk-table__body">
 				{% for open_general_licence in open_general_licences.results %}
 					<tr class="govuk-table__row">
-						<td class="govuk-table__header govuk-table__cell--max-width-300" scope="row">
+						<td class="govuk-table__cell govuk-table__cell--max-width-300" scope="row">
 							{% with request.GET|get:'name' as name %}
 								{{ open_general_licence.name|highlight_text:name }}
 							{% endwith %}

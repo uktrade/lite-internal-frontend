@@ -103,6 +103,7 @@ def open_general_licence_forms(request, licence, strings):
                         short_title="Countries",
                         options=countries,
                         classes=["govuk-checkboxes--small"],
+                        show_select_links=True,
                     ),
                 ],
                 default_button_name=generic.CONTINUE,
