@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView
 
-from core.builtins.custom_tags import friendly_boolean, pretty_json
+from core.builtins.custom_tags import friendly_boolean
 from core.helpers import generate_activity_filters
 from core.services import get_countries, get_control_list_entries
 from lite_content.lite_internal_frontend import open_general_licences as open_general_licences_strings, generic
