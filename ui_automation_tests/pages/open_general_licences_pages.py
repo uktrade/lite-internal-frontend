@@ -1,4 +1,4 @@
-from shared import functions
+from shared import functions, selectors
 from shared.BasePage import BasePage
 
 
@@ -13,7 +13,7 @@ class OpenGeneralLicencesListPage(BasePage):
     def filter_by_name(self, name):
         functions.try_open_filters(self.driver)
         self.driver.find_element_by_id(self.INPUT_NAME_ID).send_keys(name)
-        self.driver.find_element_by_id("button-apply-filters").click()
+        self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()
 
     def click_view_first_ogl_link(self):
         self.driver.find_element_by_css_selector(self.LINK_VIEW_SELECTOR).click()
