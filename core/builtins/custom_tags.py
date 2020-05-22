@@ -57,6 +57,11 @@ def get_const_string(value):
 
 @register.filter(name="lcsp")
 def pluralize_lcs(items, string):
+    """
+    Given a list of items and an LCS string, return the singular version if the list
+    contains one item otherwise return the plural version
+    {{ open_general_licence.control_list_entries|lcsp:'open_general_licences.List.Table.CONTROL_LIST_ENTRIES' }}
+    """
     strings = get_const_string(string).split("/")
 
     if items and len(items) == 1:
@@ -618,7 +623,7 @@ def filter_flags_by_level(flags, level):
 
 
 @register.filter()
-def filter_by_rating(items, rating):
+def item_with_rating_exists(items, rating):
     if not items:
         return
 

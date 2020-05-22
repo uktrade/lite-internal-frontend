@@ -231,4 +231,7 @@ SESSION_EXPIRE_SECONDS = env("SESSION_EXPIRE_SECONDS", default=60 * 60)
 
 LOGOUT_URL = env("AUTHBROKER_URL") + "/logout/"
 
-DATA_UPLOAD_MAX_NUMBER_FIELDS = 3500  # Increased due to potential of selecting all control list entries
+# The maximum number of parameters that may be received via GET or POST
+# before a SuspiciousOperation (TooManyFields) is raised.
+# Increased due to potential of selecting all control list entries
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 3500
