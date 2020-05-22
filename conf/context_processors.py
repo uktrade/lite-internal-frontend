@@ -54,11 +54,14 @@ def lite_menu(request):
             {"title": QueuesList.TITLE, "url": reverse_lazy("queues:manage"), "icon": "menu/queues"},
             {"title": UsersPage.TITLE, "url": reverse_lazy("users:users"), "icon": "menu/users"},
             {"title": FlagsList.TITLE, "url": reverse_lazy("flags:flags"), "icon": "menu/flags"},
-            {
-                "title": "Open general licences",
-                "url": reverse_lazy("open_general_licences:open_general_licences"),
-                "icon": "menu/open-general-licences",
-            },
+            conditional(
+                Permission.MAINTAIN_OGL.value in permissions,
+                {
+                    "title": "Open general licences",
+                    "url": reverse_lazy("open_general_licences:open_general_licences"),
+                    "icon": "menu/open-general-licences",
+                },
+            ),
             conditional(
                 Permission.CONFIGURE_TEMPLATES.value in permissions,
                 {
