@@ -1,7 +1,11 @@
 from pytest_bdd import scenarios, when, then
 
-from pages.open_general_licences_pages import OpenGeneralLicencesListPage, OpenGeneralLicencesCreateEditPage, \
-    OpenGeneralLicencesDetailPage, OpenGeneralLicencesDeactivatePage
+from pages.open_general_licences_pages import (
+    OpenGeneralLicencesListPage,
+    OpenGeneralLicencesCreateEditPage,
+    OpenGeneralLicencesDetailPage,
+    OpenGeneralLicencesDeactivatePage,
+)
 from shared import functions
 from faker import Faker
 
@@ -31,8 +35,10 @@ def select_open_general_export_licence(driver):
 def fill_in_details(driver, context):
     context.ogl_name = fake.bs()
     context.ogl_description = fake.bs()
-    context.ogl_link = "https://www.gov.uk/government/publications/open-general-export-licence-military-" \
-                       "goods-government-or-nato-end-use--6"
+    context.ogl_link = (
+        "https://www.gov.uk/government/publications/open-general-export-licence-military-"
+        "goods-government-or-nato-end-use--6"
+    )
 
     create_page = OpenGeneralLicencesCreateEditPage(driver)
     create_page.enter_name(context.ogl_name)
