@@ -1,10 +1,13 @@
-from core.helpers import convert_dict_to_query_params, convert_parameters_to_query_params
-from lite_content.lite_internal_frontend.users import AssignUserPage
-from lite_forms.components import Option
+from http import HTTPStatus
+from urllib import parse
+
+from django.http import HttpResponse
 
 from conf.client import get, post, put
 from conf.constants import QUEUES_URL, CASE_URL
-from http import HTTPStatus
+from core.helpers import convert_parameters_to_query_params
+from lite_content.lite_internal_frontend.users import AssignUserPage
+from lite_forms.components import Option
 
 
 def get_queues(
@@ -41,7 +44,7 @@ def get_queue(request, pk):
 
 
 def get_cases_search_data(request, queue_pk, params):
-    data = get(request, CASE_URL + "?queue_id=" + str(queue_pk) + "&" + convert_dict_to_query_params(params))
+    data = get(request, CASE_URL + "?queue_id=" + str(queue_pk) + "&" + parse.urlencode(params, doseq=True))
     return data.json()
 
 
@@ -68,3 +71,15 @@ def put_queue_single_case_assignment(request, pk, json):
         return data.json(), data.status_code
     else:
         return {"errors": {"queue": [AssignUserPage.QUEUE_ERROR_MESSAGE]}}, HTTPStatus.BAD_REQUEST
+
+
+def get_enforcement_xml(request, queue_pk):
+    data = get(request, CASE_URL + "enforcement-check/" + str(queue_pk))
+
+    # Check if XML
+    if data.headers._store["content-type"][1] == "text/xml":
+        response = HttpResponse(data.content, content_type="text/xml")
+        response["Content-Disposition"] = 'attachment; filename="enforcement_check.xml"'
+        return response, data.status_code
+    else:
+        return None, data.status_code

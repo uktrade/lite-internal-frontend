@@ -1,14 +1,16 @@
+from http import HTTPStatus
+
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.forms.assign_users import assign_users_form
+from cases.helpers.filters import case_filters_bar
 from cases.helpers.helpers import get_updated_cases_banner_queue_id
-from conf.constants import ALL_CASES_QUEUE_ID
+from conf.constants import ALL_CASES_QUEUE_ID, Permission
+from core.services import get_user_permissions
 from lite_content.lite_internal_frontend.cases import CasesListPage
-from lite_forms.components import FiltersBar, Option, AutocompleteInput, Checkboxes, Select
 from lite_forms.generators import error_page, form_page
-from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
 from queues.forms import new_queue_form, edit_queue_form
 from queues.services import (
@@ -19,6 +21,7 @@ from queues.services import (
     put_queue,
     get_queue_case_assignments,
     put_queue_case_assignments,
+    get_enforcement_xml,
 )
 from users.services import get_gov_user
 
@@ -28,66 +31,30 @@ class Cases(TemplateView):
         """
         Show a list of cases pertaining to that queue.
         """
-        case_type = request.GET.get("case_type")
-        status = request.GET.get("status")
         queue_pk = kwargs.get("queue_pk") or request.user.default_queue
-        case_officer = request.GET.get("case_officer")
-        assigned_user = request.GET.get("assigned_user")
         hidden = request.GET.get("hidden")
 
         # Page parameters
         params = {"page": int(request.GET.get("page", 1))}
-        if status:
-            params["status"] = status
-        if case_type:
-            params["case_type"] = case_type
-        if case_officer:
-            params["case_officer"] = case_officer
-        if assigned_user:
-            params["assigned_user"] = assigned_user
+        for key, value in request.GET.items():
+            if key != "flags[]":
+                params[key] = value
+
+        params["flags"] = request.GET.getlist("flags[]", [])
+
         if hidden:
             params["hidden"] = hidden
 
         data = get_cases_search_data(request, queue_pk, params)
         updated_cases_banner_queue_id = get_updated_cases_banner_queue_id(queue_pk, data["results"]["queues"])
 
-        # Filter bar
-        filters = data["results"]["filters"]
-        statuses = [Option(option["key"], option["value"]) for option in filters["statuses"]]
-        case_types = [Option(option["key"], option["value"]) for option in filters["case_types"]]
-        gov_users = [Option(option["id"], option["full_name"]) for option in filters["gov_users"]]
-
-        filters = FiltersBar(
-            [
-                Select(name="case_type", title=CasesListPage.Filters.CASE_TYPE, options=case_types),
-                Select(name="status", title=CasesListPage.Filters.CASE_STATUS, options=statuses),
-                AutocompleteInput(
-                    name="case_officer",
-                    title=CasesListPage.Filters.CASE_OFFICER,
-                    options=[Option("not_assigned", CasesListPage.Filters.NOT_ASSIGNED), *gov_users],
-                ),
-                AutocompleteInput(
-                    name="assigned_user",
-                    title=CasesListPage.Filters.ASSIGNED_USER,
-                    options=[Option("not_assigned", CasesListPage.Filters.NOT_ASSIGNED), *gov_users],
-                ),
-                conditional(
-                    data["results"]["is_work_queue"],
-                    Checkboxes(
-                        name="hidden",
-                        options=[Option("true", CasesListPage.Filters.HIDDEN)],
-                        classes=["govuk-checkboxes--small"],
-                    ),
-                ),
-            ]
-        )
-
         context = {
             "data": data,
             "queue": data["results"]["queue"],
             "updated_cases_banner_queue_id": updated_cases_banner_queue_id,
-            "filters": filters,
+            "filters": case_filters_bar(request, data),
             "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
+            "enforcement_check": Permission.ENFORCEMENT_CHECK.value in get_user_permissions(request),
         }
 
         return render(request, "queues/cases.html", context)
@@ -183,3 +150,15 @@ class CaseAssignments(TemplateView):
 
         # If there is no response (no forms left to go through), go to the case page
         return redirect(reverse("queues:cases", kwargs={"queue_pk": queue_id}))
+
+
+class EnforcementXMLExport(TemplateView):
+    def get(self, request, pk):
+        data, status_code = get_enforcement_xml(request, pk)
+
+        if status_code == HTTPStatus.NO_CONTENT:
+            return error_page(request, CasesListPage.EnforcementXML.NO_CASES)
+        elif status_code != HTTPStatus.OK:
+            return error_page(request, CasesListPage.EnforcementXML.GENERIC_ERROR)
+        else:
+            return data

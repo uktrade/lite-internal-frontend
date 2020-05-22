@@ -2,7 +2,7 @@ import time
 from pages.shared import Shared
 from shared import selectors
 from shared.BasePage import BasePage
-from shared.tools.helpers import scroll_to_element_by_id, scroll_to_element_below_header_by_id
+from shared.tools.helpers import scroll_to_element_by_id
 
 
 class CaseTabs:
@@ -20,8 +20,6 @@ class CasePage(BasePage):
     TABLE_GOODS_ID = "table-goods"
     TABLE_DESTINATIONS_ID = "table-destinations"
     TABLE_DELETED_ENTITIES_ID = "table-inactive-entities"
-
-    AUDIT_TRAIL_ID = "audit-trail"
 
     BUTTON_RERUN_ROUTING_RULES_ID = "button-rerun-routing-rules"
     BUTTON_SET_GOODS_FLAGS_ID = "button-edit-goods-flags"
@@ -41,11 +39,11 @@ class CasePage(BasePage):
         self.driver.find_element_by_id(self.LINK_CHANGE_CASE_FLAGS_ID).click()
 
     def click_assign_case_officer(self):
-        scroll_to_element_below_header_by_id(self.driver, self.LINK_ASSIGN_CASE_OFFICER_ID)
+        scroll_to_element_by_id(self.driver, self.LINK_ASSIGN_CASE_OFFICER_ID)
         self.driver.find_element_by_id(self.LINK_ASSIGN_CASE_OFFICER_ID).click()
 
     def click_assign_users(self):
-        scroll_to_element_below_header_by_id(self.driver, self.LINK_ASSIGN_USERS_ID)
+        scroll_to_element_by_id(self.driver, self.LINK_ASSIGN_USERS_ID)
         self.driver.find_element_by_id(self.LINK_ASSIGN_USERS_ID).click()
 
     def click_change_status(self):
@@ -78,9 +76,6 @@ class CasePage(BasePage):
     def select_destinations(self):
         for destination in self.driver.find_elements_by_css_selector(self.TABLE_DESTINATIONS_ID + selectors.CHECKBOX):
             destination.click()
-
-    def get_audit_trail_text(self):
-        return self.driver.find_element_by_id(self.AUDIT_TRAIL_ID).text
 
     def is_flag_applied(self, flag_name):
         self.driver.find_element_by_id("candy-flags").click()

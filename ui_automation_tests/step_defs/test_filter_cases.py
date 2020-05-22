@@ -8,11 +8,6 @@ from ui_automation_tests.pages.case_list_page import CaseListPage
 scenarios("../features/filter_cases.feature", strict_gherkin=False)
 
 
-@given("case has been moved to new Queue")
-def assign_case_to_queue(api_test_client):
-    api_test_client.cases.assign_case_to_queue()
-
-
 @when("case has been moved to new Queue")
 def assign_case_to_queue_when(api_test_client):
     api_test_client.cases.assign_case_to_queue()
@@ -52,4 +47,34 @@ def filter_status_change(driver, context, case_type):  # noqa
 @when("I click filter to show cases with open team ecju queries")  # noqa
 def i_show_filters(driver, context):  # noqa
     CaseListPage(driver).click_checkbox_to_show_team_ecju_query()
+    CaseListPage(driver).click_apply_filters_button()
+
+
+@when("I click advanced filters")
+def i_show_advanced_filters(driver, context):
+    CaseListPage(driver).click_advanced_filters_button()
+
+
+@then("I can see all advanced filters")
+def i_can_see_all_advanced_filters(driver, context):
+    CaseListPage(driver).assert_all_advanced_filters_available()
+
+
+@when("I filter by case reference")
+def i_filter_by_case_reference(driver, context):
+    CaseListPage(driver).filter_by_exporter_application_reference(context.app_name)
+
+
+@when("I filter by goods related description")
+def i_filter_by_goods_related_description(driver, context):
+    CaseListPage(driver).filter_by_goods_related_description(context.goods_type["description"])
+
+
+@when("I filter by organisation name")
+def i_filter_by_goods_related_description(driver, context):
+    CaseListPage(driver).filter_by_organisation_name(context.org_name)
+
+
+@when("I apply filters")
+def i_apply_filters(driver, context):
     CaseListPage(driver).click_apply_filters_button()

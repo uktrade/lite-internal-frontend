@@ -255,21 +255,19 @@ def enter_response(driver, controlled, control_list_entry, report, comment):  # 
 
 @then("the status has been changed in the application")  # noqa
 def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
-    case_page = CasePage(driver)
     ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)
 
     assert (
-        context.status.lower() in case_page.get_audit_trail_text().lower()
+        context.status.lower() in Shared(driver).get_audit_trail_text().lower()
     ), "status has not been shown as approved in audit trail"
 
 
 @then("the status has been changed in the clc query")  # noqa
 def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
-    case_page = CasePage(driver)
     ApplicationPage(driver).go_to_cases_activity_tab_for_clc(internal_url, context)
 
     assert (
-        context.status.lower() in case_page.get_audit_trail_text().lower()
+        context.status.lower() in Shared(driver).get_audit_trail_text().lower()
     ), "status has not been shown as approved in audit trail"
 
 
@@ -493,3 +491,13 @@ def assert_flag_is_assigned(driver, context):  # noqa
 @given(parsers.parse('the status is set to "{status}"'))  # noqa
 def set_status(api_test_client, context, status):  # noqa
     api_test_client.applications.set_status(context.app_id, status)
+
+
+@given("case has been moved to new Queue")  # noqa
+def assign_case_to_queue(api_test_client):  # noqa
+    api_test_client.cases.assign_case_to_queue()
+
+
+@given("all flags are removed")  # noqa
+def remove_all_flags(context, api_test_client):  # noqa
+    api_test_client.flags.assign_case_flags(context.case_id, [])
