@@ -43,6 +43,8 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
             ),
             RadioButtons(
                 name="type",
+                # TODO get string from Anthony and add to content
+                description="<noscript>" + "If you select 'Refuse the licence', the reason for this decision becomes mandatory." + "</noscript>",
                 options=[
                     Option(
                         key="approve",
@@ -150,6 +152,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
                 advice.GiveOrChangeAdvicePage.GIVING_ADVICE_ON, "", includes="case/includes/selection-sidebar.html"
             )
         ],
+        javascript_imports=["/assets/javascripts/advice.js"],
     )
 
 
