@@ -1,0 +1,39 @@
+{% with destination=case.open_app_parties %}
+	<h2 class="govuk-heading-m">End user</h2>
+		<table id="table-destinations-end-user{% if show_advice %}-{{ level }}-advice{% endif %}" class="govuk-table">
+				<thead class="govuk-table__head">
+					<tr class="govuk-table__row">
+						<th scope="col" class="govuk-table__header">Name</th>
+						<th scope="col" class="govuk-table__header">Address</th>
+						<th scope="col" class="govuk-table__header">Business</th>
+						<th scope="col" class="govuk-table__header">Website</th>
+						<th scope="col" class="govuk-table__header">Flags</th>
+					</tr>
+				</thead>
+				<tbody class="govuk-table__body">
+						<tr class="govuk-table__row">
+							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.name }}</td>
+							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination|get_address }}</td>
+							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.sub_type.value }}</td>
+							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.website|linkify }}</td>
+							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
+								{% if destination.document %}
+									<a id="link-{{ destination.type}}-download" class="govuk-link" href="{% url 'cases:document' queue.id case.id destination.document.id %}">
+										{{ destination.document.name }}
+									</a>
+								{% endif %}
+							</td>
+							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
+								{% include 'includes/flags.html' with flags=destination.flags list=True %}
+							</td>
+						</tr>
+						{% if show_advice %}
+							{% include 'includes/advice.html' with id=destination.id %}
+						{% endif %}
+				</tbody>
+		</table>
+
+		{% if not hide_controls %}
+			</form>
+		{% endif %}
+{% endwith %}
