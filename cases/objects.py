@@ -1,7 +1,7 @@
 from munch import Munch
 
 from cases.constants import CaseType
-from conf.constants import MILITARY
+from conf.constants import GoodsTypeCategory
 
 
 class Slice:
@@ -66,7 +66,7 @@ class Case(Munch):
         parties = []
         if self.data["case_type"]["sub_type"]["key"] == CaseType.OPEN.value:
             parties.append(self.data.get("end_user"))
-            if self.data["goodstype_category"]["key"] == MILITARY:
+            if self.data["goodstype_category"]["key"] == GoodsTypeCategory.MILITARY:
                 parties.extend(self.data.get("ultimate_end_users"))
 
         return parties
