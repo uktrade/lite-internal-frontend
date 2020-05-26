@@ -43,8 +43,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
             ),
             RadioButtons(
                 name="type",
-                # TODO get string from Anthony and add to content
-                description="<noscript>" + "If you select 'Refuse the licence', the reason for this decision becomes mandatory." + "</noscript>",
+                description="<noscript>" + advice.GiveOrChangeAdvicePage.RadioButtons.DESCRIPTION + "</noscript>",
                 options=[
                     Option(
                         key="approve",
