@@ -28,7 +28,7 @@
 				{{ open_general_licence.name }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a id="link-change-name" class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#name">
+				<a id="link-change-name" class="govuk-link" href="{% url 'open_general_licences:edit' open_general_licence.id DETAILS %}#name">
 					{% lcs 'generic.CHANGE' %}
 					<span class="govuk-visually-hidden"> {% lcs 'open_general_licences.Detail.SummaryList.NAME' %}</span>
 				</a>
@@ -50,7 +50,7 @@
 				<span data-max-length="1000">{{ open_general_licence.description }}</span>
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#description">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id DETAILS %}#description">
 					{% lcs 'generic.CHANGE' %}
 					<span class="govuk-visually-hidden"> {% lcs 'open_general_licences.Detail.SummaryList.DESCRIPTION' %}</span>
 				</a>
@@ -64,7 +64,7 @@
 				{{ open_general_licence.url|linkify }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#url">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id DETAILS %}#url">
 					{% lcs 'generic.CHANGE' %}
 					<span class="govuk-visually-hidden"> {% lcs 'open_general_licences.Detail.SummaryList.LINK' %}</span>
 				</a>
@@ -78,7 +78,7 @@
 				{{ open_general_licence.registration_required|friendly_boolean }}
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id 'details' %}#requires_registration">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id DETAILS %}#requires_registration">
 					{% lcs 'generic.CHANGE' %}
 					<span class="govuk-visually-hidden"> {% lcs 'open_general_licences.Detail.SummaryList.REGISTRATION_REQUIRED' %}</span>
 				</a>
@@ -119,8 +119,9 @@
 				</ul>
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id 'control-list-entries' %}">
-					Change<span class="govuk-visually-hidden"> {{ open_general_licence.control_list_entries|lcsp:'open_general_licences.Detail.SummaryList.CONTROL_LIST_ENTRIES' }}</span>
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id CONTROL_LIST_ENTRIES %}">
+					{% lcs 'generic.CHANGE' %}
+					<span class="govuk-visually-hidden"> {{ open_general_licence.control_list_entries|lcsp:'open_general_licences.Detail.SummaryList.CONTROL_LIST_ENTRIES' }}</span>
 				</a>
 			</dd>
 		</div>
@@ -136,7 +137,7 @@
 				</ul>
 			</dd>
 			<dd class="govuk-summary-list__actions">
-				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id 'countries' %}">
+				<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:edit' open_general_licence.id COUNTRIES %}">
 					{% lcs 'generic.CHANGE' %}
 					<span class="govuk-visually-hidden"> {{ open_general_licence.countries|lcsp:'open_general_licences.Detail.SummaryList.COUNTRIES' }}</span>
 				</a>
@@ -165,6 +166,6 @@
 	<h2 class="govuk-heading-m">{% lcs 'open_general_licences.Detail.ACTIVITY' %}</h2>
 
 	{% include "filters.html" %}
-	
+
 	{% include 'includes/audit-trail.html' %}
 {% endblock %}

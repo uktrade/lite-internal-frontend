@@ -12,6 +12,7 @@ from lite_content.lite_internal_frontend import open_general_licences as open_ge
 from lite_forms.components import FiltersBar, Select, TextInput, AutocompleteInput, BackLink, HiddenField
 from lite_forms.generators import confirm_form
 from lite_forms.views import SummaryListFormView, SingleFormView
+from open_general_licences import constants
 from open_general_licences.enums import OpenGeneralExportLicences
 from open_general_licences.forms import open_general_licence_forms
 from open_general_licences.services import (
@@ -55,6 +56,9 @@ class DetailView(TemplateView):
             "open_general_licence": get_open_general_licence(request, kwargs["pk"]),
             "activity": activity_and_filters["activity"],
             "filters": generate_activity_filters(activity_and_filters["filters"], open_general_licences_strings.Detail),
+            "DETAILS": constants.DETAILS,
+            "CONTROL_LIST_ENTRIES": constants.CONTROL_LIST_ENTRIES,
+            "COUNTRIES": constants.COUNTRIES,
         }
         return render(request, "open-general-licences/open-general-licence.html", context)
 
@@ -103,11 +107,11 @@ class UpdateView(SingleFormView):
             open_general_licences_strings.Edit,
         ).forms
 
-        if self.kwargs["edit"] == "details":
+        if self.kwargs["edit"] == constants.DETAILS:
             form = forms[1]
-        elif self.kwargs["edit"] == "control-list-entries":
+        elif self.kwargs["edit"] == constants.CONTROL_LIST_ENTRIES:
             form = forms[2]
-        elif self.kwargs["edit"] == "countries":
+        elif self.kwargs["edit"] == constants.COUNTRIES:
             form = forms[3]
         else:
             raise Http404

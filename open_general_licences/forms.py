@@ -31,7 +31,7 @@ def open_general_licence_forms(request, licence, strings):
             Form(
                 title=strings.SelectType.TITLE,
                 description=strings.SelectType.DESCRIPTION,
-                caption="Step 1 of 4",
+                caption=strings.Steps.STEP_1,
                 questions=[
                     RadioButtons(short_title="Type", name="case_type", options=OpenGeneralExportLicences.as_options(),),
                 ],
@@ -40,7 +40,7 @@ def open_general_licence_forms(request, licence, strings):
             Form(
                 title=strings.Details.TITLE.format(licence.name.lower()),
                 description=strings.Details.DESCRIPTION,
-                caption="Step 2 of 4",
+                caption=strings.Steps.STEP_2,
                 questions=[
                     TextArea(
                         title=strings.Details.Name.TITLE.format(licence.name.lower()),
@@ -71,7 +71,10 @@ def open_general_licence_forms(request, licence, strings):
                         short_title=strings.Details.RequiresRegistration.SHORT_TITLE,
                         description=strings.Details.RequiresRegistration.DESCRIPTION.format(licence.name.lower()),
                         name="registration_required",
-                        options=[Option(True, "Yes"), Option(False, "No"),],
+                        options=[
+                            Option(True, strings.Details.RequiresRegistration.YES),
+                            Option(False, strings.Details.RequiresRegistration.NO),
+                        ],
                         classes=["govuk-radios--inline"],
                     ),
                 ],
@@ -81,12 +84,11 @@ def open_general_licence_forms(request, licence, strings):
             Form(
                 title=strings.ControlListEntries.TITLE,
                 description=strings.ControlListEntries.DESCRIPTION,
-                caption="Step 3 of 4",
+                caption=strings.Steps.STEP_3,
                 questions=[
                     TreeView(
                         name="control_list_entries[]",
-                        title="",
-                        short_title="Control list entries",
+                        short_title=strings.ControlListEntries.TITLE,
                         data=control_list_entries_tree,
                     )
                 ],
@@ -95,12 +97,12 @@ def open_general_licence_forms(request, licence, strings):
             Form(
                 title=strings.Countries.TITLE,
                 description=strings.Countries.DESCRIPTION,
-                caption="Step 4 of 4",
+                caption=strings.Steps.STEP_4,
                 questions=[
                     Filter(),
                     Checkboxes(
                         name="countries[]",
-                        short_title="Countries",
+                        short_title=strings.Countries.SHORT_TITLE,
                         options=countries,
                         classes=["govuk-checkboxes--small"],
                         show_select_links=True,

@@ -1,6 +1,7 @@
 from conf.client import get, patch, post
 from conf.constants import OPEN_GENERAL_LICENCES_URL, ACTIVITY_URL
 from core.helpers import convert_parameters_to_query_params
+from lite_content.lite_internal_frontend import open_general_licences
 
 
 def get_open_general_licences(
@@ -25,7 +26,7 @@ def patch_open_general_licence(request, pk, json):
 
 def set_open_general_licence_status(request, pk, json):
     if "status" not in json:
-        return {"errors": {"response": ["Select an option"]}}, 400
+        return {"errors": {"response": [open_general_licences.Edit.SELECT_OPTION]}}, 400
 
     response = patch(request, OPEN_GENERAL_LICENCES_URL + str(pk), json)
     return response.json(), response.status_code
