@@ -1,16 +1,17 @@
 {% with destinations=case.open_app_parties %}
-	<h2 class="govuk-heading-m">{{ destinations|length }} entit{{ destinations|pluralize:"y,ies" }}</h2>
+	{% if destinations %}
+		<h2 class="govuk-heading-m">{{ destinations|length }} entit{{ destinations|pluralize:"y,ies" }}</h2>
 		<table id="table-destinations-end-user" class="govuk-table">
-				<thead class="govuk-table__head">
-					<tr class="govuk-table__row">
-						<th scope="col" class="govuk-table__header">Type</th>
-						<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.NAME' %}</th>
-						<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.ADDRESS' %}</th>
-						<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.BUSINESS' %}</th>
-						<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.WEBSITE' %}</th>
-						<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.FLAGS' %}</th>
-					</tr>
-				</thead>
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th scope="col" class="govuk-table__header">Type</th>
+					<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.NAME' %}</th>
+					<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.ADDRESS' %}</th>
+					<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.BUSINESS' %}</th>
+					<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.WEBSITE' %}</th>
+					<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.FLAGS' %}</th>
+				</tr>
+			</thead>
 			<tbody class="govuk-table__body">
 				{% for destination in destinations %}
 					<tr class="govuk-table__row">
@@ -30,4 +31,5 @@
 		{% if not hide_controls %}
 			</form>
 		{% endif %}
+	{% endif %}
 {% endwith %}
