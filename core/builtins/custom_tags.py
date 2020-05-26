@@ -61,6 +61,7 @@ def pluralize_lcs(items, string):
     Given a list of items and an LCS string, return the singular version if the list
     contains one item otherwise return the plural version
     {{ open_general_licence.control_list_entries|lcsp:'open_general_licences.List.Table.CONTROL_LIST_ENTRIES' }}
+    CONTROL_LIST_ENTRIES = "Control list entry/Control list entries"
     """
     strings = get_const_string(string).split("/")
 
