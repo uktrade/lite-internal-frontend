@@ -5,6 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
 from cases.forms.assign_users import assign_users_form
+from cases.forms.attach_documents import upload_document_form
 from cases.helpers.filters import case_filters_bar
 from cases.helpers.helpers import get_updated_cases_banner_queue_id
 from conf.constants import ALL_CASES_QUEUE_ID, Permission
@@ -22,6 +23,7 @@ from queues.services import (
     get_queue_case_assignments,
     put_queue_case_assignments,
     get_enforcement_xml,
+    post_enforcement_xml,
 )
 from users.services import get_gov_user
 
@@ -162,3 +164,11 @@ class EnforcementXMLExport(TemplateView):
             return error_page(request, CasesListPage.EnforcementXML.GENERIC_ERROR)
         else:
             return data
+
+
+class EnforcementXMLImport(SingleFormView):
+    def init(self, request, pk):
+        self.object_pk = str(pk)
+        self.form = upload_document_form()
+        self.action = post_enforcement_xml
+        self.success_url = reverse_lazy("queues:enforcement_xml_import", kwargs={"pk": self.object_pk})

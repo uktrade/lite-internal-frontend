@@ -28,6 +28,7 @@
 				</div>
 				{% if enforcement_check and data.results.cases %}
 					<a id="export-xml" class="govuk-button govuk-button--secondary" href="{% url 'queues:enforcement_xml_export' queue.id %}" draggable="false" role="button">{% lcs 'cases.CasesListPage.EnforcementXML.EXPORT_BUTTON' %}</a>
+					<a id="export-xml" class="govuk-button govuk-button--secondary" href="{% url 'queues:enforcement_xml_import' queue.id %}" draggable="false" role="button">Import EU XML</a>
 				{% endif %}
 			</div>
 		{% endif %}

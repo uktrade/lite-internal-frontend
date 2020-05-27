@@ -9,7 +9,7 @@ from mohawk import Sender
 from mohawk.exc import AlreadyProcessed
 
 from conf import settings
-from conf.settings import HAWK_AUTHENTICATION_ENABLED, env
+from conf.settings import HAWK_AUTHENTICATION_ENABLED, env, STREAMING_CHUNK_SIZE
 
 
 def get(request, appended_address):
@@ -89,6 +89,36 @@ def delete(request, appended_address):
         _verify_api_response(response, sender)
     else:
         response = requests.delete(url=url, headers=_get_headers(request, content_type="text/plain"))
+
+    return response
+
+
+def _read_in_chunks(file):
+    """
+    Lazy function (generator) to read a file piece by piece.
+    """
+    while True:
+        data = file.read(STREAMING_CHUNK_SIZE)
+        if not data:
+            break
+        yield data
+
+
+def post_file(request, appended_address, file):
+    url = _build_absolute_uri(appended_address)
+
+    # if HAWK_AUTHENTICATION_ENABLED:
+    #     sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
+    #
+    #     response = requests.post(url=url, headers=_get_headers(request, sender), json=request_data)
+    #
+    #     _verify_api_response(response, sender)
+    # else:
+    response = requests.post(
+        url=url,
+        data={"file": _read_in_chunks(file)},
+        headers=_get_headers(request),
+    )
 
     return response
 
