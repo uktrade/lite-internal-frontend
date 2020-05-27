@@ -169,6 +169,6 @@ class EnforcementXMLExport(TemplateView):
 class EnforcementXMLImport(SingleFormView):
     def init(self, request, pk):
         self.object_pk = str(pk)
-        self.form = upload_document_form()
+        self.form = upload_document_form(self.object_pk)
         self.action = post_enforcement_xml
         self.success_url = reverse_lazy("queues:enforcement_xml_import", kwargs={"pk": self.object_pk})

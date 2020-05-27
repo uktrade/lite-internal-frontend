@@ -1,3 +1,5 @@
+from django.urls import reverse_lazy
+
 from lite_content.lite_internal_frontend.strings import cases
 from lite_forms.components import Form, TextArea, FileUpload, BackLink
 
@@ -20,5 +22,10 @@ def attach_documents_form(case_url):
     )
 
 
-def upload_document_form():
-    return Form("Upload the enforcement XML", "", [FileUpload(name="file"),],)
+def upload_document_form(queue_pk):
+    return Form(
+        "Upload the enforcement XML",
+        "",
+        [FileUpload(name="file"),],
+        back_link=BackLink("Back to queue", reverse_lazy("queues:cases", kwargs={"queue_pk": queue_pk})),
+    )

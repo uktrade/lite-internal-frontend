@@ -114,11 +114,7 @@ def post_file(request, appended_address, file):
     #
     #     _verify_api_response(response, sender)
     # else:
-    response = requests.post(
-        url=url,
-        data={"file": _read_in_chunks(file)},
-        headers=_get_headers(request),
-    )
+    response = requests.post(url=url, data={"file": _read_in_chunks(file)}, headers=_get_headers(request),)
 
     return response
 
