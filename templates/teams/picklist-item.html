@@ -9,7 +9,9 @@
 {% block full_width %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-l">{{ picklist_item.name }}</h1>
+			<h1 class="govuk-heading-l">
+				{{ picklist_item.name }}
+			</h1>
 		</div>
 		<div class="lite-app-bar__controls">
 			<a href="{% url 'picklists:edit' picklist_item.id %}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
@@ -19,7 +21,9 @@
 	</div>
 
 	{% if picklist_item.status.key == 'deactivated' %}
-		<p class="lite-tag lite-tag--small">Deactivated</p>
+		<p class="govuk-tag govuk-tag--grey govuk-!-margin-bottom-5">
+			{{ picklist_item.status.key }}
+		</p>
 	{% endif %}
 
 	<p class="govuk-body">
