@@ -621,18 +621,3 @@ def latest_status_change(activity):
 @register.filter()
 def filter_flags_by_level(flags, level):
     return [flag for flag in flags if flag["level"] == level]
-
-
-@register.filter()
-def item_with_rating_exists(items, rating):
-    if not items:
-        return
-
-    for item in items:
-        if isinstance(item, str):
-            if item == rating:
-                return True
-
-        if isinstance(item, dict):
-            if item["rating"] == rating:
-                return True
