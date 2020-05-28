@@ -7,6 +7,7 @@ from conf.constants import Permission
 from core.services import get_countries, get_denial_reasons, get_user_permissions
 from flags.enums import FlagStatus
 from flags.services import get_flags
+from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import form_page
 from lite_forms.views import SingleFormView
 from picklists.forms import (
@@ -28,10 +29,6 @@ class Picklists(TemplateView):
         """
         Return a list of picklists and show all the relevant items
         """
-        # Ensure user has permission to see this page (redirect to team page if not)
-        if Permission.MANAGE_PICKLISTS.value not in get_user_permissions(request):
-            return redirect(reverse_lazy("teams:team"))
-
         # Ensure that the page has a type
         picklist_type = request.GET.get("type")
         if not picklist_type:
@@ -43,23 +40,23 @@ class Picklists(TemplateView):
         active_picklist_items = [x for x in picklist_items["results"] if x["status"]["key"] == "active"]
         deactivated_picklist_items = [x for x in picklist_items["results"] if x["status"]["key"] != "active"]
 
+        filters = FiltersBar([
+            TextInput(name="name", title="name")
+        ])
+
         context = {
-            "title": "Picklists - " + team["team"]["name"],
             "team": team["team"],
             "active_picklist_items": active_picklist_items,
             "deactivated_picklist_items": deactivated_picklist_items,
             "data": picklist_items,
             "type": picklist_type,
+            "filters": filters,
         }
         return render(request, "teams/picklists.html", context)
 
 
 class ViewPicklistItem(TemplateView):
     def get(self, request, **kwargs):
-        # Ensure user has permission to see this page (redirect to team page if not)
-        if Permission.MANAGE_PICKLISTS.value not in get_user_permissions(request):
-            return redirect(reverse_lazy("teams:team"))
-
         picklist_item = get_picklist_item(request, str(kwargs["pk"]))
 
         context = {
@@ -72,10 +69,6 @@ class ViewPicklistItem(TemplateView):
 
 class AddPicklistItem(SingleFormView):
     def init(self, request, **kwargs):
-        # Ensure user has permission to see this page (redirect to team page if not)
-        if Permission.MANAGE_PICKLISTS.value not in get_user_permissions(request):
-            return redirect(reverse_lazy("teams:team"))
-
         self.action = validate_and_post_picklist_item
         countries, _ = get_countries(request)
         flags = get_flags(request, status=FlagStatus.ACTIVE.value)
@@ -93,10 +86,6 @@ class AddPicklistItem(SingleFormView):
 
 class EditPicklistItem(SingleFormView):
     def init(self, request, **kwargs):
-        # Ensure user has permission to see this page (redirect to team page if not)
-        if Permission.MANAGE_PICKLISTS.value not in get_user_permissions(request):
-            return redirect(reverse_lazy("teams:team"))
-
         self.object_pk = kwargs["pk"]
         self.object = get_picklist_item(request, self.object_pk)
         self.action = validate_and_put_picklist_item
@@ -120,10 +109,6 @@ class DeactivatePicklistItem(TemplateView):
     form = None
 
     def dispatch(self, request, *args, **kwargs):
-        # Ensure user has permission to see this page (redirect to team page if not)
-        if Permission.MANAGE_PICKLISTS.value not in get_user_permissions(request):
-            return redirect(reverse_lazy("teams:team"))
-
         self.picklist_item_id = str(kwargs["pk"])
         self.picklist_item = get_picklist_item(request, self.picklist_item_id)
         self.form = deactivate_picklist_item(self.picklist_item)
@@ -149,10 +134,6 @@ class ReactivatePicklistItem(TemplateView):
     form = None
 
     def dispatch(self, request, *args, **kwargs):
-        # Ensure user has permission to see this page (redirect to team page if not)
-        if Permission.MANAGE_PICKLISTS.value not in get_user_permissions(request):
-            return redirect(reverse_lazy("teams:team"))
-
         self.picklist_item_id = str(kwargs["pk"])
         self.picklist_item = get_picklist_item(request, self.picklist_item_id)
         self.form = reactivate_picklist_item(self.picklist_item)

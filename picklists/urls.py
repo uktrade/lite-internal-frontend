@@ -1,5 +1,7 @@
 from django.urls import path
 
+from conf.constants import Permission
+from core.helpers import decorate_patterns_with_permission
 from picklists import views
 
 app_name = "picklists"
@@ -12,3 +14,5 @@ urlpatterns = [
     path("<uuid:pk>/edit/deactivate/", views.DeactivatePicklistItem.as_view(), name="deactivate"),
     path("<uuid:pk>/edit/reactivate/", views.ReactivatePicklistItem.as_view(), name="reactivate"),
 ]
+
+url_patterns = decorate_patterns_with_permission(urlpatterns, Permission.MANAGE_PICKLISTS)
