@@ -7,9 +7,10 @@ from conf.constants import Permission
 from core.services import get_countries, get_denial_reasons, get_user_permissions
 from flags.enums import FlagStatus
 from flags.services import get_flags
-from lite_forms.components import FiltersBar, TextInput
+from lite_forms.components import FiltersBar, TextInput, HiddenField
 from lite_forms.generators import form_page
 from lite_forms.views import SingleFormView
+from picklists.enums import PicklistCategories
 from picklists.forms import (
     add_picklist_item_form,
     deactivate_picklist_item,
@@ -30,17 +31,16 @@ class Picklists(TemplateView):
         Return a list of picklists and show all the relevant items
         """
         # Ensure that the page has a type
-        picklist_type = request.GET.get("type")
-        if not picklist_type:
-            return redirect(reverse_lazy("picklists:picklists") + "?type=proviso")
+        picklist_type = request.GET.get("type", "proviso")
         user, _ = get_gov_user(request)
         team, _ = get_team(request, user["user"]["team"]["id"])
-        picklist_items = get_picklists_list(request, picklist_type)
+        picklist_items = get_picklists_list(request, picklist_type, name=request.GET.get("name"))
 
         active_picklist_items = [x for x in picklist_items["results"] if x["status"]["key"] == "active"]
         deactivated_picklist_items = [x for x in picklist_items["results"] if x["status"]["key"] != "active"]
 
         filters = FiltersBar([
+            HiddenField(name="type", value=picklist_type),
             TextInput(name="name", title="name")
         ])
 
@@ -51,6 +51,7 @@ class Picklists(TemplateView):
             "data": picklist_items,
             "type": picklist_type,
             "filters": filters,
+            "picklist_categories": PicklistCategories.all()
         }
         return render(request, "teams/picklists.html", context)
 

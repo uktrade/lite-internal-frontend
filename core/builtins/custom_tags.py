@@ -136,14 +136,6 @@ def table_sort_text(key, actual_sort):
 
 
 @register.filter()
-def add_subnav_selected_class(key, url):
-    if key in url:
-        return "lite-subnav__link--selected"
-
-    return ""
-
-
-@register.filter()
 def group_list(items, split):
     """
     Groups items in a list based on a specified size
