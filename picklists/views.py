@@ -51,6 +51,7 @@ class Picklists(TemplateView):
             "data": picklist_items,
             "type": picklist_type,
             "filters": filters,
+            "name": request.GET.get("name"),
             "picklist_categories": PicklistCategories.all()
         }
         return render(request, "teams/picklists.html", context)
@@ -89,6 +90,7 @@ class EditPicklistItem(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.object = get_picklist_item(request, self.object_pk)
+        self.data = self.object
         self.action = validate_and_put_picklist_item
         self.success_url = reverse_lazy("picklists:picklist_item", kwargs={"pk": self.object_pk})
         countries, _ = get_countries(request)

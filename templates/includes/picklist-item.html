@@ -1,6 +1,6 @@
 {% load variable_highlight %}
 
-<h4 class="govuk-heading-s"><a href="{% url 'picklists:picklist_item' picklist_item.id %}" class="govuk-link govuk-link--no-visited-state">{{ picklist_item.name }}</a></h4>
+<h4 class="govuk-heading-s"><a href="{% url 'picklists:picklist_item' picklist_item.id %}" class="govuk-link govuk-link--no-visited-state">{{ picklist_item.name|highlight_text:name }}</a></h4>
 <p class="govuk-body-m">
 	<span class="govuk-caption-m lite-!-display-inline">Created by</span>
 	<a class="govuk-link govuk-link--no-visited-state lite-!-display-inline" href="{% url 'teams:team' picklist_item.team.id %}">{{ picklist_item.team.name }}</a>

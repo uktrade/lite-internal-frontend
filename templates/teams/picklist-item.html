@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/two-pane.html' %}
 
 {% load variable_highlight %}
 
@@ -6,7 +6,7 @@
 	<a href="{% url 'picklists:picklists' %}?type={{ picklist_item.type.key }}" class="govuk-back-link">Back to picklist</a>
 {% endblock %}
 
-{% block body %}
+{% block full_width %}
 	<div class="lite-app-bar">
 		<div class="lite-app-bar__content">
 			<h1 class="govuk-heading-l">{{ picklist_item.name }}</h1>
@@ -31,9 +31,9 @@
 		<span class="govuk-visually-hidden"> on </span>
 		{{ picklist_item.updated_at|str_date }}
 	</p>
+{% endblock %}
 
-	<br>
-
+{% block two_thirds %}
 	<p class="govuk-body">
 		{% if picklist_item.type.key == "letter_paragraph" %}
 			{{ picklist_item.text|variable_highlight|linebreaksbr }}
@@ -42,20 +42,10 @@
 		{% endif %}
 	</p>
 
+	<hr class="lite-horizontal-separator">
+
 	{% if activity %}
-		<div class="govuk-accordion app-accordion" data-module="govuk-accordion" id="accordion-default">
-			<div class="govuk-accordion__section">
-				<div class="govuk-accordion__section-header">
-					<h2 class="govuk-accordion__section-heading">
-						<span class="govuk-accordion__section-button" id="accordion-default-heading">
-							{% lcs 'generic.ACTIVITY' %}
-						</span>
-					</h2>
-				</div>
-				<div id="accordion-default-content" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading">
-					{% include "includes/audit-trail.html" %}
-				</div>
-			</div>
-		</div>
+		<h2 class="govuk-heading-m">{% lcs 'generic.ACTIVITY' %}</h2>
+		{% include "includes/audit-trail.html" %}
 	{% endif %}
 {% endblock %}
