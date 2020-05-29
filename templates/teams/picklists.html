@@ -1,5 +1,7 @@
 {% extends 'layouts/base.html' %}
 
+{% load humanize %}
+
 {% block back_link %}{% endblock %}
 
 {% block title %}
@@ -28,6 +30,10 @@
 	</div>
 
 	{% include 'filters.html' %}
+
+	{% if data.count %}
+		<p class="lite-filters__hint-text">{{ data.count }} item{{ data.count|pluralize }} in total</p>
+	{% endif %}
 
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-one-quarter">

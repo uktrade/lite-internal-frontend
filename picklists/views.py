@@ -34,7 +34,10 @@ class Picklists(TemplateView):
         picklist_type = request.GET.get("type", "proviso")
         user, _ = get_gov_user(request)
         team, _ = get_team(request, user["user"]["team"]["id"])
-        picklist_items = get_picklists_list(request, picklist_type, name=request.GET.get("name"))
+        picklist_items = get_picklists_list(request,
+                                            type=picklist_type,
+                                            page=request.GET.get("page", 1),
+                                            name=request.GET.get("name"))
 
         active_picklist_items = [x for x in picklist_items["results"] if x["status"]["key"] == "active"]
         deactivated_picklist_items = [x for x in picklist_items["results"] if x["status"]["key"] != "active"]
