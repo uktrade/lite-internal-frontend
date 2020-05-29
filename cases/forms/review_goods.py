@@ -14,34 +14,34 @@ def review_goods_form(request, is_goods_type, **kwargs):
     return Form(
         title=cases.ReviewGoodsForm.HEADING,
         questions=[
-            PicklistPicker(target="report_summary",
-                           title="Report summary",
-                           type=PicklistCategories.report_summary.key,
-                           set_text=False),
-            # RadioButtons(
-            #     title=goods.ReviewGoods.IS_GOOD_CONTROLLED,
-            #     name="is_good_controlled",
-            #     options=[
-            #         Option(
-            #             key=conditional(is_goods_type, True, "yes"),
-            #             value="Yes",
-            #             components=[
-            #                 control_list_entries_question(
-            #                     control_list_entries=get_control_list_entries(request, convert_to_options=True),
-            #                     title=goods.ReviewGoods.ControlListEntries.TITLE,
-            #                 ),
-            #             ],
-            #         ),
-            #         Option(key=conditional(is_goods_type, False, "no"), value="No"),
-            #     ],
-            # ),
-            # DetailComponent(
-            #     title=goods.ReviewGoods.Comment.TITLE,
-            #     components=[TextArea(name="comment", extras={"max_length": 500, }), ],
-            # ),
+            RadioButtons(
+                title=goods.ReviewGoods.IS_GOOD_CONTROLLED,
+                name="is_good_controlled",
+                options=[
+                    Option(
+                        key=conditional(is_goods_type, True, "yes"),
+                        value="Yes",
+                        components=[
+                            control_list_entries_question(
+                                control_list_entries=get_control_list_entries(request, convert_to_options=True),
+                                title=goods.ReviewGoods.ControlListEntries.TITLE,
+                            ),
+                            PicklistPicker(target="report_summary",
+                                           title="Report summary",
+                                           type=PicklistCategories.report_summary.key,
+                                           set_text=False),
+                        ],
+                    ),
+                    Option(key=conditional(is_goods_type, False, "no"), value="No"),
+                ],
+            ),
+            DetailComponent(
+                title=goods.ReviewGoods.Comment.TITLE,
+                components=[TextArea(name="comment", extras={"max_length": 500, }), ],
+            ),
         ],
         default_button_name=cases.ReviewGoodsForm.CONFIRM_BUTTON,
-        # container="case",
+        container="case",
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]})),
         helpers=[HelpSection(goods.ReviewGoods.GIVING_ADVICE_ON, "", includes="case/includes/selection-sidebar.html")],
     )

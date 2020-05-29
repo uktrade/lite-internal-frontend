@@ -2,12 +2,8 @@ $picklist-max-width: 800px;
 
 .app-picklist-picker__container {
 	min-height: 400px;
-	max-height: 400px;
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
 	margin-left: - govuk-spacing(6);
 	margin-right: - govuk-spacing(6);
-	margin-bottom: - govuk-spacing(6);
 	padding-top: 2px;
 	transition: opacity .3s ease;
 }
@@ -24,11 +20,11 @@ $picklist-max-width: 800px;
 	left: 0;
 	right: 0;
 	bottom: 0;
+	pointer-events: none;
+	visibility: hidden;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	pointer-events: none;
-	visibility: hidden;
 }
 
 .app-picklist-item__link {

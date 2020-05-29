@@ -13,13 +13,13 @@
 	<div class="app-picklist-picker__no-results">
 		There aren't any results.
 	</div>
-	<div class="lite-pagination__container" style="display: none;">
-		<a id="link-{{ component.target }}-previous-page" href="#" id="link-previous-page" class="lite-pagination__navigation-link">
+	<div class="lite-pagination__container govuk-!-margin-top-5 app-hidden">
+		<a id="link-previous-page" href="#" class="lite-pagination__navigation-link">
 			{% svg 'previous' %}
 			<span>Previous page</span>
 		</a>
 		<span></span>
-		<a id="link-{{ component.target }}-previous-page" href="#" id="link-previous-page" class="lite-pagination__navigation-link">
+		<a id="link-next-page" href="#" class="lite-pagination__navigation-link">
 			<span>Next page</span>
 			{% svg 'next' %}
 		</a>
@@ -55,13 +55,41 @@
 		return false;
 	});
 
-	function filter{{ component.target }}PicklistItems(setText, filter) {
+	function filter{{ component.target }}PicklistItems(setText, filter, page) {
 		if (!filter) {
 			filter = ""
 		}
-		$.get("/team/picklists.json?type={{ component.type }}&name=" + filter, function(data) {
+		if (!page) {
+			page = 1;
+		}
+		$.get("/team/picklists.json?type={{ component.type }}&page=" + page + "&name=" + filter, function(data) {
 			$(".lite-modal #{{ component.target }}-picklist-picker__container").empty();
 			$(".lite-modal #{{ component.target }}-picklist-picker__container").removeClass("app-picklist-picker__container--loading");
+
+			if (data.total_pages == 0 || data.count <= 25) {
+				$(".lite-modal .lite-pagination__container").addClass("app-hidden");
+			} else {
+				$(".lite-modal .lite-pagination__container").removeClass("app-hidden");
+			}
+
+			if (page == 1) {
+				$(".lite-modal #link-previous-page").addClass("lite-pagination__navigation-link--disabled");
+			} else {
+				$(".lite-modal #link-previous-page").removeClass("lite-pagination__navigation-link--disabled");
+				$(".lite-modal #link-previous-page").unbind("click").click(function() {
+					filter{{ component.target }}PicklistItems(setText, filter, page - 1);
+				});
+			}
+
+			if (page == data.total_pages) {
+				$(".lite-modal #link-next-page").addClass("lite-pagination__navigation-link--disabled");
+			} else {
+				$(".lite-modal #link-next-page").removeClass("lite-pagination__navigation-link--disabled");
+				$(".lite-modal #link-next-page").unbind("click").click(function() {
+					filter{{ component.target }}PicklistItems(setText, filter, page + 1);
+				});
+			}
+
 			$.each(data.results, function(i, item) {
 				var html = `
 						<div id="${item.id}" onclick="return showPreviewModal(this, '#{{ component.target }}', ${setText})" data-id="${item.id}" data-target="{{ component.target }}" data-title="${item.name}" data-text="${item.text}" data-last-updated="${item.updated_at}" class="app-picklist-picker__item">
