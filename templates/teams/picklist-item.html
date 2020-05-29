@@ -25,29 +25,27 @@
 			{{ picklist_item.status.key }}
 		</p>
 	{% endif %}
-
-	<p class="govuk-body">
-		<span class="govuk-caption-m lite-!-display-inline">Created by</span>
-		<a class="govuk-link govuk-link--no-visited-state lite-!-display-inline" href="{% url 'teams:team' picklist_item.team.id %}">{{ picklist_item.team.name }}</a>
-		<span class="govuk-caption-m lite-!-display-inline">-</span>
-		<a class="govuk-link govuk-link--no-visited-state lite-!-display-inline" href="{% url 'picklists:picklists' %}?type={{ picklist_item.type.key }}">{{ picklist_item.type.value }}</a>
-		<span class="govuk-caption-m lite-!-display-inline">- Last updated</span>
-		<span class="govuk-visually-hidden"> on </span>
-		{{ picklist_item.updated_at|str_date }}
-	</p>
 {% endblock %}
 
 {% block two_thirds %}
-	<p class="govuk-body govuk-!-margin-bottom-6">
+	<p class="govuk-hint govuk-!-margin-top-0 govuk-!-margin-bottom-4">
+		Created by
+		<a class="govuk-link govuk-link--no-visited-state" href="{% url 'teams:team' picklist_item.team.id %}">{{ picklist_item.team.name }}</a>
+		-
+		<a class="govuk-link govuk-link--no-visited-state" href="{% url 'picklists:picklists' %}?type={{ picklist_item.type.key }}">{{ picklist_item.type.value }}</a>
+		- Last updated <span class="govuk-visually-hidden"> on </span> {{ picklist_item.updated_at|str_date }}
+	</p>
+
+	<p class="app-picklist__text govuk-!-margin-bottom-6">
 		{% if picklist_item.type.key == "letter_paragraph" %}
 			{{ picklist_item.text|variable_highlight|linebreaksbr }}
 		{% else %}
 			{{ picklist_item.text|linebreaksbr }}
 		{% endif %}
 	</p>
+{% endblock %}
 
-	<hr class="lite-horizontal-separator">
-
+{% block one_third %}
 	{% if activity %}
 		<h2 class="govuk-heading-m">{% lcs 'generic.ACTIVITY' %}</h2>
 		{% include "includes/audit-trail.html" %}

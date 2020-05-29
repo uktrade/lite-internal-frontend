@@ -29,11 +29,11 @@
 		</div>
 	</div>
 
-	{% include 'filters.html' %}
-
 	{% if data.count %}
 		<p class="lite-filters__hint-text">{{ data.count }} item{{ data.count|pluralize }} in total</p>
 	{% endif %}
+
+	{% include 'filters.html' %}
 
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-one-quarter">
@@ -48,27 +48,30 @@
 			</ul>
 		</div>
 		<div class="govuk-grid-column-three-quarters">
-			{% if active_picklist_items or deactivated_picklist_items %}
-				<div>
-					{% for picklist_item in active_picklist_items %}
-						{% include 'includes/picklist-item.html' %}
-					{% endfor %}
-				</div>
-				{% if deactivated_picklist_items %}
-					<div>
-						<h4 class="govuk-heading-s">Deactivated</h4>
-						<hr class="lite-horizontal-separator">
-						{% for picklist_item in deactivated_picklist_items %}
+			<div class="app-picklists__container">
+				{% if active_picklist_items or deactivated_picklist_items %}
+					<ol class="app-picklists__list">
+						{% for picklist_item in active_picklist_items %}
 							{% include 'includes/picklist-item.html' %}
 						{% endfor %}
-					</div>
+					</ol>
+					{% if deactivated_picklist_items %}
+						<div>
+							<h4 class="govuk-heading-s">Deactivated</h4>
+							<hr class="lite-horizontal-separator">
+							<ol class="app-picklists__list">
+								{% for picklist_item in deactivated_picklist_items %}
+									{% include 'includes/picklist-item.html' %}
+								{% endfor %}
+							</ol>
+						</div>
+					{% endif %}
+				{% else %}
+					{% include 'includes/notice.html' with text='picklists.PicklistPicker.NO_CONTENT_NOTICE' %}
 				{% endif %}
-			{% else %}
-				<p class="govuk-caption-l"></p>
-				{% include "includes/notice.html" with text='picklists.PicklistPicker.NO_CONTENT_NOTICE' %}
-			{% endif %}
 
-			{% pagination %}
+				{% pagination %}
+			</div>
 		</div>
 	</div>
 {% endblock %}

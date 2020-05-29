@@ -31,7 +31,7 @@ class Picklists(TemplateView):
         Return a list of picklists and show all the relevant items
         """
         # Ensure that the page has a type
-        picklist_type = request.GET.get("type", "proviso")
+        picklist_type = request.GET.get("type", PicklistCategories.proviso.key)
         user, _ = get_gov_user(request)
         team, _ = get_team(request, user["user"]["team"]["id"])
         picklist_items = get_picklists_list(request,
@@ -65,8 +65,10 @@ class PicklistsJson(TemplateView):
         """
         Return JSON representation of picklists for use in picklist pickers
         """
-        picklist_type = request.GET.get("type", "proviso")
-        picklist_items = get_picklists_list(request, picklist_type, name=request.GET.get("name"))
+        picklist_items = get_picklists_list(request,
+                                            type=request.GET.get("type", PicklistCategories.proviso.key),
+                                            page=request.GET.get("page", 1),
+                                            name=request.GET.get("name"))
         return JsonResponse(data=picklist_items)
 
 
