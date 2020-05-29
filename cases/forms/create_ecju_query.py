@@ -53,7 +53,7 @@ def new_ecju_query_form(request, queue_pk, pk):
                         extras={"max_length": 5000,},
                         data_attributes={"picklist-picker": query_type},
                     ),
-                    PicklistPicker(target="question", items=get_picklists_for_input(request, query_type)),
+                    PicklistPicker(target="question", type=query_type),
                 ],
                 default_button_name=cases.EcjuQueries.AddQuery.SUBMIT,
                 container="case",

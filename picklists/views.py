@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -55,6 +55,16 @@ class Picklists(TemplateView):
             "picklist_categories": PicklistCategories.all()
         }
         return render(request, "teams/picklists.html", context)
+
+
+class PicklistsJson(TemplateView):
+    def get(self, request, **kwargs):
+        """
+        Return JSON representation of picklists for use in picklist pickers
+        """
+        picklist_type = request.GET.get("type", "proviso")
+        picklist_items = get_picklists_list(request, picklist_type, name=request.GET.get("name"))
+        return JsonResponse(data=picklist_items)
 
 
 class ViewPicklistItem(TemplateView):

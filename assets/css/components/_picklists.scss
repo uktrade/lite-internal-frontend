@@ -7,6 +7,26 @@
 	margin-right: - govuk-spacing(6);
 	margin-bottom: - govuk-spacing(6);
 	padding-top: 2px;
+	transition: opacity .3s ease;
+}
+
+.app-picklist-picker__container--loading {
+	opacity: .25;
+}
+
+.app-picklist-picker__no-results {
+	@include govuk-font($size: 19);
+	color: $govuk-secondary-text-colour;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+	visibility: hidden;
 }
 
 .app-picklist-item__text {
@@ -128,7 +148,7 @@
 
 		svg {
 			display: inline-block;
-			margin-right: govuk-spacing(2);
+			margin-right: govuk-spacing(1);
 
 			* {
 				fill: currentColor;

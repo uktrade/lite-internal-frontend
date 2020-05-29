@@ -70,3 +70,38 @@
 		{% include "includes/notice.html" with text='teams.TeamPage.NO_CONTENT_NOTICE' %}
 	{% endif %}
 {% endblock %}
+
+{% block javascript %}
+	<script type="text/javascript">
+		// LITECommon.Modal.showModal('Help with formatting', $('#squalor').html(), false, true, {
+		// 	maxWidth: '500px'
+		// });
+
+		// $("#squalor").remove();
+		//
+		function filterPicklistItems() {
+			$("#swag").empty();
+			$.get("/team/picklists.json?type=proviso&name=" + $("#picklist-filter-box").val(), function(data) {
+				$("#swag").empty();
+				$.each(data.results, function(i, item) {
+					var html = `
+							<div class="app-picklist-picker__item">
+								<h4 class="govuk-heading-s">${item.name}</h4>
+								<p class="govuk-caption-m">
+									${item.text}
+								</p>
+							</div>
+						`
+					$("#swag").append(html)
+				});
+			});
+		}
+
+		$("#picklist-filter-box").on('input propertychange paste', function() {
+			filterPicklistItems();
+		});
+
+		filterPicklistItems();
+	</script>
+{% endblock %}
+

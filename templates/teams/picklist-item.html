@@ -38,7 +38,7 @@
 {% endblock %}
 
 {% block two_thirds %}
-	<p class="govuk-body">
+	<p class="govuk-body govuk-!-margin-bottom-6">
 		{% if picklist_item.type.key == "letter_paragraph" %}
 			{{ picklist_item.text|variable_highlight|linebreaksbr }}
 		{% else %}
