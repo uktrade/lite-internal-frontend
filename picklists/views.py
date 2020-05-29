@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from conf.constants import Permission
+from core.builtins.custom_tags import str_date
 from core.services import get_countries, get_denial_reasons, get_user_permissions
 from flags.enums import FlagStatus
 from flags.services import get_flags
@@ -69,6 +70,9 @@ class PicklistsJson(TemplateView):
                                             type=request.GET.get("type", PicklistCategories.proviso.key),
                                             page=request.GET.get("page", 1),
                                             name=request.GET.get("name"))
+        # Convert the dates to friendly format to cut down on JavaScript code
+        for item in picklist_items["results"]:
+            item["updated_at"] = str_date(item["updated_at"])
         return JsonResponse(data=picklist_items)
 
 
