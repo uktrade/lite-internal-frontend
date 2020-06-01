@@ -93,33 +93,6 @@ def delete(request, appended_address):
     return response
 
 
-def _read_in_chunks(file):
-    """
-    Lazy function (generator) to read a file piece by piece.
-    """
-    while True:
-        data = file.read(STREAMING_CHUNK_SIZE)
-        if not data:
-            break
-        yield data
-
-
-def post_file(request, appended_address, file):
-    url = _build_absolute_uri(appended_address)
-    data = {"file": file.read().decode("utf-8")}
-
-    if HAWK_AUTHENTICATION_ENABLED:
-        sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(data))
-
-        response = requests.post(url=url, json=data, headers=_get_headers(request, sender))
-
-        _verify_api_response(response, sender)
-    else:
-        response = requests.post(url=url, json=data, headers=_get_headers(request))
-
-    return response
-
-
 def _build_absolute_uri(appended_address):
     url = env("LITE_API_URL") + appended_address
 
