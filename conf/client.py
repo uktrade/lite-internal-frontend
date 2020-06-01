@@ -106,15 +106,16 @@ def _read_in_chunks(file):
 
 def post_file(request, appended_address, file):
     url = _build_absolute_uri(appended_address)
+    data = {"file": file.read().decode("utf-8")}
 
-    # if HAWK_AUTHENTICATION_ENABLED:
-    #     sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(request_data))
-    #
-    #     response = requests.post(url=url, headers=_get_headers(request, sender), json=request_data)
-    #
-    #     _verify_api_response(response, sender)
-    # else:
-    response = requests.post(url=url, data={"file": _read_in_chunks(file)}, headers=_get_headers(request),)
+    if HAWK_AUTHENTICATION_ENABLED:
+        sender = _get_hawk_sender(url, "POST", "application/json", json.dumps(data))
+
+        response = requests.post(url=url, json=data, headers=_get_headers(request, sender))
+
+        _verify_api_response(response, sender)
+    else:
+        response = requests.post(url=url, json=data, headers=_get_headers(request))
 
     return response
 
