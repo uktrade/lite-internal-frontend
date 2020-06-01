@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from conf.client import get, post, put, post_file
 from conf.constants import QUEUES_URL, CASE_URL
 from core.helpers import convert_parameters_to_query_params
+from lite_content.lite_internal_frontend.cases import UploadEnforcementXML
 from lite_content.lite_internal_frontend.users import AssignUserPage
 from lite_forms.components import Option
 
@@ -87,9 +88,9 @@ def get_enforcement_xml(request, queue_pk):
 
 def post_enforcement_xml(request, queue_pk, json):
     if len(request.FILES) == 0:
-        return {"errors": {"file": ["You must attach an XML file"]}}, HTTPStatus.BAD_REQUEST
+        return {"errors": {"file": [UploadEnforcementXML.Errors.NO_FILE]}}, HTTPStatus.BAD_REQUEST
     if len(request.FILES) != 1:
-        return {"errors": {"file": ["You cannot upload multiple files"]}}, HTTPStatus.BAD_REQUEST
+        return {"errors": {"file": [UploadEnforcementXML.Errors.MULTIPLE_FILES]}}, HTTPStatus.BAD_REQUEST
 
     data = post_file(request, CASE_URL + "enforcement-check/" + queue_pk, request.FILES["file"])
     return data.json(), data.status_code
