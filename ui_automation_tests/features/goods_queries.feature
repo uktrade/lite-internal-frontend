@@ -22,7 +22,7 @@ Feature: I want to respond to clc queries
     And I select status "CLC review" and save
     Then the status has been changed in the clc query
 
-  @LT_1528_respond @pv_grading @regression @rory
+  @LT_1528_respond @pv_grading @regression
   Scenario: respond to a grading type of query
     Given I sign in to SSO or am signed into SSO
     And I create report summary picklist
