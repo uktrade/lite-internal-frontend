@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
@@ -10,7 +11,7 @@ from cases.helpers.filters import case_filters_bar
 from cases.helpers.helpers import get_updated_cases_banner_queue_id
 from conf.constants import ALL_CASES_QUEUE_ID, Permission
 from core.services import get_user_permissions
-from lite_content.lite_internal_frontend.cases import CasesListPage
+from lite_content.lite_internal_frontend.cases import CasesListPage, UploadEnforcementXML
 from lite_forms.generators import error_page, form_page
 from lite_forms.views import SingleFormView
 from queues.forms import new_queue_form, edit_queue_form
@@ -171,4 +172,7 @@ class EnforcementXMLImport(SingleFormView):
         self.object_pk = str(pk)
         self.form = upload_document_form(self.object_pk)
         self.action = post_enforcement_xml
-        self.success_url = reverse_lazy("queues:enforcement_xml_import", kwargs={"pk": self.object_pk})
+
+    def get_success_url(self):
+        messages.success(self.request, UploadEnforcementXML.SUCCESS_BANNER)
+        return reverse_lazy("queues:enforcement_xml_import", kwargs={"pk": self.object_pk})
