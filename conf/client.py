@@ -9,7 +9,7 @@ from mohawk import Sender
 from mohawk.exc import AlreadyProcessed
 
 from conf import settings
-from conf.settings import HAWK_AUTHENTICATION_ENABLED, env, STREAMING_CHUNK_SIZE
+from conf.settings import HAWK_AUTHENTICATION_ENABLED, env
 
 
 def get(request, appended_address):
