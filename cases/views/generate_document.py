@@ -12,7 +12,7 @@ from cases.services import (
     get_generated_document_preview,
     get_generated_document,
     get_case,
-)
+    get_case_additional_contacts, get_case_applicant)
 from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates, get_letter_template
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
@@ -61,8 +61,21 @@ class SelectTemplate(PickTemplateView):
         decision = False
         back_text = GenerateDocumentsPage.SelectTemplateForm.BACK_LINK
         back_url = "cases:case"
-        success_url = "cases:generate_document_edit"
+        success_url = "cases:generate_document_addressee"
         super().__init__(decision, back_url, success_url, back_text)
+
+
+class SelectAddressee(TemplateView):
+    def get(self, request, **kwargs):
+        contacts = get_case_additional_contacts(request, kwargs["pk"])
+        if contacts:
+            applicant = get_case_applicant(request, kwargs["pk"])
+            return render(
+                request, "generated-documents/addressee.html",
+                {"applicant": applicant, "contacts": contacts, "kwargs": kwargs},
+            )
+        else:
+            return redirect(reverse_lazy("cases:generate_document_edit", kwargs=kwargs))
 
 
 class SelectTemplateFinalAdvice(PickTemplateView):

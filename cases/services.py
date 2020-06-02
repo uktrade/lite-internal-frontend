@@ -350,6 +350,11 @@ def delete_case_officer(request, pk, *args):
     return data.json(), data.status_code
 
 
+def get_case_applicant(request, pk):
+    response = get(request, CASE_URL + str(pk) + "/applicant/")
+    return response.json()
+
+
 def get_case_additional_contacts(request, pk):
     response = get(request, CASE_URL + str(pk) + "/additional-contacts/")
     return response.json()
