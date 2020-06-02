@@ -263,6 +263,7 @@ $case-header-text-colour: govuk-colour("white");
     z-index: 1;
     min-height: 120px;
     box-sizing: border-box;
+    align-items: center;
 
     .govuk-button--secondary {
         background-color: govuk-colour("white");
