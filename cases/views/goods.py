@@ -2,8 +2,8 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 
 from cases.forms.review_goods import review_goods_form
+from cases.helpers.advice import get_param_goods, flatten_goods_data
 from cases.services import get_case, post_review_goods
-from cases.helpers.advice import get_param_goods, flatten_advice_data, flatten_goods_data
 from conf.constants import Permission
 from core.helpers import has_permission
 from lite_forms.views import SingleFormView

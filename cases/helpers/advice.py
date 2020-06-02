@@ -8,7 +8,6 @@ from cases.services import get_blocking_flags
 from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES, AdviceType
 from core.builtins.custom_tags import filter_advice_by_level, filter_advice_by_id, filter_advice_by_user
 from core.services import get_status_properties
-from picklists.services import get_picklist_item
 from teams.services import get_teams
 
 SINGULAR_ENTITIES = ["end_user", "consignee"]
