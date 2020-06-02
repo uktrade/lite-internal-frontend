@@ -23,14 +23,12 @@
 			<p class="lite-tabs__tab lite-tabs__tab--selected">{% lcs 'teams.TeamPage.Tabs.PICKLISTS' %}</p>
 		</div>
 		<div class="lite-tabs__controls">
-			<a href="{% url 'picklists:add' %}?type={{ type }}" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
-				Add an item
-			</a>
+			{% govuk_link_button text='picklists.Picklists.ADD_BUTTON' url='picklists:add' query_params='?type='|add:type id='new-picklist-item' %}
 		</div>
 	</div>
 
 	{% if data.count %}
-		<p class="lite-filters__hint-text">{{ data.count }} item{{ data.count|pluralize }} in total</p>
+		<p class="lite-filters__hint-text">{{ data.count }} {{ data.count|lcsp:'picklists.Picklists.ITEMS_COUNT' }}</p>
 	{% endif %}
 
 	{% include 'filters.html' %}

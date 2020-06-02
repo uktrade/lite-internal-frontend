@@ -64,8 +64,9 @@ def pluralize_lcs(items, string):
     CONTROL_LIST_ENTRIES = "Control list entry/Control list entries"
     """
     strings = get_const_string(string).split("/")
+    count = items if isinstance(items, int) else len(items) if items else 0
 
-    if items and len(items) == 1:
+    if count == 1:
         return strings[0]
     else:
         return strings[1]
