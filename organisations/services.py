@@ -1,8 +1,14 @@
 from http import HTTPStatus
 
 from conf.client import get, post, put
-from conf.constants import ORGANISATIONS_URL, SITES_URL, USERS_URL, ORGANISATION_STATUS_URL, ACTIVITY_URL, \
-    SITE_ACTIVITY_URL
+from conf.constants import (
+    ORGANISATIONS_URL,
+    SITES_URL,
+    USERS_URL,
+    ORGANISATION_STATUS_URL,
+    ACTIVITY_URL,
+    SITE_ACTIVITY_URL,
+)
 from lite_content.lite_internal_frontend.organisations import RegisterAnOrganisation
 
 
