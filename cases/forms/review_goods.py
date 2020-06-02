@@ -28,7 +28,8 @@ def review_goods_form(request, is_goods_type, **kwargs):
                             ),
                             PicklistPicker(
                                 target="report_summary",
-                                title="Report summary",
+                                title=goods.ReviewGoods.ReportSummary.TITLE,
+                                description=goods.ReviewGoods.ReportSummary.DESCRIPTION,
                                 type=PicklistCategories.report_summary.key,
                                 set_text=False,
                             ),
