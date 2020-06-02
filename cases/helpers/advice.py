@@ -100,10 +100,11 @@ def flatten_goods_data(items: List[Dict]):
         items = [x["good"] for x in items]
 
     is_good_controlled = same_value(items, "is_good_controlled")
-    control_list_entries = [{"key": clc["rating"], "value": clc["rating"]} for clc in same_value(items, "control_list_entries")]
+    control_list_entries = [
+        {"key": clc["rating"], "value": clc["rating"]} for clc in same_value(items, "control_list_entries")
+    ]
 
-    return {"is_good_controlled": is_good_controlled,
-            "control_list_entries": control_list_entries}
+    return {"is_good_controlled": is_good_controlled, "control_list_entries": control_list_entries}
 
 
 def flatten_advice_data(request, case: Case, items: List[Dict], level):
