@@ -18,4 +18,13 @@ class PicklistCategories:
 
     @classmethod
     def all(cls):
-        return [cls.proviso, cls.ecju_query, cls.pre_visit_questionnaire, cls.compliance_actions, cls.letter_paragraph, cls.report_summary, cls.standard_advice, cls.footnotes]
+        return [
+            cls.proviso,
+            cls.ecju_query,
+            cls.pre_visit_questionnaire,
+            cls.compliance_actions,
+            cls.letter_paragraph,
+            cls.report_summary,
+            cls.standard_advice,
+            cls.footnotes,
+        ]

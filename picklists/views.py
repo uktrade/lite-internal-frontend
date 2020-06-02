@@ -35,18 +35,14 @@ class Picklists(TemplateView):
         picklist_type = request.GET.get("type", PicklistCategories.proviso.key)
         user, _ = get_gov_user(request)
         team, _ = get_team(request, user["user"]["team"]["id"])
-        picklist_items = get_picklists_list(request,
-                                            type=picklist_type,
-                                            page=request.GET.get("page", 1),
-                                            name=request.GET.get("name"))
+        picklist_items = get_picklists_list(
+            request, type=picklist_type, page=request.GET.get("page", 1), name=request.GET.get("name")
+        )
 
         active_picklist_items = [x for x in picklist_items["results"] if x["status"]["key"] == "active"]
         deactivated_picklist_items = [x for x in picklist_items["results"] if x["status"]["key"] != "active"]
 
-        filters = FiltersBar([
-            HiddenField(name="type", value=picklist_type),
-            TextInput(name="name", title="name")
-        ])
+        filters = FiltersBar([HiddenField(name="type", value=picklist_type), TextInput(name="name", title="name")])
 
         context = {
             "team": team["team"],
@@ -56,7 +52,7 @@ class Picklists(TemplateView):
             "type": picklist_type,
             "filters": filters,
             "name": request.GET.get("name"),
-            "picklist_categories": PicklistCategories.all()
+            "picklist_categories": PicklistCategories.all(),
         }
         return render(request, "teams/picklists.html", context)
 
@@ -66,10 +62,12 @@ class PicklistsJson(TemplateView):
         """
         Return JSON representation of picklists for use in picklist pickers
         """
-        picklist_items = get_picklists_list(request,
-                                            type=request.GET.get("type", PicklistCategories.proviso.key),
-                                            page=request.GET.get("page", 1),
-                                            name=request.GET.get("name"))
+        picklist_items = get_picklists_list(
+            request,
+            type=request.GET.get("type", PicklistCategories.proviso.key),
+            page=request.GET.get("page", 1),
+            name=request.GET.get("name"),
+        )
         # Convert the dates to friendly format to cut down on JavaScript code
         for item in picklist_items["results"]:
             item["updated_at"] = str_date(item["updated_at"])
