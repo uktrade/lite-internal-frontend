@@ -1,8 +1,7 @@
 {% load svg %}
 
 <div id="{{ component.target }}-picklist-picker" class="app-hidden">
-	{% load svg %}
-	<div class="lite-search__container" style="margin-bottom: 15px;">
+	<div class="lite-search__container govuk-!-margin-bottom-3">
 		<input type="search" class="govuk-input app-picklist__search-input" id="{{ component.target }}-filter-box" placeholder="{{ placeholder }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 		<button class="lite-search__button lite-search__button--instant-search" type="submit">
 			{% svg 'search' %}
