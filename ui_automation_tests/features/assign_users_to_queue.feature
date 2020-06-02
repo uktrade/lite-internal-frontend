@@ -35,7 +35,7 @@ Feature: I want to assign one or more specific users to a case in a work queue
 
   @LT_947_search_filter @regression @nicky
   Scenario: Filter by user
-      Given I sign in to SSO or am signed into SSO
+    Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
     When I go to queues
     When I add a new queue called Review

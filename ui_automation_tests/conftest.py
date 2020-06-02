@@ -483,7 +483,7 @@ def click_edit_case_flags_link(driver):  # noqa
 
 @then("The previously created flag is assigned to the case")  # noqa
 def assert_flag_is_assigned(driver, context):  # noqa
-    assert CasePage(driver).is_flag_applied(context.flag_name), (
+    assert CasePage(driver).get_text_of_checkbox_counter(context.flag_name), (
         "Flag " + context.flag_name + " is not applied to the case"
     )
 

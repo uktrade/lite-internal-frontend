@@ -4,7 +4,7 @@ Feature: I want to add case-level flags to a case and view them
   I want to toggle one or more flags on and off a case to highlight key features
   So that all users viewing the case can quickly and easily see the aspects which might require more attention
 
-  @LT_949_add @LT_951 @regression
+  @LT_949_add @LT_951 @regression @nicky
   Scenario: Add flag to case
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
@@ -12,6 +12,7 @@ Feature: I want to add case-level flags to a case and view them
     And I go to application previously created
     And I click edit flags link
     And I select previously created flag
+    And I click edit flags link
     Then The previously created flag is assigned to the case
     When I go to the internal homepage
     Then I see previously created application
