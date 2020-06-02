@@ -93,6 +93,7 @@ class CaseDetail(CaseView):
             conditional(self.case.data["reasoning"], Slices.HMRC_NOTE),
             Slices.GOODS,
             Slices.DESTINATIONS,
+            Slices.END_USER_DETAILS,
             Slices.LOCATIONS,
             Slices.SUPPORTING_DOCUMENTS,
         ]
@@ -122,7 +123,7 @@ class CaseDetail(CaseView):
         ]
 
     def get_end_user_advisory_query(self):
-        self.slices = [Slices.END_USER_ADVISORY]
+        self.slices = [Slices.END_USER_DETAILS]
 
     def get_goods_query(self):
         self.slices = [Slices.GOODS_QUERY]
