@@ -26,15 +26,19 @@
 </div>
 
 {% if not component.set_text %}
-	<a id="link-{{ component.target }}-picklist-picker" data-picklist-target="{{ component.target }}" data-picklist-set-text="false" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link">
-		{% svg 'plus' %}
-		Use {{ component.type|sentence_case|lower }} from picklist
-	</a>
-	<a id="link-{{ component.target }}-picklist-picker-change" data-picklist-target="{{ component.target }}" data-picklist-set-text="false" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link app-hidden">
-		Change {{ component.type|sentence_case|lower }}
-	</a>
-	<input type="hidden" id="{{ component.target }}-input" name="{{ component.target }}">
-	<div id="{{ component.target }}-text" class="govuk-inset-text govuk-!-margin-top-0 app-hidden"></div>
+	{% with component.target|add:'_text' as component_text %}
+		<a id="link-{{ component.target }}-picklist-picker" data-picklist-target="{{ component.target }}" data-picklist-set-text="false" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link {% if value|get:component_text %}app-hidden{% endif %}">
+			{% svg 'plus' %}
+			Use {{ component.type|sentence_case|lower }} from picklist
+		</a>
+		<a id="link-{{ component.target }}-picklist-picker-change" data-picklist-target="{{ component.target }}" data-picklist-set-text="false" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link {% if not value|get:component_text %}app-hidden{% endif %}">
+			Change {{ component.type|sentence_case|lower }}
+		</a>
+		<input type="hidden" id="{{ component.target }}-input" name="{{ component.target }}" value="{{ value|get:component.target }}">
+		<div id="{{ component.target }}-text" class="govuk-inset-text govuk-!-margin-top-0 {% if not value|get:component_text %}app-hidden{% endif %}">
+			{{ value|get:component_text }}
+		</div>
+	{% endwith %}
 {% endif %}
 
 <script>

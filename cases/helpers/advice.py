@@ -8,6 +8,7 @@ from cases.services import get_blocking_flags
 from conf.constants import APPLICATION_CASE_TYPES, Permission, CLEARANCE_CASE_TYPES, AdviceType
 from core.builtins.custom_tags import filter_advice_by_level, filter_advice_by_id, filter_advice_by_user
 from core.services import get_status_properties
+from picklists.services import get_picklist_item
 from teams.services import get_teams
 
 SINGULAR_ENTITIES = ["end_user", "consignee"]
@@ -79,6 +80,30 @@ def get_advice_additional_context(request, case, permissions):
         "can_finalise": current_advice_level == "final" and can_advice_be_finalised(case) and not blocking_flags,
         "blocking_flags": blocking_flags,
     }
+
+
+def same_value(dicts, key):
+    original_value = dicts[0][key]
+
+    for dict in dicts:
+        if dict[key] != original_value:
+            return
+
+    return original_value
+
+
+def flatten_goods_data(items: List[Dict]):
+    if not items:
+        return
+
+    if "good" in items[0]:
+        items = [x["good"] for x in items]
+
+    is_good_controlled = same_value(items, "is_good_controlled")
+    control_list_entries = [{"key": clc["rating"], "value": clc["rating"]} for clc in same_value(items, "control_list_entries")]
+
+    return {"is_good_controlled": is_good_controlled,
+            "control_list_entries": control_list_entries}
 
 
 def flatten_advice_data(request, case: Case, items: List[Dict], level):
