@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from cases.objects import Slice
+from cases.objects import Slice, Case
 from cases.services import (
     get_case,
     get_user_case_queues,
@@ -58,7 +58,7 @@ class Slices:
 
 class CaseView(TemplateView):
     case_id = None
-    case = None
+    case: Case = None
     queue_id = None
     queue = None
     permissions = None

@@ -35,6 +35,10 @@ class Case(Munch):
         return self["case_type"]["sub_type"]["key"]
 
     @property
+    def reference(self):
+        return self["case_type"]["reference"]["key"]
+
+    @property
     def goods(self):
         if "goods" not in self.data and "goods_types" not in self.data:
             return []
