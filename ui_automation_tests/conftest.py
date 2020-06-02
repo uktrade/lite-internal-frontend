@@ -501,3 +501,8 @@ def assign_case_to_queue(api_test_client):  # noqa
 @given("all flags are removed")  # noqa
 def remove_all_flags(context, api_test_client):  # noqa
     api_test_client.flags.assign_case_flags(context.case_id, [])
+
+
+@when("I add a new queue called Review")  # noqa
+def add_a_queue(driver, context, add_queue):  # noqa
+    pass
