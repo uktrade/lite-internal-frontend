@@ -78,7 +78,7 @@ class CaseDetail(CaseView):
     def get_standard_application(self):
         self.tabs = [Tabs.ADVICE]
         self.slices = [
-            conditional(self.case.reference != "sicl", Slices.GOODS),
+            Slices.GOODS,
             Slices.DESTINATIONS,
             conditional(self.case.data["inactive_parties"], Slices.DELETED_ENTITIES),
             Slices.LOCATIONS,
