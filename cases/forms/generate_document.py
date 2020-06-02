@@ -6,7 +6,6 @@ from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_content.lite_internal_frontend.strings import letter_templates
 from lite_forms.components import Form, RadioButtonsImage, Option, MarkdownArea
 from picklists.enums import PicklistCategories
-from picklists.services import get_picklists_for_input
 
 
 def select_template_form(templates, total_pages, back_link):
@@ -28,7 +27,7 @@ def select_template_form(templates, total_pages, back_link):
     )
 
 
-def edit_document_text_form(request, backlink, kwargs, post_url):
+def edit_document_text_form(back_link, kwargs, post_url):
     return Form(
         title=GenerateDocumentsPage.EditTextForm.HEADING,
         questions=[
@@ -36,7 +35,7 @@ def edit_document_text_form(request, backlink, kwargs, post_url):
             PicklistPicker(target="text", type=PicklistCategories.letter_paragraph.key),
         ],
         default_button_name=GenerateDocumentsPage.EditTextForm.BUTTON,
-        back_link=backlink,
+        back_link=back_link,
         post_url=reverse_lazy(post_url, kwargs=kwargs),
         container="case",
     )

@@ -3,9 +3,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from conf.constants import Permission
 from core.builtins.custom_tags import str_date
-from core.services import get_countries, get_denial_reasons, get_user_permissions
+from core.services import get_countries, get_denial_reasons
 from flags.enums import FlagStatus
 from flags.services import get_flags
 from lite_forms.components import FiltersBar, TextInput, HiddenField
@@ -31,8 +30,7 @@ class Picklists(TemplateView):
         """
         Return a list of picklists and show all the relevant items
         """
-        # Ensure that the page has a type
-        picklist_type = request.GET.get("type", PicklistCategories.proviso.key)
+        picklist_type = request.GET.get("type", PicklistCategories.proviso.key)  # Ensure that the page has a type
         user, _ = get_gov_user(request)
         team, _ = get_team(request, user["user"]["team"]["id"])
         picklist_items = get_picklists_list(

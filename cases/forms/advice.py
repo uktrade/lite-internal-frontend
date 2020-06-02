@@ -23,7 +23,6 @@ from lite_forms.components import (
 )
 from lite_forms.helpers import conditional
 from picklists.enums import PicklistCategories
-from picklists.services import get_picklists_for_input
 
 
 def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_warning=False):

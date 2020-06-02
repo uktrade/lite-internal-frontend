@@ -5,7 +5,6 @@ from lite_content.lite_internal_frontend import generic
 from lite_content.lite_internal_frontend.cases import EcjuQueries
 from lite_content.lite_internal_frontend.strings import cases
 from lite_forms.components import Form, BackLink, TextArea, RadioButtons, FormGroup, Option
-from picklists.services import get_picklists_for_input
 
 
 class ECJUQueryTypes:
