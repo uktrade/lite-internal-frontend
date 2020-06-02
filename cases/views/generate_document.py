@@ -12,7 +12,9 @@ from cases.services import (
     get_generated_document_preview,
     get_generated_document,
     get_case,
-    get_case_additional_contacts, get_case_applicant)
+    get_case_additional_contacts,
+    get_case_applicant,
+)
 from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates, get_letter_template
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
@@ -71,7 +73,8 @@ class SelectAddressee(TemplateView):
         if contacts:
             applicant = get_case_applicant(request, kwargs["pk"])
             return render(
-                request, "generated-documents/addressee.html",
+                request,
+                "generated-documents/addressee.html",
                 {"applicant": applicant, "contacts": contacts, "kwargs": kwargs},
             )
         else:
