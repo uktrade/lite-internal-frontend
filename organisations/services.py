@@ -7,7 +7,7 @@ from conf.constants import (
     USERS_URL,
     ORGANISATION_STATUS_URL,
     ACTIVITY_URL,
-    SITE_ACTIVITY_URL,
+    ORGANISATION_SITES_ACTIVITY_URL,
 )
 from lite_content.lite_internal_frontend.organisations import RegisterAnOrganisation
 
@@ -77,6 +77,6 @@ def get_organisation_activity(request, pk):
 
 
 def get_site_activity(request, pk):
-    url = ORGANISATIONS_URL + str(pk) + SITE_ACTIVITY_URL
+    url = ORGANISATIONS_URL + str(pk) + ORGANISATION_SITES_ACTIVITY_URL
     data = get(request, url)
     return data.json()["activity"]
