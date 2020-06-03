@@ -12,6 +12,7 @@ Feature: I want to add case-level flags to a case and view them
     And I go to application previously created
     And I click edit flags link
     And I select previously created flag
+    And I click edit flags link
     Then The previously created flag is assigned to the case
     When I go to the internal homepage
     Then I see previously created application
@@ -30,7 +31,7 @@ Feature: I want to add case-level flags to a case and view them
     Then I see previously created application
     And I see the added flags on the queue
 
-  @LT_951 @smoke
+  @LT_951 @regression
   Scenario: Add all flags to case
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created

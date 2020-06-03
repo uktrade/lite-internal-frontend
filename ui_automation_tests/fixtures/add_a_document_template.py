@@ -20,6 +20,6 @@ def get_template_id(api_test_client):
     return api_test_client.document_templates.get_layouts()[0]["id"]
 
 
-@fixture(scope="session")
+@fixture(scope="module")
 def get_licence_template_id(api_test_client):
     return api_test_client.document_templates.get_layouts()[1]["id"]
