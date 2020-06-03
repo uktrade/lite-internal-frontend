@@ -23,14 +23,9 @@ urlpatterns = [
     path("finalise/", advice.Finalise.as_view(), name="finalise"),
     path("finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"),
     path(
-        "finalise/<str:decision_key>/generate-document/select-template/",
-        generate_document.SelectTemplateFinalAdvice.as_view(),
+        "finalise/<str:decision_key>/generate-document/",
+        generate_document.GenerateDecisionDocument.as_view(),
         name="finalise_document_template",
-    ),
-    path(
-        "finalise/<str:decision_key>/generate-document/<uuid:tpk>/edit/",
-        generate_document.EditTextFinalAdvice.as_view(),
-        name="finalise_document_edit_text",
     ),
     path(
         "finalise/<str:decision_key>/generate-document/<uuid:tpk>/preview/",
