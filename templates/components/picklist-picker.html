@@ -65,7 +65,7 @@
 		if (!page) {
 			page = 1;
 		}
-		$.get("/team/picklists.json?type={{ component.type }}&page=" + page + "&name=" + filter, function(data) {
+		$.get("{% url 'picklists:picklists_json' %}?type={{ component.type }}&page=" + page + "&name=" + filter, function(data) {
 			$(".lite-modal #{{ component.target }}-picklist-picker__container").empty();
 			$(".lite-modal #{{ component.target }}-picklist-picker__container").removeClass("app-picklist-picker__container--loading");
 
