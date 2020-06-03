@@ -25,7 +25,12 @@ def select_template_form(templates, back_url):
 
 
 def select_addressee_form(back_url):
-    return Form("Select Addressee", questions=[Custom("components/addressee-table.html")], back_link=BackLink(url=back_url), container="case",)
+    return Form(
+        "Select Addressee",
+        questions=[Custom("components/addressee-table.html")],
+        back_link=BackLink(url=back_url),
+        container="case",
+    )
 
 
 def edit_document_text_form(kwargs, post_url, back_url):

@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from urllib.parse import quote
 
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -132,17 +133,21 @@ class PreviewDocument(TemplateView):
     def post(self, request, **kwargs):
         template_id = str(kwargs["tpk"])
         case_id = str(kwargs["pk"])
+        addressee = request.POST.get("addressee")
 
         text = request.POST.get(TEXT)
         if not text:
             return generate_document_error_page()
 
-        preview, status_code = get_generated_document_preview(request, case_id, template_id, text=text)
+        params = convert_dict_to_query_params({"template": template_id, "text": quote(text), "addressee": addressee})
+        preview, status_code = get_generated_document_preview(request, case_id, params)
         if status_code == 400:
             return generate_document_error_page()
 
         return render(
-            request, "generated-documents/preview.html", {"preview": preview["preview"], TEXT: text, "kwargs": kwargs},
+            request,
+            "generated-documents/preview.html",
+            {"preview": preview["preview"], TEXT: text, "addressee": addressee, "kwargs": kwargs},
         )
 
 
@@ -153,7 +158,9 @@ class CreateDocument(TemplateView):
             return generate_document_error_page()
 
         status_code = post_generated_document(
-            request, str(pk), {"template": str(tpk), TEXT: text, "visible_to_exporter": True}
+            request,
+            str(pk),
+            {"template": str(tpk), TEXT: text, "addressee": request.POST.get("addressee"), "visible_to_exporter": True},
         )
         if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
