@@ -15,7 +15,7 @@ from cases.services import (
     get_case_applicant,
 )
 from core.helpers import convert_dict_to_query_params
-from letter_templates.services import get_letter_template
+from letter_templates.services import get_letter_template, get_letter_templates
 from lite_forms.components import FormGroup
 from lite_forms.views import SingleFormView, MultiFormView
 
@@ -34,22 +34,29 @@ class GenerateDocument(MultiFormView):
         return json, HTTPStatus.OK
 
     def get_forms(self):
+        params = {"case": self.kwargs["pk"], "page": self.request.GET.get("page", 1)}
+        templates, _ = get_letter_templates(self.request, convert_dict_to_query_params(params))
+
         if self.contacts:
             return FormGroup(
                 [
-                    select_template_form(self.request, self.kwargs, self.back_url),
+                    select_template_form(templates, self.back_url),
                     select_addressee_form(self.back_url),
                     edit_document_text_form(
-                        self.kwargs, self.template, post_url="cases:generate_document_preview", back_url=self.back_url
+                        {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": self.template},
+                        post_url="cases:generate_document_preview",
+                        back_url=self.back_url,
                     ),
                 ]
             )
         else:
             return FormGroup(
                 [
-                    select_template_form(self.request, self.kwargs, self.back_url),
+                    select_template_form(templates, self.back_url),
                     edit_document_text_form(
-                        self.kwargs, self.template, post_url="cases:generate_document_preview", back_url=self.back_url
+                        {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": self.template},
+                        post_url="cases:generate_document_preview",
+                        back_url=self.back_url,
                     ),
                 ]
             )
@@ -77,23 +84,46 @@ class GenerateDocument(MultiFormView):
 
 class GenerateDecisionDocument(GenerateDocument):
     def get_forms(self):
+        self.back_url = reverse_lazy(
+            "cases:finalise_documents", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"]}
+        )
+        params = {
+            "case": self.kwargs["pk"],
+            "decision": self.kwargs["decision_key"],
+            "page": self.request.GET.get("page", 1),
+        }
+        templates, _ = get_letter_templates(self.request, convert_dict_to_query_params(params))
+
         return FormGroup(
             [
-                select_template_form(self.request, self.kwargs, back_url="cases:finalise_documents"),
-                edit_document_text_form(self.kwargs, self.template, post_url="cases:finalise_document_preview"),
+                select_template_form(templates, back_url=self.back_url),
+                edit_document_text_form(
+                    {
+                        "queue_pk": self.kwargs["queue_pk"],
+                        "pk": self.kwargs["pk"],
+                        "tpk": self.template,
+                        "decision_key": self.kwargs["decision_key"],
+                    },
+                    post_url="cases:finalise_document_preview",
+                    back_url=self.back_url,
+                ),
             ]
         )
 
 
 class RegenerateExistingDocument(SingleFormView):
     def init(self, request, **kwargs):
-        back_url = reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "documents"})
+        back_url = reverse_lazy(
+            "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "documents"}
+        )
         document, status_code = get_generated_document(request, str(kwargs["pk"]), str(kwargs["dpk"]))
         template = document["template"]
         self.data = {TEXT: document.get(TEXT)}
         self.object_pk = kwargs["pk"]
         self.form = edit_document_text_form(
-            kwargs, template, post_url="cases:generate_document_preview", back_url=back_url
+            {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": template},
+            post_url="cases:generate_document_preview",
+            back_url=back_url,
         )
         self.context = {"case": get_case(request, self.object_pk)}
 
