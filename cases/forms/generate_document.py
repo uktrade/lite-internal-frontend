@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
 from lite_content.lite_internal_frontend.strings import letter_templates
 from lite_forms.components import Form, RadioButtonsImage, Option, BackLink, TextArea, Custom
+from picklists.enums import PicklistCategories
 
 
 def select_template_form(templates, back_url):
