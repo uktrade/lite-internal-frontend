@@ -25,22 +25,23 @@ def select_template_form(request, kwargs, back_url):
             )
         ],
         default_button_name=letter_templates.LetterTemplatesPage.PickTemplate.BUTTON,
-        back_link=BackLink(url=reverse_lazy(back_url, kwargs=kwargs)),
+        back_link=BackLink(url=back_url),
         container="case",
     )
 
 
-def select_addressee_form():
-    return Form("Select Addressee", questions=[Custom("components/addressee-table.html")], container="case",)
+def select_addressee_form(back_url):
+    return Form("Select Addressee", questions=[Custom("components/addressee-table.html")], back_link=BackLink(url=back_url), container="case",)
 
 
-def edit_document_text_form(kwargs, template_id, post_url):
-    kwargs["tpk"] = template_id
-
+def edit_document_text_form(kwargs, template_id, post_url, back_url):
     return Form(
         title=GenerateDocumentsPage.EditTextForm.HEADING,
         questions=[TextArea(name="text", extras={"max_length": 5000}),],
         default_button_name=GenerateDocumentsPage.EditTextForm.BUTTON,
-        post_url=reverse_lazy(post_url, kwargs=kwargs),
+        post_url=reverse_lazy(
+            post_url, kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tpk": template_id}
+        ),
+        back_link=BackLink(url=back_url),
         container="case",
     )

@@ -27,6 +27,7 @@ class GenerateDocument(MultiFormView):
     contacts: []
     applicant: {}
     template: str
+    back_url: str
 
     @staticmethod
     def _validate(request, pk, json):
@@ -36,20 +37,27 @@ class GenerateDocument(MultiFormView):
         if self.contacts:
             return FormGroup(
                 [
-                    select_template_form(self.request, self.kwargs, back_url="cases:case"),
-                    select_addressee_form(),
-                    edit_document_text_form(self.kwargs, self.template, post_url="cases:generate_document_preview"),
+                    select_template_form(self.request, self.kwargs, self.back_url),
+                    select_addressee_form(self.back_url),
+                    edit_document_text_form(
+                        self.kwargs, self.template, post_url="cases:generate_document_preview", back_url=self.back_url
+                    ),
                 ]
             )
         else:
             return FormGroup(
                 [
-                    select_template_form(self.request, self.kwargs, back_url="cases:case"),
-                    edit_document_text_form(self.kwargs, self.template, post_url="cases:generate_document_preview"),
+                    select_template_form(self.request, self.kwargs, self.back_url),
+                    edit_document_text_form(
+                        self.kwargs, self.template, post_url="cases:generate_document_preview", back_url=self.back_url
+                    ),
                 ]
             )
 
     def init(self, request, **kwargs):
+        self.back_url = reverse_lazy(
+            "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "documents"}
+        )
         self.contacts = get_case_additional_contacts(request, kwargs["pk"])
         self.applicant = get_case_applicant(request, kwargs["pk"])
         self.template = request.POST.get(TEMPLATE)
@@ -79,11 +87,14 @@ class GenerateDecisionDocument(GenerateDocument):
 
 class RegenerateExistingDocument(SingleFormView):
     def init(self, request, **kwargs):
+        back_url = reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "documents"})
         document, status_code = get_generated_document(request, str(kwargs["pk"]), str(kwargs["dpk"]))
         template = document["template"]
+        self.data = {TEXT: document.get(TEXT)}
         self.object_pk = kwargs["pk"]
-        self.form = edit_document_text_form(kwargs, template, post_url="cases:generate_document_preview")
-        self.success_url = reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]})
+        self.form = edit_document_text_form(
+            kwargs, template, post_url="cases:generate_document_preview", back_url=back_url
+        )
         self.context = {"case": get_case(request, self.object_pk)}
 
 
