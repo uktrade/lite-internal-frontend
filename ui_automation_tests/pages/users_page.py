@@ -1,7 +1,7 @@
 from selenium.webdriver.support.ui import Select
 
+from pages.shared import Shared
 from ui_automation_tests.shared.BasePage import BasePage
-import ui_automation_tests.shared.tools.helpers as utils
 
 
 class UsersPage(BasePage):
@@ -56,6 +56,5 @@ class UsersPage(BasePage):
 
     def go_to_user_page(self, context):
         element_id = "link-" + context.added_email
-        utils.find_paginated_item_by_id(element_id, self.driver)
-        utils.scroll_to_element_by_id(self.driver, element_id)
+        Shared(self.driver).go_to_last_page()
         self.driver.find_element_by_id(element_id).click()

@@ -1,7 +1,8 @@
-from faker import Faker
 from pytest_bdd import scenarios, when, then, given
+from selenium.common.exceptions import NoSuchElementException
 
 import shared.tools.helpers as utils
+from pages.shared import Shared
 from pages.users_page import UsersPage
 
 from ui_automation_tests.shared import functions
@@ -13,8 +14,7 @@ scenarios("../features/users.feature", strict_gherkin=False)
 def add_user(driver, context):
     user_page = UsersPage(driver)
     user_page.click_add_a_user_button()
-    fake = Faker()
-    context.added_email = fake.free_email()
+    context.added_email = "z" + utils.get_formatted_date_time_y_m_d_h_s() + "@gmail.com"
     user_page.enter_email(context.added_email)
     user_page.select_option_from_team_drop_down_by_visible_text("Admin")
     user_page.select_option_from_role_drop_down_by_visible_text("Default")
@@ -24,7 +24,8 @@ def add_user(driver, context):
 
 @then("I see new user")
 def see_new_user(driver, context):
-    assert utils.paginated_item_exists("link-" + context.added_email, driver), "Item couldn't be found"
+    Shared(driver).go_to_last_page()
+    driver.find_element_by_id("link-" + context.added_email), "Item couldn't be found"
 
 
 @when("I deactivate new user")
@@ -37,7 +38,11 @@ def deactivate_user(driver, context):
 @then("I dont see new user")
 def dont_see_user(driver, context):
     driver.set_timeout_to(0)
-    assert utils.paginated_item_exists("link-" + context.added_email, driver, exists=False), "Item could be found"
+    Shared(driver).go_to_last_page()
+    try:
+        assert not driver.find_element_by_id("link-" + context.added_email).is_displayed()
+    except NoSuchElementException:
+        assert True
     driver.set_timeout_to_10_seconds()
 
 

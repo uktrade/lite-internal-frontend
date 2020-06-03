@@ -21,7 +21,7 @@ def create_letter_template(driver, context, get_template_id):
     template_page = LetterTemplates(driver)
     template_page.click_create_a_template()
 
-    context.template_name = "000 Template " + utils.get_formatted_date_time_m_d_h_s()
+    context.template_name = "000 Template " + utils.get_formatted_date_time_y_m_d_h_s()
     template_page.enter_template_name(context.template_name)
     functions.click_submit(driver)
 
