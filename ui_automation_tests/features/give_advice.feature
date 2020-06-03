@@ -75,10 +75,10 @@ Feature: I want to record my user advice and any comments and conditions relatin
     When I select approve for all combinations of goods and countries
     And I click continue
 
-  @LT_966_refusal_flags @regression
+  @LT_966_refusal_flags @regression @nicky
   Scenario: Refusal advice is given correctly
     Given I sign in to SSO or am signed into SSO
-    And I create standard application or standard application has been previously created
+    And a Gifting Clearance is created
     And the status is set to "submitted"
     When I go to application previously created
     And I click on the user advice tab

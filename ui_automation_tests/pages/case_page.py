@@ -84,7 +84,7 @@ class CasePage(BasePage):
         return flag_name in self.driver.find_element_by_id("popup-flags").text
 
     def get_text_of_checkbox_counter(self, flag_name):
-        text = self.driver.find_element_by_id("checkbox-counter").text()
+        text = self.driver.find_element_by_id("checkbox-counter").text
         return flag_name in text
 
     def is_goods_flag_applied(self, flag_name):

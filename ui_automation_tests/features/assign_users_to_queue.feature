@@ -33,7 +33,7 @@ Feature: I want to assign one or more specific users to a case in a work queue
     Then user is not assignee on case list
 
 
-  @LT_947_search_filter @regression @nicky
+  @LT_947_search_filter @regression
   Scenario: Filter by user
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
