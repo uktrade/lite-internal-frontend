@@ -47,7 +47,7 @@ from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
 from pages.queues_pages import QueuesPages
 
-from ui_automation_tests.shared.tools.helpers import paginated_item_exists, get_formatted_date_time_y_m_d_h_s
+from ui_automation_tests.shared.tools.helpers import get_formatted_date_time_y_m_d_h_s
 
 
 def pytest_addoption(parser):
@@ -295,7 +295,6 @@ def case_list_page(driver, internal_url):  # noqa
 
 @then("I should see my case in the cases list")  # noqa
 def case_in_cases_list(driver, context):  # noqa
-    assert paginated_item_exists(context.case_id, driver)
     context.case_row = CaseListPage(driver).get_case_row(context.case_id)
     assert context.reference_code in context.case_row.text
 
@@ -393,7 +392,7 @@ def work_queue(driver, context, internal_url):  # noqa
 
 @then("My case is not in the queue")  # noqa
 def no_cases_in_queue(driver, context):  # noqa
-    assert paginated_item_exists(context.case_id, driver, False)
+    assert context.case_id not in Shared(driver).get_text_of_lite_table_body()
 
 
 @given("a queue has been created")  # noqa
