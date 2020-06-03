@@ -38,7 +38,7 @@
 			<ul class="lite-subnav">
 				{% for category in picklist_categories %}
 					<li class="lite-subnav__link {% if type == category.key %}lite-subnav__link--selected{% endif %}">
-						<a href="{% url 'picklists:picklists' %}?type={{ category.key }}">
+						<a id="link-picklist-{{ category.key }}" href="{% url 'picklists:picklists' %}?type={{ category.key }}">
 							{{ category.name }}
 						</a>
 					</li>
