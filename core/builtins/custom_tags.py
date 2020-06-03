@@ -617,21 +617,6 @@ def filter_flags_by_level(flags, level):
 
 
 @register.filter()
-def item_with_rating_exists(items, rating):
-    if not items:
-        return
-
-    for item in items:
-        if isinstance(item, str):
-            if item == rating:
-                return True
-
-        if isinstance(item, dict):
-            if item["rating"] == rating:
-                return True
-
-
-@register.filter()
 def get_goods_linked_to_destination_as_list(goods, country_id):
     """
     Instead of iterating over each goods list of countries without the ability to break loops in django templating.
