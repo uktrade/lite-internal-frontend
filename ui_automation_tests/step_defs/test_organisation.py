@@ -1,7 +1,6 @@
 from faker import Faker
 from pytest_bdd import scenarios, when, then, given, parsers
 
-from pages.case_page import CasePage
 from pages.organisation_page import OrganisationPage
 from pages.organisations_form_page import OrganisationsFormPage
 from pages.organisations_page import OrganisationsPage
@@ -10,7 +9,7 @@ from shared import functions
 from shared.tools.wait import wait_until_page_is_loaded
 from ui_automation_tests.shared.api_client.libraries.request_data import build_organisation
 from ui_automation_tests.shared.functions import click_submit
-from ui_automation_tests.shared.tools.helpers import get_current_date_time, find_paginated_item_by_id
+from ui_automation_tests.shared.tools.helpers import get_current_date_time
 
 scenarios("../features/organisation.feature", strict_gherkin=False)
 
@@ -128,7 +127,7 @@ def click_edit(driver, context):
 
 @given("an anonymous user applies for an organisation")
 def in_review_organisation(context, api_test_client):
-    data = build_organisation("Org-" + get_current_date_time(), "commercial", "Address-" + get_current_date_time())
+    data = build_organisation("z-" + get_current_date_time(), "commercial", "Address-" + get_current_date_time())
     response = api_test_client.organisations.anonymous_user_create_org(data)
     context.organisation_id = response["id"]
     context.organisation_name = response["name"]
@@ -152,7 +151,8 @@ def in_review_tab(driver):
 
 @then("the organisation previously created is in the list")
 def organisation_in_list(driver, context):
-    assert find_paginated_item_by_id(context.organisation_id, driver)
+    Shared(driver).go_to_last_page()
+    assert driver.find_element_by_id(context.organisation_id).is_displayed()
 
 
 @when("I click review")
