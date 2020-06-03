@@ -48,17 +48,7 @@ urlpatterns = [
         "respond-to-pv-grading-query/", goods_query.RespondPVGradingQuery.as_view(), name="respond_to_pv_grading_query",
     ),
     path("review-goods/", goods.ReviewGoods.as_view(), name="review_goods"),
-    path("generate-document/", generate_document.SelectTemplate.as_view(), name="generate_document"),
-    path(
-        "generate-document/<uuid:tpk>/addressee/",
-        generate_document.SelectAddressee.as_view(),
-        name="generate_document_addressee",
-    ),
-    path(
-        "generate-document/<uuid:tpk>/edit/",
-        generate_document.EditDocumentText.as_view(),
-        name="generate_document_edit",
-    ),
+    path("generate-document/", generate_document.GenerateDocument.as_view(), name="generate_document"),
     path(
         "generate-document/<uuid:dpk>/",
         generate_document.RegenerateExistingDocument.as_view(),

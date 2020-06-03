@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
-from cases.forms.generate_document import select_template_form, edit_document_text_form
+from cases.forms.generate_document import select_template_form, edit_document_text_form, select_addressee_form
 from cases.helpers.helpers import generate_document_error_page
 from cases.services import (
     post_generated_document,
@@ -18,11 +18,48 @@ from cases.services import (
 from core.helpers import convert_dict_to_query_params
 from letter_templates.services import get_letter_templates, get_letter_template
 from lite_content.lite_internal_frontend.cases import GenerateDocumentsPage
-from lite_forms.components import BackLink
+from lite_forms.components import BackLink, FormGroup
 from lite_forms.generators import form_page
-from lite_forms.views import SingleFormView
+from lite_forms.views import SingleFormView, MultiFormView
 
 TEXT = "text"
+TEMPLATE = "template"
+
+
+class GenerateDocument(MultiFormView):
+    @staticmethod
+    def _validate(request, pk, json):
+        return json, HTTPStatus.OK
+
+    def init(self, request, **kwargs):
+        contacts = get_case_additional_contacts(request, kwargs["pk"])
+        applicant = get_case_applicant(request, kwargs["pk"])
+        template = request.POST.get(TEMPLATE)
+
+        if template and not request.POST.get(TEXT):
+            self.data = {
+                TEXT: get_letter_template(request, template, params=convert_dict_to_query_params({TEXT: True}))[0][TEXT]
+            }
+
+        if contacts:
+            self.forms = FormGroup(
+                [
+                    select_template_form(request, kwargs),
+                    select_addressee_form(),
+                    edit_document_text_form(kwargs, template),
+                ]
+            )
+        else:
+            self.forms = FormGroup([select_template_form(request, kwargs), edit_document_text_form(kwargs, template)])
+
+        self.object_pk = kwargs["pk"]
+        self.action = self._validate
+        self.additional_context = {
+            "case": get_case(request, self.object_pk),
+            "applicant": applicant,
+            "contacts": contacts,
+        }
+        self.success_url = reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]})
 
 
 class PickTemplateView(TemplateView):
@@ -56,29 +93,6 @@ class PickTemplateView(TemplateView):
             return redirect(reverse_lazy(self.success_url, kwargs=kwargs))
         else:
             return HttpResponseRedirect(request.path_info)
-
-
-class SelectTemplate(PickTemplateView):
-    def __init__(self):
-        decision = False
-        back_text = GenerateDocumentsPage.SelectTemplateForm.BACK_LINK
-        back_url = "cases:case"
-        success_url = "cases:generate_document_addressee"
-        super().__init__(decision, back_url, success_url, back_text)
-
-
-class SelectAddressee(TemplateView):
-    def get(self, request, **kwargs):
-        contacts = get_case_additional_contacts(request, kwargs["pk"])
-        if contacts:
-            applicant = get_case_applicant(request, kwargs["pk"])
-            return render(
-                request,
-                "generated-documents/addressee.html",
-                {"applicant": applicant, "contacts": contacts, "kwargs": kwargs},
-            )
-        else:
-            return redirect(reverse_lazy("cases:generate_document_edit", kwargs=kwargs))
 
 
 class SelectTemplateFinalAdvice(PickTemplateView):
@@ -133,14 +147,6 @@ class EditDocumentTextView(SingleFormView):
         self.form = edit_document_text_form(request, backlink, kwargs, self.post_url)
         self.redirect = False
         self.action = self._convert_text_list_to_str
-
-
-class EditDocumentText(EditDocumentTextView):
-    def __init__(self):
-        back_url = "cases:generate_document"
-        post_url = "cases:generate_document_preview"
-        back_text = GenerateDocumentsPage.EditTextForm.BACK_LINK
-        super().__init__(back_url, post_url, back_text)
 
 
 class EditTextFinalAdvice(EditDocumentTextView):
