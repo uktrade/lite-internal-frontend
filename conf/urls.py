@@ -11,7 +11,7 @@ urlpatterns = [
     path("open-general-licences/", include("open_general_licences.urls")),
     path("organisations/", include("organisations.urls")),
     path("queues/", include("queues.urls")),
-    path("team/picklists", include("picklists.urls")),
+    path("team/picklists/", include("picklists.urls")),
     path("team", include("teams.urls")),
     path("users/", include("users.urls")),
     path("routing-rules/", include("routing_rules.urls")),
