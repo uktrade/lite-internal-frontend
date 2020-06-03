@@ -1,13 +1,10 @@
-import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from shared import functions
 from shared.BasePage import BasePage
-from selenium.webdriver.support.ui import Select
-
 from shared.tools.helpers import scroll_to_element_below_header_by_id
 
 
