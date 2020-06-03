@@ -133,7 +133,7 @@ class PreviewDocument(TemplateView):
     def post(self, request, **kwargs):
         template_id = str(kwargs["tpk"])
         case_id = str(kwargs["pk"])
-        addressee = request.POST.get("addressee")
+        addressee = request.POST.get("addressee", "")
 
         text = request.POST.get(TEXT)
         if not text:
