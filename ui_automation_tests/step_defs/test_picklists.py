@@ -3,6 +3,7 @@ from pytest_bdd import scenarios, when, then, parsers
 import shared.tools.helpers as utils
 from pages.picklist_pages import PicklistPages
 from pages.shared import Shared
+from shared import functions
 
 scenarios("../features/picklists.feature", strict_gherkin=False)
 
@@ -75,11 +76,9 @@ def i_see_my_picklist_page(driver, context, status):
     assert context.picklist_description in body, "picklist description is not displayed"
     assert "Created by" in body, "created by is not displayed"
     if status == "Deactivated":
-        assert driver.find_element_by_css_selector(".govuk-main-wrapper .govuk-tag").is_displayed()
+        assert functions.element_with_css_selector_exists(driver, ".govuk-main-wrapper .govuk-tag")
     elif status == "Active":
-        driver.set_timeout_to(0)
-        assert len(driver.find_elements_by_css_selector(".govuk-main-wrapper .govuk-tag")) == 0
-        driver.set_timeout_to_10_seconds()
+        assert not functions.element_with_css_selector_exists(driver, ".govuk-main-wrapper .govuk-tag")
     assert "Last updated" in body, "last updated is not displayed"
     assert context.picklist_type.lower().replace("_", " ") in body.lower().replace(
         "_", " "
