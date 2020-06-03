@@ -48,9 +48,9 @@ class Case(Munch):
     @property
     def destinations(self):
         if "destinations" not in self.data:
-            return []
-
-        destinations = self.data["destinations"]["data"]
+            destinations = [self.data.get("end_user")]
+        else:
+            destinations = self.data["destinations"]["data"]
 
         # Some apps return just the end user (as type dict) in destinations,
         # so we need to add the other destinations

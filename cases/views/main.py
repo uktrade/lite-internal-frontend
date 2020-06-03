@@ -93,7 +93,6 @@ class CaseDetail(CaseView):
             conditional(self.case.data["reasoning"], Slices.HMRC_NOTE),
             Slices.GOODS,
             Slices.DESTINATIONS,
-            Slices.END_USER_DETAILS,
             Slices.LOCATIONS,
             Slices.SUPPORTING_DOCUMENTS,
         ]
