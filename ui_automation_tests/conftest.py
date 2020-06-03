@@ -506,8 +506,3 @@ def remove_all_flags(context, api_test_client):  # noqa
 @when("I add a new queue called Review")  # noqa
 def add_a_queue(driver, context, add_queue):  # noqa
     pass
-
-
-@given("a Gifting Clearance is created")  # noqa
-def an_gifting_clearance_is_created(driver, apply_for_gifting_clearance):
-    pass

@@ -10,7 +10,7 @@ Feature: I want to assign one or more specific users to a case in a work queue
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
     When I go to queues
-    When I add a new queue called Review
+    And I add a new queue called Review
     And I go to application previously created
     And I add case to newly created queue
     And I go to the internal homepage
@@ -38,12 +38,12 @@ Feature: I want to assign one or more specific users to a case in a work queue
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
     When I go to queues
-    When I add a new queue called Review
+    And I add a new queue called Review
     And I go to application previously created
     And I add case to newly created queue
     And I go to the internal homepage
     And I click on the added queue in dropdown
-    When I select the checkbox for previously created case to be assigned
+    And I select the checkbox for previously created case to be assigned
     And I search for SSO users name to assign
     Then only SSO users name is displayed in user list for assign cases
 
