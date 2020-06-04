@@ -135,6 +135,7 @@ class Statuses:
     WITHDRAWN = "withdrawn"
     CLC = "clc_review"
     PV = "pv_review"
+    SURRENDERED = "surrendered"
 
 
 class UserStatuses:

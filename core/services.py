@@ -75,19 +75,20 @@ def get_permissible_statuses(request, case):
     case_type = case["case_type"]["type"]["key"]
 
     if case_type == CaseType.APPLICATION.value:
-        case_type_applicable_statuses = [
-            status
-            for status in statuses
-            if status["key"]
-            not in [
+        case_type_applicable_statuses = []
+        for status in statuses:
+            if status["key"] not in [
                 Statuses.APPLICANT_EDITING,
                 Statuses.CLOSED,
                 Statuses.FINALISED,
                 Statuses.REGISTERED,
                 Statuses.CLC,
                 Statuses.PV,
-            ]
-        ]
+            ]:
+                if status["key"] == Statuses.SURRENDERED and not case["application"]["licence"]:
+                    continue
+
+                case_type_applicable_statuses.append(status)
     else:
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
             case_type_applicable_statuses = [status for status in statuses if status["key"] in BASE_QUERY_STATUSES]
