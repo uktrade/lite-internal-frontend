@@ -26,7 +26,8 @@ def select_template_form(templates, back_url):
 
 def select_addressee_form(back_url):
     return Form(
-        "Select Addressee",
+        title=GenerateDocumentsPage.AddresseeForm.TITLE,
+        description=GenerateDocumentsPage.AddresseeForm.DESCRIPTION,
         questions=[Custom("components/addressee-table.html")],
         back_link=BackLink(url=back_url),
         container="case",
