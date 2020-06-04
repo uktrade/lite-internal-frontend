@@ -85,7 +85,12 @@ def get_permissible_statuses(request, case):
                 Statuses.CLC,
                 Statuses.PV,
             ]:
-                if status["key"] == Statuses.SURRENDERED and not case["application"].get("licence"):
+                if (
+                    case_sub_type in [CaseType.STANDARD.value, CaseType.OPEN.value]
+                    and status["key"] == Statuses.SURRENDERED
+                    and not case["application"].get("licence")
+                ):
+                    # Standard and Open licences cannot be surrendered without a licence
                     continue
 
                 case_type_applicable_statuses.append(status)
