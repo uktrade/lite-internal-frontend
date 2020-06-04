@@ -195,9 +195,9 @@ def move_case_to_new_queue(driver, context):  # noqa
     Shared(driver).click_submit()
 
 
-@when("I select previously created flag")  # noqa
-def assign_flags_to_case(driver, context):  # noqa
-    CaseFlagsPages(driver).select_flag(context.flag_name)
+@when(parsers.parse('I select a "{level}" flag'))  # noqa
+def assign_flags_to_case(driver, context, level):  # noqa
+    CaseFlagsPages(driver).select_flag(context.flags[level]["name"])
     functions.click_submit(driver)
 
 
@@ -216,9 +216,11 @@ def added_flags_on_queue(driver, context):  # noqa
 
 @then("I see previously created application")  # noqa
 def see_queue_in_queue_list(driver, context):  # noqa
-    assert QueuesPages(driver).is_case_on_the_list(context.case_id) == 1, (
-        "previously created application is not displayed " + context.case_id
-    )
+    case_page = CaseListPage(driver)
+    case_page.click_show_filters_link()
+    case_page.filter_by_case_reference(context.reference_code)
+    case_page.click_apply_filters_button()
+    assert driver.find_element_by_id(context.case_id).is_displayed()
 
 
 @when("I go to the organisation which submitted the case")  # noqa
