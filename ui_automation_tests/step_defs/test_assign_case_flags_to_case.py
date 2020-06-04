@@ -43,7 +43,7 @@ def add_all_flags(api_test_client, context):
 
 
 @then("I see added flags to case")
-def i_see_added_flags(context,driver):
+def i_see_added_flags(context, driver):
     text = driver.find_element_by_id("flags-" + context.case_id).text
     for flag in context.flags["name"]:
         assert flag in text
