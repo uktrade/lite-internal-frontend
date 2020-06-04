@@ -45,7 +45,6 @@ from pages.assign_flags_to_case import CaseFlagsPages
 from pages.shared import Shared
 from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
-from pages.queues_pages import QueuesPages
 
 from ui_automation_tests.shared.tools.helpers import paginated_item_exists, get_formatted_date_time_m_d_h_s
 
