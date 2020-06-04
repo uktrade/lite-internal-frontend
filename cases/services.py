@@ -1,5 +1,4 @@
 from _decimal import Decimal
-from urllib.parse import quote
 
 from cases.objects import Case
 from conf.client import post, get, put, delete
@@ -38,6 +37,7 @@ from conf.constants import (
 )
 from core.helpers import convert_parameters_to_query_params
 from flags.enums import FlagStatus
+
 
 # Case types
 def get_case_types(request, type_only=True):

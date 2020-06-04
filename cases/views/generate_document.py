@@ -117,7 +117,7 @@ class RegenerateExistingDocument(SingleFormView):
         back_url = reverse_lazy(
             "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "documents"}
         )
-        document, status_code = get_generated_document(request, str(kwargs["pk"]), str(kwargs["dpk"]))
+        document, _ = get_generated_document(request, str(kwargs["pk"]), str(kwargs["dpk"]))
         template = document["template"]
         self.data = {TEXT: document.get(TEXT)}
         self.object_pk = kwargs["pk"]
