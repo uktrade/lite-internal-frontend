@@ -85,7 +85,7 @@ def get_permissible_statuses(request, case):
                 Statuses.CLC,
                 Statuses.PV,
             ]:
-                if status["key"] == Statuses.SURRENDERED and not case["application"]["licence"]:
+                if status["key"] == Statuses.SURRENDERED and not case["application"].get("licence"):
                     continue
 
                 case_type_applicable_statuses.append(status)
