@@ -27,10 +27,11 @@ def get_param_destinations(request, case: Case):
     return_values = []
 
     for destination in destinations:
-        if destination["id"] in selected_destinations_ids:
-            return_values.append(destination)
-        elif destination["country"]["id"] in selected_destinations_ids:
+        # contract types are unique to Country on applications, and not entities.
+        if destination.get("contract_types") and destination["country"]["id"] in selected_destinations_ids:
             return_values.append(destination["country"])
+        elif destination["id"] in selected_destinations_ids:
+            return_values.append(destination)
 
     return return_values
 
