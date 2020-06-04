@@ -16,7 +16,6 @@ Feature: I want to have cases be automatically routed to relevant work queues an
     When I deactivate my routing rule
     Then I see the routing rule in the list as "Deactivated" and tier "10"
 
-
   @LT_2109_routing_rules_automation @regression
    Scenario: Routing rule automation
     Given I sign in to SSO or am signed into SSO

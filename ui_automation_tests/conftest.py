@@ -14,7 +14,7 @@ from ui_automation_tests.fixtures.add_a_flag import (  # noqa
     add_good_flag,
     add_organisation_flag,
     add_destination_flag,
-)
+    get_flag_of_level)
 from ui_automation_tests.fixtures.add_queue import add_queue  # noqa
 from ui_automation_tests.fixtures.add_a_document_template import (  # noqa
     add_a_document_template,
@@ -197,6 +197,12 @@ def move_case_to_new_queue(driver, context):  # noqa
 @when(parsers.parse('I select a "{level}" flag'))  # noqa
 def assign_flags_to_case(driver, context, level):  # noqa
     CaseFlagsPages(driver).select_flag(context.flags[level]["name"])
+    functions.click_submit(driver)
+
+
+@when("I select a previously created flag")  # noqa
+def assign_flags_to_case(driver, context, level):  # noqa
+    CaseFlagsPages(driver).select_flag(context.flag_name)
     functions.click_submit(driver)
 
 
