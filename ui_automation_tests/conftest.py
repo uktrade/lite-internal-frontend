@@ -201,7 +201,7 @@ def assign_flags_to_case(driver, context, level):  # noqa
 
 
 @when("I select a previously created flag")  # noqa
-def assign_flags_to_case(driver, context, level):  # noqa
+def assign_flags_to_case(driver, context):  # noqa
     CaseFlagsPages(driver).select_flag(context.flag_name)
     functions.click_submit(driver)
 
