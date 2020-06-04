@@ -27,12 +27,10 @@ def get_param_destinations(request, case: Case):
     return_values = []
 
     for destination in destinations:
-        if destination.get("country"):
-            if destination["country"]["id"] in selected_destinations_ids:
-                return_values.append(destination["country"])
-        else:
-            if destination["id"] in selected_destinations_ids:
-                return_values.append(destination)
+        if destination["id"] in selected_destinations_ids:
+            return_values.append(destination)
+        elif destination["country"]["id"] in selected_destinations_ids:
+            return_values.append(destination["country"])
 
     return return_values
 
