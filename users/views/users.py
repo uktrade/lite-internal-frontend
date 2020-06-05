@@ -22,13 +22,11 @@ from users.services import (
 
 class UsersList(TemplateView):
     def get(self, request, **kwargs):
-        status = self.request.GET.get("status")
-        email = self.request.GET.get("email")
-        params = {"page": int(self.request.GET.get("page", 1))}
-        if status:
-            params["status"] = status
-        if email:
-            params["email"] = email
+        params = {
+            "page": int(self.request.GET.get("page", 1)),
+            "email": self.request.GET.get("email", ""),
+            "status": self.request.GET.get("status", ""),
+        }
 
         data, _ = get_gov_users(request, params)
 
@@ -51,8 +49,6 @@ class UsersList(TemplateView):
         context = {
             "data": data,
             "super_user": super_user,
-            "status": status,
-            "page": params.pop("page"),
             "params_str": convert_dict_to_query_params(params),
             "filters": filters,
         }
