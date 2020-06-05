@@ -195,12 +195,6 @@ def move_case_to_new_queue(driver, context):  # noqa
     Shared(driver).click_submit()
 
 
-@when(parsers.parse('I select a "{level}" flag'))  # noqa
-def assign_flags_to_case(driver, context, level):  # noqa
-    CaseFlagsPages(driver).select_flag(context.flags[level]["name"])
-    functions.click_submit(driver)
-
-
 @when("I select a previously created flag")  # noqa
 def assign_flags_to_case(driver, context):  # noqa
     CaseFlagsPages(driver).select_flag(context.flag_name)

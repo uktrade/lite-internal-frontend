@@ -2,9 +2,11 @@ from pytest_bdd import when, then, scenarios, given, parsers
 
 from fixtures.add_a_flag import get_flag_of_level
 from pages.application_page import ApplicationPage
+from pages.assign_flags_to_case import CaseFlagsPages
 from pages.case_page import CasePage
 import shared.tools.helpers as utils
 from pages.shared import Shared
+from shared import functions
 
 scenarios("../features/assign_case_flags_to_case.feature", strict_gherkin=False)
 
@@ -68,3 +70,9 @@ def get_all_flags(api_test_client, context):
             flag = api_test_client.flags.add_flag(level + utils.get_formatted_date_time_m_d_h_s(), level)
         flags[level] = {"id": flag["id"], "name": flag["name"]}
     context.flags = flags
+
+
+@when(parsers.parse('I select a "{level}" flag'))  # noqa
+def assign_flags_to_case(driver, context, level):  # noqa
+    CaseFlagsPages(driver).select_flag(context.flags[level]["name"])
+    functions.click_submit(driver)
