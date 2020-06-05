@@ -24,7 +24,7 @@ def add_user(driver, context):
 
 @then("I see new user")
 def see_new_user(driver, context):
-    Shared(driver).filter_by_name(context.added_email)
+    UsersPage(driver).filter_by_name(context.added_email)
     driver.find_element_by_id("link-" + context.added_email), "Item couldn't be found"
 
 
@@ -38,7 +38,7 @@ def deactivate_user(driver, context):
 @then("I dont see new user")
 def dont_see_user(driver, context):
     driver.set_timeout_to(0)
-    Shared(driver).filter_by_name(context.added_email)
+    UsersPage(driver).filter_by_name(context.added_email)
     try:
         assert not driver.find_element_by_id("link-" + context.added_email).is_displayed()
     except NoSuchElementException:
