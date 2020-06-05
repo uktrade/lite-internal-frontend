@@ -76,3 +76,9 @@ def get_all_flags(api_test_client, context):
 def assign_flags_to_case(driver, context, level):  # noqa
     CaseFlagsPages(driver).select_flag(context.flags[level]["name"])
     functions.click_submit(driver)
+
+
+@when(parsers.parse('I deselect a "{level}" flag'))  # noqa
+def assign_flags_to_case(driver, context, level):  # noqa
+    CaseFlagsPages(driver).deselect_flag(context.flags[level]["name"])
+    functions.click_submit(driver)
