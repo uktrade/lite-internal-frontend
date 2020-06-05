@@ -1,5 +1,5 @@
-from django.http import Http404, JsonResponse
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView
 
@@ -13,18 +13,16 @@ from lite_content.lite_internal_frontend.picklists import (
     EditPicklistItemForm,
 )
 from lite_forms.components import FiltersBar, TextInput, HiddenField
-from lite_forms.generators import form_page, confirm_form
+from lite_forms.generators import confirm_form
 from lite_forms.views import SingleFormView
 from picklists.enums import PicklistCategories
 from picklists.forms import (
     add_picklist_item_form,
-    deactivate_picklist_item,
-    reactivate_picklist_item,
     add_letter_paragraph_form,
     edit_picklist_item_form,
     edit_letter_paragraph_form,
 )
-from picklists.services import get_picklist_item, put_picklist_item, get_picklists_list, set_picklist_item_status
+from picklists.services import get_picklist_item, get_picklists_list, set_picklist_item_status
 from picklists.validators import validate_and_post_picklist_item, validate_and_put_picklist_item
 from teams.services import get_team
 from users.services import get_gov_user
