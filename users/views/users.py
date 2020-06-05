@@ -8,7 +8,7 @@ from conf.constants import SUPER_USER_ROLE_ID, UserStatuses
 from core.helpers import convert_dict_to_query_params
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.users import UsersPage
-from lite_forms.components import FiltersBar, Select, Option
+from lite_forms.components import FiltersBar, Select, Option, TextInput
 from lite_forms.views import SingleFormView
 from users.forms.users import add_user_form, edit_user_form
 from users.services import (
@@ -23,9 +23,12 @@ from users.services import (
 class UsersList(TemplateView):
     def get(self, request, **kwargs):
         status = self.request.GET.get("status")
+        email = self.request.GET.get("email")
         params = {"page": int(self.request.GET.get("page", 1))}
         if status:
             params["status"] = status
+        if email:
+            params["email"] = email
 
         data, _ = get_gov_users(request, params)
 
@@ -39,9 +42,11 @@ class UsersList(TemplateView):
                 {"key": "deactivated", "value": UserStatuses.DEACTIVATED},
                 {"key": "", "value": "All"},
             ]
-        ]  # TODO[future]: filters in API?
+        ]
 
-        filters = FiltersBar([Select(name="status", title="status", options=statuses)])
+        filters = FiltersBar(
+            [Select(name="status", title="status", options=statuses), TextInput(name="email", title="email"),]
+        )
 
         context = {
             "data": data,
