@@ -8,7 +8,7 @@ from conf.client import get, post, put
 from conf.constants import PICKLIST_URL
 
 
-def get_picklists_list(request, type, page=1, name=None, disable_pagination=False):
+def get_picklists_list(request, type, page=1, name=None, disable_pagination=False, show_deactivated=True):
     response = get(request, PICKLIST_URL + convert_parameters_to_query_params(locals()))
     return response.json()
 

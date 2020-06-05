@@ -7,7 +7,11 @@ from core.builtins.custom_tags import str_date
 from core.services import get_countries, get_denial_reasons
 from flags.enums import FlagStatus
 from flags.services import get_flags
-from lite_content.lite_internal_frontend.picklists import ReactivatePicklistItem, DeactivatePicklistItem
+from lite_content.lite_internal_frontend.picklists import (
+    ReactivatePicklistItem,
+    DeactivatePicklistItem,
+    EditPicklistItemForm,
+)
 from lite_forms.components import FiltersBar, TextInput, HiddenField
 from lite_forms.generators import form_page, confirm_form
 from lite_forms.views import SingleFormView
@@ -66,6 +70,7 @@ class PicklistsJson(TemplateView):
             type=request.GET.get("type", PicklistCategories.proviso.key),
             page=request.GET.get("page", 1),
             name=request.GET.get("name"),
+            show_deactivated=False,
         )
         # Convert the dates to friendly format to cut down on JavaScript code
         for item in picklist_items["results"]:
@@ -109,6 +114,7 @@ class EditPicklistItem(SingleFormView):
         self.data = self.object
         self.action = validate_and_put_picklist_item
         self.success_url = reverse_lazy("picklists:picklist_item", kwargs={"pk": self.object_pk})
+        self.success_message = EditPicklistItemForm.SUCCESS_MESSAGE
         countries, _ = get_countries(request)
         flags = get_flags(request, status=FlagStatus.ACTIVE.value)
         denial_reasons = get_denial_reasons(request)
