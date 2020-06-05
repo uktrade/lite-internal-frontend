@@ -15,7 +15,6 @@ def go_to_teams(driver, sso_sign_in, internal_url):
 
 @when("I click on the team BlueOcean")
 def click_on_my_team(driver, context):
-    Shared(driver).filter_by_name(context.team_name)
     driver.find_element_by_link_text(context.team_name).click()
 
 

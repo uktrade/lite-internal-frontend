@@ -21,6 +21,7 @@ class Shared(BasePage):
     LITE_NOTICE_SELECTOR = ".lite-information-text__text"
     AUDIT_TRAIL_ID = "audit-trail"
     INPUT_NAME_FILTER_ID = "name"
+    CASES_FORM_ID = "#cases-form"
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(self.SUBMIT_BUTTON).click()
@@ -42,6 +43,9 @@ class Shared(BasePage):
 
     def get_text_of_lite_table_body(self):
         return self.driver.find_element_by_css_selector(self.TABLE_BODY_CSS).text
+
+    def get_text_of_cases_form(self):
+        return self.driver.find_element_by_id(self.CASES_FORM_ID).text
 
     def get_links_in_cells_in_table(self):
         return self.driver.find_elements_by_css_selector(self.LINKS_IN_TABLE)
