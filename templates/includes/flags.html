@@ -1,9 +1,25 @@
-{% if flags or show_change_link %}
-	<ul class="app-flags {% if list %}app-flags--list{% endif %} {{ classes }}">
-		{% for flag in flags %}
-			<li data-label="{{ flag.label }}" class="app-flag {% if flag.label %}app-flag--label{% endif %} app-flag--{{ flag.colour }}"><span class="govuk-visually-hidden">{{ flag.label }}</span> {{ flag.name }}</li>
-		{% endfor %}
-	</ul>
+{% if flags %}
+	{% if list %}
+		<ul class="app-flags app-expanded-row__item--invert {% if list %}app-flags--list{% endif %} {{ classes }}">
+			{% for flag in flags|slice:3 %}
+				<li data-label="{{ flag.label }}" class="app-flag {% if flag.label %}app-flag--label{% endif %} app-flag--{{ flag.colour }}"><span class="govuk-visually-hidden">{{ flag.label }}</span> {{ flag.name }}</li>
+			{% endfor %}
+			<span class="govuk-hint govuk-!-margin-top-2 govuk-!-margin-bottom-2 app-expanded-row__item--invert">
+				{% if flags|length > 3 %}(3 of {{ flags|length }}){% endif %}
+			</span>
+		</ul>
+		<ul class="app-flags app-flags--list app-expanded-row__item">
+			{% for flag in flags %}
+				<li data-label="{{ flag.label }}" class="app-flag {% if flag.label %}app-flag--label{% endif %} app-flag--{{ flag.colour }}"><span class="govuk-visually-hidden">{{ flag.label }}</span> {{ flag.name }}</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<ul class="app-flags">
+			{% for flag in flags %}
+				<li data-label="{{ flag.label }}" class="app-flag {% if flag.label %}app-flag--label{% endif %} app-flag--{{ flag.colour }}"><span class="govuk-visually-hidden">{{ flag.label }}</span> {{ flag.name }}</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
 {% else %}
 	{% if not list %}
 		<div class="govuk-!-margin-bottom-4">
