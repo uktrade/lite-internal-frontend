@@ -47,8 +47,6 @@ class UsersList(TemplateView):
             "data": data,
             "super_user": super_user,
             "status": status,
-            "page": params.pop("page"),
-            "params_str": convert_dict_to_query_params(params),
             "filters": filters,
         }
         return render(request, "users/index.html", context)
