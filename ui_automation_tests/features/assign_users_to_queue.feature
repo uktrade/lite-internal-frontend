@@ -5,12 +5,12 @@ Feature: I want to assign one or more specific users to a case in a work queue
   So that: everyone is aware which specific users are working on this case in any given work queue / department
 
 
-  @LT_947_select_all @regression
+  @LT_947_select_all @regression @njwp
   Scenario: Select all cases and deselect, Add user to case
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
     When I go to queues
-    And I add a new queue called Review
+    And I add a new queue
     And I go to application previously created
     And I add case to newly created queue
     And I go to the internal homepage
@@ -38,7 +38,7 @@ Feature: I want to assign one or more specific users to a case in a work queue
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
     When I go to queues
-    And I add a new queue called Review
+    And I add a new queue
     And I go to application previously created
     And I add case to newly created queue
     And I go to the internal homepage
