@@ -58,11 +58,11 @@ class UsersPage(BasePage):
         self.driver.find_element_by_id(self.REACTIVATE_ARE_YOU_SURE_BUTTON_ID).click()
 
     def go_to_user_page(self, context):
-        Shared(self.driver).filter_by_name(context.added_email)
+        self.filter_by_email(context.added_email)
         element_id = "link-" + context.added_email
         self.driver.find_element_by_id(element_id).click()
 
-    def filter_by_name(self, name):
+    def filter_by_email(self, name):
         functions.try_open_filters(self.driver)
         self.driver.find_element_by_id(self.INPUT_EMAIL_FILTER_ID).clear()
         self.driver.find_element_by_id(self.INPUT_EMAIL_FILTER_ID).send_keys(name)
