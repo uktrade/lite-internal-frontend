@@ -5,6 +5,8 @@ DATE_FORMAT = "%Y-%m-%d"
 ALL_CASES_QUEUE_ID = "00000000-0000-0000-0000-000000000001"
 UPDATED_CASES_QUEUE_ID = "00000000-0000-0000-0000-000000000004"
 
+ENFORCEMENT_XML_MAX_FILE_SIZE = 1000000  # 1 MB
+
 
 class GoodSystemFlags:
     CLC_FLAG = "00000000-0000-0000-0000-000000000002"
@@ -26,6 +28,7 @@ VIEW_TEAM_ADVICE_URL = "/view-team-advice/"
 FINAL_ADVICE_URL = "/final-advice/"
 VIEW_FINAL_ADVICE_URL = "/view-final-advice/"
 ACTIVITY_URL = "/activity/"
+ORGANISATION_SITES_ACTIVITY_URL = "/sites-activity/"
 ACTIVITY_FILTERS_URL = "/activity/filters/"
 ECJU_QUERIES_URL = "/ecju-queries/"
 END_USER_ADVISORY_URL = "/queries/end-user-advisories/"
@@ -64,6 +67,7 @@ CASE_OFFICER_URL = "/case-officer/"
 FINALISE_CASE_URL = "/finalise/"
 ROUTING_RULES_URL = "/routing-rules/"
 ROUTING_RULES_STATUS_URL = "/status/"
+ENFORCEMENT_URL = CASE_URL + "enforcement-check/"
 
 # Static URLs
 STATIC_URL = "/static/"
