@@ -17,10 +17,12 @@ class LetterTemplatesList(TemplateView):
             params["name"] = name
 
         data, _ = get_letter_templates(request, convert_dict_to_query_params(params))
-        filters = FiltersBar(
-            [TextInput(name="name", title="name"), ]
-        )
-        context = {"data": data, "page": params.pop("page"), "filters": filters,}
+        filters = FiltersBar([TextInput(name="name", title="name"),])
+        context = {
+            "data": data,
+            "page": params.pop("page"),
+            "filters": filters,
+        }
         return render(request, "letter-templates/letter-templates.html", context)
 
 

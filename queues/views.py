@@ -79,9 +79,7 @@ class QueuesList(TemplateView):
         queues = get_queues(request, page=page, disable_pagination=False, name=name)
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
-        filters = FiltersBar(
-            [TextInput(name="name", title="name"), ]
-        )
+        filters = FiltersBar([TextInput(name="name", title="name"),])
 
         context = {
             "data": queues,
