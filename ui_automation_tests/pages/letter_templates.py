@@ -74,7 +74,7 @@ class LetterTemplates(BasePage):
         return self.driver.find_element_by_id(self.DRAG_DROP_LIST).text
 
     def click_letter_template(self, document_template_name):
-        Shared(self.driver).go_to_last_page()
+        Shared(self.driver).filter_by_name(document_template_name)
         self.driver.find_element_by_id(document_template_name).click()
 
     def get_template_title(self):
@@ -108,5 +108,4 @@ class LetterTemplates(BasePage):
         return self.driver.find_element_by_id(self.PARAGRAPH_TEXT_LIST).text
 
     def get_template_table_text(self):
-        Shared(self.driver).go_to_last_page()
         return Shared(self.driver).get_text_of_lite_table_body()

@@ -1,3 +1,4 @@
+from shared import functions, selectors
 from shared.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
 
@@ -19,6 +20,7 @@ class Shared(BasePage):
     SNACKBAR_SELECTOR = ".app-snackbar"
     LITE_NOTICE_SELECTOR = ".lite-information-text__text"
     AUDIT_TRAIL_ID = "audit-trail"
+    INPUT_NAME_FILTER_ID = "name"
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(self.SUBMIT_BUTTON).click()
@@ -90,3 +92,9 @@ class Shared(BasePage):
         if size > 0:
             self.driver.find_elements_by_css_selector(".lite-pagination__list-item")[size-1].click()
         self.driver.set_timeout_to(10)
+
+    def filter_by_name(self, name):
+        functions.try_open_filters(self.driver)
+        self.driver.find_element_by_id(self.INPUT_NAME_FILTER_ID).clear()
+        self.driver.find_element_by_id(self.INPUT_NAME_FILTER_ID).send_keys(name)
+        self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()

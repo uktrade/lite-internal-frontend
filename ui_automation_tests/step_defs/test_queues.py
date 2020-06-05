@@ -38,13 +38,13 @@ def edit_queue_with_countersigning(driver, context):
 
 @then("I see my queue")
 def see_queue_in_queue_list(driver, context):
-    Shared(driver).go_to_last_page()
+    Shared(driver).filter_by_name(context.queue_name)
     assert context.queue_name in QueuesPages(driver).get_row_text(context.queue_name)
 
 
 @then("I see my queue in the list with a countersigning queue")
 def see_queue_in_queue_list_with_countersigning_queue(driver, context):
-    Shared(driver).go_to_last_page()
+    Shared(driver).filter_by_name(context.queue_name)
     row = QueuesPages(driver).get_row_text(context.queue_name)
     assert context.countersigning_queue_name in row
     assert context.countersigning_queue_name in row

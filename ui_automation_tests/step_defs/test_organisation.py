@@ -144,7 +144,7 @@ def in_review_tab(driver):
 
 @then("the organisation previously created is in the list")
 def organisation_in_list(driver, context):
-    Shared(driver).go_to_last_page()
+    OrganisationsPage(driver).search_for_org_in_filter(context.organisation_name)
     assert driver.find_element_by_id(context.organisation_id).is_displayed()
 
 

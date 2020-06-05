@@ -60,6 +60,7 @@ def picklist_in_template(driver, context):
 
 @then("I see my template in the table")
 def templates_in_table(driver, context):
+    Shared(driver).filter_by_name(context.template_name)
     assert context.template_name in LetterTemplates(driver).get_template_table_text()
 
 

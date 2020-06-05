@@ -55,6 +55,6 @@ class UsersPage(BasePage):
         self.driver.find_element_by_id(self.REACTIVATE_ARE_YOU_SURE_BUTTON_ID).click()
 
     def go_to_user_page(self, context):
+        Shared(self.driver).filter_by_name(context.added_email)
         element_id = "link-" + context.added_email
-        Shared(self.driver).go_to_last_page()
         self.driver.find_element_by_id(element_id).click()

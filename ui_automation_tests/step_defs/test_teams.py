@@ -15,7 +15,7 @@ def go_to_teams(driver, sso_sign_in, internal_url):
 
 @when("I click on the team BlueOcean")
 def click_on_my_team(driver, context):
-    Shared(driver).go_to_last_page()
+    Shared(driver).filter_by_name(context.team_name)
     driver.find_element_by_link_text(context.team_name).click()
 
 
@@ -69,10 +69,7 @@ def see_team_in_list(driver, context):
 @then(parsers.parse('I see my teams user list with user "{added_not_added}"'))
 def see_team_user_added(driver, added_not_added, context, internal_info):
     if added_not_added == "added":
-        Shared(driver).go_to_last_page()
         table = Shared(driver).get_text_of_lite_table_body()
-        # Test commented out until bug LT-2136 is fixed
-        # assert internal_info["name"] in table, "User is not displayed in team list"
         assert internal_info["email"] in table, "User is not displayed in team list"
         assert "Active" in table, "User is not displayed in team list"
     elif added_not_added == "not added":
