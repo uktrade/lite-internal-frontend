@@ -21,7 +21,7 @@ class Shared(BasePage):
     LITE_NOTICE_SELECTOR = ".lite-information-text__text"
     AUDIT_TRAIL_ID = "audit-trail"
     INPUT_NAME_FILTER_ID = "name"
-    CASES_FORM_ID = "#cases-form"
+    CASES_FORM_ID = "cases-form"
 
     def click_submit(self):
         self.driver.find_element_by_css_selector(self.SUBMIT_BUTTON).click()
