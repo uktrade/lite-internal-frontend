@@ -3,8 +3,8 @@ from shared.BasePage import BasePage
 
 class PicklistPages(BasePage):
     PICKLIST_TAB = '.lite-tabs__tab[href*="picklists"]'  # css
-    PICKLIST_EDIT_BUTTON = '.govuk-button[href*="edit"]'  # css
-    PICKLIST_ADD_BUTTON = '.govuk-button[href*="add"]'  # css
+    BUTTON_EDIT_ID = "button-edit"
+    BUTTON_ADD_ID = "button-new-picklist-item"
     BUTTON_DEACTIVATE_ID = "button-deactivate"
     BUTTON_REACTIVATE_ID = "button-reactivate"
     LINK_PICKLIST_TYPE_SUB_NAV_ID_PREFIX = "link-picklist-"
@@ -22,7 +22,7 @@ class PicklistPages(BasePage):
         self.driver.find_element_by_css_selector(self.PICKLIST_TAB).click()
 
     def click_on_picklist_edit_button(self):
-        self.driver.find_element_by_css_selector(self.PICKLIST_EDIT_BUTTON).click()
+        self.driver.find_element_by_id(self.BUTTON_EDIT_ID).click()
 
     def click_on_picklist_deactivate_button(self):
         self.driver.find_element_by_id(self.BUTTON_DEACTIVATE_ID).click()
@@ -34,7 +34,7 @@ class PicklistPages(BasePage):
         self.driver.find_element_by_id(self.LINK_PICKLIST_TYPE_SUB_NAV_ID_PREFIX + type).click()
 
     def click_on_picklist_add_button(self):
-        self.driver.find_element_by_css_selector(self.PICKLIST_ADD_BUTTON).click()
+        self.driver.find_element_by_id(self.BUTTON_ADD_ID).click()
 
     def get_text_of_picklist_page_body(self):
         return self.driver.find_element_by_css_selector(self.PICKLIST_PAGE_BODY).text
