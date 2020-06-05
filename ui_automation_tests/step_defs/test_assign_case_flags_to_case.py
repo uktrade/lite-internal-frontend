@@ -46,7 +46,7 @@ def i_see_added_flags(context, driver):
 @then(parsers.parse('the "{audit_type}" flag appears in the audit trail'))
 def verify_organisation_flag_audit(driver, context, audit_type):
     body = Shared(driver).get_audit_trail_text()
-    assert context.flags['Organisation']['name'] in body
+    assert context.flags["Organisation"]["name"] in body
     assert audit_type in body
 
 
