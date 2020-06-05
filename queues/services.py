@@ -4,7 +4,7 @@ from urllib import parse
 from django.http import HttpResponse
 
 from conf.client import get, post, put
-from conf.constants import QUEUES_URL, CASE_URL, ENFORCEMENT_URL
+from conf.constants import QUEUES_URL, CASE_URL, ENFORCEMENT_URL, ENFORCEMENT_XML_MAX_FILE_SIZE
 from core.helpers import convert_parameters_to_query_params
 from lite_content.lite_internal_frontend.cases import UploadEnforcementXML
 from lite_content.lite_internal_frontend.users import AssignUserPage
@@ -91,9 +91,12 @@ def post_enforcement_xml(request, queue_pk, json):
         return {"errors": {"file": [UploadEnforcementXML.Errors.NO_FILE]}}, HTTPStatus.BAD_REQUEST
     if len(request.FILES) != 1:
         return {"errors": {"file": [UploadEnforcementXML.Errors.MULTIPLE_FILES]}}, HTTPStatus.BAD_REQUEST
+    if request.FILES["file"].size > ENFORCEMENT_XML_MAX_FILE_SIZE:
+        return {"errors": {"file": [UploadEnforcementXML.Errors.FILE_TOO_LARGE]}}, HTTPStatus.BAD_REQUEST
 
     try:
-        file_format = {"file": request.FILES["file"].read().decode("utf-8")}
+        file = request.FILES.pop("file")[0]
+        file_format = {"file": file.read().decode("utf-8")}
     except Exception:  # noqa
         return {"errors": {"file": [UploadEnforcementXML.Errors.FILE_READ]}}, HTTPStatus.BAD_REQUEST
 
