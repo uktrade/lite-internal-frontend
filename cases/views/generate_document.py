@@ -35,8 +35,7 @@ class GenerateDocument(MultiFormView):
         return json, HTTPStatus.OK
 
     def get_forms(self):
-        params = {"case": self.kwargs["pk"], "page": self.request.GET.get("page", 1)}
-        templates, _ = get_letter_templates(self.request, convert_dict_to_query_params(params))
+        templates, _ = get_letter_templates(self.request, case=self.kwargs["pk"], page=self.request.GET.get("page", 1))
 
         if self.contacts:
             return FormGroup(
@@ -88,12 +87,12 @@ class GenerateDecisionDocument(GenerateDocument):
         self.back_url = reverse_lazy(
             "cases:finalise_documents", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"]}
         )
-        params = {
-            "case": self.kwargs["pk"],
-            "decision": self.kwargs["decision_key"],
-            "page": self.request.GET.get("page", 1),
-        }
-        templates, _ = get_letter_templates(self.request, convert_dict_to_query_params(params))
+        templates, _ = get_letter_templates(
+            self.request,
+            case=self.kwargs["pk"],
+            decision=self.kwargs["decision_key"],
+            page=self.request.GET.get("page", 1),
+        )
 
         return FormGroup(
             [
