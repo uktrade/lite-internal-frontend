@@ -68,7 +68,7 @@ def templates_in_table(driver, context):
 def see_drag_and_drop_page(driver, context):
     letter_template = LetterTemplates(driver)
     context.picklist_text = letter_template.get_text_of_paragraphs_in_preview()
-    assert "sapp-sortable ui-sortable" in letter_template.get_class_name_of_drag_and_drop_list()
+    assert "app-sortable ui-sortable" in letter_template.get_class_name_of_drag_and_drop_list()
     assert context.letter_paragraph_name in letter_template.get_drag_and_drop_list_name()
 
 
