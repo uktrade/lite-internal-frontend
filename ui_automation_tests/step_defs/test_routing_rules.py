@@ -67,9 +67,7 @@ def create_routing_rule(driver, context, tier, case_status):
 def edit_flagging_rule(driver, context, tier, case_status):
     routing_rules_page = RoutingRulesPage(driver)
     routing_rules_page.edit_row_by_queue_id(context.queue_id)
-    routing_rules_page.initial_details_form(
-        tier=tier, case_status=case_status, additional_rules=False
-    )
+    routing_rules_page.initial_details_form(tier=tier, case_status=case_status, additional_rules=False)
     functions.click_submit(driver)
 
 
