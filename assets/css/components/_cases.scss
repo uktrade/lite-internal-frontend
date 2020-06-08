@@ -93,6 +93,10 @@ $case-header-text-colour: govuk-colour("white");
     -webkit-transform: translate3d(0,0,0);
     z-index: 1;
 
+	@media (max-width: 1000px) {
+		position: relative;
+	}
+
     .lite-tabs {
         overflow-x: hidden;
     }
@@ -385,6 +389,10 @@ $case-header-text-colour: govuk-colour("white");
 .app-case__flags-bar {
     margin-top: govuk-spacing(4);
     display: flex;
+
+	@media (max-width: 1000px) {
+		margin-top: 0;
+	}
 
     a {
         @include govuk-font($size: 19);
