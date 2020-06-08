@@ -138,8 +138,9 @@ class PreviewDocument(TemplateView):
         if not text:
             return generate_document_error_page()
 
-        params = convert_dict_to_query_params({"template": template_id, "text": quote(text), "addressee": addressee})
-        preview, status_code = get_generated_document_preview(request, case_id, params)
+        preview, status_code = get_generated_document_preview(
+            request, case_id, template=template_id, text=quote(text), addressee=addressee
+        )
         if status_code == 400:
             return generate_document_error_page()
 

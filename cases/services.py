@@ -324,8 +324,9 @@ def post_generated_document(request, pk, json):
     return data.status_code
 
 
-def get_generated_document_preview(request, pk, params):
-    data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_PREVIEW_URL + "?" + params)
+def get_generated_document_preview(request, pk, template, text, addressee):
+    params = convert_parameters_to_query_params(locals())
+    data = get(request, CASE_URL + pk + GENERATED_DOCUMENTS_PREVIEW_URL + params)
     return data.json(), data.status_code
 
 
