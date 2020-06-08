@@ -26,16 +26,15 @@ class ECJUQueryTypes:
 
 
 def new_ecju_query_form():
-    return Form(title=EcjuQueries.AddQuery.TITLE_PREFIX + ECJUQueryTypes.get_text(ECJUQueryTypes.ECJU_QUERY).lower(),
-                questions=[
-                    HiddenField("query_type", ECJUQueryTypes.ECJU_QUERY),
-                    TextArea(
-                        description=cases.EcjuQueries.AddQuery.DESCRIPTION,
-                        name="question",
-                        extras={"max_length": 5000, },
-                    ),
-                    PicklistPicker(target="question", type=ECJUQueryTypes.ECJU_QUERY),
-                ],
-                default_button_name=cases.EcjuQueries.AddQuery.SUBMIT,
-                container="case",
-                )
+    return Form(
+        title=EcjuQueries.AddQuery.TITLE_PREFIX + ECJUQueryTypes.get_text(ECJUQueryTypes.ECJU_QUERY).lower(),
+        questions=[
+            HiddenField("query_type", ECJUQueryTypes.ECJU_QUERY),
+            TextArea(
+                description=cases.EcjuQueries.AddQuery.DESCRIPTION, name="question", extras={"max_length": 5000,},
+            ),
+            PicklistPicker(target="question", type=ECJUQueryTypes.ECJU_QUERY),
+        ],
+        default_button_name=cases.EcjuQueries.AddQuery.SUBMIT,
+        container="case",
+    )
