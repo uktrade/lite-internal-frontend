@@ -68,15 +68,16 @@ class GenerateDocument(MultiFormView):
         self.applicant = get_case_applicant(request, kwargs["pk"])
         self.template = request.POST.get(TEMPLATE)
 
-        if self.template and not request.POST.get(TEXT):
-            template, _ = get_letter_template(request, self.template, params=convert_dict_to_query_params({TEXT: True}))
-            self.data = {TEXT: template[TEXT]}
-
         params = {"case": self.kwargs["pk"], "page": self.request.GET.get("page", 1)}
         if self.kwargs.get("decision_key"):
             params["decision"] = self.kwargs["decision_key"]
         self.templates, _ = get_letter_templates(self.request, convert_dict_to_query_params(params))
         self.data = {"total_pages": self.templates["total_pages"]}
+
+        if self.template and not request.POST.get(TEXT):
+            template, _ = get_letter_template(request, self.template, params=convert_dict_to_query_params({TEXT: True}))
+            self.data[TEXT] = template[TEXT]
+
         self.object_pk = kwargs["pk"]
         self.action = self._validate
         self.additional_context = {
