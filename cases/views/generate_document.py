@@ -40,11 +40,10 @@ class GenerateDocument(MultiFormView):
             return FormGroup(
                 [
                     select_template_form(self.templates, self.back_url),
-                    select_addressee_form(self.back_url),
+                    select_addressee_form(),
                     edit_document_text_form(
                         {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": self.template},
                         post_url="cases:generate_document_preview",
-                        back_url=self.back_url,
                     ),
                 ]
             )
@@ -55,7 +54,6 @@ class GenerateDocument(MultiFormView):
                     edit_document_text_form(
                         {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": self.template},
                         post_url="cases:generate_document_preview",
-                        back_url=self.back_url,
                     ),
                 ]
             )
@@ -103,7 +101,6 @@ class GenerateDecisionDocument(GenerateDocument):
                         "decision_key": self.kwargs["decision_key"],
                     },
                     post_url="cases:finalise_document_preview",
-                    back_url=self.back_url,
                 ),
             ]
         )
@@ -111,9 +108,6 @@ class GenerateDecisionDocument(GenerateDocument):
 
 class RegenerateExistingDocument(SingleFormView):
     def init(self, request, **kwargs):
-        back_url = reverse_lazy(
-            "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"], "tab": "documents"}
-        )
         document, _ = get_generated_document(request, str(kwargs["pk"]), str(kwargs["dpk"]))
         template = document["template"]
         self.data = {TEXT: document.get(TEXT)}
@@ -121,7 +115,6 @@ class RegenerateExistingDocument(SingleFormView):
         self.form = edit_document_text_form(
             {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": template},
             post_url="cases:generate_document_preview",
-            back_url=back_url,
         )
         self.context = {"case": get_case(request, self.object_pk)}
 

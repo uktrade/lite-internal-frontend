@@ -27,22 +27,20 @@ def select_template_form(templates, back_url):
     )
 
 
-def select_addressee_form(back_url):
+def select_addressee_form():
     return Form(
         title=GenerateDocumentsPage.AddresseeForm.TITLE,
         description=GenerateDocumentsPage.AddresseeForm.DESCRIPTION,
         questions=[Custom("components/addressee-table.html")],
-        back_link=BackLink(url=back_url),
         container="case",
     )
 
 
-def edit_document_text_form(kwargs, post_url, back_url):
+def edit_document_text_form(kwargs, post_url):
     return Form(
         title=GenerateDocumentsPage.EditTextForm.HEADING,
         questions=[TextArea(name="text", extras={"max_length": 5000}),],
         default_button_name=GenerateDocumentsPage.EditTextForm.BUTTON,
         post_url=reverse_lazy(post_url, kwargs=kwargs),
-        back_link=BackLink(url=back_url),
         container="case",
     )
