@@ -68,9 +68,7 @@ def edit_flagging_rule(driver, context, condition):
     row = driver.find_element_by_id(context.flag_id)
 
     # select edit for my flagging rule
-    row.find_element_by_link_text(
-        "Edit"
-    ).click()
+    flagging_rules_page.click_on_edit_for_element(row)
 
     if type == "Case":
         flagging_rules_page.select_case_type(condition)

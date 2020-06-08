@@ -18,7 +18,7 @@ class UsersPage(BasePage):
     DEACTIVATE_ARE_YOU_SURE_BUTTON_ID = "deactivated_button"
     REACTIVATE_ARE_YOU_SURE_BUTTON_ID = "reactivated_button"
     INPUT_EMAIL_FILTER_ID = "email"
-
+    LINK_ID = "link-"
 
     def click_add_a_user_button(self):
         self.driver.find_element_by_id(self.BUTTON_ADD_USER_ID).click()
@@ -67,3 +67,6 @@ class UsersPage(BasePage):
         self.driver.find_element_by_id(self.INPUT_EMAIL_FILTER_ID).clear()
         self.driver.find_element_by_id(self.INPUT_EMAIL_FILTER_ID).send_keys(name)
         self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()
+
+    def is_user_email_displayed(self, email):
+        return self.driver.find_element_by_id(self.LINK_ID + email).is_displayed()
