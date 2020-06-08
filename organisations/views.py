@@ -27,6 +27,7 @@ from organisations.services import (
     post_hmrc_organisations,
     put_organisation_status,
     get_organisation_activity,
+    get_site_activity,
 )
 
 
@@ -65,8 +66,6 @@ class OrganisationList(TemplateView):
 
         context = {
             "data": organisations,
-            "page": params.pop("page"),
-            "params_str": convert_dict_to_query_params(params),
             "filters": filters,
             "search_term": params.get("search_term", ""),
             "tab": params.get("status"),
@@ -137,7 +136,10 @@ class OrganisationSites(OrganisationView):
     template_name = "sites"
 
     def get_additional_context(self):
-        return {"sites": get_organisation_sites(self.request, self.organisation_id)}
+        return {
+            "sites": get_organisation_sites(self.request, self.organisation_id),
+            "activity": get_site_activity(self.request, self.organisation_id),
+        }
 
 
 class RegisterOrganisation(MultiFormView):

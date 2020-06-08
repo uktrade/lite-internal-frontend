@@ -49,6 +49,16 @@
 			</dd>
 		</div>
 	{% endif %}
+	{% if case.data.submitted_by %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.CasePage.DetailsTab.SUBMITTED_BY' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				{{ case.data.submitted_by }}
+			</dd>
+		</div>
+	{% endif %}
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
 			{% lcs 'cases.CasePage.DetailsTab.STATUS' %}
@@ -189,6 +199,30 @@
 			</dt>
 			<dd class="app-case__summary-list__value">
 				{{ case.data.goodstype_category.value }}
+			</dd>
+		</div>
+	{% endif %}
+	{% if case.data.trade_control_activity %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.CasePage.DetailsTab.TRADE_CONTROL_ACTIVITY' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				{{ case.data.trade_control_activity.value }}
+			</dd>
+		</div>
+	{% endif %}
+	{% if case.data.trade_control_product_categories %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.CasePage.DetailsTab.TRADE_CONTROL_ACTIVITY_CATEGORIES' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				<ol class="govuk-list govuk-!-margin-0">
+					{% for category in case.data.trade_control_product_categories %}
+						<li>{{ category.value }}</li>
+					{% endfor %}
+				</ol>
 			</dd>
 		</div>
 	{% endif %}

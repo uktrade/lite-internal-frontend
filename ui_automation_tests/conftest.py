@@ -14,6 +14,7 @@ from ui_automation_tests.fixtures.add_a_flag import (  # noqa
     add_good_flag,
     add_organisation_flag,
     add_destination_flag,
+    get_flag_of_level,
 )
 from ui_automation_tests.fixtures.add_queue import add_queue  # noqa
 from ui_automation_tests.fixtures.add_a_document_template import (  # noqa
@@ -45,9 +46,8 @@ from pages.assign_flags_to_case import CaseFlagsPages
 from pages.shared import Shared
 from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
-from pages.queues_pages import QueuesPages
 
-from ui_automation_tests.shared.tools.helpers import paginated_item_exists, get_formatted_date_time_m_d_h_s
+from ui_automation_tests.shared.tools.helpers import get_formatted_date_time_y_m_d_h_s
 
 
 def pytest_addoption(parser):
@@ -195,7 +195,7 @@ def move_case_to_new_queue(driver, context):  # noqa
     Shared(driver).click_submit()
 
 
-@when("I select previously created flag")  # noqa
+@when("I select a previously created flag")  # noqa
 def assign_flags_to_case(driver, context):  # noqa
     CaseFlagsPages(driver).select_flag(context.flag_name)
     functions.click_submit(driver)
@@ -216,9 +216,11 @@ def added_flags_on_queue(driver, context):  # noqa
 
 @then("I see previously created application")  # noqa
 def see_queue_in_queue_list(driver, context):  # noqa
-    assert QueuesPages(driver).is_case_on_the_list(context.case_id) == 1, (
-        "previously created application is not displayed " + context.case_id
-    )
+    case_page = CaseListPage(driver)
+    case_page.click_show_filters_link()
+    case_page.filter_by_case_reference(context.reference_code)
+    case_page.click_apply_filters_button()
+    assert driver.find_element_by_id(context.case_id).is_displayed()
 
 
 @when("I go to the organisation which submitted the case")  # noqa
@@ -248,7 +250,7 @@ def enter_response(driver, controlled, control_list_entry, report, comment):  # 
     clc_query_page = GoodsQueriesPages(driver)
     clc_query_page.click_is_good_controlled(controlled)
     clc_query_page.type_in_to_control_list_entry(control_list_entry)
-    clc_query_page.choose_report_summary(report)
+    clc_query_page.choose_report_summary()
     clc_query_page.enter_a_comment(controlled)
     Shared(driver).click_submit()
 
@@ -295,7 +297,6 @@ def case_list_page(driver, internal_url):  # noqa
 
 @then("I should see my case in the cases list")  # noqa
 def case_in_cases_list(driver, context):  # noqa
-    assert paginated_item_exists(context.case_id, driver)
     context.case_row = CaseListPage(driver).get_case_row(context.case_id)
     assert context.reference_code in context.case_row.text
 
@@ -367,16 +368,9 @@ def add_a_flag(driver, add_organisation_flag):  # noqa
     pass
 
 
-@given("a new queue has been created")  # noqa
-def create_queue(context, api_test_client):  # noqa
-    api_test_client.queues.add_queue("queue" + get_formatted_date_time_m_d_h_s())
-    context.queue_name = api_test_client.context["queue_name"]
-    context.queue_id = api_test_client.context["queue_id"]
-
-
 @given("a new countersigning queue has been created")  # noqa
 def create_countersigning_queue(context, api_test_client):  # noqa
-    api_test_client.queues.add_queue("countersigningqueue" + get_formatted_date_time_m_d_h_s())
+    api_test_client.queues.add_queue("countersigningqueue" + get_formatted_date_time_y_m_d_h_s())
     context.countersigning_queue_name = api_test_client.context["queue_name"]
     context.countersigning_queue_id = api_test_client.context["queue_id"]
 
@@ -393,12 +387,12 @@ def work_queue(driver, context, internal_url):  # noqa
 
 @then("My case is not in the queue")  # noqa
 def no_cases_in_queue(driver, context):  # noqa
-    assert paginated_item_exists(context.case_id, driver, False)
+    assert context.case_id not in Shared(driver).get_text_of_cases_form()
 
 
 @given("a queue has been created")  # noqa
 def create_queue(context, api_test_client):  # noqa
-    api_test_client.queues.add_queue("queue" + get_formatted_date_time_m_d_h_s())
+    api_test_client.queues.add_queue("queue " + get_formatted_date_time_y_m_d_h_s())
     context.queue_id = api_test_client.context["queue_id"]
     context.queue_name = api_test_client.context["queue_name"]
 
@@ -483,7 +477,7 @@ def click_edit_case_flags_link(driver):  # noqa
 
 @then("The previously created flag is assigned to the case")  # noqa
 def assert_flag_is_assigned(driver, context):  # noqa
-    assert CasePage(driver).is_flag_applied(context.flag_name), (
+    assert CasePage(driver).is_flag_in_applied_flags_list(context.flag_name), (
         "Flag " + context.flag_name + " is not applied to the case"
     )
 
@@ -501,3 +495,8 @@ def assign_case_to_queue(api_test_client):  # noqa
 @given("all flags are removed")  # noqa
 def remove_all_flags(context, api_test_client):  # noqa
     api_test_client.flags.assign_case_flags(context.case_id, [])
+
+
+@when("I add a new queue")  # noqa
+def add_a_queue(driver, context, add_queue):  # noqa
+    pass

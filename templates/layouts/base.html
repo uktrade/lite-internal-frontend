@@ -37,7 +37,7 @@
 
 	<meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="{% static 'javascripts/jquery.min.js' %}"></script>
 	<script src="{% static 'javascripts/popper.js' %}"></script>
 	<script src="{% static 'javascripts/tippy.js' %}"></script>
 
@@ -62,7 +62,9 @@
 		<div class="app-header__container govuk-width-container">
 			<a class="app-header__link" href="{% url 'core:index' %}" data-tooltip="Go home">
 				{% svg 'crest' %}
-				Licensing for International Trade and Enterprise <span class="govuk-tag govuk-!-margin-left-3">Alpha</span>
+				<span class="lite-mobile-hide">
+					Licensing for International Trade and Enterprise <span class="govuk-tag govuk-!-margin-left-3">Alpha</span>
+				</span>
 			</a>
 			<span></span>
 			<a id="link-sign-out" class="app-header__link" href="{% url 'auth:logout' %}" data-tooltip="Sign out of LITE">
@@ -162,6 +164,7 @@
 			animation: 'scale-subtle',
 			trigger: 'click',
 			theme: 'light',
+			placement: 'bottom'
 		});
 
 		tippy('.app-flag--label', {

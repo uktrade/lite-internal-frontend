@@ -2,6 +2,8 @@ import time
 
 import shared.tools.helpers as utils
 from selenium.webdriver.support.select import Select
+
+from shared import selectors
 from shared.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
 from pages.shared import Shared
@@ -19,7 +21,6 @@ class CaseListPage(BasePage):
     BUTTON_ASSIGN_USERS = "assign-users-button"  # ID
 
     # Filters
-    BUTTON_APPLY_FILTERS = "button-apply-filters"  # ID
     BUTTON_CLEAR_FILTERS = "button-clear-filters"  # ID
     LINK_ADVANCED_FILTERS = "advanced-filters-link"  # ID
     LINK_SHOW_FILTERS = "show-filters-link"  # ID
@@ -81,7 +82,7 @@ class CaseListPage(BasePage):
     SLA_ID = "sla"
 
     # Enforcement
-    EXPORT_ENFORCEMENT_XML_BUTTON_ID = "export-xml"
+    EXPORT_ENFORCEMENT_XML_BUTTON_ID = "button-export-xml"
 
     def search_pages_for_id(self, id):
         is_present = len(self.driver.find_elements_by_link_text(id))
@@ -99,18 +100,12 @@ class CaseListPage(BasePage):
                 is_present = len(self.driver.find_elements_by_link_text(id))
 
     def click_on_case_checkbox(self, case_id):
-        self.driver.set_timeout_to(1)
-        self.search_pages_for_id(case_id)
-        self.driver.set_timeout_to_10_seconds()
         self.driver.find_element_by_css_selector(self.CHECKBOX_CASE + case_id + "']").click()
 
     def click_on_assign_users_button(self):
         self.driver.find_element_by_id(self.BUTTON_ASSIGN_USERS).click()
 
     def get_text_of_assignees(self, driver, case_id):
-        self.driver.set_timeout_to(1)
-        self.search_pages_for_id(case_id)
-        self.driver.set_timeout_to_10_seconds()
         elements = Shared(driver).get_rows_in_lite_table()
         no = utils.get_element_index_by_text(elements, case_id)
         return elements[no].text
@@ -130,7 +125,7 @@ class CaseListPage(BasePage):
         return elements[no].is_displayed()
 
     def click_apply_filters_button(self):
-        self.driver.find_element_by_id(self.BUTTON_APPLY_FILTERS).click()
+        self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()
 
     def click_clear_filters_button(self):
         self.driver.find_element_by_id(self.BUTTON_CLEAR_FILTERS).click()
@@ -187,8 +182,10 @@ class CaseListPage(BasePage):
             assert self.driver.find_element_by_id(advanced_filter)
 
     def filter_by_exporter_application_reference(self, exporter_application_reference):
-        self.driver.find_element_by_id(self.EXPORTER_APPLICATION_REFERENCE_ID)
         self.driver.find_element_by_id(self.EXPORTER_APPLICATION_REFERENCE_ID).send_keys(exporter_application_reference)
+
+    def filter_by_case_reference(self, case_reference):
+        self.driver.find_element_by_id(self.CASE_REFERENCE_ID).send_keys(case_reference)
 
     def filter_by_goods_related_description(self, goods_related_description):
         self.driver.find_element_by_id(self.GOODS_RELATED_DESCRIPTION_ID)

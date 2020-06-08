@@ -5,6 +5,8 @@ DATE_FORMAT = "%Y-%m-%d"
 ALL_CASES_QUEUE_ID = "00000000-0000-0000-0000-000000000001"
 UPDATED_CASES_QUEUE_ID = "00000000-0000-0000-0000-000000000004"
 
+ENFORCEMENT_XML_MAX_FILE_SIZE = 1000000  # 1 MB
+
 
 class GoodSystemFlags:
     CLC_FLAG = "00000000-0000-0000-0000-000000000002"
@@ -26,6 +28,7 @@ VIEW_TEAM_ADVICE_URL = "/view-team-advice/"
 FINAL_ADVICE_URL = "/final-advice/"
 VIEW_FINAL_ADVICE_URL = "/view-final-advice/"
 ACTIVITY_URL = "/activity/"
+ORGANISATION_SITES_ACTIVITY_URL = "/sites-activity/"
 ACTIVITY_FILTERS_URL = "/activity/filters/"
 ECJU_QUERIES_URL = "/ecju-queries/"
 END_USER_ADVISORY_URL = "/queries/end-user-advisories/"
@@ -40,6 +43,7 @@ GOV_USERS_ROLES_URL = "/gov-users/roles/"
 GOV_USERS_PERMISSIONS_URL = "/gov-users/permissions/"
 NOTIFICATIONS_URL = "/gov-users/notifications/"
 FLAGS_URL = "/flags/"
+OPEN_GENERAL_LICENCES_URL = "/open-general-licences/"
 ASSIGN_FLAGS_URL = FLAGS_URL + "assign/"
 FLAGGING_RULES = FLAGS_URL + "rules/"
 FLAGS_CASE_LEVEL_FOR_TEAM = "/flags/?level=Case&team=True"
@@ -63,6 +67,7 @@ CASE_OFFICER_URL = "/case-officer/"
 FINALISE_CASE_URL = "/finalise/"
 ROUTING_RULES_URL = "/routing-rules/"
 ROUTING_RULES_STATUS_URL = "/status/"
+ENFORCEMENT_URL = CASE_URL + "enforcement-check/"
 
 # Static URLs
 STATIC_URL = "/static/"
@@ -115,6 +120,7 @@ class Permission(Enum):
     MANAGE_PICKLISTS = "MANAGE_PICKLISTS"
     ENFORCEMENT_CHECK = "ENFORCEMENT_CHECK"
     MAINTAIN_FOOTNOTES = "MAINTAIN_FOOTNOTES"
+    MAINTAIN_OGL = "MAINTAIN_OGL"
 
 
 class FlagLevels:
@@ -151,3 +157,11 @@ class CaseType:
     EXHIBITION = "exhibition_clearance"
     F680 = "f680_clearance"
     HMRC = "hmrc"
+
+
+class GoodsTypeCategory:
+    MILITARY = "military"
+    CRYPTOGRAPHIC = "cryptographic"
+    MEDIA = "media"
+    UK_CONTINENTAL_SHELF = "uk_continental_shelf"
+    DEALER = "dealer"

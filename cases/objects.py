@@ -1,5 +1,8 @@
 from munch import Munch
 
+from cases.constants import CaseType
+from conf.constants import GoodsTypeCategory
+
 
 class Slice:
     def __init__(self, file, title=None):
@@ -32,6 +35,10 @@ class Case(Munch):
         return self["case_type"]["sub_type"]["key"]
 
     @property
+    def reference(self):
+        return self["case_type"]["reference"]["key"]
+
+    @property
     def goods(self):
         if "goods" not in self.data and "goods_types" not in self.data:
             return []
@@ -41,9 +48,9 @@ class Case(Munch):
     @property
     def destinations(self):
         if "destinations" not in self.data:
-            return []
-
-        destinations = self.data["destinations"]["data"]
+            destinations = [self.data.get("end_user")]
+        else:
+            destinations = self.data["destinations"]["data"]
 
         # Some apps return just the end user (as type dict) in destinations,
         # so we need to add the other destinations
@@ -57,6 +64,20 @@ class Case(Munch):
                 destinations += self.data.get("third_parties")
 
         return destinations
+
+    @property
+    def open_app_parties(self):
+        parties = []
+        if self.data["case_type"]["sub_type"]["key"] == CaseType.OPEN.value:
+            if self.data.get("end_user"):
+                parties.append(self.data.get("end_user"))
+            if (
+                self.data.get("ultimate_end_users")
+                and self.data["goodstype_category"]["key"] == GoodsTypeCategory.MILITARY
+            ):
+                parties.extend(self.data.get("ultimate_end_users"))
+
+        return parties
 
     @property
     def case_officer(self):

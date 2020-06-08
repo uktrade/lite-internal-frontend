@@ -170,6 +170,9 @@ STATICFILES_FINDERS = (
     "sass_processor.finders.CssFinder",
 )
 
+# Cache static files
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+
 SASS_PROCESSOR_ENABLED = True
 
 # File Upload
@@ -217,6 +220,7 @@ LOGGING = {
 SECURE_BROWSER_XSS_FILTER = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = not DEBUG
 SECURE_CONTENT_TYPE_NOSNIFF = not DEBUG
 
 # Content Security Policy
@@ -230,3 +234,8 @@ CSP_REPORT_ONLY = env("CSP_REPORT_ONLY")
 SESSION_EXPIRE_SECONDS = env("SESSION_EXPIRE_SECONDS", default=60 * 60)
 
 LOGOUT_URL = env("AUTHBROKER_URL") + "/logout/"
+
+# The maximum number of parameters that may be received via GET or POST
+# before a SuspiciousOperation (TooManyFields) is raised.
+# Increased due to potential of selecting all control list entries
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 3500

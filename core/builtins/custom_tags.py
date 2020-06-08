@@ -22,6 +22,7 @@ STRING_NOT_FOUND_ERROR = "STRING_NOT_FOUND"
 
 
 @register.simple_tag(name="lcs")
+@mark_safe
 def get_const_string(value):
     """
     Template tag for accessing constants from LITE content library (not for Python use - only HTML)
@@ -40,7 +41,7 @@ def get_const_string(value):
         object = getattr(object_to_search, nested_properties_list[0])
         if len(nested_properties_list) == 1:
             # We have reached the end of the path and now have the string
-            return object
+            return object.replace("<!--", "<span class='govuk-visually-hidden'>").replace("-->", "</span>")
         else:
             # Search the object for the next property in `nested_properties_list`
             return get(object, nested_properties_list[1:])
@@ -52,6 +53,23 @@ def get_const_string(value):
         return get(path_object, path[1:]) if len(path) > 1 else path_object
     except AttributeError:
         return STRING_NOT_FOUND_ERROR
+
+
+@register.filter(name="lcsp")
+def pluralize_lcs(items, string):
+    """
+    Given a list of items and an LCS string, return the singular version if the list
+    contains one item otherwise return the plural version
+    {{ open_general_licence.control_list_entries|lcsp:'open_general_licences.List.Table.CONTROL_LIST_ENTRIES' }}
+    CONTROL_LIST_ENTRIES = "Control list entry/Control list entries"
+    """
+    strings = get_const_string(string).split("/")
+    count = items if isinstance(items, int) else len(items) if items else 0
+
+    if count == 1:
+        return strings[0]
+    else:
+        return strings[1]
 
 
 @register.filter
@@ -116,14 +134,6 @@ def table_sort_text(key, actual_sort):
 
     if key in actual_sort:
         return "-" + key
-
-
-@register.filter()
-def add_subnav_selected_class(key, url):
-    if key in url:
-        return "lite-subnav__link--selected"
-
-    return ""
 
 
 @register.filter()
@@ -278,7 +288,7 @@ def highlight_text(value: str, term: str) -> str:
     def insert_str(string, str_to_insert, string_index):
         return string[:string_index] + str_to_insert + string[string_index:]
 
-    if not term.strip():
+    if not term or not term.strip():
         return value
 
     indexes = [m.start() for m in re.finditer(term, value, flags=re.IGNORECASE)]
@@ -604,3 +614,27 @@ def latest_status_change(activity):
 @register.filter()
 def filter_flags_by_level(flags, level):
     return [flag for flag in flags if flag["level"] == level]
+
+
+@register.filter()
+def get_goods_linked_to_destination_as_list(goods, country_id):
+    """
+    Instead of iterating over each goods list of countries without the ability to break loops in django templating.
+    This function will make a match for which goods are being exported to the country supplied,
+        and return the list of goods
+    :param goods: list of goods on the application
+    :param country_id: id of country we are interested in
+    :return: list of goods that go to destination
+    """
+    item_number = 1
+    list_of_goods = []
+    for good in goods:
+        for country in good["countries"]:
+            if country["id"] == country_id:
+                list_of_goods.append(f"{item_number}. {good['description']}")
+                item_number += 1
+                break
+        else:
+            break
+
+    return list_of_goods

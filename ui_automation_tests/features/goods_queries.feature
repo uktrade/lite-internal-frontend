@@ -4,7 +4,7 @@ Feature: I want to respond to clc queries
   I want to respond to a CLC query with the correct control list classification code to use for a good  or an NLR as applicable
   So that an exporter can apply for a licence with that code and without me needing to assess the goods again
 
-  @LT_1138_respond @clc @smoke
+  @LT_1138_respond @clc @regression
   Scenario: respond to a clc type of query
     Given I sign in to SSO or am signed into SSO
     And I create report summary picklist
@@ -22,12 +22,12 @@ Feature: I want to respond to clc queries
     And I select status "CLC review" and save
     Then the status has been changed in the clc query
 
-  @LT_1528_respond @pv_grading @smoke @rory
+  @LT_1528_respond @pv_grading @regression
   Scenario: respond to a grading type of query
     Given I sign in to SSO or am signed into SSO
     And I create report summary picklist
     And I create a grading query
-    When I go to goods query previously created
+    When I go to pv goods query previously created
     And I click Respond to grading query
     And I respond prefix "abc", select "UK official", suffix "123", comment "This is my review", and click submit
     When I click change status
@@ -35,7 +35,7 @@ Feature: I want to respond to clc queries
     Then I see case is closed
     When I click change status
     And I select status "Withdrawn" and save
-    Then the status has been changed in the clc query
+    Then the status has been changed in the pv query
     When I click change status
     And I select status "PV grading review" and save
-    Then the status has been changed in the clc query
+    Then the status has been changed in the pv query

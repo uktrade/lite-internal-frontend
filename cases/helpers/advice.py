@@ -16,6 +16,9 @@ ALL_ENTITIES = SINGULAR_ENTITIES + PLURAL_ENTITIES
 
 
 def get_param_destinations(request, case: Case):
+    """
+    get a list of destinations dictionaries from the case, based on the destinations selected by the user
+    """
     selected_destinations_ids = [
         *request.GET.getlist("ultimate_end_user"),
         *request.GET.getlist("countries"),
@@ -23,18 +26,17 @@ def get_param_destinations(request, case: Case):
         request.GET.get("end_user"),
         request.GET.get("consignee"),
     ]
-    destinations = case.destinations
-    return_values = []
+    case_destinations = case.destinations
+    destinations = []
 
-    for destination in destinations:
-        if destination.get("country"):
-            if destination["country"]["id"] in selected_destinations_ids:
-                return_values.append(destination["country"])
-        else:
-            if destination["id"] in selected_destinations_ids:
-                return_values.append(destination)
+    for case_destination in case_destinations:
+        # contract types are unique to Country on applications, and not on entities.
+        if case_destination.get("contract_types") and case_destination["country"]["id"] in selected_destinations_ids:
+            destinations.append(case_destination["country"])
+        elif case_destination["id"] in selected_destinations_ids:
+            destinations.append(case_destination)
 
-    return return_values
+    return destinations
 
 
 def get_param_goods(request, case: Case):
@@ -79,6 +81,31 @@ def get_advice_additional_context(request, case, permissions):
         "can_finalise": current_advice_level == "final" and can_advice_be_finalised(case) and not blocking_flags,
         "blocking_flags": blocking_flags,
     }
+
+
+def same_value(dicts, key):
+    original_value = dicts[0][key]
+
+    for dict in dicts:
+        if dict[key] != original_value:
+            return
+
+    return original_value
+
+
+def flatten_goods_data(items: List[Dict]):
+    if not items:
+        return
+
+    if "good" in items[0]:
+        items = [x["good"] for x in items]
+
+    is_good_controlled = same_value(items, "is_good_controlled")
+    control_list_entries = [
+        {"key": clc["rating"], "value": clc["rating"]} for clc in same_value(items, "control_list_entries")
+    ]
+
+    return {"is_good_controlled": is_good_controlled, "control_list_entries": control_list_entries}
 
 
 def flatten_advice_data(request, case: Case, items: List[Dict], level):

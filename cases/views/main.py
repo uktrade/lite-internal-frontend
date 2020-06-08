@@ -51,6 +51,7 @@ class CaseDetail(CaseView):
         self.slices = [
             Slices.GOODS,
             Slices.DESTINATIONS,
+            Slices.OPEN_APP_PARTIES,
             conditional(self.case.data["inactive_parties"], Slices.DELETED_ENTITIES),
             Slices.LOCATIONS,
             *conditional(
@@ -121,7 +122,7 @@ class CaseDetail(CaseView):
         ]
 
     def get_end_user_advisory_query(self):
-        self.slices = [Slices.END_USER_ADVISORY]
+        self.slices = [Slices.END_USER_DETAILS]
 
     def get_goods_query(self):
         self.slices = [Slices.GOODS_QUERY]

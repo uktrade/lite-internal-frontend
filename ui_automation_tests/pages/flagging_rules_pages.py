@@ -1,4 +1,6 @@
 from selenium.webdriver.support.select import Select
+
+from shared import selectors
 from shared.BasePage import BasePage
 
 from ui_automation_tests.shared import functions
@@ -13,16 +15,16 @@ class FlaggingRulePages(BasePage):
     SELECT_FLAG_ID = "flag"
     BTN_CREATE_NEW_FLAGGING_RULE = "add-a-flag-button"
     INCLUDE_DEACTIVATED = "Include-deactivated"
-    BUTTON_APPLY_FILTERS_ID = "button-apply-filters"
     REACTIVATE_FLAG_BUTTON = "a[href*='/Active/']"  # CSS
     DEACTIVATE_FLAG_BUTTON = "a[href*='/Deactivated/']"  # CSS
     CONFIRM_DEACTIVATE_DEACTIVATE = "confirm-yes"
+    EDIT_LINK_TEXT = "Edit"  # linktext
 
     def click_include_deactivated(self):
         self.driver.find_element_by_id(self.INCLUDE_DEACTIVATED).click()
 
     def click_apply_filters_button(self):
-        self.driver.find_element_by_id(self.BUTTON_APPLY_FILTERS_ID).click()
+        self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()
 
     def create_new_flagging_rule(self):
         self.driver.find_element_by_id(self.BTN_CREATE_NEW_FLAGGING_RULE).click()
@@ -63,3 +65,6 @@ class FlaggingRulePages(BasePage):
 
     def click_on_reactivate_flag(self):
         self.driver.find_element_by_css_selector(self.REACTIVATE_FLAG_BUTTON).click()
+
+    def click_on_edit_for_element(self, element):
+        element.find_element_by_link_text(self.EDIT_LINK_TEXT).click()

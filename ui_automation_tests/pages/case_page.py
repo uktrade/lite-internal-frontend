@@ -83,6 +83,10 @@ class CasePage(BasePage):
         time.sleep(0.5)
         return flag_name in self.driver.find_element_by_id("popup-flags").text
 
+    def is_flag_in_applied_flags_list(self, flag_name):
+        text = self.driver.find_element_by_id("checkbox-counter").text
+        return flag_name in text
+
     def is_goods_flag_applied(self, flag_name):
         return flag_name in self.driver.find_element_by_id(self.TABLE_GOODS_ID).text
 
@@ -90,7 +94,9 @@ class CasePage(BasePage):
         self.driver.find_element_by_id(self.BUTTON_SET_GOODS_FLAGS_ID).click()
 
     def click_edit_destinations_flags(self):
+        scroll_to_element_by_id(self.driver, self.BUTTON_SET_DESTINATIONS_FLAGS_ID)
         self.driver.find_element_by_id(self.BUTTON_SET_DESTINATIONS_FLAGS_ID).click()
 
     def select_destination(self, index):
+        scroll_to_element_by_id(self.driver, self.TABLE_DESTINATIONS_ID)
         self.driver.find_elements_by_css_selector(f"#{self.TABLE_DESTINATIONS_ID} {selectors.CHECKBOX}")[index].click()

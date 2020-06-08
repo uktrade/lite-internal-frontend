@@ -3,8 +3,7 @@ from django.urls import reverse
 from core.components import PicklistPicker
 from lite_content.lite_internal_frontend.cases import EcjuQueries
 from lite_content.lite_internal_frontend.strings import cases
-from lite_forms.components import Form, BackLink, TextArea, HiddenField
-from picklists.services import get_picklists_for_input
+from lite_forms.components import Form, TextArea
 
 
 class ECJUQueryTypes:
@@ -26,21 +25,16 @@ class ECJUQueryTypes:
         return ""
 
 
-def new_ecju_query_form(request, queue_pk, pk):
-    query_type = "ecju_query"
-    return Form(
-        title=EcjuQueries.AddQuery.TITLE_PREFIX + ECJUQueryTypes.get_text(query_type).lower(),
-        questions=[
-            HiddenField("query_type", query_type),
-            TextArea(
-                description=cases.EcjuQueries.AddQuery.DESCRIPTION,
-                name="question",
-                extras={"max_length": 5000,},
-                data_attributes={"picklist-picker": query_type},
-            ),
-            PicklistPicker(target="question", items=get_picklists_for_input(request, query_type)),
-        ],
-        back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "ecju-queries"})),
-        default_button_name=cases.EcjuQueries.AddQuery.SUBMIT,
-        container="case",
-    )
+def new_ecju_query_form():
+    return Form(title=EcjuQueries.AddQuery.TITLE_PREFIX + ECJUQueryTypes.get_text(ECJUQueryTypes.ECJU_QUERY).lower(),
+                questions=[
+                    TextArea(
+                        description=cases.EcjuQueries.AddQuery.DESCRIPTION,
+                        name="question",
+                        extras={"max_length": 5000, },
+                    ),
+                    PicklistPicker(target="question", type=ECJUQueryTypes.ECJU_QUERY),
+                ],
+                default_button_name=cases.EcjuQueries.AddQuery.SUBMIT,
+                container="case",
+                )

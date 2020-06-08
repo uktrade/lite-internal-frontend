@@ -9,7 +9,6 @@ Feature: I want to test users
     And I show filters
     And I change the user filter to "Active"
     Then I see new user
-
     When I deactivate new user
     And I show filters
     And I change the user filter to "Active"
@@ -23,7 +22,7 @@ Feature: I want to test users
     When I change the user filter to "All"
     Then I see new user
 
-  @edit_users @smoke
+  @edit_users @regression
   Scenario: Edit user
     Given I sign in to SSO or am signed into SSO
     When I go to users

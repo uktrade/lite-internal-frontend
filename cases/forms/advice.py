@@ -22,7 +22,7 @@ from lite_forms.components import (
     Select,
 )
 from lite_forms.helpers import conditional
-from picklists.services import get_picklists_for_input
+from picklists.enums import PicklistCategories
 
 
 def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_warning=False):
@@ -43,6 +43,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
             ),
             RadioButtons(
                 name="type",
+                description="<noscript>" + advice.GiveOrChangeAdvicePage.RadioButtons.DESCRIPTION + "</noscript>",
                 options=[
                     Option(
                         key="approve",
@@ -76,7 +77,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
                                 extras={"max_length": 5000},
                                 name="proviso",
                             ),
-                            PicklistPicker(target="proviso", items=get_picklists_for_input(request, "proviso")),
+                            PicklistPicker(target="proviso", type=PicklistCategories.proviso.key),
                         ],
                     ),
                     Option(
@@ -112,7 +113,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
                 ],
             ),
             TextArea(title=advice.GiveOrChangeAdvicePage.REASON, extras={"max_length": 5000}, name="text"),
-            PicklistPicker(target="text", items=get_picklists_for_input(request, "standard_advice")),
+            PicklistPicker(target="text", type=PicklistCategories.standard_advice.key),
             TextArea(
                 title=advice.GiveOrChangeAdvicePage.NOTE,
                 description=advice.GiveOrChangeAdvicePage.NOTE_DESCRIPTION,
@@ -131,7 +132,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
                             advice.GiveOrChangeAdvicePage.FootNote.YES_OPTION,
                             components=[
                                 TextArea(name="footnote"),
-                                PicklistPicker(target="footnote", items=get_picklists_for_input(request, "footnotes")),
+                                PicklistPicker(target="footnote", type=PicklistCategories.footnotes.key),
                             ],
                         ),
                         Option(False, advice.GiveOrChangeAdvicePage.FootNote.NO_OPTION),
@@ -150,6 +151,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
                 advice.GiveOrChangeAdvicePage.GIVING_ADVICE_ON, "", includes="case/includes/selection-sidebar.html"
             )
         ],
+        javascript_imports=["/assets/javascripts/advice.js"],
     )
 
 

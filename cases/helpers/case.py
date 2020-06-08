@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from cases.objects import Slice
+from cases.objects import Slice, Case
 from cases.services import (
     get_case,
     get_user_case_queues,
@@ -12,11 +12,11 @@ from cases.services import (
 )
 from cases.helpers.ecju_queries import get_ecju_queries
 from conf.constants import Statuses, GENERATED_DOCUMENT
+from core.helpers import generate_activity_filters
 from core.objects import Tab, TabCollection
 from core.services import get_user_permissions, get_status_properties, get_permissible_statuses
-from lite_content.lite_internal_frontend import cases
 from lite_content.lite_internal_frontend.cases import CasePage
-from lite_forms.components import FiltersBar, Select, Option, DateInput
+from lite_content.lite_internal_frontend.cases import ApplicationPage
 from queues.services import get_queue
 
 
@@ -51,47 +51,14 @@ class Slices:
     GOODS_QUERY = Slice("goods-query", "Query details")
     GOODS_QUERY_RESPONSE = Slice("goods-query-response")
     HMRC_NOTE = Slice("hmrc-note", "HMRC note")
-    END_USER_ADVISORY = Slice("end-user-advisory", "End user details")
+    END_USER_DETAILS = Slice("end-user-details", "End user details")
     TEMPORARY_EXPORT_DETAILS = Slice("temporary-export-details", "Temporary export details")
-
-
-def get_timeline_filters(request, case_id):
-    activity_filters = get_activity_filters(request, case_id)
-
-    def make_options(values):
-        return [Option(option["key"], option["value"]) for option in values]
-
-    return FiltersBar(
-        [
-            Select(
-                title=cases.ApplicationPage.ActivityFilters.USER,
-                name="user_id",
-                options=make_options(activity_filters["users"]),
-            ),
-            Select(
-                title=cases.ApplicationPage.ActivityFilters.TEAM,
-                name="team_id",
-                options=make_options(activity_filters["teams"]),
-            ),
-            Select(
-                title=cases.ApplicationPage.ActivityFilters.USER_TYPE,
-                name="user_type",
-                options=make_options(activity_filters["user_types"]),
-            ),
-            Select(
-                title=cases.ApplicationPage.ActivityFilters.ACTIVITY_TYPE,
-                name="activity_type",
-                options=make_options(activity_filters["activity_types"]),
-            ),
-            DateInput(title=cases.ApplicationPage.ActivityFilters.DATE_FROM, prefix="from_", inline_title=True),
-            DateInput(title=cases.ApplicationPage.ActivityFilters.DATE_TO, prefix="to_", inline_title=True),
-        ]
-    )
+    OPEN_APP_PARTIES = Slice("open-app-parties")
 
 
 class CaseView(TemplateView):
     case_id = None
-    case = None
+    case: Case = None
     queue_id = None
     queue = None
     permissions = None
@@ -137,7 +104,7 @@ class CaseView(TemplateView):
             or not self.queue["is_system_queue"],
             "generated_document_key": GENERATED_DOCUMENT,
             "permissible_statuses": get_permissible_statuses(self.request, self.case),
-            "filters": get_timeline_filters(self.request, self.case_id),
+            "filters": generate_activity_filters(get_activity_filters(self.request, self.case_id), ApplicationPage),
             "is_terminal": status_props["is_terminal"],
             "is_read_only": status_props["is_read_only"],
             **self.additional_context,
