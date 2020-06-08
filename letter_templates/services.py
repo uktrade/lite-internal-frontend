@@ -1,6 +1,6 @@
 from conf.client import get, post, put
 from conf.constants import PICKLIST_URL, LETTER_TEMPLATES_URL, LETTER_LAYOUTS_URL, GENERATE_PREVIEW_URL
-from core.helpers import convert_dict_to_query_params, convert_parameters_to_query_params
+from core.helpers import convert_dict_to_query_params
 
 
 def sort_letter_paragraphs(paragraphs, ids):
@@ -33,9 +33,8 @@ def put_letter_template(request, pk, json):
     return data.json(), data.status_code
 
 
-def get_letter_templates(request, page, case=None, decision=None, name=None):
-    params = convert_parameters_to_query_params(locals())
-    data = get(request, LETTER_TEMPLATES_URL + params)
+def get_letter_templates(request, params=""):
+    data = get(request, LETTER_TEMPLATES_URL + "?" + params)
     return data.json(), data.status_code
 
 

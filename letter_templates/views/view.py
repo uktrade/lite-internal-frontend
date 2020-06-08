@@ -11,7 +11,9 @@ from lite_forms.components import FiltersBar, TextInput
 
 class LetterTemplatesList(TemplateView):
     def get(self, request, **kwargs):
-        data, _ = get_letter_templates(request, page=request.GET.get("page", 1), name=request.GET.get("name", ""))
+        params = {"page": int(request.GET.get("page", 1)), "name": request.GET.get("name", "")}
+
+        data, _ = get_letter_templates(request, convert_parameters_to_query_params(params))
         filters = FiltersBar([TextInput(name="name", title="name"),])
         context = {
             "data": data,
