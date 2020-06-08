@@ -34,7 +34,7 @@ from conf.constants import (
     DECISIONS_URL,
     FINALISE_CASE_URL,
     QUEUES_URL,
-)
+    APPLICANT_URL)
 from core.helpers import convert_parameters_to_query_params
 from flags.enums import FlagStatus
 
@@ -351,7 +351,7 @@ def delete_case_officer(request, pk, *args):
 
 
 def get_case_applicant(request, pk):
-    response = get(request, CASE_URL + str(pk) + "/applicant/")
+    response = get(request, CASE_URL + str(pk) + APPLICANT_URL)
     return response.json()
 
 
