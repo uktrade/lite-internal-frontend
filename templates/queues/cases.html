@@ -181,7 +181,7 @@
 								{% endif %}
 							</td>
 							<td class="govuk-table__cell govuk-table__cell--tight lite-mobile-hide">
-								<a class="lite-expand__control" id="expand-flags-{{ case.id }}" onclick="return openTableFold(this);">
+								<a href="#" class="lite-expand__control" id="expand-flags-{{ case.id }}" onclick="return openTableFold(this);">
 									{% if case.flags|length > 3 or case.users|length > 3 or case.queue_names|length > 3 %}
 										{% svg 'chevron' %}
 									{% endif %}
