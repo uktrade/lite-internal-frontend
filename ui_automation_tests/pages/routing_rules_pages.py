@@ -4,7 +4,6 @@ from shared import selectors
 from shared.BasePage import BasePage
 
 from ui_automation_tests.shared import functions
-import shared.tools.helpers as utils
 
 
 class RoutingRulesPage(BasePage):
