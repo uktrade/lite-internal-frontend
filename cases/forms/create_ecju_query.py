@@ -1,7 +1,9 @@
+from django.urls import reverse
+
 from core.components import PicklistPicker
 from lite_content.lite_internal_frontend.cases import EcjuQueries
 from lite_content.lite_internal_frontend.strings import cases
-from lite_forms.components import Form, TextArea, HiddenField
+from lite_forms.components import Form, TextArea, HiddenField, BackLink
 
 
 class ECJUQueryTypes:
@@ -23,7 +25,7 @@ class ECJUQueryTypes:
         return ""
 
 
-def new_ecju_query_form():
+def new_ecju_query_form(queue_pk, pk):
     return Form(
         title=EcjuQueries.AddQuery.TITLE_PREFIX + ECJUQueryTypes.get_text(ECJUQueryTypes.ECJU_QUERY).lower(),
         questions=[
@@ -33,6 +35,7 @@ def new_ecju_query_form():
             ),
             PicklistPicker(target="question", type=ECJUQueryTypes.ECJU_QUERY),
         ],
+        back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "ecju-queries"})),
         default_button_name=cases.EcjuQueries.AddQuery.SUBMIT,
         container="case",
     )
