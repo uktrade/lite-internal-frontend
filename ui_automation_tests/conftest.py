@@ -268,6 +268,11 @@ def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
 def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
     ApplicationPage(driver).go_to_cases_activity_tab_for_clc(internal_url, context)
 
+
+@then("the status has been changed in the pv query")  # noqa
+def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
+    ApplicationPage(driver).go_to_cases_activity_tab_for_pv(internal_url, context)
+
     assert (
         context.status.lower() in Shared(driver).get_audit_trail_text().lower()
     ), "status has not been shown as approved in audit trail"

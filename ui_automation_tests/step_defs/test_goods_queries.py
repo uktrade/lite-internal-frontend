@@ -26,6 +26,11 @@ def click_on_created_application(driver, context, internal_url):
     driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.clc_case_id)
 
 
+@when("I go to pv goods query previously created")  # noqa
+def click_on_created_application(driver, context, internal_url):
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.pv_case_id)
+
+
 @given("I create a grading query")  # noqa
 def create_grading_query(driver, apply_for_grading_query, context):
     pass
