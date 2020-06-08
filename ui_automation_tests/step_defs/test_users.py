@@ -24,8 +24,9 @@ def add_user(driver, context):
 
 @then("I see new user")
 def see_new_user(driver, context):
-    UsersPage(driver).filter_by_email(context.added_email)
-    driver.find_element_by_id("link-" + context.added_email), "Item couldn't be found"
+    user_page = UsersPage(driver)
+    user_page.filter_by_email(context.added_email)
+    assert user_page.is_user_email_displayed(context.added_email), "Item couldn't be found"
 
 
 @when("I deactivate new user")
