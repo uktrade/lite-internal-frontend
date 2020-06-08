@@ -1,8 +1,7 @@
+from faker import Faker
 from pytest_bdd import scenarios, when, then, given
 from selenium.common.exceptions import NoSuchElementException
 
-import shared.tools.helpers as utils
-from pages.shared import Shared
 from pages.users_page import UsersPage
 
 from ui_automation_tests.shared import functions
@@ -14,7 +13,8 @@ scenarios("../features/users.feature", strict_gherkin=False)
 def add_user(driver, context):
     user_page = UsersPage(driver)
     user_page.click_add_a_user_button()
-    context.added_email = "z" + utils.get_formatted_date_time_y_m_d_h_s() + "@gmail.com"
+    fake = Faker()
+    context.added_email = fake.free_email()
     user_page.enter_email(context.added_email)
     user_page.select_option_from_team_drop_down_by_visible_text("Admin")
     user_page.select_option_from_role_drop_down_by_visible_text("Default")
