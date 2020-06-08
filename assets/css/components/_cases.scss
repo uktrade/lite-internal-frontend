@@ -142,6 +142,10 @@ $case-header-text-colour: govuk-colour("white");
             overflow: hidden;
             margin-right: govuk-spacing(3);
 
+			@include govuk-media-query($until: tablet) {
+				display: none;
+			}
+
             &:last-of-type {
                 margin: 0;
             }
