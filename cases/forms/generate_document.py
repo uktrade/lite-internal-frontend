@@ -12,8 +12,12 @@ def select_template_form(templates, back_url):
             RadioButtonsImage(
                 name="template",
                 options=[
-                    Option(t["id"], t["name"], img_url=f"/assets/images/letter_templates/{t['layout']['filename']}.png")
-                    for t in templates["results"]
+                    Option(
+                        template["id"],
+                        template["name"],
+                        img_url=f"/assets/images/letter_templates/{template['layout']['filename']}.png",
+                    )
+                    for template in templates["results"]
                 ],
             )
         ],
