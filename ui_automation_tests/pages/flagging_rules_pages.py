@@ -18,7 +18,7 @@ class FlaggingRulePages(BasePage):
     REACTIVATE_FLAG_BUTTON = "a[href*='/Active/']"  # CSS
     DEACTIVATE_FLAG_BUTTON = "a[href*='/Deactivated/']"  # CSS
     CONFIRM_DEACTIVATE_DEACTIVATE = "confirm-yes"
-    EDIT_LINK_TEXT = "Edit" # linktext
+    EDIT_LINK_TEXT = "Edit"  # linktext
 
     def click_include_deactivated(self):
         self.driver.find_element_by_id(self.INCLUDE_DEACTIVATED).click()
@@ -67,6 +67,4 @@ class FlaggingRulePages(BasePage):
         self.driver.find_element_by_css_selector(self.REACTIVATE_FLAG_BUTTON).click()
 
     def click_on_edit_for_element(self, element):
-        element.find_element_by_link_text(
-            self.EDIT_LINK_TEXT
-        ).click()
+        element.find_element_by_link_text(self.EDIT_LINK_TEXT).click()
