@@ -120,6 +120,12 @@ $case-header-text-colour: govuk-colour("white");
         display: grid;
         grid-template-columns: 1fr auto;
         grid-gap: govuk-spacing(6);
+
+		@media (max-width: 1000px) {
+			grid-template-columns: 1fr;
+			grid-template-rows: auto auto;
+			grid-gap: govuk-spacing(3);
+		}
     }
 
     &__content {
@@ -133,6 +139,10 @@ $case-header-text-colour: govuk-colour("white");
         display: flex;
         align-items: center;
         justify-content: flex-end;
+
+		@media (max-width: 1000px) {
+			justify-content: flex-start;
+		}
 
         .app-case-header__candy-bar {
             display: flex;
