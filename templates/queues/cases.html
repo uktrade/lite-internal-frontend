@@ -147,7 +147,6 @@
 								<p class="govuk-tag govuk-tag--grey govuk-!-margin-0 govuk-!-margin-top-2">{{ case.status.value }}</p>
 							</td>
 							<td class="govuk-table__cell lite-mobile-hide">
-								<span class="govuk-table__header" aria-hidden="true">{% lcs 'cases.CasesListPage.Table.ASSIGNEES' %}</span>
 								{% if case.assignments %}
 									<ol class="govuk-list">
 										{% for assignment in case.assignments|slice:":3" %}
