@@ -49,7 +49,6 @@ class UsersList(TemplateView):
         context = {
             "data": data,
             "super_user": super_user,
-            "status": status,
             "filters": filters,
         }
         return render(request, "users/index.html", context)
