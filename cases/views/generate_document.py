@@ -26,6 +26,7 @@ TEMPLATE = "template"
 
 class GenerateDocument(MultiFormView):
     contacts: []
+    templates: []
     applicant: {}
     template: str
     back_url: str
@@ -35,13 +36,10 @@ class GenerateDocument(MultiFormView):
         return json, HTTPStatus.OK
 
     def get_forms(self):
-        params = {"case": self.kwargs["pk"], "page": self.request.GET.get("page", 1)}
-        templates, _ = get_letter_templates(self.request, convert_dict_to_query_params(params))
-
         if self.contacts:
             return FormGroup(
                 [
-                    select_template_form(templates, self.back_url),
+                    select_template_form(self.templates, self.back_url),
                     select_addressee_form(self.back_url),
                     edit_document_text_form(
                         {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": self.template},
@@ -53,7 +51,7 @@ class GenerateDocument(MultiFormView):
         else:
             return FormGroup(
                 [
-                    select_template_form(templates, self.back_url),
+                    select_template_form(self.templates, self.back_url),
                     edit_document_text_form(
                         {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": self.template},
                         post_url="cases:generate_document_preview",
@@ -74,6 +72,11 @@ class GenerateDocument(MultiFormView):
             template, _ = get_letter_template(request, self.template, params=convert_dict_to_query_params({TEXT: True}))
             self.data = {TEXT: template[TEXT]}
 
+        params = {"case": self.kwargs["pk"], "page": self.request.GET.get("page", 1)}
+        if self.kwargs.get("decision_key"):
+            params["decision"] = self.kwargs["decision_key"]
+        self.templates, _ = get_letter_templates(self.request, convert_dict_to_query_params(params))
+        self.data = {"total_pages": self.templates["total_pages"]}
         self.object_pk = kwargs["pk"]
         self.action = self._validate
         self.additional_context = {
@@ -88,16 +91,9 @@ class GenerateDecisionDocument(GenerateDocument):
         self.back_url = reverse_lazy(
             "cases:finalise_documents", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"]}
         )
-        params = {
-            "case": self.kwargs["pk"],
-            "decision": self.kwargs["decision_key"],
-            "page": self.request.GET.get("page", 1),
-        }
-        templates, _ = get_letter_templates(self.request, convert_dict_to_query_params(params))
-
         return FormGroup(
             [
-                select_template_form(templates, back_url=self.back_url),
+                select_template_form(self.templates, back_url=self.back_url),
                 edit_document_text_form(
                     {
                         "queue_pk": self.kwargs["queue_pk"],

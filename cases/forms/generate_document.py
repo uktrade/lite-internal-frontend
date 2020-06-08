@@ -15,7 +15,6 @@ def select_template_form(templates, back_url):
                     Option(t["id"], t["name"], img_url=f"/assets/images/letter_templates/{t['layout']['filename']}.png")
                     for t in templates["results"]
                 ],
-                total_pages=templates,
             )
         ],
         default_button_name=letter_templates.LetterTemplatesPage.PickTemplate.BUTTON,
