@@ -34,7 +34,8 @@ from conf.constants import (
     DECISIONS_URL,
     FINALISE_CASE_URL,
     QUEUES_URL,
-    APPLICANT_URL)
+    APPLICANT_URL,
+)
 from core.helpers import convert_parameters_to_query_params
 from flags.enums import FlagStatus
 
