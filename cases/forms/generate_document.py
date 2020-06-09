@@ -32,6 +32,7 @@ def select_addressee_form():
         title=GenerateDocumentsPage.AddresseeForm.TITLE,
         description=GenerateDocumentsPage.AddresseeForm.DESCRIPTION,
         questions=[Custom("components/addressee-table.html")],
+        default_button_name=letter_templates.LetterTemplatesPage.PickTemplate.BUTTON,
         container="case",
     )
 
