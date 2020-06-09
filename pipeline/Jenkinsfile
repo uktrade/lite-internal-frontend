@@ -67,27 +67,13 @@ parameters
 
             try {
                 if(env.TESTS_TO_RUN){
-                    echo ${env.NO_OF_PARALLEL_RUNNERS}
-                    echo '{env.NO_OF_PARALLEL_RUNNERS}'
-                        if ( '${env.NO_OF_PARALLEL_RUNNERS}'.equals('1') ){
-                        sh "py.test -k '${env.TESTS_TO_RUN}' --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results"
-                        }
-                    else {
-                        sh "py.test -k '${env.TESTS_TO_RUN}' -n '${env.NO_OF_PARALLEL_RUNNERS}' --dist=loadfile --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results"
-                        }
-                    fi
+                    sh "py.test -k '${env.TESTS_TO_RUN}' -n 3 --dist=loadfile --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results"
                 } else {
                 sh '''
                     py.test -k 'smoke' --reruns 1 --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results
                     if [ $? -eq 0 ]
                     then
-                         if ( '${env.NO_OF_PARALLEL_RUNNERS}'.equals(1) ){
-                            py.test -k 'regression' --reruns 2 --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results
-                            }
-                         else {
-                            py.test -k 'regression'  -n '${env.NO_OF_PARALLEL_RUNNERS}' --dist=loadfile --reruns 2 --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results
-                            }
-                         fi
+                         py.test -k 'regression' -n 3 --dist=loadfile --reruns 2 --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results
                     fi
                 '''
                 }
