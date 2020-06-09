@@ -68,8 +68,8 @@ parameters
             try {
                 if(env.TESTS_TO_RUN){
                     echo ${env.NO_OF_PARALLEL_RUNNERS}
-                    echo ''${env.NO_OF_PARALLEL_RUNNERS}'
-                         if ( '${env.NO_OF_PARALLEL_RUNNERS}'.equals('1') ){
+                    echo '{env.NO_OF_PARALLEL_RUNNERS}'
+                        if ( '${env.NO_OF_PARALLEL_RUNNERS}'.equals('1') ){
                         sh "py.test -k '${env.TESTS_TO_RUN}' --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results"
                         }
                     else {
