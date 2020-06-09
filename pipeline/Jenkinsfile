@@ -67,7 +67,7 @@ parameters
 
             try {
                 if(env.TESTS_TO_RUN){
-                    if (( '${env.NO_OF_PARALLEL_RUNNERS}' == '1' )){
+                    if [ '${env.NO_OF_PARALLEL_RUNNERS}' == '1' ]{
                         sh "py.test -k '${env.TESTS_TO_RUN}' --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results"
                         }
                     else {
@@ -79,7 +79,7 @@ parameters
                     py.test -k 'smoke' --reruns 1 --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results
                     if [ $? -eq 0 ]
                     then
-                         if (( '${env.NO_OF_PARALLEL_RUNNERS}' == '1' )){
+                         if [ '${env.NO_OF_PARALLEL_RUNNERS}' == '1' ]{
                             py.test -k 'regression' --reruns 2 --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results
                             }
                          else {
