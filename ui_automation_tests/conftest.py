@@ -2,10 +2,8 @@ import os
 from django.conf import settings
 from pytest_bdd import given, when, then, parsers
 
-from pages.advice import UserAdvicePage, FinalAdvicePage, TeamAdvicePage
+from pages.advice import FinalAdvicePage, TeamAdvicePage
 from pages.case_page import CasePage, CaseTabs
-from pages.goods_queries_pages import GoodsQueriesPages  # noqa
-from pages.organisation_page import OrganisationPage
 from shared import functions
 
 from ui_automation_tests.fixtures.env import environment  # noqa
@@ -42,7 +40,6 @@ from ui_automation_tests.shared.fixtures.core import (  # noqa
 from ui_automation_tests.shared.fixtures.urls import internal_url, sso_sign_in_url, api_url  # noqa
 
 import shared.tools.helpers as utils
-from pages.assign_flags_to_case import CaseFlagsPages
 from pages.shared import Shared
 from pages.case_list_page import CaseListPage
 from pages.application_page import ApplicationPage
