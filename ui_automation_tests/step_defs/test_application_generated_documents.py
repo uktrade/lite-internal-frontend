@@ -5,6 +5,7 @@ from ui_automation_tests.pages.case_page import CasePage, CaseTabs
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.generate_document_page import GeneratedDocument
 from ui_automation_tests.shared import functions
+from ui_automation_tests.shared.functions import element_with_id_exists
 
 scenarios("../features/generated_documents.feature", strict_gherkin=False)
 
@@ -74,7 +75,8 @@ def both_generated_documents(driver, context):
 
 @when("I leave the default addressee")
 def default_addressee(driver):
-    functions.click_submit(driver)
+    if element_with_id_exists(driver, "addressee-applicant"):
+        functions.click_submit(driver)
 
 
 @given("I create an additional contact for the case")
