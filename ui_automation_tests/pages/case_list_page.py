@@ -76,7 +76,7 @@ class CaseListPage(BasePage):
     ]
 
     # Notification for updated cases
-    BANNER_EXPORTER_AMENDMENTS_ID = "banner-exporter-amendments"
+    BANNER_EXPORTER_AMENDMENTS_ID = "exporter-amendments-banner"
 
     # SLA
     SLA_ID = "sla"
