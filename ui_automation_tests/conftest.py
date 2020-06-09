@@ -353,8 +353,8 @@ def generated_document(driver, context):  # noqa
     assert GeneratedDocument(driver).check_download_link_is_present(latest_document)
 
 
-@when(parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click submit'))
-def click_continue(driver, controlled, control_list_entry, report, comment, context):
+@when(parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click submit'))  # noqa
+def click_continue(driver, controlled, control_list_entry, report, comment, context):  # noqa
     query_page = GoodsQueriesPages(driver)
     query_page.click_is_good_controlled(controlled)
     query_page.type_in_to_control_list_entry(control_list_entry)
