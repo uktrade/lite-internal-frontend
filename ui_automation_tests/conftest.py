@@ -4,6 +4,7 @@ from pytest_bdd import given, when, then, parsers
 
 from pages.advice import FinalAdvicePage, TeamAdvicePage
 from pages.case_page import CasePage, CaseTabs
+from pages.goods_queries_pages import GoodsQueriesPages
 
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.add_a_flag import (  # noqa
@@ -350,3 +351,16 @@ def generated_document(driver, context):  # noqa
 
     assert "Application Form" in latest_document.text
     assert GeneratedDocument(driver).check_download_link_is_present(latest_document)
+
+
+@when(parsers.parse('I respond "{controlled}", "{control_list_entry}", "{report}", "{comment}" and click submit'))
+def click_continue(driver, controlled, control_list_entry, report, comment, context):
+    query_page = GoodsQueriesPages(driver)
+    query_page.click_is_good_controlled(controlled)
+    query_page.type_in_to_control_list_entry(control_list_entry)
+    context.goods_control_list_entry = control_list_entry
+    query_page.choose_report_summary()
+    context.report = report
+    query_page.enter_a_comment(comment)
+    context.comment = comment
+    Shared(driver).click_submit()
