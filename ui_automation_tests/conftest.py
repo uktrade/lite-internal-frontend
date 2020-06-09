@@ -4,7 +4,6 @@ from pytest_bdd import given, when, then, parsers
 
 from pages.advice import FinalAdvicePage, TeamAdvicePage
 from pages.case_page import CasePage, CaseTabs
-from shared import functions
 
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.add_a_flag import (  # noqa
