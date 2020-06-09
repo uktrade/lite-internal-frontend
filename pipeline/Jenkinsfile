@@ -74,7 +74,6 @@ parameters
                     then
                          sh "py.test -k 'regression' -n '${env.NO_OF_PARALLEL_RUNNERS}' --dist=loadfile --reruns 2 --ignore=core --disable-pytest-warnings --alluredir=ui_automation_tests/allure-results"
                     fi
-                '''
                 }
             } catch (error) {
                     archiveArtifacts artifacts: "ui_automation_tests/allure-results/**.*"
