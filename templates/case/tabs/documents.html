@@ -4,7 +4,7 @@
 	<a id="button-attach-document" role="button" draggable="false" class="govuk-button" href="{% url 'cases:attach_documents' queue.id case.id %}">
 		{% lcs 'cases.CasePage.DocumentsTab.ATTACH_DOCUMENT_BUTTON' %}
 	</a>
-	<a id="button-generate-document" role="button" draggable="false" class="govuk-button" href="{% url 'cases:generate_document' queue.id case.id %}?return_to={{ CURRENT_PATH }}">
+	<a id="button-generate-document" role="button" draggable="false" class="govuk-button" href="{% url 'cases:generate_document' queue.id case.id %}">
 		{% lcs 'cases.CasePage.DocumentsTab.GENERATE_DOCUMENT_BUTTON' %}
 	</a>
 </div>
@@ -21,7 +21,7 @@
 				</div>
 				<div class="app-documents__item-details">
 					<a class="govuk-link--no-visited-state" {% if document.safe == True %}href="{% url 'cases:document' queue.id case.id document.metadata_id %}"{% endif %}>{{ document.name }}</a>
-					<p id="document-type" class="govuk-hint">{% if document.visible_to_exporter %}Visible to exporter - {% endif %}{{ document.type.value }} by {{ document.user.first_name }} {{ document.user.last_name }} at {{ document.created_at|str_date }}</p>
+					<p id="document-type" class="govuk-hint">{% if document.visible_to_exporter %}Visible to exporter - {% endif %}{{ document.type.value }}{% if document.type.value != "Auto Generated" %} by {{ document.user.first_name }} {{ document.user.last_name }}{% endif %} at {{ document.created_at|str_date }}</p>
 					{% if document.description %}
 						<p class="govuk-body">
 							{{ document.description }}
