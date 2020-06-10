@@ -129,6 +129,9 @@ class CaseDetail(CaseView):
         if self.case.data["clc_responded"] or self.case.data["pv_grading_responded"]:
             self.slices.insert(0, Slices.GOODS_QUERY_RESPONSE)
 
+    def get_open_registration(self):
+        self.slices = [Slices.OPEN_GENERAL_LICENCE]
+
 
 class CaseNotes(TemplateView):
     def post(self, request, **kwargs):
@@ -197,7 +200,7 @@ class ChangeStatus(SingleFormView):
         self.case_type = case["case_type"]["type"]["key"]
         self.case_sub_type = case["case_type"]["sub_type"]["key"]
         permissible_statuses = get_permissible_statuses(request, case)
-        self.data = case["application"] if "application" in case else case["query"]
+        self.data = case.data if "application" in case else case.data
         self.form = change_status_form(get_queue(request, kwargs["queue_pk"]), case, permissible_statuses)
         self.context = {"case": case}
 

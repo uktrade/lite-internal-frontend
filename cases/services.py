@@ -49,6 +49,9 @@ def get_case_types(request, type_only=True):
 # Case
 def get_case(request, pk):
     data = get(request, CASE_URL + str(pk))
+    print('\n')
+    print(data.json())
+    print('\n')
     return Case(data.json()["case"])
 
 

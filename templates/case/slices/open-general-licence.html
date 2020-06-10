@@ -1,0 +1,69 @@
+<h2 class="govuk-heading-m">Site</h2>
+<dl class="app-case__summary-list">
+	<div class="app-case__summary-list__row">
+		<dt class="app-case__summary-list__key">
+			Name
+		</dt>
+		<dd class="app-case__summary-list__value">
+			{{ case.data.site.name }}
+		</dd>
+	</div>
+	<div class="app-case__summary-list__row">
+		<dt class="app-case__summary-list__key">
+			Address
+		</dt>
+		<dd class="app-case__summary-list__value">
+			{{ case.data.site|get_address }}
+		</dd>
+	</div>
+</dl>
+
+<br><br><br>
+
+<h2 class="govuk-heading-m">{{ case.case_type.reference.value }}</h2>
+<dl class="app-case__summary-list">
+    <div class="app-case__summary-list__row">
+        <dt class="app-case__summary-list__key">
+            Name
+        </dt>
+        <dd class="app-case__summary-list__value">
+            {{ case.data.open_general_licence.name }}
+        </dd>
+    </div>
+    <div class="app-case__summary-list__row">
+        <dt class="app-case__summary-list__key">
+            Description
+        </dt>
+        <dd class="app-case__summary-list__value">
+            {{ case.data.open_general_licence.description }}
+        </dd>
+    </div>
+    <div class="app-case__summary-list__row">
+		<dt class="app-case__summary-list__key">
+			Control list entries
+		</dt>
+		<dd class="app-case__summary-list__value">
+			<span>{{ case.data.open_general_licence.control_list_entries|length }} control list entries</span>
+		</dd>
+	</div>
+    <div class="app-case__summary-list__row">
+        <dt class="app-case__summary-list__key">
+            Countries
+        </dt>
+        <dd class="app-case__summary-list__value">
+            <span>{{ case.data.open_general_licence.countries|length }} countries</span>
+        </dd>
+    </div>
+    <div class="app-case__summary-list__row">
+        <dt class="app-case__summary-list__key">
+            More information
+        </dt>
+        <dd class="app-case__summary-list__value">
+            {{ case.data.open_general_licence.url|linkify }}
+        </dd>
+    </div>
+</dl>
+
+<br><br><br>
+
+<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:open_general_licence' case.data.open_general_licence.id %}">View on LITE</a>

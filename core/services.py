@@ -95,12 +95,12 @@ def get_permissible_statuses(request, case):
             # if the query is not an end user advisory, then check if CLC/PV statuses are required
             goods_query_status_keys = BASE_QUERY_STATUSES.copy()
 
-            if case["query"]["clc_responded"] is not None:
+            if case.data["clc_responded"] is not None:
                 goods_query_status_keys.insert(1, Statuses.CLC)
 
-            if case["query"]["pv_grading_responded"] is not None:
+            if case.data["pv_grading_responded"] is not None:
                 # add PV status into the correct location
-                if case["query"]["clc_responded"] is not None:
+                if case.data["clc_responded"] is not None:
                     goods_query_status_keys.insert(2, Statuses.PV)
                 else:
                     goods_query_status_keys.insert(1, Statuses.PV)
