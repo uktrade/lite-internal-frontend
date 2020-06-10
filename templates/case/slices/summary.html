@@ -9,6 +9,19 @@
 				</dd>
 			</div>
 	{% endif %}
+	{% if case.case_type.reference.key == "comp" %}
+			<div class="app-case__summary-list__row">
+				<dt class="app-case__summary-list__key">
+					{% lcs 'cases.CasePage.DetailsTab.ADDRESS' %}
+				</dt>
+				<dd class="app-case__summary-list__value">
+					address_line_1<br>
+					address_line_2<br>
+					city<br>
+					postcode
+				</dd>
+			</div>
+	{% endif %}
 	{% if case.copy_of %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
@@ -120,7 +133,7 @@
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
 			{% if not case.case_type.reference.key == "comp" %}
-				Inspector
+				{% lcs 'cases.CasePage.DetailsTab.INSPECTOR' %}
 			{% else %}
 				{% lcs 'cases.CasePage.DetailsTab.CASE_OFFICER' %}
 			{% endif %}
