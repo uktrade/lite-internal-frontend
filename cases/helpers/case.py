@@ -54,6 +54,7 @@ class Slices:
     END_USER_DETAILS = Slice("end-user-details", "End user details")
     TEMPORARY_EXPORT_DETAILS = Slice("temporary-export-details", "Temporary export details")
     OPEN_APP_PARTIES = Slice("open-app-parties")
+    COMPLIANCE_LICENCES = Slice("compliance-licences")
 
 
 class CaseView(TemplateView):

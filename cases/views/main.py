@@ -132,6 +132,12 @@ class CaseDetail(CaseView):
         if self.case.data["clc_responded"] or self.case.data["pv_grading_responded"]:
             self.slices.insert(0, Slices.GOODS_QUERY_RESPONSE)
 
+    def get_compliance_application(self):
+        self.slices = [
+            Slices.COMPLIANCE_LICENCES,
+            # Future stories to add Visit Reports and Open Licence Returns slices
+        ]
+
 
 class CaseNotes(TemplateView):
     def post(self, request, **kwargs):

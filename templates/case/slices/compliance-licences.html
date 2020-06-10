@@ -1,0 +1,27 @@
+{% with licences=case.compliance_licences %}
+	{% if licences %}
+		<h2 class="govuk-heading-m">Licences</h2>
+		<table id="table-destinations-end-user" class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					<th scope="col" class="govuk-table__header">Licence number</th>
+					<th scope="col" class="govuk-table__header">Licence status</th>
+					<th scope="col" class="govuk-table__header">Return completed</th>
+					<th scope="col" class="govuk-table__header">Flags</th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body">
+				{% for licence in licences %}
+					<tr class="govuk-table__row">
+						<td class="govuk-table__cell lite-!-no-border">{{ licence.licence_number }}</td>
+						<td class="govuk-table__cell lite-!-no-border">N/A</td>
+						<td class="govuk-table__cell lite-!-no-border">N/A</td>
+						<td class="govuk-table__cell lite-!-no-border">
+							{% include 'includes/flags.html' with flags=destination.flags list=True %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+{% endwith %}
