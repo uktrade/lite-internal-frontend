@@ -15,10 +15,11 @@
 					{% lcs 'cases.CasePage.DetailsTab.ADDRESS' %}
 				</dt>
 				<dd class="app-case__summary-list__value">
-					address_line_1<br>
-					address_line_2<br>
-					city<br>
-					postcode
+					{{ case.compliance.site.address_line_1 }}<br>
+					{% if case.compliance.site.address_line_2 %}{{ case.compliance.site.address_line_2 }}<br>{% endif %}
+					{{ case.compliance.site.city }}<br>
+					{{ case.compliance.site.region }}<br>
+					{{ case.compliance.site.postcode }}
 				</dd>
 			</div>
 	{% endif %}
