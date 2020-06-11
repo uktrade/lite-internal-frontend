@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from cases.helpers.ecju_queries import get_ecju_queries
 from cases.objects import Slice, Case
 from cases.services import (
     get_case,
@@ -8,15 +9,10 @@ from cases.services import (
     get_case_documents,
     get_case_additional_contacts,
     get_activity,
-    get_activity_filters,
 )
-from cases.helpers.ecju_queries import get_ecju_queries
-from conf.constants import Statuses, GENERATED_DOCUMENT
-from core.helpers import generate_activity_filters
 from core.objects import Tab, TabCollection
-from core.services import get_user_permissions, get_status_properties, get_permissible_statuses
+from core.services import get_user_permissions
 from lite_content.lite_internal_frontend.cases import CasePage
-from lite_content.lite_internal_frontend.cases import ApplicationPage
 from queues.services import get_queue
 
 
