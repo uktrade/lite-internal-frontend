@@ -107,14 +107,16 @@
 			{{ case.case_type.reference.value }}
 		</dd>
 	</div>
-	<div class="app-case__summary-list__row">
-		<dt class="app-case__summary-list__key">
-			{% lcs 'cases.CasePage.DetailsTab.LAST_UPDATED' %}
-		</dt>
-		<dd class="app-case__summary-list__value">
-			{{ case.data.updated_at|str_date }}
-		</dd>
-	</div>
+	{% if case.data.updated_at %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.CasePage.DetailsTab.LAST_UPDATED' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				{{ case.data.updated_at|str_date }}
+			</dd>
+		</div>
+	{% endif %}
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
 			{% lcs 'cases.CasePage.DetailsTab.CASE_OFFICER' %}
