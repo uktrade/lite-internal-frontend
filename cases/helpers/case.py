@@ -8,7 +8,8 @@ from cases.services import (
     get_user_case_queues,
     get_case_documents,
     get_case_additional_contacts,
-    get_activity, get_activity_filters,
+    get_activity,
+    get_activity_filters,
 )
 from conf.constants import GENERATED_DOCUMENT
 from core.helpers import generate_activity_filters
