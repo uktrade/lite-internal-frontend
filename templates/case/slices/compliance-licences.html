@@ -1,4 +1,4 @@
-{% with licences=case.compliance_licences %}
+{% with licences=case.compliance.licences %}
 	{% if licences %}
 		<h2 class="govuk-heading-m">Licences</h2>
 		<table id="table-destinations-end-user" class="govuk-table">
@@ -11,9 +11,13 @@
 			<tbody class="govuk-table__body">
 				{% for licence in licences %}
 					<tr class="govuk-table__row">
-						<td class="govuk-table__cell lite-!-no-border">{{ licence.licence_number }}</td>
 						<td class="govuk-table__cell lite-!-no-border">
-							{% include 'includes/flags.html' with flags=destination.flags list=True %}
+							<a href="{% url 'cases:case' queue.id licence.case_id %}" class="govuk-link govuk-link--no-visited-state">
+								{{ licence.case_reference }}
+							</a>
+						</td>
+						<td class="govuk-table__cell lite-!-no-border">
+							{% include 'includes/flags.html' with flags=licence.flags list=True %}
 						</td>
 					</tr>
 				{% endfor %}

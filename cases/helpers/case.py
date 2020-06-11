@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from cases.constants import CaseType
 from cases.objects import Slice, Case
 from cases.services import (
     get_case,
@@ -120,5 +121,7 @@ class CaseView(TemplateView):
 
         if hasattr(self, "get_" + self.case.sub_type + "_" + self.case.type):
             getattr(self, "get_" + self.case.sub_type + "_" + self.case.type)()
+        else:
+            getattr(self, "get_" + self.case.sub_type)()
 
         return render(request, "case/case.html", self.get_context())
