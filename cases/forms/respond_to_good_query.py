@@ -32,9 +32,7 @@ def respond_to_clc_query_form(request, queue_pk, case):
                 values={
                     CLCReviewGoods.Summary.DESCRIPTION: case.data["good"]["description"],
                     CLCReviewGoods.Summary.PART_NUMBER: default_na(case.data["good"]["part_number"]),
-                    CLCReviewGoods.Summary.IS_THIS_GOOD_CONTROLLED: case.data["good"]["is_good_controlled"][
-                        "value"
-                    ],
+                    CLCReviewGoods.Summary.IS_THIS_GOOD_CONTROLLED: case.data["good"]["is_good_controlled"]["value"],
                     CLCReviewGoods.Summary.CONTROL_LIST_ENTRIES: case.data["clc_control_list_entry"],
                     CLCReviewGoods.Summary.EXPLANATION: case.data["clc_raised_reasons"],
                 },
