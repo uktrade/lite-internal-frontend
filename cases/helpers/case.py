@@ -8,11 +8,13 @@ from cases.services import (
     get_user_case_queues,
     get_case_documents,
     get_case_additional_contacts,
-    get_activity,
+    get_activity, get_activity_filters,
 )
+from conf.constants import GENERATED_DOCUMENT
+from core.helpers import generate_activity_filters
 from core.objects import Tab, TabCollection
-from core.services import get_user_permissions
-from lite_content.lite_internal_frontend.cases import CasePage
+from core.services import get_user_permissions, get_status_properties, get_permissible_statuses
+from lite_content.lite_internal_frontend.cases import CasePage, ApplicationPage
 from queues.services import get_queue
 
 
@@ -70,8 +72,8 @@ class CaseView(TemplateView):
             self.slices = []
         open_ecju_queries, closed_ecju_queries = get_ecju_queries(self.request, self.case_id)
         user_assigned_queues = get_user_case_queues(self.request, self.case_id)[0]
-        # status_props, _ = get_status_properties(self.request, self.case.data["status"]["key"])
-        # can_set_done = not status_props["is_terminal"] and self.case.data["status"]["key"] != Statuses.APPLICANT_EDITING
+        status_props, _ = get_status_properties(self.request, self.case.data["status"]["key"])
+        can_set_done = not status_props["is_terminal"] and self.case.data["status"]["key"] != Statuses.APPLICANT_EDITING
         activity_tab = Tabs.ACTIVITY
         activity_tab.count = "!" if self.case["audit_notification"] else None
 
@@ -96,14 +98,14 @@ class CaseView(TemplateView):
             "additional_contacts": get_case_additional_contacts(self.request, self.case_id),
             "activity": get_activity(self.request, self.case_id, activity_filters=self.request.GET),
             "permissions": self.permissions,
-            # "can_set_done": can_set_done
-            # and (self.queue["is_system_queue"] and user_assigned_queues)
-            # or not self.queue["is_system_queue"],
-            # "generated_document_key": GENERATED_DOCUMENT,
-            # "permissible_statuses": get_permissible_statuses(self.request, self.case),
-            # "filters": generate_activity_filters(get_activity_filters(self.request, self.case_id), ApplicationPage),
-            # "is_terminal": status_props["is_terminal"],
-            # "is_read_only": status_props["is_read_only"],
+            "can_set_done": can_set_done
+            and (self.queue["is_system_queue"] and user_assigned_queues)
+            or not self.queue["is_system_queue"],
+            "generated_document_key": GENERATED_DOCUMENT,
+            "permissible_statuses": get_permissible_statuses(self.request, self.case),
+            "filters": generate_activity_filters(get_activity_filters(self.request, self.case_id), ApplicationPage),
+            "is_terminal": status_props["is_terminal"],
+            "is_read_only": status_props["is_read_only"],
             **self.additional_context,
         }
 
