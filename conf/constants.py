@@ -140,6 +140,11 @@ class Statuses:
     WITHDRAWN = "withdrawn"
     CLC = "clc_review"
     PV = "pv_review"
+    UNDER_ECJU_REVIEW = "under_ecju_review"
+    REVOKED = "revoked"
+    SUSPENDED = "suspended"
+    SURRENDERED = "surrendered"
+    DEREGISTERED = "deregistered"
 
 
 class UserStatuses:
