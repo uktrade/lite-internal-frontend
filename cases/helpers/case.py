@@ -11,7 +11,7 @@ from cases.services import (
     get_activity,
     get_activity_filters,
 )
-from conf.constants import GENERATED_DOCUMENT
+from conf.constants import GENERATED_DOCUMENT, Statuses
 from core.helpers import generate_activity_filters
 from core.objects import Tab, TabCollection
 from core.services import get_user_permissions, get_status_properties, get_permissible_statuses

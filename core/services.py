@@ -111,14 +111,14 @@ def get_permissible_statuses(request, case):
             status
             for status in statuses
             if status["key"]
-               not in [
-                   Statuses.APPLICANT_EDITING,
-                   Statuses.CLOSED,
-                   Statuses.FINALISED,
-                   Statuses.REGISTERED,
-                   Statuses.CLC,
-                   Statuses.PV,
-               ]
+            not in [
+                Statuses.APPLICANT_EDITING,
+                Statuses.CLOSED,
+                Statuses.FINALISED,
+                Statuses.REGISTERED,
+                Statuses.CLC,
+                Statuses.PV,
+            ]
         ]
     return [status for status in case_type_applicable_statuses if status in user_permissible_statuses]
 
