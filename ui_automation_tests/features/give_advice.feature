@@ -74,6 +74,12 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I finalise the goods and countries
     When I select approve for all combinations of goods and countries
     And I click continue
+    And I click continue
+    And I generate a decision document
+    And I click continue
+    Then the status has been changed in the application
+    When I go to the case list page
+    And I go to the compliance case created
 
   @LT_966_refusal_flags @regression
   Scenario: Refusal advice is given correctly

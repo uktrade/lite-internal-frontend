@@ -366,3 +366,12 @@ def click_continue(driver, controlled, control_list_entry, report, comment, cont
     query_page.enter_a_comment(comment)
     context.comment = comment
     Shared(driver).click_submit()
+
+
+@then("the status has been changed in the application")  # noqa
+def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
+    ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)
+
+    assert (
+        context.status.lower() in Shared(driver).get_audit_trail_text().lower()
+    ), "status has not been shown as approved in audit trail"
