@@ -46,7 +46,8 @@ class GoodsQueriesPages(BasePage):
         self.driver.find_element_by_id(self.BUTTON_SUBMIT_REPORT_SUMMARY_ID).click()
 
     def enter_a_comment(self, comment):
-        self.driver.find_element_by_class_name("govuk-details__summary-text").click()
+        if not self.driver.find_element_by_class_name("govuk-details").get_attribute("open") == "true":
+            self.driver.find_element_by_class_name("govuk-details").click()
         self.driver.find_element_by_id(self.COMMENT).send_keys(comment)
 
     def enter_a_prefix(self, prefix):
