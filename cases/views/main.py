@@ -32,6 +32,7 @@ from cases.services import (
     put_unassign_queues,
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
+    put_compliance_status,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
@@ -222,6 +223,8 @@ class ChangeStatus(SingleFormView):
             return put_end_user_advisory_query
         elif self.case_sub_type == CaseType.GOODS.value:
             return put_goods_query_status
+        elif self.case_sub_type == CaseType.COMPLIANCE.value:
+            return put_compliance_status
 
     def get_success_url(self):
         messages.success(self.request, cases.ChangeStatusPage.SUCCESS_MESSAGE)

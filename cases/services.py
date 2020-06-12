@@ -35,6 +35,7 @@ from conf.constants import (
     FINALISE_CASE_URL,
     QUEUES_URL,
     APPLICANT_URL,
+    COMPLIANCE_URL,
 )
 from core.helpers import convert_parameters_to_query_params
 from flags.enums import FlagStatus
@@ -104,6 +105,11 @@ def put_goods_query_pv_grading(request, pk, json):
 
 def put_goods_query_status(request, pk, json):
     response = put(request, GOODS_QUERIES_URL + str(pk) + MANAGE_STATUS_URL, json)
+    return response.json(), response.status_code
+
+
+def put_compliance_status(request, pk, json):
+    response = put(request, COMPLIANCE_URL + str(pk) + MANAGE_STATUS_URL, json)
     return response.json(), response.status_code
 
 

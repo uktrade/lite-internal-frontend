@@ -40,11 +40,7 @@ def assign_case_officer_form(request: HttpRequest, existing_officer, queue_id, c
         buttons=buttons,
         javascript_imports=["/assets/javascripts/filter-radiobuttons-list.js"],
         container="case",
-        back_link=BackLink(
-            url=reverse(
-                "cases:case", kwargs={"queue_pk": queue_id, "pk": case_id, "tab": "details"}
-            )
-        ),
+        back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_id, "pk": case_id, "tab": "details"})),
     )
 
 

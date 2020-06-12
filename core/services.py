@@ -108,17 +108,7 @@ def get_permissible_statuses(request, case):
             case_type_applicable_statuses = [status for status in statuses if status["key"] in goods_query_status_keys]
     else:
         case_type_applicable_statuses = [
-            status
-            for status in statuses
-            if status["key"]
-            not in [
-                Statuses.APPLICANT_EDITING,
-                Statuses.CLOSED,
-                Statuses.FINALISED,
-                Statuses.REGISTERED,
-                Statuses.CLC,
-                Statuses.PV,
-            ]
+            status for status in statuses if status["key"] in [Statuses.OPEN, Statuses.CLOSED,]
         ]
     return [status for status in case_type_applicable_statuses if status in user_permissible_statuses]
 
