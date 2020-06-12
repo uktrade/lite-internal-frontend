@@ -1,9 +1,10 @@
 from django.http import HttpRequest
+from django.urls import reverse
 
 from conf.constants import UserStatuses
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.strings import cases
-from lite_forms.components import Checkboxes, Filter, Form, RadioButtons, Button, HiddenField
+from lite_forms.components import Checkboxes, Filter, Form, RadioButtons, Button, HiddenField, BackLink
 from lite_forms.styles import ButtonStyle
 from teams.services import get_users_team_queues
 from users.services import get_gov_users
@@ -21,7 +22,7 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
     )
 
 
-def assign_case_officer_form(request: HttpRequest, existing_officer):
+def assign_case_officer_form(request: HttpRequest, existing_officer, queue_id, case_id):
     params = {"disable_pagination": True, "status": UserStatuses.ACTIVE}
     users = get_gov_users(request, params, convert_to_options=True)
     buttons = [Button(cases.Manage.AssignCaseOfficer.SUBMIT_BUTTON, action="submit")]
@@ -39,6 +40,11 @@ def assign_case_officer_form(request: HttpRequest, existing_officer):
         buttons=buttons,
         javascript_imports=["/assets/javascripts/filter-radiobuttons-list.js"],
         container="case",
+        back_link=BackLink(
+            url=reverse(
+                "cases:case", kwargs={"queue_pk": queue_id, "pk": case_id, "tab": "details"}
+            )
+        ),
     )
 
 

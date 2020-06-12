@@ -326,7 +326,7 @@ class CaseOfficer(SingleFormView):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
         self.data = {"gov_user_pk": case.case_officer.get("id")}
-        self.form = assign_case_officer_form(request, case.case_officer)
+        self.form = assign_case_officer_form(request, case.case_officer, self.kwargs["queue_pk"], self.object_pk)
         self.context = {"case": case}
         self.success_url = reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
 
