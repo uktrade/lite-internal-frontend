@@ -43,7 +43,10 @@
 			Control list entries
 		</dt>
 		<dd class="app-case__summary-list__value">
-			<span>{{ case.data.open_general_licence.control_list_entries|length }} control list entries</span>
+			<span data-definition-title="{{ case.data.open_general_licence.case_type.reference.value }} ({{ case.data.open_general_licence.name }})" data-definition-subtitle="{{ case.data.open_general_licence.control_list_entries|length }} control list entr{{ case.data.open_general_licence.control_list_entries|pluralize:'y,ies' }}" data-definition-list="{% for clc in case.data.open_general_licence.control_list_entries %}{{ clc.rating }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+				{{ case.data.open_general_licence.control_list_entries|length }}
+				{{ case.data.open_general_licence.control_list_entries|lcsp:'open_general_licences.List.Table.CONTROL_LIST_ENTRIES' }}
+			</span>
 		</dd>
 	</div>
 	<div class="app-case__summary-list__row">
@@ -51,7 +54,10 @@
 			Countries
 		</dt>
 		<dd class="app-case__summary-list__value">
-			<span>{{ case.data.open_general_licence.countries|length }} countries</span>
+			<span data-definition-title="{{ case.data.open_general_licence.case_type.reference.value }} ({{ case.data.open_general_licence.name }})" data-definition-subtitle="{{ case.data.open_general_licence.countries|length }} countr{{ case.data.open_general_licence.countries|pluralize:'y,ies' }}" data-definition-list="{% for country in case.data.open_general_licence.countries %}{{ country.name }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+				{{ case.data.open_general_licence.countries|length }}
+				{{ case.data.open_general_licence.countries|lcsp:'open_general_licences.List.Table.COUNTRIES' }}
+			</span>
 		</dd>
 	</div>
 	<div class="app-case__summary-list__row">
