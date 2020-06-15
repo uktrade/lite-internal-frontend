@@ -168,7 +168,7 @@ def total_goods_value(driver, context):
 def dont_see_clearance_level(driver):
     driver.set_timeout_to(0)
     assert (
-        len(GiveAdvicePages(driver).clearance_grading_present()) == 0
+            len(GiveAdvicePages(driver).clearance_grading_present()) == 0
     ), "clearance level is displayed when it shouldn't be"
     driver.set_timeout_to_10_seconds()
 
@@ -196,3 +196,23 @@ def click_give_advice(driver):
 @when("I combine all user advice")  # noqa
 def combine_all_advice(driver):  # noqa
     UserAdvicePage(driver).click_combine_advice()
+
+
+@when("I generate a decision document")  # noqa
+def generate_decision_document(driver, context):  # noqa
+    give_advice_page = GiveAdvicePages(driver)
+    give_advice_page.select_generate_document()
+    give_advice_page.select_document_template()
+    # submit document template
+    Shared(driver).click_submit()
+    # submit document text
+    Shared(driver).click_submit()
+    # submit document
+    Shared(driver).click_submit()
+
+    context.status = "finalised"
+
+
+@when("I go to the compliance case created")  # noqa
+def go_to_compliance_case(driver, context):  # noqa
+    give_advice_page = GiveAdvicePages(driver)
