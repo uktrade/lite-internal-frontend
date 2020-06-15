@@ -13,7 +13,6 @@ class GiveAdvicePages(BasePage):
     FOOTNOTE_REQUIRED_YES_RADIO_ID = "footnote_required-True"
     FOOTNOTE_REQUIRED_NO_RADIO_ID = "footnote_required-False"
     FOOTNOTE_TEXTBOX_ID = "footnote"
-    GENERATE_DECISION_DOCUMENT_BUTTON_ID = "generate-document-approve"
 
     def click_on_advice_option(self, option):
         self.driver.find_element_by_id(self.ADVICE_CHECKBOX_OPTION + option).click()
@@ -54,9 +53,3 @@ class GiveAdvicePages(BasePage):
         footnote_textbox = self.driver.find_element_by_id(self.FOOTNOTE_TEXTBOX_ID)
         footnote_textbox.clear()
         footnote_textbox.send_keys(text)
-
-    def select_generate_document(self):
-        self.driver.find_element_by_id(self.GENERATE_DECISION_DOCUMENT_BUTTON_ID).click()
-
-    def select_document_template(self):
-        self.driver.find_element_by_css_selector(".govuk-label").click()
