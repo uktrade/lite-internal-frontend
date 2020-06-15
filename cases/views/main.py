@@ -135,9 +135,6 @@ class CaseDetail(CaseView):
             self.slices.insert(0, Slices.GOODS_QUERY_RESPONSE)
 
     def get_compliance(self):
-        self.slices = [
-            Slices.COMPLIANCE_LICENCES,
-        ]
         self.tabs = [Tabs.COMPLIANCE_LICENCES]
         self.additional_context = get_compliance_licences_context(self.request, self.case.id)
 
