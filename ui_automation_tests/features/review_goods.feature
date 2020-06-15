@@ -5,7 +5,7 @@ Feature: I want to review, amend where required and confirm the goods ratings an
   So that I can confirm the goods are correctly described
 
 
-  @LT_1300 @regression @njwp
+  @LT_1300 @regression
   Scenario: Review goods On Standard Application
     Given I sign in to SSO or am signed into SSO
     And I create standard application or standard application has been previously created
