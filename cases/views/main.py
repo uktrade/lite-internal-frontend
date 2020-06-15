@@ -27,7 +27,8 @@ from cases.services import (
     delete_case_officer,
     put_unassign_queues,
     post_case_additional_contacts,
-    put_rerun_case_routing_rules, patch_case,
+    put_rerun_case_routing_rules,
+    patch_case,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
