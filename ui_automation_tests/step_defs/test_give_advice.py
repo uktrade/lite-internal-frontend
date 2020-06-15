@@ -168,7 +168,7 @@ def total_goods_value(driver, context):
 def dont_see_clearance_level(driver):
     driver.set_timeout_to(0)
     assert (
-            len(GiveAdvicePages(driver).clearance_grading_present()) == 0
+        len(GiveAdvicePages(driver).clearance_grading_present()) == 0
     ), "clearance level is displayed when it shouldn't be"
     driver.set_timeout_to_10_seconds()
 

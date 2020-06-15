@@ -60,5 +60,3 @@ class GiveAdvicePages(BasePage):
 
     def select_document_template(self):
         self.driver.find_element_by_css_selector(".govuk-label").click()
-
-

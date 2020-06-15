@@ -43,6 +43,9 @@ from flags.enums import FlagStatus
 
 
 # Case types
+from lite_forms.components import Filter, FiltersBar, TextInput
+
+
 def get_case_types(request, type_only=True):
     data = get(request, CASE_TYPES_URL + "?type_only=" + str(type_only))
     return data.json()["case_types"]
@@ -386,6 +389,17 @@ def get_blocking_flags(request, case_pk):
     return data.json()
 
 
-def get_compliance_licences(request, case_id):
-    data = get(request, COMPLIANCE_URL + case_id + COMPLIANCE_LICENCES_URL,)
-    return {"licences": data.json()["results"], "display_more_licences": data.json()["count"] > 10}
+def get_compliance_licences_context(request, case_id):
+    data = get(
+        request,
+        COMPLIANCE_URL
+        + case_id
+        + COMPLIANCE_LICENCES_URL
+        + f"?reference={request.GET.get('reference', '')}&page={request.GET.get('page', 1)}",
+    )
+    filters = FiltersBar([TextInput(name="reference", title="Reference"),])
+    return {
+        "licences": data.json()["results"],
+        "display_more_licences": data.json()["count"] > 10,
+        "licences_filters": filters,
+    }
