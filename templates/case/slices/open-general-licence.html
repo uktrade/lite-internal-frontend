@@ -72,4 +72,4 @@
 
 <br><br><br>
 
-<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:open_general_licence' case.data.open_general_licence.id %}">View on LITE</a>
+<a class="govuk-link govuk-link--no-visited-state" href="{% url 'open_general_licences:open_general_licence' case.data.open_general_licence.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">View on LITE</a>
