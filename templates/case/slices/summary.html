@@ -124,11 +124,7 @@
 		<dd class="app-case__summary-list__value">
 			{% if case.case_officer %}
 				<a id="link-case-officer" class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">
-					{% if case.case_officer.first_name %}
-						{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}
-					{% else %}
-						{{ case.case_officer.email }}
-					{% endif %}
+					{{ case.case_officer|username }}
 				</a>
 			{% else %}
 				<span class="govuk-hint govuk-!-margin-0">
