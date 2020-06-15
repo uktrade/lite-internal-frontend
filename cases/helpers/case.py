@@ -79,18 +79,9 @@ class CaseView(TemplateView):
         user_assigned_queues = get_user_case_queues(self.request, self.case_id)[0]
         status_props, _ = get_status_properties(self.request, self.case.data["status"]["key"])
         can_set_done = not status_props["is_terminal"] and self.case.data["status"]["key"] != Statuses.APPLICANT_EDITING
-        activity_tab = Tabs.ACTIVITY
-        activity_tab.count = "!" if self.case["audit_notification"] else None
 
         return {
-            "tabs": [
-                Tabs.DETAILS,
-                Tabs.ADDITIONAL_CONTACTS,
-                Tabs.ECJU_QUERIES,
-                Tabs.DOCUMENTS,
-                activity_tab,
-                *self.tabs,
-            ],
+            "tabs": self.tabs if self.tabs else self.get_tabs(),
             "current_tab": self.kwargs["tab"],
             "slices": [Slices.SUMMARY, *self.slices],
             "case": self.case,
@@ -127,3 +118,15 @@ class CaseView(TemplateView):
             getattr(self, "get_" + self.case.sub_type)()
 
         return render(request, "case/case.html", self.get_context())
+
+    def get_tabs(self):
+        activity_tab = Tabs.ACTIVITY
+        activity_tab.count = "!" if self.case["audit_notification"] else None
+
+        return [
+            Tabs.DETAILS,
+            Tabs.ADDITIONAL_CONTACTS,
+            Tabs.ECJU_QUERIES,
+            Tabs.DOCUMENTS,
+            activity_tab,
+        ]

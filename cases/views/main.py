@@ -49,7 +49,8 @@ from users.services import get_gov_user_from_form_selection
 
 class CaseDetail(CaseView):
     def get_open_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
             Slices.DESTINATIONS,
@@ -78,7 +79,8 @@ class CaseDetail(CaseView):
             ]
 
     def get_standard_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
             Slices.DESTINATIONS,
@@ -101,7 +103,8 @@ class CaseDetail(CaseView):
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_exhibition_clearance_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.EXHIBITION_DETAILS,
             Slices.GOODS,
@@ -111,12 +114,14 @@ class CaseDetail(CaseView):
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_gifting_clearance_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_f680_clearance_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
             Slices.DESTINATIONS,
@@ -135,7 +140,8 @@ class CaseDetail(CaseView):
             self.slices.insert(0, Slices.GOODS_QUERY_RESPONSE)
 
     def get_compliance(self):
-        self.tabs = [Tabs.COMPLIANCE_LICENCES]
+        self.tabs = self.get_tabs()
+        self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
         self.additional_context = get_compliance_licences_context(self.request, self.case.id)
 
 
