@@ -57,6 +57,7 @@
 				<td class="govuk-table__cell">
 					<p class="govuk-body govuk-!-margin-0">{{ case.application.is_suspected_wmd|friendly_boolean }}</p>
 					{% if case.application.is_suspected_wmd %}
+						<div id="hello"></div><div id="hello"></div>
 						<p class="govuk-hint govuk-!-margin-0 govuk-!-margin-top-1" data-max-length="200">{{ case.application.suspected_wmd_ref }}</p>
 					{% endif %}
 				</td>
