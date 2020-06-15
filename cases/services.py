@@ -36,6 +36,7 @@ from conf.constants import (
     QUEUES_URL,
     APPLICANT_URL,
     COMPLIANCE_URL,
+    COMPLIANCE_LICENCES_URL,
 )
 from core.helpers import convert_parameters_to_query_params
 from flags.enums import FlagStatus
@@ -383,3 +384,8 @@ def get_blocking_flags(request, case_pk):
         FLAGS_URL + f"?case={case_pk}&status={FlagStatus.ACTIVE.value}&blocks_approval=True&disable_pagination=True",
     )
     return data.json()
+
+
+def get_compliance_licences(request, case_id):
+    data = get(request, COMPLIANCE_URL + case_id + COMPLIANCE_LICENCES_URL,)
+    return {"licences": data.json()["results"], "display_more_licences": data.json()["count"] > 10}

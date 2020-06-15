@@ -33,6 +33,7 @@ from cases.services import (
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
     put_compliance_status,
+    get_compliance_licences,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
@@ -137,6 +138,8 @@ class CaseDetail(CaseView):
         self.slices = [
             Slices.COMPLIANCE_LICENCES,
         ]
+        self.tabs = [Tabs.COMPLIANCE_LICENCES]
+        self.additional_context = get_compliance_licences(self.request, self.case.id)
 
 
 class CaseNotes(TemplateView):

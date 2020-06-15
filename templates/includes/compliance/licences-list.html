@@ -1,0 +1,25 @@
+{% if licences %}
+	<h2 class="govuk-heading-m">Licences</h2>
+	<table id="table-destinations-end-user" class="govuk-table">
+		<thead class="govuk-table__head">
+			<tr class="govuk-table__row">
+				<th scope="col" class="govuk-table__header">Licence number</th>
+				<th scope="col" class="govuk-table__header">Flags</th>
+			</tr>
+		</thead>
+		<tbody class="govuk-table__body">
+			{% for licence in licences %}
+				<tr class="govuk-table__row">
+					<td class="govuk-table__cell lite-!-no-border">
+						<a href="{% url 'cases:case' queue.id licence.id %}" class="govuk-link govuk-link--no-visited-state">
+							{{ licence.reference_code }}
+						</a>
+					</td>
+					<td class="govuk-table__cell lite-!-no-border">
+						{% include 'includes/flags.html' with flags=licence.flags %}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endif %}
