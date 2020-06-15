@@ -29,7 +29,8 @@ from cases.services import (
     put_unassign_queues,
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
-    patch_case, put_application_status,
+    patch_case,
+    put_application_status,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
