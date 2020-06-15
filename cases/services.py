@@ -107,17 +107,6 @@ def put_goods_query_pv_grading(request, pk, json):
     return response.json(), response.status_code
 
 
-def put_goods_query_status(request, pk, json):
-    response = put(request, GOODS_QUERIES_URL + str(pk) + MANAGE_STATUS_URL, json)
-    return response.json(), response.status_code
-
-
-# EUA Queries
-def put_end_user_advisory_query(request, pk, json):
-    data = put(request, END_USER_ADVISORY_URL + str(pk), json)
-    return data.json(), data.status_code
-
-
 # Case Notes
 def get_case_notes(request, pk):
     data = get(request, CASE_URL + pk + CASE_NOTES_URL)

@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
+from cases.constants import CaseType
 from cases.forms.additional_contacts import add_additional_contact_form
 from cases.forms.assign_users import assign_case_officer_form, assign_user_and_work_queue, users_team_queues
 from cases.forms.attach_documents import attach_documents_form
@@ -28,7 +29,7 @@ from cases.services import (
     put_unassign_queues,
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
-    patch_case,
+    patch_case, put_application_status,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
@@ -203,7 +204,16 @@ class ChangeStatus(SingleFormView):
         self.data = case.data
         self.form = change_status_form(get_queue(request, kwargs["queue_pk"]), case, permissible_statuses)
         self.context = {"case": case}
-        self.action = patch_case
+
+    def get_action(self):
+        if (
+            self.case_type == CaseType.APPLICATION.value
+            or self.case_sub_type == CaseType.HMRC.value
+            or self.case_sub_type == CaseType.EXHIBITION.value
+        ):
+            return put_application_status
+        else:
+            return patch_case
 
     def get_success_url(self):
         messages.success(self.request, cases.ChangeStatusPage.SUCCESS_MESSAGE)
