@@ -9,7 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
-from cases.constants import CaseType
 from cases.forms.additional_contacts import add_additional_contact_form
 from cases.forms.assign_users import assign_case_officer_form, assign_user_and_work_queue, users_team_queues
 from cases.forms.attach_documents import attach_documents_form
@@ -22,16 +21,13 @@ from cases.helpers.case import CaseView, Tabs, Slices
 from cases.services import (
     get_case,
     post_case_notes,
-    put_application_status,
     get_activity,
     put_case_queues,
-    put_end_user_advisory_query,
-    put_goods_query_status,
     put_case_officer,
     delete_case_officer,
     put_unassign_queues,
     post_case_additional_contacts,
-    put_rerun_case_routing_rules,
+    put_rerun_case_routing_rules, patch_case,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
@@ -200,24 +196,13 @@ class ChangeStatus(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         case = get_case(request, self.object_pk)
-        self.case_type = case["case_type"]["type"]["key"]
-        self.case_sub_type = case["case_type"]["sub_type"]["key"]
+        self.case_type = case.type
+        self.case_sub_type = case.sub_type
         permissible_statuses = get_permissible_statuses(request, case)
-        self.data = case.data if "application" in case else case.data
+        self.data = case.data
         self.form = change_status_form(get_queue(request, kwargs["queue_pk"]), case, permissible_statuses)
         self.context = {"case": case}
-
-    def get_action(self):
-        if (
-            self.case_type == CaseType.APPLICATION.value
-            or self.case_sub_type == CaseType.HMRC.value
-            or self.case_sub_type == CaseType.EXHIBITION.value
-        ):
-            return put_application_status
-        elif self.case_sub_type == CaseType.END_USER_ADVISORY.value:
-            return put_end_user_advisory_query
-        elif self.case_sub_type == CaseType.GOODS.value:
-            return put_goods_query_status
+        self.action = patch_case
 
     def get_success_url(self):
         messages.success(self.request, cases.ChangeStatusPage.SUCCESS_MESSAGE)
