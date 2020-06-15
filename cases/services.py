@@ -9,7 +9,6 @@ from conf.constants import (
     ACTIVITY_URL,
     ACTIVITY_FILTERS_URL,
     DOCUMENTS_URL,
-    END_USER_ADVISORY_URL,
     ECJU_QUERIES_URL,
     GOOD_URL,
     FLAGS_URL,

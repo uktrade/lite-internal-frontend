@@ -279,7 +279,8 @@ def linkify(address, name=None):
     name = escape(name)
 
     return safe(
-        f'<a href="{address}" rel="noreferrer noopener" target="_blank" class="govuk-link govuk-link--no-visited-state">{name} <span class="govuk-visually-hidden">(opens in new tab)</span></a>'
+        f'<a href="{address}" rel="noreferrer noopener" target="_blank" class="govuk-link govuk-link--no-visited-state">{name} '
+        f'<span class="govuk-visually-hidden">(opens in new tab)</span></a>'
     )
 
 
