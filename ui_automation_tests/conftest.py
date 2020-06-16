@@ -29,6 +29,8 @@ from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
 from ui_automation_tests.pages.advice import UserAdvicePage
 from ui_automation_tests.pages.generate_document_page import GeneratedDocument
 from ui_automation_tests.pages.give_advice_pages import GiveAdvicePages
+from ui_automation_tests.pages.letter_templates import LetterTemplates
+from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.fixtures.apply_for_application import *  # noqa
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.sso_sign_in import sso_sign_in  # noqa
@@ -71,7 +73,7 @@ def pytest_addoption(parser):
         )
 
         # Get LITE API URL.
-        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"),)
+        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"), )
         parser.addoption(
             "--lite_api_url", action="store", default=lite_api_url, help="url",
         )
@@ -327,7 +329,7 @@ def click_edit_case_flags_link(driver):  # noqa
     CasePage(driver).click_change_case_flags()
 
 
-@given(parsers.parse('the status is set to "{status}"'))  # noqa
+@when(parsers.parse('the status is set to "{status}"'))  # noqa
 def set_status(api_test_client, context, status):  # noqa
     api_test_client.applications.set_status(context.app_id, status)
 
@@ -337,7 +339,7 @@ def assign_case_to_queue(api_test_client):  # noqa
     api_test_client.cases.assign_case_to_queue()
 
 
-@given("all flags are removed")  # noqa
+@when("all flags are removed")  # noqa
 def remove_all_flags(context, api_test_client):  # noqa
     api_test_client.flags.assign_case_flags(context.case_id, [])
 
@@ -375,17 +377,17 @@ def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
     ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)
 
     assert (
-        context.status.lower() in Shared(driver).get_audit_trail_text().lower()
+            context.status.lower() in Shared(driver).get_audit_trail_text().lower()
     ), "status has not been shown as approved in audit trail"
 
 
-@given("I create a proviso picklist")  # noqa
+@when("I create a proviso picklist")  # noqa
 def i_create_an_proviso_picklist(context, add_a_proviso_picklist):  # noqa
     context.proviso_picklist_name = add_a_proviso_picklist["name"]
     context.proviso_picklist_question_text = add_a_proviso_picklist["text"]
 
 
-@given("I create a standard advice picklist")  # noqa
+@when("I create a standard advice picklist")  # noqa
 def i_create_an_standard_advice_picklist(context, add_a_standard_advice_picklist):  # noqa
     context.standard_advice_query_picklist_name = add_a_standard_advice_picklist["name"]
     context.standard_advice_query_picklist_question_text = add_a_standard_advice_picklist["text"]
@@ -440,3 +442,50 @@ def finalise_goods_and_countries(driver):  # noqa
 def select_approve_for_all(driver):  # noqa
     page = GiveAdvicePages(driver)
     page.select_approve_for_all()
+
+
+@given("I create a letter paragraph picklist")
+def add_letter_paragraph_picklist(add_a_letter_paragraph_picklist):
+    pass
+
+
+@given("I go to letters")
+def i_go_to_letters(driver, internal_url):
+    driver.get(internal_url.rstrip("/") + "/document-templates")
+
+
+@given("I create a letter template for a document")
+def create_letter_template(driver, context, get_template_id):
+    template_page = LetterTemplates(driver)
+    template_page.click_create_a_template()
+
+    context.template_name = "Template " + utils.get_formatted_date_time_y_m_d_h_s()
+    template_page.enter_template_name(context.template_name)
+    functions.click_submit(driver)
+
+    template_page.select_which_type_of_cases_template_can_apply_to(
+        ["Standard-Individual-Export-Licence", "Open-Individual-Export-Licence"]
+    )
+    functions.click_submit(driver)
+
+    template_page.select_which_type_of_decisions_template_can_apply_to(["Approve", "Proviso"])
+    functions.click_submit(driver)
+
+    template_page.select_visible_to_exporter("True")
+    functions.click_submit(driver)
+
+    template_page.click_licence_layout(get_template_id)
+    functions.click_submit(driver)
+
+
+@given("I add a letter paragraph to template")
+def add_two_letter_paragraphs(driver, context):
+    letter_template = LetterTemplates(driver)
+    letter_template.click_add_letter_paragraph()
+    context.letter_paragraph_name = letter_template.add_letter_paragraph()
+    letter_template.click_add_letter_paragraphs()
+
+
+@given("I preview template")
+def preview_template(driver):
+    LetterTemplates(driver).click_create_preview_button()
