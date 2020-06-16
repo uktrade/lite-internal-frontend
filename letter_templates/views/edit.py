@@ -102,7 +102,5 @@ class EditParagraphs(TemplateView):
             pk_to_delete = action.split(".")[1]
             paragraphs.remove(pk_to_delete)
 
-        put_letter_template(
-            request, letter_template_id, {"letter_paragraphs": paragraphs}
-        )
+        put_letter_template(request, letter_template_id, {"letter_paragraphs": paragraphs})
         return self.get(request, **kwargs)
