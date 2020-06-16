@@ -1,6 +1,10 @@
 from collections import defaultdict
 from typing import List
 
+import directory_client_core.base
+
+from django.conf import settings
+
 from conf import decorators
 from conf.constants import Permission
 from core.services import get_user_permissions
@@ -134,3 +138,18 @@ def generate_activity_filters(activity_filters, string_class):
             DateInput(title=string_class.ActivityFilters.DATE_TO, prefix="to_", inline_title=True),
         ]
     )
+
+
+class SpireClient(directory_client_core.base.AbstractAPIClient):
+    version = 1  # AbstractAPIClient exposes this in UserAgent header
+
+    def list_licenses(self, **params):
+        return self.get("/api/spire/licence-detail/", params=params)
+
+
+spire_client = SpireClient(
+    base_url=settings.LITE_SPIRE_ARCHIVE_CLIENT_BASE_URL,
+    api_key=settings.LITE_SPIRE_ARCHIVE_CLIENT_HAWK_SECRET,
+    sender_id=settings.LITE_SPIRE_ARCHIVE_CLIENT_HAWK_SENDER_ID,
+    timeout=settings.LITE_SPIRE_ARCHIVE_CLIENT_DEFAULT_TIMEOUT,
+)
