@@ -26,7 +26,9 @@ from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
     add_a_standard_advice_picklist,
     add_a_report_summary_picklist,
 )
+from ui_automation_tests.pages.advice import UserAdvicePage
 from ui_automation_tests.pages.generate_document_page import GeneratedDocument
+from ui_automation_tests.pages.give_advice_pages import GiveAdvicePages
 from ui_automation_tests.shared.fixtures.apply_for_application import *  # noqa
 from ui_automation_tests.shared.fixtures.driver import driver  # noqa
 from ui_automation_tests.shared.fixtures.sso_sign_in import sso_sign_in  # noqa
@@ -375,3 +377,66 @@ def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
     assert (
         context.status.lower() in Shared(driver).get_audit_trail_text().lower()
     ), "status has not been shown as approved in audit trail"
+
+
+@given("I create a proviso picklist")
+def i_create_an_proviso_picklist(context, add_a_proviso_picklist):
+    context.proviso_picklist_name = add_a_proviso_picklist["name"]
+    context.proviso_picklist_question_text = add_a_proviso_picklist["text"]
+
+
+@given("I create a standard advice picklist")
+def i_create_an_standard_advice_picklist(context, add_a_standard_advice_picklist):
+    context.standard_advice_query_picklist_name = add_a_standard_advice_picklist["name"]
+    context.standard_advice_query_picklist_question_text = add_a_standard_advice_picklist["text"]
+
+
+@when("I click on the user advice tab")
+def i_click_on_view_advice(driver, context):
+    CasePage(driver).change_tab(CaseTabs.USER_ADVICE)
+
+
+@when("I select all items in the user advice view")
+def click_items_in_advice_view(driver, context):
+    context.number_of_advice_items_clicked = UserAdvicePage(driver).click_on_all_checkboxes()
+
+
+@when(parsers.parse("I choose to '{option}' the licence"))
+def choose_advice_option(driver, option, context):
+    GiveAdvicePages(driver).click_on_advice_option(option)
+    context.advice_data = []
+
+
+@when(parsers.parse("I import text from the '{option}' picklist"))
+def import_text_advice(driver, option, context):
+    GiveAdvicePages(driver).click_on_import_link(option)
+    text = GiveAdvicePages(driver).get_text_of_picklist_item()
+    context.advice_data.append(text)
+    GiveAdvicePages(driver).click_on_picklist_item(option)
+
+
+@when(parsers.parse("I write '{text}' in the note text field"))
+def write_note_text_field(driver, text, context):
+    GiveAdvicePages(driver).type_in_additional_note_text_field(text)
+    context.advice_data.append(text)
+
+
+@when(parsers.parse("I select that a footnote is not required"))
+def write_note_text_field(driver, text, context):
+    GiveAdvicePages(driver).select_footnote_not_required()
+
+
+@when("I combine all user advice")  # noqa
+def combine_all_advice(driver):  # noqa
+    UserAdvicePage(driver).click_combine_advice()
+
+
+@when("I finalise the goods and countries")
+def finalise_goods_and_countries(driver):
+    FinalAdvicePage(driver).click_finalise()
+
+
+@when("I select approve for all combinations of goods and countries")
+def select_approve_for_all(driver):
+    page = GiveAdvicePages(driver)
+    page.select_approve_for_all()
