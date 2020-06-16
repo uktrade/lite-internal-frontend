@@ -20,7 +20,7 @@
 					{{ licence.status.value }}
 				</td>
 				<td class="govuk-table__cell govuk-table__cell--tight">
-					{% include 'includes/flags.html' with flags=licence.flags %}
+					{% include 'includes/flags.html' with flags=licence.flags list=True %}
 				</td>
 			</tr>
 		{% endfor %}
