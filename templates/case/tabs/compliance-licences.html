@@ -1,11 +1,11 @@
 {% include "filters.html" with filters=licences_filters%}
 
-<table id="table-destinations-end-user" class="govuk-table">
+<table id="table-compliance-licences" class="govuk-table">
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
-			<th scope="col" class="govuk-table__header">Licence number</th>
-			<th scope="col" class="govuk-table__header">Licence status</th>
-			<th scope="col" class="govuk-table__header">Flags</th>
+			<th scope="col" class="govuk-table__header">{% lcs 'cases.CasePage.ComplianceLicencesTab.LICENCE_NUMBER' %}</th>
+			<th scope="col" class="govuk-table__header">{% lcs 'cases.CasePage.ComplianceLicencesTab.LICENCE_STATUS' %}</th>
+			<th scope="col" class="govuk-table__header">{% lcs 'cases.CasePage.ComplianceLicencesTab.LICENCE_FLAGS' %}</th>
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">

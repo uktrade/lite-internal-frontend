@@ -41,11 +41,10 @@ from conf.constants import (
 from core.helpers import convert_parameters_to_query_params
 from flags.enums import FlagStatus
 
-
-# Case types
 from lite_forms.components import FiltersBar, TextInput
 
 
+# Case types
 def get_case_types(request, type_only=True):
     data = get(request, CASE_TYPES_URL + "?type_only=" + str(type_only))
     return data.json()["case_types"]

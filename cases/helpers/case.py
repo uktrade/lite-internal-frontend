@@ -36,7 +36,6 @@ class Tabs:
         ],
     )
     COMPLIANCE_LICENCES = Tab("compliance-licences", "Licences", "compliance-licences")
-    # CasePage.Tabs.COMPLIANCE_LICENCES
 
 
 class Slices:
