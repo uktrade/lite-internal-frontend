@@ -444,18 +444,18 @@ def select_approve_for_all(driver):  # noqa
     page.select_approve_for_all()
 
 
-@given("I create a letter paragraph picklist")
-def add_letter_paragraph_picklist(add_a_letter_paragraph_picklist):
+@given("I create a letter paragraph picklist")  # noqa
+def add_letter_paragraph_picklist(add_a_letter_paragraph_picklist):  # noqa
     pass
 
 
-@given("I go to letters")
-def i_go_to_letters(driver, internal_url):
+@given("I go to letters")  # noqa
+def i_go_to_letters(driver, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/document-templates")
 
 
-@given("I create a letter template for a document")
-def create_letter_template(driver, context, get_template_id):
+@given("I create a letter template for a document")  # noqa
+def create_letter_template(driver, context, get_template_id):  # noqa
     template_page = LetterTemplates(driver)
     template_page.click_create_a_template()
 
@@ -478,14 +478,14 @@ def create_letter_template(driver, context, get_template_id):
     functions.click_submit(driver)
 
 
-@given("I add a letter paragraph to template")
-def add_two_letter_paragraphs(driver, context):
+@given("I add a letter paragraph to template")  # noqa
+def add_two_letter_paragraphs(driver, context):  # noqa
     letter_template = LetterTemplates(driver)
     letter_template.click_add_letter_paragraph()
     context.letter_paragraph_name = letter_template.add_letter_paragraph()
     letter_template.click_add_letter_paragraphs()
 
 
-@given("I preview template")
-def preview_template(driver):
+@given("I preview template")  # noqa
+def preview_template(driver):  # noqa
     LetterTemplates(driver).click_create_preview_button()
