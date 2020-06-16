@@ -1,7 +1,8 @@
 from lite_content.lite_internal_frontend import strings
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
+
 from lite_forms.generators import form_page, error_page
 from lite_forms.submitters import submit_paged_form
 
@@ -48,3 +49,18 @@ class Create(TemplateView):
             return error_page(None, "; ".join(error_messages))
 
         return redirect("letter_templates:letter_templates")
+
+
+class VariableHelp(TemplateView):
+    @staticmethod
+    def _get_table_text(text):
+        rows = [item.strip() for item in text.split("\n") if item.strip()]
+        return [row.split("|") for row in rows]
+
+    def get(self, request, **kwargs):
+        tables = {
+            table.name: self._get_table_text(table.value) for table in strings.letter_templates.VariableHelpPageTables
+        }
+
+        context = {"sections": tables}
+        return render(request, "letter-templates/variable-help.html", context)
