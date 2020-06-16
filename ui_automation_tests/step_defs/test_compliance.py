@@ -9,6 +9,7 @@ from pages.record_decision_page import RecordDecision
 from pages.shared import Shared
 
 from ui_automation_tests.pages.compliance_pages import CompliancePages
+from ui_automation_tests.pages.generate_document_page import GeneratedDocument
 from ui_automation_tests.pages.grant_licence_page import GrantLicencePage
 
 scenarios("../features/compliance.feature", strict_gherkin=False)
@@ -16,14 +17,11 @@ scenarios("../features/compliance.feature", strict_gherkin=False)
 
 @when("I generate a decision document")  # noqa
 def generate_decision_document(driver, context):  # noqa
-    compliance_page = CompliancePages(driver)
-    compliance_page.select_generate_document()
-    compliance_page.select_document_template()
-    # submit document template
+    generate_document_page = GeneratedDocument(driver)
+    generate_document_page.select_generate_document()
+    generate_document_page.select_document_template()
     Shared(driver).click_submit()
-    # submit document text
     Shared(driver).click_submit()
-    # submit document
     Shared(driver).click_submit()
 
     context.status = "finalised"
@@ -44,4 +42,4 @@ def i_click_on_licences(driver, context):  # noqa
 
 @then("I see my previously created licence")  # noqa
 def check_licence_is_present(driver, context):  # noqa
-    assert CompliancePages(driver).find_case_text(context) == context.reference_code
+    assert CompliancePages(driver).find_case_reference(context) == context.reference_code

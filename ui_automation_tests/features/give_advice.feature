@@ -73,6 +73,7 @@ Feature: I want to record my user advice and any comments and conditions relatin
     And I combine all team advice
     And I finalise the goods and countries
     When I select approve for all combinations of goods and countries
+    And I click continue
 
   @LT_966_refusal_flags @regression
   Scenario: Refusal advice is given correctly

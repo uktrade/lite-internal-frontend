@@ -1,7 +1,7 @@
 @all @internal
 Feature: I want to generate and view compliance cases on approval and proviso of OIEL, OICL and specific SIEL applications
 
-  @regression @rory
+  @regression
   Scenario: Create compliance case
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
@@ -21,9 +21,7 @@ Feature: I want to generate and view compliance cases on approval and proviso of
     And I combine all team advice
     And I finalise the goods and countries
     When I select approve for all combinations of goods and countries
-    # save approval decision
     And I click continue
-    # confirm licence dates
     And I click continue
     And I generate a decision document
     And I click continue
