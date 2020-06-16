@@ -379,50 +379,50 @@ def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
     ), "status has not been shown as approved in audit trail"
 
 
-@given("I create a proviso picklist")
-def i_create_an_proviso_picklist(context, add_a_proviso_picklist):
+@given("I create a proviso picklist")  # noqa
+def i_create_an_proviso_picklist(context, add_a_proviso_picklist):  # noqa
     context.proviso_picklist_name = add_a_proviso_picklist["name"]
     context.proviso_picklist_question_text = add_a_proviso_picklist["text"]
 
 
-@given("I create a standard advice picklist")
-def i_create_an_standard_advice_picklist(context, add_a_standard_advice_picklist):
+@given("I create a standard advice picklist")  # noqa
+def i_create_an_standard_advice_picklist(context, add_a_standard_advice_picklist):  # noqa
     context.standard_advice_query_picklist_name = add_a_standard_advice_picklist["name"]
     context.standard_advice_query_picklist_question_text = add_a_standard_advice_picklist["text"]
 
 
-@when("I click on the user advice tab")
-def i_click_on_view_advice(driver, context):
+@when("I click on the user advice tab")  # noqa
+def i_click_on_view_advice(driver, context):  # noqa
     CasePage(driver).change_tab(CaseTabs.USER_ADVICE)
 
 
-@when("I select all items in the user advice view")
-def click_items_in_advice_view(driver, context):
+@when("I select all items in the user advice view")  # noqa
+def click_items_in_advice_view(driver, context):  # noqa
     context.number_of_advice_items_clicked = UserAdvicePage(driver).click_on_all_checkboxes()
 
 
-@when(parsers.parse("I choose to '{option}' the licence"))
-def choose_advice_option(driver, option, context):
+@when(parsers.parse("I choose to '{option}' the licence"))  # noqa
+def choose_advice_option(driver, option, context):  # noqa
     GiveAdvicePages(driver).click_on_advice_option(option)
     context.advice_data = []
 
 
-@when(parsers.parse("I import text from the '{option}' picklist"))
-def import_text_advice(driver, option, context):
+@when(parsers.parse("I import text from the '{option}' picklist"))  # noqa
+def import_text_advice(driver, option, context):  # noqa
     GiveAdvicePages(driver).click_on_import_link(option)
     text = GiveAdvicePages(driver).get_text_of_picklist_item()
     context.advice_data.append(text)
     GiveAdvicePages(driver).click_on_picklist_item(option)
 
 
-@when(parsers.parse("I write '{text}' in the note text field"))
-def write_note_text_field(driver, text, context):
+@when(parsers.parse("I write '{text}' in the note text field"))  # noqa
+def write_note_text_field(driver, text, context):  # noqa
     GiveAdvicePages(driver).type_in_additional_note_text_field(text)
     context.advice_data.append(text)
 
 
-@when(parsers.parse("I select that a footnote is not required"))
-def write_note_text_field(driver, text, context):
+@when(parsers.parse("I select that a footnote is not required"))  # noqa
+def write_note_text_field(driver, text, context):  # noqa
     GiveAdvicePages(driver).select_footnote_not_required()
 
 
@@ -431,12 +431,12 @@ def combine_all_advice(driver):  # noqa
     UserAdvicePage(driver).click_combine_advice()
 
 
-@when("I finalise the goods and countries")
-def finalise_goods_and_countries(driver):
+@when("I finalise the goods and countries")  # noqa
+def finalise_goods_and_countries(driver):  # noqa
     FinalAdvicePage(driver).click_finalise()
 
 
-@when("I select approve for all combinations of goods and countries")
-def select_approve_for_all(driver):
+@when("I select approve for all combinations of goods and countries")  # noqa
+def select_approve_for_all(driver):  # noqa
     page = GiveAdvicePages(driver)
     page.select_approve_for_all()

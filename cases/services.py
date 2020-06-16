@@ -43,7 +43,7 @@ from flags.enums import FlagStatus
 
 
 # Case types
-from lite_forms.components import Filter, FiltersBar, TextInput
+from lite_forms.components import FiltersBar, TextInput
 
 
 def get_case_types(request, type_only=True):

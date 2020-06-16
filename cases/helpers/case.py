@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
-from cases.constants import CaseType
 from cases.objects import Slice, Case
 from cases.services import (
     get_case,
