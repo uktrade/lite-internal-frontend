@@ -73,7 +73,7 @@ def pytest_addoption(parser):
         )
 
         # Get LITE API URL.
-        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"), )
+        lite_api_url = os.environ.get("LOCAL_LITE_API_URL", os.environ.get("LITE_API_URL"),)
         parser.addoption(
             "--lite_api_url", action="store", default=lite_api_url, help="url",
         )
@@ -377,7 +377,7 @@ def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
     ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)
 
     assert (
-            context.status.lower() in Shared(driver).get_audit_trail_text().lower()
+        context.status.lower() in Shared(driver).get_audit_trail_text().lower()
     ), "status has not been shown as approved in audit trail"
 
 
