@@ -30,6 +30,6 @@ class SpireLicenseSearch(FormView):
         respoonse.raise_for_status()
         parsed = respoonse.json()
         context["results"] = parsed["results"]
-        # needed for paginator in the template
+        # the {% paginator %} in the template needs this shaped data exposed
         context["data"] = {"total_pages": parsed["count"] // form.page_size}
         return context
