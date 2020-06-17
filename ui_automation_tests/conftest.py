@@ -441,7 +441,7 @@ def finalise_goods_and_countries(driver):  # noqa
 @when("I select approve for all combinations of goods and countries")  # noqa
 def select_approve_for_all(driver, context):  # noqa
     page = GiveAdvicePages(driver)
-    page.select_approve_for_all(context.goods_type["id"], context.country["code"])
+    page.select_approve_for_good_country(context.goods_type["id"], context.country["code"])
 
 
 @given("I create a letter paragraph picklist")  # noqa

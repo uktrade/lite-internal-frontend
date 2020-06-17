@@ -31,7 +31,7 @@ class GiveAdvicePages(BasePage):
     def type_in_additional_note_text_field(self, text):
         return self.driver.find_element_by_id(self.TEXTAREA_NOTES_ID).send_keys(text)
 
-    def select_approve_for_all(self, good_id, country_code):
+    def select_approve_for_good_country(self, good_id, country_code):
         self.driver.find_element_by_id(self.APPROVE_RADIO_ID + good_id + "." + country_code).click()
 
     def checkbox_present(self):
