@@ -5,6 +5,7 @@ from conf.constants import UserStatuses
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.strings import cases
 from lite_forms.components import Checkboxes, Filter, Form, RadioButtons, Button, HiddenField, BackLink
+from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 from teams.services import get_users_team_queues
 from users.services import get_gov_users
@@ -22,19 +23,28 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
     )
 
 
-def assign_case_officer_form(request: HttpRequest, existing_officer, queue_id, case_id):
+def assign_case_officer_form(request: HttpRequest, existing_officer, queue_id, case_id, is_compliance=None):
     params = {"disable_pagination": True, "status": UserStatuses.ACTIVE}
     users = get_gov_users(request, params, convert_to_options=True)
     buttons = [Button(cases.Manage.AssignCaseOfficer.SUBMIT_BUTTON, action="submit")]
     if existing_officer:
         buttons.append(
             Button(
-                cases.Manage.AssignCaseOfficer.DELETE_BUTTON, action="delete", id="unassign", style=ButtonStyle.WARNING
+                conditional(
+                    is_compliance,
+                    cases.Manage.AssignCaseOfficer.DELETE_INSPECTOR_BUTTON,
+                    cases.Manage.AssignCaseOfficer.DELETE_BUTTON,
+                ),
+                action="delete",
+                id="unassign",
+                style=ButtonStyle.WARNING,
             )
         )
 
     return Form(
-        title=cases.Manage.AssignCaseOfficer.TITLE,
+        title=conditional(
+            is_compliance, cases.Manage.AssignCaseOfficer.INSPECTOR_TITLE, cases.Manage.AssignCaseOfficer.TITLE
+        ),
         description=cases.Manage.AssignCaseOfficer.DESCRIPTION,
         questions=[Filter(), RadioButtons("gov_user_pk", users)],
         buttons=buttons,

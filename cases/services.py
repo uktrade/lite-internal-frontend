@@ -41,8 +41,6 @@ from conf.constants import (
 from core.helpers import convert_parameters_to_query_params
 from flags.enums import FlagStatus
 
-from lite_forms.components import FiltersBar, TextInput
-
 
 # Case types
 def get_case_types(request, type_only=True):
