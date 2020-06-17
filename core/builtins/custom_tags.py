@@ -598,7 +598,7 @@ def sentence_case(text):
 
 @register.filter()
 def format_heading(text):
-    return text.replace("_", " ").capitalize()
+    return text.replace("_", " ")
 
 
 @register.filter()

@@ -54,6 +54,11 @@ class Create(TemplateView):
 class VariableHelp(TemplateView):
     @staticmethod
     def _get_table_text(text):
+        """
+        Handles the Enum format in VariableHelpPageTables.
+        Converts the markdown table formatting into nested lists for rendering.
+        For example; "Item1|abc|123 \n Item2|def|456" becomes [["Item1","abc","123"], ["Item2","def","456"]]
+        """
         rows = [item.strip().replace("\\n", "\n") for item in text.split("\n") if item.strip()]
         return [row.split("|") for row in rows]
 
