@@ -9,7 +9,7 @@
 		</tr>
 	</thead>
 	<tbody class="govuk-table__body">
-		{% for licence in licences %}
+		{% for licence in data.results %}
 			<tr class="govuk-table__row">
 				<td class="govuk-table__cell govuk-table__cell--tight">
 					<a href="{% url 'cases:case' queue.id licence.id %}" class="govuk-link govuk-link--no-visited-state">
