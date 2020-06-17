@@ -16,11 +16,7 @@
 				</dt>
 				<dd class="app-case__summary-list__value">
 					{{ case.compliance.site_name }}<br>
-					{{ case.compliance.address.address_line_1 }}<br>
-					{% if case.compliance.address.address_line_2 %}{{ case.compliance.address.address_line_2 }}<br>{% endif %}
-					{{ case.compliance.address.city }}<br>
-					{{ case.compliance.address.region }}<br>
-					{{ case.compliance.address.postcode }}
+					{{ case.compliance|get_address }}
 				</dd>
 			</div>
 	{% endif %}
