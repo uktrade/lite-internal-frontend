@@ -33,7 +33,7 @@ from cases.services import (
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
     put_compliance_status,
-    get_compliance_licences_context,
+    get_compliance_licences,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
@@ -145,7 +145,7 @@ class CaseDetail(CaseView):
         self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
         filters = FiltersBar([TextInput(name="reference", title="Reference"),])
         self.additional_context = {
-            "data": get_compliance_licences_context(
+            "data": get_compliance_licences(
                 self.request, self.case.id, self.request.GET.get("reference", ""), self.request.GET.get("page", 1)
             ),
             "licences_filters": filters,

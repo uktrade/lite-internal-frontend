@@ -15,11 +15,12 @@
 					{% lcs 'cases.CasePage.DetailsTab.ADDRESS' %}
 				</dt>
 				<dd class="app-case__summary-list__value">
-					{{ case.compliance.site.address_line_1 }}<br>
-					{% if case.compliance.site.address_line_2 %}{{ case.compliance.site.address_line_2 }}<br>{% endif %}
-					{{ case.compliance.site.city }}<br>
-					{{ case.compliance.site.region }}<br>
-					{{ case.compliance.site.postcode }}
+					{{ case.compliance.site_name }}<br>
+					{{ case.compliance.address.address_line_1 }}<br>
+					{% if case.compliance.address.address_line_2 %}{{ case.compliance.address.address_line_2 }}<br>{% endif %}
+					{{ case.compliance.address.city }}<br>
+					{{ case.compliance.address.region }}<br>
+					{{ case.compliance.address.postcode }}
 				</dd>
 			</div>
 	{% endif %}

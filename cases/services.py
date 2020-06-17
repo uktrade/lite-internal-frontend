@@ -386,6 +386,6 @@ def get_blocking_flags(request, case_pk):
     return data.json()
 
 
-def get_compliance_licences_context(request, case_id, reference, page):
+def get_compliance_licences(request, case_id, reference, page):
     data = get(request, COMPLIANCE_URL + case_id + COMPLIANCE_LICENCES_URL + f"?reference={reference}&page={page}",)
     return data.json()
