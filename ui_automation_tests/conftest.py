@@ -329,7 +329,7 @@ def click_edit_case_flags_link(driver):  # noqa
     CasePage(driver).click_change_case_flags()
 
 
-@when(parsers.parse('the status is set to "{status}"'))  # noqa
+@given(parsers.parse('the status is set to "{status}"'))  # noqa
 def set_status(api_test_client, context, status):  # noqa
     api_test_client.applications.set_status(context.app_id, status)
 
@@ -339,7 +339,7 @@ def assign_case_to_queue(api_test_client):  # noqa
     api_test_client.cases.assign_case_to_queue()
 
 
-@when("all flags are removed")  # noqa
+@given("all flags are removed")  # noqa
 def remove_all_flags(context, api_test_client):  # noqa
     api_test_client.flags.assign_case_flags(context.case_id, [])
 
@@ -381,13 +381,13 @@ def audit_trail_updated(driver, context, internal_info, internal_url):  # noqa
     ), "status has not been shown as approved in audit trail"
 
 
-@when("I create a proviso picklist")  # noqa
+@given("I create a proviso picklist")  # noqa
 def i_create_an_proviso_picklist(context, add_a_proviso_picklist):  # noqa
     context.proviso_picklist_name = add_a_proviso_picklist["name"]
     context.proviso_picklist_question_text = add_a_proviso_picklist["text"]
 
 
-@when("I create a standard advice picklist")  # noqa
+@given("I create a standard advice picklist")  # noqa
 def i_create_an_standard_advice_picklist(context, add_a_standard_advice_picklist):  # noqa
     context.standard_advice_query_picklist_name = add_a_standard_advice_picklist["name"]
     context.standard_advice_query_picklist_question_text = add_a_standard_advice_picklist["text"]
@@ -449,12 +449,12 @@ def add_letter_paragraph_picklist(add_a_letter_paragraph_picklist):  # noqa
     pass
 
 
-@given("I go to letters")  # noqa
+@when("I go to letters")  # noqa
 def i_go_to_letters(driver, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/document-templates")
 
 
-@given("I create a letter template for a document")  # noqa
+@when("I create a letter template for a document")  # noqa
 def create_letter_template(driver, context, get_template_id):  # noqa
     template_page = LetterTemplates(driver)
     template_page.click_create_a_template()
@@ -478,7 +478,7 @@ def create_letter_template(driver, context, get_template_id):  # noqa
     functions.click_submit(driver)
 
 
-@given("I add a letter paragraph to template")  # noqa
+@when("I add a letter paragraph to template")  # noqa
 def add_two_letter_paragraphs(driver, context):  # noqa
     letter_template = LetterTemplates(driver)
     letter_template.click_add_letter_paragraph()
@@ -486,6 +486,6 @@ def add_two_letter_paragraphs(driver, context):  # noqa
     letter_template.click_add_letter_paragraphs()
 
 
-@given("I preview template")  # noqa
+@when("I preview template")  # noqa
 def preview_template(driver):  # noqa
     LetterTemplates(driver).click_create_preview_button()

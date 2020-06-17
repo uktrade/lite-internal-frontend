@@ -5,17 +5,17 @@ Feature: I want to generate and view compliance cases on approval and proviso of
   Scenario: Create compliance case
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
-    And I create a letter paragraph picklist
-    And I go to letters
-    And I create a letter template for a document
-    And I add a letter paragraph to template
-    And I preview template
-    When I click continue
     And all flags are removed
     And I create a proviso picklist
     And I create a standard advice picklist
     And the status is set to "submitted"
-    When I go to application previously created
+    And I create a letter paragraph picklist
+    When I go to letters
+    And I create a letter template for a document
+    And I add a letter paragraph to template
+    And I preview template
+    And I click continue
+    And I go to application previously created
     And I click on the user advice tab
     And I select all items in the user advice view
     And I choose to 'approve' the licence
