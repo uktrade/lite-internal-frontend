@@ -489,3 +489,8 @@ def add_two_letter_paragraphs(driver, context):  # noqa
 @when("I preview template")  # noqa
 def preview_template(driver):  # noqa
     LetterTemplates(driver).click_create_preview_button()
+
+
+@when("I apply filters")  # noqa
+def i_apply_filters(driver, context):  # noqa
+    CaseListPage(driver).click_apply_filters_button()
