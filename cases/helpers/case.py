@@ -35,7 +35,7 @@ class Tabs:
             Tab("final-advice", CasePage.Tabs.FINAL_ADVICE, "final-advice"),
         ],
     )
-    COMPLIANCE_LICENCES = Tab("compliance-licences", "Licences", "compliance-licences")
+    COMPLIANCE_LICENCES = Tab("compliance-licences", CasePage.Tabs.LICENCES, "compliance-licences")
 
 
 class Slices:

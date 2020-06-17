@@ -40,6 +40,7 @@ from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_user_permissions, get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
+from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
@@ -142,7 +143,11 @@ class CaseDetail(CaseView):
     def get_compliance(self):
         self.tabs = self.get_tabs()
         self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
-        self.additional_context = get_compliance_licences_context(self.request, self.case.id)
+        filters = FiltersBar([TextInput(name="reference", title="Reference"),])
+        self.additional_context = {
+            "data": get_compliance_licences_context(self.request, self.case.id),
+            "licences_filters": filters,
+        }
 
 
 class CaseNotes(TemplateView):

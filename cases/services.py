@@ -396,9 +396,4 @@ def get_compliance_licences_context(request, case_id):
         + COMPLIANCE_LICENCES_URL
         + f"?reference={request.GET.get('reference', '')}&page={request.GET.get('page', 1)}",
     )
-    filters = FiltersBar([TextInput(name="reference", title="Reference"),])
-    return {
-        "data": data.json(),
-        "display_more_licences": data.json()["count"] > 10,
-        "licences_filters": filters,
-    }
+    return data.json()
