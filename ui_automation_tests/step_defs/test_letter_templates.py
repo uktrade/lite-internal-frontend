@@ -134,3 +134,8 @@ def latest_audit_trail(driver, expected_text, no):
 @when("I go to letters")
 def i_go_to_letters(driver, internal_url):
     driver.get(internal_url.rstrip("/") + "/document-templates")
+
+
+@when("I click done")
+def click_done(driver):
+    LetterTemplates(driver).click_done_button()
