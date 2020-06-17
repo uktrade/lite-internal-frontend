@@ -54,7 +54,7 @@ class Create(TemplateView):
 class VariableHelp(TemplateView):
     @staticmethod
     def _get_table_text(text):
-        rows = [item.strip() for item in text.split("\n") if item.strip()]
+        rows = [item.strip().replace("\\n", "\n") for item in text.split("\n") if item.strip()]
         return [row.split("|") for row in rows]
 
     def get(self, request, **kwargs):
@@ -62,5 +62,5 @@ class VariableHelp(TemplateView):
             table.name: self._get_table_text(table.value) for table in strings.letter_templates.VariableHelpPageTables
         }
 
-        context = {"sections": tables}
+        context = {"sections": tables, "contents": strings.letter_templates.VariableHelpPage.CONTENTS}
         return render(request, "letter-templates/variable-help.html", context)
