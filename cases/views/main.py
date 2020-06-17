@@ -145,7 +145,9 @@ class CaseDetail(CaseView):
         self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
         filters = FiltersBar([TextInput(name="reference", title="Reference"),])
         self.additional_context = {
-            "data": get_compliance_licences_context(self.request, self.case.id),
+            "data": get_compliance_licences_context(
+                self.request, self.case.id, self.request.GET.get("reference", ""), self.request.GET.get("page", 1)
+            ),
             "licences_filters": filters,
         }
 
