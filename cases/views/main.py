@@ -142,7 +142,9 @@ class CaseDetail(CaseView):
     def get_compliance(self):
         self.tabs = self.get_tabs()
         self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
-        self.additional_context = get_compliance_licences_context(self.request, self.case.id)
+        self.additional_context = get_compliance_licences_context(
+            self.request, self.case.id, self.request.GET.get("reference", ""), self.request.GET.get("page", 1)
+        )
 
 
 class CaseNotes(TemplateView):
