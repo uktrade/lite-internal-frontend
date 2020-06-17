@@ -34,5 +34,8 @@ Feature: I want to generate and view compliance cases on approval and proviso of
     Then the status has been changed in the application
     When I go to the compliance case created
     And I click on the licences tab
+    And I show filters
+    And I search for the finalised licence
+    And I apply filters
     Then I see my previously created licence
 

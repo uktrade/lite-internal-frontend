@@ -43,3 +43,8 @@ def i_click_on_licences(driver, context):  # noqa
 @then("I see my previously created licence")  # noqa
 def check_licence_is_present(driver, context):  # noqa
     assert CompliancePages(driver).find_case_reference(context).text == context.reference_code
+
+
+@when("I search for the finalised licence")  # noqa
+def i_search_for_licence(driver, context):  # noqa
+    CompliancePages(driver).filter_by_case_reference(context)
