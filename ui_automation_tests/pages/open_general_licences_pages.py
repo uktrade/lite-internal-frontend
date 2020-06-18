@@ -85,4 +85,3 @@ class OpenGeneralLicencesCasePage(BasePage):
 
     def get_text_of_second_heading(self):
         return self.driver.find_elements_by_css_selector(self.HEADING)[1].text
-
