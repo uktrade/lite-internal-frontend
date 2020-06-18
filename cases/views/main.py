@@ -29,10 +29,8 @@ from cases.services import (
     put_unassign_queues,
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
-    get_compliance_licences,
     patch_case,
     put_application_status,
-    put_compliance_status,
     get_compliance_licences,
 )
 from cases.services import post_case_documents, get_document
