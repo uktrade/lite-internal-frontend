@@ -33,10 +33,11 @@ from cases.services import (
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
     put_compliance_status,
-    get_compliance_licences,
 )
 from cases.services import post_case_documents, get_document
+from compliance.services import get_open_licence_returns, get_compliance_licences
 from conf import settings
+from conf.client import get
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_user_permissions, get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
@@ -141,6 +142,7 @@ class CaseDetail(CaseView):
             self.slices.insert(0, Slices.GOODS_QUERY_RESPONSE)
 
     def get_compliance(self):
+        self.slices = [Slices.OPEN_LICENCE_RETURNS]
         self.tabs = self.get_tabs()
         self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
         filters = FiltersBar([TextInput(name="reference", title="Reference"),])
@@ -148,6 +150,7 @@ class CaseDetail(CaseView):
             "data": get_compliance_licences(
                 self.request, self.case.id, self.request.GET.get("reference", ""), self.request.GET.get("page", 1)
             ),
+            "open_licence_returns": get_open_licence_returns(self.request),
             "licences_filters": filters,
         }
 

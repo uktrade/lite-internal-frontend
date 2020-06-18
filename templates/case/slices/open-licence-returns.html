@@ -1,0 +1,30 @@
+{% if open_licence_returns %}
+	<table class="govuk-table">
+		<thead class="govuk-table__head">
+			<tr class="govuk-table__row">
+				<th class="govuk-table__header" scope="col">File name</th>
+				<th class="govuk-table__header" scope="col">Year completed</th>
+				<th class="govuk-table__header" scope="col">Added</th>
+			</tr>
+		</thead>
+		<tbody class="govuk-table__body">
+			{% for return in open_licence_returns.results %}
+				<tr id={{ return.id }} class="govuk-table__row">
+					<td class="govuk-table__cell">
+						<a class="govuk-link govuk-link--no-visited-state app-icon-label" href="{% url 'compliance:open_licence_returns_download' return.id %}">
+							{{ return.year }}OpenLicenceReturns.csv
+						</a>
+					</td>
+					<td class="govuk-table__cell">
+						{{ return.year }}
+					</td>
+					<td class="govuk-table__cell">
+						{{ return.created_at|str_date }}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+	{% include "includes/notice.html" with text="compliance.OpenReturnsList.NO_CONTENT_NOTICE" %}
+{% endif %}
