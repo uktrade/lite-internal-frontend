@@ -108,7 +108,7 @@ def get_permissible_statuses(request, case):
             case_type_applicable_statuses = [status for status in statuses if status["key"] in goods_query_status_keys]
     elif case_type == CaseType.COMPLIANCE.value:
         case_type_applicable_statuses = [
-            status for status in statuses if status["key"] in [Statuses.OPEN, Statuses.CLOSED, ]
+            status for status in statuses if status["key"] in [Statuses.OPEN, Statuses.CLOSED,]
         ]
     elif case_type == CaseType.REGISTRATION.value:
         case_type_applicable_statuses = [

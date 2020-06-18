@@ -7,10 +7,6 @@ from pages.open_general_licences_pages import (
     OpenGeneralLicencesCreateEditPage,
     OpenGeneralLicencesDetailPage,
     OpenGeneralLicencesDeactivatePage,
-<<<<<<< HEAD
-=======
-    OpenGeneralLicencesCasePage,
->>>>>>> 01e9b7d297cd291bf4afd07fcedf0291f56ff683
 )
 from pages.shared import Shared
 from shared import functions
