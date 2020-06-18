@@ -29,4 +29,4 @@ Feature: I want to add open general licences
     And an ogel application has been added
     When I filter by OGEL type
     When I click on first case
-    Then
+    Then I see OGEL case

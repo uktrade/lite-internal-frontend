@@ -6,7 +6,8 @@ from pages.open_general_licences_pages import (
     OpenGeneralLicencesCreateEditPage,
     OpenGeneralLicencesDetailPage,
     OpenGeneralLicencesDeactivatePage,
-)
+    OpenGeneralLicencesCasePage)
+from pages.shared import Shared
 from shared import functions
 from faker import Faker
 
@@ -136,5 +137,11 @@ def filter_by_ogel(driver):
 
 @when("I click on first case")
 def click_on_first_case(driver):
-    driver.find_element_by_css_selector(".govuk-table__row .govuk-link").click()
+    Shared(driver).click_first_link_in_row()
 
+
+@then("I see OGEL case")
+def see_ogel(driver):
+    ogel = OpenGeneralLicencesCasePage(driver)
+    assert "Site" in ogel.get_text_of_first_heading()
+    assert "Open General Export Licence" in ogel.get_text_of_second_heading()
