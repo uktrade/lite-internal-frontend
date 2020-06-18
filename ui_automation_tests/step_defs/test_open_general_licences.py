@@ -1,5 +1,6 @@
 from pytest_bdd import scenarios, when, then, given
 
+from pages.case_list_page import CaseListPage
 from pages.open_general_licences_pages import (
     OpenGeneralLicencesListPage,
     OpenGeneralLicencesCreateEditPage,
@@ -122,6 +123,18 @@ def ogel_licence_created(apply_for_ogel):  # noqa
 
 
 @given("an ogel application has been added")  # noqa
-def ogel_licence_created(apply_for_ogel_application):  # noqa
+def ogel_application_created(apply_for_ogel_application):  # noqa
     pass
+
+
+@when("I filter by OGEL type")
+def filter_by_ogel(driver):
+    CaseListPage(driver).click_show_filters_link()
+    CaseListPage(driver).select_filter_case_type_from_dropdown("Open General Export Licence")
+    CaseListPage(driver).click_apply_filters_button()
+
+
+@when("I click on first case")
+def click_on_first_case(driver):
+    driver.find_element_by_css_selector(".govuk-table__row .govuk-link").click()
 

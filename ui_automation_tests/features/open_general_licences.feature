@@ -27,3 +27,6 @@ Feature: I want to add open general licences
     Given I sign in to SSO or am signed into SSO
     And an ogel licence has been added
     And an ogel application has been added
+    When I filter by OGEL type
+    When I click on first case
+    Then
