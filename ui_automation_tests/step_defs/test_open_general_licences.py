@@ -1,11 +1,13 @@
 from pytest_bdd import scenarios, when, then, given
 
+from pages.case_list_page import CaseListPage
 from pages.open_general_licences_pages import (
     OpenGeneralLicencesListPage,
     OpenGeneralLicencesCreateEditPage,
     OpenGeneralLicencesDetailPage,
     OpenGeneralLicencesDeactivatePage,
-)
+    OpenGeneralLicencesCasePage)
+from pages.shared import Shared
 from shared import functions
 from faker import Faker
 
@@ -122,5 +124,25 @@ def ogel_licence_created(apply_for_ogel):  # noqa
 
 
 @given("an ogel application has been added")  # noqa
-def ogel_licence_created(apply_for_ogel_application):  # noqa
+def ogel_application_created(apply_for_ogel_application):  # noqa
     pass
+
+
+@when("I filter by OGEL type")
+def filter_by_ogel(driver):
+    case = CaseListPage(driver)
+    case.click_show_filters_link()
+    case.select_filter_case_type_from_dropdown("Open General Export Licence")
+    case.click_apply_filters_button()
+
+
+@when("I click on first case")
+def click_on_first_case(driver):
+    Shared(driver).click_first_link_in_row()
+
+
+@then("I see OGEL case")
+def see_ogel(driver):
+    ogel = OpenGeneralLicencesCasePage(driver)
+    assert "Site" in ogel.get_text_of_first_heading()
+    assert "Open General Export Licence" in ogel.get_text_of_second_heading()
