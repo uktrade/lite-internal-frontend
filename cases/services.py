@@ -1,5 +1,3 @@
-from _decimal import Decimal
-
 from cases.objects import Case
 from conf.client import post, get, put, delete, patch
 from conf.constants import (
