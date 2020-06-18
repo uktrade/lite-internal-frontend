@@ -124,4 +124,3 @@ def ogel_licence_created(apply_for_ogel):  # noqa
 @given("an ogel application has been added")  # noqa
 def ogel_licence_created(apply_for_ogel_application):  # noqa
     pass
-
