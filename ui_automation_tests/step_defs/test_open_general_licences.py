@@ -6,7 +6,8 @@ from pages.open_general_licences_pages import (
     OpenGeneralLicencesCreateEditPage,
     OpenGeneralLicencesDetailPage,
     OpenGeneralLicencesDeactivatePage,
-    OpenGeneralLicencesCasePage)
+    OpenGeneralLicencesCasePage,
+)
 from pages.shared import Shared
 from shared import functions
 from faker import Faker
