@@ -1,4 +1,4 @@
-from pytest_bdd import scenarios, when, then
+from pytest_bdd import scenarios, when, then, given
 
 from pages.open_general_licences_pages import (
     OpenGeneralLicencesListPage,
@@ -114,3 +114,14 @@ def see_the_newly_generated_open_general_export_licence(driver, context):
     assert "Controlled Radioactive Sources" in summary_list_text
     assert "United Kingdom" in summary_list_text
     assert getattr(context, "ogl_status", "Active") in summary_list_text
+
+
+@given("an ogel licence has been added")  # noqa
+def ogel_licence_created(apply_for_ogel):  # noqa
+    pass
+
+
+@given("an ogel application has been added")  # noqa
+def ogel_licence_created(apply_for_ogel_application):  # noqa
+    pass
+
