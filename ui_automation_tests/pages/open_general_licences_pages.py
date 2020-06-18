@@ -75,7 +75,6 @@ class OpenGeneralLicencesDeactivatePage(BasePage):
 
     def select_yes(self):
         self.driver.find_element_by_id(self.RADIO_YES_ID).click()
-        self.driver.find_element_by_id(self.RADIO_YES_ID).click()
 
 
 class OpenGeneralLicencesCasePage(BasePage):

@@ -130,9 +130,10 @@ def ogel_application_created(apply_for_ogel_application):  # noqa
 
 @when("I filter by OGEL type")
 def filter_by_ogel(driver):
-    CaseListPage(driver).click_show_filters_link()
-    CaseListPage(driver).select_filter_case_type_from_dropdown("Open General Export Licence")
-    CaseListPage(driver).click_apply_filters_button()
+    case = CaseListPage(driver)
+    case.click_show_filters_link()
+    case.select_filter_case_type_from_dropdown("Open General Export Licence")
+    case.click_apply_filters_button()
 
 
 @when("I click on first case")
