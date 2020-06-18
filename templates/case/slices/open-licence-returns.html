@@ -2,9 +2,9 @@
 	<table class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th class="govuk-table__header" scope="col">File name</th>
-				<th class="govuk-table__header" scope="col">Year completed</th>
-				<th class="govuk-table__header" scope="col">Added</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'cases.OpenLicenceReturns.FILE_NAME' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'cases.OpenLicenceReturns.YEAR_COMPLETED' %}</th>
+				<th class="govuk-table__header" scope="col">{% lcs 'cases.OpenLicenceReturns.ADDED'%}</th>
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
@@ -26,5 +26,5 @@
 		</tbody>
 	</table>
 {% else %}
-	{% include "includes/notice.html" with text="compliance.OpenReturnsList.NO_CONTENT_NOTICE" %}
+	{% include "includes/notice.html" with text="cases.OpenLicenceReturns.NO_CONTENT_NOTICE" %}
 {% endif %}

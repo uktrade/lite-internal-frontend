@@ -15,6 +15,7 @@ from conf.constants import Statuses, GENERATED_DOCUMENT
 from core.helpers import generate_activity_filters
 from core.objects import Tab, TabCollection
 from core.services import get_user_permissions, get_status_properties, get_permissible_statuses
+from lite_content.lite_internal_frontend import cases
 from lite_content.lite_internal_frontend.cases import CasePage
 from lite_content.lite_internal_frontend.cases import ApplicationPage
 from queues.services import get_queue
@@ -56,7 +57,7 @@ class Slices:
     TEMPORARY_EXPORT_DETAILS = Slice("temporary-export-details", "Temporary export details")
     OPEN_APP_PARTIES = Slice("open-app-parties")
     COMPLIANCE_LICENCES = Slice("compliance-licences")
-    OPEN_LICENCE_RETURNS = Slice("open-licence-returns", "Open licence returns")
+    OPEN_LICENCE_RETURNS = Slice("open-licence-returns", cases.OpenLicenceReturns.TITLE)
 
 
 class CaseView(TemplateView):

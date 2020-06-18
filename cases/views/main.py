@@ -37,7 +37,6 @@ from cases.services import (
 from cases.services import post_case_documents, get_document
 from compliance.services import get_open_licence_returns, get_compliance_licences
 from conf import settings
-from conf.client import get
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_user_permissions, get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
