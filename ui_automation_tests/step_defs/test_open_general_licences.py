@@ -1,12 +1,13 @@
 from pytest_bdd import scenarios, when, then, given
 
+from pages.application_page import ApplicationPage
 from pages.case_list_page import CaseListPage
 from pages.open_general_licences_pages import (
     OpenGeneralLicencesListPage,
     OpenGeneralLicencesCreateEditPage,
     OpenGeneralLicencesDetailPage,
     OpenGeneralLicencesDeactivatePage,
-    OpenGeneralLicencesCasePage)
+)
 from pages.shared import Shared
 from shared import functions
 from faker import Faker
@@ -138,11 +139,11 @@ def filter_by_ogel(driver):
 
 @when("I click on first case")
 def click_on_first_case(driver):
+    # TODO get rid of this and change it to go to the ogel_case_id when its in the response.
     Shared(driver).click_first_link_in_row()
 
 
 @then("I see OGEL case")
 def see_ogel(driver):
-    ogel = OpenGeneralLicencesCasePage(driver)
-    assert "Site" in ogel.get_text_of_first_heading()
-    assert "Open General Export Licence" in ogel.get_text_of_second_heading()
+    # TODO change this to go to the actual created licence and verify the reference code of this.
+    assert "GBOGEL" in driver.find_element_by_id(ApplicationPage.HEADING_ID).text

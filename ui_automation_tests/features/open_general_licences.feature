@@ -22,7 +22,7 @@ Feature: I want to add open general licences
     Then I see the updated open general export licence
 
 
-  @lt_1470_open_general_licences @regression
+  @lt_1470_open_general_licences @regression @njwp
   Scenario: Add an open general licence application and view it
     Given I sign in to SSO or am signed into SSO
     And an ogel licence has been added
