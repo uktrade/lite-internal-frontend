@@ -15,8 +15,8 @@
 					{% lcs 'cases.CasePage.DetailsTab.ADDRESS' %}
 				</dt>
 				<dd class="app-case__summary-list__value">
-					{{ case.compliance.site_name }}<br>
-					{{ case.compliance|get_address }}
+					{{ case.data.site_name }}<br>
+					{{ case.data|get_address }}
 				</dd>
 			</div>
 	{% endif %}
