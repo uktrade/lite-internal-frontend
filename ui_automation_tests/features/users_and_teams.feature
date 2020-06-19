@@ -34,7 +34,7 @@ Feature: I want to test users
     # Clicks on new team and makes sure user list is empty.
     When I click on the team BlueOcean
     Then I see my teams user list with user "not added"
-    # Adds new user to new team and makes sure the user is displayed in the new team.
+    # Adds new user to new team.
     # Also edits the users email to make sure a user can be edited.
     When I go to users
     And I go to edit new user
@@ -42,5 +42,6 @@ Feature: I want to test users
     And I edit new users email
     And I click continue
     Then the user's profile is updated
+    # Makes sure the user is displayed in the new team
     When I click on the team BlueOcean
     Then I see my teams user list with user "added"
