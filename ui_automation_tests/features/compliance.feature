@@ -1,7 +1,7 @@
 @all @internal
 Feature: I want to generate and view compliance cases on approval and proviso of OIEL, OICL and specific SIEL applications
 
-  @regression
+  @regression @LT2723
   Scenario: Create compliance case
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created

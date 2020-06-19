@@ -33,6 +33,7 @@ from conf.constants import (
     QUEUES_URL,
     APPLICANT_URL,
     COMPLIANCE_URL,
+    COMPLIANCE_LICENCES_URL,
 )
 from core.helpers import convert_parameters_to_query_params
 from flags.enums import FlagStatus
@@ -365,3 +366,15 @@ def get_blocking_flags(request, case_pk):
         FLAGS_URL + f"?case={case_pk}&status={FlagStatus.ACTIVE.value}&blocks_approval=True&disable_pagination=True",
     )
     return data.json()
+
+
+def get_compliance_licences(request, case_id, reference, page):
+    data = get(
+        request, COMPLIANCE_URL + "site/" + case_id + COMPLIANCE_LICENCES_URL + f"?reference={reference}&page={page}",
+    )
+    return data.json()
+
+
+def post_create_compliance_visit(request, case_id):
+    data = post(request, COMPLIANCE_URL + "site/" + case_id + "/visit/", request_data={})
+    return data
