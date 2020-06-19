@@ -10,7 +10,7 @@ from pages.users_page import UsersPage
 
 from ui_automation_tests.shared import functions
 
-scenarios("../features/users.feature", strict_gherkin=False)
+scenarios("../features/users_and_teams.feature", strict_gherkin=False)
 
 
 @when("I add a new user")
