@@ -150,7 +150,6 @@ class CaseDetail(CaseView):
             "data": get_compliance_licences(
                 self.request, self.case.id, self.request.GET.get("reference", ""), self.request.GET.get("page", 1)
             ),
-            "open_licence_returns": get_open_licence_returns(self.request),
             "licences_filters": filters,
         }
 
