@@ -63,7 +63,17 @@ urlpatterns = [
     path("assign-user/", main.UserWorkQueue.as_view(), name="assign_user"),
     path("assign-user-queue/<uuid:user_pk>/", main.UserTeamQueue.as_view(), name="assign_user_queue"),
     path("rerun-routing-rules/", main.RerunRoutingRules.as_view(), name="rerun_routing_rules",),
-    path("create-visit-report/", compliance.CreateVisitReport.as_view(), name="create_visit_report"),  # compliance
+    # compliance
+    path("create-visit-report/", compliance.CreateVisitReport.as_view(), name="create_visit_report"),
+    path("visit-report/", compliance.VisitReportDetails.as_view(), name="visit_report"),
+    path("people=present/add/", compliance.AddPeoplePresent.as_view(), name="add_people_present"),
+    path("people-present/edit/", compliance.EditPeoplePresent.as_view(), name="edit_people_present"),
+    path("overview/", compliance.Overview.as_view(), name="overview"),
+    path("inspection/", compliance.Inspection.as_view(), name="inspection"),
+    path("compliance-licence/", compliance.ComplianceWithLicences.as_view(), name="compliance_with_licences"),
+    path("knowledge-people/", compliance.KnowledgePeople.as_view(), name="knowledge_of_people"),
+    path("knowledge-products/", compliance.KnowledgeProduct.as_view(), name="knowledge_of_products"),
+    # tabs
     path("<str:tab>/", main.CaseDetail.as_view(), name="case", kwargs={"disable_queue_lookup": True}),
     path("<str:tab>/give-advice/", advice.GiveAdvice.as_view(), name="give_advice"),
 ]

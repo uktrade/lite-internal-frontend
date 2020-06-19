@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from lite_forms.components import Form, BackLink, DateInput, Select, Option, TextArea
+from lite_forms.components import Form, BackLink, DateInput, Select, Option, TextArea, TextInput
 
 Visit_type_choices = [
     Option("first_contact", "First contact"),
@@ -33,6 +33,14 @@ def visit_report_form(queue_pk, pk):
                 options=[Option(str(i), str(i)) for i in range(1, 5)],
             ),
         ],
+        back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
+    )
+
+
+def people_present_form(queue_pk, pk):
+    return Form(
+        title="People present",
+        questions=[TextInput(title="name", name="name"), TextInput(title="job description", name="job description"),],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
     )
 
