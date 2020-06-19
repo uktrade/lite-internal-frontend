@@ -19,10 +19,10 @@ Feature: I want to create and deactivate flags
     Then I see the flag in the flag list
 
 
-  @LT_1277_approval_blocking_flag @regression
+  @LT_1277_approval_blocking_flag @regression @njwp
   Scenario: Create an approval blocking flag
     Given I sign in to SSO or am signed into SSO
-    And I create open application or open application has been previously created
+    And I create standard application or standard application has been previously created
     And I "approve" all elements of the application at user and team level
     When I go to flags
     And I add a new flag with blocking approval set to "True"
