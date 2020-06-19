@@ -39,8 +39,7 @@ Feature: I want to test users
     When I go to users
     And I go to edit new user
     And I select my newly created team
-    And I edit new users email
-    And I click continue
+    And I edit new users email and save
     Then the user's profile is updated
     # Makes sure the user is displayed in the new team
     When I go to teams

@@ -66,15 +66,12 @@ def edit_user(driver, context):
     user_page.click_change_email_link()
 
 
-@when("I edit new users email")
+@when("I edit new users email and save")
 def edit_user(driver, context):
     context.added_email = context.added_email + "edited"
     user_page = UsersPage(driver)
     user_page.enter_email(context.added_email)
-
-    user_page.select_option_from_team_drop_down_by_value()
-    user_page.select_option_from_role_drop_down_by_visible_text("Default")
-    user_page.select_option_from_default_queue_drop_down_by_visible_text("All cases")
+    Shared(driver).click_submit()
 
 
 @given("I go to users")  # noqa
