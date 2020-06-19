@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "sass_processor",
     "django.contrib.humanize",
     "core",
+    "spire",
     "svg",
     "lite_forms",
     "letter_templates",

@@ -45,6 +45,7 @@ whitenoise = "~=5.0"
 munch = "~=2.5.0"
 directory-client-core = "~=6.1"
 sigauth = "~=4.2"
+dateparser = "*"
 
 [requires]
 python_version = "3.7"

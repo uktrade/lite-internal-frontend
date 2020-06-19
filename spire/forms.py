@@ -30,12 +30,13 @@ class SpireLicenseSearchForm(forms.Form):
     page_size = 30
 
     licence_ref = StyledCharField(label="Filter by license reference number", label_suffix="", required=False)
-    part_no = StyledCharField(label="Filter by part number", label_suffix="", required=False)
-    description = StyledCharField(label="Filter by ARS", label_suffix="", required=False)
+    part_no = StyledCharField(label="Filter by product part number", label_suffix="", required=False)
+    description = StyledCharField(label="Filter by product description", label_suffix="", required=False)
     page = forms.IntegerField(widget=forms.HiddenInput(), required=False, initial=1)
 
     def clean(self):
         super().clean()
         # pagination
         self.cleaned_data["limit"] = self.page_size
+        self.cleaned_data["page"] = self.cleaned_data["page"] or 1
         self.cleaned_data["offset"] = (self.cleaned_data["page"] - 1) * self.page_size
