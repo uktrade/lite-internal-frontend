@@ -22,10 +22,19 @@ Feature: I want to filter cases on a queue
     When I show filters
     When I click clear filters
     When I show filters
-    When filter case type has been changed to "Goods Query"
+    And I click advanced filters
+    Then I can see all advanced filters
+    When I filter by case reference
+    And I filter by goods related description
+    And I filter by organisation name
+    When I apply filters
+    Then "1" cases are shown
+    When I click clear filters
+    And I show filters
+    And filter case type has been changed to "Goods Query"
     Then "1" cases are shown
     When I show filters
-    When filter status has been changed to "CLC review"
+    And filter status has been changed to "CLC review"
     Then "1" cases are shown
     When I show filters
     When I click clear filters
@@ -39,22 +48,4 @@ Feature: I want to filter cases on a queue
     Then "1" cases are shown
     When I show filters
     And I click filter to show cases with open team ecju queries
-    Then "1" cases are shown
-
-  @LT_1269 @regression
-  Scenario: Advanced cases filter
-    Given I sign in to SSO or am signed into SSO
-    And a queue has been created
-    And I create open application or open application has been previously created
-    And case has been moved to new Queue
-    And I go to internal homepage
-    When case has been moved to new Queue
-    And I click on new queue in dropdown
-    And I show filters
-    And I click advanced filters
-    Then I can see all advanced filters
-    When I filter by case reference
-    And I filter by goods related description
-    And I filter by organisation name
-    When I apply filters
     Then "1" cases are shown
