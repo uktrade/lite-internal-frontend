@@ -43,5 +43,6 @@ Feature: I want to test users
     And I click continue
     Then the user's profile is updated
     # Makes sure the user is displayed in the new team
-    When I click on the team BlueOcean
+    When I go to teams
+    And I click on the team BlueOcean
     Then I see my teams user list with user "added"
