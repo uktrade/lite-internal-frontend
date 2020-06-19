@@ -76,8 +76,6 @@ def edit_user(driver, context):
     user_page.select_option_from_role_drop_down_by_visible_text("Default")
     user_page.select_option_from_default_queue_drop_down_by_visible_text("All cases")
 
-    functions.click_submit(driver)
-
 
 @given("I go to users")  # noqa
 def go_to_users(driver, sso_sign_in, internal_url):  # noqa
@@ -109,7 +107,6 @@ def click_on_my_team(driver, context):
 def select_team(driver, context):
     TeamsPages(driver).select_team_from_dropdown(context.team_name)
     TeamsPages(driver).select_default_queue_from_dropdown("All cases")
-    Shared(driver).click_submit()
 
 
 @when(parsers.parse("I add a team called BlueOcean"))
