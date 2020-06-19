@@ -4,7 +4,8 @@
 	create visit report
 </a>
 
-{% if case.visits %}
+
+{% if case.data.visits %}
 	<table id="table-compliance-visits" class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
@@ -16,20 +17,20 @@
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
-			{% for visit in case.visits %}
+			{% for visit in case.data.visits %}
 				<tr class="govuk-table__row">
-					<td class="govuk-table__cell govuk-table__cell--tight">
+					<td class="govuk-table__cell">
 						<a href="{% url 'cases:case' queue.id visit.id %}" class="govuk-link govuk-link--no-visited-state">
 							{{ visit.reference_code }}
 						</a>
 					</td>
-					<td class="govuk-table__cell govuk-table__cell--tight">
-						{{ visit.visit_date }}
+					<td class="govuk-table__cell">
+						{{ visit.visit_date|default:'Not set' }}
 					</td>
-					<td class="govuk-table__cell govuk-table__cell--tight">
-						{{ visit.case_officer }}
+					<td class="govuk-table__cell">
+						{{ visit.case_officer|default:'Not assigned' }}
 					</td>
-					<td class="govuk-table__cell govuk-table__cell--tight">
+					<td class="govuk-table__cell">
 						{% include 'includes/flags.html' with flags=licence.flags list=True %}
 					</td>
 				</tr>

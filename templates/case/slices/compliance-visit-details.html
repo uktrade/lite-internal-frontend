@@ -1,0 +1,69 @@
+<h2>Visit report details</h2>
+<dl class="app-case__summary-list">
+	<div class="app-case__summary-list__row">
+		<dt class="app-case__summary-list__key">
+			Visit type:
+		</dt>
+		<dd class="app-case__summary-list__value">
+			{{case.data.visit_type}}
+		</dd>
+	</div>
+	<div class="app-case__summary-list__row">
+		<dt class="app-case__summary-list__key">
+			Visit date:
+		</dt>
+		<dd class="app-case__summary-list__value">
+			{{case.data.visit_date}}
+		</dd>
+	</div>
+	<div class="app-case__summary-list__row">
+		<dt class="app-case__summary-list__key">
+			Overall risk
+		</dt>
+		<dd class="app-case__summary-list__value">
+			{{case.data.overall_risk_value}}
+		</dd>
+	</div>
+	<div class="app-case__summary-list__row">
+		<dt class="app-case__summary-list__key">
+			Licence risk
+		</dt>
+		<dd class="app-case__summary-list__value">
+			{{case.data.licence_risk_value}}
+		</dd>
+	</div>
+
+</dl>
+
+
+<h2>People Present</h2>
+{{ case.data.people_present }}
+Name  Job
+
+<h2>Overview</h2>
+{{ case.data.overview }}
+
+
+<h2>Inspection</h2>
+{{ case.data.inspection }}
+
+<h2>Compliance With Licences</h2>
+<h3>Overview</h3>
+{{ case.data.compliance_overview }}
+
+<h3>Risk value</h3>
+{{ case.data.compliance_risk_value }}
+
+<h2>Knowledge and Understanding demonstrated by key export individuals at meeting</h2>
+<h3>Overview</h3>
+{{ case.data.individuals_overview }}
+
+<h3>Risk value</h3>
+{{ case.data.individuals_risk_value }}
+
+<h2>Knowledge of controlled items in their business' products</h2>
+<h3>Overview</h3>
+{{ case.data.products_overview }}
+
+<h3>Risk value</h3>
+{{ case.data.products_risk_value }}
