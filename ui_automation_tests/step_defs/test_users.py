@@ -112,21 +112,6 @@ def select_team(driver, context):
     Shared(driver).click_submit()
 
 
-@when("I select Admin team")
-def select_team_and_default_queue(driver):
-    TeamsPages(driver).select_team_from_dropdown("Admin")
-    TeamsPages(driver).select_default_queue_from_dropdown("All cases")
-    Shared(driver).click_submit()
-
-
-@when("I click edit for my user")
-def click_edit_for_my_user(driver, internal_info, api_test_client):
-    api_test_client.users.add_user()
-
-    driver.find_element_by_id("link-profile").click()
-    driver.find_element_by_id("link-edit-team").click()
-
-
 @when(parsers.parse("I add a team called BlueOcean"))
 def add_a_team_blue_ocean(driver, context):
     teams_pages = TeamsPages(driver)
