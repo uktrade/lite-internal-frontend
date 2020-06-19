@@ -56,6 +56,7 @@ class Slices:
     TEMPORARY_EXPORT_DETAILS = Slice("temporary-export-details", "Temporary export details")
     OPEN_APP_PARTIES = Slice("open-app-parties")
     COMPLIANCE_LICENCES = Slice("compliance-licences")
+    COMPLIANCE_VISITS = Slice("compliance-visits", "Visit reports")
 
 
 class CaseView(TemplateView):

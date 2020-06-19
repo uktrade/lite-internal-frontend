@@ -1,0 +1,42 @@
+{{ case.visits }}
+
+<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:create_visit_report' queue.id case.id %}">
+	create visit report
+</a>
+
+{% if case.visits %}
+	<table id="table-compliance-visits" class="govuk-table">
+		<thead class="govuk-table__head">
+			<tr class="govuk-table__row">
+				<th scope="col" class="govuk-table__header">report reference</th>
+				<th scope="col" class="govuk-table__header">visit date</th>
+				<th scope="col" class="govuk-table__header">inspector</th>
+				<th scope="col" class="govuk-table__header">flags</th>
+				<th scope="col" class="govuk-table__header"></th>
+			</tr>
+		</thead>
+		<tbody class="govuk-table__body">
+			{% for visit in case.visits %}
+				<tr class="govuk-table__row">
+					<td class="govuk-table__cell govuk-table__cell--tight">
+						<a href="{% url 'cases:case' queue.id visit.id %}" class="govuk-link govuk-link--no-visited-state">
+							{{ visit.reference_code }}
+						</a>
+					</td>
+					<td class="govuk-table__cell govuk-table__cell--tight">
+						{{ visit.visit_date }}
+					</td>
+					<td class="govuk-table__cell govuk-table__cell--tight">
+						{{ visit.case_officer }}
+					</td>
+					<td class="govuk-table__cell govuk-table__cell--tight">
+						{% include 'includes/flags.html' with flags=licence.flags list=True %}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+	UPDATE TO CORRECT TEXT
+{#	{% include "includes/notice.html" with text="cases.CasePage.ComplianceLicencesTab.NO_LICENCES_NOTICE" %}#}
+{% endif %}
