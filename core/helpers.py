@@ -1,10 +1,6 @@
 from collections import defaultdict
 from typing import List
 
-import directory_client_core.base
-
-from django.conf import settings
-
 from conf import decorators
 from conf.constants import Permission
 from core.services import get_user_permissions
@@ -138,6 +134,7 @@ def generate_activity_filters(activity_filters, string_class):
             DateInput(title=string_class.ActivityFilters.DATE_TO, prefix="to_", inline_title=True),
         ]
     )
+<<<<<<< HEAD
 
 
 def format_date(data, date_field):

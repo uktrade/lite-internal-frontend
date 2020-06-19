@@ -5,6 +5,7 @@ from conf import views
 
 urlpatterns = [
     path("", include("core.urls")),
+    path("spire/", include("spire.urls")),
     path("admin/", admin.site.urls),
     path("auth/", include("auth.urls")),
     path("queues/<uuid:queue_pk>/cases/<uuid:pk>/", include("cases.urls")),

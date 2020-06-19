@@ -46,6 +46,7 @@ munch = "~=2.5.0"
 django-htmlmin = "*"
 directory-client-core = "~=6.1"
 sigauth = "~=4.2"
+dateparser = "*"
 
 [requires]
 python_version = "3.7"
