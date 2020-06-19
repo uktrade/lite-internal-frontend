@@ -7,7 +7,7 @@ Feature: I want to finalise a case
   @LT_2035_generate_documents_and_licence_approve @regression
   Scenario: Finalise and approve a case
     Given I sign in to SSO or am signed into SSO
-    And I create open application or open application has been previously created
+    And I create standard application or standard application has been previously created
     And all flags are removed
     And the status is set to "submitted"
     And I "approve" all elements of the application at user and team level
