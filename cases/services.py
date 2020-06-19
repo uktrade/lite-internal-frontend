@@ -369,9 +369,7 @@ def get_blocking_flags(request, case_pk):
 
 
 def get_compliance_licences(request, case_id, reference, page):
-    data = get(
-        request, COMPLIANCE_URL + "site/" + case_id + COMPLIANCE_LICENCES_URL + f"?reference={reference}&page={page}",
-    )
+    data = get(request, COMPLIANCE_URL + case_id + COMPLIANCE_LICENCES_URL + f"?reference={reference}&page={page}",)
     return data.json()
 
 

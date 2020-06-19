@@ -1,5 +1,5 @@
 <dl class="app-case__summary-list">
-	{% if case.data.name and not case.case_type.reference.key == "comp" %}
+	{% if case.data.name and not case.case_type.reference.key in "comp_c,comp_v" %}
 			<div class="app-case__summary-list__row">
 				<dt class="app-case__summary-list__key">
 					{% lcs 'cases.CasePage.DetailsTab.EXPORTER_REFERENCE' %}
@@ -9,7 +9,7 @@
 				</dd>
 			</div>
 	{% endif %}
-	{% if case.case_type.reference.key == "comp" %}
+	{% if case.case_type.reference.key in "comp_c,comp_v" %}
 			<div class="app-case__summary-list__row">
 				<dt class="app-case__summary-list__key">
 					{% lcs 'cases.CasePage.DetailsTab.ADDRESS' %}
@@ -50,7 +50,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.data.submitted_at and not case.case_type.reference.key == "comp" %}
+	{% if case.data.submitted_at and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.SUBMITTED_AT' %}
@@ -60,7 +60,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.data.submitted_by and not case.case_type.reference.key == "comp" %}
+	{% if case.data.submitted_by and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.SUBMITTED_BY' %}
@@ -110,7 +110,7 @@
 			</a>
 		</dd>
 	</div>
-	{% if not case.case_type.reference.key == "comp" %}
+	{% if not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.TYPE' %}
@@ -149,7 +149,7 @@
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
 			{% lcs 'cases.CasePage.DetailsTab.CASE_OFFICER' %}
-			{% if case.case_type.reference.key == "comp" %}
+			{% if case.case_type.reference.key in "comp_c,comp_v" %}
 				{% lcs 'cases.CasePage.DetailsTab.INSPECTOR' %}
 			{% else %}
 				{% lcs 'cases.CasePage.DetailsTab.CASE_OFFICER' %}
