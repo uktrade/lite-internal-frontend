@@ -22,17 +22,17 @@ from cases.helpers.case import CaseView, Tabs, Slices
 from cases.services import (
     get_case,
     post_case_notes,
-    put_application_status,
     get_activity,
     put_case_queues,
-    put_end_user_advisory_query,
-    put_goods_query_status,
     put_case_officer,
     delete_case_officer,
     put_unassign_queues,
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
     put_compliance_status,
+    patch_case,
+    put_application_status,
+    get_compliance_licences,
 )
 from cases.services import post_case_documents, get_document
 from compliance.services import get_open_licence_returns, get_compliance_licences
@@ -140,6 +140,9 @@ class CaseDetail(CaseView):
         if self.case.data["clc_responded"] or self.case.data["pv_grading_responded"]:
             self.slices.insert(0, Slices.GOODS_QUERY_RESPONSE)
 
+    def get_open_registration(self):
+        self.slices = [Slices.OPEN_GENERAL_LICENCE]
+
     def get_compliance(self):
         self.slices = [Slices.OPEN_LICENCE_RETURNS]
         self.tabs = self.get_tabs()
@@ -218,12 +221,10 @@ class ChangeStatus(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         case = get_case(request, self.object_pk)
-        self.case_type = case["case_type"]["type"]["key"]
-        self.case_sub_type = case["case_type"]["sub_type"]["key"]
+        self.case_type = case.type
+        self.case_sub_type = case.sub_type
         permissible_statuses = get_permissible_statuses(request, case)
-        self.data = (
-            case["application"] if "application" in case else case["query"] if "query" in case else case["compliance"]
-        )
+        self.data = case.data
         self.form = change_status_form(get_queue(request, kwargs["queue_pk"]), case, permissible_statuses)
         self.context = {"case": case}
 
@@ -234,12 +235,8 @@ class ChangeStatus(SingleFormView):
             or self.case_sub_type == CaseType.EXHIBITION.value
         ):
             return put_application_status
-        elif self.case_sub_type == CaseType.END_USER_ADVISORY.value:
-            return put_end_user_advisory_query
-        elif self.case_sub_type == CaseType.GOODS.value:
-            return put_goods_query_status
-        elif self.case_sub_type == CaseType.COMPLIANCE.value:
-            return put_compliance_status
+        else:
+            return patch_case
 
     def get_success_url(self):
         messages.success(self.request, cases.ChangeStatusPage.SUCCESS_MESSAGE)
