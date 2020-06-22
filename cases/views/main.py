@@ -283,7 +283,9 @@ class AttachDocuments(TemplateView):
 
         data, error = handle_document_upload(request)
         if error:
-            return form_page(request, self._get_form(kwargs), extra_data={"case_id": case_id, "case": case}, errors={"file": [error]})
+            return form_page(
+                request, self._get_form(kwargs), extra_data={"case_id": case_id, "case": case}, errors={"file": [error]}
+            )
 
         # Send LITE API the file information
         case_documents, _ = post_case_documents(request, case_id, [data])
