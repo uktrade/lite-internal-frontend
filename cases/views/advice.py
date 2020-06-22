@@ -247,13 +247,36 @@ class Finalise(TemplateView):
 
         if "approve" in items or "proviso" in items:
             # Redirect if licence already exists
-            _, status_code = get_licence(request, str(kwargs["pk"]))
-            if status_code == HTTPStatus.OK:
-                return redirect(
-                    reverse_lazy(
-                        "cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}
+            data, status_code = get_licence(request, str(kwargs["pk"]))
+            licence = data.get("licence")
+
+            if licence:
+                if licence["status"] in ["issued", "reinstated"]:
+                    return redirect(
+                        reverse_lazy(
+                            "cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}
+                        )
                     )
-                )
+
+                if licence["reissued"]:
+                    today = date.today()
+                    form_data = {
+                        "day": today.day,
+                        "month": today.month,
+                        "year": today.year,
+                        "duration": duration,
+                    }
+
+                    form = approve_licence_form(
+                        queue_pk=kwargs["queue_pk"],
+                        case_id=case_id,
+                        is_open_licence=is_open_licence,
+                        duration=duration,
+                        editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
+                        goods=data["goods"],
+                        goods_html="components/goods-licence-reissue-list.html",
+                    )
+                    return form_page(request, form, data=form_data, extra_data={"case": case})
 
             today = date.today()
             form_data = {
@@ -270,6 +293,7 @@ class Finalise(TemplateView):
                 duration=duration,
                 editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
                 goods=self._get_goods(request, str(kwargs["pk"]), case_type),
+                goods_html="components/goods-licence-list.html",
             )
             return form_page(request, form, data=form_data, extra_data={"case": case})
         else:
@@ -290,6 +314,32 @@ class Finalise(TemplateView):
 
         if res.status_code == HTTPStatus.BAD_REQUEST:
             case_type = case["application"]["case_type"]["sub_type"]["key"]
+
+
+            data, status_code = get_licence(request, str(kwargs["pk"]))
+            licence = data.get("licence")
+
+            if licence:
+
+                today = date.today()
+                form_data = {
+                    "day": today.day,
+                    "month": today.month,
+                    "year": today.year,
+                    "duration": licence["duration"],
+                }
+
+                form = approve_licence_form(
+                    queue_pk=kwargs["queue_pk"],
+                    case_id=case["id"],
+                    is_open_licence=is_open_licence,
+                    duration=licence["duration"],
+                    editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
+                    goods=data["goods"],
+                    goods_html="components/goods-licence-reissue-list.html",
+                )
+                return form_page(request, form, data=form_data, errors=res.json()["errors"], extra_data={"case": case})
+
             form = approve_licence_form(
                 queue_pk=kwargs["queue_pk"],
                 case_id=case["id"],
@@ -297,6 +347,7 @@ class Finalise(TemplateView):
                 duration=data.get("licence_duration") or get_application_default_duration(request, str(kwargs["pk"])),
                 editable_duration=has_permission,
                 goods=self._get_goods(request, str(kwargs["pk"]), case_type),
+                goods_html="components/goods-licence-list.html"
             )
             return form_page(request, form, data=data, errors=res.json()["errors"], extra_data={"case": case})
 
