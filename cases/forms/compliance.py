@@ -30,7 +30,7 @@ def visit_report_form(queue_pk, pk):
             Select(
                 title="Licence risk value",
                 name="licence_risk_value",
-                options=[Option(str(i), str(i)) for i in range(1, 5)],
+                options=[Option(str(i), str(i)) for i in range(1, 6)],
             ),
         ],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
@@ -40,7 +40,7 @@ def visit_report_form(queue_pk, pk):
 def people_present_form(queue_pk, pk):
     return Form(
         title="People present",
-        questions=[TextInput(title="name", name="name"), TextInput(title="job description", name="job description"),],
+        questions=[TextInput(title="Name", name="name"), TextInput(title="Job description", name="job_title"),],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
     )
 

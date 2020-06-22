@@ -1,7 +1,7 @@
 {{ case.visits }}
 
-<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:create_visit_report' queue.id case.id %}">
-	create visit report
+<a class="govuk-button govuk-button--secondary govuk-!-margin-bottom-2" href="{% url 'cases:create_visit_report' queue.id case.id %}">
+	Add a visit report
 </a>
 
 
@@ -9,10 +9,10 @@
 	<table id="table-compliance-visits" class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th scope="col" class="govuk-table__header">report reference</th>
-				<th scope="col" class="govuk-table__header">visit date</th>
-				<th scope="col" class="govuk-table__header">inspector</th>
-				<th scope="col" class="govuk-table__header">flags</th>
+				<th scope="col" class="govuk-table__header">Report reference</th>
+				<th scope="col" class="govuk-table__header">Visit date</th>
+				<th scope="col" class="govuk-table__header">Inspector</th>
+				<th scope="col" class="govuk-table__header">Flags</th>
 				<th scope="col" class="govuk-table__header"></th>
 			</tr>
 		</thead>
