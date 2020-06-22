@@ -11,7 +11,15 @@ from cases.forms.compliance import (
     knowledge_of_people_form,
     knowledge_of_products_form,
 )
-from cases.services import post_create_compliance_visit
+from cases.services import (
+    post_create_compliance_visit,
+    patch_compliance_visit_case,
+    get_compliance_visit_case,
+    post_compliance_person_present,
+    delete_compliance_person_present,
+    get_compliance_person_present,
+    patch_compliance_person_present,
+)
 from lite_forms.views import SingleFormView
 
 
@@ -37,6 +45,8 @@ class VisitReportDetails(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.form = visit_report_form(kwargs["queue_pk"], kwargs["pk"])
         self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.action = patch_compliance_visit_case
+        self.data = get_compliance_visit_case(request, kwargs["pk"])
 
 
 class AddPeoplePresent(SingleFormView):
@@ -44,17 +54,29 @@ class AddPeoplePresent(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.form = people_present_form(kwargs["queue_pk"], kwargs["pk"])
         self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.action = post_compliance_person_present
+
+    def on_submission(self, request, **kwargs):
+        data = request.POST.copy()
+        data["visit_case"] = str(kwargs["pk"])
+        return data
 
 
 class EditPeoplePresent(SingleFormView):
     def init(self, request, **kwargs):
-        self.object_pk = kwargs["pk"]
+        self.object_pk = kwargs["person_id"]
         self.form = people_present_form(kwargs["queue_pk"], kwargs["pk"])
-        self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.success_url = reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]})
+        self.data = get_compliance_person_present(request, kwargs["person_id"])
+        self.action = patch_compliance_person_present
 
 
 class RemovePeoplePresent(TemplateView):
-    pass
+    def get(self, request, *args, **kwargs):
+
+        delete_compliance_person_present(request, kwargs["person_id"])
+
+        return redirect(reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]}))
 
 
 class Overview(SingleFormView):
@@ -62,6 +84,8 @@ class Overview(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.form = overview_form(kwargs["queue_pk"], kwargs["pk"])
         self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.action = patch_compliance_visit_case
+        self.data = get_compliance_visit_case(request, kwargs["pk"])
 
 
 class Inspection(SingleFormView):
@@ -69,6 +93,8 @@ class Inspection(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.form = inspection_form(kwargs["queue_pk"], kwargs["pk"])
         self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.action = patch_compliance_visit_case
+        self.data = get_compliance_visit_case(request, kwargs["pk"])
 
 
 class ComplianceWithLicences(SingleFormView):
@@ -76,6 +102,8 @@ class ComplianceWithLicences(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.form = compliance_with_licence_form(kwargs["queue_pk"], kwargs["pk"])
         self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.action = patch_compliance_visit_case
+        self.data = get_compliance_visit_case(request, kwargs["pk"])
 
 
 class KnowledgePeople(SingleFormView):
@@ -83,6 +111,8 @@ class KnowledgePeople(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.form = knowledge_of_people_form(kwargs["queue_pk"], kwargs["pk"])
         self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.action = patch_compliance_visit_case
+        self.data = get_compliance_visit_case(request, kwargs["pk"])
 
 
 class KnowledgeProduct(SingleFormView):
@@ -90,3 +120,5 @@ class KnowledgeProduct(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.form = knowledge_of_products_form(kwargs["queue_pk"], kwargs["pk"])
         self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.action = patch_compliance_visit_case
+        self.data = get_compliance_visit_case(request, kwargs["pk"])

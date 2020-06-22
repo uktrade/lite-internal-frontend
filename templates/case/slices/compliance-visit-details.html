@@ -1,9 +1,10 @@
 <h2 class="govuk-heading-m">
 	Visit report details
+	<a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-6 govuk-!-font-size-19" href="{% url 'cases:visit_report' queue.id case.id %}">
+		Edit
+	</a>
 </h2>
-<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:visit_report' queue.id case.id %}">
-	Edit
-</a>
+
 
 <dl class="app-case__summary-list">
 	<div class="app-case__summary-list__row">
@@ -11,7 +12,7 @@
 			Visit type:
 		</dt>
 		<dd class="app-case__summary-list__value">
-			{{case.data.visit_type}}
+			{{case.data.visit_type.value}}
 		</dd>
 	</div>
 	<div class="app-case__summary-list__row">
@@ -27,7 +28,7 @@
 			Overall risk
 		</dt>
 		<dd class="app-case__summary-list__value">
-			{{case.data.overall_risk_value}}
+			{{case.data.overall_risk_value.value}}
 		</dd>
 	</div>
 	<div class="app-case__summary-list__row">
@@ -41,56 +42,127 @@
 </dl>
 <br>
 
-<h2 class="govuk-heading-m">People Present</h2>
-<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:add_people_present' queue.id case.id %}">
-	Add
-</a>
-{{ case.data.people_present }}
-Name  Job
+<h2 class="govuk-heading-m">
+	People Present
+	<a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-6 govuk-!-font-size-19" href="{% url 'cases:add_people_present' queue.id case.id %}">
+		Add
+	</a>
+</h2>
+{% if case.data.people_present %}
+	<table class="govuk-table">
+		<thead class="govuk-table__head">
+			<tr class="govuk-table__row">
+				<th class="govuk-table__header" scope="col">Name</th>
+				<th class="govuk-table__header" scope="col">Job description</th>
+				<th class="govuk-table__header" scope="col">Actions</th>
+			</tr>
+		</thead>
+		<tbody class="govuk-table__body">
+			{% for person in case.data.people_present %}
+				<tr class="govuk-table__row">
+					<td class="govuk-table__cell" id="name">
+						<span class="govuk-table__header" aria-hidden="true">
+							Name
+						</span>
+						{{ person.name }}
+					</td>
+					<td class="govuk-table__cell" id="type">
+						<span class="govuk-table__header" aria-hidden="true">
+							Job description
+						</span>
+						{{ person.job_title }}
+					</td>
+					<td class="govuk-table__cell govuk-table__cell--tight">
+						<ul class="govuk-table__cell__actions-list">
+							<li class="govuk-table__cell__actions-list-item">
+								<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:edit_people_present' queue.id case.id person.id %}">
+									Edit
+								</a>
+							</li>
+							<li class="govuk-table__cell__actions-list-item">
+								<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:remove_people_present' queue.id case.id person.id %}">
+									Delete
+								</a>
+							</li>
+						</ul>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+	<br>
+	TODO: Update for no people present notice text
+{% endif %}
 
 
-<h2 class="govuk-heading-m">Overview</h2>
-<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:overview' queue.id case.id %}">
-	Edit
-</a>
-{{ case.data.overview }}
-<br>
+<h2 class="govuk-heading-m">
+	Overview
+	<a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-6 govuk-!-font-size-19" href="{% url 'cases:overview' queue.id case.id %}">
+		Edit
+	</a>
+</h2>
+<p class="govuk-body">
+	{{ case.data.overview }}
+</p>
 
-<h2 class="govuk-heading-m">Inspection</h2>
-<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:inspection' queue.id case.id %}">
-	Edit
-</a>
-{{ case.data.inspection }}
+<h2 class="govuk-heading-m">
+	Inspection
+	<a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-6 govuk-!-font-size-19" href="{% url 'cases:inspection' queue.id case.id %}">
+		Edit
+	</a>
+</h2>
+<p class="govuk-body">
+	{{ case.data.inspection }}
+</p>
 
 
-<h2 class="govuk-heading-m">Compliance With Licences</h2>
-<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:compliance_with_licences' queue.id case.id %}">
-	Edit
-</a>
-<h3 class="govuk-heading-s">Overview</h3>
-{{ case.data.compliance_overview }}
+<h2 class="govuk-heading-m">
+	Compliance With Licences
+	<a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-6 govuk-!-font-size-19" href="{% url 'cases:compliance_with_licences' queue.id case.id %}">
+		Edit
+	</a>
+</h2>
+<h3 class="govuk-heading-s govuk-!-margin-bottom-0">Overview</h3>
+<p class="govuk-body">
+	{{ case.data.compliance_overview }}
+</p>
 
 <h3 class="govuk-heading-s">Risk value</h3>
-{{ case.data.compliance_risk_value }}
+<p class="govuk-body">
+{{ case.data.compliance_risk_value.value }}
+</p>
 
 
-<h2 class="govuk-heading-m">Knowledge and Understanding demonstrated by key export individuals at meeting</h2>
-<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:knowledge_of_people' queue.id case.id %}">
-	Edit
-</a>
+<h2 class="govuk-heading-m">
+	Knowledge and Understanding demonstrated by key export individuals at meeting
+	<a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-6 govuk-!-font-size-19" href="{% url 'cases:knowledge_of_people' queue.id case.id %}">
+		Edit
+	</a>
+</h2>
 <h3 class="govuk-heading-s">Overview</h3>
-{{ case.data.individuals_overview }}
+<p class="govuk-body">
+	{{ case.data.individuals_overview }}
+</p>
 
 <h3 class="govuk-heading-s">Risk value</h3>
-{{ case.data.individuals_risk_value }}
+<p class="govuk-body">
+	{{ case.data.individuals_risk_value.value }}
+</p>
 
 
-<h2 class="govuk-heading-m">Knowledge of controlled items in their business' products</h2>
-<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:knowledge_of_products' queue.id case.id %}">
-	Edit
-</a>
+<h2 class="govuk-heading-m">
+	Knowledge of controlled items in their business' products
+	<a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-6 govuk-!-font-size-19" href="{% url 'cases:knowledge_of_products' queue.id case.id %}">
+		Edit
+	</a>
+</h2>
 <h3 class="govuk-heading-s">Overview</h3>
-{{ case.data.products_overview }}
+<p class="govuk-body">
+	{{ case.data.products_overview }}
+</p>
 
 <h3 class="govuk-heading-s">Risk value</h3>
-{{ case.data.products_risk_value }}
+<p class="govuk-body">
+	{{ case.data.products_risk_value.value }}
+</p>
