@@ -1,13 +1,11 @@
 from http import HTTPStatus
 
 from django.contrib import messages
-from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from s3chunkuploader.file_handler import S3FileUploadHandler, s3_client
 
 from cases.constants import CaseType
 from cases.forms.additional_contacts import add_additional_contact_form
@@ -19,6 +17,7 @@ from cases.forms.move_case import move_case_form
 from cases.forms.rerun_routing_rules import rerun_routing_rules_confirmation_form
 from cases.helpers.advice import get_advice_additional_context
 from cases.helpers.case import CaseView, Tabs, Slices
+from cases.helpers.documents import download_document_from_s3, handle_document_upload
 from cases.services import (
     get_case,
     post_case_notes,
@@ -34,8 +33,6 @@ from cases.services import (
     get_compliance_licences,
 )
 from cases.services import post_case_documents, get_document
-from conf import settings
-from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_user_permissions, get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
 from lite_forms.components import FiltersBar, TextInput
@@ -268,38 +265,28 @@ class AddAnAdditionalContact(SingleFormView):
 
 @method_decorator(csrf_exempt, "dispatch")
 class AttachDocuments(TemplateView):
+    @staticmethod
+    def _get_form(kwargs):
+        return attach_documents_form(
+            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"]), "tab": "documents"})
+        )
+
     def get(self, request, **kwargs):
         case_id = str(kwargs["pk"])
         case = get_case(request, case_id)
-
-        form = attach_documents_form(
-            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "documents"})
-        )
-
-        return form_page(request, form, extra_data={"case_id": case_id, "case": case})
+        return form_page(request, self._get_form(kwargs), extra_data={"case_id": case_id, "case": case})
 
     @csrf_exempt
     def post(self, request, **kwargs):
-        self.request.upload_handlers.insert(0, S3FileUploadHandler(request))
-
         case_id = str(kwargs["pk"])
-        data = []
+        case = get_case(request, case_id)
 
-        files = request.FILES.getlist("file")
-        if len(files) != 1:
-            return error_page(None, "We had an issue uploading your files. Try again later.")
-        file = files[0]
-        data.append(
-            {
-                "name": file.original_name,
-                "s3_key": file.name,
-                "size": int(file.size // 1024) if file.size else 0,  # in kilobytes
-                "description": request.POST["description"],
-            }
-        )
+        data, error = handle_document_upload(request)
+        if error:
+            return form_page(request, self._get_form(kwargs), extra_data={"case_id": case_id, "case": case}, errors={"file": [error]})
 
         # Send LITE API the file information
-        case_documents, _ = post_case_documents(request, case_id, data)
+        case_documents, _ = post_case_documents(request, case_id, [data])
 
         if "errors" in case_documents:
             return error_page(None, "We had an issue uploading your files. Try again later.")
@@ -312,24 +299,10 @@ class AttachDocuments(TemplateView):
 class Document(TemplateView):
     def get(self, request, **kwargs):
         file_pk = str(kwargs["file_pk"])
-
         document, _ = get_document(request, file_pk)
         original_file_name = document["document"]["name"]
-
-        # Stream file
-        def generate_file(result):
-            for chunk in iter(lambda: result["Body"].read(settings.STREAMING_CHUNK_SIZE), b""):
-                yield chunk
-
-        s3 = s3_client()
         s3_key = document["document"]["s3_key"]
-        s3_response = s3.get_object(Bucket=AWS_STORAGE_BUCKET_NAME, Key=s3_key)
-        _kwargs = {}
-        if s3_response.get("ContentType"):
-            _kwargs["content_type"] = s3_response["ContentType"]
-        response = StreamingHttpResponse(generate_file(s3_response), **_kwargs)
-        response["Content-Disposition"] = f'attachment; filename="{original_file_name}"'
-        return response
+        return download_document_from_s3(s3_key, original_file_name)
 
 
 class CaseOfficer(SingleFormView):
