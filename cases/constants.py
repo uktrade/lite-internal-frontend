@@ -3,6 +3,8 @@ from enum import Enum
 
 class CaseType(Enum):
     APPLICATION = "application"
+    QUERY = "query"
+    REGISTRATION = "registration"
     STANDARD = "standard"
     OPEN = "open"
     HMRC = "hmrc"
@@ -13,6 +15,7 @@ class CaseType(Enum):
     EXHIBITION = "exhibition_clearance"
     GIFTING = "gifting_clearance"
     F680 = "f680_clearance"
+    COMPLIANCE = "compliance"
 
     @classmethod
     def is_mod(cls, case_type):

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from cases.helpers.ecju_queries import get_ecju_queries
 from cases.objects import Slice, Case
 from cases.services import (
     get_case,
@@ -10,13 +11,11 @@ from cases.services import (
     get_activity,
     get_activity_filters,
 )
-from cases.helpers.ecju_queries import get_ecju_queries
-from conf.constants import Statuses, GENERATED_DOCUMENT
+from conf.constants import GENERATED_DOCUMENT, Statuses
 from core.helpers import generate_activity_filters
 from core.objects import Tab, TabCollection
 from core.services import get_user_permissions, get_status_properties, get_permissible_statuses
-from lite_content.lite_internal_frontend.cases import CasePage
-from lite_content.lite_internal_frontend.cases import ApplicationPage
+from lite_content.lite_internal_frontend.cases import CasePage, ApplicationPage
 from queues.services import get_queue
 
 
@@ -35,6 +34,7 @@ class Tabs:
             Tab("final-advice", CasePage.Tabs.FINAL_ADVICE, "final-advice"),
         ],
     )
+    COMPLIANCE_LICENCES = Tab("compliance-licences", CasePage.Tabs.LICENCES, "compliance-licences")
 
 
 class Slices:
@@ -54,6 +54,8 @@ class Slices:
     END_USER_DETAILS = Slice("end-user-details", "End user details")
     TEMPORARY_EXPORT_DETAILS = Slice("temporary-export-details", "Temporary export details")
     OPEN_APP_PARTIES = Slice("open-app-parties")
+    OPEN_GENERAL_LICENCE = Slice("open-general-licence")
+    COMPLIANCE_LICENCES = Slice("compliance-licences")
 
 
 class CaseView(TemplateView):
@@ -75,18 +77,9 @@ class CaseView(TemplateView):
         user_assigned_queues = get_user_case_queues(self.request, self.case_id)[0]
         status_props, _ = get_status_properties(self.request, self.case.data["status"]["key"])
         can_set_done = not status_props["is_terminal"] and self.case.data["status"]["key"] != Statuses.APPLICANT_EDITING
-        activity_tab = Tabs.ACTIVITY
-        activity_tab.count = "!" if self.case["audit_notification"] else None
 
         return {
-            "tabs": [
-                Tabs.DETAILS,
-                Tabs.ADDITIONAL_CONTACTS,
-                Tabs.ECJU_QUERIES,
-                Tabs.DOCUMENTS,
-                activity_tab,
-                *self.tabs,
-            ],
+            "tabs": self.tabs if self.tabs else self.get_tabs(),
             "current_tab": self.kwargs["tab"],
             "slices": [Slices.SUMMARY, *self.slices],
             "case": self.case,
@@ -119,5 +112,19 @@ class CaseView(TemplateView):
 
         if hasattr(self, "get_" + self.case.sub_type + "_" + self.case.type):
             getattr(self, "get_" + self.case.sub_type + "_" + self.case.type)()
+        else:
+            getattr(self, "get_" + self.case.sub_type)()
 
         return render(request, "case/case.html", self.get_context())
+
+    def get_tabs(self):
+        activity_tab = Tabs.ACTIVITY
+        activity_tab.count = "!" if self.case["audit_notification"] else None
+
+        return [
+            Tabs.DETAILS,
+            Tabs.ADDITIONAL_CONTACTS,
+            Tabs.ECJU_QUERIES,
+            Tabs.DOCUMENTS,
+            activity_tab,
+        ]
