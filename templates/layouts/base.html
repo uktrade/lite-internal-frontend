@@ -38,13 +38,7 @@
 	<meta property="og:image" content="/assets/images/govuk-opengraph-image.png">
 
 	<script src="{% static 'javascripts/jquery.min.js' %}"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"></script>
 	<script type="text/javascript" src="/assets/javascripts/accessible-autocomplete.min.js"></script>
-	<meta name="turbolinks-cache-control" content="no-cache">
-	<script type="text/javascript">
-		Turbolinks.setProgressBarDelay(0);
-	</script>
-
 	{% block head %}{% endblock %}
 </head>
 
@@ -62,7 +56,7 @@
 	</script>
 
 	<a href="#main-content" class="govuk-skip-link">Skip to main content</a>
-	<header data-turbolinks-permanent id="header" class="app-header" role="banner" data-module="header">
+	<header id="header" class="app-header" role="banner" data-module="header">
 		<div class="app-header__container govuk-width-container">
 			<a class="app-header__link" href="{% url 'core:index' %}" data-tooltip="Go home">
 				{% svg 'crest' %}
