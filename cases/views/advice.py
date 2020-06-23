@@ -1,5 +1,5 @@
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime
 from http import HTTPStatus
 
 from django.contrib import messages
@@ -243,13 +243,11 @@ class Finalise(TemplateView):
             is_open_licence = case_type == CaseType.OPEN.value
 
         case_id = case["id"]
-        duration = get_application_default_duration(request, str(kwargs["pk"]))
 
         if "approve" in items or "proviso" in items:
             # Redirect if licence already exists
             data, status_code = get_licence(request, str(kwargs["pk"]))
             licence = data.get("licence")
-
             if licence:
                 if licence["status"] in ["issued", "reinstated"]:
                     return redirect(
@@ -258,31 +256,33 @@ class Finalise(TemplateView):
                         )
                     )
 
-                if licence["reissued"]:
-                    today = date.today()
+                if licence["status"] == "revoked":
+                    start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
                     form_data = {
-                        "day": today.day,
-                        "month": today.month,
-                        "year": today.year,
-                        "duration": duration,
+                        "day": start_date.day,
+                        "month": start_date.month,
+                        "year": start_date.year,
+                        "duration": licence["duration"],
                     }
 
                     form = approve_licence_form(
                         queue_pk=kwargs["queue_pk"],
                         case_id=case_id,
                         is_open_licence=is_open_licence,
-                        duration=duration,
+                        duration=licence["duration"],
                         editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
                         goods=data["goods"],
                         goods_html="components/goods-licence-reissue-list.html",
                     )
                     return form_page(request, form, data=form_data, extra_data={"case": case})
 
-            today = date.today()
+            duration = get_application_default_duration(request, str(kwargs["pk"]))
+
+            start_date = date.today()
             form_data = {
-                "day": today.day,
-                "month": today.month,
-                "year": today.year,
+                "day": start_date.day,
+                "month": start_date.month,
+                "year": start_date.year,
                 "duration": duration,
             }
 
@@ -315,14 +315,12 @@ class Finalise(TemplateView):
         if res.status_code == HTTPStatus.BAD_REQUEST:
             licence_data, status_code = get_licence(request, str(kwargs["pk"]))
             licence = licence_data.get("licence")
-
             if licence:
-
-                today = date.today()
+                start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
                 form_data = {
-                    "day": today.day,
-                    "month": today.month,
-                    "year": today.year,
+                    "day": start_date.day,
+                    "month": start_date.month,
+                    "year": start_date.year,
                     "duration": licence["duration"],
                 }
 
