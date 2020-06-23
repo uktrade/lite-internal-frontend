@@ -1,5 +1,3 @@
-from _decimal import Decimal
-
 from cases.objects import Case
 from conf.client import post, get, put, delete, patch
 from conf.constants import (
@@ -34,6 +32,8 @@ from conf.constants import (
     FINALISE_CASE_URL,
     QUEUES_URL,
     APPLICANT_URL,
+    COMPLIANCE_URL,
+    COMPLIANCE_LICENCES_URL,
 )
 from core.helpers import convert_parameters_to_query_params
 from flags.enums import FlagStatus
@@ -103,6 +103,11 @@ def put_goods_query_clc(request, pk, json):
 
 def put_goods_query_pv_grading(request, pk, json):
     response = put(request, GOODS_QUERIES_URL + str(pk) + PV_GRADING_RESPONSE_URL, json)
+    return response.json(), response.status_code
+
+
+def put_compliance_status(request, pk, json):
+    response = put(request, COMPLIANCE_URL + str(pk) + MANAGE_STATUS_URL, json)
     return response.json(), response.status_code
 
 
@@ -297,15 +302,6 @@ def _generate_post_data_and_errors(keys, request_data, action):
     return post_data, errors
 
 
-def _get_total_goods_value(case):
-    total_value = 0
-    for good in case.get("application").get("goods", []):
-        # conditional, as some case types e.g. exhibition clearances don't contain a value.
-        if good.get("value"):
-            total_value += Decimal(good["value"]).quantize(Decimal(".01"))
-    return total_value
-
-
 # Letter template decisions
 def get_decisions(request):
     data = get(request, DECISIONS_URL)
@@ -369,4 +365,9 @@ def get_blocking_flags(request, case_pk):
         request,
         FLAGS_URL + f"?case={case_pk}&status={FlagStatus.ACTIVE.value}&blocks_approval=True&disable_pagination=True",
     )
+    return data.json()
+
+
+def get_compliance_licences(request, case_id, reference, page):
+    data = get(request, COMPLIANCE_URL + case_id + COMPLIANCE_LICENCES_URL + f"?reference={reference}&page={page}",)
     return data.json()

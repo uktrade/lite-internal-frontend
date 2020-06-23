@@ -31,12 +31,14 @@ from cases.services import (
     put_rerun_case_routing_rules,
     patch_case,
     put_application_status,
+    get_compliance_licences,
 )
 from cases.services import post_case_documents, get_document
 from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_user_permissions, get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
+from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
@@ -46,7 +48,8 @@ from users.services import get_gov_user_from_form_selection
 
 class CaseDetail(CaseView):
     def get_open_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
             Slices.DESTINATIONS,
@@ -75,7 +78,8 @@ class CaseDetail(CaseView):
             ]
 
     def get_standard_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
             Slices.DESTINATIONS,
@@ -98,7 +102,8 @@ class CaseDetail(CaseView):
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_exhibition_clearance_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.EXHIBITION_DETAILS,
             Slices.GOODS,
@@ -108,12 +113,14 @@ class CaseDetail(CaseView):
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_gifting_clearance_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_f680_clearance_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
             Slices.DESTINATIONS,
@@ -133,6 +140,17 @@ class CaseDetail(CaseView):
 
     def get_open_registration(self):
         self.slices = [Slices.OPEN_GENERAL_LICENCE]
+
+    def get_compliance(self):
+        self.tabs = self.get_tabs()
+        self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
+        filters = FiltersBar([TextInput(name="reference", title="Reference"),])
+        self.additional_context = {
+            "data": get_compliance_licences(
+                self.request, self.case.id, self.request.GET.get("reference", ""), self.request.GET.get("page", 1)
+            ),
+            "licences_filters": filters,
+        }
 
 
 class CaseNotes(TemplateView):
@@ -319,7 +337,13 @@ class CaseOfficer(SingleFormView):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
         self.data = {"gov_user_pk": case.case_officer.get("id")}
-        self.form = assign_case_officer_form(request, case.case_officer)
+        self.form = assign_case_officer_form(
+            request,
+            case.case_officer,
+            self.kwargs["queue_pk"],
+            self.object_pk,
+            is_compliance=True if case.case_type["type"]["key"] == CaseType.COMPLIANCE.value else False,
+        )
         self.context = {"case": case}
         self.success_url = reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
 
