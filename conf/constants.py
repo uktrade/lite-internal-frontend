@@ -149,6 +149,9 @@ class Statuses:
     SURRENDERED = "surrendered"
     DEREGISTERED = "deregistered"
     OPEN = "open"
+    UNDER_INTERNAL_REVIEW = "under_internal_review"
+    RETURN_TO_INSPECTOR = "return_to_inspector"
+    AWAITING_EXPORTER_RESPONSE = "awaiting_exporter_response"
 
 
 class UserStatuses:
