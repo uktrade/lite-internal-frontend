@@ -5,15 +5,10 @@
 			{% lcs 'cases.CasePage.DetailsTab.Site.NAME' %}
 		</dt>
 		<dd class="app-case__summary-list__value">
-			{{ case.data.site.name }}
-		</dd>
-	</div>
-	<div class="app-case__summary-list__row">
-		<dt class="app-case__summary-list__key">
-			{% lcs 'cases.CasePage.DetailsTab.Site.ADDRESS' %}
-		</dt>
-		<dd class="app-case__summary-list__value">
-			{{ case.data.site|get_address }}
+			<a href="{% url 'organisations:organisation_sites' case.data.organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}#{{ case.data.site.id }}" class="govuk-link govuk-link--no-visited-state govuk-body govuk-!-margin-0">
+				{{ case.data.site.name }}
+			</a>
+			<p class="govuk-hint govuk-!-margin-0 govuk-!-margin-top-1">{{ case.data.site|get_address }}</p>
 		</dd>
 	</div>
 	<div class="app-case__summary-list__row">
@@ -21,7 +16,14 @@
 			{% lcs 'cases.CasePage.DetailsTab.Site.RECORDS_HELD_AT' %}
 		</dt>
 		<dd class="app-case__summary-list__value">
-			{{ case.data.site.site_records_located_at_name }}
+			{% if case.data.site.id != case.data.site.records_located_at.id %}
+				<a href="{% url 'organisations:organisation_sites' case.data.organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}#{{ case.data.site.records_located_at.id }}" class="govuk-link govuk-link--no-visited-state govuk-body govuk-!-margin-0">
+					{{ case.data.site.records_located_at.name }}
+				</a>
+				<p class="govuk-hint govuk-!-margin-0 govuk-!-margin-top-1">{{ case.data.site.records_located_at|get_address }}</p>
+			{% else %}
+				<span class="govuk-hint govuk-!-margin-0">{% lcs 'cases.CasePage.DetailsTab.Site.RECORDS_HELD_ON_SITE' %}</span>
+			{% endif %}
 		</dd>
 	</div>
 </dl>
