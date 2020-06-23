@@ -12,8 +12,8 @@
 			</thead>
 			<tbody class="govuk-table__body">
 				{% for site in sites %}
-					<tr class="govuk-table__row">
-						<td class="govuk-table__header" scope="row" id="{{ site.id }}">
+					<tr class="govuk-table__row" id="{{ site.id }}">
+						<td class="govuk-table__header" scope="row">
 							{{ site.name }}
 						</td>
 						<td class="govuk-table__cell">

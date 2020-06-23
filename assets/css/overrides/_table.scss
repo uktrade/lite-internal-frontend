@@ -26,3 +26,7 @@
 		max-width: #{$i * 100}px;
 	}
 }
+
+.govuk-table__row:target {
+   background-color: govuk-tint(govuk-colour("yellow"), 80%);
+}
