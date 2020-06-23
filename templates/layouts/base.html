@@ -56,7 +56,7 @@
 	</script>
 
 	<a href="#main-content" class="govuk-skip-link">Skip to main content</a>
-	<header id="header" class="app-header" role="banner" data-module="header">
+	<header class="app-header" role="banner" data-module="header">
 		<div class="app-header__container govuk-width-container">
 			<a class="app-header__link" href="{% url 'core:index' %}" data-tooltip="Go home">
 				{% svg 'crest' %}
@@ -99,7 +99,7 @@
 		</div>
 	{% endblock %}
 
-	<div id="main" class="govuk-width-container">
+	<div class="govuk-width-container">
 		<main class="govuk-main-wrapper" id="main-content" role="main">
 			{% block body %}{% endblock %}
 		</main>
