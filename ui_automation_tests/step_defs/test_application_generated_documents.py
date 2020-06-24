@@ -1,18 +1,24 @@
 from faker import Faker
 from pytest_bdd import scenarios, when, given, then, parsers
 
+from pages.letter_templates import LetterTemplates
 from ui_automation_tests.pages.case_page import CasePage, CaseTabs
 from ui_automation_tests.pages.application_page import ApplicationPage
 from ui_automation_tests.pages.generate_document_page import GeneratedDocument
 from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.functions import element_with_id_exists
 
-scenarios("../features/generated_documents.feature", strict_gherkin=False)
+scenarios("../features/application_generated_documents.feature", strict_gherkin=False)
 
 
 @given("I create a template")
 def create_template(add_a_document_template):
     pass
+
+
+@when("I preview letter template")
+def preview_template_letter(driver):
+    LetterTemplates(driver).click_create_preview_button_cap()
 
 
 @when("I click on the Generate document button")

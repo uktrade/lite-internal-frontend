@@ -4,7 +4,7 @@ As a logged in government user
 I want to select a template to generate a document to the applicant on a case
 So that I can easily and quickly generate different types of standard document to send to the applicant
 
-  @LT_1028_generate_document @regression
+  @LT_1028_generate_document @regression @njwp
   Scenario: Generate a document for a case
     Given I sign in to SSO or am signed into SSO
     And I create open application or open application has been previously created
@@ -16,14 +16,14 @@ So that I can easily and quickly generate different types of standard document t
     Then I see the template text to edit
     When I add my custom text "yellowDuck"
     Then I see the template text to edit
-    When I click continue
+    When I preview letter template
     Then I see the generated document preview
     When I click continue
     Then I see my generated document
     # Test Regenerate
     When I click regenerate
     Then I see the template text to edit
-    When I click continue
+    When I preview letter template
     Then I see the generated document preview
     When I click continue
     Then I see both my generated documents

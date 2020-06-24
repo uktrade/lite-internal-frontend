@@ -1,4 +1,5 @@
 from shared.BasePage import BasePage
+from shared.tools.helpers import scroll_to_element_by_id
 
 from ui_automation_tests.pages.shared import Shared
 
@@ -11,6 +12,7 @@ class LetterTemplates(BasePage):
     ADD_LETTER_PARAGRAPH_BUTTON = '[value="add_letter_paragraph"]'  # CSS
     ADD_LETTER_PARAGRAPHS_BUTTON = '[value="return_to_preview"]'  # CSS
     PREVIEW_BUTTON = "button-preview"  # ID
+    PREVIEW_BUTTON_CAP = "button-Preview"  # ID
     PREVIEW = "preview"  # ID
     DRAG_DROP_LIST = "standard-advice-list"  # ID
     PREVIEW_PARAGRAPHS = "paragraph-list"  # ID
@@ -33,6 +35,10 @@ class LetterTemplates(BasePage):
 
     def click_create_preview_button(self):
         self.driver.find_element_by_id(self.PREVIEW_BUTTON).click()
+
+    def click_create_preview_button_cap(self):
+        scroll_to_element_by_id(self.driver, self.PREVIEW_BUTTON_CAP)
+        self.driver.find_element_by_id(self.PREVIEW_BUTTON_CAP).click()
 
     def enter_template_name(self, name):
         self.driver.find_element_by_id(self.TEMPLATE_NAME).clear()
