@@ -1,26 +1,4 @@
 <dl class="app-case__summary-list">
-<<<<<<< HEAD
-	{% if case.data.name and not case.case_type.reference.key in "comp_c,comp_v" %}
-			<div class="app-case__summary-list__row">
-				<dt class="app-case__summary-list__key">
-					{% lcs 'cases.CasePage.DetailsTab.EXPORTER_REFERENCE' %}
-				</dt>
-				<dd class="app-case__summary-list__value">
-					{{ case.data.name }}
-				</dd>
-			</div>
-	{% endif %}
-	{% if case.case_type.reference.key in "comp_c,comp_v" %}
-			<div class="app-case__summary-list__row">
-				<dt class="app-case__summary-list__key">
-					{% lcs 'cases.CasePage.DetailsTab.ADDRESS' %}
-				</dt>
-				<dd class="app-case__summary-list__value">
-					{{ case.data.site_name }}<br>
-					{{ case.data|get_address }}
-				</dd>
-			</div>
-=======
 	{% if case.data.name and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
@@ -41,7 +19,6 @@
 				{{ case.data|get_address }}
 			</dd>
 		</div>
->>>>>>> 13e4c0111724929694e259b29d1e7739d848c661
 	{% endif %}
 	{% if case.copy_of %}
 		<div class="app-case__summary-list__row">
