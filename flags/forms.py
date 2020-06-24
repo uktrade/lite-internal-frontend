@@ -85,7 +85,7 @@ def add_flag_form():
         ],
         default_button_name=CreateFlagForm.SUBMIT_BUTTON,
         back_link=BackLink(CreateFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
-        javascript_imports=set("/javascripts/add-edit-flags.js"),
+        javascript_imports={"/javascripts/add-edit-flags.js"},
     )
 
 
@@ -124,7 +124,7 @@ def edit_flag_form():
         ],
         back_link=BackLink(EditFlagForm.BACK_LINK, reverse_lazy("flags:flags")),
         default_button_name=EditFlagForm.SUBMIT_BUTTON,
-        javascript_imports=set("/javascripts/add-edit-flags.js"),
+        javascript_imports={"/javascripts/add-edit-flags.js"},
     )
 
 

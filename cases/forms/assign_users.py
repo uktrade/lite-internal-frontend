@@ -50,7 +50,7 @@ def assign_case_officer_form(request: HttpRequest, existing_officer, queue_id, c
         description=cases.Manage.AssignCaseOfficer.DESCRIPTION,
         questions=[Filter(), RadioButtons("gov_user_pk", users)],
         buttons=buttons,
-        javascript_imports=set("/javascripts/filter-radiobuttons-list.js"),
+        javascript_imports={"/javascripts/filter-radiobuttons-list.js"},
         container="case",
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_id, "pk": case_id, "tab": "details"})),
     )
@@ -64,7 +64,7 @@ def assign_user_and_work_queue(request):
         description=cases.Manage.AssignUserAndQueue.USER_DESCRIPTION,
         questions=[Filter(), RadioButtons("user", users)],
         default_button_name=strings.CONTINUE,
-        javascript_imports=set("/javascripts/filter-radiobuttons-list.js"),
+        javascript_imports={"/javascripts/filter-radiobuttons-list.js"},
         container="case",
     )
 
@@ -80,6 +80,6 @@ def users_team_queues(request, case_pk, user_pk):
             HiddenField("user_pk", user_pk),
             HiddenField("case_pk", case_pk),
         ],
-        javascript_imports=set("/javascripts/filter-radiobuttons-list.js"),
+        javascript_imports={"/javascripts/filter-radiobuttons-list.js"},
         container="case",
     )

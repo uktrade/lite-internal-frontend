@@ -78,7 +78,7 @@ def open_general_licence_forms(request, licence, strings):
                         classes=["govuk-radios--inline"],
                     ),
                 ],
-                javascript_imports=set("/javascripts/new-open-general-licence.js"),
+                javascript_imports={"/javascripts/new-open-general-licence.js"},
                 default_button_name=generic.CONTINUE,
             ),
             Form(
@@ -109,7 +109,7 @@ def open_general_licence_forms(request, licence, strings):
                     ),
                 ],
                 default_button_name=generic.CONTINUE,
-                javascript_imports=set("/javascripts/filter-checkbox-list.js"),
+                javascript_imports={"/javascripts/filter-checkbox-list.js"},
             ),
         ]
     )
