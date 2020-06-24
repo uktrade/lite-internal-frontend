@@ -106,10 +106,10 @@ def open_general_licence_forms(request, licence, strings):
                         options=countries,
                         classes=["govuk-checkboxes--small"],
                         show_select_links=True,
+                        filterable=True,
                     ),
                 ],
                 default_button_name=generic.CONTINUE,
-                javascript_imports={"/javascripts/filter-checkbox-list.js"},
             ),
         ]
     )
