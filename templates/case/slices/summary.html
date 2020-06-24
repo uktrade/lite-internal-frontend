@@ -21,7 +21,7 @@
 				</dd>
 			</div>
 =======
-	{% if case.data.name and not case.case_type.reference.key == "comp" %}
+	{% if case.data.name and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.EXPORTER_REFERENCE' %}
@@ -31,7 +31,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.case_type.reference.key == "comp" %}
+	{% if case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.ADDRESS' %}
@@ -143,7 +143,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.data.updated_at and not case.case_type.reference.key == "comp" %}
+	{% if case.data.updated_at and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.LAST_UPDATED' %}
