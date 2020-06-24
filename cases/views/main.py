@@ -31,9 +31,9 @@ from cases.services import (
     put_rerun_case_routing_rules,
     patch_case,
     put_application_status,
-    get_compliance_licences,
 )
 from cases.services import post_case_documents, get_document
+from compliance.services import get_compliance_licences
 from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_user_permissions, get_permissible_statuses
@@ -144,7 +144,7 @@ class CaseDetail(CaseView):
     def get_compliance_site(self):
         self.tabs = self.get_tabs()
         self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
-        self.slices = [Slices.COMPLIANCE_VISITS]
+        self.slices = [Slices.COMPLIANCE_VISITS, Slices.OPEN_LICENCE_RETURNS]
         filters = FiltersBar([TextInput(name="reference", title="Reference"),])
         self.additional_context = {
             "data": get_compliance_licences(
