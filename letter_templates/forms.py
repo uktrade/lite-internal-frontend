@@ -107,6 +107,24 @@ def add_letter_template(request):
                 default_button_name=strings.LetterTemplates.AddLetterTemplate.VisibleToExporter.BUTTON,
             ),
             Form(
+                title=strings.LetterTemplates.AddLetterTemplate.IncludeSignature.TITLE,
+                description=strings.LetterTemplates.AddLetterTemplate.IncludeSignature.DESCRIPTION,
+                questions=[
+                    RadioButtons(
+                        name="include_digital_signature",
+                        options=[
+                            Option(
+                                key=True, value=strings.LetterTemplates.AddLetterTemplate.IncludeSignature.YES_OPTION
+                            ),
+                            Option(
+                                key=False, value=strings.LetterTemplates.AddLetterTemplate.IncludeSignature.NO_OPTION
+                            ),
+                        ],
+                    ),
+                ],
+                default_button_name=strings.LetterTemplates.AddLetterTemplate.IncludeSignature.BUTTON,
+            ),
+            Form(
                 title=strings.LetterTemplates.AddLetterTemplate.Layout.TITLE,
                 questions=[RadioButtonsImage(name="layout", options=_letter_layout_options(request))],
                 default_button_name=strings.LetterTemplates.AddLetterTemplate.Layout.CONTINUE_BUTTON,
