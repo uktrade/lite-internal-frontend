@@ -33,8 +33,9 @@ from conf.constants import (
     QUEUES_URL,
     APPLICANT_URL,
     COMPLIANCE_URL,
+    NEXT_REVIEW_DATE_URL,
 )
-from core.helpers import convert_parameters_to_query_params
+from core.helpers import convert_parameters_to_query_params, format_date
 from flags.enums import FlagStatus
 
 
@@ -336,6 +337,13 @@ def put_case_officer(request, pk, json):
 
 def delete_case_officer(request, pk, *args):
     data = delete(request, CASE_URL + str(pk) + CASE_OFFICER_URL)
+    return data.json(), data.status_code
+
+
+def put_next_review_date(request, pk, json):
+    if "next_review_dateday" in json:
+        json["next_review_date"] = format_date(json, "next_review_date")
+    data = put(request, CASE_URL + str(pk) + NEXT_REVIEW_DATE_URL, json)
     return data.json(), data.status_code
 
 

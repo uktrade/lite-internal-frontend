@@ -32,6 +32,7 @@ from cases.services import (
     put_rerun_case_routing_rules,
     patch_case,
     put_application_status,
+    put_next_review_date,
 )
 from cases.services import post_case_documents, get_document
 from compliance.services import get_compliance_licences
@@ -146,7 +147,7 @@ class CaseDetail(CaseView):
         self.slices = [Slices.OPEN_LICENCE_RETURNS]
         self.tabs = self.get_tabs()
         self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
-        filters = FiltersBar([TextInput(name="reference", title="Reference"), ])
+        filters = FiltersBar([TextInput(name="reference", title="Reference"),])
         self.additional_context = {
             "data": get_compliance_licences(
                 self.request, self.case.id, self.request.GET.get("reference", ""), self.request.GET.get("page", 1)
@@ -187,14 +188,14 @@ class CaseImDoneView(TemplateView):
         else:
             data, status_code = put_unassign_queues(request, self.case_pk, {"queues": [str(self.queue_pk)]})
             if status_code != HTTPStatus.OK:
-                return error_page(request, description=data["errors"]["queues"][0], )
+                return error_page(request, description=data["errors"]["queues"][0],)
             return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
 
     def post(self, request, **kwargs):
         data, status_code = put_unassign_queues(request, self.case_pk, {"queues": request.POST.getlist("queues[]")})
 
         if status_code != HTTPStatus.OK:
-            return error_page(request, description=data["errors"]["queues"][0], )
+            return error_page(request, description=data["errors"]["queues"][0],)
 
         return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
 
@@ -228,9 +229,9 @@ class ChangeStatus(SingleFormView):
 
     def get_action(self):
         if (
-                self.case_type == CaseType.APPLICATION.value
-                or self.case_sub_type == CaseType.HMRC.value
-                or self.case_sub_type == CaseType.EXHIBITION.value
+            self.case_type == CaseType.APPLICATION.value
+            or self.case_sub_type == CaseType.HMRC.value
+            or self.case_sub_type == CaseType.EXHIBITION.value
         ):
             return put_application_status
         else:
@@ -348,15 +349,23 @@ class CaseOfficer(SingleFormView):
         )
         self.context = {"case": case}
         self.success_url = reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
+        self.get_action()
 
     def get_action(self):
         action = self.get_validated_data().get("_action")
+        case_type = self.context["case"]["case_type"]["type"]["key"]
 
         if action == "delete":
-            self.success_message = "Case officer removed"
+            self.success_message = (
+                "Inspector removed" if case_type == CaseType.COMPLIANCE.value else "Case officer removed"
+            )
             return delete_case_officer
         else:
-            self.success_message = "Case officer set successfully"
+            self.success_message = (
+                "Inspector set successfully"
+                if case_type == CaseType.COMPLIANCE.value
+                else "Case officer set successfully"
+            )
             return put_case_officer
 
 
@@ -419,21 +428,22 @@ class RerunRoutingRules(SingleFormView):
 class NextReviewDate(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        case = get_case(request, self.object_pk)
-        self.data = {"gov_user_pk": case.case_officer.get("id")}
-        self.form = set_next_review_date_form(
-            self.kwargs["queue_pk"],
-            self.object_pk,
-        )
-        self.context = {"case": case}
+        self.data = get_case(request, self.object_pk)
+        self.form = set_next_review_date_form(self.kwargs["queue_pk"], self.object_pk,)
         self.success_url = reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
 
     def get_action(self):
         action = self.get_validated_data().get("_action")
 
-        if action == "delete":
-            self.success_message = "Case officer removed"
-            return delete_case_officer
-        else:
-            self.success_message = "Case officer set successfully"
-            return put_case_officer
+        if action == "submit":
+            self.success_message = "Next review date set successfully"
+            return put_next_review_date
+
+    def get_data(self):
+        data = self.data
+        date_fields = ["next_review_date"]
+        for field in date_fields:
+            if data.get(field, False):
+                date_split = data[field].split("-")
+                data[field + "year"], data[field + "month"], data[field + "day"] = date_split
+        return data
