@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import Select
@@ -12,6 +14,7 @@ from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 class GoodsQueriesPages(BasePage):
     CONTROL_RESPONSE = "is_good_controlled-"  # ID
+    PANE_CONTROL_RESPONSE = "pane_is_good_controlled"  # ID
     TOKEN_BAR_CONTROL_LIST_ENTRIES_SELECTOR = "#pane_control_list_entries .tokenfield-input"
     REPORT_SUMMARY = "report_summary"  # Name
     COMMENT = "comment"  # ID
@@ -48,6 +51,8 @@ class GoodsQueriesPages(BasePage):
         self.driver.find_element_by_id(self.BUTTON_SUBMIT_REPORT_SUMMARY_ID).click()
 
     def enter_a_comment(self, comment):
+        time.sleep(0.5)
+        self.driver.find_element_by_class_name("govuk-details__summary-text").click()
         self.driver.set_timeout_to(0)
         if self.driver.find_element_by_class_name("govuk-details").get_attribute("open") is None:
             self.driver.find_element_by_class_name("govuk-details__summary-text").click()

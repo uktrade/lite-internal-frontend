@@ -23,6 +23,7 @@ Feature: I want to finalise a case
     When I generate a document for the decision
     And I select the template previously created
     And I click continue
+    Then preview is displayed
     And I click continue
     Then The decision row status is "done"
     When I click continue
@@ -48,7 +49,8 @@ Feature: I want to finalise a case
     When I generate a document for the decision
     And I select the template previously created
     And I click continue
-    And I click continue
+    Then preview is displayed
+    When I click continue
     Then The decision row status is "done"
     When I click continue
     And I go to application previously created

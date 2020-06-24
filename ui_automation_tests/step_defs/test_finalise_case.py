@@ -81,3 +81,8 @@ def final_advice_page(driver, context, internal_url):  # noqa
         + context.case_id
         + "/team-advice/"
     )
+
+
+@then("preview is displayed")
+def preview_displayed(driver):
+    assert driver.find_element_by_id("preview").is_displayed()
