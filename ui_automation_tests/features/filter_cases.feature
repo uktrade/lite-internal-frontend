@@ -29,7 +29,8 @@ Feature: I want to filter cases on a queue
     And I filter by organisation name
     When I apply filters
     Then "1" cases are shown
-    When I click clear filters
+    When I show filters
+    And I click clear filters
     And I show filters
     And filter case type has been changed to "Goods Query"
     Then "1" cases are shown
