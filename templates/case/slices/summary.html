@@ -1,4 +1,16 @@
 <dl class="app-case__summary-list">
+	{% if case.case_type.reference.key == "comp_v" %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.CasePage.DetailsTab.ADMINISTRATIVE_CENTRE' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				<a class="govuk-link govuk-link--no-visited-state" id="site_case" href="{% url 'cases:case' queue.id case.data.site_case_id %}">
+					{{ case.data.site_case_reference_code }}
+				</a>
+			</dd>
+		</div>
+	{% endif %}
 	{% if case.data.name and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
@@ -132,7 +144,6 @@
 	{% endif %}
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
-			{% lcs 'cases.CasePage.DetailsTab.CASE_OFFICER' %}
 			{% if case.case_type.reference.key in "comp_c,comp_v" %}
 				{% lcs 'cases.CasePage.DetailsTab.INSPECTOR' %}
 			{% else %}
