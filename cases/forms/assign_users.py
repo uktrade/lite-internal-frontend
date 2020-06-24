@@ -16,10 +16,11 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
     return Form(
         title=cases.Manage.AssignUsers.MULTIPLE_TITLE if multiple else cases.Manage.AssignUsers.TITLE,
         description=cases.Manage.AssignUsers.DESCRIPTION,
-        questions=[Filter(), Checkboxes("users", get_gov_users(request, params, convert_to_options=True))],
+        questions=[Filter(), Checkboxes("users",
+                                        options=get_gov_users(request, params, convert_to_options=True,),
+                                        filterable=True)],
         caption=queue["name"],
         default_button_name=cases.Manage.AssignUsers.BUTTON,
-        javascript_imports=set("/javascripts/filter-checkbox-list.js"),
     )
 
 
