@@ -9,10 +9,10 @@
 	<table id="table-compliance-visits" class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				<th scope="col" class="govuk-table__header">Report reference</th>
-				<th scope="col" class="govuk-table__header">Visit date</th>
-				<th scope="col" class="govuk-table__header">Inspector</th>
-				<th scope="col" class="govuk-table__header">Flags</th>
+				<th scope="col" class="govuk-table__header">{% lcs "cases.CasePage.DetailsTab.VisitReports.REPORT_REFERENCE" %}</th>
+				<th scope="col" class="govuk-table__header">{% lcs "cases.CasePage.DetailsTab.VisitReports.VISIT_DATE" %}</th>
+				<th scope="col" class="govuk-table__header">{% lcs "cases.CasePage.DetailsTab.VisitReports.INSPECTOR" %}</th>
+				<th scope="col" class="govuk-table__header">{% lcs "cases.CasePage.DetailsTab.VisitReports.FLAGS" %}</th>
 				<th scope="col" class="govuk-table__header"></th>
 			</tr>
 		</thead>
@@ -38,6 +38,5 @@
 		</tbody>
 	</table>
 {% else %}
-	UPDATE TO CORRECT TEXT
-{#	{% include "includes/notice.html" with text="cases.CasePage.ComplianceLicencesTab.NO_LICENCES_NOTICE" %}#}
+	{% include "includes/notice.html" with text="cases.CasePage.DetailsTab.VisitReports.NO_VISIT_REPORTS" %}
 {% endif %}
