@@ -48,6 +48,14 @@ class VisitReportDetails(SingleFormView):
         self.action = patch_compliance_visit_case
         self.data = get_compliance_visit_case(request, kwargs["pk"])
 
+    def get_data(self):
+        data = self.data
+        field = "visit_date"
+        if data.get(field, False):
+            date_split = data[field].split("-")
+            data[field + "_year"], data[field + "_month"], data[field + "_day"] = date_split
+        return data
+
 
 class AddPeoplePresent(SingleFormView):
     def init(self, request, **kwargs):
