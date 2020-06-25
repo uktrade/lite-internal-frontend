@@ -1,7 +1,7 @@
 from django.urls import reverse
 
 from lite_content.lite_internal_frontend.cases import ComplianceForms
-from lite_forms.components import Form, BackLink, DateInput, Select, Option, TextArea, TextInput
+from lite_forms.components import Form, BackLink, DateInput, Select, Option, TextArea, TextInput, Custom
 
 Visit_type_choices = [
     Option("first_contact", "First contact"),
@@ -45,10 +45,12 @@ def people_present_form(queue_pk, pk):
     return Form(
         title=ComplianceForms.PeoplePresent.TITLE,
         questions=[
-            TextInput(title=ComplianceForms.PeoplePresent.NAME, name="name"),
-            TextInput(title=ComplianceForms.PeoplePresent.JOB_TITLE, name="job_title"),
+            # TextInput(title=ComplianceForms.PeoplePresent.NAME, name="name"),
+            # TextInput(title=ComplianceForms.PeoplePresent.JOB_TITLE, name="job_title"),
+            Custom(template="components/people-present.html")
         ],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
+        container="case"
     )
 
 
