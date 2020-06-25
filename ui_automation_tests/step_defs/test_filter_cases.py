@@ -18,7 +18,7 @@ def num_cases_appear(driver, context, number):
 
 
 @when("I click clear filters")
-def i_show_filters(driver, context):
+def i_click_clear_filters(driver, context):
     CaseListPage(driver).click_clear_filters_button()
 
 
