@@ -7,7 +7,7 @@ from pages.open_general_licences_pages import (
     OpenGeneralLicencesCreateEditPage,
     OpenGeneralLicencesDetailPage,
     OpenGeneralLicencesDeactivatePage,
-)
+    OpenGeneralLicencesCasePage)
 from pages.shared import Shared
 from shared import functions
 from faker import Faker
@@ -138,10 +138,14 @@ def filter_by_ogel(driver):
 
 
 @then("I see OGEL case")
-def see_ogel(driver):
-    assert "GBOGEL" in driver.find_element_by_id(ApplicationPage.HEADING_ID).text
+def see_ogel(driver, context, api_test_client):
+    response = api_test_client.cases.get_case_info(context.ogel_case_id)
+    assert response["reference_code"] in driver.find_element_by_id(ApplicationPage.HEADING_ID).text
+    site_info = OpenGeneralLicencesCasePage(driver).get_text_of_site()
+    assert response["data"]["site"]["name"] in site_info
+    assert response["data"]["site"]["address"]["address_line_1"] in site_info
 
 
-@when("I go to ogel application automatically created")  # noqa
-def click_on_created_application(driver, context, internal_url):  # noqa
+@when("I go to ogel site registration case automatically created")  # noqa
+def click_on_created_ogel_app(driver, context, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.ogel_case_id)
