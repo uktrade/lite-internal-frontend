@@ -16,7 +16,7 @@
 		</div>
 	</div>
 
-	{% include "filters.html" %}
+	{% include 'filters.html' %}
 
 	{% if data.results %}
 		<table class="govuk-table">
@@ -32,7 +32,7 @@
 				{% for queue in data.results %}
 					<tr class="govuk-table__row" id="{{ queue.name }}">
 						<td class="govuk-table__cell">
-							{{ queue.name }}
+							{{ queue.name|highlight_text:name }}
 						</td>
 						<td class="govuk-table__cell">
 							{{ queue.team.name }}
