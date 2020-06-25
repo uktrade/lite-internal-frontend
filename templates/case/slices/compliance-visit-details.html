@@ -4,8 +4,6 @@
 		{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.VisitReportDetails.EDIT' %}
 	</a>
 </h2>
-
-
 <dl class="app-case__summary-list">
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
@@ -20,7 +18,7 @@
 			{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.VisitReportDetails.VISIT_DATE' %}
 		</dt>
 		<dd class="app-case__summary-list__value">
-			{{case.data.visit_date|default:"Not set"}}
+			{{case.data.visit_date|str_date_only|default:"Not set"}}
 		</dd>
 	</div>
 	<div class="app-case__summary-list__row">
@@ -40,7 +38,7 @@
 		</dd>
 	</div>
 </dl>
-<br>
+<div class="app-case-separator"></div>
 
 <h2 class="govuk-heading-m">
 	{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.PeoplePresent.TITLE' %}
@@ -93,6 +91,7 @@
 {% else %}
 	{% include "includes/notice.html" with text='cases.CasePage.DetailsTab.ComplianceVisitDetails.PeoplePresent.NO_PEOPLE_PRESENT' %}
 {% endif %}
+<div class="app-case-separator"></div>
 
 
 <h2 class="govuk-heading-m">
@@ -104,6 +103,7 @@
 <p class="govuk-body">
 	{{ case.data.overview|default:"Not set" }}
 </p>
+<div class="app-case-separator"></div>
 
 <h2 class="govuk-heading-m">
 	{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.Inspection.TITLE' %}
@@ -114,6 +114,7 @@
 <p class="govuk-body">
 	{{ case.data.inspection|default:"Not set" }}
 </p>
+<div class="app-case-separator"></div>
 
 
 <h2 class="govuk-heading-m">
@@ -135,6 +136,7 @@
 <p class="govuk-body">
 {{ case.data.compliance_risk_value.value|default:"Not set" }}
 </p>
+<div class="app-case-separator"></div>
 
 
 <h2 class="govuk-heading-m">
@@ -156,6 +158,7 @@
 <p class="govuk-body">
 	{{ case.data.individuals_risk_value.value|default:"Not set" }}
 </p>
+<div class="app-case-separator"></div>
 
 
 <h2 class="govuk-heading-m">

@@ -34,6 +34,9 @@ from conf.constants import (
     APPLICANT_URL,
     COMPLIANCE_URL,
     COMPLIANCE_LICENCES_URL,
+    COMPLIANCE_SITE_URL,
+    COMPLIANCE_VISIT_URL,
+    COMPLIANCE_PEOPLE_PRESENT_URL,
 )
 from core.helpers import convert_parameters_to_query_params, format_date
 from flags.enums import FlagStatus
@@ -374,37 +377,45 @@ def get_compliance_licences(request, case_id, reference, page):
 
 
 def post_create_compliance_visit(request, case_id):
-    data = post(request, COMPLIANCE_URL + "site/" + case_id + "/visit/", request_data={})
+    data = post(request, COMPLIANCE_URL + COMPLIANCE_SITE_URL + case_id + "/" + COMPLIANCE_VISIT_URL, request_data={})
     return data
 
 
 def get_compliance_visit_case(request, case_id):
-    data = get(request, COMPLIANCE_URL + "visit/" + str(case_id))
+    data = get(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id))
     return data.json()
 
 
 def patch_compliance_visit_case(request, case_id, json):
     if "visit_date_day" in json:
         json["visit_date"] = format_date(json, "visit_date_", True)
-    data = patch(request, COMPLIANCE_URL + "visit/" + str(case_id), request_data=json)
+    data = patch(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id), request_data=json)
     return data.json(), data.status_code
 
 
 def post_compliance_person_present(request, case_id, json):
-    data = post(request, COMPLIANCE_URL + "visit/" + str(case_id) + "/people-present/", request_data=json)
+    data = post(
+        request,
+        COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id) + "/" + COMPLIANCE_PEOPLE_PRESENT_URL,
+        request_data=json,
+    )
     return data.json(), data.status_code
 
 
 def get_compliance_person_present(request, person_id):
-    data = get(request, COMPLIANCE_URL + "visit/people-present/" + str(person_id))
+    data = get(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + COMPLIANCE_PEOPLE_PRESENT_URL + str(person_id))
     return data.json()
 
 
 def patch_compliance_person_present(request, person_id, json):
-    data = patch(request, COMPLIANCE_URL + "visit/people-present/" + str(person_id), request_data=json)
+    data = patch(
+        request,
+        COMPLIANCE_URL + COMPLIANCE_VISIT_URL + COMPLIANCE_PEOPLE_PRESENT_URL + str(person_id),
+        request_data=json,
+    )
     return data.json(), data.status_code
 
 
 def delete_compliance_person_present(request, person_id):
-    data = delete(request, COMPLIANCE_URL + "visit/people-present/" + str(person_id))
+    data = delete(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + COMPLIANCE_PEOPLE_PRESENT_URL + str(person_id))
     return data, data.status_code
