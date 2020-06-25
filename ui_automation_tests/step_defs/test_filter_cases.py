@@ -1,8 +1,7 @@
-from pytest_bdd import given, when, then, parsers, scenarios
+from pytest_bdd import when, then, parsers, scenarios
 
 from pages.queues_pages import QueuesPages
 from pages.shared import Shared
-from shared.tools.wait import wait_until_page_is_loaded
 from ui_automation_tests.pages.case_list_page import CaseListPage
 
 scenarios("../features/filter_cases.feature", strict_gherkin=False)
