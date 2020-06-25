@@ -70,7 +70,10 @@ ROUTING_RULES_STATUS_URL = "/status/"
 ENFORCEMENT_URL = CASE_URL + "enforcement-check/"
 APPLICANT_URL = "/applicant/"
 COMPLIANCE_URL = "/compliance/"
+COMPLIANCE_SITE_URL = "site/"
+COMPLIANCE_VISIT_URL = "visit/"
 COMPLIANCE_LICENCES_URL = "/licences/"
+COMPLIANCE_PEOPLE_PRESENT_URL = "people-present/"
 OPEN_LICENCE_RETURNS_URL = "/compliance/open-licence-returns/"
 
 # Static URLs

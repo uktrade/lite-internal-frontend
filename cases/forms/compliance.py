@@ -1,5 +1,6 @@
 from django.urls import reverse
 
+from lite_content.lite_internal_frontend.cases import ComplianceForms
 from lite_forms.components import Form, BackLink, DateInput, Select, Option, TextArea, TextInput
 
 Visit_type_choices = [
@@ -20,15 +21,18 @@ risk_value = [
 
 def visit_report_form(queue_pk, pk):
     return Form(
-        title="Visit report details",
+        title=ComplianceForms.VisitReport.TITLE,
         questions=[
-            Select(title="Visit type", name="visit_type", options=Visit_type_choices),
+            Select(title=ComplianceForms.VisitReport.VISIT_TYPE, name="visit_type", options=Visit_type_choices),
             DateInput(
-                title="Visit date", description="For example, 12 3 2020", name="visit_date", prefix="visit_date_"
+                title=ComplianceForms.VisitReport.VISIT_DATE,
+                description="For example, 12 3 2020",
+                name="visit_date",
+                prefix="visit_date_",
             ),
-            Select(title="Overall risk value", name="overall_risk_value", options=risk_value),
+            Select(title=ComplianceForms.VisitReport.OVERALL_RISK_VALUE, name="overall_risk_value", options=risk_value),
             Select(
-                title="Licence risk value",
+                title=ComplianceForms.VisitReport.LICENCE_RISK_VALUE,
                 name="licence_risk_value",
                 options=[Option(str(i), str(i)) for i in range(1, 6)],
             ),
@@ -39,15 +43,18 @@ def visit_report_form(queue_pk, pk):
 
 def people_present_form(queue_pk, pk):
     return Form(
-        title="People present",
-        questions=[TextInput(title="Name", name="name"), TextInput(title="Job description", name="job_title"),],
+        title=ComplianceForms.PeoplePresent.TITLE,
+        questions=[
+            TextInput(title=ComplianceForms.PeoplePresent.NAME, name="name"),
+            TextInput(title=ComplianceForms.PeoplePresent.JOB_TITLE, name="job_title"),
+        ],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
     )
 
 
 def overview_form(queue_pk, pk):
     return Form(
-        title="Overview",
+        title=ComplianceForms.Overview.TITLE,
         questions=[TextArea(name="overview")],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
     )
@@ -55,7 +62,7 @@ def overview_form(queue_pk, pk):
 
 def inspection_form(queue_pk, pk):
     return Form(
-        title="Inspection",
+        title=ComplianceForms.Inspection.TITLE,
         questions=[TextArea(name="inspection")],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
     )
@@ -63,10 +70,13 @@ def inspection_form(queue_pk, pk):
 
 def compliance_with_licence_form(queue_pk, pk):
     return Form(
-        title="Compliance with licence",
+        title=ComplianceForms.ComplianceWithLicence.TITLE,
+        description=ComplianceForms.ComplianceWithLicence.DESCRIPTION,
         questions=[
-            TextArea(title="Overview", name="compliance_overview"),
-            Select(title="Risk value", name="compliance_risk_value", options=risk_value),
+            TextArea(title=ComplianceForms.ComplianceWithLicence.OVERVIEW, name="compliance_overview"),
+            Select(
+                title=ComplianceForms.ComplianceWithLicence.RISK_VALUE, name="compliance_risk_value", options=risk_value
+            ),
         ],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
     )
@@ -74,10 +84,12 @@ def compliance_with_licence_form(queue_pk, pk):
 
 def knowledge_of_people_form(queue_pk, pk):
     return Form(
-        title="Knowledge and Understanding demonstrated by key export individuals at meeting",
+        title=ComplianceForms.KnowledgeOfPeople.TITLE,
         questions=[
-            TextArea(title="Overview", name="individuals_overview"),
-            Select(title="Risk value", name="individuals_risk_value", options=risk_value),
+            TextArea(title=ComplianceForms.KnowledgeOfPeople.OVERVIEW, name="individuals_overview"),
+            Select(
+                title=ComplianceForms.KnowledgeOfPeople.RISK_VALUE, name="individuals_risk_value", options=risk_value
+            ),
         ],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
     )
@@ -85,10 +97,12 @@ def knowledge_of_people_form(queue_pk, pk):
 
 def knowledge_of_products_form(queue_pk, pk):
     return Form(
-        title="Knowledge of controlled items in their business' products",
+        title=ComplianceForms.KnowledgeOfProducts.TITLE,
         questions=[
-            TextArea(title="Overview", name="products_overview"),
-            Select(title="Risk value", name="products_risk_value", options=risk_value),
+            TextArea(title=ComplianceForms.KnowledgeOfProducts.OVERVIEW, name="products_overview"),
+            Select(
+                title=ComplianceForms.KnowledgeOfProducts.RISK_VALUE, name="products_risk_value", options=risk_value
+            ),
         ],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
     )
