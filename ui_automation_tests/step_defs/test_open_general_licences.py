@@ -137,13 +137,11 @@ def filter_by_ogel(driver):
     case.click_apply_filters_button()
 
 
-@when("I click on first case")
-def click_on_first_case(driver):
-    # TODO get rid of this and change it to go to the ogel_case_id when its in the response.
-    Shared(driver).click_first_link_in_row()
-
-
 @then("I see OGEL case")
 def see_ogel(driver):
-    # TODO change this to go to the actual created licence and verify the reference code of this.
     assert "GBOGEL" in driver.find_element_by_id(ApplicationPage.HEADING_ID).text
+
+
+@when("I go to ogel application automatically created")  # noqa
+def click_on_created_application(driver, context, internal_url):  # noqa
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.ogel_case_id)
