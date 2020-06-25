@@ -11,5 +11,6 @@ def set_next_review_date_form(queue_id, case_id):
         questions=[DateInput(prefix="next_review_date", name="next_review_date")],
         buttons=[Button("Continue", action="submit")],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_id, "pk": case_id, "tab": "details"})),
-        javascript_imports=["/assets/javascripts/next_review_date.js"],
+        # TODO: Move this js to when clicking im done on a case with a review date.
+        # javascript_imports=["/assets/javascripts/next_review_date.js"],
     )
