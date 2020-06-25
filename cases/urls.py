@@ -66,13 +66,7 @@ urlpatterns = [
     # compliance
     path("create-visit-report/", compliance.CreateVisitReport.as_view(), name="create_visit_report"),
     path("visit-report/", compliance.VisitReportDetails.as_view(), name="visit_report"),
-    path("people-present/add/", compliance.AddPeoplePresent.as_view(), name="add_people_present"),
-    path("people-present/<uuid:person_id>/edit/", compliance.EditPeoplePresent.as_view(), name="edit_people_present"),
-    path(
-        "people-present/<uuid:person_id>/remove/",
-        compliance.RemovePeoplePresent.as_view(),
-        name="remove_people_present",
-    ),
+    path("people-present/", compliance.PeoplePresent.as_view(), name="people_present"),
     path("overview/", compliance.Overview.as_view(), name="overview"),
     path("inspection/", compliance.Inspection.as_view(), name="inspection"),
     path("compliance-licence/", compliance.ComplianceWithLicences.as_view(), name="compliance_with_licences"),

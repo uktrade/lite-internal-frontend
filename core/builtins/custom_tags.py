@@ -8,6 +8,7 @@ from collections import Counter, OrderedDict
 from html import escape
 
 from django import template
+from django.template import TemplateSyntaxError
 from django.template.defaultfilters import stringfilter, safe, capfirst
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
@@ -649,3 +650,25 @@ def get_goods_linked_to_destination_as_list(goods, country_id):
             break
 
     return list_of_goods
+
+
+@register.tag
+def component(parser, token):
+    nodelist = parser.parse(('endcomponent',))
+    try:
+        tag_name, modal_id, title = token.split_contents()
+    except ValueError:
+        raise TemplateSyntaxError("%r must define an export name eg '{% component as person %}'" % token.contents.split()[0])
+
+    parser.delete_first_token()
+    return ModalNode(nodelist, title)
+
+
+class ModalNode(template.Node):
+    def __init__(self, nodelist, title):
+        self.nodelist = nodelist
+        self.title = title
+
+    def render(self, context):
+        context[self.title] = self.nodelist.render(context)
+        return ""

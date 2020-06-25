@@ -18,7 +18,7 @@
 			{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.VisitReportDetails.VISIT_DATE' %}
 		</dt>
 		<dd class="app-case__summary-list__value">
-			{{case.data.visit_date|str_date_only|default:"Not set"}}
+
 		</dd>
 	</div>
 	<div class="app-case__summary-list__row">
@@ -42,7 +42,7 @@
 
 <h2 class="govuk-heading-m">
 	{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.PeoplePresent.TITLE' %}
-	<a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-6 govuk-!-font-size-19" href="{% url 'cases:add_people_present' queue.id case.id %}">
+	<a class="govuk-link govuk-link--no-visited-state govuk-!-margin-left-6 govuk-!-font-size-19" href="{% url 'cases:people_present' queue.id case.id %}">
 		{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.PeoplePresent.ADD' %}
 	</a>
 </h2>
