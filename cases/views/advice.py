@@ -249,14 +249,7 @@ class Finalise(TemplateView):
             data, status_code = get_licence(request, str(kwargs["pk"]))
             licence = data.get("licence")
             if licence:
-                if licence["status"] in ["issued", "reinstated"]:
-                    return redirect(
-                        reverse_lazy(
-                            "cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"])}
-                        )
-                    )
-
-                if licence["status"] == "revoked":
+                if case.data["status"]["key"] == "reopened_for_changes":
                     start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
                     form_data = {
                         "day": start_date.day,
@@ -275,6 +268,12 @@ class Finalise(TemplateView):
                         goods_html="components/goods-licence-reissue-list.html",
                     )
                     return form_page(request, form, data=form_data, extra_data={"case": case})
+
+                return redirect(
+                    reverse_lazy(
+                        "cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"]), "licence_pk": licence["id"]}
+                    )
+                )
 
             duration = get_application_default_duration(request, str(kwargs["pk"]))
 
@@ -304,7 +303,6 @@ class Finalise(TemplateView):
         is_open_licence = case.data["case_type"]["sub_type"]["key"] == CaseType.OPEN.value
         application_id = case.data.get("id")
         data = request.POST.copy()
-
         has_permission = helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION)
 
         res = finalise_application(request, application_id, data)
@@ -347,8 +345,10 @@ class Finalise(TemplateView):
             )
             return form_page(request, form, data=data, errors=res.json()["errors"], extra_data={"case": case})
 
+        data, status_code = get_licence(request, str(kwargs["pk"]))
+        licence = data.get("licence")
         return redirect(
-            reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]})
+            reverse_lazy("cases:finalise_documents", kwargs={"licence_pk": licence["id"], "queue_pk": kwargs["queue_pk"], "pk": case["id"]})
         )
 
 
@@ -364,6 +364,7 @@ class FinaliseGenerateDocuments(SingleFormView):
             "case": case,
             "can_submit": can_submit,
             "decisions": decisions,
+            "licence_pk": kwargs["licence_pk"]
         }
         self.action = grant_licence
         self.success_url = reverse_lazy(

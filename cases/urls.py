@@ -21,19 +21,19 @@ urlpatterns = [
     path("final-advice-view/", advice.ClearFinalAdvice.as_view(), name="final_advice_view"),
     path("finalise-goods-countries/", advice.FinaliseGoodsCountries.as_view(), name="finalise_goods_countries"),
     path("finalise/", advice.Finalise.as_view(), name="finalise"),
-    path("finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"),
+    path("licence/<uuid:licence_pk>/finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"),
     path(
-        "finalise/<str:decision_key>/generate-document/",
+        "licence/<uuid:licence_pk>/finalise/<str:decision_key>/generate-document/",
         generate_document.GenerateDecisionDocument.as_view(),
         name="finalise_document_template",
     ),
     path(
-        "finalise/<str:decision_key>/generate-document/<uuid:tpk>/preview/",
+        "licence/<uuid:licence_pk>/finalise/<str:decision_key>/generate-document/<uuid:tpk>/preview/",
         generate_document.PreviewDocument.as_view(),
         name="finalise_document_preview",
     ),
     path(
-        "finalise/<str:decision_key>/generate-document/<uuid:tpk>/create/",
+        "licence/<uuid:licence_pk>/finalise/<str:decision_key>/generate-document/<uuid:tpk>/create/",
         generate_document.CreateDocumentFinalAdvice.as_view(),
         name="finalise_document_create",
     ),
@@ -50,12 +50,12 @@ urlpatterns = [
         name="generate_document_regenerate",
     ),
     path(
-        "generate-document/<uuid:tpk>/preview/",
+        "licence/<uuid:licence_pk>/generate-document/<uuid:tpk>/preview/",
         generate_document.PreviewDocument.as_view(),
         name="generate_document_preview",
     ),
     path(
-        "generate-document/<uuid:tpk>/create/",
+        "licence/<uuid:licence_pk>/generate-document/<uuid:tpk>/create/",
         generate_document.CreateDocument.as_view(),
         name="generate_document_create",
     ),

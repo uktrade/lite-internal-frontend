@@ -88,7 +88,7 @@ class GenerateDocument(MultiFormView):
 class GenerateDecisionDocument(GenerateDocument):
     def get_forms(self):
         self.back_url = reverse_lazy(
-            "cases:finalise_documents", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"]}
+            "cases:finalise_documents", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "licence_pk": self.kwargs["licence_pk"]}
         )
         return FormGroup(
             [
@@ -99,6 +99,7 @@ class GenerateDecisionDocument(GenerateDocument):
                         "pk": self.kwargs["pk"],
                         "tpk": self.template,
                         "decision_key": self.kwargs["decision_key"],
+                        "licence_pk": self.kwargs["licence_pk"]
                     },
                     post_url="cases:finalise_document_preview",
                 ),
@@ -135,7 +136,7 @@ class PreviewDocument(TemplateView):
         return render(
             request,
             "generated-documents/preview.html",
-            {"preview": preview["preview"], TEXT: text, "addressee": addressee, "kwargs": kwargs},
+            {"preview": preview["preview"], TEXT: text, "addressee": addressee, "case_id": kwargs["pk"], "decision_key": kwargs["decision_key"], "template_id": kwargs["tpk"], "licence_id": kwargs["licence_pk"]},
         )
 
 
@@ -156,14 +157,14 @@ class CreateDocument(TemplateView):
 
 
 class CreateDocumentFinalAdvice(TemplateView):
-    def post(self, request, queue_pk, pk, decision_key, tpk):
+    def post(self, request, queue_pk, pk, licence_pk, decision_key, tpk):
         text = request.POST.get(TEXT)
         status_code = post_generated_document(
             request,
             str(pk),
-            {"template": str(tpk), TEXT: text, "visible_to_exporter": False, "advice_type": decision_key},
+            {"template": str(tpk), TEXT: text, "visible_to_exporter": False, "advice_type": decision_key, "licence_pk": str(licence_pk)},
         )
         if status_code != HTTPStatus.CREATED:
             return generate_document_error_page()
         else:
-            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": queue_pk, "pk": pk}))
+            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": queue_pk, "pk": pk, "licence_pk": str(licence_pk)}))
