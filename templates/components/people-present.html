@@ -10,7 +10,7 @@
 		</tr>
 	</thead>
 	<tbody id="tbody-people" class="govuk-table__body">
-		{% for person in data %}
+		{% for person in value.people_present %}
 			{% include 'includes/person-row.html' %}
 		{% endfor %}
 	</tbody>
@@ -22,7 +22,7 @@
 </button>
 
 <script type="text/javascript" nonce="{{ request.csp_nonce }}">
-	{% if not data %}
+	{% if not value %}
 		$("#table-people-present").hide();
 	{% else %}
 		updateRowIndexes();
@@ -33,7 +33,7 @@
 		$("#tbody-people").append(html);
 		$("#table-people-present").show();
 		$(".lite-information-text").remove();
-		html.find("#tbody-people .govuk-table__cell:nth-of-type(2) .govuk-input").focus();
+		html.find(".govuk-table__cell:nth-of-type(2) .govuk-input").focus();
 		updateRowIndexes();
 	});
 
@@ -58,6 +58,7 @@
 			index ++;
 		});
 
+		// Update link text to be more descriptive for screenreaders eg 'Remove John Smith'
 		$("#tbody-people .govuk-table__cell:nth-of-type(2) .govuk-input").unbind().change(function() {
 			$(this).parents(".govuk-table__row").find(".govuk-table__cell:last-of-type a").html("Remove <span class='govuk-visually-hidden'>" + $(this).val() + "</span>")
 		});

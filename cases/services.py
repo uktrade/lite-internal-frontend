@@ -404,4 +404,5 @@ def post_compliance_person_present(request, case_id, json):
         COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id) + "/" + COMPLIANCE_PEOPLE_PRESENT_URL,
         request_data=json,
     )
-    return data.json(), data.status_code
+    # Return both user entered json and api response in case of error
+    return {**json, **data.json()}, data.status_code
