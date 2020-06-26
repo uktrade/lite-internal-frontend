@@ -48,3 +48,8 @@ def check_licence_is_present(driver, context):  # noqa
 @when("I search for the finalised licence")  # noqa
 def i_search_for_licence(driver, context):  # noqa
     CompliancePages(driver).filter_by_case_reference(context)
+
+
+@when("I click add a visit report")  # noqa
+def add_visit_report(driver):  # noqa
+    CompliancePages(driver).add_visit_report()

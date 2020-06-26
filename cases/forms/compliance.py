@@ -46,11 +46,9 @@ def people_present_form(queue_pk, pk):
         title=ComplianceForms.PeoplePresent.TITLE,
         description="Describes who the Compliance Inspector conducted the visit with from the exporting"
                     " organisation - it may be referenced in a document.",
-        questions=[
-            Custom(template="components/people-present.html")
-        ],
+        questions=[Custom(template="components/people-present.html")],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
-        container="case"
+        container="case",
     )
 
 

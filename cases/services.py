@@ -394,7 +394,15 @@ def patch_compliance_visit_case(request, case_id, json):
 
 
 def get_compliance_people_present(request, case_id):
-    data = get(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id) + "/" + COMPLIANCE_PEOPLE_PRESENT_URL + "?disable_pagination=True")
+    data = get(
+        request,
+        COMPLIANCE_URL
+        + COMPLIANCE_VISIT_URL
+        + str(case_id)
+        + "/"
+        + COMPLIANCE_PEOPLE_PRESENT_URL
+        + "?disable_pagination=True",
+    )
     return data.json()
 
 
