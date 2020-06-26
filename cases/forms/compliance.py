@@ -44,11 +44,9 @@ def visit_report_form(queue_pk, pk):
 def people_present_form(queue_pk, pk, data):
     return Form(
         title=ComplianceForms.PeoplePresent.TITLE,
-        questions=[
-            Custom(template="components/people-present.html", data=data)
-        ],
+        questions=[Custom(template="components/people-present.html", data=data)],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
-        container="case"
+        container="case",
     )
 
 

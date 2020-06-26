@@ -16,7 +16,8 @@ from cases.services import (
     patch_compliance_visit_case,
     get_compliance_visit_case,
     post_compliance_person_present,
-    get_case, get_compliance_people_present,
+    get_case,
+    get_compliance_people_present,
 )
 from lite_forms.views import SingleFormView
 
@@ -34,7 +35,7 @@ class CreateVisitReport(TemplateView):
         new_case_id = response.json()["data"]["id"]
 
         return redirect(
-            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": new_case_id, "tab": "activity"})
+            reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": new_case_id, "tab": "details"})
         )
 
 
@@ -71,10 +72,9 @@ class PeoplePresent(SingleFormView):
         i = 0
 
         while i < len(data.getlist("name[]")):
-            data["people_present"].append({
-                "name": data.getlist("name[]")[i],
-                "job_title": data.getlist("job_title[]")[i],
-            })
+            data["people_present"].append(
+                {"name": data.getlist("name[]")[i], "job_title": data.getlist("job_title[]")[i],}
+            )
             i += 1
 
         data["visit_case"] = str(kwargs["pk"])
