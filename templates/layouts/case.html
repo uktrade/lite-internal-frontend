@@ -50,11 +50,19 @@
 							</div>
 						{% endif %}
 						{% if case.data.open_general_licence %}
-							<span id="candy-open-general-licences" class="app-case-header__candy">
+							<span id="candy-open-general-licence" class="app-case-header__candy">
 								{{ case.case_type.reference.value }}
 							</span>
-							<div id="popup-open-general-licences" class="app-case-header__candy__popup">
+							<div id="popup-open-general-licence" class="app-case-header__candy__popup">
 								{% include 'case/pills/open-general-licence.html' %}
+							</div>
+						{% endif %}
+						{% if case.data.visit_date %}
+							<span id="candy-visit-date" class="app-case-header__candy">
+								First visit <span class="govuk-!-margin-left-1 govuk-!-font-weight-bold">{{ case.data.visit_date|str_date_only }}</span>
+							</span>
+							<div id="popup-visit-date" class="app-case-header__candy__popup">
+								{% include 'case/pills/visit-date.html' %}
 							</div>
 						{% endif %}
 						<span id="candy-flags" class="app-case-header__candy">
