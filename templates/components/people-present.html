@@ -24,6 +24,8 @@
 <script type="text/javascript" nonce="{{ request.csp_nonce }}">
 	{% if not data %}
 		$("#table-people-present").hide();
+	{% else %}
+		updateRowIndexes();
 	{% endif %}
 
 	$("#button-add-person").click(function() {
@@ -31,7 +33,7 @@
 		$("#tbody-people").append(html);
 		$("#table-people-present").show();
 		$(".lite-information-text").remove();
-		html.find(".govuk-table__cell:nth-of-type(2) .govuk-input").focus();
+		html.find("#tbody-people .govuk-table__cell:nth-of-type(2) .govuk-input").focus();
 		updateRowIndexes();
 	});
 
@@ -54,6 +56,10 @@
 		$("#tbody-people .govuk-table__cell:first-of-type").each(function() {
 			$(this).text(index + ".");
 			index ++;
+		});
+
+		$("#tbody-people .govuk-table__cell:nth-of-type(2) .govuk-input").unbind().change(function() {
+			$(this).parents(".govuk-table__row").find(".govuk-table__cell:last-of-type a").html("Remove <span class='govuk-visually-hidden'>" + $(this).val() + "</span>")
 		});
 	}
 </script>
