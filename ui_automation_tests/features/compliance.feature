@@ -42,7 +42,26 @@ Feature: I want to generate and view compliance cases on approval and proviso of
     Then I see my previously created licence
 
   @regression @LT-1122
-  Scenario: Create compliance visit case
+  Scenario: Create compliance visit case and respond to basic details
     When I go to the compliance case created
     And I click add a visit report
+    Then I am on a compliance visit case
+    When I add I visit report details 'first visit', '12-05-2020', 'lower', and '5'
+#    Then I see the visit report details in details and the banner
+#    When I add people present
+#    Then I see the people present
+#    When I add overview details
+#    Then I see overview details
+#    When I add inspection details
+#    Then I see inspection details
+#    When I add Compliance with licences details
+#    Then I see Compliance with licences details
+#    When I add knowledge of key individuals details
+#    Then I see knowledge of key individuals details
+#    When I add knowledge of controlled product details
+#    Then I see knowledge of controlled product details
+#    When I go to the ECJU queries tab
+#    Then I see different ecju query buttons
+
+
 

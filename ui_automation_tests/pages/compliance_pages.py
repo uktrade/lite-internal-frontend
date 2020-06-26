@@ -14,3 +14,6 @@ class CompliancePages(BasePage):
 
     def add_visit_report(self):
         self.driver.find_element_by_id(self.ADD_VISIT_REPORT_ID).click()
+
+    def add_visit_report_details(self, visit_type, visit_date, overall_risk, licence_risk):
+        self.driver

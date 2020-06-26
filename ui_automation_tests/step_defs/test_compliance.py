@@ -53,3 +53,50 @@ def i_search_for_licence(driver, context):  # noqa
 @when("I click add a visit report")  # noqa
 def add_visit_report(driver):  # noqa
     CompliancePages(driver).add_visit_report()
+
+
+@then("I am on a compliance visit case")
+def on_compliance_case(driver):
+    reference = CasePage(driver).get_reference_code_text()
+    assert reference.startswith("COMP/")
+    assert reference.endswith("/V")
+
+
+@when(
+    parsers.parse(
+        "When I add I visit report details '{visit_type}', '{visit_date}', '{overall_risk}', and '{licence_risk}'"
+    )
+)
+def add_visit_report_details(driver, visit_type, visit_date, overall_risk, licence_risk):
+    CompliancePages(driver).add_visit_report_details(visit_type, visit_date, overall_risk, licence_risk)
+
+
+# @then("Then I see the visit report details in details and the banner")
+#
+# @when("I add people present")
+#
+# @then("Then I see the people present")
+#
+# @when("I add overview details")
+#
+# @then("I see overview details")
+#
+# @when("I add inspection details")
+#
+# @then("I see inspection details")
+#
+# @when("When I add Compliance with licences details")
+#
+# @then("I see Compliance with licences details")
+#
+# @when("When I add knowledge of key individuals details")
+#
+# @then("Then I see knowledge of key individuals details")
+#
+# @when("When I add knowledge of controlled product details")
+#
+# @then("Then I see knowledge of controlled product details")
+#
+# @when("When I go to the ECJU queries tab")
+#
+# @then("Then I see different ecju query buttons")
