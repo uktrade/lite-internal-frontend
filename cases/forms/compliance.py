@@ -44,6 +44,8 @@ def visit_report_form(queue_pk, pk):
 def people_present_form(queue_pk, pk, data):
     return Form(
         title=ComplianceForms.PeoplePresent.TITLE,
+        description="Describes who the Compliance Inspector conducted the visit with from the exporting"
+                    " organisation - it may be referenced in a document.",
         questions=[
             Custom(template="components/people-present.html", data=data)
         ],
