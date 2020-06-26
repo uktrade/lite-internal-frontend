@@ -3,7 +3,6 @@ import dateparser
 import json
 
 from django import template
-from django.template.base import TokenType
 from django.utils.html import mark_safe
 
 

@@ -6,6 +6,8 @@ from spire import views
 app_name = "spire"
 
 urlpatterns = [
-    path("search/", views.SpireLicenseSearch.as_view(), name="search"),
-    path("licence/<str:id>/", views.SpireLicenceDetail.as_view(), name="licence"),
+    path("application/", views.SpireApplicationSearch.as_view(), name="application-search"),
+    path("licence/", views.SpireLicenseSearch.as_view(), name="licence-search"),
+    path("licence/<str:id>/", views.SpireLicenceDetail.as_view(), name="licence-detail"),
+    path("application/<str:id>/", views.SpireApplicationDetail.as_view(), name="application-detail"),
 ]
