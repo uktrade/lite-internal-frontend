@@ -1,25 +1,5 @@
 {% load svg %}
 
-{% component as person %}
-	<tr class="govuk-table__row">
-		<td class="govuk-table__cell">
-			<label class="govuk-visually-hidden" for="width-20">Name</label>
-			<input class="govuk-input" id="width-20" name="name[]" type="text">
-		</td>
-		<td class="govuk-table__cell">
-			<label class="govuk-visually-hidden" for="width-20">Job title</label>
-			<input class="govuk-input" id="width-20" name="job_title[]" type="text">
-		</td>
-		<td class="govuk-table__cell govuk-table__cell--tight lite-table__cell--middle-align">
-			<a href="#" class="govuk-link govuk-link--no-visited-state" onclick="return removeRow(this)">Remove</a>
-		</td>
-	</tr>
-{% endcomponent %}
-
-{% component as no_content_notice %}
-	{% include 'includes/notice.html' %}
-{% endcomponent %}
-
 <table class="govuk-table">
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
@@ -29,7 +9,9 @@
 		</tr>
 	</thead>
 	<tbody id="tbody-people" class="govuk-table__body">
-		{{ person }}
+		{% for person in data.people_present %}
+			{% include 'includes/person-row.html' %}
+		{% endfor %}
 	</tbody>
 </table>
 
@@ -40,7 +22,7 @@
 
 <script type="text/javascript" nonce="{{ request.csp_nonce }}">
 	$("#button-add-person").click(function() {
-		var html = $(`{{ person }}`);
+		var html = $(`{% include 'includes/person-row.html' %}`);
 		$("#tbody-people").append(html);
 		html.find(".govuk-table__cell:first-of-type .govuk-input").focus();
 		$("table").show();

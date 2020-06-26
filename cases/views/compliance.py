@@ -61,7 +61,19 @@ class PeoplePresent(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.context = {"case": get_case(request, self.object_pk)}
-        self.form = people_present_form(kwargs["queue_pk"], kwargs["pk"])
+        self.data = {
+            "people_present": [
+                {
+                    "name": "Matt Berninger",
+                    "job_title": "Singer"
+                },
+                {
+                    "name": "Aaron Dessner",
+                    "job_title": "Guitarist"
+                }
+            ]
+        }
+        self.form = people_present_form(kwargs["queue_pk"], kwargs["pk"], self.data)
         self.success_url = reverse("cases:case", kwargs=kwargs)
         self.action = post_compliance_person_present
 

@@ -1,0 +1,13 @@
+<tr class="govuk-table__row">
+	<td class="govuk-table__cell">
+		<label class="govuk-visually-hidden" for="name-{{ forloop.counter }}">Name</label>
+		<input id="name-{{ forloop.counter }}" class="govuk-input" name="name[]" type="text" value="{{ person.name }}">
+	</td>
+	<td class="govuk-table__cell">
+		<label class="govuk-visually-hidden" for="job-title-{{ forloop.counter }}">Job title</label>
+		<input id="job-title-{{ forloop.counter }}" class="govuk-input" name="job_title[]" type="text" value="{{ person.job_title }}">
+	</td>
+	<td class="govuk-table__cell govuk-table__cell--tight lite-table__cell--middle-align">
+		<a id="link-remove-row-{{ forloop.counter }}" href="#" class="govuk-link govuk-link--no-visited-state" onclick="return removeRow(this)">Remove</a>
+	</td>
+</tr>
