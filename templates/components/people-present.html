@@ -47,7 +47,6 @@
 	function tryShowNoContentNotice() {
 		if ($("#tbody-people").children().length == 0) {
 			$("table").hide();
-			$("table").after(`{{ no_content_notice }}`);
 		}
 	}
 
