@@ -22,7 +22,7 @@
 </button>
 
 <script type="text/javascript" nonce="{{ request.csp_nonce }}">
-	{% if not value %}
+	{% if not value.people_present %}
 		$("#table-people-present").hide();
 	{% else %}
 		updateRowIndexes();
