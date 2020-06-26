@@ -52,7 +52,6 @@
 			<tr class="govuk-table__row">
 				<th class="govuk-table__header" scope="col">{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.PeoplePresent.NAME' %}</th>
 				<th class="govuk-table__header" scope="col">{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.PeoplePresent.JOB_TITLE' %}</th>
-				<th class="govuk-table__header" scope="col"></th>
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body">
@@ -69,20 +68,6 @@
 							{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.PeoplePresent.JOB_TITLE' %}
 						</span>
 						{{ person.job_title }}
-					</td>
-					<td class="govuk-table__cell govuk-table__cell--tight">
-						<ul class="govuk-table__cell__actions-list">
-							<li class="govuk-table__cell__actions-list-item">
-								<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:edit_people_present' queue.id case.id person.id %}">
-									{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.PeoplePresent.EDIT' %}
-								</a>
-							</li>
-							<li class="govuk-table__cell__actions-list-item">
-								<a class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:remove_people_present' queue.id case.id person.id %}">
-									{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.PeoplePresent.REMOVE' %}
-								</a>
-							</li>
-						</ul>
 					</td>
 				</tr>
 			{% endfor %}
