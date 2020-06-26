@@ -59,8 +59,8 @@ class PeoplePresent(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.context = {"case": get_case(request, self.object_pk)}
-        self.data = get_compliance_people_present(request, self.object_pk)
-        self.form = people_present_form(kwargs["queue_pk"], kwargs["pk"], self.data)
+        self.data = {"people_present": get_compliance_people_present(request, self.object_pk)}
+        self.form = people_present_form(kwargs["queue_pk"], kwargs["pk"])
         self.success_url = reverse("cases:case", kwargs=kwargs)
         self.success_message = "People present updated successfully"
         self.action = post_compliance_person_present
