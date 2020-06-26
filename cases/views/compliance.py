@@ -79,6 +79,16 @@ class PeoplePresent(SingleFormView):
 
     def on_submission(self, request, **kwargs):
         data = request.POST.copy()
+        data["people_present"] = []
+        i = 0
+
+        while i < len(data.getlist("name[]")):
+            data["people_present"].append({
+                "name": data.getlist("name[]")[i],
+                "job_title": data.getlist("job_title[]")[i],
+            })
+            i += 1
+
         data["visit_case"] = str(kwargs["pk"])
         return data
 
