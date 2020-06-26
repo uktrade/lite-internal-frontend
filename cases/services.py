@@ -412,5 +412,23 @@ def post_compliance_person_present(request, case_id, json):
         COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id) + "/" + COMPLIANCE_PEOPLE_PRESENT_URL,
         request_data=json,
     )
-    # Return both user entered json and api response in case of error
-    return {**json, **data.json()}, data.status_code
+
+    # Translate errors to be more user friendly, from
+    # {'errors': [{}, {'name': ['This field may not be blank.'], 'job_title': ['This field may not be blank.']}, ...]}
+    # to
+    # {'errors': {'name-2': ['This field may not be blank'], 'job-title-2': ['This field may not be blank'], ...}}
+    if "errors" in data.json():
+        errors = data.json()["errors"]
+        translated_errors = {}
+
+        index = 1
+        for error in errors:
+            if error:
+                if "name" in error:
+                    translated_errors["name-" + str(index)] = [str(index) + ". " + error.pop("name")[0]]
+                if "job_title" in error:
+                    translated_errors["job-title-" + str(index)] = [str(index) + ". " + error.pop("job_title")[0]]
+            index += 1
+
+        return {**json, "errors": translated_errors}, data.status_code
+    return data.json(), data.status_code
