@@ -37,8 +37,9 @@ def has_valid_token(client):
 
 
 def get_profile(client):
-    response = client.get(PROFILE_URL)#.json()
+    response = client.get(PROFILE_URL)  # .json()
     return response.json()
+
 
 def authbroker_login_required(func):
     """Check that the current session has authenticated with the authbroker and has a valid token.

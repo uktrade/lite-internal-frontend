@@ -9,8 +9,14 @@ class SpireClient(directory_client_core.base.AbstractAPIClient):
     def list_licences(self, **params):
         return self.get("/api/spire/licence/", params=params)
 
+    def list_applications(self, **params):
+        return self.get("/api/spire/application/", params=params)
+
     def get_licence(self, id):
         return self.get(f"/api/spire/licence/{id}/")
+
+    def get_application(self, id):
+        return self.get(f"/api/spire/application/{id}/")
 
 
 spire_client = SpireClient(

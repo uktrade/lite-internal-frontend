@@ -4,12 +4,12 @@
 
 {% block back_link %}{% endblock %}
 
-{% block title %}SPIRE license search{% endblock %}
+{% block title %}SPIRE application search{% endblock %}
 
 {% block body %}
 	<div class="lite-app-bar govuk-!-margin-bottom-0">
 		<div class="lite-app-bar__content">
-			<h1 class="govuk-heading-l">SPIRE licence search</h1>
+			<h1 class="govuk-heading-l">SPIRE application search</h1>
 		</div>
 	</div>
 	<form method="get">
@@ -28,33 +28,31 @@
 			<table class="govuk-table">
 				<thead class="govuk-table__head">
 					<tr class="govuk-table__row">
-						<th class="govuk-table__header" scope="col">Licence</th>
+						<th class="govuk-table__header" scope="col">Application</th>
 						<th class="govuk-table__header" scope="col">Licensee</th>
-						<th class="govuk-table__header" scope="col">Spire ref/Applicant ref</th>
+						<th class="govuk-table__header" scope="col">Applicant ref</th>
 						<th class="govuk-table__header" scope="col">Submitted date</th>
 						<th class="govuk-table__header" scope="col">Case status</th>
+						<th class="govuk-table__header" scope="col">Licence</th>
 					</tr>
 				</thead>
 				<tbody class="govuk-table__body">
-					{% for licence in results %}
+					{% for application in results %}
+						
 						<tr class="govuk-table__row">
 							<td class="govuk-table__cell">
-								<a href="{% url 'spire:licence-detail' id=licence.id %}" class="govuk-link">{{ licence.licence.licence_ref }}</a>
-								<p class="govuk-!-margin-bottom-0 govuk-!-margin-top-1">
-									{{ licence.document_instance.data.application_type }}
-								{% if licence.document_instance.data.application_sub_type %}
-									({{ licence.document_instance.data.application_sub_type|title }})
-								</p>
+								<a href="{% url 'spire:application-detail' id=application.id %}" class="govuk-link">{{ application.application_ref }}</a>
+								<p class="govuk-!-margin-bottom-0 govuk-!-margin-top-1">{{ application.application_type_formatted }}</p>
+							</td>
+							<td class="govuk-table__cell">{{ application.organisation.name }}</td>
+
+							<td class="govuk-table__cell">{{ application.applicant_ref }}</td>
+							<td class="govuk-table__cell">{{ application.submitted_datetime|parse_date|date:"d M Y" }}</td>
+							<td class="govuk-table__cell">{{ application.status_formatted }} ({{application.case_closed_reason }})</td>
+							<td class="govuk-table__cell">
+								{% if application.licence %}
+									<a href="{% url 'spire:licence-detail' id=application.licence.id %}" class="govuk-link">{{ application.licence.licence_ref }}</a>
 								{% endif %}
-							</td>
-							<td class="govuk-table__cell">{{ licence.document_instance.data.exporter_name }}</td>
-							<td class="govuk-table__cell">
-								<p class="govuk-!-margin-top-0">{{ licence.licence.licence_ref }}</p>
-								<p class="govuk-!-margin-bottom-0 govuk-!-margin-top-1">{{ licence.document_instance.data.company_ref }}</p>
-							</td>
-							<td class="govuk-table__cell">{{ licence.document_instance.data.submitted_date|parse_date|date:"d M Y" }}</td>
-							<td class="govuk-table__cell">
-								<p class="govuk-!-margin-top-0">{{ licence.licence.licence_status|title }}</p>
 							</td>
 						</tr>
 					{% endfor %}
