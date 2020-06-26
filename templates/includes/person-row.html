@@ -1,4 +1,7 @@
 <tr class="govuk-table__row">
+	<td class="govuk-table__cell govuk-table__cell--line-number lite-table__cell--middle-align">
+		{{ forloop.counter }}.
+	</td>
 	<td class="govuk-table__cell">
 		<label class="govuk-visually-hidden" for="name-{{ forloop.counter }}">Name</label>
 		<input id="name-{{ forloop.counter }}" class="govuk-input" name="name[]" type="text" value="{{ person.name }}">

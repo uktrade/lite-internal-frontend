@@ -16,9 +16,7 @@ from cases.services import (
     patch_compliance_visit_case,
     get_compliance_visit_case,
     post_compliance_person_present,
-    delete_compliance_person_present,
-    get_compliance_person_present,
-    patch_compliance_person_present, get_case,
+    get_case, get_compliance_people_present,
 )
 from lite_forms.views import SingleFormView
 
@@ -61,20 +59,10 @@ class PeoplePresent(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         self.context = {"case": get_case(request, self.object_pk)}
-        self.data = {
-            "people_present": [
-                {
-                    "name": "Matt Berninger",
-                    "job_title": "Singer"
-                },
-                {
-                    "name": "Aaron Dessner",
-                    "job_title": "Guitarist"
-                }
-            ]
-        }
+        self.data = get_compliance_people_present(request, self.object_pk)
         self.form = people_present_form(kwargs["queue_pk"], kwargs["pk"], self.data)
         self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.success_message = "People present updated successfully"
         self.action = post_compliance_person_present
 
     def on_submission(self, request, **kwargs):
@@ -91,23 +79,6 @@ class PeoplePresent(SingleFormView):
 
         data["visit_case"] = str(kwargs["pk"])
         return data
-
-
-# class EditPeoplePresent(SingleFormView):
-#     def init(self, request, **kwargs):
-#         self.object_pk = kwargs["person_id"]
-#         self.form = people_present_form(kwargs["queue_pk"], kwargs["pk"])
-#         self.success_url = reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]})
-#         self.data = get_compliance_person_present(request, kwargs["person_id"])
-#         self.action = patch_compliance_person_present
-
-
-# class RemovePeoplePresent(TemplateView):
-#     def get(self, request, *args, **kwargs):
-#
-#         delete_compliance_person_present(request, kwargs["person_id"])
-#
-#         return redirect(reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": kwargs["pk"]}))
 
 
 class Overview(SingleFormView):
