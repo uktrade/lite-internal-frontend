@@ -1,5 +1,5 @@
-<a class="govuk-button govuk-button--secondary govuk-!-margin-bottom-2" href="{% url 'cases:create_visit_report' queue.id case.id %}">
-	Add a visit report
+<a id="add-visit-report" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-2" href="{% url 'cases:create_visit_report' queue.id case.id %}">
+	{% lcs "cases.CasePage.DetailsTab.VisitReports.ADD" %}
 </a>
 
 
