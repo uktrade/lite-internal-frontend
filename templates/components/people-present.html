@@ -53,8 +53,13 @@
 
 	function updateRowIndexes() {
 		var index = 1;
-		$("#tbody-people .govuk-table__cell:first-of-type").each(function() {
-			$(this).text(index + ".");
+		$("#tbody-people .govuk-table__row").each(function() {
+			$(this).children().eq(0).text(index + ".");
+			$(this).children().eq(1).find('label').attr("for", "name-" + index);
+			$(this).children().eq(1).find('input').attr("id", "name-" + index);
+			$(this).children().eq(2).find('label').attr("for", "job-title-" + index);
+			$(this).children().eq(2).find('input').attr("id", "job-title-" + index);
+			$(this).children().eq(3).find('a').attr("id", "link-remove-row-" + index);
 			index ++;
 		});
 
