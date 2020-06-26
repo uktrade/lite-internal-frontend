@@ -1,15 +1,16 @@
 {% load svg %}
 
-<table class="govuk-table">
+<table id="table-people-present" class="govuk-table">
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
+			<th scope="col" class="govuk-table__header">#</th>
 			<th scope="col" class="govuk-table__header">Name</th>
 			<th scope="col" class="govuk-table__header">Job title</th>
 			<th scope="col" class="govuk-table__header"></th>
 		</tr>
 	</thead>
 	<tbody id="tbody-people" class="govuk-table__body">
-		{% for person in data.people_present %}
+		{% for person in data %}
 			{% include 'includes/person-row.html' %}
 		{% endfor %}
 	</tbody>
@@ -21,17 +22,23 @@
 </button>
 
 <script type="text/javascript" nonce="{{ request.csp_nonce }}">
+	{% if not data %}
+		$("#table-people-present").hide();
+	{% endif %}
+
 	$("#button-add-person").click(function() {
 		var html = $(`{% include 'includes/person-row.html' %}`);
 		$("#tbody-people").append(html);
-		html.find(".govuk-table__cell:first-of-type .govuk-input").focus();
-		$("table").show();
+		$("#table-people-present").show();
 		$(".lite-information-text").remove();
+		html.find(".govuk-table__cell:nth-of-type(2) .govuk-input").focus();
+		updateRowIndexes();
 	});
 
 	function removeRow(element) {
 		$(element).parents(".govuk-table__row").remove();
 		tryShowNoContentNotice();
+		updateRowIndexes();
 		return false;
 	}
 
@@ -40,5 +47,13 @@
 			$("table").hide();
 			$("table").after(`{{ no_content_notice }}`);
 		}
+	}
+
+	function updateRowIndexes() {
+		var index = 1;
+		$("#tbody-people .govuk-table__cell:first-of-type").each(function() {
+			$(this).text(index + ".");
+			index ++;
+		});
 	}
 </script>

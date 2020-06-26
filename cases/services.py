@@ -393,6 +393,11 @@ def patch_compliance_visit_case(request, case_id, json):
     return data.json(), data.status_code
 
 
+def get_compliance_people_present(request, case_id):
+    data = get(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id) + "/" + COMPLIANCE_PEOPLE_PRESENT_URL + "?disable_pagination=True")
+    return data.json()
+
+
 def post_compliance_person_present(request, case_id, json):
     data = post(
         request,
@@ -400,22 +405,3 @@ def post_compliance_person_present(request, case_id, json):
         request_data=json,
     )
     return data.json(), data.status_code
-
-
-def get_compliance_person_present(request, person_id):
-    data = get(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + COMPLIANCE_PEOPLE_PRESENT_URL + str(person_id))
-    return data.json()
-
-
-def patch_compliance_person_present(request, person_id, json):
-    data = patch(
-        request,
-        COMPLIANCE_URL + COMPLIANCE_VISIT_URL + COMPLIANCE_PEOPLE_PRESENT_URL + str(person_id),
-        request_data=json,
-    )
-    return data.json(), data.status_code
-
-
-def delete_compliance_person_present(request, person_id):
-    data = delete(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + COMPLIANCE_PEOPLE_PRESENT_URL + str(person_id))
-    return data, data.status_code
