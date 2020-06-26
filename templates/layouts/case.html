@@ -59,7 +59,7 @@
 						{% endif %}
 						{% if case.data.visit_date %}
 							<span id="candy-visit-date" class="app-case-header__candy">
-								First visit <span class="govuk-!-margin-left-1 govuk-!-font-weight-bold">{{ case.data.visit_date|str_date_only }}</span>
+								{{ case.data.visit_type.value }} <span class="govuk-!-margin-left-1 govuk-!-font-weight-bold">{{ case.data.visit_date|str_date_only }}</span>
 							</span>
 							<div id="popup-visit-date" class="app-case-header__candy__popup">
 								{% include 'case/pills/visit-date.html' %}
