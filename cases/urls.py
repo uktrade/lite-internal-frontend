@@ -21,7 +21,11 @@ urlpatterns = [
     path("final-advice-view/", advice.ClearFinalAdvice.as_view(), name="final_advice_view"),
     path("finalise-goods-countries/", advice.FinaliseGoodsCountries.as_view(), name="finalise_goods_countries"),
     path("finalise/", advice.Finalise.as_view(), name="finalise"),
-    path("licence/<uuid:licence_pk>/finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"),
+    path(
+        "licence/<uuid:licence_pk>/finalise/generate-documents/",
+        advice.FinaliseGenerateDocuments.as_view(),
+        name="finalise_documents",
+    ),
     path(
         "licence/<uuid:licence_pk>/finalise/<str:decision_key>/generate-document/",
         generate_document.GenerateDecisionDocument.as_view(),

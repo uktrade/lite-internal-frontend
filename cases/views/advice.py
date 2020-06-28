@@ -271,7 +271,8 @@ class Finalise(TemplateView):
 
                 return redirect(
                     reverse_lazy(
-                        "cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"]), "licence_pk": licence["id"]}
+                        "cases:finalise_documents",
+                        kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"]), "licence_pk": licence["id"]},
                     )
                 )
 
@@ -341,14 +342,17 @@ class Finalise(TemplateView):
                 duration=data.get("licence_duration") or get_application_default_duration(request, str(kwargs["pk"])),
                 editable_duration=has_permission,
                 goods=self._get_goods(request, str(kwargs["pk"]), case_type),
-                goods_html="components/goods-licence-list.html"
+                goods_html="components/goods-licence-list.html",
             )
             return form_page(request, form, data=data, errors=res.json()["errors"], extra_data={"case": case})
 
         data, status_code = get_licence(request, str(kwargs["pk"]))
         licence = data.get("licence")
         return redirect(
-            reverse_lazy("cases:finalise_documents", kwargs={"licence_pk": licence["id"], "queue_pk": kwargs["queue_pk"], "pk": case["id"]})
+            reverse_lazy(
+                "cases:finalise_documents",
+                kwargs={"licence_pk": licence["id"], "queue_pk": kwargs["queue_pk"], "pk": case["id"]},
+            )
         )
 
 
@@ -364,7 +368,7 @@ class FinaliseGenerateDocuments(SingleFormView):
             "case": case,
             "can_submit": can_submit,
             "decisions": decisions,
-            "licence_pk": kwargs["licence_pk"]
+            "licence_pk": kwargs["licence_pk"],
         }
         self.action = grant_licence
         self.success_url = reverse_lazy(
