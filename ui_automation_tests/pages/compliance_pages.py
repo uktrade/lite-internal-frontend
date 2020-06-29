@@ -7,6 +7,7 @@ from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 
 class CompliancePages(BasePage):
+
     CASE_REFERENCE_ID = "reference"
     COMPLIANCE_BANNER_DETAILS = "candy-visit-date"
     ADD_VISIT_REPORT_ID = "add-visit-report"
