@@ -63,6 +63,8 @@ urlpatterns = [
     path("assign-user/", main.UserWorkQueue.as_view(), name="assign_user"),
     path("assign-user-queue/<uuid:user_pk>/", main.UserTeamQueue.as_view(), name="assign_user_queue"),
     path("rerun-routing-rules/", main.RerunRoutingRules.as_view(), name="rerun_routing_rules",),
+    path("good/<uuid:good_pk>/", main.Good.as_view(), name="good"),
+    path("destination/<uuid:destination_pk>/", main.Destination.as_view(), name="destination"),
     path("<str:tab>/", main.CaseDetail.as_view(), name="case", kwargs={"disable_queue_lookup": True}),
     path("<str:tab>/give-advice/", advice.GiveAdvice.as_view(), name="give_advice"),
 ]

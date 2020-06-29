@@ -198,22 +198,6 @@ class CaseImDoneView(TemplateView):
         return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
 
 
-class ViewAdvice(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-        activity, _ = get_activity(request, case_id)
-        permissions = get_user_permissions(request)
-
-        context = {
-            "data": case,
-            "activity": activity.get("activity"),
-            "permissions": permissions,
-            "edit_case_flags": cases.Case.EDIT_CASE_FLAGS,
-        }
-        return render(request, "case/advice/user.html", context)
-
-
 class ChangeStatus(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
@@ -413,3 +397,25 @@ class RerunRoutingRules(SingleFormView):
             return redirect(self.success_url)
 
         return super(RerunRoutingRules, self).post(request, **kwargs)
+
+
+class Good(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs["pk"])
+        case = get_case(request, case_id)
+
+        context = {
+            "case": case,
+        }
+        return render(request, "case/popups/good.html", context)
+
+
+class Destination(TemplateView):
+    def get(self, request, **kwargs):
+        case_id = str(kwargs["pk"])
+        case = get_case(request, case_id)
+
+        context = {
+            "case": case,
+        }
+        return render(request, "case/popups/destination.html", context)

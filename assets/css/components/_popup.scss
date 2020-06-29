@@ -1,0 +1,41 @@
+$popup-padding: govuk-spacing(3);
+
+.app-popup {
+	background-color: $govuk-body-background-colour;
+	color: $govuk-text-colour;
+	padding: 0;
+	margin: 0;
+
+	.lite-tabs__container {
+		position: sticky;
+		top: 0;
+		background-color: $govuk-body-background-colour;
+		margin-bottom: $popup-padding;
+		margin-left: - $popup-padding;
+		margin-right: - $popup-padding;
+		padding-left: $popup-padding;
+		padding-right: $popup-padding;
+
+		.lite-tabs__tab {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.app-popup__header {
+	h1 {
+		@include govuk-font($size: 19, $weight: bold);
+		padding: 0;
+		margin-bottom: $popup-padding / 2;
+		color: govuk-colour("black");
+	}
+}
+
+.app-popup__content {
+	padding: $popup-padding;
+	background-color: $govuk-body-background-colour;
+}
+
+.app-popup__body {
+	@include govuk-font($size: 19, $line-height: 1.5);
+}
