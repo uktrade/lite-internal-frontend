@@ -414,9 +414,11 @@ def post_compliance_person_present(request, case_id, json):
     )
 
     # Translate errors to be more user friendly, from
-    # {'errors': [{}, {'name': ['This field may not be blank.'], 'job_title': ['This field may not be blank.']}, ...]}
-    # to
-    # {'errors': {'name-2': ['This field may not be blank'], 'job-title-2': ['This field may not be blank'], ...}}
+    #   {'errors': [{}, {'name': ['This field may not be blank.'], 'job_title': ['This field may not be blank.']}, ...]}
+    #   to
+    #   {'errors': {'name-2': ['This field may not be blank'], 'job-title-2': ['This field may not be blank'], ...}}
+    # This allows the errors to specify the specific textbox input for name/job-title inputs allowing the users
+    #   to see the exact field it didn't validate on.
     if "errors" in data.json():
         errors = data.json()["errors"]
         translated_errors = {}

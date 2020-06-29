@@ -145,7 +145,7 @@ class CaseDetail(CaseView):
         self.tabs = self.get_tabs()
         self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
         self.slices = [Slices.COMPLIANCE_VISITS, Slices.OPEN_LICENCE_RETURNS]
-        filters = FiltersBar([TextInput(name="reference", title="Reference"),])
+        filters = FiltersBar([TextInput(name="reference", title=cases.CasePage.LicenceFilters.REFERENCE),])
         self.additional_context = {
             "data": get_compliance_licences(
                 self.request, self.case.id, self.request.GET.get("reference", ""), self.request.GET.get("page", 1),
@@ -157,7 +157,7 @@ class CaseDetail(CaseView):
         self.tabs = self.get_tabs()
         self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
         self.slices = [Slices.COMPLIANCE_VISIT_DETAILS]
-        filters = FiltersBar([TextInput(name="reference", title="Reference"),])
+        filters = FiltersBar([TextInput(name="reference", title=cases.CasePage.LicenceFilters.REFERENCE),])
         self.additional_context = {
             "data": get_compliance_licences(
                 self.request,

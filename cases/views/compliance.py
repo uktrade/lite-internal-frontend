@@ -19,6 +19,7 @@ from cases.services import (
     get_case,
     get_compliance_people_present,
 )
+from lite_content.lite_internal_frontend.cases import ComplianceForms
 from lite_forms.views import SingleFormView
 
 
@@ -27,11 +28,6 @@ class CreateVisitReport(TemplateView):
         case_id = str(kwargs["pk"])
         response = post_create_compliance_visit(request, case_id)
 
-        if response.status_code != 201:
-            return redirect(
-                reverse("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case_id, "tab": "details"})
-            )
-
         new_case_id = response.json()["data"]["id"]
 
         return redirect(
@@ -39,13 +35,42 @@ class CreateVisitReport(TemplateView):
         )
 
 
-class VisitReportDetails(SingleFormView):
+class PeoplePresent(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        self.form = visit_report_form(kwargs["queue_pk"], kwargs["pk"])
+        self.context = {"case": get_case(request, self.object_pk)}
+        self.data = {"people_present": get_compliance_people_present(request, self.object_pk)}
+        self.form = people_present_form(kwargs["queue_pk"], kwargs["pk"])
+        self.success_url = reverse("cases:case", kwargs=kwargs)
+        self.success_message = ComplianceForms.PeoplePresent.SUCCESS
+        self.action = post_compliance_person_present
+
+    def on_submission(self, request, **kwargs):
+        data = request.POST.copy()
+        data["people_present"] = []
+        i = 0
+
+        for i in range(len(data.getlist("name[]"))):
+            data["people_present"].append(
+                {"name": data.getlist("name[]")[i], "job_title": data.getlist("job_title[]")[i],}
+            )
+
+        data["visit_case"] = str(kwargs["pk"])
+        return data
+
+
+class ComplianceVisitBaseForm(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
         self.success_url = reverse("cases:case", kwargs=kwargs)
         self.action = patch_compliance_visit_case
         self.data = get_compliance_visit_case(request, kwargs["pk"])
+
+
+class VisitReportDetails(ComplianceVisitBaseForm):
+    def init(self, request, **kwargs):
+        super().init(request, **kwargs)
+        self.form = visit_report_form(kwargs["queue_pk"], kwargs["pk"])
 
     def get_data(self):
         data = self.data
@@ -56,71 +81,31 @@ class VisitReportDetails(SingleFormView):
         return data
 
 
-class PeoplePresent(SingleFormView):
+class Overview(ComplianceVisitBaseForm):
     def init(self, request, **kwargs):
-        self.object_pk = kwargs["pk"]
-        self.context = {"case": get_case(request, self.object_pk)}
-        self.data = {"people_present": get_compliance_people_present(request, self.object_pk)}
-        self.form = people_present_form(kwargs["queue_pk"], kwargs["pk"])
-        self.success_url = reverse("cases:case", kwargs=kwargs)
-        self.success_message = "People present updated successfully"
-        self.action = post_compliance_person_present
-
-    def on_submission(self, request, **kwargs):
-        data = request.POST.copy()
-        data["people_present"] = []
-        i = 0
-
-        while i < len(data.getlist("name[]")):
-            data["people_present"].append(
-                {"name": data.getlist("name[]")[i], "job_title": data.getlist("job_title[]")[i],}
-            )
-            i += 1
-
-        data["visit_case"] = str(kwargs["pk"])
-        return data
-
-
-class Overview(SingleFormView):
-    def init(self, request, **kwargs):
-        self.object_pk = kwargs["pk"]
+        super().init(request, **kwargs)
         self.form = overview_form(kwargs["queue_pk"], kwargs["pk"])
-        self.success_url = reverse("cases:case", kwargs=kwargs)
-        self.action = patch_compliance_visit_case
-        self.data = get_compliance_visit_case(request, kwargs["pk"])
 
 
-class Inspection(SingleFormView):
+class Inspection(ComplianceVisitBaseForm):
     def init(self, request, **kwargs):
-        self.object_pk = kwargs["pk"]
+        super().init(request, **kwargs)
         self.form = inspection_form(kwargs["queue_pk"], kwargs["pk"])
-        self.success_url = reverse("cases:case", kwargs=kwargs)
-        self.action = patch_compliance_visit_case
-        self.data = get_compliance_visit_case(request, kwargs["pk"])
 
 
-class ComplianceWithLicences(SingleFormView):
+class ComplianceWithLicences(ComplianceVisitBaseForm):
     def init(self, request, **kwargs):
-        self.object_pk = kwargs["pk"]
+        super().init(request, **kwargs)
         self.form = compliance_with_licence_form(kwargs["queue_pk"], kwargs["pk"])
-        self.success_url = reverse("cases:case", kwargs=kwargs)
-        self.action = patch_compliance_visit_case
-        self.data = get_compliance_visit_case(request, kwargs["pk"])
 
 
-class KnowledgePeople(SingleFormView):
+class KnowledgePeople(ComplianceVisitBaseForm):
     def init(self, request, **kwargs):
-        self.object_pk = kwargs["pk"]
+        super().init(request, **kwargs)
         self.form = knowledge_of_people_form(kwargs["queue_pk"], kwargs["pk"])
-        self.success_url = reverse("cases:case", kwargs=kwargs)
-        self.action = patch_compliance_visit_case
-        self.data = get_compliance_visit_case(request, kwargs["pk"])
 
 
-class KnowledgeProduct(SingleFormView):
+class KnowledgeProduct(ComplianceVisitBaseForm):
     def init(self, request, **kwargs):
-        self.object_pk = kwargs["pk"]
+        super().init(request, **kwargs)
         self.form = knowledge_of_products_form(kwargs["queue_pk"], kwargs["pk"])
-        self.success_url = reverse("cases:case", kwargs=kwargs)
-        self.action = patch_compliance_visit_case
-        self.data = get_compliance_visit_case(request, kwargs["pk"])

@@ -18,6 +18,14 @@ risk_value = [
     Option("highest", "Highest risk"),
 ]
 
+licence_risk_value = [
+    Option(str(1), str(1)),
+    Option(str(2), str(2)),
+    Option(str(3), str(3)),
+    Option(str(4), str(4)),
+    Option(str(5), str(5)),
+]
+
 
 def visit_report_form(queue_pk, pk):
     return Form(
@@ -34,7 +42,7 @@ def visit_report_form(queue_pk, pk):
             Select(
                 title=ComplianceForms.VisitReport.LICENCE_RISK_VALUE,
                 name="licence_risk_value",
-                options=[Option(str(i), str(i)) for i in range(1, 6)],
+                options=licence_risk_value,
             ),
         ],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
