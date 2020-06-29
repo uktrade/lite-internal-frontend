@@ -9,16 +9,15 @@
 		<dt class="app-case__summary-list__key">
 			{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.VisitReportDetails.VISIT_TYPE' %}
 		</dt>
-		<dd class="app-case__summary-list__value" id="visit-type">
+		<dd class="app-case__summary-list__value" id="visit_type">
 			{{ case.data.visit_type.value|default:"Not set"}}
-
 		</dd>
 	</div>
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
 			{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.VisitReportDetails.VISIT_DATE' %}
 		</dt>
-		<dd class="app-case__summary-list__value" id="visit-date">
+		<dd class="app-case__summary-list__value" id="visit_date">
 			{{ case.data.visit_date|str_date_only|default:"Not set"}}
 		</dd>
 	</div>
@@ -26,7 +25,7 @@
 		<dt class="app-case__summary-list__key">
 			{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.VisitReportDetails.OVERALL_RISK' %}
 		</dt>
-		<dd class="app-case__summary-list__value" id="overall-risk-value">
+		<dd class="app-case__summary-list__value" id="overall_risk_value">
 			{{ case.data.overall_risk_value.value|default:"Not set"}}
 		</dd>
 	</div>
@@ -34,7 +33,7 @@
 		<dt class="app-case__summary-list__key">
 			{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.VisitReportDetails.LICENCE_RISK' %}
 		</dt>
-		<dd class="app-case__summary-list__value" id="case-risk-value">
+		<dd class="app-case__summary-list__value" id="licence_risk_value">
 			{{ case.data.licence_risk_value|default:"Not set"}}
 		</dd>
 	</div>

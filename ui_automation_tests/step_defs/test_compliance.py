@@ -3,6 +3,7 @@ from pytest_bdd import when, then, parsers, scenarios
 from pages.case_page import CasePage, CaseTabs
 from pages.shared import Shared
 from ui_automation_tests.pages.compliance_pages import CompliancePages
+from ui_automation_tests.pages.ecju_queries_pages import EcjuQueriesPages
 from ui_automation_tests.pages.generate_document_page import GeneratedDocument
 
 scenarios("../features/compliance.feature", strict_gherkin=False)
@@ -88,7 +89,7 @@ def add_overview_details(driver, context, details):
 
 @then("I see overview details")
 def see_overview_details(driver, context):
-    assert driver.overview in CompliancePages(driver).get_overview()
+    assert context.overview in CompliancePages(driver).get_overview()
 
 
 @when(parsers.parse("I add inspection details of '{details}'"))
@@ -99,7 +100,7 @@ def add_inspection_details(driver, context, details):
 
 @then("I see inspection details")
 def see_overview_details(driver, context):
-    assert driver.inspection in CompliancePages(driver).get_overview()
+    assert context.inspection in CompliancePages(driver).get_overview()
 
 
 @when(parsers.parse("I add Compliance with licences details '{overview}' and '{risk}'"))
@@ -146,4 +147,9 @@ def i_go_to_the_ecju_queries_tab(driver):
     CasePage(driver).change_tab(CaseTabs.ECJU_QUERIES)
 
 
-# @then("Then I see different ecju query buttons")
+@then("I see different ecju query buttons")
+def see_ecju_query_types(driver):
+    ecju_query_page = EcjuQueriesPages(driver)
+    assert ecju_query_page.new_query_button_visible()
+    assert ecju_query_page.previsit_questionnaire_button_visible()
+    assert ecju_query_page.compliance_actions_button_visible()
