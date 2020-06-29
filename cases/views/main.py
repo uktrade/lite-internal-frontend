@@ -156,7 +156,7 @@ class CaseDetail(CaseView):
     def get_compliance_visit(self):
         self.tabs = self.get_tabs()
         self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
-        self.slices = [Slices.Compliance_VISIT_DETAILS]
+        self.slices = [Slices.COMPLIANCE_VISIT_DETAILS]
         filters = FiltersBar([TextInput(name="reference", title="Reference"),])
         self.additional_context = {
             "data": get_compliance_licences(

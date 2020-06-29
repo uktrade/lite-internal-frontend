@@ -136,7 +136,7 @@ def generate_activity_filters(activity_filters, string_class):
     )
 
 
-def format_date(data, date_field, none_for_empty_fields):
+def format_date(data, date_field):
     year = data.get(date_field + "year", "")
     month = data.get(date_field + "month", "")
     if len(month) == 1:

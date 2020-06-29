@@ -58,10 +58,9 @@ class Slices:
     OPEN_GENERAL_LICENCE = Slice("open-general-licence")
     COMPLIANCE_LICENCES = Slice("compliance-licences")
     COMPLIANCE_VISITS = Slice("compliance-visits", "Visit reports")
-    Compliance_VISIT_DETAILS = Slice("compliance-visit-details")
     OPEN_LICENCE_RETURNS = Slice("open-licence-returns", cases.OpenLicenceReturns.TITLE)
     COMPLIANCE_VISITS = Slice("compliance-visits", "Visit reports")
-    Compliance_VISIT_DETAILS = Slice("compliance-visit-details")
+    COMPLIANCE_VISIT_DETAILS = Slice("compliance-visit-details")
 
 
 class CaseView(TemplateView):

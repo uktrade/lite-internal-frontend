@@ -388,7 +388,7 @@ def get_compliance_visit_case(request, case_id):
 
 def patch_compliance_visit_case(request, case_id, json):
     if "visit_date_day" in json:
-        json["visit_date"] = format_date(json, "visit_date_", True)
+        json["visit_date"] = format_date(json, "visit_date_")
     data = patch(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id), request_data=json)
     return data.json(), data.status_code
 
