@@ -132,7 +132,7 @@
 					<th scope="col" class="govuk-table__header">Controlled</th>
 					<th scope="col" class="govuk-table__header">Control list entries</th>
 					<th scope="col" class="govuk-table__header">Incorporated</th>
-					<th scope="col" class="govuk-table__header">Countries</th>
+					<th scope="col" class="govuk-table__header">Destinations</th>
 					{% if not hide_status %}
 						<th scope="col" class="govuk-table__header">ARS</th>
 					{% endif %}
@@ -160,11 +160,7 @@
 						</td>
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ good.is_good_incorporated|friendly_boolean }}</td>
 						<td class="govuk-table__cell govuk-table__cell--max-width-300 {% if show_advice %}lite-!-no-border{% endif %}">
-							<span data-max-length="200">
-								{% for country in good.countries %}
-									{{ country.name }}{% if not forloop.last %}, {% endif %}
-								{% endfor %}
-							</span>
+							{{ good.countries|length }} countries
 						</td>
 						{% if not hide_status %}
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">

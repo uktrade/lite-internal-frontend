@@ -91,17 +91,16 @@
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.country.name }}</td>
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ destination.country.id }}</td>
 							<td class="govuk-table__cell govuk-table__cell--max-width-400 {% if show_advice %}lite-!-no-border{% endif %}">
-								<span data-max-length="100">
-									{% for good in case.goods|get_goods_linked_to_destination_as_list:destination.country.id %}
-										{{ good }}
-									{% endfor %}
-								</span>
+								{{ case.goods|get_goods_linked_to_destination_as_list:destination.country.id|length }} goods
 							</td>
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
 								{% if destination.country.flags or not destination.flags %}
-									{% include 'includes/flags.html' with flags=destination.country.flags list=True %} <br>
+									{% include 'includes/flags.html' with flags=destination.country.flags list=True %}
 								{% endif %}
-								{% include 'includes/flags.html' with flags=destination.flags list=True %}
+								{% if destination.flags %}
+									<br>
+									{% include 'includes/flags.html' with flags=destination.flags list=True %}
+								{% endif %}
 							</td>
 						</tr>
 						{% if show_advice %}
