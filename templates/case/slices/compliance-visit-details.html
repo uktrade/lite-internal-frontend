@@ -54,7 +54,7 @@
 				<th class="govuk-table__header" scope="col">{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.PeoplePresent.JOB_TITLE' %}</th>
 			</tr>
 		</thead>
-		<tbody class="govuk-table__body">
+		<tbody class="govuk-table__body" id="people_present">
 			{% for person in case.data.people_present %}
 				<tr class="govuk-table__row">
 					<td class="govuk-table__cell" id="name">
@@ -110,14 +110,14 @@
 <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
 	{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.ComplianceWithLicences.OVERVIEW' %}
 </h3>
-<p class="govuk-body" id="compliance-with-licences-overview">
+<p class="govuk-body" id="compliance_overview">
 	{{ case.data.compliance_overview|default:"Not set" }}
 </p>
 
 <h3 class="govuk-heading-s">
 	{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.ComplianceWithLicences.RISK_VALUE' %}
 </h3>
-<p class="govuk-body" id="compliance-with-licences-risk-value">
+<p class="govuk-body" id="compliance_risk_value">
 	{{ case.data.compliance_risk_value.value|default:"Not set" }}
 </p>
 <div class="app-case-separator"></div>
@@ -132,14 +132,14 @@
 <h3 class="govuk-heading-s">
 	{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.KnowledgeOfIndividuals.OVERVIEW' %}
 </h3>
-<p class="govuk-body" id="knowledge-of-individuals-overview">
+<p class="govuk-body" id="individuals_overview">
 	{{ case.data.individuals_overview|default:"Not set" }}
 </p>
 
 <h3 class="govuk-heading-s">
 	{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.KnowledgeOfIndividuals.RISK_VALUE' %}
 </h3>
-<p class="govuk-body" id="knowledge-of-individuals-risk-value">
+<p class="govuk-body" id="individuals_risk_value">
 	{{ case.data.individuals_risk_value.value|default:"Not set" }}
 </p>
 <div class="app-case-separator"></div>
@@ -154,11 +154,11 @@
 <h3 class="govuk-heading-s">
 	{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.KnowledgeOfControlledProducts.OVERVIEW' %}
 </h3>
-<p class="govuk-body" id="knowledge-of-products-overview">
+<p class="govuk-body" id="products_overview">
 	{{ case.data.products_overview|default:"Not set" }}
 </p>
 
 <h3 class="govuk-heading-s">{% lcs 'cases.CasePage.DetailsTab.ComplianceVisitDetails.KnowledgeOfControlledProducts.RISK_VALUE' %}</h3>
-<p class="govuk-body" id="knowledge-of-products-risk-value">
+<p class="govuk-body" id="products_risk_value">
 	{{ case.data.products_risk_value.value|default:"Not set" }}
 </p>

@@ -3,6 +3,8 @@ from shared.BasePage import BasePage
 
 from shared import functions
 
+from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
+
 
 class CompliancePages(BasePage):
 
@@ -26,6 +28,12 @@ class CompliancePages(BasePage):
     KNOWLEDGE_OF_PRODUCTS_OVERVIEW_ID = "products_overview"
     KNOWLEDGE_OF_PRODUCTS_RISK_VALUE_ID = "products_risk_value"
 
+    ADD_PEOPLE_PRESENT_BUTTON = "add-people-present"
+    ADD_PERSON_BUTTON_ID = "button-add-person"
+    PERSON_NAME_ID = "name-1"
+    PERSON_JOB_TITLE_ID = "job-title-1"
+    PEOPLE_PRESENT_TABLE_ID = "people_present"
+
     def find_case_reference(self, context):
         return self.driver.find_element_by_link_text(context.reference_code)
 
@@ -36,6 +44,7 @@ class CompliancePages(BasePage):
         self.driver.find_element_by_id(self.ADD_VISIT_REPORT_ID).click()
 
     def add_visit_report_details(self, visit_type, visit_date, overall_risk, licence_risk):
+        scroll_to_element_by_id(self.driver, self.EDIT_VISIT_REPORT_DETAILS_ID)
         self.driver.find_element_by_id(self.EDIT_VISIT_REPORT_DETAILS_ID).click()
         Select(self.driver.find_element_by_id(self.VISIT_TYPE_ID)).select_by_visible_text(visit_type)
 
@@ -60,6 +69,7 @@ class CompliancePages(BasePage):
         return self.driver.find_element_by_id(self.LICENCE_RISK_VALUE_ID).text
 
     def edit_overview(self, text):
+        scroll_to_element_by_id(self.driver, self.EDIT_OVERVIEW_ID)
         self.driver.find_element_by_id(self.EDIT_OVERVIEW_ID).click()
         self.driver.find_element_by_id(self.OVERVIEW_ID).send_keys(text)
         functions.click_submit(self.driver)
@@ -68,6 +78,7 @@ class CompliancePages(BasePage):
         return self.driver.find_element_by_id(self.OVERVIEW_ID).text
 
     def edit_inspection(self, text):
+        scroll_to_element_by_id(self.driver, self.EDIT_INSPECTION_ID)
         self.driver.find_element_by_id(self.EDIT_INSPECTION_ID).click()
         self.driver.find_element_by_id(self.INSPECTION_ID).send_keys(text)
         functions.click_submit(self.driver)
@@ -76,6 +87,7 @@ class CompliancePages(BasePage):
         return self.driver.find_element_by_id(self.INSPECTION_ID).text
 
     def edit_compliance_with_licences(self, overview, risk_value):
+        scroll_to_element_by_id(self.driver, self.EDIT_COMPLIANCE_WITH_LICENCES_ID)
         self.driver.find_element_by_id(self.EDIT_COMPLIANCE_WITH_LICENCES_ID).click()
         self.driver.find_element_by_id(self.COMPLIANCE_WITH_LICENCE_OVERVIEW_ID).send_keys(overview)
         Select(self.driver.find_element_by_id(self.COMPLIANCE_WITH_LICENCE_RISK_VALUE_ID)).select_by_visible_text(
@@ -90,6 +102,7 @@ class CompliancePages(BasePage):
         return self.driver.find_element_by_id(self.COMPLIANCE_WITH_LICENCE_RISK_VALUE_ID).text
 
     def edit_knowledge_of_individuals(self, overview, risk_value):
+        scroll_to_element_by_id(self.driver, self.EDIT_KNOWLEDGE_OF_INDIVIDUALS_ID)
         self.driver.find_element_by_id(self.EDIT_KNOWLEDGE_OF_INDIVIDUALS_ID).click()
         self.driver.find_element_by_id(self.KNOWLEDGE_OF_INDIVIDUALS_OVERVIEW_ID).send_keys(overview)
         Select(self.driver.find_element_by_id(self.KNOWLEDGE_OF_INDIVIDUALS_RISK_VALUE_ID)).select_by_visible_text(
@@ -104,6 +117,7 @@ class CompliancePages(BasePage):
         return self.driver.find_element_by_id(self.KNOWLEDGE_OF_INDIVIDUALS_RISK_VALUE_ID).text
 
     def edit_knowledge_of_products(self, overview, risk_value):
+        scroll_to_element_by_id(self.driver, self.EDIT_KNOWLEDGE_OF_PRODUCTS_ID)
         self.driver.find_element_by_id(self.EDIT_KNOWLEDGE_OF_PRODUCTS_ID).click()
         self.driver.find_element_by_id(self.KNOWLEDGE_OF_PRODUCTS_OVERVIEW_ID).send_keys(overview)
         Select(self.driver.find_element_by_id(self.KNOWLEDGE_OF_PRODUCTS_RISK_VALUE_ID)).select_by_visible_text(
@@ -112,7 +126,18 @@ class CompliancePages(BasePage):
         functions.click_submit(self.driver)
 
     def get_knowledge_of_products_overview(self):
-        return self.driver.find_element_by_id(self.KNOWLEDGE_OF_INDIVIDUALS_OVERVIEW_ID).text
+        return self.driver.find_element_by_id(self.KNOWLEDGE_OF_PRODUCTS_OVERVIEW_ID).text
 
     def get_knowledge_of_products_risk(self):
-        return self.driver.find_element_by_id(self.KNOWLEDGE_OF_INDIVIDUALS_RISK_VALUE_ID).text
+        return self.driver.find_element_by_id(self.KNOWLEDGE_OF_PRODUCTS_RISK_VALUE_ID).text
+
+    def add_person_present(self, name, job_title):
+        scroll_to_element_by_id(self.driver, self.ADD_PEOPLE_PRESENT_BUTTON)
+        self.driver.find_element_by_id(self.ADD_PEOPLE_PRESENT_BUTTON).click()
+        self.driver.find_element_by_id(self.ADD_PERSON_BUTTON_ID).click()
+        self.driver.find_element_by_id(self.PERSON_NAME_ID).send_keys(name)
+        self.driver.find_element_by_id(self.PERSON_JOB_TITLE_ID).send_keys(job_title)
+        functions.click_submit(self.driver)
+
+    def get_people_present_table(self):
+        return self.driver.find_element_by_id(self.PEOPLE_PRESENT_TABLE_ID).text
