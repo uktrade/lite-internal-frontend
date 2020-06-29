@@ -47,15 +47,33 @@ class CompliancePages(BasePage):
 
         functions.click_submit(self.driver)
 
+    def get_visit_type(self):
+        return self.driver.find_element_by_id(self.VISIT_TYPE_ID).text
+
+    def get_visit_date(self):
+        return self.driver.find_element_by_id(self.VISIT_DATE_ID).text
+
+    def get_overall_risk(self):
+        return self.driver.find_element_by_id(self.OVERALL_RISK_VALUE_ID).text
+
+    def get_licence_risk(self):
+        return self.driver.find_element_by_id(self.LICENCE_RISK_VALUE_ID).text
+
     def edit_overview(self, text):
         self.driver.find_element_by_id(self.EDIT_OVERVIEW_ID).click()
         self.driver.find_element_by_id(self.OVERVIEW_ID).send_keys(text)
         functions.click_submit(self.driver)
 
+    def get_overview(self):
+        return self.driver.find_element_by_id(self.OVERVIEW_ID).text
+
     def edit_inspection(self, text):
         self.driver.find_element_by_id(self.EDIT_INSPECTION_ID).click()
         self.driver.find_element_by_id(self.INSPECTION_ID).send_keys(text)
         functions.click_submit(self.driver)
+
+    def get_inspection(self):
+        return self.driver.find_element_by_id(self.INSPECTION_ID).text
 
     def edit_compliance_with_licences(self, overview, risk_value):
         self.driver.find_element_by_id(self.EDIT_COMPLIANCE_WITH_LICENCES_ID).click()
@@ -65,6 +83,12 @@ class CompliancePages(BasePage):
         )
         functions.click_submit(self.driver)
 
+    def get_compliance_with_licence_overview(self):
+        return self.driver.find_element_by_id(self.COMPLIANCE_WITH_LICENCE_OVERVIEW_ID).text
+
+    def get_compliance_with_licence_risk(self):
+        return self.driver.find_element_by_id(self.COMPLIANCE_WITH_LICENCE_RISK_VALUE_ID).text
+
     def edit_knowledge_of_individuals(self, overview, risk_value):
         self.driver.find_element_by_id(self.EDIT_KNOWLEDGE_OF_INDIVIDUALS_ID).click()
         self.driver.find_element_by_id(self.KNOWLEDGE_OF_INDIVIDUALS_OVERVIEW_ID).send_keys(overview)
@@ -73,6 +97,12 @@ class CompliancePages(BasePage):
         )
         functions.click_submit(self.driver)
 
+    def get_knowledge_of_individuals_overview(self):
+        return self.driver.find_element_by_id(self.KNOWLEDGE_OF_INDIVIDUALS_OVERVIEW_ID).text
+
+    def get_knowledge_of_individuals_risk(self):
+        return self.driver.find_element_by_id(self.KNOWLEDGE_OF_INDIVIDUALS_RISK_VALUE_ID).text
+
     def edit_knowledge_of_products(self, overview, risk_value):
         self.driver.find_element_by_id(self.EDIT_KNOWLEDGE_OF_PRODUCTS_ID).click()
         self.driver.find_element_by_id(self.KNOWLEDGE_OF_PRODUCTS_OVERVIEW_ID).send_keys(overview)
@@ -80,3 +110,9 @@ class CompliancePages(BasePage):
             risk_value
         )
         functions.click_submit(self.driver)
+
+    def get_knowledge_of_products_overview(self):
+        return self.driver.find_element_by_id(self.KNOWLEDGE_OF_INDIVIDUALS_OVERVIEW_ID).text
+
+    def get_knowledge_of_products_risk(self):
+        return self.driver.find_element_by_id(self.KNOWLEDGE_OF_INDIVIDUALS_RISK_VALUE_ID).text

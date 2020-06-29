@@ -55,7 +55,7 @@ def people_present_form(queue_pk, pk):
 def overview_form(queue_pk, pk):
     return Form(
         title=ComplianceForms.Overview.TITLE,
-        questions=[TextArea(name="overview")],
+        questions=[TextArea(name="overview", extras={"max_length": 750})],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
     )
 
@@ -63,7 +63,7 @@ def overview_form(queue_pk, pk):
 def inspection_form(queue_pk, pk):
     return Form(
         title=ComplianceForms.Inspection.TITLE,
-        questions=[TextArea(name="inspection")],
+        questions=[TextArea(name="inspection", extras={"max_length": 750})],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": pk, "tab": "details"})),
     )
 
@@ -73,7 +73,11 @@ def compliance_with_licence_form(queue_pk, pk):
         title=ComplianceForms.ComplianceWithLicence.TITLE,
         description=ComplianceForms.ComplianceWithLicence.DESCRIPTION,
         questions=[
-            TextArea(title=ComplianceForms.ComplianceWithLicence.OVERVIEW, name="compliance_overview"),
+            TextArea(
+                title=ComplianceForms.ComplianceWithLicence.OVERVIEW,
+                name="compliance_overview",
+                extras={"max_length": 750},
+            ),
             Select(
                 title=ComplianceForms.ComplianceWithLicence.RISK_VALUE, name="compliance_risk_value", options=risk_value
             ),
@@ -86,7 +90,11 @@ def knowledge_of_people_form(queue_pk, pk):
     return Form(
         title=ComplianceForms.KnowledgeOfPeople.TITLE,
         questions=[
-            TextArea(title=ComplianceForms.KnowledgeOfPeople.OVERVIEW, name="individuals_overview"),
+            TextArea(
+                title=ComplianceForms.KnowledgeOfPeople.OVERVIEW,
+                name="individuals_overview",
+                extras={"max_length": 750},
+            ),
             Select(
                 title=ComplianceForms.KnowledgeOfPeople.RISK_VALUE, name="individuals_risk_value", options=risk_value
             ),
@@ -99,7 +107,9 @@ def knowledge_of_products_form(queue_pk, pk):
     return Form(
         title=ComplianceForms.KnowledgeOfProducts.TITLE,
         questions=[
-            TextArea(title=ComplianceForms.KnowledgeOfProducts.OVERVIEW, name="products_overview"),
+            TextArea(
+                title=ComplianceForms.KnowledgeOfProducts.OVERVIEW, name="products_overview", extras={"max_length": 750}
+            ),
             Select(
                 title=ComplianceForms.KnowledgeOfProducts.RISK_VALUE, name="products_risk_value", options=risk_value
             ),
