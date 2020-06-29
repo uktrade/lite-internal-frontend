@@ -7,11 +7,15 @@ from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 
 class CompliancePages(BasePage):
-
     CASE_REFERENCE_ID = "reference"
+    COMPLIANCE_BANNER_DETAILS = "candy-visit-date"
     ADD_VISIT_REPORT_ID = "add-visit-report"
     EDIT_VISIT_REPORT_DETAILS_ID = "edit-visit-report-details"
     VISIT_TYPE_ID = "visit_type"
+    VISIT_DATE_ID = "visit_date"
+    VISIT_DATE_DAY_ID = "visit_date_day"
+    VISIT_DATE_MONTH_ID = "visit_date_month"
+    VISIT_DATE_YEAR_ID = "visit_date_year"
     OVERALL_RISK_VALUE_ID = "overall_risk_value"
     LICENCE_RISK_VALUE_ID = "licence_risk_value"
     EDIT_OVERVIEW_ID = "edit-overview"
@@ -48,7 +52,10 @@ class CompliancePages(BasePage):
         self.driver.find_element_by_id(self.EDIT_VISIT_REPORT_DETAILS_ID).click()
         Select(self.driver.find_element_by_id(self.VISIT_TYPE_ID)).select_by_visible_text(visit_type)
 
-        # date field
+        year, month, day = visit_date.split("-")
+        self.driver.find_element_by_id(self.VISIT_DATE_DAY_ID).send_keys(day)
+        self.driver.find_element_by_id(self.VISIT_DATE_MONTH_ID).send_keys(month)
+        self.driver.find_element_by_id(self.VISIT_DATE_YEAR_ID).send_keys(year)
 
         Select(self.driver.find_element_by_id(self.OVERALL_RISK_VALUE_ID)).select_by_visible_text(overall_risk)
 
@@ -141,3 +148,6 @@ class CompliancePages(BasePage):
 
     def get_people_present_table(self):
         return self.driver.find_element_by_id(self.PEOPLE_PRESENT_TABLE_ID).text
+
+    def get_compliance_banner_details(self):
+        return self.driver.find_element_by_id(self.COMPLIANCE_BANNER_DETAILS).text
