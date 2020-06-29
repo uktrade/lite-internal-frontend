@@ -1,7 +1,7 @@
 from django.urls import reverse
 
 from lite_content.lite_internal_frontend.cases import ComplianceForms
-from lite_forms.components import Form, BackLink, DateInput, Select, Option, TextArea, TextInput, Custom
+from lite_forms.components import Form, BackLink, DateInput, Select, Option, TextArea, Custom
 
 Visit_type_choices = [
     Option("first_contact", "First contact"),

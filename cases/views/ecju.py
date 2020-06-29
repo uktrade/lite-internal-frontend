@@ -2,7 +2,6 @@ from django.urls import reverse
 
 from cases.forms.create_ecju_query import new_ecju_query_form, ECJUQueryTypes
 from cases.services import get_case, post_ecju_query
-from lite_forms.components import HiddenField
 from lite_forms.views import SingleFormView
 
 
