@@ -8,7 +8,6 @@ from collections import Counter, OrderedDict
 from html import escape
 
 from django import template
-from django.template import TemplateSyntaxError
 from django.template.defaultfilters import stringfilter, safe, capfirst
 from django.templatetags.tz import do_timezone
 from django.utils.safestring import mark_safe
