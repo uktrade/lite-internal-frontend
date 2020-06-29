@@ -48,8 +48,8 @@ Feature: I want to generate and view compliance cases on approval and proviso of
     Then I am on a compliance visit case
     When I add I visit report details 'First visit', '12-05-2020', 'Lower risk', and '5'
     Then I see the visit report details in details and the banner
-#    When I add people present
-#    Then I see the people present
+    When I add person present 'John Smith' who works as 'Product Manager'
+    Then I see the people present
     When I add overview details of 'The overview'
     Then I see overview details
     When I add inspection details of 'The inspection'

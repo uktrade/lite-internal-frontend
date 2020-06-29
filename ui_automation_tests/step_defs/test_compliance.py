@@ -78,10 +78,20 @@ def see_visit_report_details(driver, context):
     # TODO: check banner
 
 
-# @when("I add people present")
-#
-# @then("Then I see the people present")
-#
+@when(parsers.parse("I add person present '{name}' who works as '{job}'"))
+def add_people_present(driver, context, name, job):
+    CompliancePages(driver).add_person_present(name, job)
+    context.person_name = name
+    context.job_title = job
+
+
+@then("I see the people present")
+def person_is_present(driver, context):
+    table = CompliancePages(driver).get_people_present_table()
+    assert context.person_name in table
+    assert context.job_title in table
+
+
 @when(parsers.parse("I add overview details of '{details}'"))
 def add_overview_details(driver, context, details):
     CompliancePages(driver).edit_overview(details)
@@ -100,8 +110,8 @@ def add_inspection_details(driver, context, details):
 
 
 @then("I see inspection details")
-def see_overview_details(driver, context):
-    assert context.inspection in CompliancePages(driver).get_overview()
+def see_inspection_details(driver, context):
+    assert context.inspection in CompliancePages(driver).get_inspection()
 
 
 @when(parsers.parse("I add Compliance with licences details '{overview}' and '{risk}'"))
