@@ -1,9 +1,11 @@
+import datetime
 from http import HTTPStatus
 
 from django.contrib import messages
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
@@ -184,7 +186,9 @@ class CaseImDoneView(TemplateView):
 
     def get(self, request, **kwargs):
         if self.is_system_queue:
-            return form_page(request, done_with_case_form(request, self.case_pk))
+            case = get_case(request, self.case_pk)
+            has_review_date = True if case.next_review_date and datetime.datetime.strptime(case.next_review_date, '%Y-%m-%d').date() >= timezone.now().date() else False
+            return form_page(request, done_with_case_form(request, self.case_pk, has_review_date))
         else:
             data, status_code = put_unassign_queues(request, self.case_pk, {"queues": [str(self.queue_pk)]})
             if status_code != HTTPStatus.OK:
