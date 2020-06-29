@@ -71,7 +71,6 @@ class CaseView(TemplateView):
     tabs = None
     slices = None
     additional_context = {}
-    temp = ""
 
     def get_context(self):
         if not self.tabs:
