@@ -46,7 +46,7 @@ Feature: I want to generate and view compliance cases on approval and proviso of
     When I go to the compliance case created
     And I click add a visit report
     Then I am on a compliance visit case
-    When I add I visit report details 'First visit', '2020-05-12', 'Lower risk', and '5'
+    When I add I visit report details 'First visit', '12-05-2020', 'Lower risk', and '5'
     Then I see the visit report details in details and the banner
     When I add person present 'John Smith' who works as 'Product Manager'
     Then I see the people present
