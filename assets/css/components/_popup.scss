@@ -1,4 +1,5 @@
 $popup-padding: govuk-spacing(3);
+$popup-font-size: 15px;
 
 .app-popup {
 	background-color: $govuk-body-background-colour;
@@ -10,11 +11,7 @@ $popup-padding: govuk-spacing(3);
 		position: sticky;
 		top: 0;
 		background-color: $govuk-body-background-colour;
-		margin-bottom: $popup-padding;
-		margin-left: - $popup-padding;
-		margin-right: - $popup-padding;
-		padding-left: $popup-padding;
-		padding-right: $popup-padding;
+		margin-bottom: govuk-spacing(6);
 
 		.lite-tabs__tab {
 			margin-bottom: 0;
@@ -24,7 +21,9 @@ $popup-padding: govuk-spacing(3);
 
 .app-popup__header {
 	h1 {
-		@include govuk-font($size: 19, $weight: bold);
+		@include govuk-typography-common;
+		font-size: 16px;
+		font-weight: bold;
 		padding: 0;
 		margin-bottom: $popup-padding / 2;
 		color: govuk-colour("black");
@@ -34,8 +33,39 @@ $popup-padding: govuk-spacing(3);
 .app-popup__content {
 	padding: $popup-padding;
 	background-color: $govuk-body-background-colour;
+	min-height: 100vh;
+}
+
+.app-popup__heading {
+	@include govuk-typography-common;
+	font-size: $popup-font-size;
+	color: $govuk-secondary-text-colour;
+	margin-bottom: 0!important;
 }
 
 .app-popup__body {
-	@include govuk-font($size: 19, $line-height: 1.5);
+	@include govuk-typography-common;
+	font-size: $popup-font-size;
+	line-height: 1.66;
+	color: $govuk-text-colour;
+	font-weight: bold;
+	margin-top: govuk-spacing(1);
+	margin-bottom: govuk-spacing(4);
+}
+
+.app-popup__link {
+	color: $govuk-link-colour;
+}
+
+.app-popup__list {
+	@include govuk-typography-common;
+	font-size: $popup-font-size;
+	line-height: 1.66;
+	color: $govuk-text-colour;
+	font-weight: bold;
+	padding: 0;
+	margin: 0;
+	padding-left: 0;
+	list-style: inside decimal;
+	margin-top: govuk-spacing(1);
 }

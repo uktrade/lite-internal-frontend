@@ -16,28 +16,28 @@
 	</div>
 	<div id="panes">
 		<div id="pane-details">
-			<h2 class="govuk-heading-s">Description</h2>
+			<h2 class="app-popup__heading">Description</h2>
 			<p class="app-popup__body" data-max-length="200">M6 x 70mm Stainless Steel Screws Socket Head Countersunk in A4 - ISO 10642</p>
 
-			<h2 class="govuk-heading-s">Value</h2>
+			<h2 class="app-popup__heading">Value</h2>
 			<p class="app-popup__body" data-max-length="200">1234.0 Metre(s), £1.21</p>
 
-			<h2 class="govuk-heading-s">Controlled</h2>
+			<h2 class="app-popup__heading">Controlled</h2>
 			<p class="app-popup__body" data-max-length="200">No</p>
 
-			<h2 class="govuk-heading-s">Incorporated</h2>
+			<h2 class="app-popup__heading">Incorporated</h2>
 			<p class="app-popup__body" data-max-length="200">No</p>
 
-			<h2 class="govuk-heading-s">Document</h2>
+			<h2 class="app-popup__heading">Document</h2>
 			<p class="app-popup__body" data-max-length="200">M6 x 70mm Stainless Steel Screws Socket Head Countersunk in A4 - ISO 10642</p>
 
-			<h2 class="govuk-heading-s">Flags</h2>
+			<h2 class="app-popup__heading">Flags</h2>
 			<p class="app-popup__body" data-max-length="200">No flags set</p>
 
-			<h2 class="govuk-heading-s">Status</h2>
+			<h2 class="app-popup__heading">Status</h2>
 			<p class="app-popup__body" data-max-length="200">Verified</p>
 
-			<h2 class="govuk-heading-s">ARS</h2>
+			<h2 class="app-popup__heading">ARS</h2>
 			<p class="app-popup__body" data-max-length="200">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu enim ex. Cras blandit vehicula pharetra. Phasellus commodo nec lacus tristique rutrum. Donec in elementum neque. Nunc interdum ex vitae vulputate dictum. Praesent tincidunt erat elit, lobortis pulvinar leo semper id. Duis sollicitudin aliquam enim quis consequat. Vestibulum viverra at urna sed sodales. Quisque tincidunt placerat elit id euismod. Integer non odio mollis, ultrices odio facilisis, tristique arcu.</p>
 		</div>
 		<div id="pane-destinations" class="app-hidden">
@@ -52,7 +52,7 @@
 					<tr class="govuk-table__row">
 						<th scope="row" class="govuk-table__header">United States</th>
 						<td class="govuk-table__cell">
-							<a href="#" onclick="return openDestinationModal()">View</a>
+							<a href="{% url 'cases:destination' queue.id case.id case.id %}">View</a>
 						</td>
 					</tr>
 					<tr class="govuk-table__row">

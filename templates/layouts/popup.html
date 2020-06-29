@@ -9,9 +9,6 @@
 	</head>
 	<body class="app-popup">
 		<div class="app-popup__content" id="main-content">
-			<div class="app-popup__header">
-				<h1 class="govuk-heading-l">{{ case.reference_code }}</h1>
-			</div>
 			{% block body %}{% endblock %}
 		</div>
 		<script src="{% static 'javascripts/jquery.min.js' %}"></script>
