@@ -1,16 +1,10 @@
-from datetime import date
+from pytest_bdd import when, then, parsers, scenarios
 
-from pytest_bdd import when, then, parsers, scenarios, given
-
-from pages.advice import UserAdvicePage, FinalAdvicePage, TeamAdvicePage, BaseAdvicePage
 from pages.case_page import CasePage, CaseTabs
-from pages.give_advice_pages import GiveAdvicePages
-from pages.record_decision_page import RecordDecision
 from pages.shared import Shared
 
 from ui_automation_tests.pages.compliance_pages import CompliancePages
 from ui_automation_tests.pages.generate_document_page import GeneratedDocument
-from ui_automation_tests.pages.grant_licence_page import GrantLicencePage
 
 scenarios("../features/compliance.feature", strict_gherkin=False)
 
@@ -63,40 +57,94 @@ def on_compliance_case(driver):
 
 
 @when(
-    parsers.parse(
-        "When I add I visit report details '{visit_type}', '{visit_date}', '{overall_risk}', and '{licence_risk}'"
-    )
+    parsers.parse("I add I visit report details '{visit_type}', '{visit_date}', '{overall_risk}', and '{licence_risk}'")
 )
-def add_visit_report_details(driver, visit_type, visit_date, overall_risk, licence_risk):
+def add_visit_report_details(driver, context, visit_type, visit_date, overall_risk, licence_risk):
     CompliancePages(driver).add_visit_report_details(visit_type, visit_date, overall_risk, licence_risk)
+    context.visit_type = visit_type
+    context.visit_date = visit_date
+    context.overall_risk = overall_risk
+    context.licence_risk = licence_risk
 
 
-# @then("Then I see the visit report details in details and the banner")
-#
+@then("I see the visit report details in details and the banner")
+def see_visit_report_details(driver, context):
+    assert context.visit_type in CompliancePages(driver).get_visit_type()
+    # TODO: visit_date
+    assert context.overall_risk in CompliancePages(driver).get_overall_risk()
+    assert context.licence_risk in CompliancePages(driver).get_licence_risk()
+
+    # TODO: check banner
+
+
 # @when("I add people present")
 #
 # @then("Then I see the people present")
 #
-# @when("I add overview details")
-#
-# @then("I see overview details")
-#
-# @when("I add inspection details")
-#
-# @then("I see inspection details")
-#
-# @when("When I add Compliance with licences details")
-#
-# @then("I see Compliance with licences details")
-#
-# @when("When I add knowledge of key individuals details")
-#
-# @then("Then I see knowledge of key individuals details")
-#
-# @when("When I add knowledge of controlled product details")
-#
-# @then("Then I see knowledge of controlled product details")
-#
-# @when("When I go to the ECJU queries tab")
-#
+@when(parsers.parse("I add overview details of '{details}'"))
+def add_overview_details(driver, context, details):
+    CompliancePages(driver).edit_overview(details)
+    context.overview = details
+
+
+@then("I see overview details")
+def see_overview_details(driver, context):
+    assert driver.overview in CompliancePages(driver).get_overview()
+
+
+@when(parsers.parse("I add inspection details of '{details}'"))
+def add_inspection_details(driver, context, details):
+    CompliancePages(driver).edit_inspection(details)
+    context.inspection = details
+
+
+@then("I see inspection details")
+def see_overview_details(driver, context):
+    assert driver.inspection in CompliancePages(driver).get_overview()
+
+
+@when(parsers.parse("I add Compliance with licences details '{overview}' and '{risk}'"))
+def add_compliance_with_licences_details(driver, context, overview, risk):
+    CompliancePages(driver).edit_compliance_with_licences(overview, risk)
+    context.compliance_overview = overview
+    context.compliance_risk = risk
+
+
+@then("I see Compliance with licences details")
+def see_compliance_with_licence_details(driver, context):
+    assert context.compliance_overview in CompliancePages(driver).get_compliance_with_licence_overview()
+    assert context.compliance_risk in CompliancePages(driver).get_compliance_with_licence_risk()
+
+
+@when(parsers.parse("I add knowledge of key individuals details '{overview}' and '{risk}'"))
+def add_knowledge_of_individuals_details(driver, context, overview, risk):
+    CompliancePages(driver).edit_knowledge_of_individuals(overview, risk)
+    context.individuals_overview = overview
+    context.individuals_risk = risk
+
+
+@then("I see knowledge of key individuals details")
+def see_knowledge_of_individuals_details(driver, context):
+    assert context.individuals_overview in CompliancePages(driver).get_knowledge_of_individuals_overview()
+    assert context.individuals_risk in CompliancePages(driver).get_knowledge_of_individuals_risk()
+
+
+@when(parsers.parse("I add knowledge of controlled product details '{overview}' and '{risk}'"))
+def add_knowledge_of_products_details(driver, context, overview, risk):
+    CompliancePages(driver).edit_knowledge_of_products(overview, risk)
+    context.products_overview = overview
+    context.products_risk = risk
+
+
+@then("I see knowledge of controlled product details")
+def see_knowledge_of_products_details(driver, context):
+    assert context.products_overview in CompliancePages(driver).get_knowledge_of_products_overview()
+    assert context.products_risk in CompliancePages(driver).get_knowledge_of_products_risk()
+
+
+@when("I go to the ECJU queries tab")
+def i_go_to_the_ecju_queries_tab(driver):
+    CasePage(driver).change_tab(CaseTabs.ECJU_QUERIES)
+
+
 # @then("Then I see different ecju query buttons")

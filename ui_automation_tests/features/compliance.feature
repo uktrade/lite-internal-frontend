@@ -32,7 +32,7 @@ Feature: I want to generate and view compliance cases on approval and proviso of
     And I click continue
     Then the status has been changed in the application
 
-  @regression @LT2723
+  @regression @LT-2723
   Scenario: Create compliance case
     When I go to the compliance case created
     And I click on the licences tab
@@ -46,22 +46,22 @@ Feature: I want to generate and view compliance cases on approval and proviso of
     When I go to the compliance case created
     And I click add a visit report
     Then I am on a compliance visit case
-    When I add I visit report details 'first visit', '12-05-2020', 'lower', and '5'
-#    Then I see the visit report details in details and the banner
-#    When I add people present
-#    Then I see the people present
-#    When I add overview details
-#    Then I see overview details
-#    When I add inspection details
-#    Then I see inspection details
-#    When I add Compliance with licences details
-#    Then I see Compliance with licences details
-#    When I add knowledge of key individuals details
-#    Then I see knowledge of key individuals details
-#    When I add knowledge of controlled product details
-#    Then I see knowledge of controlled product details
-#    When I go to the ECJU queries tab
-#    Then I see different ecju query buttons
+    When I add I visit report details 'First visit', '12-05-2020', 'Lower risk', and '5'
+    Then I see the visit report details in details and the banner
+    When I add people present
+    Then I see the people present
+    When I add overview details of 'The overview'
+    Then I see overview details
+    When I add inspection details of 'The inspection'
+    Then I see inspection details
+    When I add Compliance with licences details 'Compliance with licence overview' and 'Highest risk'
+    Then I see Compliance with licences details
+    When I add knowledge of key individuals details 'knowledge of key individuals' and 'Medium risk'
+    Then I see knowledge of key individuals details
+    When I add knowledge of controlled product details 'knowledge of controlled products' and 'Higher risk'
+    Then I see knowledge of controlled product details
+    When I go to the ECJU queries tab
+    Then I see different ecju query buttons
 
 
 
