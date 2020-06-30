@@ -187,7 +187,12 @@ class CaseImDoneView(TemplateView):
     def get(self, request, **kwargs):
         if self.is_system_queue:
             case = get_case(request, self.case_pk)
-            has_review_date = True if case.next_review_date and datetime.datetime.strptime(case.next_review_date, '%Y-%m-%d').date() >= timezone.now().date() else False
+            has_review_date = (
+                True
+                if case.next_review_date
+                and datetime.datetime.strptime(case.next_review_date, "%Y-%m-%d").date() >= timezone.now().date()
+                else False
+            )
             return form_page(request, done_with_case_form(request, self.case_pk, has_review_date))
         else:
             data, status_code = put_unassign_queues(request, self.case_pk, {"queues": [str(self.queue_pk)]})
