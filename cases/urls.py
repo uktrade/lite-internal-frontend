@@ -1,6 +1,15 @@
 from django.urls import path
 
-from cases.views import main, advice, generate_licence_document, ecju, goods_query, goods, generate_case_document, compliance
+from cases.views import (
+    main,
+    advice,
+    generate_licence_document,
+    ecju,
+    goods_query,
+    goods,
+    generate_case_document,
+    compliance,
+)
 from flags.views import AssignFlags
 
 app_name = "cases"
@@ -27,7 +36,6 @@ urlpatterns = [
         "respond-to-pv-grading-query/", goods_query.RespondPVGradingQuery.as_view(), name="respond_to_pv_grading_query",
     ),
     path("review-goods/", goods.ReviewGoods.as_view(), name="review_goods"),
-
     # Licence documents
     path("generate-document/", generate_licence_document.GenerateDocument.as_view(), name="generate_document"),
     path(
@@ -65,9 +73,10 @@ urlpatterns = [
         generate_licence_document.CreateDocumentFinalAdvice.as_view(),
         name="finalise_document_create",
     ),
-
     # Case documents
-    path("generate-case-document/", generate_case_document.GenerateCaseDocument.as_view(), name="generate_case_document"),
+    path(
+        "generate-case-document/", generate_case_document.GenerateCaseDocument.as_view(), name="generate_case_document"
+    ),
     path(
         "generate-case-document/<uuid:dpk>/",
         generate_case_document.RegenerateExistingCaseDocument.as_view(),

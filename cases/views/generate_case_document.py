@@ -143,11 +143,7 @@ class CreateCaseDocument(TemplateView):
 class GenerateDecisionDocument(GenerateCaseDocument):
     def get_forms(self):
         self.back_url = reverse_lazy(
-            "cases:finalise_case_documents",
-            kwargs={
-                "queue_pk": self.kwargs["queue_pk"],
-                "pk": self.kwargs["pk"],
-            },
+            "cases:finalise_case_documents", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"],},
         )
         return FormGroup(
             [
