@@ -48,7 +48,6 @@ class PeoplePresent(SingleFormView):
     def on_submission(self, request, **kwargs):
         data = request.POST.copy()
         data["people_present"] = []
-        i = 0
 
         for i in range(len(data.getlist("name[]"))):
             data["people_present"].append(

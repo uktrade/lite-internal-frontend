@@ -90,11 +90,9 @@ def str_date(value):
 @register.filter
 @stringfilter
 def str_date_only(value):
-    try:
+    if value != "None":
         date_str = do_timezone(datetime.datetime.strptime(value, DATE_FORMAT), "Europe/London")
         return date_str.strftime("%d %B %Y")
-    except ValueError:
-        return
 
 
 @register.filter()
