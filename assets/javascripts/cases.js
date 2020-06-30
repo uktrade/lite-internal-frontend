@@ -27,3 +27,40 @@ function toggleTableFold() {
 	updateTableFoldControl();
 	return false;
 }
+
+function generatePagination(page, pages) {
+	return `
+		<div class="lite-pagination__container">
+			<a id="link-previous-page" href="{{ previous_link_url }}" id="link-previous-page" class="lite-pagination__navigation-link">
+				{% svg 'previous' %}
+				<span>Previous page</span>
+			</a>
+
+			<ol class="lite-pagination__list">
+				{% for item in pages %}
+					{% if item.type == 'page_item' %}
+						<li id="page-{{ item.number }}" class="lite-pagination__list-item {% if item.selected %}lite-pagination__list-item--selected{% endif %}">
+							{% if item.selected %}
+								{{ item.number }}
+							{% else %}
+								<a href="{{ item.url }}">
+									{{ item.number }}
+								</a>
+							{% endif %}
+						</li>
+					{% elif item.type == 'page_ellipsis' %}
+						<li class="lite-pagination__list-ellipsis">
+							{{ item.text }}
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ol>
+
+			<a id="link-next-page" href="{{ next_link_url }}" id="link-next-page" class="lite-pagination__navigation-link">
+				<span>Next page</span>
+				{% svg 'next' %}
+			</a>
+		</div>
+	{% endif %}
+	`
+}

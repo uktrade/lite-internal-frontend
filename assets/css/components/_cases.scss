@@ -6,7 +6,7 @@
 
     &__row {
         display: grid;
-        grid-template-columns: 25% 1fr auto;
+        grid-template-columns: 25% minmax(0, 1fr) auto;
         grid-gap: govuk-spacing(6);
     }
 
@@ -18,6 +18,10 @@
     &__value {
         @include govuk-font($size: 19);
         color: $govuk-text-colour;
+
+		span {
+			word-break: break-all;
+		}
     }
 
     @media screen and (min-width: 900px) {

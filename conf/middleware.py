@@ -60,6 +60,9 @@ class LoggingMiddleware:
         response = self.get_response(request)
         data["type"] = "http response"
         data["elapsed_time"] = time.time() - start
+        print('\n')
+        print(str(time.time() - start) + "ms")
+        print('\n')
         logging.info(data)
         return response
 

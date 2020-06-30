@@ -1,0 +1,59 @@
+$app-assignment-item-size: 35px;
+
+.app-assignments__container {
+	@include govuk-font($size: 16);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	margin: 0;
+}
+
+.app-assignments__list {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	margin-right: govuk-spacing(1);
+}
+
+.app-assignments__item {
+	@include govuk-font($size: 14);
+	display: inline-block;
+	width: $app-assignment-item-size;
+	height: $app-assignment-item-size;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: govuk-colour("mid-grey");
+	color: $govuk-body-background-colour;
+	border-radius: $app-assignment-item-size;
+	text-transform: uppercase;
+	border: 2px solid $govuk-body-background-colour;
+	box-sizing: border-box;
+	transition: .2s ease;
+	cursor: pointer;
+
+	&:not(:first-child) {
+    	margin-left: - 6px;
+	}
+
+	&:not(:last-child) {
+    	padding-right: 2px;
+	}
+
+	&:hover {
+		transform: translateY(-5px);
+		padding-right: 0;
+		z-index: 1!important;
+		background-color: $govuk-link-colour;
+	}
+}
+
+.app-assignments__link {
+	border-bottom: 1px dashed currentColor;
+	padding-bottom: 3px;
+	margin: 0;
+}
