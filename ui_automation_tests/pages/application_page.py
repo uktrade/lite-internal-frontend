@@ -62,8 +62,6 @@ class ApplicationPage(BasePage):
     NEXT_REVIEW_DATE_MONTH_ID = "next_review_datemonth"
     NEXT_REVIEW_DATE_YEAR_ID = "next_review_dateyear"
 
-
-
     def get_case_copy_of_field_href(self):
         return self.driver.find_element_by_id(self.CASE_COPY_OF_ID).get_attribute("href")
 
