@@ -141,7 +141,7 @@
 											</div>
 										{% endif %}
 									{% endif %}
-									{% if case.has_future_review_date and includes_hidden %}
+									{% if case.has_future_review_date and data.results.is_work_queue %}
 										<div data-tooltip="{% lcs 'cases.CasesListPage.FUTURE_REVIEW_DATE' %}" class="app-cases__row__icon">
 											{% svg 'eye' %}
 										</div>
