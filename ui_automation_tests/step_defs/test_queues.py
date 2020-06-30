@@ -86,6 +86,6 @@ def system_queue_shown_in_dropdown(driver, queue_name):  # noqa
 
 @given("a new countersigning queue has been created")  # noqa
 def create_countersigning_queue(context, api_test_client):  # noqa
-    api_test_client.queues.add_queue("counter" + utils.get_formatted_date_time_y_m_d_h_s())
+    api_test_client.queues.add_queue("counter " + utils.get_formatted_date_time_y_m_d_h_s())
     context.countersigning_queue_name = api_test_client.context["queue_name"]
     context.countersigning_queue_id = api_test_client.context["queue_id"]
