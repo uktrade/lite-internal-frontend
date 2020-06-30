@@ -23,6 +23,7 @@ from queues.services import get_queue
 class Tabs:
     DETAILS = Tab("details", CasePage.Tabs.DETAILS, "details")
     DOCUMENTS = Tab("documents", CasePage.Tabs.DOCUMENTS, "documents")
+    LICENCES = Tab("licences", CasePage.Tabs.LICENCES, "licences")
     ADDITIONAL_CONTACTS = Tab("additional-contacts", CasePage.Tabs.ADDITIONAL_CONTACTS, "additional-contacts")
     ECJU_QUERIES = Tab("ecju-queries", CasePage.Tabs.ECJU_QUERIES, "ecju-queries")
     ACTIVITY = Tab("activity", CasePage.Tabs.CASE_NOTES_AND_TIMELINE, "activity")
@@ -123,10 +124,15 @@ class CaseView(TemplateView):
         activity_tab = Tabs.ACTIVITY
         activity_tab.count = "!" if self.case["audit_notification"] else None
 
-        return [
+        tabs = [
             Tabs.DETAILS,
             Tabs.ADDITIONAL_CONTACTS,
             Tabs.ECJU_QUERIES,
             Tabs.DOCUMENTS,
             activity_tab,
         ]
+
+        if "licences" in self.case:
+            tabs.insert(1, Tabs.LICENCES)
+
+        return tabs

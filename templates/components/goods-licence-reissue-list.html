@@ -30,13 +30,13 @@
 				<td class="govuk-table__cell">
 					<span class="govuk-hint govuk-!-margin-0">Applied for:{{ good.usage_applied_for|intcomma }} {{ good.unit.value }}</span>
 					<span class="govuk-hint govuk-!-margin-0">Previously licenced:{{ good.usage_licenced|intcomma }} {{ good.unit.value }}</span>
-					<span class="govuk-hint govuk-!-margin-0">Used:{{ good.usage_total|intcomma }} {{ good.unit.value }}</span>
-					<input class="govuk-input" id="quantity-{{ good.id }}" type="text" name="quantity-{{ good.id }}" value="{{ good.usage_applied_for|subtract:good.usage_total }}" onchange="updateValue('{{ good.id }}', '{{ good.value }}')"><br>
+					<span class="govuk-hint govuk-!-margin-0">Used:{{ good.usage|intcomma }} {{ good.unit.value }}</span>
+					<input class="govuk-input" id="quantity-{{ good.id }}" type="text" name="quantity-{{ good.id }}" value="{{ good.usage_applied_for|subtract:good.usage }}" onchange="updateValue('{{ good.id }}', '{{ good.value }}')"><br>
 				</td>
 				<td class="govuk-table__cell">
 					<span class="govuk-hint govuk-!-margin-0">Applied for: £{{ good.value|multiply:good.usage_applied_for|floatformat:2 }}</span>
 					<span class="govuk-hint govuk-!-margin-0">Previously licenced: £{{ good.value|multiply:good.usage_licenced|floatformat:2 }}</span>
-					<span class="govuk-hint govuk-!-margin-0">Used: £{{ good.value|multiply:good.usage_total|floatformat:2 }}</span>
+					<span class="govuk-hint govuk-!-margin-0">Used: £{{ good.value|multiply:good.usage|floatformat:2 }}</span>
 					<div class="lite-currency-input">
 						<div class="lite-currency-input__symbol {% if error %}lite-currency--error{% endif %}" aria-hidden="true">£</div>
 						<input class="govuk-input" id="value-{{ good.id }}" type="text" name="value-{{ good.id }}" value="{{ good.value|multiply:good.usage_licenced|floatformat:2 }}"/>
