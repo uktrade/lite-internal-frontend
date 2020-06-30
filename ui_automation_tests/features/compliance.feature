@@ -32,7 +32,7 @@ Feature: I want to generate and view compliance cases on approval and proviso of
     And I click continue
     Then the status has been changed in the application
 
-  @regression @LT-2723
+  @regression @LT_2723
   Scenario: Create compliance case
     When I go to the compliance case created
     And I click on the licences tab
@@ -41,7 +41,7 @@ Feature: I want to generate and view compliance cases on approval and proviso of
     And I apply filters
     Then I see my previously created licence
 
-  @regression @LT-1122
+  @regression @LT_1122
   Scenario: Create compliance visit case and respond to basic details
     When I go to the compliance case created
     And I click add a visit report
