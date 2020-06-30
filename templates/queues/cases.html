@@ -175,21 +175,8 @@
 		}
 
 		function generateFlags(flags) {
-			if (flags) {
-				var container = `<div class="app-assignments__container"><ul class="app-assignments__list">`;
-				$.each(assignments.slice(0, 3), function(i, item) {
-					container = container + `
-						<li class="app-assignments__item" data-tooltip="${(item.user.first_name ? item.user.first_name + " " + item.user.last_name : item.user.email)}">${shortenName(item.user.first_name, item.user.last_name)}</li>
-					`;
-				});
-				if (assignments.length > 3) {
-					container = container + `
-						</ul><p class="app-assignments__link">${assignments.length - 3} more</p>
-					`
-				} else {
-					container = container + `</ul>`;
-				}
-				return container + `</div>`;
+			if (flags.length) {
+
 			} else {
 				return `<p class="app-information-bar">{% lcs 'cases.CasesListPage.NoContent.NO_GOODS_FLAGS' %}</p>`
 			}
