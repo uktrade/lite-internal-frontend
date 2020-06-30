@@ -187,7 +187,7 @@
 		<dt class="app-case__summary-list__key">
 			{% lcs 'cases.CasePage.DetailsTab.NEXT_REVIEW_DATE' %}
 		</dt>
-		<dd class="app-case__summary-list__value">
+		<dd class="app-case__summary-list__value" id="next-review-date">
 			{% if case.next_review_date %}
 				{{ case.next_review_date|str_date_only }}
 			{% else %}
