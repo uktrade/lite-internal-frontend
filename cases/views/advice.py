@@ -246,9 +246,10 @@ class Finalise(TemplateView):
 
         if "approve" in items or "proviso" in items:
             # Redirect if licence already exists
-            data, status_code = get_licence(request, str(kwargs["pk"]))
-            licence = data.get("licence")
-            if licence:
+            licence_data, status_code = get_licence(request, str(kwargs["pk"]))
+            licence = licence_data.get("licence")
+            if licence and licence_data.get("goods"):
+                # If there are licenced goods, we want to use the reissue goods flow.
                 if case.data["status"]["key"] == "reopened_for_changes":
                     start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
                     form_data = {
@@ -264,7 +265,7 @@ class Finalise(TemplateView):
                         is_open_licence=is_open_licence,
                         duration=licence["duration"],
                         editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
-                        goods=data["goods"],
+                        goods=licence_data["goods"],
                         goods_html="components/goods-licence-reissue-list.html",
                     )
                     return form_page(request, form, data=form_data, extra_data={"case": case})
@@ -314,7 +315,8 @@ class Finalise(TemplateView):
         if res.status_code == HTTPStatus.BAD_REQUEST:
             licence_data, status_code = get_licence(request, str(kwargs["pk"]))
             licence = licence_data.get("licence")
-            if licence:
+            if licence and licence_data.get("goods"):
+                # If there are licenced goods, we want to use the reissue goods flow.
                 start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
                 form_data = {
                     "day": start_date.day,
