@@ -7,7 +7,6 @@ from pages.case_page import CasePage, CaseTabs
 from pages.shared import Shared
 
 from conf.constants import DATE_FORMAT
-from core.builtins.custom_tags import str_date_only
 from ui_automation_tests.pages.compliance_pages import CompliancePages
 from ui_automation_tests.pages.ecju_queries_pages import EcjuQueriesPages
 from ui_automation_tests.pages.generate_document_page import GeneratedDocument
