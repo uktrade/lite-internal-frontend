@@ -60,6 +60,7 @@ class Cases(TemplateView):
             "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
             "enforcement_check": Permission.ENFORCEMENT_CHECK.value in get_user_permissions(request),
             "reference": request.GET.get("case_reference", ""),
+            "includes_hidden": hidden,
         }
 
         return render(request, "queues/cases.html", context)
