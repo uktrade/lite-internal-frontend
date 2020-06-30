@@ -24,7 +24,7 @@ Feature: I want to finalise a case
     And I select the template previously created
     And I click continue
     Then preview is displayed
-    And I click continue
+    When I click continue
     Then The decision row status is "done"
     When I click continue
     And I go to application previously created
