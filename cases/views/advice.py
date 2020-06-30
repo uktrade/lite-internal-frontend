@@ -246,7 +246,7 @@ class Finalise(TemplateView):
 
         if "approve" in items or "proviso" in items:
             # Redirect if licence already exists
-            licence_data, status_code = get_licence(request, str(kwargs["pk"]))
+            licence_data, _ = get_licence(request, str(kwargs["pk"]))
             licence = licence_data.get("licence")
             if licence and licence_data.get("goods"):
                 # If there are licenced goods, we want to use the reissue goods flow.
@@ -313,7 +313,7 @@ class Finalise(TemplateView):
             return error_page(request, "You do not have permission.")
 
         if res.status_code == HTTPStatus.BAD_REQUEST:
-            licence_data, status_code = get_licence(request, str(kwargs["pk"]))
+            licence_data, _ = get_licence(request, str(kwargs["pk"]))
             licence = licence_data.get("licence")
             if licence and licence_data.get("goods"):
                 # If there are licenced goods, we want to use the reissue goods flow.
@@ -348,7 +348,7 @@ class Finalise(TemplateView):
             )
             return form_page(request, form, data=data, errors=res.json()["errors"], extra_data={"case": case})
 
-        data, status_code = get_licence(request, str(kwargs["pk"]))
+        data, _ = get_licence(request, str(kwargs["pk"]))
         licence = data.get("licence")
         return redirect(
             reverse_lazy(
