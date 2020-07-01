@@ -59,7 +59,7 @@
 	<table id="table-placeholder" class="govuk-table app-table--skeleton">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				{% if not data.results.is_system_queue %}
+				{% if not queue.is_system_queue %}
 					<th class="govuk-table__header govuk-table__cell--tight">
 						<div class="app-table__row__checkbox--skeleton"></div>
 					</th>
@@ -74,12 +74,14 @@
 				<th class="govuk-table__header" scope="col"></th>
 			</tr>
 		</thead>
-		<tbody id="tbody-placeholder">
+		<tbody class="govuk-table__body" id="tbody-placeholder">
 			{% for i in '01234567890123456789'|make_list %}
 				<tr class="govuk-table__row app-table__row--skeleton">
-					<td class="govuk-table__cell">
-						<div class="app-table__row__checkbox--skeleton"></div>
-					</td>
+					{% if not queue.is_system_queue %}
+						<td class="govuk-table__cell">
+							<div class="app-table__row__checkbox--skeleton"></div>
+						</td>
+					{% endif %}
 					<td class="govuk-table__cell govuk-table__cell--tight">
 						<div class="app-table__row__sla--skeleton"></div>
 					</td>
@@ -118,7 +120,7 @@
 	<table id="table-cases" class="govuk-table">
 		<thead class="govuk-table__head">
 			<tr class="govuk-table__row">
-				{% if not data.results.is_system_queue %}
+				{% if not queue.is_system_queue %}
 					<th class="govuk-table__header govuk-table__cell--checkbox">
 						<button id="button-select-all" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
 					</th>
@@ -132,7 +134,7 @@
 				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" width="15%" scope="col">{% lcs 'cases.CasesListPage.Table.DESTINATIONS' %}</th>
 			</tr>
 		</thead>
-		<tbody id="tbody-main">
+		<tbody class="govuk-table__body" id="tbody-main">
 		</tbody>
 	</table>
 
@@ -153,7 +155,7 @@
 
 		$("#table-cases").hide();
 		$.get("{% url 'core:cases' queue.id %}{{ params }}", function(data) {
-			$("#table-placeholder").hide();
+			$("#table-placeholder").remove();
 			$("#table-cases").fadeIn(100);
 			$("#text-case-count").removeClass("app-hidden").fadeIn(100).text(data.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " cases");
 
@@ -175,7 +177,7 @@
 				$.each(data.results.cases, function(i, item) {
 					var html = `
 						<tr class="govuk-table__row" id="${item.id}">
-							{% if not data.results.is_system_queue %}
+							{% if not queue.is_system_queue %}
 								<td class="govuk-table__cell govuk-table__cell--checkbox">
 									<div>
 										<input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}">
