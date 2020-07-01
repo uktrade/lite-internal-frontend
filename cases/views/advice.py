@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
-from cases.constants import CaseType
+from cases.constants import CaseType, CaseStatusEnum
 from cases.forms.advice import give_advice_form, finalise_goods_countries_form, generate_documents_form
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
 from cases.helpers.advice import get_param_destinations, get_param_goods, flatten_advice_data, prepare_data_for_advice
@@ -250,7 +250,7 @@ class Finalise(TemplateView):
             licence = licence_data.get("licence")
             if licence and licence_data.get("goods"):
                 # If there are licenced goods, we want to use the reissue goods flow.
-                if case.data["status"]["key"] == "reopened_for_changes":
+                if not CaseStatusEnum.is_terminal(case.data["status"]["key"]):
                     start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
                     form_data = {
                         "day": start_date.day,
