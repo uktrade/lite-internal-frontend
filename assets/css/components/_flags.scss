@@ -1,21 +1,3 @@
-.app-flags-selector .tokenfield {
-	max-width: none;
-	align-items: flex-start;
-	cursor: text;
-	padding: govuk-spacing(2) govuk-spacing(2) 0;
-
-	.app-flag {
-		padding-right: govuk-spacing(6);
-		margin-right: govuk-spacing(2);
-		margin-bottom: govuk-spacing(2);
-	}
-
-	.tokenfield-input {
-		line-height: 26px!important;
-		padding: 6px 0 10px;
-	}
-}
-
 .app-flags {
 	padding: 0;
 	display: flex;
