@@ -7,6 +7,7 @@ $app-sla-size: 36px;
 	height: $app-sla-size;
 	border-radius: 100%;
 	z-index: 0;
+	margin-bottom: govuk-spacing(3);
 
 	&::before {
 		content: "";

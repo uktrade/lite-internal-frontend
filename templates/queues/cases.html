@@ -65,7 +65,6 @@
 					</th>
 				{% endif %}
 				<th class="govuk-table__header govuk-table__cell--tight" scope="col"><span class="govuk-visually-hidden">{% lcs 'cases.CasesListPage.Table.SLA' %}</span></th>
-				<th class="govuk-table__header govuk-table__cell--tight" scope="col"><span class="govuk-visually-hidden">{% lcs 'cases.CasesListPage.Table.INFORMATION' %}</span></th>
 				<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.CASE' %}</th>
 				<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.ASSIGNEES' %}</th>
 				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" scope="col">{% lcs 'cases.CasesListPage.Table.GOODS' %}</th>
@@ -75,7 +74,7 @@
 			</tr>
 		</thead>
 		<tbody class="govuk-table__body" id="tbody-placeholder">
-			{% for i in '01234567890123456789'|make_list %}
+			{% for i in '0123456789'|make_list %}
 				<tr class="govuk-table__row app-table__row--skeleton">
 					{% if not queue.is_system_queue %}
 						<td class="govuk-table__cell">
@@ -85,7 +84,6 @@
 					<td class="govuk-table__cell govuk-table__cell--tight">
 						<div class="app-table__row__sla--skeleton"></div>
 					</td>
-					<td class="govuk-table__cell"></td>
 					<td class="govuk-table__cell">
 						<div class="">
 							<p>hello world my name</p>
@@ -126,7 +124,6 @@
 					</th>
 				{% endif %}
 				<th class="govuk-table__header govuk-table__cell--tight" scope="col"><span class="govuk-visually-hidden">{% lcs 'cases.CasesListPage.Table.SLA' %}</span></th>
-				<th class="govuk-table__header govuk-table__cell--tight" scope="col"><span class="govuk-visually-hidden">{% lcs 'cases.CasesListPage.Table.INFORMATION' %}</span></th>
 				<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.CASE' %}</th>
 				<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.ASSIGNEES' %}</th>
 				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" width="15%" scope="col">Flags</th>
@@ -188,10 +185,8 @@
 								</td>
 							{% endif %}
 							<td class="govuk-table__cell govuk-table__cell--tight">
-								${generateSLA(45)}
-							</td>
-							<td class="govuk-table__cell govuk-table__cell--tight lite-mobile-hide">
 								<div class="app-cases__row__vertical-column">
+									${generateSLA(45)}
 									{% if not is_all_cases_queue %}
 										${(!item.is_recently_updated ? `
 											<span data-tooltip="{% lcs 'cases.CasesListPage.NOT_UPDATED_RECENTLY' %}" class="app-cases__row__icon app-cases__row__attention-needed">
