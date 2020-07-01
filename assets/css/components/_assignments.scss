@@ -61,6 +61,12 @@ $app-assignment-item-size: 35px;
 		text-decoration: none;
 		transition: .2s ease;
 		box-sizing: border-box;
+		border-radius: inherit;
+
+		&:focus {
+			@include govuk-focused-text;
+			color: $govuk-focus-text-colour!important;
+		}
 	}
 }
 

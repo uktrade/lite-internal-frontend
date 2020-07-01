@@ -6,6 +6,18 @@ from queues.services import get_cases_search_data
 
 class Cases(TemplateView):
     def get(self, request, **kwargs):
-        data = get_cases_search_data(request, kwargs["pk"], {})
-        # pprint(data)
+        hidden = request.GET.get("hidden")
+
+        # Page parameters
+        params = {"page": int(request.GET.get("page", 1))}
+        for key, value in request.GET.items():
+            if key != "flags[]":
+                params[key] = value
+
+        params["flags"] = request.GET.getlist("flags[]", [])
+
+        if hidden:
+            params["hidden"] = hidden
+
+        data = get_cases_search_data(request, kwargs["pk"], params)
         return JsonResponse(data=data)

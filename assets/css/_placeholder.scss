@@ -67,7 +67,26 @@
 			left: 2px;
 			right: 2px;
 			bottom: 2px;
-			background-color: white;
+			background-color: $govuk-body-background-colour;
+		}
+	}
+
+	.app-table__row__sla--skeleton {
+		position: relative;
+		width: 35px;
+		height: 35px;
+		@include skeleton-loader();
+		border-radius: 100%;
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 2px;
+			left: 2px;
+			right: 2px;
+			bottom: 2px;
+			background-color: $govuk-body-background-colour;
+			border-radius: inherit;
 		}
 	}
 
