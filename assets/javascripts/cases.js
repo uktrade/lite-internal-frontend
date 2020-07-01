@@ -3,7 +3,7 @@ function expandFlags(element) {
 	$(element).html(`<span class="govuk-visually-hidden">Show more</span>${chevron} ${$(element).prev().find(".app-flag").length - $(element).prev().find(".app-hidden").length} of ${$(element).prev().find(".app-flag").length}`)
 
 	if (!$(element).prev().find(".app-hidden").length) {
-		$(element).fadeOut();
+		$(element).hide();
 	}
 }
 
