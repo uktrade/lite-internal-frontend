@@ -173,7 +173,7 @@
 		$.get("{% url 'core:cases' queue.id %}{{ params }}", function(data) {
 			$("#table-placeholder").hide();
 			$("#table-cases").fadeIn(100);
-			$("#text-case-count").fadeIn(100).text(data.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " cases");
+			$("#text-case-count").removeClass("app-hidden").fadeIn(100).text(data.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " cases");
 
 			if (data.total_pages > 1) {
 				generatePagination({{ request.GET.page|default:1 }}, data.total_pages);
