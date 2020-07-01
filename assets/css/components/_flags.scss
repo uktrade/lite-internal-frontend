@@ -28,7 +28,7 @@
 		grid-template-columns: 1fr;
 		width: 100%;
 		margin: 0;
-		max-width: 275px;
+		width: 200px;
 
 		.app-flag {
 			display: flex;
@@ -62,7 +62,7 @@ $flag-border-width: 3px;
 	margin-right: govuk-spacing(2);
 	margin-bottom: govuk-spacing(2);
 
-	&::after {
+	&::before {
 		content: "";
 		position: absolute;
 		top: $flag-border-width;
@@ -70,6 +70,18 @@ $flag-border-width: 3px;
 		bottom: $flag-border-width;
 		width: $flag-border-width;
 		background: currentColor;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: govuk-spacing(6);
+		background: inherit;
+		-webkit-mask-image: linear-gradient(to right, transparent 0%, black 80%);
+		mask-image: linear-gradient(to right, transparent 0%, black 80%);
 	}
 
 	&--checkbox {

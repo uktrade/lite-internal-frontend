@@ -87,7 +87,7 @@
 							<p>hello world my name</p>
 						</div>
 						<div class="">
-							<p>world is jan</p>
+							<p>hello is word</p>
 						</div>
 						<div class="">
 							<p>easy</p>
@@ -128,7 +128,6 @@
 				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" scope="col">Flags</th>
 				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" scope="col">{% lcs 'cases.CasesListPage.Table.GOODS' %}</th>
 				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" scope="col">{% lcs 'cases.CasesListPage.Table.DESTINATIONS' %}</th>
-				<th class="govuk-table__header" scope="col"></th>
 			</tr>
 		</thead>
 		<tbody id="tbody-main">
@@ -177,13 +176,14 @@
 		}
 
 		function generateFlags(flags) {
-			if (flags.length) {
+			console.log(flags)
+			if (flags && flags.length) {
 				var container = `<ol class="app-flags app-flags--list">`
 				$.each(flags, function(i, item) {
 					container = container + `
 						<li class="app-flag app-flag--${item.colour}" data-tooltip="${item.label}">${item.name}</li>
-					`;
-				});
+					`
+				})
 				return container + `</ol>`
 			} else {
 				return `<p class="app-information-bar">{% lcs 'cases.CasesListPage.NoContent.NO_GOODS_FLAGS' %}</p>`
@@ -194,7 +194,7 @@
 		$.get("{% url 'core:cases' queue.id %}", function(data) {
 			$("#table-placeholder").hide();
 			$("#table-cases").fadeIn(100);
-			$("#text-case-count").fadeIn(100).text(data.count + " cases");
+			$("#text-case-count").fadeIn(100).text(data.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " cases");
 			$.each(data.results.queues, function(i, item) {
 				var html = `
 					<a href="/queues/${item.id}/" id="${item.id}" class="app-menu__item app-menu__item--subtitle ${(item.id == '{{ queue.id }}' ? 'app-menu__item--selected' : '')}">
@@ -272,13 +272,13 @@
 								${generateAssignments(item.assignments)}
 							</td>
 							<td class="govuk-table__cell lite-tablet-hide">
-								{generateFlags(item.organisation_flags)}
+								${generateFlags(item.flags)}
 							</td>
 							<td class="govuk-table__cell lite-tablet-hide">
-								{generateFlags(item.goods_flags)}
+								${generateFlags(item.goods_flags)}
 							</td>
 							<td class="govuk-table__cell lite-tablet-hide">
-								{generateFlags(item.destinations_flags)}
+								${generateFlags(item.destinations_flags)}
 							</td>
 						</tr>
 					`
