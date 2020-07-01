@@ -1,8 +1,26 @@
-function expandFlags(element) {
-	$(element).prev().find(".app-hidden").slice(0, 5).removeClass("app-hidden").addClass("app-flag--animate");
-	$(element).html(`<span class="govuk-visually-hidden">Show more</span>${chevron} ${$(element).prev().find(".app-flag").length - $(element).prev().find(".app-hidden").length} of ${$(element).prev().find(".app-flag").length}`)
+function generateFlags(flags) {
+	if (flags && flags.length) {
+		var container = `<ol class="app-flags app-flags--list">`
+		$.each(flags, function(i, item) {
+			container = container + `
+				<li class="app-flag app-flag--${item.colour} ${(i >= 3 ? "app-hidden--force" : "")}" ${(item.label ? `data-tooltip="${item.label}"` : ``)}>${item.name}</li>
+			`
+		})
+		if (flags.length > 3) {
+			return `${container}</ol><button onclick="expandFlags(this)" class="app-flags__expander"><span class="govuk-visually-hidden">Show more</span>${chevron} 3 of ${flags.length}</button></div>`
+		} else {
+			return `${container}</ol>`
+		}
+	} else {
+		return `<p class="app-information-bar">No flags set</p>`
+	}
+}
 
-	if (!$(element).prev().find(".app-hidden").length) {
+function expandFlags(element) {
+	$(element).prev().find(".app-hidden--force").slice(0, 5).removeClass("app-hidden--force").addClass("app-flag--animate");
+	$(element).html(`<span class="govuk-visually-hidden">Show more</span>${chevron} ${$(element).prev().find(".app-flag").length - $(element).prev().find(".app-hidden--force").length} of ${$(element).prev().find(".app-flag").length}`)
+
+	if (!$(element).prev().find(".app-hidden--force").length) {
 		$(element).hide();
 	}
 }

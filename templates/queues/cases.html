@@ -151,24 +151,6 @@
 		var nextSVG = `{% svg 'next' %}`;
 		var chevron = `{% svg 'chevron' %}`;
 
-		function generateFlags(flags) {
-			if (flags && flags.length) {
-				var container = `<ol class="app-flags app-flags--list">`
-				$.each(flags, function(i, item) {
-					container = container + `
-						<li class="app-flag app-flag--${item.colour} ${(i >= 3 ? "app-hidden" : "")}" ${(item.label ? `data-tooltip="${item.label}"` : ``)}>${item.name}</li>
-					`
-				})
-				if (flags.length > 3) {
-					return `${container}</ol><button onclick="expandFlags(this)" class="app-flags__expander"><span class="govuk-visually-hidden">Show more</span>${chevron} 3 of ${flags.length}</button></div>`
-				} else {
-					return `${container}</ol>`
-				}
-			} else {
-				return `<p class="app-information-bar">{% lcs 'cases.CasesListPage.NoContent.NO_GOODS_FLAGS' %}</p>`
-			}
-		}
-
 		$("#table-cases").hide();
 		$.get("{% url 'core:cases' queue.id %}{{ params }}", function(data) {
 			$("#table-placeholder").hide();

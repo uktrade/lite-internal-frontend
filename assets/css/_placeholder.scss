@@ -1,4 +1,8 @@
 .app-hidden {
+	display: none;
+}
+
+.app-hidden--force {
 	display: none!important;
 }
 
