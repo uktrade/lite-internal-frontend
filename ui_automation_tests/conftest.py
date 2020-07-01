@@ -496,8 +496,8 @@ def i_apply_filters(driver, context):  # noqa
     CaseListPage(driver).click_apply_filters_button()
 
 
-@then("I dont see previously created application")
-def dont_see_queue_in_queue_list(driver, context):
+@then("I dont see previously created application")  # noqa
+def dont_see_queue_in_queue_list(driver, context):  # noqa
     driver.set_timeout_to(0)
     if len(driver.find_elements_by_css_selector(".lite-information-text__text")) != 1:
         assert context.app_id not in driver.find_element_by_css_selector(".govuk-table").text
