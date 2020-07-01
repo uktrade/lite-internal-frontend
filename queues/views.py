@@ -49,17 +49,11 @@ class Cases(TemplateView):
         if hidden:
             params["hidden"] = hidden
 
-        # data = get_cases_search_data(request, queue_pk, params)
-        # updated_cases_banner_queue_id = get_updated_cases_banner_queue_id(queue_pk, data["results"]["queues"])
-
         context = {
-            # "data": data,
-            "filters": FiltersBar([]),
             "queue": get_queue(request, queue_pk),
-            # "updated_cases_banner_queue_id": updated_cases_banner_queue_id,
-            # "filters": case_filters_bar(request, data),
-            # "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
-            # "enforcement_check": Permission.ENFORCEMENT_CHECK.value in get_user_permissions(request),
+            "filters": case_filters_bar(request),
+            "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
+            "enforcement_check": Permission.ENFORCEMENT_CHECK.value in get_user_permissions(request),
             "reference": request.GET.get("case_reference", ""),
         }
 

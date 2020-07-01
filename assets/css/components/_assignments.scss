@@ -20,35 +20,46 @@ $app-assignment-item-size: 35px;
 }
 
 .app-assignments__item {
-	@include govuk-font($size: 14);
 	display: inline-block;
-	width: $app-assignment-item-size;
-	height: $app-assignment-item-size;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: govuk-colour("mid-grey");
-	color: $govuk-body-background-colour;
-	border-radius: $app-assignment-item-size;
-	text-transform: uppercase;
-	border: 2px solid $govuk-body-background-colour;
-	box-sizing: border-box;
 	transition: .2s ease;
-	cursor: pointer;
+	box-sizing: border-box;
+	background-color: govuk-colour("mid-grey");
+	border: 2px solid $govuk-body-background-colour;
+	border-radius: $app-assignment-item-size;
 
 	&:not(:first-child) {
     	margin-left: - 6px;
 	}
 
 	&:not(:last-child) {
-    	padding-right: 2px;
+    	a {
+			padding-right: 2px;
+		}
 	}
 
 	&:hover {
 		transform: translateY(-5px);
-		padding-right: 0;
 		z-index: 1!important;
 		background-color: $govuk-link-colour;
+
+		a {
+			padding-right: 0!important;
+		}
+	}
+
+	&-link {
+		@include govuk-font($size: 14);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: $app-assignment-item-size;
+		height: $app-assignment-item-size;
+		cursor: pointer;
+		color: $govuk-body-background-colour!important;
+		text-transform: uppercase;
+		text-decoration: none;
+		transition: .2s ease;
+		box-sizing: border-box;
 	}
 }
 

@@ -125,9 +125,9 @@
 				<th class="govuk-table__header govuk-table__cell--tight" scope="col"><span class="govuk-visually-hidden">{% lcs 'cases.CasesListPage.Table.INFORMATION' %}</span></th>
 				<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.CASE' %}</th>
 				<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.ASSIGNEES' %}</th>
+				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" scope="col">Flags</th>
 				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" scope="col">{% lcs 'cases.CasesListPage.Table.GOODS' %}</th>
 				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" scope="col">{% lcs 'cases.CasesListPage.Table.DESTINATIONS' %}</th>
-				<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.FLAGS' %}</th>
 				<th class="govuk-table__header" scope="col"></th>
 			</tr>
 		</thead>
@@ -158,7 +158,9 @@
 				var container = `<div class="app-assignments__container"><ul class="app-assignments__list">`;
 				$.each(assignments.slice(0, 3), function(i, item) {
 					container = container + `
-						<li class="app-assignments__item" data-tooltip="${(item.user.first_name ? item.user.first_name + " " + item.user.last_name : item.user.email)}">${shortenName(item.user.first_name, item.user.last_name)}</li>
+						<li class="app-assignments__item" data-tooltip="${(item.user.first_name ? item.user.first_name + " " + item.user.last_name : item.user.email)}">
+							<a class="app-assignments__item-link" href="/users/${item.user.id}/">${shortenName(item.user.first_name, item.user.last_name)}</a>
+						</li>
 					`;
 				});
 				if (assignments.length > 3) {
@@ -176,7 +178,13 @@
 
 		function generateFlags(flags) {
 			if (flags.length) {
-
+				var container = `<ol class="app-flags app-flags--list">`
+				$.each(flags, function(i, item) {
+					container = container + `
+						<li class="app-flag app-flag--${item.colour}" data-tooltip="${item.label}">${item.name}</li>
+					`;
+				});
+				return container + `</ol>`
 			} else {
 				return `<p class="app-information-bar">{% lcs 'cases.CasesListPage.NoContent.NO_GOODS_FLAGS' %}</p>`
 			}
@@ -264,13 +272,13 @@
 								${generateAssignments(item.assignments)}
 							</td>
 							<td class="govuk-table__cell lite-tablet-hide">
-								${generateFlags(item.flags)}
+								{generateFlags(item.organisation_flags)}
 							</td>
 							<td class="govuk-table__cell lite-tablet-hide">
-								${generateFlags(item.flags)}
+								{generateFlags(item.goods_flags)}
 							</td>
-							<td class="govuk-table__cell lite-mobile-hide" id="flags-{{ case.id }}">
-								${generateFlags(item.flags)}
+							<td class="govuk-table__cell lite-tablet-hide">
+								{generateFlags(item.destinations_flags)}
 							</td>
 						</tr>
 					`
