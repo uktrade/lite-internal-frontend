@@ -205,7 +205,7 @@ class CaseImDoneView(TemplateView):
             has_review_date = (
                 True
                 if case.next_review_date
-                and datetime.datetime.strptime(case.next_review_date, "%Y-%m-%d").date() >= timezone.now().date()
+                and datetime.datetime.strptime(case.next_review_date, "%Y-%m-%d").date() > timezone.now().date()
                 else False
             )
             return form_page(request, done_with_case_form(request, self.case_pk, has_review_date))
