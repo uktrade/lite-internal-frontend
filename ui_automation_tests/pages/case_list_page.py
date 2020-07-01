@@ -30,7 +30,7 @@ class CaseListPage(BasePage):
     CASE_TYPE_DROPDOWN = "case_type"  # ID
     INPUT_ASSIGNED_USER_ID = "assigned_user"
     FILTER_SEARCH_BOX = "filter-box"  # ID
-    SHOW_TEAM_ECJU_AND_HIDDEN_CASES = "Show-hidden-cases,-including-cases-with-open-ECJU-queries."
+    SHOW_TEAM_ECJU_AND_HIDDEN_CASES = "show-hidden-cases"
     QUEUE_SEARCH_BOX = "filter-queues"
     # Queue dropdown
     LINK_CHANGE_QUEUE_ID = "link-queue"
