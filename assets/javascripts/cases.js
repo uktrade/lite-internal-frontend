@@ -1,3 +1,12 @@
+function expandFlags(element) {
+	$(element).prev().find(".app-hidden").slice(0, 5).removeClass("app-hidden").addClass("app-flag--animate");
+	$(element).html(`<span class="govuk-visually-hidden">Show more</span>${chevron} ${$(element).prev().find(".app-flag").length - $(element).prev().find(".app-hidden").length} of ${$(element).prev().find(".app-flag").length}`)
+
+	if (!$(element).prev().find(".app-hidden").length) {
+		$(element).fadeOut();
+	}
+}
+
 function shortenName(first_name, last_name) {
 	if (!first_name || !last_name ) {
 		return "";

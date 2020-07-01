@@ -149,17 +149,18 @@
 		var params = `{{ params }}`;
 		var previousSVG = `{% svg 'previous' %}`;
 		var nextSVG = `{% svg 'next' %}`;
+		var chevron = `{% svg 'chevron' %}`;
 
 		function generateFlags(flags) {
 			if (flags && flags.length) {
 				var container = `<ol class="app-flags app-flags--list">`
-				$.each(flags.slice(0, 3), function(i, item) {
+				$.each(flags, function(i, item) {
 					container = container + `
-						<li class="app-flag app-flag--${item.colour}" data-tooltip="${item.label}">${item.name}</li>
+						<li class="app-flag app-flag--${item.colour} ${(i >= 3 ? "app-hidden" : "")}" ${(item.label ? `data-tooltip="${item.label}"` : ``)}>${item.name}</li>
 					`
 				})
 				if (flags.length > 3) {
-					return `${container}<p class="govuk-hint govuk-!-margin-top-3 govuk-!-margin-bottom-1">(3 of ${flags.length})</p></ol>`
+					return `${container}</ol><button onclick="expandFlags(this)" class="app-flags__link"><span class="govuk-visually-hidden">Show more</span>${chevron} 3 of ${flags.length}</button></div>`
 				} else {
 					return `${container}</ol>`
 				}
