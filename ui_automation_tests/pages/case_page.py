@@ -33,6 +33,8 @@ class CasePage(BasePage):
     LINK_SET_NEXT_REVIEW_DATE_ID = "link-change-review-date"
     NEXT_REVIEW_DATE_ID = "next-review-date"
 
+    BANNER_REFERENCE_CODE_ID = "reference-code"
+
     def change_tab(self, tab: str):
         if tab == CaseTabs.USER_ADVICE or tab == CaseTabs.TEAM_ADVICE or tab == CaseTabs.FINAL_ADVICE:
             self.driver.find_element_by_id("tab-collection-advice").click()
@@ -110,3 +112,6 @@ class CasePage(BasePage):
     def select_destination(self, index):
         scroll_to_element_by_id(self.driver, self.TABLE_DESTINATIONS_ID)
         self.driver.find_elements_by_css_selector(f"#{self.TABLE_DESTINATIONS_ID} {selectors.CHECKBOX}")[index].click()
+
+    def get_reference_code_text(self):
+        return self.driver.find_element_by_id(self.BANNER_REFERENCE_CODE_ID).text
