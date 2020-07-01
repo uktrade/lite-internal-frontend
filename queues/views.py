@@ -41,6 +41,10 @@ class Cases(TemplateView):
             "queue": queue,  # Used for showing current queue
             "filters": case_filters_bar(request, queue),
             "params": convert_parameters_to_query_params(request.GET),  # Used for passing params to JS
+            "case_officer": request.GET.get("case_officer"),            # Used for reading params dynamically
+            "assigned_user": request.GET.get("assigned_user"),          # ""
+            "team_advice_type": request.GET.get("team_advice_type"),    # ""
+            "final_advice_type": request.GET.get("final_advice_type"),  # ""
             "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
             "enforcement_check": Permission.ENFORCEMENT_CHECK.value in get_user_permissions(request),
         }

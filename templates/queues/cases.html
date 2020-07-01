@@ -230,8 +230,24 @@
 					$("#tbody-main").append(html);
 				});
 			}
+			$.each(data.results.filters.statuses, function(i, item) {
+				$("#status").append(`<option value="${item.key}" ${(item.key == "{{ case_officer }}" ? "selected" : "")}>${item.value}</option>`)
+			});
+			$.each(data.results.filters.case_types, function(i, item) {
+				$("#case_type").append(`<option value="${item.key}" ${(item.key == "{{ case_type }}" ? "selected" : "")}>${item.value}</option>`)
+			});
+			$.each(data.results.filters.gov_users, function(i, item) {
+				$("#case_officer").append(`<option value="${item.id}" ${(item.id == "{{ case_officer }}" ? "selected" : "")}>${item.full_name}</option>`)
+				$("#assigned_user").append(`<option value="${item.id}" ${(item.id == "{{ assigned_user }}" ? "selected" : "")}>${item.full_name}</option>`)
+			});
+			$.each(data.results.filters.advice_types, function(i, item) {
+				$("#team_advice_type").append(`<option value="${item.key}" ${(item.key == "{{ team_advice_type }}" ? "selected" : "")}>${item.value}</option>`)
+				$("#final_advice_type").append(`<option value="${item.key}" ${(item.key == "{{ final_advice_type }}" ? "selected" : "")}>${item.value}</option>`)
+			});
 			setTooltips();
 			setSelectButtonsState();
+			loadAutoCompletes();
+			tryShowFilterBar();
 		});
 
 		$("#filter-queues").on('input', function() {
