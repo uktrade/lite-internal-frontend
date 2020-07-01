@@ -19,5 +19,5 @@ def done_with_case_form(request, case_pk, has_review_date):
             )
         ],
         default_button_name=DoneWithCaseOnQueueForm.SUBMIT,
-        javascript_imports=conditional(has_review_date, ["/assets/javascripts/assign_queue.js"], None),
+        javascript_imports=conditional(has_review_date, {"/javascripts/assign_queue.js"}, None)
     )
