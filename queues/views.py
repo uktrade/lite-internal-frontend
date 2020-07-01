@@ -35,10 +35,11 @@ class Cases(TemplateView):
         Show a list of cases pertaining to the given queue
         """
         queue_pk = kwargs.get("queue_pk") or request.user.default_queue
+        queue = get_queue(request, queue_pk)
 
         context = {
-            "queue": get_queue(request, queue_pk),  # Used for showing current queue
-            "filters": case_filters_bar(request),
+            "queue": queue,  # Used for showing current queue
+            "filters": case_filters_bar(request, queue),
             "params": convert_parameters_to_query_params(request.GET),  # Used for passing params to JS
             "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
             "enforcement_check": Permission.ENFORCEMENT_CHECK.value in get_user_permissions(request),
