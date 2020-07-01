@@ -127,7 +127,7 @@ $flag-border-width: 3px;
 	}
 }
 
-.app-flags__link {
+.app-flags__expander {
 	@include appearance(none);
 	@include govuk-font($size: 16);
 	color: $govuk-secondary-text-colour;
@@ -148,6 +148,7 @@ $flag-border-width: 3px;
 
 	&:active {
 		color: $govuk-text-colour;
+		border-bottom-color: $govuk-text-colour;
 	}
 
 	&:focus {
