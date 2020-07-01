@@ -41,6 +41,12 @@ Note the migrations will need to be run again the next time the service is to be
 * Go to the index page (e.g. `http://localhost:8200`)
 
 
+## Running without debug
+* Toggle the debug variable in your `.env`
+* Run `pipenv run ./manage.py collectstatic` to collect all static assets
+* Run as you would normally
+
+
 ## Running the application locally on your dev machine not using Docker
 * Start a local Postgres: `docker run --name lite-internal-frontend -e POSTGRES_PASSWORD=password -p 5431:5432 -d postgres`
 * Mock S3: `docker run -p 9090:9090 -p 9191:9191 -t adobe/s3mock`
