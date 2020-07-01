@@ -35,13 +35,13 @@ def case_filters_bar(request, queue) -> FiltersBar:
                 name="case_officer",
                 title=CasesListPage.Filters.CASE_OFFICER,
                 options=[Option("not_assigned", CasesListPage.Filters.NOT_ASSIGNED)],
-                deferred=True
+                deferred=True,
             ),
             AutocompleteInput(
                 name="assigned_user",
                 title=CasesListPage.Filters.ASSIGNED_USER,
                 options=[Option("not_assigned", CasesListPage.Filters.NOT_ASSIGNED)],
-                deferred=True
+                deferred=True,
             ),
             conditional(
                 not queue["is_system_queue"],
@@ -91,12 +91,12 @@ def case_filters_bar(request, queue) -> FiltersBar:
             AutocompleteInput(
                 name="country",
                 title=CasesListPage.Filters.COUNTRY,
-                options=get_countries(request, convert_to_options=True)
+                options=get_countries(request, convert_to_options=True),
             ),
             AutocompleteInput(
                 name="control_list_entry",
                 title=CasesListPage.Filters.CONTROL_LIST_ENTRY,
-                options=get_control_list_entries(request, convert_to_options=True)
+                options=get_control_list_entries(request, convert_to_options=True),
             ),
             TokenBar(
                 name="flags",
