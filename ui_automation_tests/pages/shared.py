@@ -1,6 +1,6 @@
 import time
 
-from shared import functions, selectors
+from shared import selectors
 from shared.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
 
