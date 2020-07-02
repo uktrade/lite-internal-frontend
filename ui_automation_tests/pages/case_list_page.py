@@ -4,7 +4,7 @@ import shared.tools.helpers as utils
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.select import Select
 
-from shared import selectors
+from shared import selectors, functions
 from shared.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
 from pages.shared import Shared
@@ -16,7 +16,8 @@ class CaseListPage(BasePage):
         super().__init__(driver)
         # The case header is sticky and can often overlay elements preventing clicks,
         # therefore disable the stickyness of the header when running tests
-        wait_for_element(driver, "text-case-count")
+        if functions.element_with_id_exists(self.driver, "link-queue"):
+            wait_for_element(driver, "text-case-count")
 
     # Table
     CASES_TABLE_ROW = ".govuk-table__row"  # CSS
