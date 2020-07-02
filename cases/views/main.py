@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 from django.contrib import messages
 from django.http import StreamingHttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -25,7 +25,6 @@ from cases.helpers.case import CaseView, Tabs, Slices
 from cases.services import (
     get_case,
     post_case_notes,
-    get_activity,
     put_case_queues,
     put_case_officer,
     delete_case_officer,
@@ -40,7 +39,7 @@ from cases.services import post_case_documents, get_document
 from compliance.services import get_compliance_licences
 from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
-from core.services import get_user_permissions, get_permissible_statuses
+from core.services import get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
 from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
@@ -431,28 +430,6 @@ class RerunRoutingRules(SingleFormView):
             return redirect(self.success_url)
 
         return super(RerunRoutingRules, self).post(request, **kwargs)
-
-
-class Good(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-
-        context = {
-            "case": case,
-        }
-        return render(request, "case/popups/good.html", context)
-
-
-class Destination(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-
-        context = {
-            "case": case,
-        }
-        return render(request, "case/popups/destination.html", context)
 
 
 class NextReviewDate(SingleFormView):
