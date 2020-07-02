@@ -2,6 +2,7 @@ import time
 
 from selenium.webdriver.support.ui import Select
 
+from pages.shared import Shared
 from shared import functions, selectors
 from shared.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
@@ -244,7 +245,7 @@ class ApplicationPage(BasePage):
         return self.driver.find_element_by_id(self.CASE_QUEUES_ID)
 
     def select_filter_user_type_from_dropdown(self, user_type):
-        functions.try_open_filters(self.driver)
+        Shared(self.driver).try_open_filters()
         select = Select(self.driver.find_element_by_id(self.USER_TYPE_ID))
         select.select_by_visible_text(user_type)
         self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()

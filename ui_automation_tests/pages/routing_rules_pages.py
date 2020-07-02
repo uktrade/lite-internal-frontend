@@ -1,5 +1,6 @@
 from selenium.webdriver.support.select import Select
 
+from pages.shared import Shared
 from shared import selectors
 from shared.BasePage import BasePage
 
@@ -100,6 +101,6 @@ class RoutingRulesPage(BasePage):
         self.driver.find_element_by_id(self.TEAM_ID_PREFIX + team_id).click()
 
     def filter_by_queue_name(self, queue_name):
-        functions.try_open_filters(self.driver)
+        Shared(self.driver).try_open_filters()
         functions.send_keys_to_autocomplete(self.driver, "queue", queue_name)
         self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()

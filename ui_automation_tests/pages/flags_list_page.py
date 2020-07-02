@@ -1,3 +1,4 @@
+from pages.shared import Shared
 from shared import functions, selectors
 from shared.BasePage import BasePage
 
@@ -13,7 +14,7 @@ class FlagsListPage(BasePage):
         self.driver.find_element_by_partial_link_text("Edit").click()
 
     def click_only_show_deactivated(self):
-        functions.try_open_filters(self.driver)
+        Shared(self.driver).try_open_filters()
         self.driver.find_element_by_name(self.CHECKBOX_ONLY_SHOW_DEACTIVATED_NAME).click()
         self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()
 
