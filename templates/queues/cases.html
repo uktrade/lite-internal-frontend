@@ -194,20 +194,16 @@
 											</span>
 											`: ``)}
 									{% endif %}
-									{% if data.results.is_work_queue %}
-										${(item.has_open_ecju_queries ? `
-											<div data-tooltip="{% lcs 'cases.CasesListPage.OPEN_TEAM_ECJU' %}" class="app-cases__row__icon">
-												{% svg 'ecju-query' %}
-											</div>
-											` : ``)}
-									{% endif %}
-									{% if queue.is_work_queue %}
-										${(item.has_future_review_date ? `
-											<div data-tooltip="{% lcs 'cases.CasesListPage.FUTURE_REVIEW_DATE' %}" class="app-cases__row__icon">
-												{% svg 'eye' %}
-											</div>
-											` : ``)}
-									{% endif %}
+									${(data.results.is_work_queue && item.has_open_ecju_queries ? `
+										<div data-tooltip="{% lcs 'cases.CasesListPage.OPEN_TEAM_ECJU' %}" class="app-cases__row__icon">
+											{% svg 'ecju-query' %}
+										</div>
+										` : ``)}
+									${(data.results.is_work_queue && item.has_future_review_date ? `
+										<div data-tooltip="{% lcs 'cases.CasesListPage.FUTURE_REVIEW_DATE' %}" class="app-cases__row__icon">
+											{% svg 'eye' %}
+										</div>
+										` : ``)}
 								</div>
 							</td>
 							<td class="govuk-table__cell">
