@@ -47,7 +47,7 @@ def case_filters_bar(request, queue) -> FiltersBar:
                 not queue["is_system_queue"],
                 Checkboxes(
                     name="hidden",
-                    options=[Option("true", CasesListPage.Filters.HIDDEN)],
+                    options=[Option("true", CasesListPage.Filters.HIDDEN, id="show-hidden-cases")],
                     classes=["govuk-checkboxes--small"],
                 ),
             ),
