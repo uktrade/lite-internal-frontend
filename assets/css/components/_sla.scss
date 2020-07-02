@@ -34,7 +34,18 @@ $app-sla-size: 36px;
 	transition: 0.35s stroke-dashoffset;
 	transform: rotate(-90deg); // axis compensation
 	transform-origin: 50% 50%;
-	stroke: govuk-colour("red");
+
+	&--red {
+		stroke: govuk-colour("red");
+	}
+
+	&--orange {
+		stroke: govuk-colour("orange");
+	}
+
+	&--green {
+		stroke: govuk-colour("green");
+	}
 }
 
 .app-sla__text {

@@ -1,3 +1,53 @@
+function getSLADaysPercentage(caseObject) {
+	var remainingDays = caseObject.sla_remaining_days;
+
+	if (remainingDays <= 0) {
+		return 100
+	} else {
+		return roundPercentage((caseObject.sla_days / (caseObject.sla_days + caseObject.sla_remaining_days)) * 100)
+	}
+}
+
+function roundPercentage(percentage) {
+	return 69;
+}
+
+// function getSLAHoursPercentage(case) {
+// 	sla_hours_since_raised = case["sla_hours_since_raised"]
+// 	return _round_percentage((sla_hours_since_raised / 48) * 100)
+// }
+
+// function _round_percentage(percentage):
+//     # Round up to nearest 10
+//     if percentage == 0:
+//         return "10"
+//     elif percentage >= 100:
+//         return "100"
+//     else:
+//         return str(math.ceil(percentage / 10) * 10)
+
+
+function getSLADaysRingColour(remainingDays) {
+    if (remainingDays > 5) {
+		return "green"
+	} else if (remainingDays >= 0) {
+		return "yellow"
+	} else {
+		return "red"
+	}
+}
+
+
+function getSLAHoursRingColour(caseObject) {
+	var hoursSinceRaised = caseObject.sla_hours_since_raised;
+
+    if (hoursSinceRaised >= 48) {
+		return "red"
+	} else {
+		return "yellow"
+	}
+}
+
 function generateFlags(flags) {
 	if (flags && flags.length) {
 		var container = `<ol class="app-flags app-flags--list">`
@@ -56,16 +106,16 @@ function generateAssignments(assignments) {
 	}
 }
 
-function generateSLA(percent) {
+function generateSLA(caseObject) {
 	var radius = 16;
 	var circumference = 100.53096491487338;
 
 	return `
 		<div class="app-sla__container" data-tooltip="15 days have elapsed on this case">
 			<svg class="app-sla" width="36" height="36">
-				<circle class="app-sla__circle" stroke="black" stroke-width="3" fill="transparent" r="16" cx="18" cy="18" stroke-dasharray="${circumference} ${circumference}" stroke-dashoffset="${circumference - percent / 100 * circumference}"/>
+				<circle class="app-sla__circle app-sla__circle--${getSLADaysRingColour(caseObject.sla_remaining_days)}" stroke="black" stroke-width="3" fill="transparent" r="16" cx="18" cy="18" stroke-dasharray="${circumference} ${circumference}" stroke-dashoffset="${circumference - caseObject.sla_days / 100 * circumference}"/>
 			</svg>
-			<span class="app-sla__text">7</span>
+			<span class="app-sla__text">${caseObject.sla_days}</span>
 		</div>
 	`
 }

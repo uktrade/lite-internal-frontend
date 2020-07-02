@@ -186,7 +186,7 @@
 							{% endif %}
 							<td class="govuk-table__cell govuk-table__cell--tight">
 								<div class="app-cases__row__vertical-column">
-									${generateSLA(45)}
+									${generateSLA(item)}
 									{% if not is_all_cases_queue %}
 										${(!item.is_recently_updated ? `
 											<span data-tooltip="{% lcs 'cases.CasesListPage.NOT_UPDATED_RECENTLY' %}" class="app-cases__row__icon app-cases__row__attention-needed">
