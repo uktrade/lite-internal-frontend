@@ -6,6 +6,7 @@
 			<tr class="govuk-table__row">
 				<th scope="col" class="govuk-table__header">{% lcs 'cases.CasePage.ComplianceLicencesTab.LICENCE_NUMBER' %}</th>
 				<th scope="col" class="govuk-table__header">{% lcs 'cases.CasePage.ComplianceLicencesTab.LICENCE_STATUS' %}</th>
+				<th scope="col" class="govuk-table__header">Return completed</th>
 				<th scope="col" class="govuk-table__header">{% lcs 'cases.CasePage.ComplianceLicencesTab.LICENCE_FLAGS' %}</th>
 			</tr>
 		</thead>
@@ -19,6 +20,9 @@
 					</td>
 					<td class="govuk-table__cell govuk-table__cell--tight">
 						{{ licence.status.value }}
+					</td>
+					<td class="govuk-table__cell govuk-table__cell--tight">
+						{{ licence.has_open_licence_returns }}
 					</td>
 					<td class="govuk-table__cell govuk-table__cell--tight">
 						{% include 'includes/flags.html' with flags=licence.flags list=True %}
