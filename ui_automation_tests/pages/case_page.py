@@ -14,6 +14,7 @@ class CaseTabs:
     ECJU_QUERIES = "ecju-queries"
     DOCUMENTS = "documents"
     ACTIVITY = "activity"
+    COMPLIANCE_LICENCES = "compliance-licences"
 
 
 class CasePage(BasePage):
@@ -29,6 +30,10 @@ class CasePage(BasePage):
     LINK_CHANGE_CASE_FLAGS_ID = "link-change-flags"
     LINK_ASSIGN_CASE_OFFICER_ID = "link-change-case-officer"
     LINK_ASSIGN_USERS_ID = "link-change-assigned-users"
+    LINK_SET_NEXT_REVIEW_DATE_ID = "link-change-review-date"
+    NEXT_REVIEW_DATE_ID = "next-review-date"
+
+    BANNER_REFERENCE_CODE_ID = "reference-code"
 
     def change_tab(self, tab: str):
         if tab == CaseTabs.USER_ADVICE or tab == CaseTabs.TEAM_ADVICE or tab == CaseTabs.FINAL_ADVICE:
@@ -41,6 +46,13 @@ class CasePage(BasePage):
     def click_assign_case_officer(self):
         scroll_to_element_by_id(self.driver, self.LINK_ASSIGN_CASE_OFFICER_ID)
         self.driver.find_element_by_id(self.LINK_ASSIGN_CASE_OFFICER_ID).click()
+
+    def click_set_next_review_date(self):
+        scroll_to_element_by_id(self.driver, self.LINK_SET_NEXT_REVIEW_DATE_ID)
+        self.driver.find_element_by_id(self.LINK_SET_NEXT_REVIEW_DATE_ID).click()
+
+    def get_next_review_date(self):
+        return self.driver.find_element_by_id(self.NEXT_REVIEW_DATE_ID).text
 
     def click_assign_users(self):
         scroll_to_element_by_id(self.driver, self.LINK_ASSIGN_USERS_ID)
@@ -100,3 +112,6 @@ class CasePage(BasePage):
     def select_destination(self, index):
         scroll_to_element_by_id(self.driver, self.TABLE_DESTINATIONS_ID)
         self.driver.find_elements_by_css_selector(f"#{self.TABLE_DESTINATIONS_ID} {selectors.CHECKBOX}")[index].click()
+
+    def get_reference_code_text(self):
+        return self.driver.find_element_by_id(self.BANNER_REFERENCE_CODE_ID).text

@@ -1,56 +1,13 @@
 import uuid
 
 from pytest_bdd import scenarios, when, then, given, parsers
-import shared.tools.helpers as utils
+
 from pages.application_page import ApplicationPage
 from pages.letter_templates import LetterTemplates
 from pages.shared import Shared
 from ui_automation_tests.fixtures.add_a_document_template import get_paragraph_text
-from ui_automation_tests.shared import functions
 
 scenarios("../features/letter_templates.feature", strict_gherkin=False)
-
-
-@given("I create a letter paragraph picklist")
-def add_letter_paragraph_picklist(add_a_letter_paragraph_picklist):
-    pass
-
-
-@when("I create a letter template for a document")
-def create_letter_template(driver, context, get_template_id):
-    template_page = LetterTemplates(driver)
-    template_page.click_create_a_template()
-
-    context.template_name = "Template " + utils.get_formatted_date_time_y_m_d_h_s()
-    template_page.enter_template_name(context.template_name)
-    functions.click_submit(driver)
-
-    template_page.select_which_type_of_cases_template_can_apply_to(
-        ["Standard-Individual-Export-Licence", "Open-Individual-Export-Licence"]
-    )
-    functions.click_submit(driver)
-
-    template_page.select_which_type_of_decisions_template_can_apply_to(["Approve", "Proviso"])
-    functions.click_submit(driver)
-
-    template_page.select_visible_to_exporter("True")
-    functions.click_submit(driver)
-
-    template_page.click_licence_layout(get_template_id)
-    functions.click_submit(driver)
-
-
-@when("I add a letter paragraph to template")
-def add_two_letter_paragraphs(driver, context):
-    letter_template = LetterTemplates(driver)
-    letter_template.click_add_letter_paragraph()
-    context.letter_paragraph_name = letter_template.add_letter_paragraph()
-    letter_template.click_add_letter_paragraphs()
-
-
-@when("I preview template")
-def preview_template(driver):
-    LetterTemplates(driver).click_create_preview_button()
 
 
 @then("my picklist is in template")
@@ -134,3 +91,8 @@ def latest_audit_trail(driver, expected_text, no):
 @when("I go to letters")
 def i_go_to_letters(driver, internal_url):
     driver.get(internal_url.rstrip("/") + "/document-templates")
+
+
+@when("I click done")
+def click_done(driver):
+    LetterTemplates(driver).click_done_button()

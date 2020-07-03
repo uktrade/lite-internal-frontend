@@ -1,11 +1,34 @@
 <dl class="app-case__summary-list">
-	{% if case.data.name %}
+	{% if case.case_type.reference.key == "comp_v" %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.CasePage.DetailsTab.ADMINISTRATIVE_CENTRE' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				<a class="govuk-link govuk-link--no-visited-state" id="site_case" href="{% url 'cases:case' queue.id case.data.site_case_id %}">
+					{{ case.data.site_case_reference_code }}
+				</a>
+			</dd>
+		</div>
+	{% endif %}
+	{% if case.data.name and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.EXPORTER_REFERENCE' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
 				{{ case.data.name }}
+			</dd>
+		</div>
+	{% endif %}
+	{% if case.case_type.reference.key in "comp_c,comp_v" %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.CasePage.DetailsTab.ADDRESS' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				{{ case.data.site_name }}<br>
+				{{ case.data|get_address }}
 			</dd>
 		</div>
 	{% endif %}
@@ -19,13 +42,13 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.application.hmrc_organisation %}
+	{% if case.data.hmrc_organisation %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.RAISED_BY' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
-				<a id="hmrc_organisation" class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' case.application.hmrc_organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.application.hmrc_organisation.name }}</a>
+				<a id="hmrc_organisation" class="govuk-link govuk-link--no-visited-state" href="{% url 'organisations:organisation' case.data.hmrc_organisation.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">{{ case.data.hmrc_organisation.name }}</a>
 			</dd>
 		</div>
 	{% endif %}
@@ -39,7 +62,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.data.submitted_at %}
+	{% if case.data.submitted_at and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.SUBMITTED_AT' %}
@@ -49,7 +72,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.data.submitted_by %}
+	{% if case.data.submitted_by and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.SUBMITTED_BY' %}
@@ -99,34 +122,38 @@
 			</a>
 		</dd>
 	</div>
+	{% if not case.case_type.reference.key in "comp_c,comp_v" %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.CasePage.DetailsTab.TYPE' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				{{ case.case_type.reference.value }}
+			</dd>
+		</div>
+	{% endif %}
+	{% if case.data.updated_at and not case.case_type.reference.key in "comp_c,comp_v" %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.CasePage.DetailsTab.LAST_UPDATED' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				{{ case.data.updated_at|str_date }}
+			</dd>
+		</div>
+	{% endif %}
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
-			{% lcs 'cases.CasePage.DetailsTab.TYPE' %}
-		</dt>
-		<dd class="app-case__summary-list__value">
-			{{ case.case_type.reference.value }}
-		</dd>
-	</div>
-	<div class="app-case__summary-list__row">
-		<dt class="app-case__summary-list__key">
-			{% lcs 'cases.CasePage.DetailsTab.LAST_UPDATED' %}
-		</dt>
-		<dd class="app-case__summary-list__value">
-			{{ case.data.updated_at|str_date }}
-		</dd>
-	</div>
-	<div class="app-case__summary-list__row">
-		<dt class="app-case__summary-list__key">
-			{% lcs 'cases.CasePage.DetailsTab.CASE_OFFICER' %}
+			{% if case.case_type.reference.key in "comp_c,comp_v" %}
+				{% lcs 'cases.CasePage.DetailsTab.INSPECTOR' %}
+			{% else %}
+				{% lcs 'cases.CasePage.DetailsTab.CASE_OFFICER' %}
+			{% endif %}
 		</dt>
 		<dd class="app-case__summary-list__value">
 			{% if case.case_officer %}
 				<a id="link-case-officer" class="govuk-link govuk-link--no-visited-state" href="{% url 'users:user' case.case_officer.id %}?return_to={{ CURRENT_PATH }}&return_to_text={{ case.reference_code }}">
-					{% if case.case_officer.first_name %}
-						{{ case.case_officer.first_name }} {{ case.case_officer.last_name }}
-					{% else %}
-						{{ case.case_officer.email }}
-					{% endif %}
+					{{ case.case_officer|username }}
 				</a>
 			{% else %}
 				<span class="govuk-hint govuk-!-margin-0">
@@ -168,13 +195,34 @@
 			</a>
 		</dd>
 	</div>
-	{% if case.application.case_type.sub_type.key == 'f680_clearance' %}
+	<div class="app-case__summary-list__row">
+		<dt class="app-case__summary-list__key">
+			{% lcs 'cases.CasePage.DetailsTab.NEXT_REVIEW_DATE' %}
+		</dt>
+		<dd class="app-case__summary-list__value" id="next-review-date">
+			{% if case.next_review_date %}
+				{{ case.next_review_date|str_date_only }}
+			{% else %}
+				<span class="govuk-hint govuk-!-margin-0">
+					{% lcs 'cases.CasePage.DetailsTab.NO_NEXT_REVIEW_DATE' %}
+				</span>
+			{% endif %}
+		</dd>
+		<dd class="app-case__summary-list__actions">
+			{% if not is_terminal %}
+				<a id="link-change-review-date" class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:review_date' queue.id case.id %}">
+					{% lcs 'generic.CHANGE' %}
+				</a>
+			{% endif %}
+		</dd>
+	</div>
+	{% if case.data.case_type.sub_type.key == 'f680_clearance' %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.SECURITY_GRADING' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
-				{{ case.application.clearance_level.value }}
+				{{ case.data.clearance_level.value }}
 			</dd>
 		</div>
 		<div class="app-case__summary-list__row">
@@ -182,9 +230,9 @@
 				{% lcs 'cases.CasePage.DetailsTab.CLEARANCE_TYPES' %}
 			</dt>
 			<dd class="app-case__summary-list__value">
-				{% if case.application.types %}
+				{% if case.data.types %}
 					<ol class="govuk-list govuk-!-margin-0">
-						{% for clearance_type in case.application.types %}
+						{% for clearance_type in case.data.types %}
 							<li>{{ clearance_type.name.value|default_na }}</li>
 						{% endfor %}
 					</ol>
@@ -202,7 +250,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.data.trade_control_activity %}
+	{% if case.data.trade_control_activity and case.case_type.reference.key == "oicl" or  case.case_type.reference.key == "sicl" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.TRADE_CONTROL_ACTIVITY' %}

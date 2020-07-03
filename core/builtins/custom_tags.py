@@ -90,8 +90,9 @@ def str_date(value):
 @register.filter
 @stringfilter
 def str_date_only(value):
-    date_str = do_timezone(datetime.datetime.strptime(value, DATE_FORMAT), "Europe/London")
-    return date_str.strftime("%d %B %Y")
+    if value != "None":
+        date_str = do_timezone(datetime.datetime.strptime(value, DATE_FORMAT), "Europe/London")
+        return date_str.strftime("%d %B %Y")
 
 
 @register.filter()
@@ -237,6 +238,9 @@ def get_address(data):
         address = data["address"]
         country = data.get("country")
 
+        if "country" in address:
+            country = address.get("country")
+
         if isinstance(address, str):
             if country:
                 return address + ", " + country["name"]
@@ -278,7 +282,10 @@ def linkify(address, name=None):
     address = escape(address)
     name = escape(name)
 
-    return safe(f'<a href="{address}" class="govuk-link govuk-link--no-visited-state">{name}</a>')
+    return safe(
+        f'<a href="{address}" rel="noreferrer noopener" target="_blank" class="govuk-link govuk-link--no-visited-state">{name} '
+        f'<span class="govuk-visually-hidden">(opens in new tab)</span></a>'
+    )
 
 
 @register.filter
@@ -594,6 +601,11 @@ def filter_advice_by_level(advice, level):
 @register.filter()
 def sentence_case(text):
     return capfirst(text).replace("_", " ")
+
+
+@register.filter()
+def format_heading(text):
+    return text.replace("_", " ")
 
 
 @register.filter()

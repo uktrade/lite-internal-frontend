@@ -1,7 +1,5 @@
-from _decimal import Decimal
-
 from cases.objects import Case
-from conf.client import post, get, put, delete
+from conf.client import post, get, put, delete, patch
 from conf.constants import (
     CASE_URL,
     CASE_NOTES_URL,
@@ -9,7 +7,6 @@ from conf.constants import (
     ACTIVITY_URL,
     ACTIVITY_FILTERS_URL,
     DOCUMENTS_URL,
-    END_USER_ADVISORY_URL,
     ECJU_QUERIES_URL,
     GOOD_URL,
     FLAGS_URL,
@@ -35,8 +32,14 @@ from conf.constants import (
     FINALISE_CASE_URL,
     QUEUES_URL,
     APPLICANT_URL,
+    COMPLIANCE_URL,
+    NEXT_REVIEW_DATE_URL,
+    COMPLIANCE_LICENCES_URL,
+    COMPLIANCE_SITE_URL,
+    COMPLIANCE_VISIT_URL,
+    COMPLIANCE_PEOPLE_PRESENT_URL,
 )
-from core.helpers import convert_parameters_to_query_params
+from core.helpers import convert_parameters_to_query_params, format_date
 from flags.enums import FlagStatus
 
 
@@ -48,8 +51,13 @@ def get_case_types(request, type_only=True):
 
 # Case
 def get_case(request, pk):
-    data = get(request, CASE_URL + str(pk))
-    return Case(data.json()["case"])
+    response = get(request, CASE_URL + str(pk))
+    return Case(response.json()["case"])
+
+
+def patch_case(request, pk, json):
+    response = patch(request, CASE_URL + str(pk), json)
+    return response.json(), response.status_code
 
 
 # Case Queues
@@ -102,15 +110,9 @@ def put_goods_query_pv_grading(request, pk, json):
     return response.json(), response.status_code
 
 
-def put_goods_query_status(request, pk, json):
-    response = put(request, GOODS_QUERIES_URL + str(pk) + MANAGE_STATUS_URL, json)
+def put_compliance_status(request, pk, json):
+    response = put(request, COMPLIANCE_URL + str(pk) + MANAGE_STATUS_URL, json)
     return response.json(), response.status_code
-
-
-# EUA Queries
-def put_end_user_advisory_query(request, pk, json):
-    data = put(request, END_USER_ADVISORY_URL + str(pk), json)
-    return data.json(), data.status_code
 
 
 # Case Notes
@@ -304,15 +306,6 @@ def _generate_post_data_and_errors(keys, request_data, action):
     return post_data, errors
 
 
-def _get_total_goods_value(case):
-    total_value = 0
-    for good in case.get("application").get("goods", []):
-        # conditional, as some case types e.g. exhibition clearances don't contain a value.
-        if good.get("value"):
-            total_value += Decimal(good["value"]).quantize(Decimal(".01"))
-    return total_value
-
-
 # Letter template decisions
 def get_decisions(request):
     data = get(request, DECISIONS_URL)
@@ -351,6 +344,13 @@ def delete_case_officer(request, pk, *args):
     return data.json(), data.status_code
 
 
+def put_next_review_date(request, pk, json):
+    if "next_review_dateday" in json:
+        json["next_review_date"] = format_date(json, "next_review_date")
+    data = put(request, CASE_URL + str(pk) + NEXT_REVIEW_DATE_URL, json)
+    return data.json(), data.status_code
+
+
 def get_case_applicant(request, pk):
     response = get(request, CASE_URL + str(pk) + APPLICANT_URL)
     return response.json()
@@ -377,3 +377,68 @@ def get_blocking_flags(request, case_pk):
         FLAGS_URL + f"?case={case_pk}&status={FlagStatus.ACTIVE.value}&blocks_approval=True&disable_pagination=True",
     )
     return data.json()
+
+
+def get_compliance_licences(request, case_id, reference, page):
+    data = get(request, COMPLIANCE_URL + case_id + COMPLIANCE_LICENCES_URL + f"?reference={reference}&page={page}",)
+    return data.json()
+
+
+def post_create_compliance_visit(request, case_id):
+    data = post(request, COMPLIANCE_URL + COMPLIANCE_SITE_URL + case_id + "/" + COMPLIANCE_VISIT_URL, request_data={})
+    return data
+
+
+def get_compliance_visit_case(request, case_id):
+    data = get(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id))
+    return data.json()
+
+
+def patch_compliance_visit_case(request, case_id, json):
+    if "visit_date_day" in json:
+        json["visit_date"] = format_date(json, "visit_date_")
+    data = patch(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id), request_data=json)
+    return data.json(), data.status_code
+
+
+def get_compliance_people_present(request, case_id):
+    data = get(
+        request,
+        COMPLIANCE_URL
+        + COMPLIANCE_VISIT_URL
+        + str(case_id)
+        + "/"
+        + COMPLIANCE_PEOPLE_PRESENT_URL
+        + "?disable_pagination=True",
+    )
+    return data.json()
+
+
+def post_compliance_person_present(request, case_id, json):
+    data = post(
+        request,
+        COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id) + "/" + COMPLIANCE_PEOPLE_PRESENT_URL,
+        request_data=json,
+    )
+
+    # Translate errors to be more user friendly, from
+    #   {'errors': [{}, {'name': ['This field may not be blank.'], 'job_title': ['This field may not be blank.']}, ...]}
+    #   to
+    #   {'errors': {'name-2': ['This field may not be blank'], 'job-title-2': ['This field may not be blank'], ...}}
+    # This allows the errors to specify the specific textbox input for name/job-title inputs allowing the users
+    #   to see the exact field it didn't validate on.
+    if "errors" in data.json():
+        errors = data.json()["errors"]
+        translated_errors = {}
+
+        index = 1
+        for error in errors:
+            if error:
+                if "name" in error:
+                    translated_errors["name-" + str(index)] = [str(index) + ". " + error.pop("name")[0]]
+                if "job_title" in error:
+                    translated_errors["job-title-" + str(index)] = [str(index) + ". " + error.pop("job_title")[0]]
+            index += 1
+
+        return {**json, "errors": translated_errors}, data.status_code
+    return data.json(), data.status_code

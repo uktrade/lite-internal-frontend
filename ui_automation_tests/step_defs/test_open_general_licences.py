@@ -1,11 +1,15 @@
-from pytest_bdd import scenarios, when, then
+from pytest_bdd import scenarios, when, then, given
 
+from pages.application_page import ApplicationPage
+from pages.case_list_page import CaseListPage
 from pages.open_general_licences_pages import (
     OpenGeneralLicencesListPage,
     OpenGeneralLicencesCreateEditPage,
     OpenGeneralLicencesDetailPage,
     OpenGeneralLicencesDeactivatePage,
+    OpenGeneralLicencesCasePage,
 )
+from pages.shared import Shared
 from shared import functions
 from faker import Faker
 
@@ -114,3 +118,35 @@ def see_the_newly_generated_open_general_export_licence(driver, context):
     assert "Controlled Radioactive Sources" in summary_list_text
     assert "United Kingdom" in summary_list_text
     assert getattr(context, "ogl_status", "Active") in summary_list_text
+
+
+@given("an ogel licence has been added")  # noqa
+def ogel_licence_created(apply_for_ogel):  # noqa
+    pass
+
+
+@given("an ogel application has been added")  # noqa
+def ogel_application_created(apply_for_ogel_application):  # noqa
+    pass
+
+
+@when("I filter by OGEL type")
+def filter_by_ogel(driver):
+    case = CaseListPage(driver)
+    functions.try_open_filters(driver)
+    case.select_filter_case_type_from_dropdown("Open General Export Licence")
+    case.click_apply_filters_button()
+
+
+@then("I see OGEL case")
+def see_ogel(driver, context, api_test_client):
+    response = api_test_client.cases.get_case_info(context.ogel_case_id)
+    assert response["reference_code"] in driver.find_element_by_id(ApplicationPage.HEADING_ID).text
+    site_info = OpenGeneralLicencesCasePage(driver).get_text_of_site()
+    assert response["data"]["site"]["name"] in site_info
+    assert response["data"]["site"]["address"]["address_line_1"] in site_info
+
+
+@when("I go to ogel site registration case automatically created")  # noqa
+def click_on_created_ogel_app(driver, context, internal_url):  # noqa
+    driver.get(internal_url.rstrip("/") + "/queues/00000000-0000-0000-0000-000000000001/cases/" + context.ogel_case_id)

@@ -1,9 +1,11 @@
+import datetime
 from http import HTTPStatus
 
 from django.contrib import messages
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
@@ -16,28 +18,31 @@ from cases.forms.attach_documents import attach_documents_form
 from cases.forms.change_status import change_status_form
 from cases.forms.done_with_case import done_with_case_form
 from cases.forms.move_case import move_case_form
+from cases.forms.next_review_date import set_next_review_date_form
 from cases.forms.rerun_routing_rules import rerun_routing_rules_confirmation_form
 from cases.helpers.advice import get_advice_additional_context
 from cases.helpers.case import CaseView, Tabs, Slices
 from cases.services import (
     get_case,
     post_case_notes,
-    put_application_status,
     get_activity,
     put_case_queues,
-    put_end_user_advisory_query,
-    put_goods_query_status,
     put_case_officer,
     delete_case_officer,
     put_unassign_queues,
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
+    patch_case,
+    put_application_status,
+    put_next_review_date,
 )
 from cases.services import post_case_documents, get_document
+from compliance.services import get_compliance_licences
 from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_user_permissions, get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
+from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
 from lite_forms.views import SingleFormView
@@ -47,7 +52,8 @@ from users.services import get_gov_user_from_form_selection
 
 class CaseDetail(CaseView):
     def get_open_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
             Slices.DESTINATIONS,
@@ -76,7 +82,8 @@ class CaseDetail(CaseView):
             ]
 
     def get_standard_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
             Slices.DESTINATIONS,
@@ -99,7 +106,8 @@ class CaseDetail(CaseView):
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_exhibition_clearance_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.EXHIBITION_DETAILS,
             Slices.GOODS,
@@ -109,12 +117,14 @@ class CaseDetail(CaseView):
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_gifting_clearance_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_f680_clearance_application(self):
-        self.tabs = [Tabs.ADVICE]
+        self.tabs = self.get_tabs()
+        self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
             Slices.DESTINATIONS,
@@ -131,6 +141,36 @@ class CaseDetail(CaseView):
         self.slices = [Slices.GOODS_QUERY]
         if self.case.data["clc_responded"] or self.case.data["pv_grading_responded"]:
             self.slices.insert(0, Slices.GOODS_QUERY_RESPONSE)
+
+    def get_open_registration(self):
+        self.slices = [Slices.OPEN_GENERAL_LICENCE]
+
+    def get_compliance_site(self):
+        self.tabs = self.get_tabs()
+        self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
+        self.slices = [Slices.COMPLIANCE_VISITS, Slices.OPEN_LICENCE_RETURNS]
+        filters = FiltersBar([TextInput(name="reference", title=cases.CasePage.LicenceFilters.REFERENCE),])
+        self.additional_context = {
+            "data": get_compliance_licences(
+                self.request, self.case.id, self.request.GET.get("reference", ""), self.request.GET.get("page", 1),
+            ),
+            "licences_filters": filters,
+        }
+
+    def get_compliance_visit(self):
+        self.tabs = self.get_tabs()
+        self.tabs.insert(1, Tabs.COMPLIANCE_LICENCES)
+        self.slices = [Slices.COMPLIANCE_VISIT_DETAILS]
+        filters = FiltersBar([TextInput(name="reference", title=cases.CasePage.LicenceFilters.REFERENCE),])
+        self.additional_context = {
+            "data": get_compliance_licences(
+                self.request,
+                self.case.data["site_case_id"],
+                self.request.GET.get("reference", ""),
+                self.request.GET.get("page", 1),
+            ),
+            "licences_filters": filters,
+        }
 
 
 class CaseNotes(TemplateView):
@@ -161,7 +201,14 @@ class CaseImDoneView(TemplateView):
 
     def get(self, request, **kwargs):
         if self.is_system_queue:
-            return form_page(request, done_with_case_form(request, self.case_pk))
+            case = get_case(request, self.case_pk)
+            has_review_date = (
+                True
+                if case.next_review_date
+                and datetime.datetime.strptime(case.next_review_date, "%Y-%m-%d").date() > timezone.now().date()
+                else False
+            )
+            return form_page(request, done_with_case_form(request, self.case_pk, has_review_date))
         else:
             data, status_code = put_unassign_queues(request, self.case_pk, {"queues": [str(self.queue_pk)]})
             if status_code != HTTPStatus.OK:
@@ -197,10 +244,10 @@ class ChangeStatus(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = str(kwargs["pk"])
         case = get_case(request, self.object_pk)
-        self.case_type = case["case_type"]["type"]["key"]
-        self.case_sub_type = case["case_type"]["sub_type"]["key"]
+        self.case_type = case.type
+        self.case_sub_type = case.sub_type
         permissible_statuses = get_permissible_statuses(request, case)
-        self.data = case["application"] if "application" in case else case["query"]
+        self.data = case.data
         self.form = change_status_form(get_queue(request, kwargs["queue_pk"]), case, permissible_statuses)
         self.context = {"case": case}
 
@@ -211,10 +258,8 @@ class ChangeStatus(SingleFormView):
             or self.case_sub_type == CaseType.EXHIBITION.value
         ):
             return put_application_status
-        elif self.case_sub_type == CaseType.END_USER_ADVISORY.value:
-            return put_end_user_advisory_query
-        elif self.case_sub_type == CaseType.GOODS.value:
-            return put_goods_query_status
+        else:
+            return patch_case
 
     def get_success_url(self):
         messages.success(self.request, cases.ChangeStatusPage.SUCCESS_MESSAGE)
@@ -319,18 +364,32 @@ class CaseOfficer(SingleFormView):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
         self.data = {"gov_user_pk": case.case_officer.get("id")}
-        self.form = assign_case_officer_form(request, case.case_officer)
+        self.form = assign_case_officer_form(
+            request,
+            case.case_officer,
+            self.kwargs["queue_pk"],
+            self.object_pk,
+            is_compliance=True if case.case_type["type"]["key"] == CaseType.COMPLIANCE.value else False,
+        )
         self.context = {"case": case}
         self.success_url = reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
+        self.get_action()
 
     def get_action(self):
         action = self.get_validated_data().get("_action")
+        case_type = self.context["case"]["case_type"]["type"]["key"]
 
         if action == "delete":
-            self.success_message = "Case officer removed"
+            self.success_message = (
+                "Inspector removed" if case_type == CaseType.COMPLIANCE.value else "Case officer removed"
+            )
             return delete_case_officer
         else:
-            self.success_message = "Case officer set successfully"
+            self.success_message = (
+                "Inspector set successfully"
+                if case_type == CaseType.COMPLIANCE.value
+                else "Case officer set successfully"
+            )
             return put_case_officer
 
 
@@ -388,3 +447,27 @@ class RerunRoutingRules(SingleFormView):
             return redirect(self.success_url)
 
         return super(RerunRoutingRules, self).post(request, **kwargs)
+
+
+class NextReviewDate(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        self.data = get_case(request, self.object_pk)
+        self.form = set_next_review_date_form(self.kwargs["queue_pk"], self.object_pk,)
+        self.success_url = reverse("cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk})
+
+    def get_action(self):
+        action = self.get_validated_data().get("_action")
+
+        if action == "submit":
+            self.success_message = "Next review date set successfully"
+            return put_next_review_date
+
+    def get_data(self):
+        data = self.data
+        date_fields = ["next_review_date"]
+        for field in date_fields:
+            if data.get(field, False):
+                date_split = data[field].split("-")
+                data[field + "year"], data[field + "month"], data[field + "day"] = date_split
+        return data

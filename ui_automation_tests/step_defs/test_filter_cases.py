@@ -1,8 +1,7 @@
-from pytest_bdd import given, when, then, parsers, scenarios
+from pytest_bdd import when, then, parsers, scenarios
 
 from pages.queues_pages import QueuesPages
 from pages.shared import Shared
-from shared.tools.wait import wait_until_page_is_loaded
 from ui_automation_tests.pages.case_list_page import CaseListPage
 
 scenarios("../features/filter_cases.feature", strict_gherkin=False)
@@ -19,7 +18,7 @@ def num_cases_appear(driver, context, number):
 
 
 @when("I click clear filters")
-def i_show_filters(driver, context):
+def i_click_clear_filters(driver, context):
     CaseListPage(driver).click_clear_filters_button()
 
 
@@ -46,7 +45,7 @@ def filter_status_change(driver, context, case_type):  # noqa
 
 @when("I click filter to show cases with open team ecju queries")  # noqa
 def i_show_filters(driver, context):  # noqa
-    CaseListPage(driver).click_checkbox_to_show_team_ecju_query()
+    CaseListPage(driver).click_checkbox_to_show_team_ecju_query_and_hidden_cases()
     CaseListPage(driver).click_apply_filters_button()
 
 
@@ -73,11 +72,6 @@ def i_filter_by_goods_related_description(driver, context):
 @when("I filter by organisation name")
 def i_filter_by_goods_related_description(driver, context):
     CaseListPage(driver).filter_by_organisation_name(context.org_name)
-
-
-@when("I apply filters")
-def i_apply_filters(driver, context):
-    CaseListPage(driver).click_apply_filters_button()
 
 
 @when(parsers.parse('filter status has been changed to "{status}"'))  # noqa

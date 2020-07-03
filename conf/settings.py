@@ -64,6 +64,9 @@ MIDDLEWARE = [
     "conf.middleware.ProtectAllViewsMiddleware",
     "conf.middleware.LoggingMiddleware",
     "conf.middleware.UploadFailedMiddleware",
+    "django.middleware.gzip.GZipMiddleware",
+    "htmlmin.middleware.HtmlMinifyMiddleware",
+    "htmlmin.middleware.MarkRequestMiddleware",
 ]
 
 ROOT_URLCONF = "conf.urls"
