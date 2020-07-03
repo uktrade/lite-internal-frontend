@@ -46,6 +46,25 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+
+		@include govuk-media-query($until: tablet) {
+			flex-direction: row;
+
+			.app-sla__container {
+				margin-bottom: 0;
+				margin-right: govuk-spacing(2);
+			}
+
+			.app-cases__row__icon {
+				margin-bottom: 0;
+				margin-right: govuk-spacing(2);
+			}
+
+			.app-cases__row__attention-needed {
+				margin-bottom: 0;
+				margin-right: govuk-spacing(2);
+			}
+		}
 	}
 
 	&__icon {
