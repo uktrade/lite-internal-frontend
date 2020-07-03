@@ -1,5 +1,5 @@
 from pages.shared import Shared
-from shared import functions, selectors
+from shared import selectors
 from shared.BasePage import BasePage
 
 
