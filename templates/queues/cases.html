@@ -141,11 +141,11 @@
 		var previousSVG = `{% svg 'previous' %}`;
 		var nextSVG = `{% svg 'next' %}`;
 		var chevron = `{% svg 'chevron' %}`;
+		var noCases = `{% include "includes/notice.html" with text='cases.CasesListPage.NO_CASES' %}`;
 
 		$("#table-cases").hide();
 		$.get("{% url 'core:cases' queue.id %}{{ params }}", function(data) {
 			$("#table-placeholder").remove();
-			$("#table-cases").fadeIn(100);
 			$("#text-case-count").removeClass("app-hidden").fadeIn(100).text(data.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " cases");
 
 			if (data.total_pages > 1) {
@@ -163,6 +163,7 @@
 			});
 			generateQueuesMenu();
 			if (data.results.cases.length) {
+				$("#table-cases").fadeIn(100);
 				$.each(data.results.cases, function(i, item) {
 					var html = `
 						<tr class="govuk-table__row" id="${item.id}">
@@ -224,6 +225,8 @@
 					`
 					$("#tbody-main").append(html);
 				});
+			} else {
+				$("#table-cases").before(noCases);
 			}
 			$.each(data.results.filters.statuses, function(i, item) {
 				$("#status").append(`<option value="${item.key}" ${(item.key == "{{ case_officer }}" ? "selected" : "")}>${item.value}</option>`)

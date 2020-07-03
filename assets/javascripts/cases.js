@@ -52,7 +52,7 @@ function generateFlags(flags) {
 			`
 		})
 		if (flags.length > 3) {
-			return `${container}</ol><button onclick="expandFlags(this)" class="app-flags__expander"><span class="govuk-visually-hidden">Show more</span>${chevron} 3 of ${flags.length}</button></div>`
+			return `${container}</ol><button type="button" onclick="expandFlags(this)" class="app-flags__expander"><span class="govuk-visually-hidden">Show more</span>${chevron} 3 of ${flags.length}</button></div>`
 		} else {
 			return `${container}</ol>`
 		}
