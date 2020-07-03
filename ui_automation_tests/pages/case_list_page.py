@@ -14,7 +14,6 @@ from shared.tools.helpers import scroll_to_element_by_id
 
 
 class CaseListPage(BasePage):
-
     def __init__(self, driver):
         super().__init__(driver)
         if functions.element_with_id_exists(self.driver, "link-queue"):
