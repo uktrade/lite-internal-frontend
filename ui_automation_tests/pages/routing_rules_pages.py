@@ -1,10 +1,6 @@
 from selenium.webdriver.support.select import Select
 
-from pages.shared import Shared
-from shared import selectors
 from shared.BasePage import BasePage
-from shared.functions import try_open_filters
-
 from ui_automation_tests.shared import functions
 
 

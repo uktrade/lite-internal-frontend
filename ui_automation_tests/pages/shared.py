@@ -1,6 +1,5 @@
-from shared import selectors, functions
+from shared import functions
 from shared.BasePage import BasePage
-from shared.functions import try_open_filters
 from shared.tools.helpers import scroll_to_element_by_id
 
 

@@ -1,8 +1,6 @@
 from selenium.webdriver.support.select import Select
 
-from shared import selectors
 from shared.BasePage import BasePage
-
 from ui_automation_tests.shared import functions
 
 

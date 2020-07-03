@@ -1,7 +1,5 @@
-from pages.shared import Shared
-from shared import selectors, functions
+from shared import functions
 from shared.BasePage import BasePage
-from shared.functions import try_open_filters
 
 
 class OpenGeneralLicencesListPage(BasePage):
