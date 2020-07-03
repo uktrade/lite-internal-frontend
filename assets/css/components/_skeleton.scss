@@ -85,23 +85,27 @@
 				overflow: hidden;
 				white-space: nowrap;
 				height: 4px;
-				width: 100px;
+				width: 120px;
 				margin-bottom: govuk-spacing(3);
 
 				&:nth-of-type(1) {
-					margin-top: govuk-spacing(1);
+					margin-top: govuk-spacing(2);
 				}
 
 				&:nth-of-type(2) {
-					width: 60px;
+					width: 80px;
 				}
 
 				&:nth-of-type(3) {
-					width: 50px;
+					width: 40px;
 				}
 
 				&:nth-of-type(4) {
-					width: 30px;
+					width: 60px;
+				}
+
+				&:last-of-type {
+					margin-bottom: govuk-spacing(2);
 				}
 
 				&::after {
