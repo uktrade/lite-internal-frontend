@@ -1,7 +1,7 @@
 from selenium.webdriver.support.select import Select
 
 from shared import functions
-from shared.BasePage import BasePage
+from pages.BasePage import BasePage
 from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 

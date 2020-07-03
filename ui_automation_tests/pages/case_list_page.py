@@ -1,26 +1,15 @@
 import time
 
-from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.select import Select
-from selenium.webdriver.support.wait import WebDriverWait
 
 import shared.tools.helpers as utils
+from pages.BasePage import BasePage
 from pages.shared import Shared
-from shared import functions
-from shared.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
 
 
 class CaseListPage(BasePage):
-    def __init__(self, driver):
-        super().__init__(driver)
-        if functions.element_with_id_exists(self.driver, "link-queue"):
-            WebDriverWait(driver, 10).until(
-                expected_conditions.visibility_of_element_located((By.ID, "text-case-count"))
-            )
-
     # Table
     CASES_TABLE_ROW = ".govuk-table__row"  # CSS
     CHECKBOX_CASE = ".govuk-checkboxes__input[value='"  # CSS

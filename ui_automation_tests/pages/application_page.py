@@ -3,7 +3,7 @@ import time
 from selenium.webdriver.support.ui import Select
 
 from shared import functions
-from shared.BasePage import BasePage
+from pages.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
 from ui_automation_tests.shared.tools.helpers import scroll_to_element_below_header_by_id
 
