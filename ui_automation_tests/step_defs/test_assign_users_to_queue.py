@@ -30,9 +30,9 @@ def user_is_on_case_list(driver, context):
     first_name = first_name[0].upper()
     last_name = last_name[0].upper()
 
-    assert first_name + last_name in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
-        f"'{context.user_name}' is not an assignee on case list"
-    )
+    assert first_name + last_name in CaseListPage(driver).get_text_of_assignees(
+        driver, context.case_id
+    ), f"'{context.user_name}' is not an assignee on case list"
 
 
 @then("user is not an assignee on case list")
@@ -41,9 +41,9 @@ def user_is_not_on_case_list(driver, context):
     first_name = first_name[0].upper()
     last_name = last_name[0].upper()
 
-    assert first_name + last_name not in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
-        f"'{context.user_name}' is an assignee on case list"
-    )
+    assert first_name + last_name not in CaseListPage(driver).get_text_of_assignees(
+        driver, context.case_id
+    ), f"'{context.user_name}' is an assignee on case list"
 
 
 @when("I filter assigned user by Not Assigned")
