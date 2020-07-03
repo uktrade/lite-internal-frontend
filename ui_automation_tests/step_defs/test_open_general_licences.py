@@ -13,6 +13,8 @@ from pages.shared import Shared
 from shared import functions
 from faker import Faker
 
+from shared.functions import try_open_filters
+
 scenarios("../features/open_general_licences.feature", strict_gherkin=False)
 
 
@@ -133,7 +135,7 @@ def ogel_application_created(apply_for_ogel_application):  # noqa
 @when("I filter by OGEL type")
 def filter_by_ogel(driver):
     case = CaseListPage(driver)
-    Shared(driver).try_open_filters()
+    try_open_filters(Shared(driver).driver)
     case.select_filter_case_type_from_dropdown("Open General Export Licence")
     case.click_apply_filters_button()
 

@@ -111,11 +111,11 @@ function generateSLA(caseObject) {
 
 	if (caseObject.sla_hours_since_raised && caseObject.case_type.sub_type.key == 'hmrc') {
 		return `
-			<div class="app-sla__container" data-tooltip="${caseObject.sla_days} days have elapsed on this case">
+			<div class="app-sla__container" data-tooltip="${caseObject.sla_hours} hours have elapsed on this case">
 				<svg class="app-sla" width="36" height="36">
 					<circle class="app-sla__circle app-sla__circle--${getSLAHoursRingColour(caseObject)}" stroke="black" stroke-width="3" fill="transparent" r="16" cx="18" cy="18" stroke-dasharray="${circumference} ${circumference}" stroke-dashoffset="${circumference - getSLAHoursPercentage(caseObject) / 100 * circumference}"/>
 				</svg>
-				<span class="app-sla__text">${caseObject.case.sla_hours_since_raised}</span>
+				<span class="app-sla__text">${caseObject.sla_hours_since_raised}</span>
 			</div>
 		`
 	} else if (caseObject.sla_remaining_days && caseObject.case_type.sub_type.key != 'hmrc') {
@@ -128,6 +128,8 @@ function generateSLA(caseObject) {
 			</div>
 		`
 	}
+
+	return "";
 }
 
 function generatePage(page, selected) {

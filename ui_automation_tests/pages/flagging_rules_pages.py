@@ -23,9 +23,6 @@ class FlaggingRulePages(BasePage):
     def click_include_deactivated(self):
         self.driver.find_element_by_id(self.INCLUDE_DEACTIVATED).click()
 
-    def click_apply_filters_button(self):
-        self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()
-
     def create_new_flagging_rule(self):
         self.driver.find_element_by_id(self.BTN_CREATE_NEW_FLAGGING_RULE).click()
 

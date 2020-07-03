@@ -26,30 +26,38 @@ def assign_user_to_case(driver, internal_info, context):
 
 @then("user is assignee on case list")
 def user_is_on_case_list(driver, context):
-    assert context.user_name in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
-        "user name " + context.user_name + " is not an assignee on case list"
+    first_name, last_name = context.user_name.split(" ", 1)
+    first_name = first_name[0].upper()
+    last_name = last_name[0].upper()
+
+    assert first_name + last_name in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
+        f"'{context.user_name}' is not an assignee on case list"
     )
 
 
 @then("user is not an assignee on case list")
 def user_is_not_on_case_list(driver, context):
-    assert context.user_name in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
-        "user name " + context.user_name + " is an assignee on case list"
+    first_name, last_name = context.user_name.split(" ", 1)
+    first_name = first_name[0].upper()
+    last_name = last_name[0].upper()
+
+    assert first_name + last_name not in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
+        f"'{context.user_name}' is an assignee on case list"
     )
 
 
 @when("I filter assigned user by Not Assigned")
 def i_filter_case_officer_by_not_assigned(driver):
-    Shared(driver).try_open_filters()
+    functions.try_open_filters(driver)
     CaseListPage(driver).enter_assigned_user_filter_text("Not assigned")
-    CaseListPage(driver).click_apply_filters_button()
+    functions.click_apply_filters(driver)
 
 
 @when("I filter assigned user by SSO users name")
 def i_filter_case_officer_by_not_assigned(driver, context):
-    Shared(driver).try_open_filters()
+    functions.try_open_filters(Shared(driver).driver)
     CaseListPage(driver).enter_assigned_user_filter_text(context.user_name)
-    CaseListPage(driver).click_apply_filters_button()
+    functions.click_apply_filters(driver)
 
 
 @then("only SSO users name is displayed in user list for assign cases")
