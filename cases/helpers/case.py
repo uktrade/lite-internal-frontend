@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
+from cases.constants import CaseStatusEnum
 from cases.helpers.ecju_queries import get_ecju_queries
 from cases.objects import Slice, Case
 from cases.services import (
@@ -11,7 +12,7 @@ from cases.services import (
     get_activity,
     get_activity_filters,
 )
-from conf.constants import GENERATED_DOCUMENT, Statuses
+from conf.constants import GENERATED_DOCUMENT
 from core.helpers import generate_activity_filters
 from core.objects import Tab, TabCollection
 from core.services import get_user_permissions, get_status_properties, get_permissible_statuses
@@ -81,7 +82,7 @@ class CaseView(TemplateView):
         open_ecju_queries, closed_ecju_queries = get_ecju_queries(self.request, self.case_id)
         user_assigned_queues = get_user_case_queues(self.request, self.case_id)[0]
         status_props, _ = get_status_properties(self.request, self.case.data["status"]["key"])
-        can_set_done = not status_props["is_terminal"] and self.case.data["status"]["key"] != Statuses.APPLICANT_EDITING
+        can_set_done = not status_props["is_terminal"] and self.case.data["status"]["key"] != CaseStatusEnum.APPLICANT_EDITING
 
         return {
             "tabs": self.tabs if self.tabs else self.get_tabs(),

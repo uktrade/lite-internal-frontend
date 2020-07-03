@@ -312,7 +312,7 @@ class Finalise(TemplateView):
         if res.status_code == HTTPStatus.FORBIDDEN:
             return error_page(request, "You do not have permission.")
 
-        if res.status_code == HTTPStatus.BAD_REQUEST:
+        if res.status_code != HTTPStatus.OK:
             licence_data, _ = get_licence(request, str(kwargs["pk"]))
             licence = licence_data.get("licence")
             if licence and licence_data.get("goods"):

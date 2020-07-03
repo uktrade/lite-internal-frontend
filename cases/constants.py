@@ -58,6 +58,10 @@ class CaseStatusEnum:
     WITHDRAWN = "withdrawn"
 
     @classmethod
+    def base_query_statuses(cls):
+        return [cls.SUBMITTED, cls.CLOSED, cls.WITHDRAWN]
+
+    @classmethod
     def is_terminal(cls, status):
         return status in [
             cls.CLOSED, cls.DEREGISTERED, cls.FINALISED, cls.REGISTERED, cls.REVOKED, cls.SURRENDERED, cls.WITHDRAWN
