@@ -33,7 +33,7 @@
 		{% if not queue.is_system_queue %}
 			<div class="lite-app-bar__controls lite-buttons-row" >
 				<div data-enable-on-checkboxes="#table-cases">
-					<button id="assign-users-button" form="cases-form" type="submit" class="govuk-button govuk-button--secondary">{% lcs 'cases.CasesListPage.ASSIGN_USERS' %}</button>
+					<button id="assign-users-button" form="form-cases" type="submit" class="govuk-button govuk-button--secondary">{% lcs 'cases.CasesListPage.ASSIGN_USERS' %}</button>
 				</div>
 				{% if enforcement_check and data.results.cases %}
 					{% govuk_link_button id='export-xml' classes='govuk-button--secondary' text='cases.CasesListPage.EnforcementXML.EXPORT_BUTTON' url='queues:enforcement_xml_export' url_param=queue.id %}
@@ -115,28 +115,27 @@
 		</tbody>
 	</table>
 
-	<table id="table-cases" class="govuk-table">
-		<thead class="govuk-table__head">
-			<tr class="govuk-table__row">
-				{% if not queue.is_system_queue %}
-					<th class="govuk-table__header govuk-table__cell--checkbox">
-						<button id="button-select-all" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
-					</th>
-				{% endif %}
-				<th class="govuk-table__header govuk-table__cell--tight" scope="col"><span class="govuk-visually-hidden">{% lcs 'cases.CasesListPage.Table.SLA' %}</span></th>
-				<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.CASE' %}</th>
-				<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.ASSIGNEES' %}</th>
-				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" width="15%" scope="col">Flags</th>
-				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" width="15%" scope="col">{% lcs 'cases.CasesListPage.Table.GOODS' %}</th>
-				<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" width="15%" scope="col">{% lcs 'cases.CasesListPage.Table.DESTINATIONS' %}</th>
-			</tr>
-		</thead>
-		<tbody class="govuk-table__body" id="tbody-main">
-		</tbody>
-	</table>
-
-	<form id="cases-form" method="post">
+	<form id="form-cases" method="post">
 		{% csrf_token %}
+		<table id="table-cases" class="govuk-table">
+			<thead class="govuk-table__head">
+				<tr class="govuk-table__row">
+					{% if not queue.is_system_queue %}
+						<th class="govuk-table__header govuk-table__cell--checkbox">
+							<button id="button-select-all" type="button" name="button" class="lite-button-checkbox" title="Select all/Deselect all"></button>
+						</th>
+					{% endif %}
+					<th class="govuk-table__header govuk-table__cell--tight" scope="col"><span class="govuk-visually-hidden">{% lcs 'cases.CasesListPage.Table.SLA' %}</span></th>
+					<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.CASE' %}</th>
+					<th class="govuk-table__header app-table__header--skeleton" scope="col">{% lcs 'cases.CasesListPage.Table.ASSIGNEES' %}</th>
+					<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" width="15%" scope="col">Flags</th>
+					<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" width="15%" scope="col">{% lcs 'cases.CasesListPage.Table.GOODS' %}</th>
+					<th class="govuk-table__header app-table__header--skeleton lite-tablet-hide" width="15%" scope="col">{% lcs 'cases.CasesListPage.Table.DESTINATIONS' %}</th>
+				</tr>
+			</thead>
+			<tbody class="govuk-table__body" id="tbody-main">
+			</tbody>
+		</table>
 	</form>
 {% endblock %}
 
@@ -177,8 +176,8 @@
 							{% if not queue.is_system_queue %}
 								<td class="govuk-table__cell govuk-table__cell--checkbox">
 									<div>
-										<input class="govuk-checkboxes__input" type="checkbox" name="cases" value="{{ case.id }}">
-										<label class="govuk-label govuk-checkboxes__label">
+										<input class="govuk-checkboxes__input" type="checkbox" name="cases" value="${item.id}">
+										<label class="govuk-label govuk-checkboxes__label" for="${item.id}">
 											<span class="govuk-visually-hidden"></span>
 										</label>
 									</div>
@@ -248,9 +247,11 @@
 				$("#final_advice_type").append(`<option value="${item.key}" ${(item.key == "{{ final_advice_type }}" ? "selected" : "")}>${item.value}</option>`)
 			});
 			setTooltips();
+			setCheckboxEvent();
 			setSelectButtonsState();
 			loadAutoCompletes();
 			tryShowFilterBar();
+			setEnableOnCheckboxes();
 		});
 
 		$("#filter-queues").on('input', function() {
