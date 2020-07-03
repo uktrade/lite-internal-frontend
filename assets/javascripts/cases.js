@@ -15,9 +15,7 @@ function getSLAHoursPercentage(caseObject) {
 
 function roundPercentage(percentage) {
     // Round up to nearest 10
-    if (percentage == 0) {
-        return 10
-    } else if (percentage >= 100) {
+    if (percentage >= 100) {
         return 100
     } else {
         return Math.ceil(percentage / 10) * 10
