@@ -98,6 +98,6 @@ class RoutingRulesPage(BasePage):
         self.driver.find_element_by_id(self.TEAM_ID_PREFIX + team_id).click()
 
     def filter_by_queue_name(self, queue_name):
-        functions.try_open_filters(driver)
+        functions.try_open_filters(self.driver)
         functions.send_keys_to_autocomplete(self.driver, "queue", queue_name)
         functions.click_apply_filters(self.driver)

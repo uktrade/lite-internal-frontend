@@ -5,7 +5,6 @@ from pytest_bdd import given, when, then, parsers
 from pages.advice import FinalAdvicePage, TeamAdvicePage
 from pages.case_page import CasePage, CaseTabs
 from pages.goods_queries_pages import GoodsQueriesPages
-from shared.functions import try_open_filters
 
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.add_a_flag import (  # noqa
@@ -185,7 +184,7 @@ def add_report_summary_picklist(add_a_report_summary_picklist):  # noqa
 @then("I see previously created application")  # noqa
 def see_queue_in_queue_list(driver, context):  # noqa
     case_page = CaseListPage(driver)
-    functions.try_open_filters(Shared(driver).driver)
+    functions.try_open_filters(driver)
     case_page.filter_by_case_reference(context.reference_code)
     functions.click_apply_filters(driver)
     assert driver.find_element_by_id(context.case_id).is_displayed()
@@ -193,7 +192,7 @@ def see_queue_in_queue_list(driver, context):  # noqa
 
 @when("I show filters")  # noqa
 def i_show_filters(driver):  # noqa
-    try_open_filters(Shared(driver).driver)
+    functions.try_open_filters(driver)
 
 
 @when("I go to users")  # noqa
