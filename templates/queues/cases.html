@@ -191,8 +191,8 @@
 											{% svg 'ecju-query' %}
 										</div>
 										` : ``)}
-									${(data.results.is_work_queue && item.has_future_review_date ? `
-										<div data-tooltip="{% lcs 'cases.CasesListPage.FUTURE_REVIEW_DATE' %}" class="app-cases__row__icon">
+									${(data.results.is_work_queue && item.next_review_date ? `
+										<div data-tooltip="The next review is on ${item.next_review_date}" class="app-cases__row__icon">
 											{% svg 'eye' %}
 										</div>
 										` : ``)}
