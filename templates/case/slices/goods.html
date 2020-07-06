@@ -59,6 +59,7 @@
 						<td class="govuk-table__cell govuk-table__cell--line-number {% if show_advice %}lite-!-no-border{% endif %}">{{ forloop.counter }}.</td>
 						<td class="govuk-table__cell govuk-table__cell--max-width-400 {% if show_advice %}lite-!-no-border{% endif %}">
 							<span data-max-length="200">{{ good.good.description }}</span>
+							<a id="data-good-detail-{{ good.id }}" href="#">More details</a>
 						</td>
 						{% if case.goods.0.item_type %}
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
@@ -117,8 +118,18 @@
 					{% if show_advice %}
 						{% include 'includes/advice.html' with id=good.good.id %}
 					{% endif %}
+
+					{% include 'includes/good-details.html' with good=good.good %}
 				{% endfor %}
 			</tbody>
+
+			<script type="text/javascript">
+				$('[id^="data-good-detail"]').click(function () {
+					LITECommon.Modal.showModal("Details here", $("#good-details").html(), false, false, {maxWidth: '600px'});
+					return false;
+				});
+			</script>
+
 		{% else %}
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
