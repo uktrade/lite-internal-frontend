@@ -192,7 +192,7 @@ def see_queue_in_queue_list(driver, context):  # noqa
 
 @when("I show filters")  # noqa
 def i_show_filters(driver):  # noqa
-    functions.try_open_filters(driver)
+    Shared(driver).try_open_filters()
 
 
 @when("I go to users")  # noqa

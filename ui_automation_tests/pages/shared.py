@@ -1,3 +1,5 @@
+import time
+
 from shared import functions
 from pages.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
@@ -106,3 +108,9 @@ class Shared(BasePage):
 
     def click_first_link_in_row(self):
         self.driver.find_element_by_css_selector(self.FIRST_LINK_IN_ROW).click()
+
+    def try_open_filters(self):
+        if not self.driver.find_element_by_class_name("lite-filter-bar").is_displayed():
+            self.driver.find_element_by_id("show-filters-link").click()
+            # Delay is necessary as driver can fail to click filters
+            time.sleep(0.5)
