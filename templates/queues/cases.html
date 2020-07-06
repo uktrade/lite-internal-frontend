@@ -151,7 +151,7 @@
 
 			$.each(data.results.queues, function(i, item) {
 				if (item.id == "{{ updated_cases_banner_queue_id }}" && item.case_count) {
-					$("#banner-exporter-amendments").show();
+					$("#banner-exporter-amendments").removeClass("app-hidden");
 				}
 
 				var html = `
