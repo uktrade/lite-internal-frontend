@@ -131,7 +131,7 @@ function generateSLA(caseObject) {
 		return "";
 	}
 
-	if (caseObject.sla_hours_since_raised && caseObject.case_type.sub_type.key == 'hmrc') {
+	if (caseObject.sla_hours_since_raised !== undefined && caseObject.case_type.sub_type.key == 'hmrc') {
 		return `
 			<div class="app-sla__container" data-tooltip="${caseObject.sla_hours_since_raised} hours have elapsed on this case">
 				<svg class="app-sla" width="36" height="36">
@@ -140,7 +140,7 @@ function generateSLA(caseObject) {
 				<span class="app-sla__text">${caseObject.sla_hours_since_raised}</span>
 			</div>
 		`
-	} else if (caseObject.sla_remaining_days && caseObject.case_type.sub_type.key != 'hmrc') {
+	} else if (caseObject.sla_remaining_days !== undefined && caseObject.case_type.sub_type.key != 'hmrc') {
 		return `
 			<div class="app-sla__container" data-tooltip="${caseObject.sla_days} days have elapsed on this case">
 				<svg class="app-sla" width="36" height="36">
