@@ -72,25 +72,39 @@ function expandFlags(element) {
 
 function shortenName(first_name, last_name) {
 	if (!first_name || !last_name ) {
-		return "";
+		return "@";
 	}
 
 	return first_name[0] + last_name[0];
 }
 
+function generateQueuesList(queues) {
+	var returnValue = "";
+	$.each(queues, function(i, item) {
+		returnValue = returnValue + "<br>" + item;
+	});
+	return returnValue;
+}
+
 function generateAssignments(assignments) {
-	if (assignments.length) {
+	if (Object.keys(assignments).length) {
 		var container = `<div class="app-assignments__container"><ul class="app-assignments__list">`;
-		$.each(assignments.slice(0, 3), function(i, item) {
+
+		// for (var i = 0; i < Math.min(Object.keys(assignments).length, 3); i++) {
+		// 	alert(Object.keys(assignments))
+		// }
+
+		$.each(assignments, function(key, item, i) {
 			container = container + `
-				<li class="app-assignments__item" data-tooltip="${(item.user.first_name ? item.user.first_name + " " + item.user.last_name : item.user.email)}">
-					<a class="app-assignments__item-link" href="/users/${item.user.id}/">${shortenName(item.user.first_name, item.user.last_name)}</a>
+				<li class="app-assignments__item" data-tooltip="<b>${(item.first_name ? item.first_name + " " + item.last_name : item.email)}</b>${generateQueuesList(item.queues)}">
+					<a class="app-assignments__item-link" href="/users/${key}/">${shortenName(item.first_name, item.last_name)}</a>
 				</li>
 			`;
+			// alert(i);
 		});
-		if (assignments.length > 3) {
+		if (Object.keys(assignments).length > 3) {
 			container = container + `
-				</ul><p class="app-assignments__link">${assignments.length - 3} more</p>
+				</ul><p class="app-assignments__link">${Object.keys(assignments).length - 3} more</p>
 			`
 		} else {
 			container = container + `</ul>`;
