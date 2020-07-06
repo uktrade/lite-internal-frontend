@@ -34,10 +34,9 @@ Feature: I want to finalise a case
     When I go to application previously created
     And I click change status
     And I select status "Re-opened for changes" and save
-    Then the status has been changed in the application
     When I go to the final advice page by url
     And I finalise the advice
-    Then I see the applied for goods details on the reissue licence page
+    Then I see the applied for goods details on the licence page
     When I click continue
     Then I see the final advice documents page
     And The decision row status is "not-started"

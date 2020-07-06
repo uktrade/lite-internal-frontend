@@ -63,24 +63,6 @@ def applied_for_goods_details(driver, context):
     context.licence_start_date = datetime.now().strftime(DATE_FORMAT)
 
 
-@then("I see the applied for goods details on the reissue licence page")
-def applied_for_goods_details_reissued(driver, context):
-    page = GrantLicencePage(driver)
-    good_on_app_id = context.goods[0]["id"]
-    assert context.goods[0]["quantity"] == float(page.get_good_quantity(good_on_app_id))
-    assert round(float(context.goods[0]["value"]) * context.goods[0]["quantity"], 2) == float(
-        page.get_good_value(good_on_app_id)
-    )
-
-    assert "Applied for" in page.get_good_applied_for_quantity(good_on_app_id)
-    assert "Applied for" in page.get_good_applied_for_value(good_on_app_id)
-    assert "Used" in page.get_good_usage_quantity(good_on_app_id)
-    assert "Used" in page.get_good_usage_value(good_on_app_id)
-
-    context.licence_duration = page.get_duration_in_finalise_view()
-    context.licence_start_date = datetime.now().strftime(DATE_FORMAT)
-
-
 @given("A template exists for the appropriate decision")  # noqa
 def template_with_decision(context, api_test_client):  # noqa
     document_template = api_test_client.document_templates.add_template(
