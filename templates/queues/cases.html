@@ -10,15 +10,12 @@
 
 {% block messages %}
 	{{ block.super }}
-
-	{% if updated_cases_banner_queue_id %}
-		<a id="banner-exporter-amendments" class="govuk-width-container app-snackbar app-snackbar--no-animation" href="{% url 'queues:cases' updated_cases_banner_queue_id %}">
-			<div class="app-snackbar__content">
-				<div class="app-snackbar__icon"></div>
-				{% lcs 'cases.CasesListPage.EXPORTER_AMENDMENTS_BANNER' %}
-			</div>
-		</a>
-	{% endif %}
+	<a id="banner-exporter-amendments" class="app-hidden govuk-width-container app-snackbar app-snackbar--no-animation" href="{% url 'queues:cases' updated_cases_banner_queue_id %}">
+		<div class="app-snackbar__content">
+			<div class="app-snackbar__icon"></div>
+			{% lcs 'cases.CasesListPage.EXPORTER_AMENDMENTS_BANNER' %}
+		</div>
+	</a>
 {% endblock %}
 
 {% block body %}
@@ -153,6 +150,10 @@
 			}
 
 			$.each(data.results.queues, function(i, item) {
+				if (item.id == "{{ updated_cases_banner_queue_id }}" && item.case_count) {
+					$("#banner-exporter-amendments").show();
+				}
+
 				var html = `
 					<a href="/queues/${item.id}/" id="${item.id}" class="app-menu__item app-menu__item--subtitle ${(item.id == '{{ queue.id }}' ? 'app-menu__item--selected' : '')}">
 						${item.name}

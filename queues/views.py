@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from cases.forms.assign_users import assign_users_form
 from cases.forms.attach_documents import upload_document_form
 from cases.helpers.filters import case_filters_bar
-from conf.constants import ALL_CASES_QUEUE_ID, Permission
+from conf.constants import ALL_CASES_QUEUE_ID, Permission, UPDATED_CASES_QUEUE_ID
 from core.helpers import convert_parameters_to_query_params
 from core.services import get_user_permissions
 from lite_content.lite_internal_frontend.cases import CasesListPage, UploadEnforcementXML
@@ -47,6 +47,7 @@ class Cases(TemplateView):
             "final_advice_type": request.GET.get("final_advice_type"),  # ""
             "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
             "enforcement_check": Permission.ENFORCEMENT_CHECK.value in get_user_permissions(request),
+            "updated_cases_banner_queue_id": UPDATED_CASES_QUEUE_ID
         }
         return render(request, "queues/cases.html", context)
 
