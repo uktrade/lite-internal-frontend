@@ -4,7 +4,7 @@
 	<a id="button-attach-document" role="button" draggable="false" class="govuk-button" href="{% url 'cases:attach_documents' queue.id case.id %}">
 		{% lcs 'cases.CasePage.DocumentsTab.ATTACH_DOCUMENT_BUTTON' %}
 	</a>
-	<a id="button-generate-document" role="button" draggable="false" class="govuk-button" href="{% url 'cases:generate_case_document' queue.id case.id %}">
+	<a id="button-generate-document" role="button" draggable="false" class="govuk-button" href="{% url 'cases:generate_document' queue.id case.id %}">
 		{% lcs 'cases.CasePage.DocumentsTab.GENERATE_DOCUMENT_BUTTON' %}
 	</a>
 </div>
@@ -28,7 +28,7 @@
 						</p>
 					{% endif %}
 					{% if document.type.key == generated_document_key %}
-						<form method="get" action="{% url 'cases:generate_case_document_regenerate' queue.id case.id document.id %}">
+						<form method="get" action="{% url 'cases:generate_document_regenerate' queue.id case.id document.id %}">
 							{% csrf_token %}
 							<button id="regenerate" type="submit" class="lite-button--link">{% lcs 'cases.AdditionalDocumentsPage.Document.REGENERATE_LINK' %}</button>
 						</form>

@@ -7,7 +7,7 @@
 				<h1 class="govuk-heading-l">{% block title %}{% lcs 'cases.ApplicationPage.Actions.GENERATE_DOCUMENT' %}{% endblock %}</h1>
 			</div>
 			<div class="lite-app-bar__controls">
-				<form action="{% url 'cases:generate_case_document_create' queue.id case_id template_id %}" method="post">
+				<form action="{% url 'cases:generate_document_create' queue.id case_id template_id %}" method="post">
 				{% csrf_token %}
 				<input name="text" type="hidden" value="{{ text }}">
 				<input name="addressee" type="hidden" value="{{ addressee }}">
