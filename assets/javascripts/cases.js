@@ -86,25 +86,33 @@ function generateQueuesList(queues) {
 	return returnValue;
 }
 
+function generateAssignmentsMoreList(assignments) {
+	var returnValue = "";
+	for (var i = 3; i < Object.keys(assignments).length; i++) {
+		var item = Object.values(assignments)[i];
+		if (returnValue) {
+			returnValue = returnValue + "<br><br>";
+		}
+		returnValue = returnValue + `<b>${(item.first_name ? item.first_name + " " + item.last_name : item.email)}</b>${generateQueuesList(item.queues)}`;
+	}
+	return returnValue;
+}
+
 function generateAssignments(assignments) {
 	if (Object.keys(assignments).length) {
 		var container = `<div class="app-assignments__container"><ul class="app-assignments__list">`;
-
-		// for (var i = 0; i < Math.min(Object.keys(assignments).length, 3); i++) {
-		// 	alert(Object.keys(assignments))
-		// }
-
-		$.each(assignments, function(key, item, i) {
+		for (var i = 0; i < Math.min(Object.keys(assignments).length, 3); i++) {
+			var itemId = Object.keys(assignments)[i];
+			var item = Object.values(assignments)[i];
 			container = container + `
 				<li class="app-assignments__item" data-tooltip="<b>${(item.first_name ? item.first_name + " " + item.last_name : item.email)}</b>${generateQueuesList(item.queues)}">
-					<a class="app-assignments__item-link" href="/users/${key}/">${shortenName(item.first_name, item.last_name)}</a>
+					<a class="app-assignments__item-link" href="/users/${itemId}/">${shortenName(item.first_name, item.last_name)}</a>
 				</li>
 			`;
-			// alert(i);
-		});
+		}
 		if (Object.keys(assignments).length > 3) {
 			container = container + `
-				</ul><p class="app-assignments__link">${Object.keys(assignments).length - 3} more</p>
+				</ul><p class="app-assignments__link" data-tooltip="${generateAssignmentsMoreList(assignments)}">${Object.keys(assignments).length - 3} more</p>
 			`
 		} else {
 			container = container + `</ul>`;
