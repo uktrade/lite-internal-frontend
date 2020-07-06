@@ -182,44 +182,43 @@ def finalise_goods_countries_form(**kwargs):
     )
 
 
-def reissue_finalise_form(request, licence, case, queue_pk):
-    start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
-    form_data = {
-        "day": start_date.day,
-        "month": start_date.month,
-        "year": start_date.year,
-        "duration": licence["duration"],
+def get_approve_data(request, case_id, licence=None):
+    if licence:
+        start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
+        duration = licence["duration"]
+    else:
+        start_date = date.today()
+        duration = get_application_default_duration(request, str(case_id))
+
+    return {
+        "day": request.POST.get("day") or start_date.day,
+        "month": request.POST.get("month") or start_date.month,
+        "year": request.POST.get("year") or start_date.year,
+        "duration": request.POST.get("duration") or duration,
     }
 
+
+def reissue_finalise_form(request, licence, case, queue_pk):
+    data = get_approve_data(request, str(case["id"]), licence)
     form = approve_licence_form(
         queue_pk=queue_pk,
         case_id=case["id"],
         is_open_licence=case.data["case_type"]["sub_type"]["key"] == CaseType.OPEN.value,
-        duration=licence["duration"],
         editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
         goods=licence["goods_on_licence"],
         goods_html="components/goods-licence-reissue-list.html",
     )
-    return form, form_data
+    return form, data
 
 
 def finalise_form(request, case, goods, queue_pk):
-    start_date = date.today()
-    duration = get_application_default_duration(request, str(case["id"]))
-    form_data = {
-        "day": start_date.day,
-        "month": start_date.month,
-        "year": start_date.year,
-        "duration": duration,
-    }
-
+    data = get_approve_data(request, str(case["id"]))
     form = approve_licence_form(
         queue_pk=queue_pk,
         case_id=case["id"],
         is_open_licence=case.data["case_type"]["sub_type"]["key"] == CaseType.OPEN.value,
-        duration=duration,
         editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
         goods=goods,
         goods_html="components/goods-licence-list.html",
     )
-    return form, form_data
+    return form, data
