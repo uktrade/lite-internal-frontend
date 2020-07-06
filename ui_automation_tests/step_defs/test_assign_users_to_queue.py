@@ -58,9 +58,7 @@ def user_is_on_case_list(driver, internal_info):
 
 @then("user is not assignee on case list")
 def user_is_not_on_case_list(driver, context):
-    assert not CaseListPage(driver).has_assignees(
-        driver, context.case_id
-    ), "This case has assignees"
+    assert not CaseListPage(driver).has_assignees(driver, context.case_id), "This case has assignees"
 
 
 @when("I click select all cases checkbox")
