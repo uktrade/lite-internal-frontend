@@ -6,6 +6,7 @@ from selenium.webdriver.support.select import Select
 import shared.tools.helpers as utils
 from pages.BasePage import BasePage
 from pages.shared import Shared
+from shared import functions
 from shared.tools.helpers import scroll_to_element_by_id
 
 
@@ -161,7 +162,7 @@ class CaseListPage(BasePage):
         self.driver.find_element_by_id(self.BANNER_EXPORTER_AMENDMENTS_ID).click()
 
     def enter_assigned_user_filter_text(self, text):
-        self.driver.find_element_by_id(self.INPUT_ASSIGNED_USER_ID).send_keys(text)
+        functions.send_keys_to_autocomplete(self.driver, self.INPUT_ASSIGNED_USER_ID, text)
 
     def enter_name_to_filter_search_box(self, text):
         self.driver.find_element_by_id(self.FILTER_SEARCH_BOX).send_keys(text)
