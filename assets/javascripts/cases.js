@@ -39,7 +39,7 @@ function getSLAHoursRingColour(caseObject) {
     if (hoursSinceRaised >= 48) {
 		return "red"
 	} else {
-		return "yellow"
+		return "orange"
 	}
 }
 
@@ -111,7 +111,7 @@ function generateSLA(caseObject) {
 
 	if (caseObject.sla_hours_since_raised && caseObject.case_type.sub_type.key == 'hmrc') {
 		return `
-			<div class="app-sla__container" data-tooltip="${caseObject.sla_hours} hours have elapsed on this case">
+			<div class="app-sla__container" data-tooltip="${caseObject.sla_hours_since_raised} hours have elapsed on this case">
 				<svg class="app-sla" width="36" height="36">
 					<circle class="app-sla__circle app-sla__circle--${getSLAHoursRingColour(caseObject)}" stroke="black" stroke-width="3" fill="transparent" r="16" cx="18" cy="18" stroke-dasharray="${circumference} ${circumference}" stroke-dashoffset="${circumference - getSLAHoursPercentage(caseObject) / 100 * circumference}"/>
 				</svg>
