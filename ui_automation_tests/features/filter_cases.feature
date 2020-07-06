@@ -10,6 +10,7 @@ Feature: I want to filter cases on a queue
     And a queue has been created
     And I create open application or open application has been previously created
     And case has been moved to new Queue
+    And I go to internal homepage
     When I show filters
     And I click advanced filters
     Then I can see all advanced filters
@@ -20,7 +21,6 @@ Feature: I want to filter cases on a queue
     Then "1" cases are shown
     When I show filters
     Given I create a clc query
-    And I go to internal homepage
     When case has been moved to new Queue
     And I click on new queue in dropdown
     Then "2" cases are shown
