@@ -1,5 +1,4 @@
 from collections import defaultdict
-from datetime import datetime
 from http import HTTPStatus
 
 from django.contrib import messages
@@ -16,7 +15,7 @@ from cases.forms.advice import (
     reissue_finalise_form,
     finalise_form,
 )
-from cases.forms.finalise_case import approve_licence_form, deny_licence_form
+from cases.forms.finalise_case import deny_licence_form
 from cases.helpers.advice import get_param_destinations, get_param_goods, flatten_advice_data, prepare_data_for_advice
 from cases.services import (
     post_user_case_advice,
@@ -29,15 +28,12 @@ from cases.services import (
     get_case,
     finalise_application,
     get_good_countries_decisions,
-    get_application_default_duration,
     grant_licence,
     get_final_decision_documents,
     get_licence,
     get_finalise_application_goods,
     post_good_countries_decisions,
 )
-from conf.constants import Permission
-from core import helpers
 from core.builtins.custom_tags import filter_advice_by_level
 from core.services import get_denial_reasons
 from lite_content.lite_internal_frontend.advice import FinaliseLicenceForm
@@ -290,10 +286,7 @@ class Finalise(TemplateView):
             return form_page(request, form, data=form_data, errors=res.json()["errors"], extra_data={"case": case})
 
         return redirect(
-            reverse_lazy(
-                "cases:finalise_documents",
-                kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]},
-            )
+            reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]},)
         )
 
 
