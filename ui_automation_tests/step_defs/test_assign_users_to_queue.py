@@ -35,17 +35,6 @@ def user_is_on_case_list(driver, context):
     ), f"'{context.user_name}' is not an assignee on case list"
 
 
-@then("user is not an assignee on case list")
-def user_is_not_on_case_list(driver, context):
-    first_name, last_name = context.user_name.split(" ", 1)
-    first_name = first_name[0].upper()
-    last_name = last_name[0].upper()
-
-    assert first_name + last_name not in CaseListPage(driver).get_text_of_assignees(
-        driver, context.case_id
-    ), f"'{context.user_name}' is an assignee on case list"
-
-
 @when("I filter assigned user by Not Assigned")
 def i_filter_case_officer_by_not_assigned(driver):
     functions.try_open_filters(driver)
@@ -69,9 +58,9 @@ def user_is_on_case_list(driver, internal_info):
 
 @then("user is not assignee on case list")
 def user_is_not_on_case_list(driver, context):
-    assert "No users assigned" in CaseListPage(driver).get_text_of_assignees(
+    assert not CaseListPage(driver).has_assignees(
         driver, context.case_id
-    ), "No users assigned text is not displayed"
+    ), "This case has assignees"
 
 
 @when("I click select all cases checkbox")

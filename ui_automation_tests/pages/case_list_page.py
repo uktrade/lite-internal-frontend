@@ -104,6 +104,11 @@ class CaseListPage(BasePage):
     def click_on_assign_users_button(self):
         self.driver.find_element_by_id(self.BUTTON_ASSIGN_USERS).click()
 
+    def has_assignees(self, driver, case_id):
+        elements = Shared(driver).get_rows_in_lite_table()
+        no = utils.get_element_index_by_text(elements, case_id)
+        return len(elements[no].find_elements_by_css_selector(".app-assignments__container")) != 0
+
     def get_text_of_assignees(self, driver, case_id):
         elements = Shared(driver).get_rows_in_lite_table()
         no = utils.get_element_index_by_text(elements, case_id)
@@ -162,6 +167,7 @@ class CaseListPage(BasePage):
         self.driver.find_element_by_id(self.BANNER_EXPORTER_AMENDMENTS_ID).click()
 
     def enter_assigned_user_filter_text(self, text):
+        self.driver.find_element_by_id(self.INPUT_ASSIGNED_USER_ID).clear()
         functions.send_keys_to_autocomplete(self.driver, self.INPUT_ASSIGNED_USER_ID, text)
 
     def enter_name_to_filter_search_box(self, text):

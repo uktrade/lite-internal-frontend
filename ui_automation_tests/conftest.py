@@ -268,8 +268,8 @@ def work_queue(driver, context, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/queues/" + context.queue_id)
 
 
-@then("My case is not in the queue")  # noqa
-def no_cases_in_queue(driver, context):  # noqa
+@then("my case is not in the queue")  # noqa
+def my_case_not_in_queue(driver, context):  # noqa
     assert context.case_id not in Shared(driver).get_text_of_cases_form()
 
 
