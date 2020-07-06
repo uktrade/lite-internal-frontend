@@ -1,5 +1,5 @@
 from collections import defaultdict
-from datetime import date, datetime
+from datetime import datetime
 from http import HTTPStatus
 
 from django.contrib import messages
@@ -8,8 +8,9 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
-from cases.constants import CaseType, CaseStatusEnum
-from cases.forms.advice import give_advice_form, finalise_goods_countries_form, generate_documents_form
+from cases.constants import CaseType
+from cases.forms.advice import give_advice_form, finalise_goods_countries_form, generate_documents_form, \
+    reissue_finalise_form, finalise_form
 from cases.forms.finalise_case import approve_licence_form, deny_licence_form
 from cases.helpers.advice import get_param_destinations, get_param_goods, flatten_advice_data, prepare_data_for_advice
 from cases.services import (
@@ -250,51 +251,11 @@ class Finalise(TemplateView):
             licence = licence_data.get("licence")
             # If there are licenced goods, we want to use the reissue goods flow.
             if licence:
-                start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
-                form_data = {
-                    "day": start_date.day,
-                    "month": start_date.month,
-                    "year": start_date.year,
-                    "duration": licence["duration"],
-                }
+                form, form_data = reissue_finalise_form(request, licence, case, kwargs["queue_pk"])
+            else:
+                goods = self._get_goods(request, str(kwargs["pk"]), case_type)
+                form, form_data = finalise_form(request, case, goods, kwargs["queue_pk"])
 
-                form = approve_licence_form(
-                    queue_pk=kwargs["queue_pk"],
-                    case_id=case_id,
-                    is_open_licence=is_open_licence,
-                    duration=licence["duration"],
-                    editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
-                    goods=licence["goods_on_licence"],
-                    goods_html="components/goods-licence-reissue-list.html",
-                )
-                return form_page(request, form, data=form_data, extra_data={"case": case})
-
-                return redirect(
-                    reverse_lazy(
-                        "cases:finalise_documents",
-                        kwargs={"queue_pk": kwargs["queue_pk"], "pk": str(kwargs["pk"]), "licence_pk": licence["id"]},
-                    )
-                )
-
-            duration = get_application_default_duration(request, str(kwargs["pk"]))
-
-            start_date = date.today()
-            form_data = {
-                "day": start_date.day,
-                "month": start_date.month,
-                "year": start_date.year,
-                "duration": duration,
-            }
-
-            form = approve_licence_form(
-                queue_pk=kwargs["queue_pk"],
-                case_id=case_id,
-                is_open_licence=is_open_licence,
-                duration=duration,
-                editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
-                goods=self._get_goods(request, str(kwargs["pk"]), case_type),
-                goods_html="components/goods-licence-list.html",
-            )
             return form_page(request, form, data=form_data, extra_data={"case": case})
         else:
             return form_page(request, deny_licence_form(kwargs["queue_pk"], case_id, is_open_licence))

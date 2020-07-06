@@ -1,8 +1,13 @@
+from datetime import datetime, date
+
 from django.urls import reverse
 
 from cases.constants import CaseType
+from cases.forms.finalise_case import approve_licence_form
 from cases.objects import Case
+from cases.services import get_application_default_duration
 from conf.constants import Permission
+from core import helpers
 from core.components import PicklistPicker
 from core.helpers import has_permission
 from core.services import get_pv_gradings
@@ -174,3 +179,47 @@ def finalise_goods_countries_form(**kwargs):
         ),
         container="case",
     )
+
+
+def reissue_finalise_form(request, licence, case, queue_pk):
+    start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
+    form_data = {
+        "day": start_date.day,
+        "month": start_date.month,
+        "year": start_date.year,
+        "duration": licence["duration"],
+    }
+
+    form = approve_licence_form(
+        queue_pk=queue_pk,
+        case_id=case["id"],
+        is_open_licence=case.data["case_type"]["sub_type"]["key"] == CaseType.OPEN.value,
+        duration=licence["duration"],
+        editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
+        goods=licence["goods_on_licence"],
+        goods_html="components/goods-licence-reissue-list.html",
+    )
+    return form, form_data
+
+
+def finalise_form(request, case, goods, queue_pk):
+    start_date = date.today()
+    duration = get_application_default_duration(request, str(case["id"]))
+    form_data = {
+        "day": start_date.day,
+        "month": start_date.month,
+        "year": start_date.year,
+        "duration": duration,
+    }
+
+    form = approve_licence_form(
+        queue_pk=queue_pk,
+        case_id=case["id"],
+        is_open_licence=case.data["case_type"]["sub_type"]["key"] == CaseType.OPEN.value,
+        duration=duration,
+        editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
+        goods=goods,
+        goods_html="components/goods-licence-list.html",
+    )
+    return form, form_data
+
