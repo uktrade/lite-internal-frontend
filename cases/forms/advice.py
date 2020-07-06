@@ -165,6 +165,7 @@ def generate_documents_form():
         GenerateGoodsDecisionForm.TITLE,
         questions=[Custom("components/finalise-generate-documents.html")],
         container="case",
+        default_button_name="Save and publish to exporter"
     )
 
 

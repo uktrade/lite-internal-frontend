@@ -292,7 +292,7 @@ class Finalise(TemplateView):
         return redirect(
             reverse_lazy(
                 "cases:finalise_documents",
-                kwargs={"licence_pk": licence["id"], "queue_pk": kwargs["queue_pk"], "pk": case["id"]},
+                kwargs={"queue_pk": kwargs["queue_pk"], "pk": case["id"]},
             )
         )
 
@@ -309,7 +309,6 @@ class FinaliseGenerateDocuments(SingleFormView):
             "case": case,
             "can_submit": can_submit,
             "decisions": decisions,
-            "licence_pk": kwargs["licence_pk"],
         }
         self.action = grant_licence
         self.success_url = reverse_lazy(
