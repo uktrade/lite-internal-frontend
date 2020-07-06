@@ -105,7 +105,7 @@ function generateAssignments(assignments) {
 			var itemId = Object.keys(assignments)[i];
 			var item = Object.values(assignments)[i];
 			container = container + `
-				<li class="app-assignments__item" data-tooltip="<b>${(item.first_name ? item.first_name + " " + item.last_name : item.email)}</b>${generateQueuesList(item.queues)}">
+				<li class="app-assignments__item" aria-label="${item.first_name} ${item.last_name}" data-tooltip="<b>${(item.first_name ? item.first_name + " " + item.last_name : item.email)}</b>${generateQueuesList(item.queues)}">
 					<a class="app-assignments__item-link" href="/users/${itemId}/">${shortenName(item.first_name, item.last_name)}</a>
 				</li>
 			`;
