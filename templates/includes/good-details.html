@@ -29,7 +29,7 @@
 
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					{% lcs 'goods.GoodsDetailSummary.CONTROLLED' %}
+					{% lcs 'goods.GoodsDetailSummary.CLC' %}
 				</dt>
 				{% if good.control_list_entries %}
 					<dd class="govuk-summary-list__value">
@@ -43,7 +43,7 @@
 			</div>
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					{% lcs 'goods.GoodsDetailSummary.GRADED' %}
+					{% lcs 'goods.GoodsDetailSummary.IS_GRADED' %}
 				</dt>
 				<dd class="govuk-summary-list__value">
 					{% if good.pv_grading_details %}
@@ -68,7 +68,7 @@
 
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						{% lcs 'goods.GoodsDetailSummary.MILITARY' %}
+						{% lcs 'goods.GoodsDetailSummary.MILITARY_USE' %}
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{{ good.is_military_use.value }}
@@ -94,7 +94,7 @@
 
 				<div class="govuk-summary-list__row">
 					<dt class="govuk-summary-list__key">
-						{% lcs 'goods.GoodsDetailSummary.DESIGNED_FOR_INFORMATION_SECURITY' %}
+						{% lcs 'goods.GoodsDetailSummary.INFORMATION_SECURITY_FEATURES' %}
 					</dt>
 					<dd class="govuk-summary-list__value">
 						{% if good.uses_information_security is not None %}
@@ -174,29 +174,25 @@
 
 			<div class="govuk-summary-list__row">
 				<dt class="govuk-summary-list__key">
-					{% lcs 'goods.GoodsDetailSummary.INCORPORATED' %}
-				</dt>
-				<dd class="govuk-summary-list__value">
-					{{ good.is_good_incorporated|friendly_boolean|default_na }}
-				</dd>
-			</div>
-
-			<div class="govuk-summary-list__row">
-				<dt class="govuk-summary-list__key">
 					{% lcs "goods.GoodsDetailSummary.DOCUMENTS" %}
 				</dt>
-
-				{% if good.missing_document_reason %}
-					<dd class="govuk-summary-list__value">
-						{{ good.missing_document_reason.value }}
-					</dd>
-				{% else %}
-					<dd class="govuk-summary-list__value">
+				<dd class="govuk-summary-list__value">
+					{% if good.documents %}
 						{% for document in good.documents %}
-							<a {% if document.safe == True %}href="{% url 'goods:document' pk=good.good.id file_pk=document.id %}"{% endif %} class="govuk-link--no-visited-state">{{ document.name }}</a><br>
+							{% if document.safe == True %}
+								<a class="govuk-link govuk-link--no-visited-state" id="good_document" href="{% url 'cases:document' queue.id case.id document.id %}">
+									<span class="govuk-visually-hidden">{% lcs 'cases.Manage.Documents.DOWNLOAD_DOCUMENT' %}</span> {{ document.name }}
+								</a>
+							{% endif %}
 						{% endfor %}
-					</dd>
-				{% endif %}
+					{% else %}
+						{% lcs 'cases.ApplicationPage.Goods.MISSING_DOCUMENT_REASON_PREFIX' %}{{ good.missing_document_reason.value }}
+					{% endif %}
+
+					{% for document in good.documents %}
+						<a {% if document.safe == True %}href="{% url 'goods:document' pk=good.good.id file_pk=document.id %}"{% endif %} class="govuk-link--no-visited-state">{{ document.name }}</a><br>
+					{% endfor %}
+				</dd>
 			</div>
 		</dl>
 	</div>
