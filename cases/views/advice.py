@@ -248,27 +248,26 @@ class Finalise(TemplateView):
             # Redirect if licence already exists
             licence_data, _ = get_licence(request, str(kwargs["pk"]))
             licence = licence_data.get("licence")
-            if licence and licence_data.get("goods"):
-                # If there are licenced goods, we want to use the reissue goods flow.
-                if not CaseStatusEnum.is_terminal(case.data["status"]["key"]):
-                    start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
-                    form_data = {
-                        "day": start_date.day,
-                        "month": start_date.month,
-                        "year": start_date.year,
-                        "duration": licence["duration"],
-                    }
+            # If there are licenced goods, we want to use the reissue goods flow.
+            if licence:
+                start_date = datetime.strptime(licence["start_date"], "%Y-%m-%d")
+                form_data = {
+                    "day": start_date.day,
+                    "month": start_date.month,
+                    "year": start_date.year,
+                    "duration": licence["duration"],
+                }
 
-                    form = approve_licence_form(
-                        queue_pk=kwargs["queue_pk"],
-                        case_id=case_id,
-                        is_open_licence=is_open_licence,
-                        duration=licence["duration"],
-                        editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
-                        goods=licence_data["goods"],
-                        goods_html="components/goods-licence-reissue-list.html",
-                    )
-                    return form_page(request, form, data=form_data, extra_data={"case": case})
+                form = approve_licence_form(
+                    queue_pk=kwargs["queue_pk"],
+                    case_id=case_id,
+                    is_open_licence=is_open_licence,
+                    duration=licence["duration"],
+                    editable_duration=helpers.has_permission(request, Permission.MANAGE_LICENCE_DURATION),
+                    goods=licence["goods_on_licence"],
+                    goods_html="components/goods-licence-reissue-list.html",
+                )
+                return form_page(request, form, data=form_data, extra_data={"case": case})
 
                 return redirect(
                     reverse_lazy(
