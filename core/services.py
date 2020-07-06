@@ -88,7 +88,9 @@ def get_permissible_statuses(request, case):
         ]
     elif case_type == CaseType.QUERY.value:
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
-            case_type_applicable_statuses = [status for status in statuses if status["key"] in CaseStatusEnum.base_query_statuses()]
+            case_type_applicable_statuses = [
+                status for status in statuses if status["key"] in CaseStatusEnum.base_query_statuses()
+            ]
         else:
             # if the query is not an end user advisory, then check if CLC/PV statuses are required
             goods_query_status_keys = CaseStatusEnum.base_query_statuses().copy()

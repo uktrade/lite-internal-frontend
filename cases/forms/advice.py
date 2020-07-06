@@ -222,4 +222,3 @@ def finalise_form(request, case, goods, queue_pk):
         goods_html="components/goods-licence-list.html",
     )
     return form, form_data
-

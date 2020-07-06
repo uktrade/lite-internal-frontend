@@ -1,15 +1,6 @@
 from django.urls import path
 
-from cases.views import (
-    main,
-    advice,
-    generate_licence_document,
-    ecju,
-    goods_query,
-    goods,
-    generate_case_document,
-    compliance,
-)
+from cases.views import main, advice, generate_document, ecju, goods_query, goods, compliance
 from flags.views import AssignFlags
 
 app_name = "cases"
@@ -30,67 +21,43 @@ urlpatterns = [
     path("final-advice-view/", advice.ClearFinalAdvice.as_view(), name="final_advice_view"),
     path("finalise-goods-countries/", advice.FinaliseGoodsCountries.as_view(), name="finalise_goods_countries"),
     path("finalise/", advice.Finalise.as_view(), name="finalise"),
+    path("finalise/generate-documents/", advice.FinaliseGenerateDocuments.as_view(), name="finalise_documents"),
+    path(
+        "finalise/<str:decision_key>/generate-document/",
+        generate_document.GenerateDecisionDocument.as_view(),
+        name="finalise_document_template",
+    ),
+    path(
+        "finalise/<str:decision_key>/generate-document/<uuid:tpk>/preview/",
+        generate_document.PreviewDocument.as_view(),
+        name="finalise_document_preview",
+    ),
+    path(
+        "finalise/<str:decision_key>/generate-document/<uuid:tpk>/create/",
+        generate_document.CreateDocumentFinalAdvice.as_view(),
+        name="finalise_document_create",
+    ),
     path("ecju-queries/new/", ecju.NewECJUQueryView.as_view(), name="new_ecju_query"),
     path("respond-to-clc-query/", goods_query.RespondCLCQuery.as_view(), name="respond_to_clc_query"),
     path(
         "respond-to-pv-grading-query/", goods_query.RespondPVGradingQuery.as_view(), name="respond_to_pv_grading_query",
     ),
     path("review-goods/", goods.ReviewGoods.as_view(), name="review_goods"),
-    # Licence documents
-    path("generate-document/", generate_licence_document.GenerateDocument.as_view(), name="generate_document"),
+    path("generate-document/", generate_document.GenerateDocument.as_view(), name="generate_document"),
     path(
         "generate-document/<uuid:dpk>/",
-        generate_licence_document.RegenerateExistingDocument.as_view(),
+        generate_document.RegenerateExistingDocument.as_view(),
         name="generate_document_regenerate",
     ),
     path(
-        "licence/<uuid:licence_pk>/generate-document/<uuid:tpk>/preview/",
-        generate_licence_document.PreviewDocument.as_view(),
+        "generate-document/<uuid:tpk>/preview/",
+        generate_document.PreviewDocument.as_view(),
         name="generate_document_preview",
     ),
     path(
-        "licence/<uuid:licence_pk>/generate-document/<uuid:tpk>/create/",
-        generate_licence_document.CreateDocument.as_view(),
+        "generate-document/<uuid:tpk>/create/",
+        generate_document.CreateDocument.as_view(),
         name="generate_document_create",
-    ),
-    path(
-        "licence/<uuid:licence_pk>/finalise/generate-documents/",
-        advice.FinaliseGenerateDocuments.as_view(),
-        name="finalise_documents",
-    ),
-    path(
-        "licence/<uuid:licence_pk>/finalise/<str:decision_key>/generate-document/",
-        generate_licence_document.GenerateDecisionDocument.as_view(),
-        name="finalise_document_template",
-    ),
-    path(
-        "licence/<uuid:licence_pk>/finalise/<str:decision_key>/generate-document/<uuid:tpk>/preview/",
-        generate_licence_document.PreviewDocument.as_view(),
-        name="finalise_document_preview",
-    ),
-    path(
-        "licence/<uuid:licence_pk>/finalise/<str:decision_key>/generate-document/<uuid:tpk>/create/",
-        generate_licence_document.CreateDocumentFinalAdvice.as_view(),
-        name="finalise_document_create",
-    ),
-    # Case documents
-    path(
-        "generate-case-document/", generate_case_document.GenerateCaseDocument.as_view(), name="generate_case_document"
-    ),
-    path(
-        "generate-case-document/<uuid:dpk>/",
-        generate_case_document.RegenerateExistingCaseDocument.as_view(),
-        name="generate_case_document_regenerate",
-    ),
-    path(
-        "generate-case-document/<uuid:tpk>/preview/",
-        generate_case_document.PreviewCaseDocument.as_view(),
-        name="generate_case_document_preview",
-    ),
-    path(
-        "generate-case-document/<uuid:tpk>/create/",
-        generate_case_document.CreateCaseDocument.as_view(),
-        name="generate_case_document_create",
     ),
     path("case-officer/", main.CaseOfficer.as_view(), name="case_officer"),
     path("review-date/", main.NextReviewDate.as_view(), name="review_date"),

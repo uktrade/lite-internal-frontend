@@ -64,5 +64,11 @@ class CaseStatusEnum:
     @classmethod
     def is_terminal(cls, status):
         return status in [
-            cls.CLOSED, cls.DEREGISTERED, cls.FINALISED, cls.REGISTERED, cls.REVOKED, cls.SURRENDERED, cls.WITHDRAWN
+            cls.CLOSED,
+            cls.DEREGISTERED,
+            cls.FINALISED,
+            cls.REGISTERED,
+            cls.REVOKED,
+            cls.SURRENDERED,
+            cls.WITHDRAWN,
         ]

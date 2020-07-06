@@ -24,7 +24,7 @@ TEXT = "text"
 TEMPLATE = "template"
 
 
-class GenerateCaseDocument(MultiFormView):
+class GenerateDocument(MultiFormView):
     contacts: []
     templates: []
     applicant: {}
@@ -43,7 +43,7 @@ class GenerateCaseDocument(MultiFormView):
                     select_addressee_form(),
                     edit_document_text_form(
                         {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": self.template},
-                        post_url="cases:generate_case_document_preview",
+                        post_url="cases:generate_document_preview",
                     ),
                 ]
             )
@@ -53,7 +53,7 @@ class GenerateCaseDocument(MultiFormView):
                     select_template_form(self.templates, self.back_url),
                     edit_document_text_form(
                         {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": self.template},
-                        post_url="cases:generate_case_document_preview",
+                        post_url="cases:generate_document_preview",
                     ),
                 ]
             )
@@ -85,7 +85,28 @@ class GenerateCaseDocument(MultiFormView):
         }
 
 
-class RegenerateExistingCaseDocument(SingleFormView):
+class GenerateDecisionDocument(GenerateDocument):
+    def get_forms(self):
+        self.back_url = reverse_lazy(
+            "cases:finalise_documents", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"]}
+        )
+        return FormGroup(
+            [
+                select_template_form(self.templates, back_url=self.back_url),
+                edit_document_text_form(
+                    {
+                        "queue_pk": self.kwargs["queue_pk"],
+                        "pk": self.kwargs["pk"],
+                        "tpk": self.template,
+                        "decision_key": self.kwargs["decision_key"],
+                    },
+                    post_url="cases:finalise_document_preview",
+                ),
+            ]
+        )
+
+
+class RegenerateExistingDocument(SingleFormView):
     def init(self, request, **kwargs):
         document, _ = get_generated_document(request, str(kwargs["pk"]), str(kwargs["dpk"]))
         template = document["template"]
@@ -93,12 +114,12 @@ class RegenerateExistingCaseDocument(SingleFormView):
         self.object_pk = kwargs["pk"]
         self.form = edit_document_text_form(
             {"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"], "tpk": template},
-            post_url="cases:generate_case_document_preview",
+            post_url="cases:generate_document_preview",
         )
         self.context = {"case": get_case(request, self.object_pk)}
 
 
-class PreviewCaseDocument(TemplateView):
+class PreviewDocument(TemplateView):
     def post(self, request, **kwargs):
         template_id = str(kwargs["tpk"])
         case_id = str(kwargs["pk"])
@@ -113,18 +134,12 @@ class PreviewCaseDocument(TemplateView):
 
         return render(
             request,
-            "generated-documents/case_preview.html",
-            {
-                "preview": preview["preview"],
-                TEXT: text,
-                "addressee": addressee,
-                "case_id": kwargs["pk"],
-                "template_id": kwargs["tpk"],
-            },
+            "generated-documents/preview.html",
+            {"preview": preview["preview"], TEXT: text, "addressee": addressee, "kwargs": kwargs},
         )
 
 
-class CreateCaseDocument(TemplateView):
+class CreateDocument(TemplateView):
     def post(self, request, queue_pk, pk, tpk):
         text = request.POST.get(TEXT)
         status_code = post_generated_document(
@@ -140,22 +155,15 @@ class CreateCaseDocument(TemplateView):
             )
 
 
-class GenerateDecisionDocument(GenerateCaseDocument):
-    def get_forms(self):
-        self.back_url = reverse_lazy(
-            "cases:finalise_case_documents", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.kwargs["pk"],},
+class CreateDocumentFinalAdvice(TemplateView):
+    def post(self, request, queue_pk, pk, decision_key, tpk):
+        text = request.POST.get(TEXT)
+        status_code = post_generated_document(
+            request,
+            str(pk),
+            {"template": str(tpk), TEXT: text, "visible_to_exporter": False, "advice_type": decision_key},
         )
-        return FormGroup(
-            [
-                select_template_form(self.templates, back_url=self.back_url),
-                edit_document_text_form(
-                    {
-                        "queue_pk": self.kwargs["queue_pk"],
-                        "pk": self.kwargs["pk"],
-                        "tpk": self.template,
-                        "decision_key": self.kwargs["decision_key"],
-                    },
-                    post_url="cases:finalise_case_document_preview",
-                ),
-            ]
-        )
+        if status_code != HTTPStatus.CREATED:
+            return generate_document_error_page()
+        else:
+            return redirect(reverse_lazy("cases:finalise_documents", kwargs={"queue_pk": queue_pk, "pk": pk}))

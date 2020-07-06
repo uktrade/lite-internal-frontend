@@ -85,7 +85,9 @@ class CaseView(TemplateView):
         open_ecju_queries, closed_ecju_queries = get_ecju_queries(self.request, self.case_id)
         user_assigned_queues = get_user_case_queues(self.request, self.case_id)[0]
         status_props, _ = get_status_properties(self.request, self.case.data["status"]["key"])
-        can_set_done = not status_props["is_terminal"] and self.case.data["status"]["key"] != CaseStatusEnum.APPLICANT_EDITING
+        can_set_done = (
+            not status_props["is_terminal"] and self.case.data["status"]["key"] != CaseStatusEnum.APPLICANT_EDITING
+        )
         future_next_review_date = (
             True
             if self.case.next_review_date
