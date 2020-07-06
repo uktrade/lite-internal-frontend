@@ -47,7 +47,7 @@ class Cases(TemplateView):
             "final_advice_type": request.GET.get("final_advice_type"),  # ""
             "is_all_cases_queue": queue_pk == ALL_CASES_QUEUE_ID,
             "enforcement_check": Permission.ENFORCEMENT_CHECK.value in get_user_permissions(request),
-            "updated_cases_banner_queue_id": UPDATED_CASES_QUEUE_ID
+            "updated_cases_banner_queue_id": UPDATED_CASES_QUEUE_ID,
         }
         return render(request, "queues/cases.html", context)
 
