@@ -1,0 +1,42 @@
+{% extends 'layouts/popup.html' %}
+
+{% block body %}
+	<p class="app-popup__body">United States</p>
+
+	<h2 class="app-popup__heading">Country code</h2>
+	<p class="app-popup__body">US</p>
+
+	<h2 class="app-popup__heading">17 goods</h2>
+	<ol class="app-popup__list">
+		<li>
+			<a class="app-popup__link" href="{% url 'cases:good' queue.id case.id case.id %}">
+				good 123
+			</a>
+		</li>
+		<li>
+			<a class="app-popup__link" href="#">
+				good 123
+			</a>
+		</li>
+		<li>
+			<a class="app-popup__link" href="#">
+				good 123
+			</a>
+		</li>
+		<li>
+			<a class="app-popup__link" href="#">
+				good 123
+			</a>
+		</li>
+		<li>
+			<a class="app-popup__link" href="#">
+				good 123
+			</a>
+		</li>
+		<li>
+			<a class="app-popup__link" href="#">
+				good 123
+			</a>
+		</li>
+	</ol>
+{% endblock %}
