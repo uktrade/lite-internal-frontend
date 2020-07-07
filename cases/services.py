@@ -110,11 +110,6 @@ def put_goods_query_pv_grading(request, pk, json):
     return response.json(), response.status_code
 
 
-def put_compliance_status(request, pk, json):
-    response = put(request, COMPLIANCE_URL + str(pk) + MANAGE_STATUS_URL, json)
-    return response.json(), response.status_code
-
-
 # Case Notes
 def get_case_notes(request, pk):
     data = get(request, CASE_URL + pk + CASE_NOTES_URL)
