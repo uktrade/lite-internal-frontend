@@ -43,6 +43,7 @@
 						<th scope="col" class="govuk-table__header">ARS</th>
 					{% endif %}
 					<th scope="col" class="govuk-table__header">Flags</th>
+					<th scope="col" class="govuk-table__header"></th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -59,7 +60,6 @@
 						<td class="govuk-table__cell govuk-table__cell--line-number {% if show_advice %}lite-!-no-border{% endif %}">{{ forloop.counter }}.</td>
 						<td class="govuk-table__cell govuk-table__cell--max-width-400 {% if show_advice %}lite-!-no-border{% endif %}">
 							<span data-max-length="200">{{ good.good.description }}</span>
-							<a id="data-good-detail-{{ good.id }}" class="moredetails" href="#">More details</a>
 						</td>
 						{% if case.goods.0.item_type %}
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
@@ -114,19 +114,14 @@
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
 							{% include 'includes/flags.html' with flags=good.flags list=True %}
 						</td>
+						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
+{#							<a href="{% url 'cases:good' queue.id case.id good.good.id %}">View</a>#}
+							<a onclick="return openGoodModal('{{ good.good.id }}')">View</a>
+						</td>
 					</tr>
 					{% if show_advice %}
 						{% include 'includes/advice.html' with id=good.good.id %}
 					{% endif %}
-
-					{% include 'includes/good-details.html' with good=good.good %}
-
-					<script type="text/javascript">
-						$('a[class=moredetails]').click(function () {
-							LITECommon.Modal.showModal("Details here", $("#good-details-{{ good.good.id }}").html(), false, false, {maxWidth: '600px'});
-							return false;
-						});
-					</script>
 				{% endfor %}
 			</tbody>
 
@@ -143,11 +138,12 @@
 					<th scope="col" class="govuk-table__header">Controlled</th>
 					<th scope="col" class="govuk-table__header">Control list entries</th>
 					<th scope="col" class="govuk-table__header">Incorporated</th>
-					<th scope="col" class="govuk-table__header">Countries</th>
+					<th scope="col" class="govuk-table__header">Destinations</th>
 					{% if not hide_status %}
 						<th scope="col" class="govuk-table__header">ARS</th>
 					{% endif %}
 					<th scope="col" class="govuk-table__header">Flags</th>
+					<th scope="col" class="govuk-table__header"></th>
 				</tr>
 			</thead>
 			<tbody class="govuk-table__body">
@@ -171,11 +167,7 @@
 						</td>
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">{{ good.is_good_incorporated|friendly_boolean }}</td>
 						<td class="govuk-table__cell govuk-table__cell--max-width-300 {% if show_advice %}lite-!-no-border{% endif %}">
-							<span data-max-length="200">
-								{% for country in good.countries %}
-									{{ country.name }}{% if not forloop.last %}, {% endif %}
-								{% endfor %}
-							</span>
+							{{ good.countries|length }} countries
 						</td>
 						{% if not hide_status %}
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
@@ -190,6 +182,9 @@
 						{% endif %}
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
 							{% include 'includes/flags.html' with flags=good.flags list=True %}
+						</td>
+						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
+							<a>View</a>
 						</td>
 					</tr>
 					{% if show_advice %}
