@@ -61,7 +61,7 @@ def put_queue(request, pk, json):
 
 
 def get_queue_case_assignments(request, pk):
-    data = get(request, QUEUES_URL + pk + "/case-assignments/")
+    data = get(request, QUEUES_URL + str(pk) + "/case-assignments/")
     return data.json(), data.status_code
 
 
