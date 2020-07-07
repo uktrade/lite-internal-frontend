@@ -1,5 +1,7 @@
 {% include "filters.html" with filters=licences_filters%}
 
+{% load svg %}
+
 {% if data.results %}
 	<table id="table-compliance-licences" class="govuk-table">
 		<thead class="govuk-table__head">
@@ -22,7 +24,17 @@
 						{{ licence.status.value }}
 					</td>
 					<td class="govuk-table__cell govuk-table__cell--tight">
-						{{ licence.has_open_licence_returns }}
+						<ul class="lite-tick-cross-list">
+							{% if licence.has_open_licence_returns %}
+								<span class="lite-tick-cross lite-tick-cross--tick">
+									{% svg 'tick' %}
+								</span>
+							{% else %}
+								<span class="lite-tick-cross lite-tick-cross--cross">
+									{% svg 'cross' %}
+								</span>
+							{% endif %}
+						</ul>
 					</td>
 					<td class="govuk-table__cell govuk-table__cell--tight">
 						{% include 'includes/flags.html' with flags=licence.flags list=True %}
