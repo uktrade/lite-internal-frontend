@@ -24,6 +24,18 @@
 			&:last-of-type {
 				margin-bottom: 0;
 			}
+
+			&::after {
+				content: "";
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				width: govuk-spacing(6);
+				background: inherit;
+				-webkit-mask-image: linear-gradient(to right, transparent 0%, black 80%);
+				mask-image: linear-gradient(to right, transparent 0%, black 80%);
+			}
 		}
 	}
 }
@@ -59,18 +71,6 @@ $flag-border-width: 3px;
 		bottom: $flag-border-width;
 		width: $flag-border-width;
 		background: currentColor;
-	}
-
-	&::after {
-		content: "";
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		width: govuk-spacing(6);
-		background: inherit;
-		-webkit-mask-image: linear-gradient(to right, transparent 0%, black 80%);
-		mask-image: linear-gradient(to right, transparent 0%, black 80%);
 	}
 
 	&--animate {
