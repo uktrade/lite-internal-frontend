@@ -51,14 +51,6 @@ class Cases(TemplateView):
         }
         return render(request, "queues/cases.html", context)
 
-    def post(self, request, **kwargs):
-        """ Assign users depending on what cases were selected. """
-        return redirect(
-            reverse("queues:case_assignments", kwargs={"pk": kwargs["queue_pk"]})
-            + "?cases="
-            + ",".join(request.POST.getlist("cases"))
-        )
-
 
 class QueuesList(TemplateView):
     def get(self, request, **kwargs):
@@ -103,7 +95,7 @@ class CaseAssignments(TemplateView):
         queue = get_queue(request, queue_id)
         case_assignments, _ = get_queue_case_assignments(request, queue_id)
 
-        case_ids = request.GET.get("cases").split(",")
+        case_ids = request.GET.getlist("cases")
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
         # If no cases have been selected, return an error page
@@ -130,7 +122,7 @@ class CaseAssignments(TemplateView):
         user_data, _ = get_gov_user(request, str(request.user.lite_api_user_id))
 
         # Any assignments not selected should be removed (hence clear_existing_assignments)
-        data = {"case_assignments": [], "remove_existing_assignments": True}
+        data = {"case_assignments": [], "remove_existing_assignments": True, "note": request.POST.get("note")}
 
         # Append case and users to case assignments
         for case_id in case_ids:

@@ -20,6 +20,10 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
         questions=[
             Filter(),
             Checkboxes("users", options=get_gov_users(request, params, convert_to_options=True,), filterable=True),
+            DetailComponent(
+                title="Additional note",
+                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]), ],
+            ),
         ],
         caption=queue["name"],
         default_button_name=cases.Manage.AssignUsers.BUTTON,
