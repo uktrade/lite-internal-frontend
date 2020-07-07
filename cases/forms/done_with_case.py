@@ -1,6 +1,6 @@
 from cases.services import get_user_case_queues
 from lite_content.lite_internal_frontend.cases import DoneWithCaseOnQueueForm
-from lite_forms.components import Form, Option, Checkboxes
+from lite_forms.components import Form, Option, Checkboxes, DetailComponent, TextArea
 from lite_forms.helpers import conditional
 
 
@@ -16,7 +16,11 @@ def done_with_case_form(request, case_pk, has_review_date):
                 title=DoneWithCaseOnQueueForm.CHECKBOX_TITLE,
                 description=DoneWithCaseOnQueueForm.CHECKBOX_DESCRIPTION,
                 optional=False,
-            )
+            ),
+            DetailComponent(
+                title="Additional note",
+                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
+            ),
         ],
         default_button_name=DoneWithCaseOnQueueForm.SUBMIT,
         javascript_imports=conditional(has_review_date, {"/javascripts/assign_queue.js"}, None),
