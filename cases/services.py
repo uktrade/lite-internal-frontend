@@ -285,22 +285,6 @@ def put_flag_assignments(request, json):
     return data.json(), data.status_code
 
 
-def _generate_post_data_and_errors(keys, request_data, action):
-    post_data = []
-    errors = {}
-    for key in keys:
-        good_pk = key.split(".")[0]
-        country_pk = key.split(".")[1]
-        if key not in request_data and not action == "save":
-            if good_pk in errors:
-                errors[good_pk].append(country_pk)
-            else:
-                errors[good_pk] = [country_pk]
-        else:
-            post_data.append({"good": good_pk, "country": country_pk, "decision": request_data.get(key)})
-    return post_data, errors
-
-
 # Letter template decisions
 def get_decisions(request):
     data = get(request, DECISIONS_URL)
