@@ -23,20 +23,20 @@
 					<p class="govuk-body govuk-!-font-weight-bold">{{ good.advice.type.value }}</p>
 					<p>{{ good.advice.text }}<br></p>
 					{% if good.advice.proviso %}
-						<p>Proviso notes;</p>
+						<p>{% lcs 'advice.FinaliseLicenceForm.GoodsTable.PROVISO_TEXT' %}</p>
 						{{ good.advice.proviso }}
 					{% endif %}
 				</td>
 				<td class="govuk-table__cell">
-					<span id="quantity-applied-for-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">Applied for: {{ good.applied_for_quantity|intcomma }} {{ good.units.value }}</span>
-					<span id="quantity-usage-licenced-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">Previously licenced: {{ good.licenced_quantity|intcomma }} {{ good.units.value }}</span>
-					<span id="quantity-usage-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">Used: {{ good.usage|intcomma }} {{ good.units.value }}</span>
+					<span id="quantity-applied-for-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.APPLIED_FOR_TEXT' %} {{ good.applied_for_quantity|intcomma }} {{ good.units.value }}</span>
+					<span id="quantity-usage-licenced-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.PREVIOUSLY_LICENCED' %} {{ good.licenced_quantity|intcomma }} {{ good.units.value }}</span>
+					<span id="quantity-usage-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.USAGE' %} {{ good.usage|intcomma }} {{ good.units.value }}</span>
 					<input class="govuk-input" id="quantity-{{ good.good_on_application_id }}" type="text" name="quantity-{{ good.good_on_application_id }}" value="{{ good.licenced_quantity|subtract:good.usage }}" onchange="updateValue('{{ good.good_on_application_id }}', '{{ good.licenced_value_per_item }}')"><br>
 				</td>
 				<td class="govuk-table__cell">
-					<span id="value-applied-for-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">Applied for: £{{ good.applied_for_value|multiply:good.applied_for_quantity|floatformat:2 }}</span>
-					<span id="value-usage-licenced-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">Previously licenced: £{{ good.licenced_value|floatformat:2 }}</span>
-					<span id="value-usage-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">Used: £{{ good.licenced_value_per_item|multiply:good.usage|floatformat:2 }}</span>
+					<span id="value-applied-for-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.APPLIED_FOR_TEXT' %} £{{ good.applied_for_value|multiply:good.applied_for_quantity|floatformat:2 }}</span>
+					<span id="value-usage-licenced-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.PREVIOUSLY_LICENCED' %} £{{ good.licenced_value|floatformat:2 }}</span>
+					<span id="value-usage-{{ good.good_on_application_id }}" class="govuk-hint govuk-!-margin-0">{% lcs 'advice.FinaliseLicenceForm.GoodsTable.USAGE' %} £{{ good.licenced_value_per_item|multiply:good.usage|floatformat:2 }}</span>
 					<div class="lite-currency-input">
 						<div class="lite-currency-input__symbol {% if error %}lite-currency--error{% endif %}" aria-hidden="true">£</div>
 						{% with good.licenced_quantity|subtract:good.usage as quantity %}
