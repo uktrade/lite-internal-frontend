@@ -1,5 +1,17 @@
 <dl class="app-case__summary-list">
-	{% if case.data.name and not case.case_type.reference.key == "comp" %}
+	{% if case.case_type.reference.key == "comp_v" %}
+		<div class="app-case__summary-list__row">
+			<dt class="app-case__summary-list__key">
+				{% lcs 'cases.CasePage.DetailsTab.ADMINISTRATIVE_CENTRE' %}
+			</dt>
+			<dd class="app-case__summary-list__value">
+				<a class="govuk-link govuk-link--no-visited-state" id="site_case" href="{% url 'cases:case' queue.id case.data.site_case_id %}">
+					{{ case.data.site_case_reference_code }}
+				</a>
+			</dd>
+		</div>
+	{% endif %}
+	{% if case.data.name and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.EXPORTER_REFERENCE' %}
@@ -9,7 +21,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.case_type.reference.key == "comp" %}
+	{% if case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.ADDRESS' %}
@@ -50,7 +62,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.data.submitted_at and not case.case_type.reference.key == "comp" %}
+	{% if case.data.submitted_at and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.SUBMITTED_AT' %}
@@ -60,7 +72,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.data.submitted_by and not case.case_type.reference.key == "comp" %}
+	{% if case.data.submitted_by and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.SUBMITTED_BY' %}
@@ -110,7 +122,7 @@
 			</a>
 		</dd>
 	</div>
-	{% if not case.case_type.reference.key == "comp" %}
+	{% if not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.TYPE' %}
@@ -120,7 +132,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.data.updated_at and not case.case_type.reference.key == "comp" %}
+	{% if case.data.updated_at and not case.case_type.reference.key in "comp_c,comp_v" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.LAST_UPDATED' %}
@@ -132,7 +144,7 @@
 	{% endif %}
 	<div class="app-case__summary-list__row">
 		<dt class="app-case__summary-list__key">
-			{% if case.case_type.reference.key == "comp" %}
+			{% if case.case_type.reference.key in "comp_c,comp_v" %}
 				{% lcs 'cases.CasePage.DetailsTab.INSPECTOR' %}
 			{% else %}
 				{% lcs 'cases.CasePage.DetailsTab.CASE_OFFICER' %}
@@ -183,6 +195,27 @@
 			</a>
 		</dd>
 	</div>
+	<div class="app-case__summary-list__row">
+		<dt class="app-case__summary-list__key">
+			{% lcs 'cases.CasePage.DetailsTab.NEXT_REVIEW_DATE' %}
+		</dt>
+		<dd class="app-case__summary-list__value" id="next-review-date">
+			{% if case.next_review_date %}
+				{{ case.next_review_date|str_date_only }}
+			{% else %}
+				<span class="govuk-hint govuk-!-margin-0">
+					{% lcs 'cases.CasePage.DetailsTab.NO_NEXT_REVIEW_DATE' %}
+				</span>
+			{% endif %}
+		</dd>
+		<dd class="app-case__summary-list__actions">
+			{% if not is_terminal %}
+				<a id="link-change-review-date" class="govuk-link govuk-link--no-visited-state" href="{% url 'cases:review_date' queue.id case.id %}">
+					{% lcs 'generic.CHANGE' %}
+				</a>
+			{% endif %}
+		</dd>
+	</div>
 	{% if case.data.case_type.sub_type.key == 'f680_clearance' %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
@@ -217,7 +250,7 @@
 			</dd>
 		</div>
 	{% endif %}
-	{% if case.data.trade_control_activity %}
+	{% if case.data.trade_control_activity and case.case_type.reference.key == "oicl" or  case.case_type.reference.key == "sicl" %}
 		<div class="app-case__summary-list__row">
 			<dt class="app-case__summary-list__key">
 				{% lcs 'cases.CasePage.DetailsTab.TRADE_CONTROL_ACTIVITY' %}

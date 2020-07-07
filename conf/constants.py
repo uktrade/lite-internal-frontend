@@ -64,13 +64,17 @@ PREVIEW_URL = "/preview/"
 GENERATE_PREVIEW_URL = "generate-preview/"
 DESTINATION_URL = CASE_URL + "destinations/"
 CASE_OFFICER_URL = "/case-officer/"
+NEXT_REVIEW_DATE_URL = "/review-date/"
 FINALISE_CASE_URL = "/finalise/"
 ROUTING_RULES_URL = "/routing-rules/"
 ROUTING_RULES_STATUS_URL = "/status/"
 ENFORCEMENT_URL = CASE_URL + "enforcement-check/"
 APPLICANT_URL = "/applicant/"
 COMPLIANCE_URL = "/compliance/"
+COMPLIANCE_SITE_URL = "site/"
+COMPLIANCE_VISIT_URL = "visit/"
 COMPLIANCE_LICENCES_URL = "/licences/"
+COMPLIANCE_PEOPLE_PRESENT_URL = "people-present/"
 OPEN_LICENCE_RETURNS_URL = "/compliance/open-licence-returns/"
 
 # Static URLs
@@ -149,6 +153,9 @@ class Statuses:
     SURRENDERED = "surrendered"
     DEREGISTERED = "deregistered"
     OPEN = "open"
+    UNDER_INTERNAL_REVIEW = "under_internal_review"
+    RETURN_TO_INSPECTOR = "return_to_inspector"
+    AWAITING_EXPORTER_RESPONSE = "awaiting_exporter_response"
 
 
 class UserStatuses:
