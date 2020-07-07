@@ -73,7 +73,7 @@ def put_queue_case_assignments(request, pk, json):
 def put_queue_single_case_assignment(request, pk, json):
     queue = json.get("queue")
     if queue:
-        json = {"case_assignments": [{"case_id": json.get("case_pk"), "users": [json.get("user_pk")]}]}
+        json = {"case_assignments": [{"case_id": json.get("case_pk"), "users": [json.get("user_pk")]}], "note": json.get("note")}
         data = put(request, QUEUES_URL + queue + "/case-assignments/", json)
         return data.json(), data.status_code
     else:

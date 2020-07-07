@@ -4,7 +4,8 @@ from django.urls import reverse
 from conf.constants import UserStatuses
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.strings import cases
-from lite_forms.components import Checkboxes, Filter, Form, RadioButtons, Button, HiddenField, BackLink
+from lite_forms.components import Checkboxes, Filter, Form, RadioButtons, Button, HiddenField, BackLink, \
+    DetailComponent, TextArea
 from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 from teams.services import get_users_team_queues
@@ -77,6 +78,10 @@ def users_team_queues(request, case_pk, user_pk):
             RadioButtons("queue", queues, filterable=True),
             HiddenField("user_pk", user_pk),
             HiddenField("case_pk", case_pk),
+            DetailComponent(
+                title="Additional note",
+                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]), ],
+            ),
         ],
         container="case",
     )
