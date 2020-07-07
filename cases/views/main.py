@@ -196,6 +196,7 @@ class ImDoneView(SingleFormView):
         self.form = done_with_case_form(request, self.object_pk, has_review_date)
         self.action = put_unassign_queues
         self.success_url = reverse_lazy("queues:cases", kwargs={"queue_pk": kwargs["queue_pk"]})
+        self.success_message = f"I'm done with case {case.reference_code}!"
 
 
 class ChangeStatus(SingleFormView):
