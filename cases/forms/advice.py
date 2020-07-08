@@ -158,7 +158,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
 
 def generate_documents_form():
     return Form(
-        GenerateGoodsDecisionForm.TITLE,
+        title=GenerateGoodsDecisionForm.TITLE,
         questions=[
             Custom("components/finalise-generate-documents.html"),
             DetailComponent(

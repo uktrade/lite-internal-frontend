@@ -17,8 +17,7 @@ def done_with_case_form(request, case_pk, has_review_date):
                 description=DoneWithCaseOnQueueForm.CHECKBOX_DESCRIPTION,
             ),
             DetailComponent(
-                title=DoneWithCaseOnQueueForm.NOTE,
-                components=[TextArea(name="note", classes=["govuk-!-margin-0"]),],
+                title=DoneWithCaseOnQueueForm.NOTE, components=[TextArea(name="note", classes=["govuk-!-margin-0"]),],
             ),
         ],
         default_button_name=DoneWithCaseOnQueueForm.SUBMIT,

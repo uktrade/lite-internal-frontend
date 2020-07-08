@@ -11,7 +11,7 @@ from cases.helpers.filters import case_filters_bar
 from conf.constants import ALL_CASES_QUEUE_ID, Permission, UPDATED_CASES_QUEUE_ID
 from core.helpers import convert_parameters_to_query_params
 from core.services import get_user_permissions
-from lite_content.lite_internal_frontend.cases import CasesListPage, UploadEnforcementXML
+from lite_content.lite_internal_frontend.cases import CasesListPage, UploadEnforcementXML, Manage
 from lite_forms.components import TextInput, FiltersBar
 from lite_forms.generators import error_page
 from lite_forms.views import SingleFormView
@@ -105,7 +105,9 @@ class CaseAssignments(SingleFormView):
         self.form = assign_users_form(request, user_data["user"]["team"]["id"], queue, len(case_ids) > 1)
         self.action = put_queue_case_assignments
         self.success_url = reverse("queues:cases", kwargs={"queue_pk": self.object_pk})
-        self.success_message = "Case assigned successfully!"
+        self.success_message = (
+            Manage.AssignUsers.SUCCESS_MULTI_MESSAGE if len(case_ids) > 1 else Manage.AssignUsers.SUCCESS_MESSAGE
+        )
 
 
 class EnforcementXMLExport(TemplateView):

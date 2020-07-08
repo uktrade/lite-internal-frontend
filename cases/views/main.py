@@ -40,6 +40,7 @@ from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
+from lite_content.lite_internal_frontend.cases import DoneWithCaseOnQueueForm
 from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
@@ -197,7 +198,7 @@ class ImDoneView(SingleFormView):
         self.form = done_with_case_form(request, self.object_pk, has_review_date)
         self.action = put_unassign_queues
         self.success_url = reverse_lazy("queues:cases", kwargs={"queue_pk": kwargs["queue_pk"]})
-        self.success_message = f"I'm done with case {case.reference_code}!"
+        self.success_message = DoneWithCaseOnQueueForm.SUCCESS_MESSAGE.format(case.reference_code)
 
 
 class ChangeStatus(SingleFormView):
