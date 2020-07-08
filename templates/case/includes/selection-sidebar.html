@@ -7,7 +7,7 @@
 					{% if good.description %}
 						{{ good.description }}
 					{% else %}
-						<a class="govuk-link govuk-link--no-visited-state" onclick="return openGoodModal('{{ good.good.id }}')">{{ good.good.description }}</a>
+						<a class="govuk-link govuk-link--no-visited-state" onclick="return openGoodModal('{{ good.good.id }}', '{{ good.good.description }}')">{{ good.good.description }}</a>
 					{% endif %}
 				</span>
 			</li>
