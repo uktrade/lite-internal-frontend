@@ -27,7 +27,7 @@ Feature: I want to finalise a case
     Then The decision row status is "done"
     When I click continue
     And I go to application previously created
-    Then The licence information is in the latest audit
+    Then The licence information is in the second audit
     When I go to the documents tab
     Then The generated decision document is visible
     # reissue
@@ -47,7 +47,7 @@ Feature: I want to finalise a case
     Then The decision row status is "done"
     When I click continue
     And I go to application previously created
-    Then The licence information is in the latest audit
+    Then The licence information is in the second audit
     When I go to the documents tab
     Then The generated decision document is visible
 
