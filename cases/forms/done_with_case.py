@@ -15,7 +15,6 @@ def done_with_case_form(request, case_pk, has_review_date):
                 options=[Option(queue["id"], queue["name"]) for queue in queues],
                 title=DoneWithCaseOnQueueForm.CHECKBOX_TITLE,
                 description=DoneWithCaseOnQueueForm.CHECKBOX_DESCRIPTION,
-                optional=False,
             ),
             DetailComponent(
                 title=DoneWithCaseOnQueueForm.NOTE,
@@ -23,5 +22,6 @@ def done_with_case_form(request, case_pk, has_review_date):
             ),
         ],
         default_button_name=DoneWithCaseOnQueueForm.SUBMIT,
+        container="case",
         javascript_imports=conditional(has_review_date, {"/javascripts/assign_queue.js"}, None),
     )

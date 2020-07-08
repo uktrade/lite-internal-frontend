@@ -188,6 +188,8 @@ class ImDoneView(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
+        self.data = {"queues": [str(kwargs["queue_pk"])]}
+        self.context = {"case": case}
         has_review_date = (
             case.next_review_date
             and datetime.datetime.strptime(case.next_review_date, "%Y-%m-%d").date() > timezone.now().date()
