@@ -160,6 +160,15 @@ def edit_letter_template(request, letter_template, case_type_options, decision_o
                 name="layout",
                 options=_letter_layout_options(request),
             ),
+            RadioButtons(
+                title=strings.LetterTemplates.EditLetterTemplate.IncludeSignature.TITLE,
+                description=strings.LetterTemplates.EditLetterTemplate.IncludeSignature.DESCRIPTION,
+                name="include_digital_signature",
+                options=[
+                    Option(key=True, value=strings.LetterTemplates.EditLetterTemplate.IncludeSignature.YES_OPTION),
+                    Option(key=False, value=strings.LetterTemplates.EditLetterTemplate.IncludeSignature.NO_OPTION),
+                ],
+            ),
         ],
         back_link=BackLink(
             "Back to " + letter_template["name"],
