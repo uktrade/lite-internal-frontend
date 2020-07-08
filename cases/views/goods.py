@@ -26,9 +26,6 @@ class ReviewGoods(SingleFormView):
 
 class GoodDetails(TemplateView):
     def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-        good = get_good(request, str(kwargs["good_pk"]))[0]["good"]
-
-        context = {"case": case, "good": good}
-        return render(request, "case/popups/good.html", context)
+        good_id = str(kwargs["good_pk"])
+        good = get_good(request, good_id)[0]["good"]
+        return render(request, "case/popups/good.html", {"good": good})

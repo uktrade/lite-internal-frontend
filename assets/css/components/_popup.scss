@@ -53,6 +53,10 @@ $popup-font-size: 15px;
 	margin-bottom: govuk-spacing(4);
 }
 
+.govuk-hint {
+	font-size: $popup-font-size;
+}
+
 .app-popup__link {
 	color: $govuk-link-colour;
 }
