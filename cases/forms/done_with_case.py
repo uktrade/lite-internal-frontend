@@ -18,7 +18,7 @@ def done_with_case_form(request, case_pk, has_review_date):
             ),
             DetailComponent(
                 title=DoneWithCaseOnQueueForm.NOTE,
-                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
+                components=[TextArea(name="note", classes=["govuk-!-margin-0"]),],
             ),
         ],
         default_button_name=DoneWithCaseOnQueueForm.SUBMIT,

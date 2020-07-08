@@ -31,7 +31,7 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
             Checkboxes("users", options=get_gov_users(request, params, convert_to_options=True,), filterable=True),
             DetailComponent(
                 title=cases.Manage.AssignUsers.NOTE,
-                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
+                components=[TextArea(name="note", classes=["govuk-!-margin-0"]),],
             ),
         ],
         caption=queue["name"],
@@ -93,7 +93,7 @@ def users_team_queues(request, case_pk, user_pk):
             HiddenField("case_pk", case_pk),
             DetailComponent(
                 title=cases.Manage.AssignUserAndQueue.NOTE,
-                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
+                components=[TextArea(name="note", classes=["govuk-!-margin-0"]),],
             ),
         ],
         container="case",

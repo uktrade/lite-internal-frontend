@@ -15,7 +15,7 @@ def move_case_form(request: HttpRequest, queue, case: dict):
             Checkboxes("queues[]", get_queues(request, convert_to_options=True), filterable=True),
             DetailComponent(
                 title=Manage.MoveCase.NOTE,
-                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
+                components=[TextArea(name="note", classes=["govuk-!-margin-0"]),],
             ),
         ],
         back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue["id"], "pk": case["id"]})),
