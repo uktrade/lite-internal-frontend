@@ -49,7 +49,7 @@ def dont_see_user(driver, context):
         users_page.is_user_email_displayed(context.added_email)
     except NoSuchElementException:
         pass
-    driver.set_timeout_to_10_seconds()
+    driver.set_timeout_to(10)
 
 
 @when("I reactivate new user")
