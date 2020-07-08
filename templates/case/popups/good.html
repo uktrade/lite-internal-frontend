@@ -39,6 +39,34 @@
 				{% endif %}
 			</p>
 
+			{% if good.pv_grading_details %}
+				<h2 class="app-popup__heading">{% lcs "goods.GoodsDetailSummary.GRADING" %}</h2>
+				<p class="app-popup__body" data-max-length="200">
+					{% if good.pv_grading_details.prefix %}
+						{{ good.pv_grading_details.prefix }}
+					{% endif %}
+					{% if good.pv_grading_details.grading %}
+						{{ good.pv_grading_details.grading.value }}
+					{% else %}
+						{{ good.pv_grading_details.custom_grading }}
+					{% endif %}
+					{% if good.pv_grading_details.suffix %}
+						{{ good.pv_grading_details.suffix }}
+					{% endif %}
+				</p>
+
+				{% if not good.query.pv_grading_responded %}
+					<h2 class="app-popup__heading">{% lcs "goods.GoodsDetailSummary.ISSUING_AUTHORITY" %}</h2>
+					<p class="app-popup__body" data-max-length="200">{{ good.pv_grading_details.issuing_authority }}</p>
+
+					<h2 class="app-popup__heading">{% lcs "goods.GoodsDetailSummary.REFERENCE" %}</h2>
+					<p class="app-popup__body" data-max-length="200">{{ good.pv_grading_details.reference }}</p>
+
+					<h2 class="app-popup__heading">{% lcs "goods.GoodsDetailSummary.DATE_OF_ISSUE" %}</h2>
+					<p class="app-popup__body" data-max-length="200">{{ good.pv_grading_details.date_of_issue|str_date_only }}</p>
+				{% endif %}
+			{% endif %}
+
 			{% if good.item_category %}
 				{% if good.item_category.key != 'group2_firearms' %}
 					{% if good.item_category.key in 'group3_software,group3_technology' %}
