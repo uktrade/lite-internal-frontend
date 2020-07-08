@@ -31,7 +31,6 @@ from cases.services import (
     post_case_additional_contacts,
     put_rerun_case_routing_rules,
     patch_case,
-    put_application_status,
     put_next_review_date,
 )
 from cases.services import post_case_documents, get_document
@@ -211,16 +210,7 @@ class ChangeStatus(SingleFormView):
         self.data = case.data
         self.form = change_status_form(get_queue(request, kwargs["queue_pk"]), case, permissible_statuses)
         self.context = {"case": case}
-
-    def get_action(self):
-        if (
-            self.case_type == CaseType.APPLICATION.value
-            or self.case_sub_type == CaseType.HMRC.value
-            or self.case_sub_type == CaseType.EXHIBITION.value
-        ):
-            return put_application_status
-        else:
-            return patch_case
+        self.action = patch_case
 
     def get_success_url(self):
         messages.success(self.request, cases.ChangeStatusPage.SUCCESS_MESSAGE)
