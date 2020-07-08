@@ -1,7 +1,4 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
 
 from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.tools.wait import wait_until_page_is_loaded
