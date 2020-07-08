@@ -18,7 +18,7 @@ def done_with_case_form(request, case_pk, has_review_date):
                 optional=False,
             ),
             DetailComponent(
-                title="Additional note",
+                title=DoneWithCaseOnQueueForm.NOTE,
                 components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
             ),
         ],

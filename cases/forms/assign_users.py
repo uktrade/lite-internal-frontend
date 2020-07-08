@@ -4,8 +4,17 @@ from django.urls import reverse
 from conf.constants import UserStatuses
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.strings import cases
-from lite_forms.components import Checkboxes, Filter, Form, RadioButtons, Button, HiddenField, BackLink, \
-    DetailComponent, TextArea
+from lite_forms.components import (
+    Checkboxes,
+    Filter,
+    Form,
+    RadioButtons,
+    Button,
+    HiddenField,
+    BackLink,
+    DetailComponent,
+    TextArea,
+)
 from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 from teams.services import get_users_team_queues
@@ -21,8 +30,8 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
             Filter(),
             Checkboxes("users", options=get_gov_users(request, params, convert_to_options=True,), filterable=True),
             DetailComponent(
-                title="Additional note",
-                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]), ],
+                title=cases.Manage.AssignUsers.NOTE,
+                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
             ),
         ],
         caption=queue["name"],
@@ -83,8 +92,8 @@ def users_team_queues(request, case_pk, user_pk):
             HiddenField("user_pk", user_pk),
             HiddenField("case_pk", case_pk),
             DetailComponent(
-                title="Additional note",
-                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]), ],
+                title=cases.Manage.AssignUserAndQueue.NOTE,
+                components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
             ),
         ],
         container="case",

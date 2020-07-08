@@ -320,6 +320,4 @@ class FinaliseGenerateDocuments(SingleFormView):
         }
         self.action = grant_licence
         self.success_message = "Case finalised"
-        self.success_url = reverse_lazy(
-            "cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk}
-        )
+        self.success_url = reverse_lazy("cases:case", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk})

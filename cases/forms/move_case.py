@@ -14,7 +14,7 @@ def move_case_form(request: HttpRequest, queue, case: dict):
             Filter(),
             Checkboxes("queues[]", get_queues(request, convert_to_options=True), filterable=True),
             DetailComponent(
-                title="Additional note",
+                title=Manage.MoveCase.NOTE,
                 components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
             ),
         ],

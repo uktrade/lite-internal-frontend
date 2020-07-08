@@ -15,7 +15,7 @@ def change_status_form(queue, case, statuses):
                 include_default_select=False,
             ),
             DetailComponent(
-                title="Additional note",
+                title=cases.ChangeStatusPage.NOTE,
                 components=[TextArea(name="note", optional=True, classes=["govuk-!-margin-0"]),],
             ),
         ],
