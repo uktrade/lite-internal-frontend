@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView
 
@@ -13,7 +13,7 @@ from core.helpers import convert_parameters_to_query_params
 from core.services import get_user_permissions
 from lite_content.lite_internal_frontend.cases import CasesListPage, UploadEnforcementXML
 from lite_forms.components import TextInput, FiltersBar
-from lite_forms.generators import error_page, form_page
+from lite_forms.generators import error_page
 from lite_forms.views import SingleFormView
 from queues.forms import new_queue_form, edit_queue_form
 from queues.services import (
