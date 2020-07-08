@@ -27,13 +27,13 @@
 						{% if licence.case_type.sub_type.key == "open" %}
 							<ul class="lite-tick-cross-list">
 								{% if licence.has_open_licence_returns %}
-									<span class="lite-tick-cross lite-tick-cross--tick">
+									<li class="lite-tick-cross lite-tick-cross--tick">
 										{% svg 'tick' %}
-									</span>
+									</li>
 								{% else %}
-									<span class="lite-tick-cross lite-tick-cross--cross">
+									<li class="lite-tick-cross lite-tick-cross--cross">
 										{% svg 'cross' %}
-									</span>
+									</li>
 								{% endif %}
 							</ul>
 						{% else %}
