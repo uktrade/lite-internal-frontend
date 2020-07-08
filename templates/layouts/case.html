@@ -187,7 +187,6 @@
 {% block javascript %}
 	<script type="text/javascript">
 		$(".app-case-header__candy__popup").show();
-
 		tippy(".app-case-header__candy", {
 			content(reference) {
 				return document.getElementById($("#" + reference.getAttribute("id")).next().attr("id"));
@@ -237,4 +236,7 @@
 	</script>
 	<script src="{% static 'javascripts/select-buttons.js' %}"></script>
 	<script src="{% static 'javascripts/modal.js' %}"></script>
+	{% if has_future_next_review_date %}
+		<script src="{% static  '/javascripts/assign_queue.js' %}"></script>
+	{% endif %}
 {% endblock %}
