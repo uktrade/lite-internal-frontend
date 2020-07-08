@@ -115,7 +115,6 @@
 							{% include 'includes/flags.html' with flags=good.flags list=True %}
 						</td>
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
-{#							<a href="{% url 'cases:good' queue.id case.id good.good.id %}">View</a>#}
 							<a onclick="return openGoodModal('{{ good.good.id }}')">View</a>
 						</td>
 					</tr>

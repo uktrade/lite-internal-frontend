@@ -34,7 +34,7 @@ from cases.services import (
     put_rerun_case_routing_rules,
     patch_case,
     put_application_status,
-    put_next_review_date, get_good,
+    put_next_review_date,
 )
 from cases.services import post_case_documents, get_document
 from compliance.services import get_compliance_licences
@@ -447,30 +447,6 @@ class RerunRoutingRules(SingleFormView):
             return redirect(self.success_url)
 
         return super(RerunRoutingRules, self).post(request, **kwargs)
-
-
-class Good(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-        good = get_good(request, str(kwargs["good_pk"]))[0]["good"]
-
-        context = {
-            "case": case,
-            "good": good
-        }
-        return render(request, "case/popups/good.html", context)
-
-
-class Destination(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-
-        context = {
-            "case": case,
-        }
-        return render(request, "case/popups/destination.html", context)
 
 
 class NextReviewDate(SingleFormView):
