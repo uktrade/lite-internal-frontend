@@ -55,16 +55,16 @@ def i_see_good_details_view_link(driver, context):  # noqa
     goods = CasePage(driver).get_goods()
     for good in goods:
         LINK_ID = "view-good-details"
-        selector = "td[id='" + LINK_ID + "']"
-        print(selector)
-        view_link_table_cell = good.find_element_by_css_selector(selector)
+        # selector = "td[id='" + LINK_ID + "']"
+        # print(selector)
+        view_link_table_cell = good.find_elements_by_css_selector("td a")
         # view_link_table_cell = good.find_elements_by_tag_name("a")
         print(view_link_table_cell)
         print(view_link_table_cell.text)
-        # if view_link_table_cell:
-        #     for element in view_link_table_cell:
-        #         print(element.text)
-        #         assert "View" in element
+
+        if view_link_table_cell:
+            for element in view_link_table_cell:
+                print(element.text)
 
 
 @then("I see an inactive party on page")
