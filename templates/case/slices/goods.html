@@ -114,7 +114,7 @@
 						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
 							{% include 'includes/flags.html' with flags=good.flags list=True %}
 						</td>
-						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
+						<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}" id="view-good-details">
 							<a class="govuk-link govuk-link--no-visited-state" onclick="return openGoodModal('{{ good.good.id }}', '{{ good.good.description }}')">View</a>
 						</td>
 					</tr>

@@ -4,7 +4,7 @@ Feature: I want to view the case details of a case
   I want to view the details on a case
   So that I can make review the case before making any decisions
 
-  @LT_1042_can_see_all_parties @regression
+  @LT_1042_can_see_all_parties @regression @nickmademedoit
   Scenario: Gov user can see all parties on the case
     Given I sign in to SSO or am signed into SSO
     And I create standard application or standard application has been previously created
@@ -15,6 +15,7 @@ Feature: I want to view the case details of a case
     And I should see my case SLA
     When I go to application previously created
     Then I see the application destinations
+    And I should see the view link displayed against a good
     Given the exporter has deleted the third party
     When I go to application previously created
     Then I see an inactive party on page
