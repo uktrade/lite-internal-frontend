@@ -4,7 +4,7 @@ Feature: I want to view the case details of a case
   I want to view the details on a case
   So that I can make review the case before making any decisions
 
-  @LT_1042_can_see_all_parties @regression @nickmademedoit
+  @LT_1042_can_see_all_parties @regression
   Scenario: Gov user can see all parties on the case
     Given I sign in to SSO or am signed into SSO
     And I create standard application or standard application has been previously created
