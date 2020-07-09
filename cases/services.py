@@ -183,9 +183,9 @@ def get_final_decision_documents(request, case_pk):
     return data.json(), data.status_code
 
 
-def grant_licence(request, case_pk, _):
-    data = put(request, CASE_URL + str(case_pk) + FINALISE_CASE_URL, {})
-    return data.json(), data.status_code
+def grant_licence(request, case_pk, json):
+    response = put(request, CASE_URL + str(case_pk) + FINALISE_CASE_URL, json)
+    return response.json(), response.status_code
 
 
 def get_licence(request, case_pk):
