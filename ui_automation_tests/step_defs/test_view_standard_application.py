@@ -57,13 +57,12 @@ def i_see_good_details_view_link(driver, context):  # noqa
         LINK_ID = "view-good-details"
         # selector = "td[id='" + LINK_ID + "']"
         # print(selector)
-        view_link_table_cell = good.find_elements_by_css_selector("td#view-good-details a")
+        view_link_table_cell = good.find_element_by_css_selector("td#view-good-details")
         # view_link_table_cell = good.find_elements_by_tag_name("a")
         print(view_link_table_cell)
 
         if view_link_table_cell:
-            for element in view_link_table_cell:
-                print(element.text)
+            print(view_link_table_cell.text)
 
 
 @then("I see an inactive party on page")
