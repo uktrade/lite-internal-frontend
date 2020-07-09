@@ -54,8 +54,11 @@ def i_see_destinations(driver, context):
 def i_see_good_details_view_link(driver, context):  # noqa
     goods = CasePage(driver).get_goods()
     for good in goods:
-        view_link_table_cell = good.find_element_by_css_selector("#view-good-details")
-        assert "View" in view_link_table_cell[0].text
+        print(good)
+        view_link_table_cell = good.find_elements_by_id("view-good-details")
+        print(view_link_table_cell)
+        if view_link_table_cell:
+            assert "View" in view_link_table_cell[0].text
 
 
 @then("I see an inactive party on page")
