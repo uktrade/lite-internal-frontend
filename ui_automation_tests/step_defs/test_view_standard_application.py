@@ -54,9 +54,8 @@ def i_see_destinations(driver, context):
 def i_see_good_details_view_link(driver, context):  # noqa
     goods = CasePage(driver).get_goods()
     for good in goods:
-        view_link_table_cell = good.find_element_by_css_selector("td#view-good-details a")
+        view_link_table_cell = good.find_element_by_css_selector("td#view-good-details")
         if view_link_table_cell:
-            print("view_link_table_cell.text")
             assert "View" in view_link_table_cell.text
 
 
