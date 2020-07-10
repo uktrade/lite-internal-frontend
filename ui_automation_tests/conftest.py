@@ -1,3 +1,4 @@
+import logging
 import os
 from django.conf import settings
 from pytest_bdd import given, when, then, parsers
@@ -102,7 +103,7 @@ def pytest_exception_interact(node, report):
             node._nodeid.replace(".py::", "").replace("ui_automation_tests/step_defs/", "").replace("step_defs", "")
         )
         name = "{0}_{1}".format(class_name, "").replace("/", "").replace("test", "_test")
-        print(name)
+        logging.info(f"Test that has failed is file: {name}")
         try:
             utils.save_screenshot(node.funcargs.get("driver"), name)
         except Exception:  # noqa
