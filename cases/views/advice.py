@@ -182,30 +182,14 @@ def create_mapping(goods):
 class FinaliseGoodsCountries(SingleFormView):
     def init(self, request, **kwargs):
         self.object_pk = kwargs["pk"]
-        case = get_case(request, self.object_pk)
         self.context = {
-            "case": case,
+            "case": get_case(request, self.object_pk),
+            "goods_type_country_decisions": get_good_countries_decisions(request, self.object_pk),
+            "decisions": ["approve", "refuse"]
         }
-        self.form = finalise_goods_countries_form(**kwargs)
+        self.form = finalise_goods_countries_form(kwargs["pk"], kwargs["queue_pk"])
         self.action = post_good_countries_decisions
         self.success_url = reverse_lazy("cases:finalise", kwargs={"queue_pk": kwargs["queue_pk"], "pk": self.object_pk})
-
-    def clean_data(self, data):
-        selection = {"good_countries": []}
-        data.pop("csrfmiddlewaretoken")
-        data.pop("_action")
-
-        for key, value in data.items():
-            selection["good_countries"].append(
-                {
-                    "case": str(self.kwargs["pk"]),
-                    "good": key.split(".")[0],
-                    "country": key.split(".")[1],
-                    "decision": value,
-                }
-            )
-
-        return selection
 
 
 class Finalise(TemplateView):
