@@ -505,8 +505,10 @@ def i_apply_filters(driver, context):  # noqa
 
 @then("I dont see previously created application")  # noqa
 def dont_see_queue_in_queue_list(driver, context):  # noqa
-    driver.implicitly_wait(0)
-    if len(driver.find_elements_by_css_selector(".lite-information-text__text")) != 1:
-        assert context.app_id not in driver.find_element_by_css_selector(".govuk-table").text
-        assert context.case_id not in driver.find_element_by_css_selector(".govuk-table").text
-    driver.implicitly_wait(10)
+    case_page = CaseListPage(driver)
+    functions.try_open_filters(driver)
+    case_page.click_checkbox_to_show_team_ecju_query_and_hidden_cases()
+    case_page.filter_by_case_reference(context.reference_code)
+    functions.click_apply_filters(driver)
+    assert context.app_id not in driver.find_element_by_css_selector(".govuk-table").text
+    assert context.case_id not in driver.find_element_by_css_selector(".govuk-table").text
