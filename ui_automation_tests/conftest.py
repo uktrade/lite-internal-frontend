@@ -103,11 +103,11 @@ def pytest_exception_interact(node, report):
             node._nodeid.replace(".py::", "").replace("ui_automation_tests/step_defs/", "").replace("step_defs", "")
         )
         name = "{0}_{1}".format(class_name, "").replace("/", "").replace("test", "_test")
-        logging.info(f"Test that has failed is file: {name}")
+        logging.info("Test that has failed is file: %s", name)
         try:
             utils.save_screenshot(node.funcargs.get("driver"), name)
         except Exception as e:  # noqa
-            logging.error(f"Screenshot failed to be taken {e}")
+            logging.error("Screenshot failed to be taken %e", e)
 
 
 @when("I go to the internal homepage")  # noqa
@@ -515,6 +515,6 @@ def dont_see_queue_in_queue_list(driver, context):  # noqa
     assert context.reference_code not in driver.find_element_by_id("main-content").text
 
 
-@when("I click clear filters")
-def i_click_clear_filters(driver, context):
+@when("I click clear filters")  # noqa
+def i_click_clear_filters(driver, context):  # noqa
     CaseListPage(driver).click_clear_filters_button()
