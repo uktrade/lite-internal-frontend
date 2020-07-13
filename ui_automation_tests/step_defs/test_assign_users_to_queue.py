@@ -1,3 +1,5 @@
+import logging
+
 from pytest_bdd import when, then, parsers, scenarios, given
 
 from pages.case_list_page import CaseListPage
@@ -20,6 +22,7 @@ def click_checkbox_for_application(driver, internal_url, context):
 @when("I select user to assign SSO users name")
 def assign_user_to_case(driver, internal_info, context):
     driver.find_element_by_id(internal_info["name"].replace(" ", "-")).click()
+    logging.info("name is " + internal_info["name"])
     context.user_name = internal_info["name"]
     Shared(driver).click_submit()
 
