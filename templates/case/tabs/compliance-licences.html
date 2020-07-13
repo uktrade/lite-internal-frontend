@@ -26,11 +26,11 @@
 					<td class="govuk-table__cell govuk-table__cell--tight">
 						{% if licence.case_type.sub_type.key == "open" %}
 							{% if licence.has_open_licence_returns %}
-								<span class="lite-tick-cross lite-tick-cross--tick" aria-label="Completed annual return">
+								<span class="lite-tick-cross lite-tick-cross--tick" role="img" aria-label="Completed annual return">
 									{% svg 'tick' %}
 								</span>
 							{% else %}
-								<span class="lite-tick-cross lite-tick-cross--cross" aria-label="Outstanding annual return">
+								<span class="lite-tick-cross lite-tick-cross--cross" role="img" aria-label="Outstanding annual return">
 									{% svg 'cross' %}
 								</span>
 							{% endif %}
