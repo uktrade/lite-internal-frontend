@@ -33,7 +33,7 @@ from cases.services import (
     get_licence,
     get_finalise_application_goods,
     post_good_countries_decisions,
-)
+    get_open_licence_decision)
 from core.builtins.custom_tags import filter_advice_by_level
 from core.services import get_denial_reasons
 from lite_content.lite_internal_frontend.advice import FinaliseLicenceForm
@@ -220,15 +220,15 @@ class Finalise(TemplateView):
             ]
 
         if case_type == CaseType.OPEN.value and not is_case_oiel_final_advice_only:
-            data = get_good_countries_decisions(request, str(kwargs["pk"]))["data"]
-            items = [item["decision"]["key"] for item in data]
+            approve = get_open_licence_decision(request, str(kwargs["pk"])) == "approve"
         else:
             advice = filter_advice_by_level(case["advice"], "final")
             items = [item["type"]["key"] for item in advice]
+            approve = "approve" in items or "proviso" in items
 
         case_id = case["id"]
 
-        if "approve" in items or "proviso" in items:
+        if approve:
             licence_data, _ = get_licence(request, str(kwargs["pk"]))
             licence = licence_data.get("licence")
             # If there are licenced goods, we want to use the reissue goods flow.
