@@ -46,14 +46,6 @@ def i_filter_case_officer_by_not_assigned(driver):
     functions.click_apply_filters(driver)
 
 
-@when("I filter assigned user by SSO users name")
-def i_filter_case_officer_by_not_assigned(driver, context, internal_info):
-    case = CaseListPage(driver)
-    functions.try_open_filters(driver)
-    case.enter_assigned_user_filter_text(internal_info["name"])
-    functions.click_apply_filters(driver)
-
-
 @then("only SSO users name is displayed in user list for assign cases")
 def user_is_on_case_list(driver, internal_info):
     elements = CaseListPage(driver).get_text_checkbox_elements()

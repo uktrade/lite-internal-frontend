@@ -513,3 +513,8 @@ def dont_see_queue_in_queue_list(driver, context):  # noqa
     case_page.filter_by_case_reference(context.reference_code)
     functions.click_apply_filters(driver)
     assert context.reference_code not in driver.find_element_by_id("main-content").text
+
+
+@when("I click clear filters")
+def i_click_clear_filters(driver, context):
+    CaseListPage(driver).click_clear_filters_button()

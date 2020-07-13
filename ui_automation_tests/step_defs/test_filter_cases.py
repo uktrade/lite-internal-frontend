@@ -18,11 +18,6 @@ def num_cases_appear(driver, context, number):
     assert int(number) == Shared(driver).get_number_of_rows_in_lite_table(), "incorrect number of cases are shown"
 
 
-@when("I click clear filters")
-def i_click_clear_filters(driver, context):
-    CaseListPage(driver).click_clear_filters_button()
-
-
 @when("I hide filters")
 def i_hide_filters(driver, context):
     CaseListPage(driver).click_hide_filters_link()
