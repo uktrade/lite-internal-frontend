@@ -37,15 +37,9 @@ def user_is_on_case_list(driver, context):
 
 @when("I filter assigned user by Not Assigned")
 def i_filter_case_officer_by_not_assigned(driver):
+    case = CaseListPage(driver)
     functions.try_open_filters(driver)
-    CaseListPage(driver).enter_assigned_user_filter_text("Not assigned")
-    functions.click_apply_filters(driver)
-
-
-@when("I filter assigned user by SSO users name")
-def i_filter_case_officer_by_not_assigned(driver, context):
-    functions.try_open_filters(driver)
-    CaseListPage(driver).enter_assigned_user_filter_text(context.user_name)
+    case.enter_assigned_user_filter_text("Not assigned")
     functions.click_apply_filters(driver)
 
 
@@ -136,6 +130,12 @@ def i_click_assign_user_button(driver):
 @given("I am assigned to this case on my new queue")
 def assign_users_to_queue(context, api_test_client):
     api_test_client.queues.case_assignment(context.queue_id, context.case_id, [context.gov_user_id])
+
+
+@when("I unassign myself from all queues")
+def unassign_from_all_queues(driver, context):
+    UnassignQueuePage(driver).check_all_checkbxes()
+    functions.click_submit(driver)
 
 
 @when("I unassign myself from my newly created work queue")
