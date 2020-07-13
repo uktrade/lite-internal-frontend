@@ -8,7 +8,7 @@ app_name = "cases"
 urlpatterns = [
     path("", main.CaseDetail.as_view(), name="case", kwargs={"disable_queue_lookup": True, "tab": "details"}),
     path("case-notes/", main.CaseNotes.as_view(), name="case_notes"),
-    path("done/", main.CaseImDoneView.as_view(), name="done"),
+    path("im-done/", main.ImDoneView.as_view(), name="done"),
     path("change-status/", main.ChangeStatus.as_view(), name="manage"),
     path("move/", main.MoveCase.as_view(), name="move"),
     path("additional-contacts/add/", main.AddAnAdditionalContact.as_view(), name="add_additional_contact"),
@@ -64,6 +64,7 @@ urlpatterns = [
     path("assign-user/", main.UserWorkQueue.as_view(), name="assign_user"),
     path("assign-user-queue/<uuid:user_pk>/", main.UserTeamQueue.as_view(), name="assign_user_queue"),
     path("rerun-routing-rules/", main.RerunRoutingRules.as_view(), name="rerun_routing_rules",),
+    path("good/<uuid:good_pk>/", goods.GoodDetails.as_view(), name="good"),
     # Compliance
     path("create-visit-report/", compliance.CreateVisitReport.as_view(), name="create_visit_report"),
     path("visit-report/", compliance.VisitReportDetails.as_view(), name="visit_report"),
