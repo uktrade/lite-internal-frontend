@@ -185,9 +185,7 @@ def finalise_goods_countries_form(case_pk, queue_pk):
         title=GoodsDecisionMatrixPage.TITLE,
         questions=[Custom("components/finalise-goods-countries-table.html")],
         back_link=BackLink(
-            url=reverse(
-                "cases:case", kwargs={"queue_pk": queue_pk, "pk": case_pk, "tab": "final-advice"}
-            )
+            url=reverse("cases:case", kwargs={"queue_pk": queue_pk, "pk": case_pk, "tab": "final-advice"})
         ),
         container="case",
     )

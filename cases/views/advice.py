@@ -33,7 +33,8 @@ from cases.services import (
     get_licence,
     get_finalise_application_goods,
     post_good_countries_decisions,
-    get_open_licence_decision)
+    get_open_licence_decision,
+)
 from core.builtins.custom_tags import filter_advice_by_level
 from core.services import get_denial_reasons
 from lite_content.lite_internal_frontend.advice import FinaliseLicenceForm, GenerateGoodsDecisionForm
@@ -185,7 +186,7 @@ class FinaliseGoodsCountries(SingleFormView):
         self.context = {
             "case": get_case(request, self.object_pk),
             "goods_type_country_decisions": get_good_countries_decisions(request, self.object_pk),
-            "decisions": ["approve", "refuse"]
+            "decisions": ["approve", "refuse"],
         }
         self.form = finalise_goods_countries_form(kwargs["pk"], kwargs["queue_pk"])
         self.action = post_good_countries_decisions
