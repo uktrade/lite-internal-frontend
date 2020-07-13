@@ -47,10 +47,10 @@ def i_filter_case_officer_by_not_assigned(driver):
 
 
 @when("I filter assigned user by SSO users name")
-def i_filter_case_officer_by_not_assigned(driver, context):
+def i_filter_case_officer_by_not_assigned(driver, context, internal_info):
     case = CaseListPage(driver)
     functions.try_open_filters(driver)
-    case.enter_assigned_user_filter_text(context.user_name)
+    case.enter_assigned_user_filter_text(internal_info["name"])
     functions.click_apply_filters(driver)
 
 
