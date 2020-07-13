@@ -189,6 +189,9 @@ def add_report_summary_picklist(add_a_report_summary_picklist):  # noqa
 def see_queue_in_queue_list(driver, context):  # noqa
     case_page = CaseListPage(driver)
     functions.try_open_filters(driver)
+    case_page.click_clear_filters_button()
+    case_page = CaseListPage(driver)
+    functions.try_open_filters(driver)
     case_page.filter_by_case_reference(context.reference_code)
     functions.click_apply_filters(driver)
     assert driver.find_element_by_id(context.case_id).is_displayed()
@@ -503,11 +506,21 @@ def i_apply_filters(driver, context):  # noqa
     functions.click_apply_filters(driver)
 
 
+@then("I dont see previously created application on my work queue")  # noqa
+def dont_see_queue_in_queue_list_work_queue(driver, context):  # noqa
+    case_page = CaseListPage(driver)
+    functions.try_open_filters(driver)
+    case_page.click_checkbox_to_show_team_ecju_query_and_hidden_cases()
+    case_page.filter_by_case_reference(context.reference_code)
+    functions.click_apply_filters(driver)
+    assert context.app_id not in driver.find_element_by_css_selector(".govuk-table").text
+    assert context.case_id not in driver.find_element_by_css_selector(".govuk-table").text
+
+
 @then("I dont see previously created application")  # noqa
 def dont_see_queue_in_queue_list(driver, context):  # noqa
     case_page = CaseListPage(driver)
     functions.try_open_filters(driver)
-    case_page.click_checkbox_to_show_team_ecju_query_and_hidden_cases()
     case_page.filter_by_case_reference(context.reference_code)
     functions.click_apply_filters(driver)
     assert context.app_id not in driver.find_element_by_css_selector(".govuk-table").text
