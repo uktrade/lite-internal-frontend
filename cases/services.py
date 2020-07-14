@@ -14,6 +14,7 @@ from conf.constants import (
     GOODS_TYPE_URL,
     USER_ADVICE_URL,
     TEAM_ADVICE_URL,
+    LICENCES_URL,
     FINAL_ADVICE_URL,
     VIEW_TEAM_ADVICE_URL,
     GOOD_CLC_REVIEW_URL,
@@ -110,11 +111,6 @@ def put_goods_query_pv_grading(request, pk, json):
     return response.json(), response.status_code
 
 
-def put_compliance_status(request, pk, json):
-    response = put(request, COMPLIANCE_URL + str(pk) + MANAGE_STATUS_URL, json)
-    return response.json(), response.status_code
-
-
 # Case Notes
 def get_case_notes(request, pk):
     data = get(request, CASE_URL + pk + CASE_NOTES_URL)
@@ -188,13 +184,13 @@ def get_final_decision_documents(request, case_pk):
     return data.json(), data.status_code
 
 
-def grant_licence(request, case_pk, _):
-    data = put(request, CASE_URL + str(case_pk) + FINALISE_CASE_URL, {})
-    return data.json(), data.status_code
+def grant_licence(request, case_pk, json):
+    response = put(request, CASE_URL + str(case_pk) + FINALISE_CASE_URL, json)
+    return response.json(), response.status_code
 
 
 def get_licence(request, case_pk):
-    data = get(request, CASE_URL + case_pk + FINALISE_CASE_URL)
+    data = get(request, CASE_URL + case_pk + LICENCES_URL)
     return data.json(), data.status_code
 
 
@@ -288,22 +284,6 @@ def get_flags_for_team_of_level(request, level, team_id, include_system_flags=Fa
 def put_flag_assignments(request, json):
     data = put(request, ASSIGN_FLAGS_URL, json)
     return data.json(), data.status_code
-
-
-def _generate_post_data_and_errors(keys, request_data, action):
-    post_data = []
-    errors = {}
-    for key in keys:
-        good_pk = key.split(".")[0]
-        country_pk = key.split(".")[1]
-        if key not in request_data and not action == "save":
-            if good_pk in errors:
-                errors[good_pk].append(country_pk)
-            else:
-                errors[good_pk] = [country_pk]
-        else:
-            post_data.append({"good": good_pk, "country": country_pk, "decision": request_data.get(key)})
-    return post_data, errors
 
 
 # Letter template decisions
