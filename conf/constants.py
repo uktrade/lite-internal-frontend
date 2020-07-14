@@ -36,6 +36,7 @@ CASE_DENIAL_REASONS_URL = "/denial-reasons/"
 SITES_URL = "/sites/"
 USERS_URL = "/users/"
 TEAMS_URL = "/teams/"
+LICENCES_URL = "/licences/"
 QUEUES_URL = "/queues/"
 AUTHENTICATION_URL = "/gov-users/authenticate/"
 GOV_USERS_URL = "/gov-users/"
@@ -151,7 +152,6 @@ class Statuses:
     UNDER_ECJU_REVIEW = "under_ecju_review"
     REVOKED = "revoked"
     SUSPENDED = "suspended"
-    SURRENDERED = "surrendered"
     DEREGISTERED = "deregistered"
     OPEN = "open"
     UNDER_INTERNAL_REVIEW = "under_internal_review"
@@ -162,9 +162,6 @@ class Statuses:
 class UserStatuses:
     ACTIVE = "Active"
     DEACTIVATED = "Deactivated"
-
-
-BASE_QUERY_STATUSES = [Statuses.SUBMITTED, Statuses.CLOSED, Statuses.WITHDRAWN]
 
 
 class SystemTeamsID(Enum):

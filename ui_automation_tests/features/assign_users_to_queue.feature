@@ -21,12 +21,10 @@ Feature: I want to assign one or more specific users to a case in a work queue
     When I click select all cases checkbox
     And I select the checkbox for previously created case to be assigned
     And I select user to assign SSO users name
-    And I click on the added queue in dropdown
     Then user is assignee on case list
     When I filter assigned user by Not Assigned
-    Then user is not an assignee on case list
-    When I filter assigned user by SSO users name
-    Then user is assignee on case list
+    Then my case is not in the queue
+    When I click clear filters
     When I select the checkbox for previously created case to be assigned
     And I select user to assign SSO users name
     And I click on the added queue in dropdown
@@ -73,7 +71,7 @@ Feature: I want to assign one or more specific users to a case in a work queue
     When I click I'm done
     And I unassign myself from my newly created work queue
     And I go to my work queue
-    Then My case is not in the queue
+    Then my case is not in the queue
 
   @LT_1264_unassign_user_from_case_on_work_queue @regression
    Scenario: Unassign user from a case when visiting from a work queue
@@ -85,7 +83,9 @@ Feature: I want to assign one or more specific users to a case in a work queue
     And I click on my case
     Then I see a user is assigned
     When I click I'm done
-    Then My case is not in the queue
+    And I unassign myself from all queues
+    And I go to my work queue
+    Then my case is not in the queue
 
   @LT_1264_mark_done_when_not_assigned_from_work_queue @regression
    Scenario: Done on case without being assigned when accessing from a work queue
@@ -97,4 +97,6 @@ Feature: I want to assign one or more specific users to a case in a work queue
     And I go to my work queue
     And I click on my case
     And I click I'm done
-    Then My case is not in the queue
+    And I unassign myself from all queues
+    And I go to my work queue
+    Then my case is not in the queue

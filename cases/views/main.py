@@ -1,9 +1,8 @@
 import datetime
-from http import HTTPStatus
 
 from django.contrib import messages
 from django.http import StreamingHttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -25,7 +24,6 @@ from cases.helpers.case import CaseView, Tabs, Slices
 from cases.services import (
     get_case,
     post_case_notes,
-    get_activity,
     put_case_queues,
     put_case_officer,
     delete_case_officer,
@@ -40,8 +38,9 @@ from cases.services import post_case_documents, get_document
 from compliance.services import get_compliance_licences
 from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
-from core.services import get_user_permissions, get_permissible_statuses
+from core.services import get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
+from lite_content.lite_internal_frontend.cases import DoneWithCaseOnQueueForm
 from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
@@ -186,58 +185,20 @@ class CaseNotes(TemplateView):
         )
 
 
-class CaseImDoneView(TemplateView):
-    case_pk = None
-    queue_pk = None
-    is_system_queue = None
-
-    def dispatch(self, request, *args, **kwargs):
-        self.case_pk = kwargs["pk"]
-        self.queue_pk = kwargs["queue_pk"]
-        queue = get_queue(request, self.queue_pk)
-        self.is_system_queue = queue["is_system_queue"]
-
-        return super().dispatch(request, *args, **kwargs)
-
-    def get(self, request, **kwargs):
-        if self.is_system_queue:
-            case = get_case(request, self.case_pk)
-            has_review_date = (
-                True
-                if case.next_review_date
-                and datetime.datetime.strptime(case.next_review_date, "%Y-%m-%d").date() > timezone.now().date()
-                else False
-            )
-            return form_page(request, done_with_case_form(request, self.case_pk, has_review_date))
-        else:
-            data, status_code = put_unassign_queues(request, self.case_pk, {"queues": [str(self.queue_pk)]})
-            if status_code != HTTPStatus.OK:
-                return error_page(request, description=data["errors"]["queues"][0],)
-            return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
-
-    def post(self, request, **kwargs):
-        data, status_code = put_unassign_queues(request, self.case_pk, {"queues": request.POST.getlist("queues[]")})
-
-        if status_code != HTTPStatus.OK:
-            return error_page(request, description=data["errors"]["queues"][0],)
-
-        return redirect(reverse_lazy("queues:cases", kwargs={"queue_pk": self.queue_pk}))
-
-
-class ViewAdvice(TemplateView):
-    def get(self, request, **kwargs):
-        case_id = str(kwargs["pk"])
-        case = get_case(request, case_id)
-        activity, _ = get_activity(request, case_id)
-        permissions = get_user_permissions(request)
-
-        context = {
-            "data": case,
-            "activity": activity.get("activity"),
-            "permissions": permissions,
-            "edit_case_flags": cases.Case.EDIT_CASE_FLAGS,
-        }
-        return render(request, "case/advice/user.html", context)
+class ImDoneView(SingleFormView):
+    def init(self, request, **kwargs):
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        self.data = {"queues": [str(kwargs["queue_pk"])]}
+        self.context = {"case": case}
+        has_review_date = (
+            case.next_review_date
+            and datetime.datetime.strptime(case.next_review_date, "%Y-%m-%d").date() > timezone.now().date()
+        )
+        self.form = done_with_case_form(request, self.object_pk, has_review_date)
+        self.action = put_unassign_queues
+        self.success_url = reverse_lazy("queues:cases", kwargs={"queue_pk": kwargs["queue_pk"]})
+        self.success_message = DoneWithCaseOnQueueForm.SUCCESS_MESSAGE.format(case.reference_code)
 
 
 class ChangeStatus(SingleFormView):
