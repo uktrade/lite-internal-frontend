@@ -559,7 +559,9 @@ def approve_open_application_objects(context, api_test_client, decision):  # noq
 
 @when("I approve the good country combination")
 def approve_good_country_combination(driver, context):
-    GoodCountryMatrixPage(driver).select_good_country_option("approve", context.goods_type["id"], context.country["code"])
+    GoodCountryMatrixPage(driver).select_good_country_option(
+        "approve", context.goods_type["id"], context.country["code"]
+    )
     functions.click_submit(driver)
 
 
