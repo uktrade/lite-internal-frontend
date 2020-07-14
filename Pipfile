@@ -47,6 +47,7 @@ django-htmlmin = "*"
 directory-client-core = "~=6.1"
 sigauth = "~=4.2"
 dateparser = "*"
+beautifulsoup4 = "~=4.8.2"
 
 [requires]
 python_version = "3.7"

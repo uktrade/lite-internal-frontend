@@ -11,5 +11,4 @@ urlpatterns = [
     path("", queues.views.Cases.as_view(), name="index", kwargs={"disable_queue_lookup": True}),
     path("menu/", core.views.menu, name="menu"),
     path("api/cases/<uuid:pk>/", core.api.Cases.as_view(), name="cases"),
-    path("spire-search", core.views.SpireLicenseSearch.as_view(), name="spire-search"),
 ]
