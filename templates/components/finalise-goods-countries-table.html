@@ -1,5 +1,4 @@
 <table class="govuk-table">
-	{{ goods_type_country_decisions.approved }}
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
 			<th class="govuk-table__header" scope="col">{% lcs 'advice.GoodsDecisionMatrixPage.Table.GOODS' %}</th>
@@ -10,7 +9,7 @@
 	<tbody class="govuk-table__body">
 		{% for goods_type in goods_type_country_decisions.approved %}
 			{% for country in goods_type.countries %}
-				<tr class="govuk-table__row">
+				<tr class="govuk-table__row" id="decision-{{ goods_type.id }}">
 					<td class="govuk-table__cell">
 						{% include 'includes/control-list-entries.html' with control_list_entries=goods_type.control_list_entries %} ({{ goods_type.decision }})
 						<br>
@@ -22,8 +21,8 @@
 					<td class="govuk-table__cell govuk-table__cell--radio">
 						{% for decision in decisions %}
 							<div class="govuk-radios__item">
-								<input class="govuk-radios__input" type="radio" name="{{ goods_type.id }}.{{ country.id }}" id="{{ goods_type.id }}.{{ country.id }}" value="{{ decision }}" {% if country.value == decision %}checked{% endif %}>
-								<label class="govuk-label govuk-radios__label" for="{{ goods_type.id }}.{{ country.id }}">
+								<input class="govuk-radios__input" type="radio" name="{{ goods_type.id }}.{{ country.id }}" id="{{ decision }}-{{ goods_type.id }}.{{ country.id }}" value="{{ decision }}" {% if country.value == decision %}checked{% endif %}>
+								<label class="govuk-label govuk-radios__label" for="{{ decision }}-{{ goods_type.id }}.{{ country.id }}">
 									{{ decision|sentence_case }}
 								</label>
 							</div>
@@ -36,7 +35,6 @@
 </table>
 <h1 class="govuk-heading-l">Previously refused at final decision level</h1>
 <table class="govuk-table">
-	{{ goods_type_country_decisions.refused }}
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
 			<th class="govuk-table__header" scope="col">{% lcs 'advice.GoodsDecisionMatrixPage.Table.GOODS' %}</th>
@@ -47,7 +45,7 @@
 	<tbody class="govuk-table__body">
 		{% for goods_type in goods_type_country_decisions.refused %}
 			{% for country in goods_type.countries %}
-				<tr class="govuk-table__row">
+				<tr class="govuk-table__row" id="refused-{{ goods_type.id }}">
 					<td class="govuk-table__cell">
 						{% include 'includes/control-list-entries.html' with control_list_entries=goods_type.control_list_entries %} ({{ goods_type.decision }})
 						<br>
