@@ -337,6 +337,14 @@ $case-header-text-colour: govuk-colour("white");
 	padding-top: 20px;
 	margin-bottom: govuk-spacing(6);
 
+	@include govuk-media-query($until: tablet) {
+		margin-bottom: 0;
+
+		.lite-tabs__controls {
+			margin-top: govuk-spacing(3);
+		}
+	}
+
 	.lite-tabs__container::after {
 		bottom: 2px;
 	}
