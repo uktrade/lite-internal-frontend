@@ -10,11 +10,13 @@
 		{% for goods_type in goods_type_country_decisions.approved %}
 			{% for country in goods_type.countries %}
 				<tr class="govuk-table__row" id="decision-{{ goods_type.id }}">
-					<td class="govuk-table__cell">
-						{% include 'includes/control-list-entries.html' with control_list_entries=goods_type.control_list_entries %} ({{ goods_type.decision }})
-						<br>
-						{{ goods_type.description }}
-					</td>
+					{% if forloop.counter == 1 %}
+						<td class="govuk-table__cell" rowspan="{{ goods_type.countries|length }}">
+							{% include 'includes/control-list-entries.html' with control_list_entries=goods_type.control_list_entries %} ({{ goods_type.decision }})
+							<br>
+							{{ goods_type.description }}
+						</td>
+					{% endif %}
 					<td class="govuk-table__cell">
 						{{ country.name }} ({{ country.decision }})
 					</td>
@@ -46,11 +48,13 @@
 		{% for goods_type in goods_type_country_decisions.refused %}
 			{% for country in goods_type.countries %}
 				<tr class="govuk-table__row" id="refused-{{ goods_type.id }}">
-					<td class="govuk-table__cell">
-						{% include 'includes/control-list-entries.html' with control_list_entries=goods_type.control_list_entries %} ({{ goods_type.decision }})
-						<br>
-						{{ goods_type.description }}
-					</td>
+					{% if forloop.counter == 1 %}
+						<td class="govuk-table__cell" rowspan="{{ goods_type.countries|length }}">
+							{% include 'includes/control-list-entries.html' with control_list_entries=goods_type.control_list_entries %} ({{ goods_type.decision }})
+							<br>
+							{{ goods_type.description }}
+						</td>
+					{% endif %}
 					<td class="govuk-table__cell">
 						{{ country.name }} ({{ country.decision }})
 					</td>
