@@ -220,6 +220,8 @@ LOGGING = {
 # Security settings
 
 # Enable security features in hosted environments.
+# SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_SECONDS = 30
 SECURE_BROWSER_XSS_FILTER = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
