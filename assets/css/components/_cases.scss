@@ -15,11 +15,16 @@
 		color: $govuk-text-colour;
 	}
 
+	&__actions {
+		@include govuk-font($size: 19);
+	}
+
 	&__value {
 		@include govuk-font($size: 19);
 		color: $govuk-text-colour;
 
 		span {
+			@include govuk-font($size: 19);
 			word-break: break-all;
 		}
 	}
