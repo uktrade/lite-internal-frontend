@@ -74,25 +74,20 @@ def get_permissible_statuses(request, case):
     case_type = case["case_type"]["type"]["key"]
 
     if case_type == CaseType.APPLICATION.value:
-        case_type_applicable_statuses = []
-        for status in statuses:
-            if status["key"] not in [
-                Statuses.APPLICANT_EDITING,
-                Statuses.CLOSED,
-                Statuses.FINALISED,
-                Statuses.REGISTERED,
-                Statuses.CLC,
-                Statuses.PV,
-            ]:
-                if (
-                    case_sub_type in [CaseType.STANDARD.value, CaseType.OPEN.value]
-                    and status["key"] == Statuses.SURRENDERED
-                    and not case.data.get("licence")
-                ):
-                    # Standard and Open licences cannot be surrendered without a licence
-                    continue
-
-                case_type_applicable_statuses.append(status)
+        case_type_applicable_statuses = [
+            status
+            for status in statuses
+            if status["key"]
+            not in [
+                CaseStatusEnum.APPLICANT_EDITING,
+                CaseStatusEnum.CLOSED,
+                CaseStatusEnum.FINALISED,
+                CaseStatusEnum.REGISTERED,
+                CaseStatusEnum.CLC,
+                CaseStatusEnum.PV,
+                CaseStatusEnum.SURRENDERED,
+            ]
+        ]
     elif case_type == CaseType.QUERY.value:
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
             case_type_applicable_statuses = [
