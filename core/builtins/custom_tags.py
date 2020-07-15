@@ -13,7 +13,7 @@ from django.utils.safestring import mark_safe
 
 from conf import settings
 from conf.constants import ISO8601_FMT, DATE_FORMAT
-from conf.constants import SystemTeamsID, CaseType
+from conf.constants import SystemTeamsID
 from lite_content.lite_internal_frontend import strings
 
 register = template.Library()
