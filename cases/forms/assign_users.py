@@ -68,13 +68,14 @@ def assign_case_officer_form(request: HttpRequest, existing_officer, queue_id, c
     )
 
 
-def assign_user_and_work_queue(request):
+def assign_user_and_work_queue(request, queue_id, case_id):
     user_params = {"disable_pagination": True, "status": UserStatuses.ACTIVE}
     users = get_gov_users(request, user_params, convert_to_options=True)
     return Form(
         title=cases.Manage.AssignUserAndQueue.USER_TITLE,
         description=cases.Manage.AssignUserAndQueue.USER_DESCRIPTION,
         questions=[Filter(), RadioButtons("user", users, filterable=True)],
+        back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_id, "pk": case_id})),
         default_button_name=strings.CONTINUE,
         container="case",
     )
