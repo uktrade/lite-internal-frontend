@@ -11,7 +11,6 @@ from conf.constants import (
     STATUS_PROPERTIES_URL,
     GOV_PV_GRADINGS_URL,
     PV_GRADINGS_URL,
-    Statuses,
 )
 from lite_forms.components import Option
 from users.services import get_gov_user
@@ -87,6 +86,7 @@ def get_permissible_statuses(request, case):
                 CaseStatusEnum.PV,
                 CaseStatusEnum.SURRENDERED,
             ]
+        ]
     elif case_type == CaseType.QUERY.value:
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
             case_type_applicable_statuses = [
