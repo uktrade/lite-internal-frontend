@@ -16,6 +16,7 @@ env = Env(
     ALLOWED_HOSTS=(str, ""),
     DEBUG=(bool, False),
     LOG_LEVEL=(str, "INFO"),
+    SECURE_HSTS_ENABLED=(bool, False),
     CSP_DEFAULT_SRC=(tuple, ("'self'",)),
     CSP_STYLE_SRC=(tuple, ("'self'",)),
     CSP_SCRIPT_SRC=(tuple, ("'self'",)),
@@ -221,7 +222,7 @@ LOGOUT_URL = env("AUTHBROKER_URL") + "/logout/"
 
 # Enable security features in hosted environments
 
-SECURE_HSTS_ENABLED = env("SECURE_HSTS_ENABLED", not DEBUG)
+SECURE_HSTS_ENABLED = env("SECURE_HSTS_ENABLED")
 SECURE_HSTS_SECONDS = 60 * 60 * 24 * 365 if SECURE_HSTS_ENABLED else None  # 1 year
 SECURE_BROWSER_XSS_FILTER = not DEBUG
 SECURE_CONTENT_TYPE_NOSNIFF = not DEBUG
