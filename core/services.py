@@ -87,7 +87,6 @@ def get_permissible_statuses(request, case):
                 CaseStatusEnum.PV,
                 CaseStatusEnum.SURRENDERED,
             ]
-        ]
     elif case_type == CaseType.QUERY.value:
         if case_sub_type == CaseType.END_USER_ADVISORY.value:
             case_type_applicable_statuses = [

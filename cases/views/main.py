@@ -52,6 +52,7 @@ from users.services import get_gov_user_from_form_selection
 class CaseDetail(CaseView):
     def get_open_application(self):
         self.tabs = self.get_tabs()
+        self.tabs.insert(1, Tabs.LICENCES)
         self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
@@ -82,6 +83,7 @@ class CaseDetail(CaseView):
 
     def get_standard_application(self):
         self.tabs = self.get_tabs()
+        self.tabs.insert(1, Tabs.LICENCES)
         self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
@@ -106,6 +108,7 @@ class CaseDetail(CaseView):
 
     def get_exhibition_clearance_application(self):
         self.tabs = self.get_tabs()
+        self.tabs.insert(1, Tabs.LICENCES)
         self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.EXHIBITION_DETAILS,
@@ -117,12 +120,14 @@ class CaseDetail(CaseView):
 
     def get_gifting_clearance_application(self):
         self.tabs = self.get_tabs()
+        self.tabs.insert(1, Tabs.LICENCES)
         self.tabs.append(Tabs.ADVICE)
         self.slices = [Slices.GOODS, Slices.DESTINATIONS, Slices.LOCATIONS, Slices.SUPPORTING_DOCUMENTS]
         self.additional_context = get_advice_additional_context(self.request, self.case, self.permissions)
 
     def get_f680_clearance_application(self):
         self.tabs = self.get_tabs()
+        self.tabs.insert(1, Tabs.LICENCES)
         self.tabs.append(Tabs.ADVICE)
         self.slices = [
             Slices.GOODS,
@@ -195,7 +200,7 @@ class ImDoneView(SingleFormView):
             case.next_review_date
             and datetime.datetime.strptime(case.next_review_date, "%Y-%m-%d").date() > timezone.now().date()
         )
-        self.form = done_with_case_form(request, self.object_pk, has_review_date)
+        self.form = done_with_case_form(request, kwargs["queue_pk"], self.object_pk, has_review_date)
         self.action = put_unassign_queues
         self.success_url = reverse_lazy("queues:cases", kwargs={"queue_pk": kwargs["queue_pk"]})
         self.success_message = DoneWithCaseOnQueueForm.SUCCESS_MESSAGE.format(case.reference_code)
