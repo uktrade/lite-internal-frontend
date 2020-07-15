@@ -524,8 +524,8 @@ def template_with_decision(context, api_test_client):  # noqa
     context.document_template_name = document_template["name"]
 
 
-@when("I generate a document for the decision") # noqa
-def generate_decision_document(driver, context): # noqa
+@when("I generate a document for the decision")  # noqa
+def generate_decision_document(driver, context):  # noqa
     GeneratedDecisionDocuments(driver).click_generate_decision_document(context.advice_type)
 
 
@@ -557,24 +557,24 @@ def approve_open_application_objects(context, api_test_client, decision):  # noq
     api_test_client.cases.create_final_advice(context.case_id, data)
 
 
-@when("I approve the good country combination") # noqa
-def approve_good_country_combination(driver, context): # noqa
+@when("I approve the good country combination")  # noqa
+def approve_good_country_combination(driver, context):  # noqa
     GoodCountryMatrixPage(driver).select_good_country_option(
         "approve", context.goods_type["id"], context.country["code"]
     )
     functions.click_submit(driver)
 
 
-@when("I click continue on the approve open licence page") # noqa
-def approve_licence_page(driver, context): # noqa
+@when("I click continue on the approve open licence page")  # noqa
+def approve_licence_page(driver, context):  # noqa
     page = GrantLicencePage(driver)
     context.licence_duration = page.get_duration_in_finalise_view()
     context.licence_start_date = datetime.now().strftime(DATE_FORMAT)
     functions.click_submit(driver)
 
 
-@then("The licence information is in the second audit") # noqa
-def licence_audit(driver, context, internal_url): # noqa
+@then("The licence information is in the second audit")  # noqa
+def licence_audit(driver, context, internal_url):  # noqa
     ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)
     second_audit = ApplicationPage(driver).get_text_of_audit_trail_item(1)
     assert context.licence_duration in second_audit
