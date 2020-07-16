@@ -34,7 +34,8 @@ from cases.services import (
     patch_case,
     put_application_status,
     put_next_review_date,
-    reissue_ogel)
+    reissue_ogel,
+)
 from cases.services import post_case_documents, get_document
 from compliance.services import get_compliance_licences
 from conf import settings
