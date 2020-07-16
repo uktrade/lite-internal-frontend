@@ -161,7 +161,7 @@ def give_advice_form(request, case: Case, tab, queue_pk, denial_reasons, show_wa
     )
 
 
-def generate_documents_form(case_id, queue_id):
+def generate_documents_form():
     return Form(
         title=GenerateGoodsDecisionForm.TITLE,
         questions=[
@@ -175,7 +175,6 @@ def generate_documents_form(case_id, queue_id):
                 ],
             ),
         ],
-        back_link=BackLink(url=reverse("cases:finalise", kwargs={"queue_pk": queue_id, "pk": case_id})),
         container="case",
         default_button_name=GenerateGoodsDecisionForm.BUTTON,
     )
