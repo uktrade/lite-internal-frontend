@@ -1,5 +1,5 @@
-from shared import functions, selectors
-from shared.BasePage import BasePage
+from shared import functions
+from pages.BasePage import BasePage
 
 
 class OpenGeneralLicencesListPage(BasePage):
@@ -13,7 +13,7 @@ class OpenGeneralLicencesListPage(BasePage):
     def filter_by_name(self, name):
         functions.try_open_filters(self.driver)
         self.driver.find_element_by_id(self.INPUT_NAME_ID).send_keys(name)
-        self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()
+        functions.click_apply_filters(self.driver)
 
     def click_view_first_ogl_link(self):
         self.driver.find_element_by_css_selector(self.LINK_VIEW_SELECTOR).click()
@@ -79,9 +79,13 @@ class OpenGeneralLicencesDeactivatePage(BasePage):
 
 class OpenGeneralLicencesCasePage(BasePage):
     HEADING = ".govuk-heading-m"
+    SITE_ID = "ogel_site"
 
     def get_text_of_first_heading(self):
         return self.driver.find_elements_by_css_selector(self.HEADING)[0].text
 
     def get_text_of_second_heading(self):
         return self.driver.find_elements_by_css_selector(self.HEADING)[1].text
+
+    def get_text_of_site(self):
+        return self.driver.find_element_by_id(self.SITE_ID).text

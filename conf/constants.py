@@ -36,6 +36,7 @@ CASE_DENIAL_REASONS_URL = "/denial-reasons/"
 SITES_URL = "/sites/"
 USERS_URL = "/users/"
 TEAMS_URL = "/teams/"
+LICENCES_URL = "/licences/"
 QUEUES_URL = "/queues/"
 AUTHENTICATION_URL = "/gov-users/authenticate/"
 GOV_USERS_URL = "/gov-users/"
@@ -64,13 +65,17 @@ PREVIEW_URL = "/preview/"
 GENERATE_PREVIEW_URL = "generate-preview/"
 DESTINATION_URL = CASE_URL + "destinations/"
 CASE_OFFICER_URL = "/case-officer/"
+NEXT_REVIEW_DATE_URL = "/review-date/"
 FINALISE_CASE_URL = "/finalise/"
 ROUTING_RULES_URL = "/routing-rules/"
 ROUTING_RULES_STATUS_URL = "/status/"
 ENFORCEMENT_URL = CASE_URL + "enforcement-check/"
 APPLICANT_URL = "/applicant/"
 COMPLIANCE_URL = "/compliance/"
+COMPLIANCE_SITE_URL = "site/"
+COMPLIANCE_VISIT_URL = "visit/"
 COMPLIANCE_LICENCES_URL = "/licences/"
+COMPLIANCE_PEOPLE_PRESENT_URL = "people-present/"
 OPEN_LICENCE_RETURNS_URL = "/compliance/open-licence-returns/"
 
 # Static URLs
@@ -134,29 +139,9 @@ class FlagLevels:
     DESTINATIONS = "destinations"
 
 
-class Statuses:
-    APPLICANT_EDITING = "applicant_editing"
-    CLOSED = "closed"
-    FINALISED = "finalised"
-    REGISTERED = "registered"
-    SUBMITTED = "submitted"
-    WITHDRAWN = "withdrawn"
-    CLC = "clc_review"
-    PV = "pv_review"
-    UNDER_ECJU_REVIEW = "under_ecju_review"
-    REVOKED = "revoked"
-    SUSPENDED = "suspended"
-    SURRENDERED = "surrendered"
-    DEREGISTERED = "deregistered"
-    OPEN = "open"
-
-
 class UserStatuses:
     ACTIVE = "Active"
     DEACTIVATED = "Deactivated"
-
-
-BASE_QUERY_STATUSES = [Statuses.SUBMITTED, Statuses.CLOSED, Statuses.WITHDRAWN]
 
 
 class SystemTeamsID(Enum):

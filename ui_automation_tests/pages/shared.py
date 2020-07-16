@@ -1,5 +1,7 @@
-from shared import functions, selectors
-from shared.BasePage import BasePage
+import time
+
+from shared import functions
+from pages.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_by_id
 
 
@@ -21,7 +23,7 @@ class Shared(BasePage):
     LITE_NOTICE_SELECTOR = ".lite-information-text__text"
     AUDIT_TRAIL_ID = "audit-trail"
     INPUT_NAME_FILTER_ID = "name"
-    CASES_FORM_ID = "cases-form"
+    CASES_FORM_ID = "form-cases"
     FIRST_LINK_IN_ROW = ".govuk-table__row .govuk-link"
 
     def click_submit(self):
@@ -92,17 +94,23 @@ class Shared(BasePage):
         return self.driver.find_element_by_id(self.AUDIT_TRAIL_ID).text
 
     def go_to_last_page(self):
-        self.driver.set_timeout_to(0)
+        self.driver.implicitly_wait(0)
         size = len(self.driver.find_elements_by_css_selector(".lite-pagination__list-item"))
         if size > 0:
             self.driver.find_elements_by_css_selector(".lite-pagination__list-item")[size - 1].click()
-        self.driver.set_timeout_to_10_seconds()
+        self.driver.implicitly_wait(10)
 
     def filter_by_name(self, name):
         functions.try_open_filters(self.driver)
         self.driver.find_element_by_id(self.INPUT_NAME_FILTER_ID).clear()
         self.driver.find_element_by_id(self.INPUT_NAME_FILTER_ID).send_keys(name)
-        self.driver.find_element_by_css_selector(selectors.BUTTON_APPLY_FILTERS).click()
+        functions.click_apply_filters(self.driver)
 
     def click_first_link_in_row(self):
         self.driver.find_element_by_css_selector(self.FIRST_LINK_IN_ROW).click()
+
+    def try_open_filters(self):
+        if not self.driver.find_element_by_class_name("lite-filter-bar").is_displayed():
+            self.driver.find_element_by_id("show-filters-link").click()
+            # Delay is necessary as driver can fail to click filters
+            time.sleep(0.5)

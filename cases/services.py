@@ -14,6 +14,7 @@ from conf.constants import (
     GOODS_TYPE_URL,
     USER_ADVICE_URL,
     TEAM_ADVICE_URL,
+    LICENCES_URL,
     FINAL_ADVICE_URL,
     VIEW_TEAM_ADVICE_URL,
     GOOD_CLC_REVIEW_URL,
@@ -33,8 +34,13 @@ from conf.constants import (
     QUEUES_URL,
     APPLICANT_URL,
     COMPLIANCE_URL,
+    NEXT_REVIEW_DATE_URL,
+    COMPLIANCE_LICENCES_URL,
+    COMPLIANCE_SITE_URL,
+    COMPLIANCE_VISIT_URL,
+    COMPLIANCE_PEOPLE_PRESENT_URL,
 )
-from core.helpers import convert_parameters_to_query_params
+from core.helpers import convert_parameters_to_query_params, format_date
 from flags.enums import FlagStatus
 
 
@@ -102,11 +108,6 @@ def put_goods_query_clc(request, pk, json):
 
 def put_goods_query_pv_grading(request, pk, json):
     response = put(request, GOODS_QUERIES_URL + str(pk) + PV_GRADING_RESPONSE_URL, json)
-    return response.json(), response.status_code
-
-
-def put_compliance_status(request, pk, json):
-    response = put(request, COMPLIANCE_URL + str(pk) + MANAGE_STATUS_URL, json)
     return response.json(), response.status_code
 
 
@@ -183,13 +184,13 @@ def get_final_decision_documents(request, case_pk):
     return data.json(), data.status_code
 
 
-def grant_licence(request, case_pk, _):
-    data = put(request, CASE_URL + str(case_pk) + FINALISE_CASE_URL, {})
-    return data.json(), data.status_code
+def grant_licence(request, case_pk, json):
+    response = put(request, CASE_URL + str(case_pk) + FINALISE_CASE_URL, json)
+    return response.json(), response.status_code
 
 
 def get_licence(request, case_pk):
-    data = get(request, CASE_URL + case_pk + FINALISE_CASE_URL)
+    data = get(request, CASE_URL + case_pk + LICENCES_URL)
     return data.json(), data.status_code
 
 
@@ -211,6 +212,11 @@ def get_good_countries_decisions(request, case_pk):
 def post_good_countries_decisions(request, pk, json):
     response = post(request, CASE_URL + str(pk) + "/goods-countries-decisions/", json)
     return response.json(), response.status_code
+
+
+def get_open_licence_decision(request, case_pk):
+    data = get(request, CASE_URL + str(case_pk) + "/open-licence-decision/")
+    return data.json()["decision"]
 
 
 def post_user_case_advice(request, pk, json):
@@ -285,22 +291,6 @@ def put_flag_assignments(request, json):
     return data.json(), data.status_code
 
 
-def _generate_post_data_and_errors(keys, request_data, action):
-    post_data = []
-    errors = {}
-    for key in keys:
-        good_pk = key.split(".")[0]
-        country_pk = key.split(".")[1]
-        if key not in request_data and not action == "save":
-            if good_pk in errors:
-                errors[good_pk].append(country_pk)
-            else:
-                errors[good_pk] = [country_pk]
-        else:
-            post_data.append({"good": good_pk, "country": country_pk, "decision": request_data.get(key)})
-    return post_data, errors
-
-
 # Letter template decisions
 def get_decisions(request):
     data = get(request, DECISIONS_URL)
@@ -339,6 +329,13 @@ def delete_case_officer(request, pk, *args):
     return data.json(), data.status_code
 
 
+def put_next_review_date(request, pk, json):
+    if "next_review_dateday" in json:
+        json["next_review_date"] = format_date(json, "next_review_date")
+    data = put(request, CASE_URL + str(pk) + NEXT_REVIEW_DATE_URL, json)
+    return data.json(), data.status_code
+
+
 def get_case_applicant(request, pk):
     response = get(request, CASE_URL + str(pk) + APPLICANT_URL)
     return response.json()
@@ -365,3 +362,68 @@ def get_blocking_flags(request, case_pk):
         FLAGS_URL + f"?case={case_pk}&status={FlagStatus.ACTIVE.value}&blocks_approval=True&disable_pagination=True",
     )
     return data.json()
+
+
+def get_compliance_licences(request, case_id, reference, page):
+    data = get(request, COMPLIANCE_URL + case_id + COMPLIANCE_LICENCES_URL + f"?reference={reference}&page={page}",)
+    return data.json()
+
+
+def post_create_compliance_visit(request, case_id):
+    data = post(request, COMPLIANCE_URL + COMPLIANCE_SITE_URL + case_id + "/" + COMPLIANCE_VISIT_URL, request_data={})
+    return data
+
+
+def get_compliance_visit_case(request, case_id):
+    data = get(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id))
+    return data.json()
+
+
+def patch_compliance_visit_case(request, case_id, json):
+    if "visit_date_day" in json:
+        json["visit_date"] = format_date(json, "visit_date_")
+    data = patch(request, COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id), request_data=json)
+    return data.json(), data.status_code
+
+
+def get_compliance_people_present(request, case_id):
+    data = get(
+        request,
+        COMPLIANCE_URL
+        + COMPLIANCE_VISIT_URL
+        + str(case_id)
+        + "/"
+        + COMPLIANCE_PEOPLE_PRESENT_URL
+        + "?disable_pagination=True",
+    )
+    return data.json()
+
+
+def post_compliance_person_present(request, case_id, json):
+    data = post(
+        request,
+        COMPLIANCE_URL + COMPLIANCE_VISIT_URL + str(case_id) + "/" + COMPLIANCE_PEOPLE_PRESENT_URL,
+        request_data=json,
+    )
+
+    # Translate errors to be more user friendly, from
+    #   {'errors': [{}, {'name': ['This field may not be blank.'], 'job_title': ['This field may not be blank.']}, ...]}
+    #   to
+    #   {'errors': {'name-2': ['This field may not be blank'], 'job-title-2': ['This field may not be blank'], ...}}
+    # This allows the errors to specify the specific textbox input for name/job-title inputs allowing the users
+    #   to see the exact field it didn't validate on.
+    if "errors" in data.json():
+        errors = data.json()["errors"]
+        translated_errors = {}
+
+        index = 1
+        for error in errors:
+            if error:
+                if "name" in error:
+                    translated_errors["name-" + str(index)] = [str(index) + ". " + error.pop("name")[0]]
+                if "job_title" in error:
+                    translated_errors["job-title-" + str(index)] = [str(index) + ". " + error.pop("job_title")[0]]
+            index += 1
+
+        return {**json, "errors": translated_errors}, data.status_code
+    return data.json(), data.status_code
