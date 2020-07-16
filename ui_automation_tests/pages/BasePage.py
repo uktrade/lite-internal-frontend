@@ -20,6 +20,3 @@ class BasePage:
         # therefore disable the stickyness of the header when running tests
         if functions.element_with_id_exists(self.driver, "app-header"):
             self.driver.execute_script("document.getElementById('app-header').style.position = 'relative';")
-
-    def select_checkbox_by_text(self, text):
-        self.driver.find_element_by_xpath(f"//*[contains(text(), '{text}')]").click()
