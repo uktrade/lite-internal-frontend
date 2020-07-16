@@ -380,7 +380,7 @@ class UserTeamQueue(SingleFormView):
         user_pk = str(kwargs["user_pk"])
         self.object_pk = kwargs["pk"]
         case = get_case(request, self.object_pk)
-        self.form = users_team_queues(request, str(kwargs["pk"]), user_pk)
+        self.form = users_team_queues(request, kwargs["queue_pk"], self.object_pk, user_pk)
         self.action = put_queue_single_case_assignment
         self.context = {"case": case}
 

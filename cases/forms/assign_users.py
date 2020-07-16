@@ -1,5 +1,5 @@
 from django.http import HttpRequest
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from conf.constants import UserStatuses
 from lite_content.lite_internal_frontend import strings
@@ -81,7 +81,7 @@ def assign_user_and_work_queue(request, queue_id, case_id):
     )
 
 
-def users_team_queues(request, case_pk, user_pk):
+def users_team_queues(request, queue_pk, case_pk, user_pk):
     queues = get_users_team_queues(request, user_pk, True)
     return Form(
         title=cases.Manage.AssignUserAndQueue.QUEUE_TITLE,
@@ -96,5 +96,6 @@ def users_team_queues(request, case_pk, user_pk):
                 components=[TextArea(name="note", classes=["govuk-!-margin-0"]),],
             ),
         ],
+        back_link=BackLink(url=reverse_lazy("cases:assign_user", kwargs={"queue_pk": queue_pk, "pk": case_pk})),
         container="case",
     )
