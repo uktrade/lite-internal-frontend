@@ -26,30 +26,21 @@ def assign_user_to_case(driver, internal_info, context):
 
 @then("user is assignee on case list")
 def user_is_on_case_list(driver, context):
-    assert context.user_name in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
-        "user name " + context.user_name + " is not an assignee on case list"
-    )
+    first_name, last_name = context.user_name.split(" ", 1)
+    first_name = first_name[0].upper()
+    last_name = last_name[0].upper()
 
-
-@then("user is not an assignee on case list")
-def user_is_not_on_case_list(driver, context):
-    assert context.user_name in CaseListPage(driver).get_text_of_assignees(driver, context.case_id), (
-        "user name " + context.user_name + " is an assignee on case list"
-    )
+    assert first_name + last_name in CaseListPage(driver).get_text_of_assignees(
+        driver, context.case_id
+    ), f"'{context.user_name}' is not an assignee on case list"
 
 
 @when("I filter assigned user by Not Assigned")
 def i_filter_case_officer_by_not_assigned(driver):
+    case = CaseListPage(driver)
     functions.try_open_filters(driver)
-    CaseListPage(driver).enter_assigned_user_filter_text("Not assigned")
-    CaseListPage(driver).click_apply_filters_button()
-
-
-@when("I filter assigned user by SSO users name")
-def i_filter_case_officer_by_not_assigned(driver, context):
-    functions.try_open_filters(driver)
-    CaseListPage(driver).enter_assigned_user_filter_text(context.user_name)
-    CaseListPage(driver).click_apply_filters_button()
+    case.enter_assigned_user_filter_text("Not assigned")
+    functions.click_apply_filters(driver)
 
 
 @then("only SSO users name is displayed in user list for assign cases")
@@ -61,9 +52,7 @@ def user_is_on_case_list(driver, internal_info):
 
 @then("user is not assignee on case list")
 def user_is_not_on_case_list(driver, context):
-    assert "No users assigned" in CaseListPage(driver).get_text_of_assignees(
-        driver, context.case_id
-    ), "No users assigned text is not displayed"
+    assert not CaseListPage(driver).has_assignees(driver, context.case_id), "This case has assignees"
 
 
 @when("I click select all cases checkbox")
@@ -141,6 +130,12 @@ def i_click_assign_user_button(driver):
 @given("I am assigned to this case on my new queue")
 def assign_users_to_queue(context, api_test_client):
     api_test_client.queues.case_assignment(context.queue_id, context.case_id, [context.gov_user_id])
+
+
+@when("I unassign myself from all queues")
+def unassign_from_all_queues(driver, context):
+    UnassignQueuePage(driver).check_all_checkbxes()
+    functions.click_submit(driver)
 
 
 @when("I unassign myself from my newly created work queue")

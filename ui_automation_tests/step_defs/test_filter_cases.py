@@ -2,6 +2,7 @@ from pytest_bdd import when, then, parsers, scenarios
 
 from pages.queues_pages import QueuesPages
 from pages.shared import Shared
+from shared import functions
 from ui_automation_tests.pages.case_list_page import CaseListPage
 
 scenarios("../features/filter_cases.feature", strict_gherkin=False)
@@ -15,11 +16,6 @@ def assign_case_to_queue_when(api_test_client):
 @then(parsers.parse('"{number}" cases are shown'))
 def num_cases_appear(driver, context, number):
     assert int(number) == Shared(driver).get_number_of_rows_in_lite_table(), "incorrect number of cases are shown"
-
-
-@when("I click clear filters")
-def i_click_clear_filters(driver, context):
-    CaseListPage(driver).click_clear_filters_button()
 
 
 @when("I hide filters")
@@ -40,13 +36,13 @@ def no_cases_shown(driver):
 @when(parsers.parse('filter case type has been changed to "{case_type}"'))  # noqa
 def filter_status_change(driver, context, case_type):  # noqa
     CaseListPage(driver).select_filter_case_type_from_dropdown(case_type)
-    CaseListPage(driver).click_apply_filters_button()
+    functions.click_apply_filters(driver)
 
 
 @when("I click filter to show cases with open team ecju queries")  # noqa
-def i_show_filters(driver, context):  # noqa
-    CaseListPage(driver).click_checkbox_to_show_team_ecju_query()
-    CaseListPage(driver).click_apply_filters_button()
+def filter_by_ecju(driver, context):  # noqa
+    CaseListPage(driver).click_checkbox_to_show_team_ecju_query_and_hidden_cases()
+    functions.click_apply_filters(driver)
 
 
 @when("I click advanced filters")
@@ -77,4 +73,4 @@ def i_filter_by_goods_related_description(driver, context):
 @when(parsers.parse('filter status has been changed to "{status}"'))  # noqa
 def filter_status_change(driver, context, status):  # noqa
     CaseListPage(driver).select_filter_status_from_dropdown(status)
-    CaseListPage(driver).click_apply_filters_button()
+    functions.click_apply_filters(driver)
