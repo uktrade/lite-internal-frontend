@@ -18,6 +18,7 @@ from cases.forms.change_status import change_status_form
 from cases.forms.done_with_case import done_with_case_form
 from cases.forms.move_case import move_case_form
 from cases.forms.next_review_date import set_next_review_date_form
+from cases.forms.reissue_ogel_form import reissue_ogel_confirmation_form
 from cases.forms.rerun_routing_rules import rerun_routing_rules_confirmation_form
 from cases.helpers.advice import get_advice_additional_context
 from cases.helpers.case import CaseView, Tabs, Slices
@@ -33,7 +34,7 @@ from cases.services import (
     patch_case,
     put_application_status,
     put_next_review_date,
-)
+    reissue_ogel)
 from cases.services import post_case_documents, get_document
 from compliance.services import get_compliance_licences
 from conf import settings
@@ -413,6 +414,33 @@ class RerunRoutingRules(SingleFormView):
             return redirect(self.success_url)
 
         return super(RerunRoutingRules, self).post(request, **kwargs)
+
+
+class ReissueOGEL(SingleFormView):
+    def init(self, request, **kwargs):
+        self.action = reissue_ogel
+        self.object_pk = kwargs["pk"]
+        case = get_case(request, self.object_pk)
+        self.context = {"case": case}
+        self.form = reissue_ogel_confirmation_form(self.object_pk, self.kwargs["queue_pk"])
+        self.success_url = reverse_lazy(
+            "cases:case", kwargs={"queue_pk": self.kwargs["queue_pk"], "pk": self.object_pk}
+        )
+
+    def post(self, request, **kwargs):
+        self.init(request, **kwargs)
+        if not request.POST.get("confirm"):
+            return form_page(
+                request,
+                self.get_form(),
+                data=self.get_data(),
+                errors={"confirm": ["Select an option"]},
+                extra_data=self.context,
+            )
+        elif request.POST.get("confirm") == "no":
+            return redirect(self.success_url)
+
+        return super(ReissueOGEL, self).post(request, **kwargs)
 
 
 class NextReviewDate(SingleFormView):
