@@ -62,10 +62,12 @@ class AuthCallbackView(View):
 
 
 def _error(request, status_code):
-    return render(request,
-                  template_name="core/error.html",
-                  context={**get_human_readable_exception(status_code), **lite_menu(request)},
-                  status=status_code)
+    return render(
+        request,
+        template_name="core/error.html",
+        context={**get_human_readable_exception(status_code), **lite_menu(request)},
+        status=status_code,
+    )
 
 
 def error_403(request, exception):
