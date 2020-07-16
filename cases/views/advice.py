@@ -186,7 +186,7 @@ class FinaliseGoodsCountries(SingleFormView):
         self.context = {
             "case": get_case(request, self.object_pk),
             "goods_type_country_decisions": get_good_countries_decisions(request, self.object_pk),
-            "decisions": ["approve", "refuse"],
+            "decisions": {"approve": "Approve", "refuse": "Reject"},
         }
         self.form = finalise_goods_countries_form(kwargs["pk"], kwargs["queue_pk"])
         self.action = post_good_countries_decisions

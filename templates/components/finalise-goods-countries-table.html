@@ -22,11 +22,11 @@
 						{{ country.name }} ({{ country.decision }})
 					</td>
 					<td class="govuk-table__cell govuk-table__cell--radio">
-						{% for decision in decisions %}
+						{% for key, value in decisions.items %}
 							<div class="govuk-radios__item">
-								<input class="govuk-radios__input" type="radio" name="{{ goods_type.id }}.{{ country.id }}" id="{{ decision }}-{{ goods_type.id }}.{{ country.id }}" value="{{ decision }}" {% if country.value == decision %}checked{% endif %}>
-								<label class="govuk-label govuk-radios__label" for="{{ decision }}-{{ goods_type.id }}.{{ country.id }}">
-									{{ decision|sentence_case }}
+								<input class="govuk-radios__input" type="radio" name="{{ goods_type.id }}.{{ country.id }}" id="{{ key }}-{{ goods_type.id }}.{{ country.id }}" value="{{ key }}" {% if country.value == key %}checked{% endif %}>
+								<label class="govuk-label govuk-radios__label" for="{{ key }}-{{ goods_type.id }}.{{ country.id }}">
+									{{ value }}
 								</label>
 							</div>
 						{% endfor %}
