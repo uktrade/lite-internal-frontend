@@ -175,8 +175,7 @@ def go_to_queues(driver, internal_url):  # noqa
 @when("I add case to newly created queue")  # noqa
 def move_case_to_new_queue(driver, context):  # noqa
     ApplicationPage(driver).click_move_case_button()
-    if not driver.find_element_by_id(context.queue_name.replace(" ", "-")).is_selected():
-        driver.find_element_by_id(context.queue_name.replace(" ", "-")).click()
+    ApplicationPage(driver).select_checkbox_by_text(context.queue_name)
     Shared(driver).click_submit()
 
 
