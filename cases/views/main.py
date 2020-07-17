@@ -42,7 +42,7 @@ from conf import settings
 from conf.settings import AWS_STORAGE_BUCKET_NAME
 from core.services import get_permissible_statuses
 from lite_content.lite_internal_frontend import cases
-from lite_content.lite_internal_frontend.cases import DoneWithCaseOnQueueForm
+from lite_content.lite_internal_frontend.cases import DoneWithCaseOnQueueForm, Manage
 from lite_forms.components import FiltersBar, TextInput
 from lite_forms.generators import error_page, form_page
 from lite_forms.helpers import conditional
@@ -435,7 +435,7 @@ class ReissueOGEL(SingleFormView):
                 request,
                 self.get_form(),
                 data=self.get_data(),
-                errors={"confirm": ["Select an option"]},
+                errors={"confirm": [Manage.ReissueOGEL.ERROR]},
                 extra_data=self.context,
             )
         elif request.POST.get("confirm") == "no":
