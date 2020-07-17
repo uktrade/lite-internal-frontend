@@ -166,6 +166,6 @@ def click_reissue_button(driver, context):
 
 
 @then("the ogel is reissued")
-def case_is_finalised(driver, ):
+def case_is_finalised(driver):
     ApplicationPage(driver).click_activity_tab()
     assert "reissued" in Shared(driver).get_audit_trail_text()
