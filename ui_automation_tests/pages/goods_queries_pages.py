@@ -6,9 +6,8 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from shared import functions
-from shared.BasePage import BasePage
+from pages.BasePage import BasePage
 from shared.tools.helpers import scroll_to_element_below_header_by_id
-
 from ui_automation_tests.shared.tools.helpers import scroll_to_element_by_id
 
 
@@ -53,10 +52,10 @@ class GoodsQueriesPages(BasePage):
     def enter_a_comment(self, comment):
         time.sleep(0.5)
         self.driver.find_element_by_class_name("govuk-details__summary-text").click()
-        self.driver.set_timeout_to(0)
+        self.driver.implicitly_wait(0)
         if self.driver.find_element_by_class_name("govuk-details").get_attribute("open") is None:
             self.driver.find_element_by_class_name("govuk-details__summary-text").click()
-        self.driver.set_timeout_to(10)
+        self.driver.implicitly_wait(10)
         scroll_to_element_by_id(self.driver, self.COMMENT)
         self.driver.find_element_by_id(self.COMMENT).send_keys(comment)
 

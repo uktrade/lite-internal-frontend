@@ -1,10 +1,20 @@
 from django.http import HttpRequest
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from conf.constants import UserStatuses
 from lite_content.lite_internal_frontend import strings
 from lite_content.lite_internal_frontend.strings import cases
-from lite_forms.components import Checkboxes, Filter, Form, RadioButtons, Button, HiddenField, BackLink
+from lite_forms.components import (
+    Checkboxes,
+    Filter,
+    Form,
+    RadioButtons,
+    Button,
+    HiddenField,
+    BackLink,
+    DetailComponent,
+    TextArea,
+)
 from lite_forms.helpers import conditional
 from lite_forms.styles import ButtonStyle
 from teams.services import get_users_team_queues
@@ -19,6 +29,9 @@ def assign_users_form(request: HttpRequest, team_id, queue, multiple: bool):
         questions=[
             Filter(),
             Checkboxes("users", options=get_gov_users(request, params, convert_to_options=True,), filterable=True),
+            DetailComponent(
+                title=cases.Manage.AssignUsers.NOTE, components=[TextArea(name="note", classes=["govuk-!-margin-0"]),],
+            ),
         ],
         caption=queue["name"],
         default_button_name=cases.Manage.AssignUsers.BUTTON,
@@ -55,19 +68,20 @@ def assign_case_officer_form(request: HttpRequest, existing_officer, queue_id, c
     )
 
 
-def assign_user_and_work_queue(request):
+def assign_user_and_work_queue(request, queue_id, case_id):
     user_params = {"disable_pagination": True, "status": UserStatuses.ACTIVE}
     users = get_gov_users(request, user_params, convert_to_options=True)
     return Form(
         title=cases.Manage.AssignUserAndQueue.USER_TITLE,
         description=cases.Manage.AssignUserAndQueue.USER_DESCRIPTION,
         questions=[Filter(), RadioButtons("user", users, filterable=True)],
+        back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_id, "pk": case_id})),
         default_button_name=strings.CONTINUE,
         container="case",
     )
 
 
-def users_team_queues(request, case_pk, user_pk):
+def users_team_queues(request, queue_pk, case_pk, user_pk):
     queues = get_users_team_queues(request, user_pk, True)
     return Form(
         title=cases.Manage.AssignUserAndQueue.QUEUE_TITLE,
@@ -77,6 +91,11 @@ def users_team_queues(request, case_pk, user_pk):
             RadioButtons("queue", queues, filterable=True),
             HiddenField("user_pk", user_pk),
             HiddenField("case_pk", case_pk),
+            DetailComponent(
+                title=cases.Manage.AssignUserAndQueue.NOTE,
+                components=[TextArea(name="note", classes=["govuk-!-margin-0"]),],
+            ),
         ],
+        back_link=BackLink(url=reverse_lazy("cases:assign_user", kwargs={"queue_pk": queue_pk, "pk": case_pk})),
         container="case",
     )

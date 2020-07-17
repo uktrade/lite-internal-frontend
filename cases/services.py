@@ -14,6 +14,7 @@ from conf.constants import (
     GOODS_TYPE_URL,
     USER_ADVICE_URL,
     TEAM_ADVICE_URL,
+    LICENCES_URL,
     FINAL_ADVICE_URL,
     VIEW_TEAM_ADVICE_URL,
     GOOD_CLC_REVIEW_URL,
@@ -33,6 +34,7 @@ from conf.constants import (
     QUEUES_URL,
     APPLICANT_URL,
     COMPLIANCE_URL,
+    NEXT_REVIEW_DATE_URL,
     COMPLIANCE_LICENCES_URL,
     COMPLIANCE_SITE_URL,
     COMPLIANCE_VISIT_URL,
@@ -109,11 +111,6 @@ def put_goods_query_pv_grading(request, pk, json):
     return response.json(), response.status_code
 
 
-def put_compliance_status(request, pk, json):
-    response = put(request, COMPLIANCE_URL + str(pk) + MANAGE_STATUS_URL, json)
-    return response.json(), response.status_code
-
-
 # Case Notes
 def get_case_notes(request, pk):
     data = get(request, CASE_URL + pk + CASE_NOTES_URL)
@@ -187,13 +184,13 @@ def get_final_decision_documents(request, case_pk):
     return data.json(), data.status_code
 
 
-def grant_licence(request, case_pk, _):
-    data = put(request, CASE_URL + str(case_pk) + FINALISE_CASE_URL, {})
-    return data.json(), data.status_code
+def grant_licence(request, case_pk, json):
+    response = put(request, CASE_URL + str(case_pk) + FINALISE_CASE_URL, json)
+    return response.json(), response.status_code
 
 
 def get_licence(request, case_pk):
-    data = get(request, CASE_URL + case_pk + FINALISE_CASE_URL)
+    data = get(request, CASE_URL + case_pk + LICENCES_URL)
     return data.json(), data.status_code
 
 
@@ -215,6 +212,11 @@ def get_good_countries_decisions(request, case_pk):
 def post_good_countries_decisions(request, pk, json):
     response = post(request, CASE_URL + str(pk) + "/goods-countries-decisions/", json)
     return response.json(), response.status_code
+
+
+def get_open_licence_decision(request, case_pk):
+    data = get(request, CASE_URL + str(case_pk) + "/open-licence-decision/")
+    return data.json()["decision"]
 
 
 def post_user_case_advice(request, pk, json):
@@ -289,22 +291,6 @@ def put_flag_assignments(request, json):
     return data.json(), data.status_code
 
 
-def _generate_post_data_and_errors(keys, request_data, action):
-    post_data = []
-    errors = {}
-    for key in keys:
-        good_pk = key.split(".")[0]
-        country_pk = key.split(".")[1]
-        if key not in request_data and not action == "save":
-            if good_pk in errors:
-                errors[good_pk].append(country_pk)
-            else:
-                errors[good_pk] = [country_pk]
-        else:
-            post_data.append({"good": good_pk, "country": country_pk, "decision": request_data.get(key)})
-    return post_data, errors
-
-
 # Letter template decisions
 def get_decisions(request):
     data = get(request, DECISIONS_URL)
@@ -340,6 +326,13 @@ def put_case_officer(request, pk, json):
 
 def delete_case_officer(request, pk, *args):
     data = delete(request, CASE_URL + str(pk) + CASE_OFFICER_URL)
+    return data.json(), data.status_code
+
+
+def put_next_review_date(request, pk, json):
+    if "next_review_dateday" in json:
+        json["next_review_date"] = format_date(json, "next_review_date")
+    data = put(request, CASE_URL + str(pk) + NEXT_REVIEW_DATE_URL, json)
     return data.json(), data.status_code
 
 

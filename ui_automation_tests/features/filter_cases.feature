@@ -10,8 +10,17 @@ Feature: I want to filter cases on a queue
     And a queue has been created
     And I create open application or open application has been previously created
     And case has been moved to new Queue
-    And I create a clc query
     And I go to internal homepage
+    When I show filters
+    And I click advanced filters
+    Then I can see all advanced filters
+    When I filter by case reference
+    And I filter by goods related description
+    And I filter by organisation name
+    When I apply filters
+    Then "1" cases are shown
+    When I show filters
+    Given I create a clc query
     When case has been moved to new Queue
     And I click on new queue in dropdown
     Then "2" cases are shown

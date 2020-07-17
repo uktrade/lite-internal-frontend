@@ -139,11 +139,13 @@
 						{% endfor %}
 					</div>
 					<div class="lite-tabs__controls">
-						{% make_list queue.id case.id as button_params %}
-						{% govuk_link_button id='rerun-routing-rules' text='cases.ApplicationPage.Actions.RERUN_ROUTING_RULES' url='cases:rerun_routing_rules' url_param=button_params query_params='?return_to='|add:CURRENT_PATH classes='govuk-button--secondary' %}
-						{% if can_set_done %}
-							{% govuk_link_button id='done' text='cases.ApplicationPage.DONE_WITH_CASE' url='cases:done' url_param=button_params classes='govuk-button--secondary' %}
-						{% endif %}
+						<div class="lite-buttons-row">
+							{% make_list queue.id case.id as button_params %}
+							{% govuk_link_button id='rerun-routing-rules' text='cases.ApplicationPage.Actions.RERUN_ROUTING_RULES' url='cases:rerun_routing_rules' url_param=button_params query_params='?return_to='|add:CURRENT_PATH classes='govuk-button--secondary' %}
+							{% if can_set_done and case.case_type.reference.key != "comp_c" %}
+								{% govuk_link_button id='done' text='cases.ApplicationPage.DONE_WITH_CASE' url='cases:done' url_param=button_params classes='govuk-button--secondary' %}
+							{% endif %}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -187,6 +189,35 @@
 {% block javascript %}
 	<script type="text/javascript">
 		$(".app-case-header__candy__popup").show();
+
+		const popupCenter = ({url, title, w, h}) => {
+			// Fixes dual-screen position                             Most browsers      Firefox
+			const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
+			const dualScreenTop = window.screenTop !==  undefined   ? window.screenTop  : window.screenY;
+
+			const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+			const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+			const systemZoom = width / window.screen.availWidth;
+			const left = (width - w) / 2 / systemZoom + dualScreenLeft
+			const top = (height - h) / 2 / systemZoom + dualScreenTop
+			const newWindow = window.open(url, title,
+				`
+				scrollbars=yes,
+				width=${w / systemZoom},
+				height=${h / systemZoom},
+				top=${top},
+				left=${left}
+				`
+			)
+
+			if (window.focus) newWindow.focus();
+		}
+
+		function openGoodModal(goodId, goodTitle) {
+			popupCenter({url: `/queues/{{ queue.id }}/cases/{{ case.id }}/good/${goodId}/`, title: goodTitle, w: 300, h: 500});
+			return false;
+		}
 
 		tippy(".app-case-header__candy", {
 			content(reference) {
@@ -237,4 +268,7 @@
 	</script>
 	<script src="{% static 'javascripts/select-buttons.js' %}"></script>
 	<script src="{% static 'javascripts/modal.js' %}"></script>
+	{% if has_future_next_review_date and not is_system_queue %}
+		<script src="{% static 'javascripts/assign_queue.js' %}"></script>
+	{% endif %}
 {% endblock %}

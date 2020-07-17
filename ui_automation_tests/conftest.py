@@ -1,4 +1,7 @@
+import logging
 import os
+from datetime import datetime
+
 from django.conf import settings
 from pytest_bdd import given, when, then, parsers
 
@@ -6,6 +9,7 @@ from pages.advice import FinalAdvicePage, TeamAdvicePage
 from pages.case_page import CasePage, CaseTabs
 from pages.goods_queries_pages import GoodsQueriesPages
 
+from conf.constants import DATE_FORMAT
 from ui_automation_tests.fixtures.env import environment  # noqa
 from ui_automation_tests.fixtures.add_a_flag import (  # noqa
     add_case_flag,
@@ -27,8 +31,11 @@ from ui_automation_tests.fixtures.add_a_picklist import (  # noqa
     add_a_report_summary_picklist,
 )
 from ui_automation_tests.pages.advice import UserAdvicePage
+from ui_automation_tests.pages.generate_decision_documents_page import GeneratedDecisionDocuments
 from ui_automation_tests.pages.generate_document_page import GeneratedDocument
 from ui_automation_tests.pages.give_advice_pages import GiveAdvicePages
+from ui_automation_tests.pages.good_country_matrix_page import GoodCountryMatrixPage
+from ui_automation_tests.pages.grant_licence_page import GrantLicencePage
 from ui_automation_tests.pages.letter_templates import LetterTemplates
 from ui_automation_tests.shared import functions
 from ui_automation_tests.shared.fixtures.apply_for_application import *  # noqa
@@ -98,12 +105,15 @@ def pytest_addoption(parser):
 # Create driver and url command line adoption
 def pytest_exception_interact(node, report):
     if node and report.failed:
-        class_name = node._nodeid.replace(".py::", "_class_")
-        name = " {0}_{1}".format(class_name, "error")
+        class_name = (
+            node._nodeid.replace(".py::", "").replace("ui_automation_tests/step_defs/", "").replace("step_defs", "")
+        )
+        name = "{0}_{1}".format(class_name, "").replace("/", "").replace("test", "_test")
+        logging.info("Test that has failed is file: %s", name)
         try:
             utils.save_screenshot(node.funcargs.get("driver"), name)
-        except Exception:  # noqa
-            pass
+        except Exception as e:  # noqa
+            logging.error("Screenshot failed to be taken %e", e)
 
 
 @when("I go to the internal homepage")  # noqa
@@ -185,14 +195,17 @@ def add_report_summary_picklist(add_a_report_summary_picklist):  # noqa
 def see_queue_in_queue_list(driver, context):  # noqa
     case_page = CaseListPage(driver)
     functions.try_open_filters(driver)
+    case_page.click_clear_filters_button()
+    case_page = CaseListPage(driver)
+    functions.try_open_filters(driver)
     case_page.filter_by_case_reference(context.reference_code)
-    case_page.click_apply_filters_button()
+    functions.click_apply_filters(driver)
     assert driver.find_element_by_id(context.case_id).is_displayed()
 
 
 @when("I show filters")  # noqa
 def i_show_filters(driver):  # noqa
-    functions.try_open_filters(driver)
+    Shared(driver).try_open_filters()
 
 
 @when("I go to users")  # noqa
@@ -268,8 +281,8 @@ def work_queue(driver, context, internal_url):  # noqa
     driver.get(internal_url.rstrip("/") + "/queues/" + context.queue_id)
 
 
-@then("My case is not in the queue")  # noqa
-def no_cases_in_queue(driver, context):  # noqa
+@then("my case is not in the queue")  # noqa
+def my_case_not_in_queue(driver, context):  # noqa
     assert context.case_id not in Shared(driver).get_text_of_cases_form()
 
 
@@ -433,17 +446,6 @@ def combine_all_advice(driver):  # noqa
     UserAdvicePage(driver).click_combine_advice()
 
 
-@when("I finalise the goods and countries")  # noqa
-def finalise_goods_and_countries(driver):  # noqa
-    FinalAdvicePage(driver).click_finalise()
-
-
-@when("I select approve for all combinations of goods and countries")  # noqa
-def select_approve_for_all(driver, context):  # noqa
-    page = GiveAdvicePages(driver)
-    page.select_approve_for_good_country(context.goods_type["id"], context.country["code"])
-
-
 @given("I create a letter paragraph picklist")  # noqa
 def add_letter_paragraph_picklist(add_a_letter_paragraph_picklist):  # noqa
     pass
@@ -474,6 +476,9 @@ def create_letter_template(driver, context, get_template_id):  # noqa
     template_page.select_visible_to_exporter("True")
     functions.click_submit(driver)
 
+    template_page.select_has_signature("False")
+    functions.click_submit(driver)
+
     template_page.click_licence_layout(get_template_id)
     functions.click_submit(driver)
 
@@ -493,4 +498,84 @@ def preview_template(driver):  # noqa
 
 @when("I apply filters")  # noqa
 def i_apply_filters(driver, context):  # noqa
-    CaseListPage(driver).click_apply_filters_button()
+    functions.click_apply_filters(driver)
+
+
+@then("I dont see previously created application")  # noqa
+def dont_see_queue_in_queue_list(driver, context):  # noqa
+    case_page = CaseListPage(driver)
+    functions.try_open_filters(driver)
+    case_page.filter_by_case_reference(context.reference_code)
+    functions.click_apply_filters(driver)
+    assert context.reference_code not in driver.find_element_by_id("main-content").text
+
+
+@when("I click clear filters")  # noqa
+def i_click_clear_filters(driver, context):  # noqa
+    CaseListPage(driver).click_clear_filters_button()
+
+
+@given("A template exists for the appropriate decision")  # noqa
+def template_with_decision(context, api_test_client):  # noqa
+    document_template = api_test_client.document_templates.add_template(
+        api_test_client.picklists, advice_type=[context.advice_type]
+    )
+    context.document_template_id = document_template["id"]
+    context.document_template_name = document_template["name"]
+
+
+@when("I generate a document for the decision")  # noqa
+def generate_decision_document(driver, context):  # noqa
+    GeneratedDecisionDocuments(driver).click_generate_decision_document(context.advice_type)
+
+
+@given(parsers.parse('I "{decision}" the open application good and country at all advice levels'))  # noqa
+def approve_open_application_objects(context, api_test_client, decision):  # noqa
+    context.advice_type = decision
+    text = "abc"
+    note = ""
+    footnote_required = "False"
+    data = [
+        {
+            "type": context.advice_type,
+            "text": text,
+            "note": note,
+            "goods_type": context.goods_type["id"],
+            "footnote_required": footnote_required,
+        },
+        {
+            "type": context.advice_type,
+            "text": text,
+            "note": note,
+            "country": context.country["code"],
+            "footnote_required": footnote_required,
+        },
+    ]
+
+    api_test_client.cases.create_user_advice(context.case_id, data)
+    api_test_client.cases.create_team_advice(context.case_id, data)
+    api_test_client.cases.create_final_advice(context.case_id, data)
+
+
+@when("I approve the good country combination")  # noqa
+def approve_good_country_combination(driver, context):  # noqa
+    GoodCountryMatrixPage(driver).select_good_country_option(
+        "approve", context.goods_type["id"], context.country["code"]
+    )
+    functions.click_submit(driver)
+
+
+@when("I click continue on the approve open licence page")  # noqa
+def approve_licence_page(driver, context):  # noqa
+    page = GrantLicencePage(driver)
+    context.licence_duration = page.get_duration_in_finalise_view()
+    context.licence_start_date = datetime.now().strftime(DATE_FORMAT)
+    functions.click_submit(driver)
+
+
+@then("The licence information is in the second audit")  # noqa
+def licence_audit(driver, context, internal_url):  # noqa
+    ApplicationPage(driver).go_to_cases_activity_tab(internal_url, context)
+    second_audit = ApplicationPage(driver).get_text_of_audit_trail_item(1)
+    assert context.licence_duration in second_audit
+    assert context.licence_start_date in second_audit
