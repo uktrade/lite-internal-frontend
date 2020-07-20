@@ -33,7 +33,7 @@
 	<a id="link-{{ component.target }}-picklist-picker-change" data-picklist-target="{{ component.target }}" data-picklist-set-text="false" href="#" class="govuk-link govuk-link--no-visited-state app-picklist-picker-heading__link {% if not value|get:component.target %}app-hidden{% endif %}">
 		Change {{ component.type|sentence_case|lower }}
 	</a>
-	<input type="hidden" id="{{ component.target }}-input" name="{{ component.target }}" value="{{ value|get:component.target }}">
+	<input type="hidden" id="{{ component.target }}-input" name="{{ component.target }}" value="{% if value|get:component.target %}{{ value|get:component.target }}{% endif %}">
 	<div id="{{ component.target }}-text" class="govuk-inset-text govuk-!-margin-top-0 {% if not value|get:component.target %}app-hidden{% endif %}">
 		{{ value|get:component.target }}
 	</div>
