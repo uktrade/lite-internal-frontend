@@ -22,6 +22,9 @@
 						{% endif %}
 						<th scope="col" class="govuk-table__header">Type</th>
 						<th scope="col" class="govuk-table__header">Name</th>
+						{% if destinations.0.clearance_level %}
+							<th scope="col" class="govuk-table__header">Clearance</th>
+						{% endif %}
 						<th scope="col" class="govuk-table__header">Address</th>
 						<th scope="col" class="govuk-table__header">Business</th>
 						<th scope="col" class="govuk-table__header">Website</th>
@@ -47,6 +50,12 @@
 								<span aria-hidden="false" class="govuk-table__header">Name</span>
 								{{ destination.name }}
 							</td>
+							{% if destinations.0.clearance_level %}
+								<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
+									<span aria-hidden="false" class="govuk-table__header">Clearance</span>
+									{{ destination.clearance_level.value }}
+								</td>
+							{% endif %}
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
 								<span aria-hidden="false" class="govuk-table__header">Address</span>
 								{{ destination|get_address }}
