@@ -62,7 +62,7 @@
 							{% if destinations.0.descriptors %}
 								<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
 									<span aria-hidden="false" class="govuk-table__header">Descriptors</span>
-									{{ destination.descriptors }}
+									{{ destination.descriptors|default_na }}
 								</td>
 							{% endif %}
 							<td class="govuk-table__cell {% if show_advice %}lite-!-no-border{% endif %}">
