@@ -149,6 +149,8 @@ class CaseDetail(CaseView):
             self.slices.insert(0, Slices.GOODS_QUERY_RESPONSE)
 
     def get_open_registration(self):
+        self.tabs = self.get_tabs()
+        self.tabs.insert(1, Tabs.LICENCES)
         self.slices = [Slices.OPEN_GENERAL_LICENCE]
 
     def get_compliance_site(self):
