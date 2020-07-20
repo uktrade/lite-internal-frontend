@@ -285,6 +285,3 @@ class ApplicationPage(BasePage):
             + context.eua_id
             + "/activity/"
         )
-
-    def click_activity_tab(self):
-        self.driver.find_element_by_id(self.CASE_NOTES_AND_ACTIVITY_TAB).click()

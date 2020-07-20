@@ -12,6 +12,7 @@ from pages.open_general_licences_pages import (
 )
 from shared import functions
 
+from ui_automation_tests.pages.case_page import CasePage, CaseTabs
 from ui_automation_tests.pages.shared import Shared
 
 scenarios("../features/open_general_licences.feature", strict_gherkin=False)
@@ -167,5 +168,5 @@ def click_reissue_button(driver, context):
 
 @then("the ogel is reissued")
 def case_is_finalised(driver):
-    ApplicationPage(driver).click_activity_tab()
+    CasePage(driver).change_tab(CaseTabs.ACTIVITY)
     assert "reissued" in Shared(driver).get_audit_trail_text()
