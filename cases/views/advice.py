@@ -222,10 +222,12 @@ class Finalise(TemplateView):
 
         if case_type == CaseType.OPEN.value and not is_case_oiel_final_advice_only:
             approve = get_open_licence_decision(request, str(kwargs["pk"])) == "approve"
+            nlr = False
         else:
             advice = filter_advice_by_level(case["advice"], "final")
             items = [item["type"]["key"] for item in advice]
             approve = all([item == "approve" or item == "proviso" for item in items])
+            nlr = not approve and "refuse" not in items
 
         case_id = case["id"]
 
@@ -244,7 +246,7 @@ class Finalise(TemplateView):
             return form_page(
                 request,
                 deny_licence_form(
-                    kwargs["queue_pk"], case_id, case.data["case_type"]["sub_type"]["key"] == CaseType.OPEN.value
+                    kwargs["queue_pk"], case_id, case.data["case_type"]["sub_type"]["key"] == CaseType.OPEN.value, nlr
                 ),
             )
 

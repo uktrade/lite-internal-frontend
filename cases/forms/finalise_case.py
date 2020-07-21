@@ -40,10 +40,15 @@ def approve_licence_form(queue_pk, case_id, is_open_licence, editable_duration, 
     )
 
 
-def deny_licence_form(queue_pk, case_id, is_open_licence):
+def deny_licence_form(queue_pk, case_id, is_open_licence, nlr):
+    if nlr:
+        description = "You'll be informing the exporter that no licence in required"
+    else:
+        description = "You'll be denying the case"
+
     return Form(
         title=lite_content.lite_internal_frontend.advice.FinaliseLicenceForm.FINALISE_TITLE,
-        questions=[Label("You'll be denying the case"), HiddenField(name="action", value="refuse")],
+        questions=[Label(description), HiddenField(name="action", value="refuse")],
         back_link=conditional(
             is_open_licence,
             BackLink(
