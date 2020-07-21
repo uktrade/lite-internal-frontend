@@ -54,11 +54,7 @@ class GiveAdvice(SingleFormView):
             self.tab,
         )
         self.form = give_advice_form(
-            request,
-            self.case,
-            self.tab,
-            kwargs["queue_pk"],
-            get_denial_reasons(request, True, True),
+            request, self.case, self.tab, kwargs["queue_pk"], get_denial_reasons(request, True, True),
         )
         self.context = {
             "case": self.case,
