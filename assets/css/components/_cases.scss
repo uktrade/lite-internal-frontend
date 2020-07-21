@@ -236,6 +236,7 @@ $case-header-text-colour: govuk-colour("white");
 	}
 
 	&__link {
+		display: inline-block;
 		color: $case-header-text-colour;
 		text-decoration: none;
 		opacity: 0.7;
