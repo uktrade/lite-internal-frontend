@@ -59,7 +59,6 @@ class GiveAdvice(SingleFormView):
             self.tab,
             kwargs["queue_pk"],
             get_denial_reasons(request, True, True),
-            show_warning=not self.data,
         )
         self.context = {
             "case": self.case,
