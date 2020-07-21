@@ -225,7 +225,7 @@ class Finalise(TemplateView):
         else:
             advice = filter_advice_by_level(case["advice"], "final")
             items = [item["type"]["key"] for item in advice]
-            approve = "approve" in items or "proviso" in items
+            approve = all([item == "approve" or item == "proviso" for item in items])
 
         case_id = case["id"]
 
