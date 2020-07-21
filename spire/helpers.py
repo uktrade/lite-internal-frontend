@@ -18,6 +18,9 @@ class SpireClient(directory_client_core.base.AbstractAPIClient):
     def get_application(self, id):
         return self.get(f"/api/spire/application/{id}/")
 
+    def get_file_version(self, id):
+        return self.get(f"/api/spire/file-version/{id}/")
+
 
 spire_client = SpireClient(
     base_url=settings.LITE_SPIRE_ARCHIVE_CLIENT_BASE_URL,

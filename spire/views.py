@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.views.generic import FormView, TemplateView
+from django.shortcuts import redirect
+from django.views.generic import FormView, TemplateView, View
 
 from spire import forms, helpers
 
@@ -72,3 +73,11 @@ class SpireApplicationDetail(TemplateView):
         response = helpers.spire_client.get_application(self.kwargs["id"])
         response.raise_for_status()
         return super().get_context_data(application=response.json(), **kwargs)
+
+
+class SpireApplicationDocumentDetail(View):
+    def get(self, request, **kwargs):
+        response = helpers.spire_client.get_file_version(self.kwargs["id"])
+        response.raise_for_status()
+        parsed = response.json()
+        return redirect(parsed["signed_url"])
