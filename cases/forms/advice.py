@@ -21,7 +21,6 @@ from lite_forms.components import (
     TextArea,
     Checkboxes,
     HelpSection,
-    HTMLBlock,
     Group,
     Custom,
     Select,
