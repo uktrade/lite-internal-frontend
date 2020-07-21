@@ -42,9 +42,9 @@ def approve_licence_form(queue_pk, case_id, is_open_licence, editable_duration, 
 
 def deny_licence_form(queue_pk, case_id, is_open_licence, nlr):
     if nlr:
-        description = "You'll be informing the exporter that no licence in required"
+        description = lite_content.lite_internal_frontend.advice.FinaliseLicenceForm.NLR_DESCRIPTION
     else:
-        description = "You'll be denying the case"
+        description = lite_content.lite_internal_frontend.advice.FinaliseLicenceForm.REFUSE_DESCRIPTION
 
     return Form(
         title=lite_content.lite_internal_frontend.advice.FinaliseLicenceForm.FINALISE_TITLE,
