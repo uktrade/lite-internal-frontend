@@ -181,7 +181,6 @@ SASS_PROCESSOR_ENABLED = True
 
 # File Upload
 # https://github.com/uktrade/s3chunkuploader
-FILE_UPLOAD_HANDLERS = ("s3chunkuploader.file_handler.S3FileUploadHandler",)
 S3_DOCUMENT_ROOT_DIRECTORY = ""
 S3_APPEND_DATETIME_ON_UPLOAD = True
 S3_PREFIX_QUERY_PARAM_NAME = ""
