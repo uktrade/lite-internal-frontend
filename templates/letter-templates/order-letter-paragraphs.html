@@ -35,7 +35,7 @@
 		</div>
 		<br>
 
-		<div id="sortablelist">
+		<div id="paragraphlist">
 			{% for letter_paragraph in letter_paragraphs %}
 				<div>
 					<div class="app-letter-generator__picklist-item--paragraph-box" data-id="{{ letter_paragraph.id }}">
@@ -48,7 +48,7 @@
 							</button>
 						</span>
 					</div>
-					<div class="app-letter-generator__picklist-item">
+					<div class="app-letter-generator__picklist-item" id="paragraph-text">
 						{{ letter_paragraph.text }}
 					</div>
 				</div>
