@@ -3,14 +3,14 @@
 <table class="govuk-table" id="table-inactive-entities">
 	<thead class="govuk-table__head">
 		<tr class="govuk-table__row">
-			<th scope="col" class="govuk-table__header"></th>
+			<th scope="col" class="govuk-table__header">{% lcs 'cases.CasePage.DetailsTab.Destinations.Table.TYPE' %}</th>
 			<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.NAME' %}</th>
 			{% if case.data.case_type.sub_type.key == "f680_clearance" %}
 				<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.CLEARANCE_LEVEL' %}</th>
 			{% endif %}
 			<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.DESCRIPTORS' %}</th>
 			<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.ADDRESS' %}</th>
-			<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.TYPE' %}</th>
+			<th scope="col" class="govuk-table__header">{% lcs 'cases.CasePage.DetailsTab.Destinations.Table.BUSINESS' %}</th>
 			<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.WEBSITE' %}</th>
 			<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.DOCUMENT' %}</th>
 			<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Destinations.FLAGS_TABLE_HEADER' %}</th>
