@@ -8,7 +8,9 @@
 			{% if case.data.case_type.sub_type.key == "f680_clearance" %}
 				<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.CLEARANCE_LEVEL' %}</th>
 			{% endif %}
-			<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.DESCRIPTORS' %}</th>
+			{% if case.data.inactive_parties|list_has_property:'descriptors' %}
+				<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.DESCRIPTORS' %}</th>
+			{% endif %}
 			<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.ADDRESS' %}</th>
 			<th scope="col" class="govuk-table__header">{% lcs 'cases.CasePage.DetailsTab.Destinations.Table.BUSINESS' %}</th>
 			<th scope="col" class="govuk-table__header">{% lcs 'cases.ApplicationPage.Parties.WEBSITE' %}</th>
@@ -35,7 +37,9 @@
 				{% if case.data.case_type.sub_type.key == 'f680_clearance' %}
 					<td class="govuk-table__cell">{{ case.data.end_user.clearance_level.value|default_na }}</td>
 				{% endif %}
-				<td class="govuk-table__cell">{{ case.data.end_user.descriptors.value|default_na }}</td>
+				{% if case.data.inactive_parties|list_has_property:'descriptors' %}
+					<td class="govuk-table__cell">{{ party.descriptors|default_na }}</td>
+				{% endif %}
 				<td class="govuk-table__cell">{{ party|get_address }}</td>
 				<td class="govuk-table__cell">
 					{% if party.sub_type_other %}
