@@ -357,7 +357,7 @@ def put_rerun_case_routing_rules(request, pk, json):
 
 
 def reissue_ogl(request, pk, json):
-    response = post(request, CASE_URL + str(pk) + "/reissue-ogl/", {})
+    response = post(request, CASE_URL + str(pk) + "/reissue-ogl/", json)
     return response.json(), response.status_code
 
 

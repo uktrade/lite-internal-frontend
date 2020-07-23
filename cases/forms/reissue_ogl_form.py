@@ -1,19 +1,25 @@
 from django.urls import reverse
 
 from lite_content.lite_internal_frontend.cases import Manage
+from lite_forms.components import Form, TextArea, RadioButtons, DetailComponent, BackLink, Option
 from lite_forms.generators import confirm_form
 
 
 def reissue_ogl_confirmation_form(case_id, queue_id):
-    return confirm_form(
+    return Form(
         title=Manage.ReissueOGL.TITLE,
         description=Manage.ReissueOGL.DESCRIPTION,
-        confirmation_name="confirm",
-        back_link_text=Manage.ReissueOGL.BACK,
-        back_url=reverse("cases:case", kwargs={"queue_pk": queue_id, "pk": case_id}),
-        yes_label=Manage.ReissueOGL.YES,
-        no_label=Manage.ReissueOGL.NO,
-        submit_button_text=Manage.ReissueOGL.SUBMIT,
+        questions=[
+            RadioButtons(
+                name="confirm",
+                options=[Option(key=True, value=Manage.ReissueOGL.YES), Option(key=False, value=Manage.ReissueOGL.NO)],
+                classes=["govuk-checkboxes--inline"],
+            ),
+            DetailComponent(
+                title=Manage.ReissueOGL.NOTE, components=[TextArea(name="note", classes=["govuk-!-margin-0"])],
+            ),
+        ],
+        back_link=BackLink(url=reverse("cases:case", kwargs={"queue_pk": queue_id, "pk": case_id})),
+        default_button_name=Manage.ReissueOGL.SUBMIT,
         container="case",
-        side_by_side=True
     )
