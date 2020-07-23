@@ -2,7 +2,6 @@ from django.urls import reverse
 
 from lite_content.lite_internal_frontend.cases import Manage
 from lite_forms.components import Form, TextArea, RadioButtons, DetailComponent, BackLink, Option
-from lite_forms.generators import confirm_form
 
 
 def reissue_ogl_confirmation_form(case_id, queue_id):
