@@ -431,7 +431,7 @@ class ReissueOGL(SingleFormView):
                 errors={"confirm": [Manage.ReissueOGL.ERROR]},
                 extra_data=self.context,
             )
-        elif request.POST.get("confirm") == "no":
+        elif request.POST.get("confirm") == "False":
             return redirect(self.success_url)
 
         return super(ReissueOGL, self).post(request, **kwargs)
