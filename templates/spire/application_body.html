@@ -142,4 +142,27 @@
 			</tbody>
 		</table>
 	{% endif %}
+
+	{% if application.documents %}
+		<div class="govuk-!-padding-top-6 govuk-!-padding-bottom-6">
+			<h2 class="govuk-heading-l" id="goods">Documents</h2>
+
+			<table class="govuk-table">
+				<thead class="govuk-table__head">
+					<tr class="govuk-table__row">
+						<th scope="col" class="govuk-table__header">Title</th>
+						<th scope="col" class="govuk-table__header">Description</th>
+					</tr>
+				</thead>
+				<tbody class="govuk-table__body">
+					{% for document in application.documents %}
+						<tr class="govuk-table__row">
+							<td class="govuk-table__cell"><a href="{% url 'spire:document-detail' id=document.id %}" target="_blank">{{ document.file_name }}</a></td>
+							<td class="govuk-table__cell">{{ document.description }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% endif %}
 </div>

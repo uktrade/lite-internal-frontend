@@ -4,6 +4,8 @@ import sys
 
 from django.urls import reverse_lazy
 from environ import Env
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -274,3 +276,25 @@ LITE_SPIRE_ARCHIVE_CLIENT_HAWK_SECRET = env("LITE_SPIRE_ARCHIVE_CLIENT_HAWK_SECR
 LITE_SPIRE_ARCHIVE_CLIENT_HAWK_SENDER_ID = env("LITE_SPIRE_ARCHIVE_CLIENT_HAWK_SENDER_ID")
 LITE_SPIRE_ARCHIVE_CLIENT_DEFAULT_TIMEOUT = env("LITE_SPIRE_ARCHIVE_CLIENT_DEFAULT_TIMEOUT")
 LITE_SPIRE_ARCHIVE_EXAMPLE_ORGANISATION_ID = env("LITE_SPIRE_ARCHIVE_EXAMPLE_ORGANISATION_ID")
+
+
+# Application Performance Monitoring
+if env.str("ELASTIC_APM_SERVER_URL", ""):
+    ELASTIC_APM = {
+        "SERVICE_NAME": env.str("ELASTIC_APM_SERVICE_NAME", "lite-internal-frontend"),
+        "SECRET_TOKEN": env.str("ELASTIC_APM_SECRET_TOKEN"),
+        "SERVER_URL": env.str("ELASTIC_APM_SERVER_URL"),
+        "ENVIRONMENT": env.str("SENTRY_ENVIRONMENT"),
+        "DEBUG": DEBUG,
+    }
+    INSTALLED_APPS.append("elasticapm.contrib.django")
+
+
+# Sentry
+if env.str("SENTRY_DSN", ""):
+    sentry_sdk.init(
+        dsn=env.str("SENTRY_DSN"),
+        environment=env.str("SENTRY_ENVIRONMENT"),
+        integrations=[DjangoIntegration()],
+        send_default_pii=True,
+    )
