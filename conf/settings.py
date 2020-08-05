@@ -300,4 +300,4 @@ if env.str("SENTRY_DSN", ""):
     )
 
 # Feature flags
-FEATURE_SPIRE_SEARCH_ON = env.bool('FEATURE_SPIRE_SEARCH_ON', False)
+FEATURE_SPIRE_SEARCH_ON = env.bool("FEATURE_SPIRE_SEARCH_ON", False)

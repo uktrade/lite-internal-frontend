@@ -3,23 +3,28 @@ import directory_client_core.base
 from django.conf import settings
 
 
+URL_APPLICATION = "/api/spire/application/"
+URL_LICENCE = "/api/spire/licence/"
+URL_FILE_VERSION = "/api/spire/file-version/"
+
+
 class SpireClient(directory_client_core.base.AbstractAPIClient):
     version = 1  # AbstractAPIClient exposes this in UserAgent header
 
     def list_licences(self, **params):
-        return self.get("/api/spire/licence/", params=params)
+        return self.get(URL_LICENCE, params=params)
 
     def list_applications(self, **params):
-        return self.get("/api/spire/application/", params=params)
+        return self.get(URL_APPLICATION, params=params)
 
-    def get_licence(self, id):
-        return self.get(f"/api/spire/licence/{id}/")
+    def get_licence(self, pk):
+        return self.get(f"{URL_LICENCE}{pk}/")
 
-    def get_application(self, id):
-        return self.get(f"/api/spire/application/{id}/")
+    def get_application(self, pk):
+        return self.get(f"{URL_APPLICATION}{pk}/")
 
-    def get_file_version(self, id):
-        return self.get(f"/api/spire/file-version/{id}/")
+    def get_file_version(self, pk):
+        return self.get(f"{URL_FILE_VERSION}{pk}/")
 
 
 spire_client = SpireClient(
