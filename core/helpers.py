@@ -5,7 +5,7 @@ from conf import decorators
 from conf.constants import Permission
 from core.services import get_user_permissions
 from lite_forms.components import FiltersBar, Option, Select, DateInput
-    
+
 
 def convert_dict_to_query_params(dictionary):
     items = []

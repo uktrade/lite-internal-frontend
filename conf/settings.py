@@ -298,3 +298,6 @@ if env.str("SENTRY_DSN", ""):
         integrations=[DjangoIntegration()],
         send_default_pii=True,
     )
+
+# Feature flags
+FEATURE_SPIRE_SEARCH_ON = env.bool('FEATURE_SPIRE_SEARCH_ON', False)

@@ -1,11 +1,12 @@
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
 from conf import views
 
+
 urlpatterns = [
     path("", include("core.urls")),
-    path("spire/", include("spire.urls")),
     path("admin/", admin.site.urls),
     path("auth/", include("auth.urls")),
     path("queues/<uuid:queue_pk>/cases/<uuid:pk>/", include("cases.urls")),
@@ -20,6 +21,13 @@ urlpatterns = [
     path("routing-rules/", include("routing_rules.urls")),
     path("compliance/", include("compliance.urls")),
 ]
+
+
+if settings.FEATURE_SPIRE_SEARCH_ON:
+    urlpatterns.append(
+        path("spire/", include("spire.urls"))
+    )
+
 
 handler403 = views.error_403
 handler404 = views.error_404
